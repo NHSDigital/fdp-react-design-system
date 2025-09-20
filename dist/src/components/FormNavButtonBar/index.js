@@ -95,9 +95,15 @@ var Row = ({
   children,
   className,
   style,
+  align,
   ...props
 }) => {
-  const rowClasses = (0, import_classnames.default)("nhsuk-grid-row", className);
+  const rowClasses = (0, import_classnames.default)(
+    "nhsuk-grid-row",
+    // Row-specific alignment class to avoid column flex styles
+    align ? `nhsuk-grid-row-align-${align}` : void 0,
+    className
+  );
   return /* @__PURE__ */ jsx("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({

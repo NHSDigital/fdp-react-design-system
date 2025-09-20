@@ -1,7 +1,7 @@
 import * as H from "react";
 import e, { createElement as se, forwardRef as re } from "react";
-import { c as y, C as de, b as q, R as he, a as K, d as J } from "../SkipLink-9NnU450j.js";
-import { B as wa, F as Ca, G as xa, S as Ia, g as Ba } from "../SkipLink-9NnU450j.js";
+import { c as y, C as de, b as q, R as he, a as K, d as J } from "../SkipLink-BE-cc-Aq.js";
+import { B as wa, F as Ca, G as xa, S as Ia, g as Ba } from "../SkipLink-BE-cc-Aq.js";
 const _e = ({
   ariaLabel: a = "Account",
   items: t = [],
@@ -488,7 +488,12 @@ function Ne(a) {
     a.className || ""
   ].filter(Boolean).join(" "), id: a.id };
 }
-const ve = ({ id: a, className: t, children: s, ...n }) => {
+const ve = ({
+  id: a,
+  className: t,
+  children: s,
+  ...n
+}) => {
   const r = Ne({ id: a, className: t });
   return /* @__PURE__ */ e.createElement("div", { className: r.classes, id: r.id, ...n }, s);
 };

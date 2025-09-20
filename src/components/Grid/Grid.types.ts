@@ -32,6 +32,8 @@ export interface RowProps {
 	className?: string;
 	style?: React.CSSProperties;
 	align?: RowAlign | 'left' | 'center' | 'right';
+	/** Optional vertical spacing (margin-top) before this row. Overrides Grid-level rowGap when provided. Accepts number (px) or CSS length string. */
+	rowGap?: number | string;
 }
 
 export enum RowAlign {
@@ -63,4 +65,6 @@ export interface GridProps {
 	children: React.ReactNode;
 	className?: string;
 	style?: React.CSSProperties; // forwarded to Container
+	/** Default vertical spacing between adjacent Row children. Number is treated as px. Set 0 to disable. Default: 8px. */
+	rowGap?: number | string;
 }

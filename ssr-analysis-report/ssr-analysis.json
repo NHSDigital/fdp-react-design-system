@@ -1,9 +1,9 @@
 {
-  "totalComponents": 229,
-  "fullyCompatible": 207,
+  "totalComponents": 283,
+  "fullyCompatible": 258,
   "compatibleWithHydration": 5,
   "clientOnly": 1,
-  "requiresRefactoring": 16,
+  "requiresRefactoring": 19,
   "components": [
     {
       "name": "Account",
@@ -162,6 +162,17 @@
     {
       "name": "ButtonExamples",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/ButtonExamples.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "ButtonSSR",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/ButtonSSR.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -378,11 +389,33 @@
       "refactoringNeeded": []
     },
     {
+      "name": "Axis.tokens",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.tokens.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "Axis",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "Axis.types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
       "usesBrowserAPIs": false,
       "usesDOM": false,
       "canBeServerSide": true,
@@ -474,7 +507,7 @@
         {
           "type": "document-object",
           "line": 150,
-          "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);",
+          "code": "const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -482,8 +515,8 @@
         },
         {
           "type": "document-object",
-          "line": 152,
-          "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);",
+          "line": 150,
+          "code": "const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -517,6 +550,17 @@
     },
     {
       "name": "GridLines",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/GridLines/GridLines.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "GridLines",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/GridlLines/GridLines.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
@@ -538,8 +582,19 @@
       "refactoringNeeded": []
     },
     {
-      "name": "ED4hTrendGatingEmbeddedNoGateStory",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedNoGateStory.tsx",
+      "name": "RunChart",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/RunChart/RunChart.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "runRules",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/RunChart/runRules.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -549,19 +604,19 @@
       "refactoringNeeded": []
     },
     {
-      "name": "ED4hTrendGatingEmbeddedStory",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedStory.tsx",
-      "compatibilityLevel": "fully-compatible",
+      "name": "InternalSPC",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.tsx",
+      "compatibilityLevel": "compatible-with-hydration",
       "issues": [],
-      "hasHooks": false,
+      "hasHooks": true,
       "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
+      "usesDOM": true,
+      "canBeServerSide": false,
       "refactoringNeeded": []
     },
     {
-      "name": "PrimeDirectionSummary",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/PrimeDirectionSummary.tsx",
+      "name": "InternalSPC.types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.types.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -582,95 +637,30 @@
       "refactoringNeeded": []
     },
     {
+      "name": "SPCChart.props",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.props.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "SPCChart",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx",
-      "compatibilityLevel": "compatible-with-hydration",
-      "issues": [
-        {
-          "type": "useEffect",
-          "line": 316,
-          "code": "React.useEffect(() => {",
-          "severity": "medium",
-          "description": "useEffect runs only on client side",
-          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
-          "canAutoFix": false
-        }
-      ],
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
       "hasHooks": true,
       "usesBrowserAPIs": false,
-      "usesDOM": true,
-      "canBeServerSide": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
       "refactoringNeeded": []
     },
     {
       "name": "SPCChart.types",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.types.ts",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "SPCChartEarlyWaitTimeExample",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartEarlyWaitTimeExample.tsx",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "SPCChartIndividualsExample",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartIndividualsExample.tsx",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "SPCChartPhasedBaselineExample",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartPhasedBaselineExample.tsx",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "SPCChartRareEventExample",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartRareEventExample.tsx",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "SPCChartStableWaitTimeExample",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartStableWaitTimeExample.tsx",
-      "compatibilityLevel": "fully-compatible",
-      "issues": [],
-      "hasHooks": false,
-      "usesBrowserAPIs": false,
-      "usesDOM": false,
-      "canBeServerSide": true,
-      "refactoringNeeded": []
-    },
-    {
-      "name": "SPCChartWarningsPanelExample",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartWarningsPanelExample.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -686,7 +676,7 @@
       "issues": [
         {
           "type": "useEffect",
-          "line": 64,
+          "line": 81,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -707,7 +697,7 @@
       "issues": [
         {
           "type": "useEffect",
-          "line": 65,
+          "line": 67,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -716,7 +706,7 @@
         },
         {
           "type": "useEffect",
-          "line": 96,
+          "line": 98,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -731,8 +721,29 @@
       "refactoringNeeded": []
     },
     {
-      "name": "TrendGatingEmbeddedComparison",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedComparison.tsx",
+      "name": "DiagnosticsPanel",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/components/DiagnosticsPanel.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 34,
+          "code": "React.useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "EmbeddedIconsRow",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/components/EmbeddedIconsRow.tsx",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -742,8 +753,8 @@
       "refactoringNeeded": []
     },
     {
-      "name": "TrendGatingEmbeddedHighNoGateStory",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighNoGateStory.tsx",
+      "name": "descriptors",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/descriptors.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -753,11 +764,22 @@
       "refactoringNeeded": []
     },
     {
-      "name": "TrendGatingEmbeddedHighStory",
-      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighStory.tsx",
+      "name": "gradientSequences",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/gradientSequences.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "useZeroAxisBreak",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/hooks/useZeroAxisBreak.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
       "usesBrowserAPIs": false,
       "usesDOM": false,
       "canBeServerSide": true,
@@ -890,6 +912,583 @@
       "refactoringNeeded": []
     },
     {
+      "name": "g.fixture",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/g.fixture.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "g.sql.canonical.fixture",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/g.sql.canonical.fixture.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "t.fixture",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/t.fixture.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "t.sql.canonical.fixture",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/t.sql.canonical.fixture.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "adapter",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/adapter.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "assurance",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/assurance.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "conflict",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/conflict.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "constants",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/constants.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "detector",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/detector.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "RunVsSPCTransitionExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/RunVsSPCTransitionExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartAutoRecalcAppendExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcAppendExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartAutoRecalcBasicExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcBasicExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartAutoRecalcMinGapExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcMinGapExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartAutoRecalcMultiExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcMultiExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartAutoRecalcTunedExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcTunedExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartEarlyWaitTimeExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartEarlyWaitTimeExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartIndividualsExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartIndividualsExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartPhasedBaselineExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartPhasedBaselineExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartRareEventExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartRareEventExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartStableWaitTimeExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartStableWaitTimeExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCChartWarningsPanelExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartWarningsPanelExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCRetroOverlayToggleDemo",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCRetroOverlayToggleDemo.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCVisualsScenarioToggleDemo",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCVisualsScenarioToggleDemo.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [
+        {
+          "type": "useEffect",
+          "line": 55,
+          "code": "useEffect(() => {",
+          "severity": "medium",
+          "description": "useEffect runs only on client side",
+          "suggestion": "Consider moving to useLayoutEffect for DOM measurements or add SSR guards",
+          "canAutoFix": false
+        }
+      ],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TrendGatingExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/TrendGatingExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "staffSicknessRuleClash",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/data/staffSicknessRuleClash.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "SPCRuleClash.examples",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/examples/SPCRuleClash.examples.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "TrendSegmentation.HighIsGoodExample",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/examples/TrendSegmentation.HighIsGoodExample.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "engine",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/engine.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "limits",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/limits.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "normaliser",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/normaliser.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "boundaryWindows",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 15,
+          "code": "* Controls the polarity of the pre-window category relative to the post-window.",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "trendSegments",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/trendSegments.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "visualCategories",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "preprocess",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/preprocess.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 25,
+          "code": "// Convert a stream of daily (or period) event markers into counts between events over a sliding window.",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "presets",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "retroOverlay",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/retroOverlay.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "groupedDataset",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/groupedDataset.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "healthcareDatasets",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/healthcareDatasets.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "tgParityFixtures",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/tgParityFixtures.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "variationIconColours",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/variationIconColours.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/types.ts",
+      "compatibilityLevel": "requires-refactoring",
+      "issues": [
+        {
+          "type": "window-object",
+          "line": 149,
+          "code": "// This helps datasets where a trend segment should dominate over non-trend rules within its window.",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 169,
+          "code": "// in its window. Default false to preserve SQL parity. Works independently of preferTrendWhenConflict",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 222,
+          "code": "/** If true, trend dominates inside its highlighted window. */",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        }
+      ],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": false,
+      "refactoringNeeded": [
+        {
+          "type": "add-ssr-guard",
+          "description": "Add SSR guards for browser-only code",
+          "automated": true,
+          "complexity": "medium",
+          "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+        }
+      ]
+    },
+    {
+      "name": "autoRecalc",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils/autoRecalc.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "direction",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils/direction.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "utils",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "public",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/public.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "parsedDataset",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/parsedDataset.ts",
       "compatibilityLevel": "fully-compatible",
@@ -928,6 +1527,39 @@
           "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
         }
       ]
+    },
+    {
+      "name": "types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "domain",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/utils/domain.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "embeddedIcon",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/utils/embeddedIcon.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
     },
     {
       "name": "SPCAssuranceIcon",
@@ -991,7 +1623,7 @@
       "issues": [
         {
           "type": "useEffect",
-          "line": 240,
+          "line": 283,
           "code": "React.useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -1012,7 +1644,7 @@
       "issues": [
         {
           "type": "window-object",
-          "line": 32,
+          "line": 44,
           "code": "/** Maximum number of points to render (thinning for performance). Classification still uses full window. */",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -1037,6 +1669,17 @@
     {
       "name": "icons",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/icons.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "autoMetrics",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts",
       "compatibilityLevel": "fully-compatible",
       "issues": [],
       "hasHooks": false,
@@ -1203,6 +1846,17 @@
           "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
         }
       ]
+    },
+    {
+      "name": "useSpc",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useSpc.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": true,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
     },
     {
       "name": "wizardEngine",
@@ -1752,6 +2406,28 @@
       "refactoringNeeded": []
     },
     {
+      "name": "FormNavButtonBar.server",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/FormNavButtonBar/FormNavButtonBar.server.tsx",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
+      "name": "FormNavButtonBar.types",
+      "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/FormNavButtonBar/FormNavButtonBar.types.ts",
+      "compatibilityLevel": "fully-compatible",
+      "issues": [],
+      "hasHooks": false,
+      "usesBrowserAPIs": false,
+      "usesDOM": false,
+      "canBeServerSide": true,
+      "refactoringNeeded": []
+    },
+    {
       "name": "GanttChart-new",
       "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/GanttChart-new.tsx",
       "compatibilityLevel": "fully-compatible",
@@ -2143,7 +2819,7 @@
       "issues": [
         {
           "type": "useEffect",
-          "line": 144,
+          "line": 162,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -2953,16 +3629,7 @@
         {
           "type": "window-object",
           "line": 117,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 117,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+          "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -2971,7 +3638,7 @@
         {
           "type": "media-query",
           "line": 117,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+          "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
           "severity": "high",
           "description": "matchMedia API usage",
           "suggestion": "Add window check and use CSS media queries for initial render",
@@ -3498,7 +4165,7 @@
         {
           "type": "window-object",
           "line": 61,
-          "code": "const width = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerWidth : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024;",
+          "code": "const width = typeof window !== 'undefined' ? window.innerWidth : 1024;",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3507,7 +4174,7 @@
         {
           "type": "window-object",
           "line": 62,
-          "code": "const height = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerHeight : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768;",
+          "code": "const height = typeof window !== 'undefined' ? window.innerHeight : 768;",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -3515,7 +4182,61 @@
         },
         {
           "type": "window-object",
-          "line": 68,
+          "line": 65,
+          "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 66,
+          "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 66,
+          "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 70,
+          "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 71,
+          "code": "? window.matchMedia('(forced-colors: active)').matches",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 71,
+          "code": "? window.matchMedia('(forced-colors: active)').matches",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 80,
           "code": "highDensity: typeof window !== 'undefined' ? window.devicePixelRatio > 1.5 : false,",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -3523,134 +4244,8 @@
           "canAutoFix": true
         },
         {
-          "type": "window-object",
-          "line": 69,
-          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 69,
-          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 69,
-          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 69,
-          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 69,
-          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 69,
-          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "media-query",
-          "line": 69,
-          "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-          "severity": "high",
-          "description": "matchMedia API usage",
-          "suggestion": "Add window check and use CSS media queries for initial render",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 70,
-          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 70,
-          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 70,
-          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 70,
-          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 70,
-          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 70,
-          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "media-query",
-          "line": 70,
-          "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-          "severity": "high",
-          "description": "matchMedia API usage",
-          "suggestion": "Add window check and use CSS media queries for initial render",
-          "canAutoFix": true
-        },
-        {
           "type": "useEffect",
-          "line": 167,
+          "line": 179,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -3659,169 +4254,97 @@
         },
         {
           "type": "window-object",
-          "line": 178,
+          "line": 191,
           "code": "window.addEventListener('resize', handleResize);",
           "severity": "blocking",
           "description": "Direct window object access",
           "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "event-listener",
-          "line": 178,
-          "code": "window.addEventListener('resize', handleResize);",
-          "severity": "medium",
-          "description": "Event listener setup",
-          "suggestion": "Move to useEffect hook",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 179,
-          "code": "window.addEventListener('orientationchange', handleOrientationChange);",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "event-listener",
-          "line": 179,
-          "code": "window.addEventListener('orientationchange', handleOrientationChange);",
-          "severity": "medium",
-          "description": "Event listener setup",
-          "suggestion": "Move to useEffect hook",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 182,
-          "code": "const reducedMotionQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 183,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 183,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 183,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 183,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 183,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "media-query",
-          "line": 183,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-          "severity": "high",
-          "description": "matchMedia API usage",
-          "suggestion": "Add window check and use CSS media queries for initial render",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 185,
-          "code": "const forcedColorsQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 186,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 186,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 186,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 186,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "window-object",
-          "line": 186,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-          "severity": "blocking",
-          "description": "Direct window object access",
-          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-          "canAutoFix": true
-        },
-        {
-          "type": "media-query",
-          "line": 186,
-          "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-          "severity": "high",
-          "description": "matchMedia API usage",
-          "suggestion": "Add window check and use CSS media queries for initial render",
           "canAutoFix": true
         },
         {
           "type": "event-listener",
           "line": 191,
+          "code": "window.addEventListener('resize', handleResize);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 192,
+          "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 192,
+          "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+          "severity": "medium",
+          "description": "Event listener setup",
+          "suggestion": "Move to useEffect hook",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 197,
+          "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 198,
+          "code": "? window.matchMedia('(prefers-reduced-motion: reduce)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 198,
+          "code": "? window.matchMedia('(prefers-reduced-motion: reduce)')",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 201,
+          "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "window-object",
+          "line": 202,
+          "code": "? window.matchMedia('(forced-colors: active)')",
+          "severity": "blocking",
+          "description": "Direct window object access",
+          "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+          "canAutoFix": true
+        },
+        {
+          "type": "media-query",
+          "line": 202,
+          "code": "? window.matchMedia('(forced-colors: active)')",
+          "severity": "high",
+          "description": "matchMedia API usage",
+          "suggestion": "Add window check and use CSS media queries for initial render",
+          "canAutoFix": true
+        },
+        {
+          "type": "event-listener",
+          "line": 207,
           "code": "reducedMotionQuery?.addEventListener('change', handleMediaChange);",
           "severity": "medium",
           "description": "Event listener setup",
@@ -3830,7 +4353,7 @@
         },
         {
           "type": "event-listener",
-          "line": 192,
+          "line": 208,
           "code": "forcedColorsQuery?.addEventListener('change', handleMediaChange);",
           "severity": "medium",
           "description": "Event listener setup",
@@ -3839,7 +4362,7 @@
         },
         {
           "type": "window-object",
-          "line": 195,
+          "line": 212,
           "code": "window.removeEventListener('resize', handleResize);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -3848,7 +4371,7 @@
         },
         {
           "type": "window-object",
-          "line": 196,
+          "line": 213,
           "code": "window.removeEventListener('orientationchange', handleOrientationChange);",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -3857,7 +4380,7 @@
         },
         {
           "type": "useEffect",
-          "line": 204,
+          "line": 222,
           "code": "useEffect(() => {",
           "severity": "medium",
           "description": "useEffect runs only on client side",
@@ -3866,7 +4389,7 @@
         },
         {
           "type": "resize-observer",
-          "line": 233,
+          "line": 251,
           "code": "// Use ResizeObserver to detect layout shifts",
           "severity": "high",
           "description": "ResizeObserver API usage",
@@ -3875,8 +4398,8 @@
         },
         {
           "type": "resize-observer",
-          "line": 235,
-          "code": "const observer = (typeof ResizeObserver !== 'undefined')",
+          "line": 253,
+          "code": "const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {",
           "severity": "high",
           "description": "ResizeObserver API usage",
           "suggestion": "Add feature detection and fallbacks",
@@ -3884,35 +4407,8 @@
         },
         {
           "type": "resize-observer",
-          "line": 236,
-          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
-          "severity": "high",
-          "description": "ResizeObserver API usage",
-          "suggestion": "Add feature detection and fallbacks",
-          "canAutoFix": true
-        },
-        {
-          "type": "resize-observer",
-          "line": 236,
-          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
-          "severity": "high",
-          "description": "ResizeObserver API usage",
-          "suggestion": "Add feature detection and fallbacks",
-          "canAutoFix": true
-        },
-        {
-          "type": "resize-observer",
-          "line": 236,
-          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
-          "severity": "high",
-          "description": "ResizeObserver API usage",
-          "suggestion": "Add feature detection and fallbacks",
-          "canAutoFix": true
-        },
-        {
-          "type": "resize-observer",
-          "line": 236,
-          "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+          "line": 253,
+          "code": "const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {",
           "severity": "high",
           "description": "ResizeObserver API usage",
           "suggestion": "Add feature detection and fallbacks",
@@ -3920,8 +4416,8 @@
         },
         {
           "type": "document-object",
-          "line": 240,
-          "code": "const container = typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.aria-tabs-datagrid-adaptive') : null) : null) : null) : null) : null) : null) : null;",
+          "line": 258,
+          "code": "const container = document.querySelector('.aria-tabs-datagrid-adaptive') as Element | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3929,7 +4425,7 @@
         },
         {
           "type": "window-object",
-          "line": 246,
+          "line": 264,
           "code": "window.requestAnimationFrame(() => {",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -3938,7 +4434,7 @@
         },
         {
           "type": "document-object",
-          "line": 275,
+          "line": 293,
           "code": "const announcement = document.createElement('div');",
           "severity": "blocking",
           "description": "Direct document object access",
@@ -3947,8 +4443,8 @@
         },
         {
           "type": "document-object",
-          "line": 280,
-          "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null) : null) : null) : null).appendChild(announcement);",
+          "line": 298,
+          "code": "document.body.appendChild(announcement);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3956,8 +4452,8 @@
         },
         {
           "type": "document-object",
-          "line": 293,
-          "code": "const activeElement = document.activeElement;",
+          "line": 311,
+          "code": "const activeElement = document.activeElement as HTMLElement | null;",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3965,7 +4461,7 @@
         },
         {
           "type": "window-object",
-          "line": 298,
+          "line": 316,
           "code": "window.requestAnimationFrame(() => {",
           "severity": "blocking",
           "description": "Direct window object access",
@@ -3974,8 +4470,8 @@
         },
         {
           "type": "document-object",
-          "line": 299,
-          "code": "const newActiveElement = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.getElementById(activeId) : null) : null) : null) : null) : null) : null);",
+          "line": 317,
+          "code": "const newActiveElement = document.getElementById(activeId);",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -3983,8 +4479,8 @@
         },
         {
           "type": "document-object",
-          "line": 304,
-          "code": "const firstFocusable = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(",
+          "line": 322,
+          "code": "const firstFocusable = document.querySelector(",
           "severity": "blocking",
           "description": "Direct document object access",
           "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4340,7 +4836,7 @@
     }
   ],
   "summary": {
-    "overallCompatibility": 92,
+    "overallCompatibility": 93,
     "majorIssues": [
       {
         "type": "window-object",
@@ -4372,7 +4868,7 @@
       {
         "type": "document-object",
         "line": 150,
-        "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);",
+        "code": "const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);",
         "severity": "blocking",
         "description": "Direct document object access",
         "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4380,8 +4876,8 @@
       },
       {
         "type": "document-object",
-        "line": 152,
-        "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);",
+        "line": 150,
+        "code": "const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);",
         "severity": "blocking",
         "description": "Direct document object access",
         "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4406,30 +4902,30 @@
         "canAutoFix": true
       },
       {
-        "type": "document-object",
-        "line": 2,
-        "code": "* Structured SPC test/story definitions derived from the XmR testing specification document.",
-        "severity": "blocking",
-        "description": "Direct document object access",
-        "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
-        "canAutoFix": true
-      },
-      {
         "type": "window-object",
-        "line": 32,
-        "code": "/** Maximum number of points to render (thinning for performance). Classification still uses full window. */",
+        "line": 15,
+        "code": "* Controls the polarity of the pre-window category relative to the post-window.",
         "severity": "blocking",
         "description": "Direct window object access",
         "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
         "canAutoFix": true
       },
       {
-        "type": "useLayoutEffect",
-        "line": 23,
-        "code": "React.useLayoutEffect(() => {",
-        "severity": "high",
-        "description": "useLayoutEffect does not run during SSR",
-        "suggestion": "Add SSR guard or use useEffect with proper fallbacks",
+        "type": "window-object",
+        "line": 25,
+        "code": "// Convert a stream of daily (or period) event markers into counts between events over a sliding window.",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+        "canAutoFix": true
+      },
+      {
+        "type": "window-object",
+        "line": 149,
+        "code": "// This helps datasets where a trend segment should dominate over non-trend rules within its window.",
+        "severity": "blocking",
+        "description": "Direct window object access",
+        "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
         "canAutoFix": true
       }
     ],
@@ -4451,7 +4947,7 @@
           {
             "type": "document-object",
             "line": 150,
-            "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);",
+            "code": "const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4459,8 +4955,8 @@
           },
           {
             "type": "document-object",
-            "line": 152,
-            "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);",
+            "line": 150,
+            "code": "const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -4520,6 +5016,111 @@
         ]
       },
       {
+        "name": "boundaryWindows",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "window-object",
+            "line": 15,
+            "code": "* Controls the polarity of the pre-window category relative to the post-window.",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
+        "name": "preprocess",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/preprocess.ts",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "window-object",
+            "line": 25,
+            "code": "// Convert a stream of daily (or period) event markers into counts between events over a sliding window.",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
+        "name": "types",
+        "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/types.ts",
+        "compatibilityLevel": "requires-refactoring",
+        "issues": [
+          {
+            "type": "window-object",
+            "line": 149,
+            "code": "// This helps datasets where a trend segment should dominate over non-trend rules within its window.",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 169,
+            "code": "// in its window. Default false to preserve SQL parity. Works independently of preferTrendWhenConflict",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 222,
+            "code": "/** If true, trend dominates inside its highlighted window. */",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          }
+        ],
+        "hasHooks": false,
+        "usesBrowserAPIs": false,
+        "usesDOM": false,
+        "canBeServerSide": false,
+        "refactoringNeeded": [
+          {
+            "type": "add-ssr-guard",
+            "description": "Add SSR guards for browser-only code",
+            "automated": true,
+            "complexity": "medium",
+            "example": "\n// Before: window.innerWidth\n// After: typeof window !== 'undefined' ? window.innerWidth : 0"
+          }
+        ]
+      },
+      {
         "name": "spcTestCases",
         "filePath": "/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/spcTestCases.ts",
         "compatibilityLevel": "requires-refactoring",
@@ -4555,7 +5156,7 @@
         "issues": [
           {
             "type": "window-object",
-            "line": 32,
+            "line": 44,
             "code": "/** Maximum number of points to render (thinning for performance). Classification still uses full window. */",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -4832,16 +5433,7 @@
           {
             "type": "window-object",
             "line": 117,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 117,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+            "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -4850,7 +5442,7 @@
           {
             "type": "media-query",
             "line": 117,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+            "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
             "severity": "high",
             "description": "matchMedia API usage",
             "suggestion": "Add window check and use CSS media queries for initial render",
@@ -5014,7 +5606,7 @@
           {
             "type": "window-object",
             "line": 61,
-            "code": "const width = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerWidth : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024) : 1024;",
+            "code": "const width = typeof window !== 'undefined' ? window.innerWidth : 1024;",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -5023,7 +5615,7 @@
           {
             "type": "window-object",
             "line": 62,
-            "code": "const height = typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? (typeof window !== 'undefined' ? window.innerHeight : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768) : 768;",
+            "code": "const height = typeof window !== 'undefined' ? window.innerHeight : 768;",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
@@ -5031,7 +5623,61 @@
           },
           {
             "type": "window-object",
-            "line": 68,
+            "line": 65,
+            "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 66,
+            "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 66,
+            "code": "? window.matchMedia('(prefers-reduced-motion: reduce)').matches",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 70,
+            "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 71,
+            "code": "? window.matchMedia('(forced-colors: active)').matches",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 71,
+            "code": "? window.matchMedia('(forced-colors: active)').matches",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 80,
             "code": "highDensity: typeof window !== 'undefined' ? window.devicePixelRatio > 1.5 : false,",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -5039,134 +5685,8 @@
             "canAutoFix": true
           },
           {
-            "type": "window-object",
-            "line": 69,
-            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 69,
-            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 69,
-            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 69,
-            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 69,
-            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 69,
-            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "media-query",
-            "line": 69,
-            "code": "reducedMotion: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false,",
-            "severity": "high",
-            "description": "matchMedia API usage",
-            "suggestion": "Add window check and use CSS media queries for initial render",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 70,
-            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 70,
-            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 70,
-            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 70,
-            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 70,
-            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 70,
-            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "media-query",
-            "line": 70,
-            "code": "forcedColors: (typeof window !== 'undefined' && typeof window.matchMedia === 'function') ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)').matches : false",
-            "severity": "high",
-            "description": "matchMedia API usage",
-            "suggestion": "Add window check and use CSS media queries for initial render",
-            "canAutoFix": true
-          },
-          {
             "type": "useEffect",
-            "line": 167,
+            "line": 179,
             "code": "useEffect(() => {",
             "severity": "medium",
             "description": "useEffect runs only on client side",
@@ -5175,169 +5695,97 @@
           },
           {
             "type": "window-object",
-            "line": 178,
+            "line": 191,
             "code": "window.addEventListener('resize', handleResize);",
             "severity": "blocking",
             "description": "Direct window object access",
             "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "event-listener",
-            "line": 178,
-            "code": "window.addEventListener('resize', handleResize);",
-            "severity": "medium",
-            "description": "Event listener setup",
-            "suggestion": "Move to useEffect hook",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 179,
-            "code": "window.addEventListener('orientationchange', handleOrientationChange);",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "event-listener",
-            "line": 179,
-            "code": "window.addEventListener('orientationchange', handleOrientationChange);",
-            "severity": "medium",
-            "description": "Event listener setup",
-            "suggestion": "Move to useEffect hook",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 182,
-            "code": "const reducedMotionQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 183,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 183,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 183,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 183,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 183,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "media-query",
-            "line": 183,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)')",
-            "severity": "high",
-            "description": "matchMedia API usage",
-            "suggestion": "Add window check and use CSS media queries for initial render",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 185,
-            "code": "const forcedColorsQuery = (typeof window !== 'undefined' && typeof window.matchMedia === 'function')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 186,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 186,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 186,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 186,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "window-object",
-            "line": 186,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-            "severity": "blocking",
-            "description": "Direct window object access",
-            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
-            "canAutoFix": true
-          },
-          {
-            "type": "media-query",
-            "line": 186,
-            "code": "? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? (typeof window !== 'undefined' && window.matchMedia ? window.matchMedia('(forced-colors: active)')",
-            "severity": "high",
-            "description": "matchMedia API usage",
-            "suggestion": "Add window check and use CSS media queries for initial render",
             "canAutoFix": true
           },
           {
             "type": "event-listener",
             "line": 191,
+            "code": "window.addEventListener('resize', handleResize);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 192,
+            "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 192,
+            "code": "window.addEventListener('orientationchange', handleOrientationChange);",
+            "severity": "medium",
+            "description": "Event listener setup",
+            "suggestion": "Move to useEffect hook",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 197,
+            "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 198,
+            "code": "? window.matchMedia('(prefers-reduced-motion: reduce)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 198,
+            "code": "? window.matchMedia('(prefers-reduced-motion: reduce)')",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 201,
+            "code": "typeof window !== 'undefined' && typeof window.matchMedia === 'function'",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "window-object",
+            "line": 202,
+            "code": "? window.matchMedia('(forced-colors: active)')",
+            "severity": "blocking",
+            "description": "Direct window object access",
+            "suggestion": "Add typeof window !== \"undefined\" check or use in useEffect",
+            "canAutoFix": true
+          },
+          {
+            "type": "media-query",
+            "line": 202,
+            "code": "? window.matchMedia('(forced-colors: active)')",
+            "severity": "high",
+            "description": "matchMedia API usage",
+            "suggestion": "Add window check and use CSS media queries for initial render",
+            "canAutoFix": true
+          },
+          {
+            "type": "event-listener",
+            "line": 207,
             "code": "reducedMotionQuery?.addEventListener('change', handleMediaChange);",
             "severity": "medium",
             "description": "Event listener setup",
@@ -5346,7 +5794,7 @@
           },
           {
             "type": "event-listener",
-            "line": 192,
+            "line": 208,
             "code": "forcedColorsQuery?.addEventListener('change', handleMediaChange);",
             "severity": "medium",
             "description": "Event listener setup",
@@ -5355,7 +5803,7 @@
           },
           {
             "type": "window-object",
-            "line": 195,
+            "line": 212,
             "code": "window.removeEventListener('resize', handleResize);",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -5364,7 +5812,7 @@
           },
           {
             "type": "window-object",
-            "line": 196,
+            "line": 213,
             "code": "window.removeEventListener('orientationchange', handleOrientationChange);",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -5373,7 +5821,7 @@
           },
           {
             "type": "useEffect",
-            "line": 204,
+            "line": 222,
             "code": "useEffect(() => {",
             "severity": "medium",
             "description": "useEffect runs only on client side",
@@ -5382,7 +5830,7 @@
           },
           {
             "type": "resize-observer",
-            "line": 233,
+            "line": 251,
             "code": "// Use ResizeObserver to detect layout shifts",
             "severity": "high",
             "description": "ResizeObserver API usage",
@@ -5391,8 +5839,8 @@
           },
           {
             "type": "resize-observer",
-            "line": 235,
-            "code": "const observer = (typeof ResizeObserver !== 'undefined')",
+            "line": 253,
+            "code": "const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {",
             "severity": "high",
             "description": "ResizeObserver API usage",
             "suggestion": "Add feature detection and fallbacks",
@@ -5400,35 +5848,8 @@
           },
           {
             "type": "resize-observer",
-            "line": 236,
-            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
-            "severity": "high",
-            "description": "ResizeObserver API usage",
-            "suggestion": "Add feature detection and fallbacks",
-            "canAutoFix": true
-          },
-          {
-            "type": "resize-observer",
-            "line": 236,
-            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
-            "severity": "high",
-            "description": "ResizeObserver API usage",
-            "suggestion": "Add feature detection and fallbacks",
-            "canAutoFix": true
-          },
-          {
-            "type": "resize-observer",
-            "line": 236,
-            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
-            "severity": "high",
-            "description": "ResizeObserver API usage",
-            "suggestion": "Add feature detection and fallbacks",
-            "canAutoFix": true
-          },
-          {
-            "type": "resize-observer",
-            "line": 236,
-            "code": "? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? (typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { shiftCount++; })",
+            "line": 253,
+            "code": "const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => {",
             "severity": "high",
             "description": "ResizeObserver API usage",
             "suggestion": "Add feature detection and fallbacks",
@@ -5436,8 +5857,8 @@
           },
           {
             "type": "document-object",
-            "line": 240,
-            "code": "const container = typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector('.aria-tabs-datagrid-adaptive') : null) : null) : null) : null) : null) : null) : null;",
+            "line": 258,
+            "code": "const container = document.querySelector('.aria-tabs-datagrid-adaptive') as Element | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -5445,7 +5866,7 @@
           },
           {
             "type": "window-object",
-            "line": 246,
+            "line": 264,
             "code": "window.requestAnimationFrame(() => {",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -5454,7 +5875,7 @@
           },
           {
             "type": "document-object",
-            "line": 275,
+            "line": 293,
             "code": "const announcement = document.createElement('div');",
             "severity": "blocking",
             "description": "Direct document object access",
@@ -5463,8 +5884,8 @@
           },
           {
             "type": "document-object",
-            "line": 280,
-            "code": "(typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null) : null) : null) : null).appendChild(announcement);",
+            "line": 298,
+            "code": "document.body.appendChild(announcement);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -5472,8 +5893,8 @@
           },
           {
             "type": "document-object",
-            "line": 293,
-            "code": "const activeElement = document.activeElement;",
+            "line": 311,
+            "code": "const activeElement = document.activeElement as HTMLElement | null;",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -5481,7 +5902,7 @@
           },
           {
             "type": "window-object",
-            "line": 298,
+            "line": 316,
             "code": "window.requestAnimationFrame(() => {",
             "severity": "blocking",
             "description": "Direct window object access",
@@ -5490,8 +5911,8 @@
           },
           {
             "type": "document-object",
-            "line": 299,
-            "code": "const newActiveElement = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.getElementById(activeId) : null) : null) : null) : null) : null) : null);",
+            "line": 317,
+            "code": "const newActiveElement = document.getElementById(activeId);",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",
@@ -5499,8 +5920,8 @@
           },
           {
             "type": "document-object",
-            "line": 304,
-            "code": "const firstFocusable = (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.querySelector(",
+            "line": 322,
+            "code": "const firstFocusable = document.querySelector(",
             "severity": "blocking",
             "description": "Direct document object access",
             "suggestion": "Add typeof document !== \"undefined\" check or use in useEffect",

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { type MetricCardProps } from "./MetricCard";
-import { ImprovementDirection } from "../../charts/SPC/SPCChart/types";
+import { ImprovementDirection } from "../../charts/SPC/engine";
 export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {
     /** Sparkline data points (value series) */
     sparkData: Array<{

@@ -1,4 +1,5 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import SPCRetroOverlayToggleDemo from '../doc-examples/SPCRetroOverlayToggleDemo';
 
 <Meta title="Data Visualisation/SPC/Guides/Retro Overlay"/>
 
@@ -93,6 +94,12 @@ Notes:
 
 - Treat overlay as an annotation layer. Don’t feed overlay icons back into the rules or parity checks.
 - If you also use boundary-window scenarios, apply them to `SpcVisualCategory` and keep the overlay independent.
+
+## Interactive example: Toggle teaching overlay
+
+This live demo shows a NHS Button that toggles the retro overlay on and off. The chart remains engine‑true; the overlay is reflected in the table and explanatory banner to emphasise it’s a teaching‑only layer.
+
+<SPCRetroOverlayToggleDemo />
 
 ## How this relates to NHSE SQL v2.6a
 

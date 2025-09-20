@@ -50,6 +50,7 @@ export const Row: React.FC<RowProps> = ({
 	className,
 	style,
 	align,
+	rowGap,
 	...props
 }) => {
 	const rowClasses = classNames(
@@ -123,6 +124,7 @@ export const Grid: React.FC<GridProps> = ({
 	children,
 	className,
 	style,
+	rowGap = 8,
 	...props
 }) => {
 	const childrenArray = React.Children.toArray(children);
@@ -138,9 +140,43 @@ export const Grid: React.FC<GridProps> = ({
 				typeof firstChild.props.className === "string" &&
 				firstChild.props.className.includes("nhsuk-grid-row")));
 
+	// Normalise gap to CSS length
+	const gapValue = typeof rowGap === "number" ? `${rowGap}px` : rowGap;
+
+	// If children are Rows, inject spacing between them unless Row rowGap overrides
+	let content: React.ReactNode = children;
+	if (hasRowAsFirstChild) {
+		content = childrenArray.map((child, idx) => {
+			if (!React.isValidElement(child)) return child;
+			const el = child as React.ReactElement<any>;
+			const propsAny: any = el.props || {};
+			// Only target elements that look like Rows (by class name) to avoid touching arbitrary nodes
+			const classNameStr = typeof propsAny.className === "string" ? (propsAny.className as string) : "";
+			const isRowLike = el.type === Row || classNameStr.includes("nhsuk-grid-row");
+			if (!isRowLike) return child;
+
+			// Respect per-row override if provided
+			const rowSpecificGap = propsAny.rowGap as undefined | number | string;
+			const resolvedGap = rowSpecificGap !== undefined
+				? (typeof rowSpecificGap === "number" ? `${rowSpecificGap}px` : rowSpecificGap)
+				: gapValue;
+
+			// No top margin on the first row
+			const marginTop = idx === 0 ? undefined : resolvedGap;
+			if (!marginTop) return child;
+
+			const mergedStyle = { ...(propsAny.style || {}), marginTop } as React.CSSProperties;
+			return React.cloneElement(el, { style: mergedStyle });
+		});
+	} else {
+		// Single implicit Row wrapper: pass gap as row style
+		const implicitRowStyle = { marginTop: undefined } as React.CSSProperties; // first row, no top margin
+		content = <Row style={implicitRowStyle}>{children}</Row>;
+	}
+
 	return (
 		<Container className={className} style={style} {...props}>
-			{hasRowAsFirstChild ? children : <Row>{children}</Row>}
+			{content}
 		</Container>
 	);
 };

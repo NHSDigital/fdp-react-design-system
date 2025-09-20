@@ -112,6 +112,36 @@ span .nhsuk-u-visually-hidden {
   align-items: flex-end;
 }
 
+.nhsuk-grid-row.nhsuk-grid-row-align-center,
+.nhsuk-grid-row.nhsuk-grid-row-align-right,
+.nhsuk-grid-row.nhsuk-grid-row-align-left {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+@media (min-width: 769px) {
+  .nhsuk-grid-row.nhsuk-grid-row-align-center,
+  .nhsuk-grid-row.nhsuk-grid-row-align-right,
+  .nhsuk-grid-row.nhsuk-grid-row-align-left {
+    gap: 24px;
+  }
+}
+
+.nhsuk-grid-row.nhsuk-grid-row-align-center {
+  justify-content: center;
+  text-align: center;
+}
+
+.nhsuk-grid-row.nhsuk-grid-row-align-right {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.nhsuk-grid-row.nhsuk-grid-row-align-left {
+  justify-content: flex-start;
+  text-align: left;
+}
+
 .nhsuk-width-container {
   max-width: 960px;
   margin: 0 auto;

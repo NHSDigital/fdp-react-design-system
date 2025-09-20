@@ -1,6 +1,6 @@
 import * as React from "react";
 import { VariationState } from "../charts/SPC/SPCIcons/SPCConstants";
-import { ChartType, ImprovementDirection } from "../charts/SPC/SPCChart/types";
+import { ChartType, ImprovementDirection } from "../charts/SPC/engine";
 import type { SPCSparkProps } from "../charts/SPC/SPCSpark/SPCSpark.types";
 export interface UseSpcInput {
     values: Array<number | null>;

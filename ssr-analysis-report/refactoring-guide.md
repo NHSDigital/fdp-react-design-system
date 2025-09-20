@@ -72,7 +72,7 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 **Issues to Fix:**
 - Direct document object access (Line 145)
 - Direct document object access (Line 150)
-- Direct document object access (Line 152)
+- Direct document object access (Line 150)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -88,6 +88,50 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 **Issues to Fix:**
 - Direct window object access (Line 399)
 - Direct window object access (Line 418)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### boundaryWindows
+
+**Issues to Fix:**
+- Direct window object access (Line 15)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### preprocess
+
+**Issues to Fix:**
+- Direct window object access (Line 25)
+
+**Recommended Actions:**
+- Add SSR guards for browser-only code
+```typescript
+
+// Before: window.innerWidth
+// After: typeof window !== 'undefined' ? window.innerWidth : 0
+```
+
+
+### types
+
+**Issues to Fix:**
+- Direct window object access (Line 149)
+- Direct window object access (Line 169)
+- Direct window object access (Line 222)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -115,7 +159,7 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 ### SPCSpark.types
 
 **Issues to Fix:**
-- Direct window object access (Line 32)
+- Direct window object access (Line 44)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -325,7 +369,6 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 **Issues to Fix:**
 - Direct window object access (Line 116)
 - Direct window object access (Line 117)
-- Direct window object access (Line 117)
 - matchMedia API usage (Line 117)
 - Direct document object access (Line 120)
 
@@ -375,59 +418,40 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 **Issues to Fix:**
 - Direct window object access (Line 61)
 - Direct window object access (Line 62)
-- Direct window object access (Line 68)
-- Direct window object access (Line 69)
-- Direct window object access (Line 69)
-- Direct window object access (Line 69)
-- Direct window object access (Line 69)
-- Direct window object access (Line 69)
-- Direct window object access (Line 69)
-- matchMedia API usage (Line 69)
+- Direct window object access (Line 65)
+- Direct window object access (Line 66)
+- matchMedia API usage (Line 66)
 - Direct window object access (Line 70)
-- Direct window object access (Line 70)
-- Direct window object access (Line 70)
-- Direct window object access (Line 70)
-- Direct window object access (Line 70)
-- Direct window object access (Line 70)
-- matchMedia API usage (Line 70)
-- useEffect runs only on client side (Line 167)
-- Direct window object access (Line 178)
-- Event listener setup (Line 178)
-- Direct window object access (Line 179)
-- Event listener setup (Line 179)
-- Direct window object access (Line 182)
-- Direct window object access (Line 183)
-- Direct window object access (Line 183)
-- Direct window object access (Line 183)
-- Direct window object access (Line 183)
-- Direct window object access (Line 183)
-- matchMedia API usage (Line 183)
-- Direct window object access (Line 185)
-- Direct window object access (Line 186)
-- Direct window object access (Line 186)
-- Direct window object access (Line 186)
-- Direct window object access (Line 186)
-- Direct window object access (Line 186)
-- matchMedia API usage (Line 186)
+- Direct window object access (Line 71)
+- matchMedia API usage (Line 71)
+- Direct window object access (Line 80)
+- useEffect runs only on client side (Line 179)
+- Direct window object access (Line 191)
 - Event listener setup (Line 191)
+- Direct window object access (Line 192)
 - Event listener setup (Line 192)
-- Direct window object access (Line 195)
-- Direct window object access (Line 196)
-- useEffect runs only on client side (Line 204)
-- ResizeObserver API usage (Line 233)
-- ResizeObserver API usage (Line 235)
-- ResizeObserver API usage (Line 236)
-- ResizeObserver API usage (Line 236)
-- ResizeObserver API usage (Line 236)
-- ResizeObserver API usage (Line 236)
-- Direct document object access (Line 240)
-- Direct window object access (Line 246)
-- Direct document object access (Line 275)
-- Direct document object access (Line 280)
+- Direct window object access (Line 197)
+- Direct window object access (Line 198)
+- matchMedia API usage (Line 198)
+- Direct window object access (Line 201)
+- Direct window object access (Line 202)
+- matchMedia API usage (Line 202)
+- Event listener setup (Line 207)
+- Event listener setup (Line 208)
+- Direct window object access (Line 212)
+- Direct window object access (Line 213)
+- useEffect runs only on client side (Line 222)
+- ResizeObserver API usage (Line 251)
+- ResizeObserver API usage (Line 253)
+- ResizeObserver API usage (Line 253)
+- Direct document object access (Line 258)
+- Direct window object access (Line 264)
 - Direct document object access (Line 293)
-- Direct window object access (Line 298)
-- Direct document object access (Line 299)
-- Direct document object access (Line 304)
+- Direct document object access (Line 298)
+- Direct document object access (Line 311)
+- Direct window object access (Line 316)
+- Direct document object access (Line 317)
+- Direct document object access (Line 322)
 
 **Recommended Actions:**
 - Add SSR guards for browser-only code
@@ -469,12 +493,12 @@ const HeavyComponent = dynamic(() => import('./HeavyComponent'), {
 
 ## Implementation Phases
 
-### Phase 1: Quick Wins (11 components)
+### Phase 1: Quick Wins (14 components)
 - Apply automated fixes
 - Add basic SSR guards
 - Estimated time: 1-2 days
 
-### Phase 2: Medium Refactoring (16 components)
+### Phase 2: Medium Refactoring (19 components)
 - Restructure component logic
 - Move browser code to effects
 - Estimated time: 1-2 weeks

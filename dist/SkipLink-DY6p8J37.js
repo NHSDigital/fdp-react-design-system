@@ -1,5 +1,5 @@
 import c, { useState as p, useEffect as f } from "react";
-import { c as h } from "./SkipLink-Bpun0E2L.js";
+import { c as h } from "./SkipLink-BE-cc-Aq.js";
 const S = ({
   as: e = "main",
   size: i = "default",
@@ -103,4 +103,4 @@ export {
   g as a,
   L as g
 };
-//# sourceMappingURL=SkipLink-DrsF9oI1.js.map
+//# sourceMappingURL=SkipLink-DY6p8J37.js.map

@@ -1,10 +1,11 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import SPCVisualsScenarioToggleDemo from '../doc-examples/SPCVisualsScenarioToggleDemo';
 
-<Meta title="Data Visualisation/SPC/Guides/Visuals Scenarios"/>
+<Meta title="Data Visualisation/SPC/Guides/Visual Scenarios"/>
 
-# SPC v2 visuals scenarios
+# SPC v2 Visual Scenarios
 
-This page explains the visuals scenarios extension around the v2 logic for SPC charts, implemented via the `VisualsScenario` enum and the helper `buildVisualsForScenario`. It covers the motivation, how it integrates with the NHSE SQL v2.6a-aligned engine, how to use it, and some notes on statistical defensibility from a Shewhart chart perspective.
+This page explains the Visual Scenarios extension around the v2 logic for SPC charts, implemented via the `VisualsScenario` enum and the helper `buildVisualsForScenario`. It covers the motivation, how it integrates with the NHSE SQL v2.6a-aligned engine, how to use it, and some notes on statistical defensibility from a Shewhart chart perspective.
 
 ## Why this exists
 
@@ -13,6 +14,19 @@ The v2 engine (`buildSpcV26a`) focuses on generating SPC rows (values, control l
 The scenarios feature adds optional post-processing that adjusts categories around partition boundaries (“baseline recalculation points”) to mirror expected SQL-derived narratives (for example, visually reinforcing a favourable crossing). This is implemented as a small, explicit overlay window that only upgrades neutral categories; it never downgrades an existing Improvement/Concern.
 
 In short: scenarios help align visuals with policy-driven interpretations of baseline recalculations while keeping the underlying engine and rule detection unchanged.
+
+## Interactive demo
+
+Use the controls to see how scenarios behave in different contexts:
+
+- Dataset: switch between Favourable crossing, Weak/no change, and Regression.
+- Mark baseline at crossing: anchors the overlay at the first post-change point so differences become visible and deterministic.
+- Crossing style: Immediate shift, Gradual trend, or Minimal nudge to vary consolidation.
+- Pattern and direction: flip Upward/Downward and optionally auto-sync the direction.
+
+<div className="sb-unstyled">
+<SPCVisualsScenarioToggleDemo />
+</div>
 
 ## Key pieces
 
@@ -147,3 +161,4 @@ Recommendations:
 - `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts`
 - `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts`
 - `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts`
+

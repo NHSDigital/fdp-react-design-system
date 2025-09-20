@@ -10118,9 +10118,6 @@ function computePointPositions(state, direction) {
   return src.map((p) => ({ ...p }));
 }
 
-// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
-import { useId as useId7, useMemo as useMemo12 } from "react";
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/types.ts
 var ChartType = /* @__PURE__ */ ((ChartType2) => {
   ChartType2["XmR"] = "XmR";
@@ -11352,6 +11349,9 @@ var PARITY_V26 = Object.freeze({
 function withParityV26(overrides) {
   return { ...PARITY_V26, ...overrides != null ? overrides : {} };
 }
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
+import { useId as useId7, useMemo as useMemo12 } from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.constants.ts
 var SpcGradientCategory = /* @__PURE__ */ ((SpcGradientCategory2) => {
@@ -14715,9 +14715,15 @@ var Row = ({
   children,
   className,
   style,
+  align,
   ...props
 }) => {
-  const rowClasses = (0, import_classnames6.default)("nhsuk-grid-row", className);
+  const rowClasses = (0, import_classnames6.default)(
+    "nhsuk-grid-row",
+    // Row-specific alignment class to avoid column flex styles
+    align ? `nhsuk-grid-row-align-${align}` : void 0,
+    className
+  );
   return /* @__PURE__ */ jsx38("div", { className: rowClasses, style, ...props, children });
 };
 var Column = ({

@@ -2,12 +2,12 @@
 
 ## Executive Summary
 
-- **Total Components Analyzed**: 229
-- **Overall SSR Compatibility**: 92%
-- **Fully Compatible**: 207 (90%)
+- **Total Components Analyzed**: 283
+- **Overall SSR Compatibility**: 93%
+- **Fully Compatible**: 258 (91%)
 - **Compatible with Hydration**: 5 (2%)
 - **Client-Only**: 1 (0%)
-- **Requires Refactoring**: 16 (7%)
+- **Requires Refactoring**: 19 (7%)
 
 ## Quick Wins 🚀
 
@@ -15,14 +15,17 @@ Components that can be easily made SSR-compatible:
 
 - **ChartWithTableTabs**: 3/3 issues auto-fixable
 - **spc**: 2/2 issues auto-fixable
+- **boundaryWindows**: 1/1 issues auto-fixable
+- **preprocess**: 1/1 issues auto-fixable
+- **types**: 3/3 issues auto-fixable
 - **spcTestCases**: 1/1 issues auto-fixable
 - **SPCSpark.types**: 1/1 issues auto-fixable
 - **patterns**: 3/3 issues auto-fixable
 - **GanttChart**: 12/14 issues auto-fixable
 - **NavigationSplitView.types**: 2/2 issues auto-fixable
-- **ProductRoadmap**: 5/5 issues auto-fixable
+- **ProductRoadmap**: 4/4 issues auto-fixable
 - **SkipLink**: 9/11 issues auto-fixable
-- **useIntelligentLayout**: 53/55 issues auto-fixable
+- **useIntelligentLayout**: 34/36 issues auto-fixable
 - **TransactionalPageTemplate**: 1/1 issues auto-fixable
 
 ## Priority Issues
@@ -48,20 +51,20 @@ Components that can be easily made SSR-compatible:
 
 - **document-object**: Direct document object access
   ```
-  (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).appendChild(link);
+  const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);
   ```
   **Fix**: Add typeof document !== "undefined" check or use in useEffect
 
 - **document-object**: Direct document object access
   ```
-  (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? (typeof document !== 'undefined' ? document.body : null) : null) : null).removeChild(link);
+  const parent: HTMLElement | null = (document.body as HTMLElement | null) || (document.documentElement as HTMLElement | null);
   ```
   **Fix**: Add typeof document !== "undefined" check or use in useEffect
 
 
 ## Component Breakdown
 
-### ✅ Fully SSR Compatible (207)
+### ✅ Fully SSR Compatible (258)
 - Account
 - Account.types
 - ActionLink
@@ -76,6 +79,7 @@ Components that can be easily made SSR-compatible:
 - Button.test-types
 - Button.types
 - ButtonExamples
+- ButtonSSR
 - Card.types
 - CareCard.types
 - CharacterCount.schema
@@ -93,27 +97,28 @@ Components that can be easily made SSR-compatible:
 - ContentsList.types
 - DashboardSummaryGrid.types
 - FilterableLineChart
+- Axis.tokens
 - Axis
+- Axis.types
 - ChartContainer
 - ChartNoScript
 - FilterableLineChart
 - GridLines
+- GridLines
 - LineChart
-- ED4hTrendGatingEmbeddedNoGateStory
-- ED4hTrendGatingEmbeddedStory
-- PrimeDirectionSummary
+- RunChart
+- runRules
+- InternalSPC.types
 - SPCChart.constants
+- SPCChart.props
+- SPCChart
 - SPCChart.types
-- SPCChartEarlyWaitTimeExample
-- SPCChartIndividualsExample
-- SPCChartPhasedBaselineExample
-- SPCChartRareEventExample
-- SPCChartStableWaitTimeExample
-- SPCChartWarningsPanelExample
 - SPCSignalsInspector
-- TrendGatingEmbeddedComparison
-- TrendGatingEmbeddedHighNoGateStory
-- TrendGatingEmbeddedHighStory
+- DiagnosticsPanel
+- EmbeddedIconsRow
+- descriptors
+- gradientSequences
+- useZeroAxisBreak
 - SPCRuleClashExamples
 - spcAssurance
 - spcCandidates
@@ -122,7 +127,52 @@ Components that can be easily made SSR-compatible:
 - spcProvenance
 - spcSqlCompat
 - spcUtils
+- g.fixture
+- g.sql.canonical.fixture
+- t.fixture
+- t.sql.canonical.fixture
+- adapter
+- assurance
+- conflict
+- constants
+- detector
+- RunVsSPCTransitionExample
+- SPCChartAutoRecalcAppendExample
+- SPCChartAutoRecalcBasicExample
+- SPCChartAutoRecalcMinGapExample
+- SPCChartAutoRecalcMultiExample
+- SPCChartAutoRecalcTunedExample
+- SPCChartEarlyWaitTimeExample
+- SPCChartIndividualsExample
+- SPCChartPhasedBaselineExample
+- SPCChartRareEventExample
+- SPCChartStableWaitTimeExample
+- SPCChartWarningsPanelExample
+- SPCRetroOverlayToggleDemo
+- SPCVisualsScenarioToggleDemo
+- TrendGatingExample
+- staffSicknessRuleClash
+- SPCRuleClash.examples
+- TrendSegmentation.HighIsGoodExample
+- engine
+- limits
+- normaliser
+- trendSegments
+- visualCategories
+- presets
+- retroOverlay
+- groupedDataset
+- healthcareDatasets
+- tgParityFixtures
+- variationIconColours
+- autoRecalc
+- direction
+- utils
+- public
 - parsedDataset
+- types
+- domain
+- embeddedIcon
 - SPCAssuranceIcon
 - SPCConstants
 - SPCIcon
@@ -130,11 +180,13 @@ Components that can be easily made SSR-compatible:
 - tokenUtils
 - SPCSpark
 - icons
+- autoMetrics
 - BandScalesProvider
 - ChartRoot
 - ScaleContext
 - TooltipContext
 - VisibilityContext
+- useSpc
 - wizardEngine
 - wizardTypes
 - AlertMarkers
@@ -169,6 +221,8 @@ Components that can be easily made SSR-compatible:
 - Fieldset.types
 - Footer
 - Footer.types
+- FormNavButtonBar.server
+- FormNavButtonBar.types
 - GanttChart-new
 - TaskBar-new
 - TaskBar
@@ -272,15 +326,18 @@ Components that can be easily made SSR-compatible:
 
 ### 🔄 Compatible with Hydration (5)
 - Button - 0 minor issues
-- SPCChart - 1 minor issues
+- InternalSPC - 0 minor issues
 - SPCTooltipOverlay - 2 minor issues
 - VisuallyHiddenLiveRegion - 1 minor issues
 - HeaderSearch - 1 minor issues
 
-### 🔧 Requires Refactoring (16)
+### 🔧 Requires Refactoring (19)
 - **ChartEnhancer**: 3 issues (2 blocking)
 - **ChartWithTableTabs**: 3 issues (3 blocking)
 - **spc**: 2 issues (2 blocking)
+- **boundaryWindows**: 1 issues (1 blocking)
+- **preprocess**: 1 issues (1 blocking)
+- **types**: 3 issues (3 blocking)
 - **spcTestCases**: 1 issues (1 blocking)
 - **SPCSpark.types**: 1 issues (1 blocking)
 - **useFocusNav**: 4 issues (2 blocking)
@@ -290,9 +347,9 @@ Components that can be easily made SSR-compatible:
 - **Header**: 13 issues (6 blocking)
 - **NavigationSplitView**: 38 issues (20 blocking)
 - **NavigationSplitView.types**: 2 issues (2 blocking)
-- **ProductRoadmap**: 5 issues (4 blocking)
+- **ProductRoadmap**: 4 issues (3 blocking)
 - **SkipLink**: 11 issues (8 blocking)
-- **useIntelligentLayout**: 55 issues (39 blocking)
+- **useIntelligentLayout**: 36 issues (23 blocking)
 - **TransactionalPageTemplate**: 1 issues (1 blocking)
 
 ### 🖥️ Client-Only (1)
@@ -513,6 +570,21 @@ Components that can be easily made SSR-compatible:
 
 ### ButtonExamples
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/ButtonExamples.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### ButtonSSR
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/Button/ButtonSSR.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -781,11 +853,41 @@ Components that can be easily made SSR-compatible:
 
 
 
+### Axis.tokens
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.tokens.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
 ### Axis
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### Axis.types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/Axis/Axis.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
 - **Browser APIs**: No
 - **DOM Access**: No
 
@@ -854,7 +956,7 @@ Components that can be easily made SSR-compatible:
 #### Issues:
 - **document-object** (Line 145): Direct document object access
 - **document-object** (Line 150): Direct document object access
-- **document-object** (Line 152): Direct document object access
+- **document-object** (Line 150): Direct document object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -862,6 +964,21 @@ Components that can be easily made SSR-compatible:
 
 ### FilterableLineChart
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/FilterableLineChart/FilterableLineChart.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### GridLines
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/GridLines/GridLines.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: Yes
@@ -905,8 +1022,23 @@ Components that can be easily made SSR-compatible:
 
 
 
-### ED4hTrendGatingEmbeddedNoGateStory
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedNoGateStory.tsx`
+### RunChart
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/RunChart/RunChart.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### runRules
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/RunChart/runRules.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -920,13 +1052,13 @@ Components that can be easily made SSR-compatible:
 
 
 
-### ED4hTrendGatingEmbeddedStory
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/ED4hTrendGatingEmbeddedStory.tsx`
-- **Compatibility**: fully-compatible
+### InternalSPC
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.tsx`
+- **Compatibility**: compatible-with-hydration
 - **Issues**: 0
-- **Uses Hooks**: No
+- **Uses Hooks**: Yes
 - **Browser APIs**: No
-- **DOM Access**: No
+- **DOM Access**: Yes
 
 #### Issues:
 
@@ -935,8 +1067,8 @@ Components that can be easily made SSR-compatible:
 
 
 
-### PrimeDirectionSummary
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/PrimeDirectionSummary.tsx`
+### InternalSPC.types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.types.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -965,16 +1097,31 @@ Components that can be easily made SSR-compatible:
 
 
 
-### SPCChart
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx`
-- **Compatibility**: compatible-with-hydration
-- **Issues**: 1
-- **Uses Hooks**: Yes
+### SPCChart.props
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.props.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
 - **Browser APIs**: No
-- **DOM Access**: Yes
+- **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 316): useEffect runs only on client side
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChart
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
 
 #### Refactoring Actions:
 
@@ -982,96 +1129,6 @@ Components that can be easily made SSR-compatible:
 
 ### SPCChart.types
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.types.ts`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### SPCChartEarlyWaitTimeExample
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartEarlyWaitTimeExample.tsx`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### SPCChartIndividualsExample
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartIndividualsExample.tsx`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### SPCChartPhasedBaselineExample
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartPhasedBaselineExample.tsx`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### SPCChartRareEventExample
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartRareEventExample.tsx`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### SPCChartStableWaitTimeExample
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartStableWaitTimeExample.tsx`
-- **Compatibility**: fully-compatible
-- **Issues**: 0
-- **Uses Hooks**: No
-- **Browser APIs**: No
-- **DOM Access**: No
-
-#### Issues:
-
-
-#### Refactoring Actions:
-
-
-
-### SPCChartWarningsPanelExample
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/SPCChartWarningsPanelExample.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1094,7 +1151,7 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 64): useEffect runs only on client side
+- **useEffect** (Line 81): useEffect runs only on client side
 
 #### Refactoring Actions:
 
@@ -1109,15 +1166,30 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 65): useEffect runs only on client side
-- **useEffect** (Line 96): useEffect runs only on client side
+- **useEffect** (Line 67): useEffect runs only on client side
+- **useEffect** (Line 98): useEffect runs only on client side
 
 #### Refactoring Actions:
 
 
 
-### TrendGatingEmbeddedComparison
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedComparison.tsx`
+### DiagnosticsPanel
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/components/DiagnosticsPanel.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 1
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **useEffect** (Line 34): useEffect runs only on client side
+
+#### Refactoring Actions:
+
+
+
+### EmbeddedIconsRow
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/components/EmbeddedIconsRow.tsx`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1131,8 +1203,8 @@ Components that can be easily made SSR-compatible:
 
 
 
-### TrendGatingEmbeddedHighNoGateStory
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighNoGateStory.tsx`
+### descriptors
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/descriptors.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1146,11 +1218,26 @@ Components that can be easily made SSR-compatible:
 
 
 
-### TrendGatingEmbeddedHighStory
-- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/TrendGatingEmbeddedHighStory.tsx`
+### gradientSequences
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/gradientSequences.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### useZeroAxisBreak
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/hooks/useZeroAxisBreak.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
 - **Browser APIs**: No
 - **DOM Access**: No
 
@@ -1297,6 +1384,683 @@ Components that can be easily made SSR-compatible:
 
 
 
+### g.fixture
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/g.fixture.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### g.sql.canonical.fixture
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/g.sql.canonical.fixture.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### t.fixture
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/t.fixture.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### t.sql.canonical.fixture
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/__tests__/fixtures/t.sql.canonical.fixture.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### adapter
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/adapter.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### assurance
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/assurance.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### conflict
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/conflict.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### constants
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/constants.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### detector
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/detector.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### RunVsSPCTransitionExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/RunVsSPCTransitionExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartAutoRecalcAppendExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcAppendExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartAutoRecalcBasicExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcBasicExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartAutoRecalcMinGapExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcMinGapExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartAutoRecalcMultiExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcMultiExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartAutoRecalcTunedExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartAutoRecalcTunedExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartEarlyWaitTimeExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartEarlyWaitTimeExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartIndividualsExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartIndividualsExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartPhasedBaselineExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartPhasedBaselineExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartRareEventExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartRareEventExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartStableWaitTimeExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartStableWaitTimeExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCChartWarningsPanelExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCChartWarningsPanelExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCRetroOverlayToggleDemo
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCRetroOverlayToggleDemo.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCVisualsScenarioToggleDemo
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/SPCVisualsScenarioToggleDemo.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 1
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **useEffect** (Line 55): useEffect runs only on client side
+
+#### Refactoring Actions:
+
+
+
+### TrendGatingExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/doc-examples/TrendGatingExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### staffSicknessRuleClash
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/data/staffSicknessRuleClash.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### SPCRuleClash.examples
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/examples/SPCRuleClash.examples.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### TrendSegmentation.HighIsGoodExample
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/examples/TrendSegmentation.HighIsGoodExample.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### engine
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/engine.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### limits
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/limits.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### normaliser
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/normaliser.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### boundaryWindows
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts`
+- **Compatibility**: requires-refactoring
+- **Issues**: 1
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **window-object** (Line 15): Direct window object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### trendSegments
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/trendSegments.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### visualCategories
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### preprocess
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/preprocess.ts`
+- **Compatibility**: requires-refactoring
+- **Issues**: 1
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **window-object** (Line 25): Direct window object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### presets
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### retroOverlay
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/retroOverlay.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### groupedDataset
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/groupedDataset.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### healthcareDatasets
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/healthcareDatasets.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### tgParityFixtures
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/tgParityFixtures.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### variationIconColours
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/storybook/data/variationIconColours.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/types.ts`
+- **Compatibility**: requires-refactoring
+- **Issues**: 3
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+- **window-object** (Line 149): Direct window object access
+- **window-object** (Line 169): Direct window object access
+- **window-object** (Line 222): Direct window object access
+
+#### Refactoring Actions:
+- add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### autoRecalc
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils/autoRecalc.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### direction
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils/direction.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### utils
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/utils.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### public
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/public.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
 ### parsedDataset
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/test-data/parsedDataset.ts`
 - **Compatibility**: fully-compatible
@@ -1325,6 +2089,51 @@ Components that can be easily made SSR-compatible:
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### domain
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/utils/domain.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### embeddedIcon
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCChart/utils/embeddedIcon.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
 
 
 ### SPCAssuranceIcon
@@ -1411,7 +2220,7 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 240): useEffect runs only on client side
+- **useEffect** (Line 283): useEffect runs only on client side
 
 #### Refactoring Actions:
 
@@ -1426,7 +2235,7 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **window-object** (Line 32): Direct window object access
+- **window-object** (Line 44): Direct window object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -1434,6 +2243,21 @@ Components that can be easily made SSR-compatible:
 
 ### icons
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/icons.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### autoMetrics
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts`
 - **Compatibility**: fully-compatible
 - **Issues**: 0
 - **Uses Hooks**: No
@@ -1554,6 +2378,21 @@ Components that can be easily made SSR-compatible:
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
+
+
+### useSpc
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/DataVisualisation/hooks/useSpc.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: Yes
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
 
 
 ### wizardEngine
@@ -2117,6 +2956,36 @@ Components that can be easily made SSR-compatible:
 
 
 
+### FormNavButtonBar.server
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/FormNavButtonBar/FormNavButtonBar.server.tsx`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
+### FormNavButtonBar.types
+- **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/FormNavButtonBar/FormNavButtonBar.types.ts`
+- **Compatibility**: fully-compatible
+- **Issues**: 0
+- **Uses Hooks**: No
+- **Browser APIs**: No
+- **DOM Access**: No
+
+#### Issues:
+
+
+#### Refactoring Actions:
+
+
+
 ### GanttChart-new
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/GanttChart/GanttChart-new.tsx`
 - **Compatibility**: fully-compatible
@@ -2303,7 +3172,7 @@ Components that can be easily made SSR-compatible:
 - **DOM Access**: No
 
 #### Issues:
-- **useEffect** (Line 144): useEffect runs only on client side
+- **useEffect** (Line 162): useEffect runs only on client side
 
 #### Refactoring Actions:
 
@@ -2861,14 +3730,13 @@ Components that can be easily made SSR-compatible:
 ### ProductRoadmap
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/ProductRoadmap/ProductRoadmap.tsx`
 - **Compatibility**: requires-refactoring
-- **Issues**: 5
+- **Issues**: 4
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: No
 
 #### Issues:
 - **window-object** (Line 116): Direct window object access
-- **window-object** (Line 117): Direct window object access
 - **window-object** (Line 117): Direct window object access
 - **media-query** (Line 117): matchMedia API usage
 - **document-object** (Line 120): Direct document object access
@@ -3401,7 +4269,7 @@ Components that can be easily made SSR-compatible:
 ### useIntelligentLayout
 - **File**: `/Users/fergusbisset/Dropbox/Sites/nhs-fdp-design-system/src/components/SortableDataTable/hooks/useIntelligentLayout.ts`
 - **Compatibility**: requires-refactoring
-- **Issues**: 55
+- **Issues**: 36
 - **Uses Hooks**: Yes
 - **Browser APIs**: Yes
 - **DOM Access**: Yes
@@ -3409,59 +4277,40 @@ Components that can be easily made SSR-compatible:
 #### Issues:
 - **window-object** (Line 61): Direct window object access
 - **window-object** (Line 62): Direct window object access
-- **window-object** (Line 68): Direct window object access
-- **window-object** (Line 69): Direct window object access
-- **window-object** (Line 69): Direct window object access
-- **window-object** (Line 69): Direct window object access
-- **window-object** (Line 69): Direct window object access
-- **window-object** (Line 69): Direct window object access
-- **window-object** (Line 69): Direct window object access
-- **media-query** (Line 69): matchMedia API usage
+- **window-object** (Line 65): Direct window object access
+- **window-object** (Line 66): Direct window object access
+- **media-query** (Line 66): matchMedia API usage
 - **window-object** (Line 70): Direct window object access
-- **window-object** (Line 70): Direct window object access
-- **window-object** (Line 70): Direct window object access
-- **window-object** (Line 70): Direct window object access
-- **window-object** (Line 70): Direct window object access
-- **window-object** (Line 70): Direct window object access
-- **media-query** (Line 70): matchMedia API usage
-- **useEffect** (Line 167): useEffect runs only on client side
-- **window-object** (Line 178): Direct window object access
-- **event-listener** (Line 178): Event listener setup
-- **window-object** (Line 179): Direct window object access
-- **event-listener** (Line 179): Event listener setup
-- **window-object** (Line 182): Direct window object access
-- **window-object** (Line 183): Direct window object access
-- **window-object** (Line 183): Direct window object access
-- **window-object** (Line 183): Direct window object access
-- **window-object** (Line 183): Direct window object access
-- **window-object** (Line 183): Direct window object access
-- **media-query** (Line 183): matchMedia API usage
-- **window-object** (Line 185): Direct window object access
-- **window-object** (Line 186): Direct window object access
-- **window-object** (Line 186): Direct window object access
-- **window-object** (Line 186): Direct window object access
-- **window-object** (Line 186): Direct window object access
-- **window-object** (Line 186): Direct window object access
-- **media-query** (Line 186): matchMedia API usage
+- **window-object** (Line 71): Direct window object access
+- **media-query** (Line 71): matchMedia API usage
+- **window-object** (Line 80): Direct window object access
+- **useEffect** (Line 179): useEffect runs only on client side
+- **window-object** (Line 191): Direct window object access
 - **event-listener** (Line 191): Event listener setup
+- **window-object** (Line 192): Direct window object access
 - **event-listener** (Line 192): Event listener setup
-- **window-object** (Line 195): Direct window object access
-- **window-object** (Line 196): Direct window object access
-- **useEffect** (Line 204): useEffect runs only on client side
-- **resize-observer** (Line 233): ResizeObserver API usage
-- **resize-observer** (Line 235): ResizeObserver API usage
-- **resize-observer** (Line 236): ResizeObserver API usage
-- **resize-observer** (Line 236): ResizeObserver API usage
-- **resize-observer** (Line 236): ResizeObserver API usage
-- **resize-observer** (Line 236): ResizeObserver API usage
-- **document-object** (Line 240): Direct document object access
-- **window-object** (Line 246): Direct window object access
-- **document-object** (Line 275): Direct document object access
-- **document-object** (Line 280): Direct document object access
+- **window-object** (Line 197): Direct window object access
+- **window-object** (Line 198): Direct window object access
+- **media-query** (Line 198): matchMedia API usage
+- **window-object** (Line 201): Direct window object access
+- **window-object** (Line 202): Direct window object access
+- **media-query** (Line 202): matchMedia API usage
+- **event-listener** (Line 207): Event listener setup
+- **event-listener** (Line 208): Event listener setup
+- **window-object** (Line 212): Direct window object access
+- **window-object** (Line 213): Direct window object access
+- **useEffect** (Line 222): useEffect runs only on client side
+- **resize-observer** (Line 251): ResizeObserver API usage
+- **resize-observer** (Line 253): ResizeObserver API usage
+- **resize-observer** (Line 253): ResizeObserver API usage
+- **document-object** (Line 258): Direct document object access
+- **window-object** (Line 264): Direct window object access
 - **document-object** (Line 293): Direct document object access
-- **window-object** (Line 298): Direct window object access
-- **document-object** (Line 299): Direct document object access
-- **document-object** (Line 304): Direct document object access
+- **document-object** (Line 298): Direct document object access
+- **document-object** (Line 311): Direct document object access
+- **window-object** (Line 316): Direct window object access
+- **document-object** (Line 317): Direct document object access
+- **document-object** (Line 322): Direct document object access
 
 #### Refactoring Actions:
 - add-ssr-guard: Add SSR guards for browser-only code (medium complexity)
@@ -3890,11 +4739,11 @@ Components that can be easily made SSR-compatible:
 
 ## Next Steps
 
-1. **Quick Wins**: Fix auto-fixable issues in 11 components
+1. **Quick Wins**: Fix auto-fixable issues in 14 components
 2. **High Priority**: Address blocking issues in refactoring-required components
 3. **Client Components**: Convert 1 components to client-only
 4. **Testing**: Set up SSR testing pipeline for all compatible components
 
 ## Automated Fixes Available
 
-134 issues can be automatically fixed.
+119 issues can be automatically fixed.

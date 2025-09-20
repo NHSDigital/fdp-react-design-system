@@ -1,5 +1,5 @@
 import * as q from "react";
-import Ct, { useState as Oe, useEffect as Ye, useCallback as ve, useRef as Ue, createElement as Ci, useMemo as Me, useContext as tu, createContext as nu, forwardRef as qn, useImperativeHandle as Ni, useReducer as ji, memo as ru, useId as Dr } from "react";
+import Ct, { useState as He, useEffect as Ye, useCallback as ve, useRef as Oe, createElement as Ci, useMemo as Me, useContext as tu, createContext as nu, forwardRef as qn, useImperativeHandle as Ni, useReducer as ji, memo as ru, useId as Dr } from "react";
 import { createPortal as au } from "react-dom";
 function su(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
@@ -743,7 +743,7 @@ const Ge = ({
   attributes: g,
   ...v
 }) => {
-  const [x, p] = Oe(a), m = n !== void 0, k = m ? n : x;
+  const [x, p] = He(a), m = n !== void 0, k = m ? n : x;
   Ye(() => {
     m || p(a);
   }, [a, m]);
@@ -826,7 +826,7 @@ const Os = ({
   onKeyDown: S,
   ..._
 }) => {
-  const [F, w] = Oe(a || o || (n === "range" ? M || "0" : ""));
+  const [F, w] = He(a || o || (n === "range" ? M || "0" : ""));
   Ye(() => {
     a !== void 0 && w(a);
   }, [a]);
@@ -1010,7 +1010,7 @@ const vu = ({
   attributes: h,
   ...g
 }) => {
-  const [v, x] = Oe(
+  const [v, x] = He(
     e.filter((N) => N.checked).map((N) => N.value)
   ), p = n || t, m = i ? `${p}-hint` : void 0, k = l ? `${p}-error` : void 0, M = [m, k].filter(Boolean).join(" ") || void 0, D = (N, y) => {
     let $;
@@ -1165,7 +1165,7 @@ const Mi = ({ id: e, className: t, children: n, ...a }) => {
   onChange: f,
   ...h
 }) => {
-  const g = s ?? i ?? "", [v, x] = Oe(g), [p, m] = Oe(0), [k, M] = Oe(!1), [D, b] = Oe(!1), T = ve((_) => n ? _.trim() === "" ? 0 : _.trim().split(/\s+/).length : _.length, [n]);
+  const g = s ?? i ?? "", [v, x] = He(g), [p, m] = He(0), [k, M] = He(!1), [D, b] = He(!1), T = ve((_) => n ? _.trim() === "" ? 0 : _.trim().split(/\s+/).length : _.length, [n]);
   Ye(() => {
     const _ = T(v), F = t || n || 0, w = F - _, I = Math.floor(F * (a / 100));
     m(w), M(_ > F), b(_ >= I || _ > F), d && d(_, w);
@@ -1424,7 +1424,7 @@ function Pi(e, {
   ) });
 }
 const mv = ({ value: e, defaultValue: t, onChange: n, onBlur: a, onFocus: o, ...s }) => {
-  const [i, l] = Oe(e || t || ""), c = Ue([]), u = Ue(i), d = (g) => {
+  const [i, l] = He(e || t || ""), c = Oe([]), u = Oe(i), d = (g) => {
     const v = g.target.value;
     v !== u.current && (u.current = v, l(v), n?.(g));
   }, f = (g) => {
@@ -1579,10 +1579,16 @@ const Fi = ({
   children: e,
   className: t,
   style: n,
-  ...a
+  align: a,
+  ...o
 }) => {
-  const o = _e("nhsuk-grid-row", t);
-  return /* @__PURE__ */ r.jsx("div", { className: o, style: n, ...a, children: e });
+  const s = _e(
+    "nhsuk-grid-row",
+    // Row-specific alignment class to avoid column flex styles
+    a ? `nhsuk-grid-row-align-${a}` : void 0,
+    t
+  );
+  return /* @__PURE__ */ r.jsx("div", { className: s, style: n, ...o, children: e });
 }, sr = ({
   children: e,
   width: t = _n.Full,
@@ -1783,7 +1789,7 @@ const xo = ({ id: e, className: t, visuallyHiddenText: n = "Error:", children: a
   children: i,
   ...l
 }) => {
-  const c = Ue(null);
+  const c = Oe(null);
   Ye(() => {
     c.current && c.current.focus();
   }, []);
@@ -1833,11 +1839,11 @@ const xo = ({ id: e, className: t, visuallyHiddenText: n = "Error:", children: a
   onChange: c,
   ...u
 }) => {
-  const [d, f] = Oe(() => ({
+  const [d, f] = He(() => ({
     day: o.day || "",
     month: o.month || "",
     year: o.year || ""
-  })), [h, g] = Oe({}), v = (I) => I % 4 === 0 && I % 100 !== 0 || I % 400 === 0, x = (I, C) => {
+  })), [h, g] = He({}), v = (I) => I % 4 === 0 && I % 100 !== 0 || I % 400 === 0, x = (I, C) => {
     const P = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     return I === 2 && v(C) ? 29 : P[I - 1];
   }, p = (I, C, P) => {
@@ -2752,7 +2758,7 @@ const Ou = ({
   debounceMs: k = 300,
   minQueryLength: M = 1
 }) => {
-  const [D, b] = Oe(""), [T, j] = Oe(!1), N = Ue(void 0), y = Ue(null), $ = Ue(null), S = e === "controlled" && o !== void 0, _ = S ? o : D, F = ve(
+  const [D, b] = He(""), [T, j] = He(!1), N = Oe(void 0), y = Oe(null), $ = Oe(null), S = e === "controlled" && o !== void 0, _ = S ? o : D, F = ve(
     (re) => {
       N.current && clearTimeout(N.current), N.current = setTimeout(() => {
         d.onChange && re.length >= M && d.onChange(re);
@@ -2977,7 +2983,7 @@ const Ou = ({
   attributes: u = {},
   ...d
 }) => {
-  const [f, h] = Oe(!1), [g, v] = Oe(!1), [x, p] = Oe(i?.items?.length || 0), [m, k] = Oe(!1), [M, D] = Oe(!1), b = Ue(null), T = Ue(null), j = Ue(!1);
+  const [f, h] = He(!1), [g, v] = He(!1), [x, p] = He(i?.items?.length || 0), [m, k] = He(!1), [M, D] = He(!1), b = Oe(null), T = Oe(null), j = Oe(!1);
   Ye(() => {
     typeof window > "u" || D(!0);
   }, []), Ye(() => {
@@ -2988,7 +2994,7 @@ const Ou = ({
     if (f)
       return document.addEventListener("keydown", S), () => document.removeEventListener("keydown", S);
   }, [f]);
-  const N = Ue(null), y = ve(() => {
+  const N = Oe(null), y = ve(() => {
     if (!M || !i?.items || i.items.length === 0 || j.current) return;
     const S = b.current, _ = T.current;
     if (!S || !_) return;
@@ -4674,7 +4680,7 @@ function cf(e) {
   };
 }
 var Eo = { "-": "", _: " ", 0: "0" }, ft = /^\s*\d+/, uf = /^%/, df = /[\\^$*+?|[\]().{}]/g;
-function We(e, t, n) {
+function Ue(e, t, n) {
   var a = e < 0 ? "-" : "", o = (a ? -e : e) + "", s = o.length;
   return a + (s < n ? new Array(n - s + 1).join(t) + o : o);
 }
@@ -4768,128 +4774,128 @@ function Tf(e, t, n) {
   return a ? (e.s = +a[0], n + a[0].length) : -1;
 }
 function Uo(e, t) {
-  return We(e.getDate(), t, 2);
+  return Ue(e.getDate(), t, 2);
 }
 function Df(e, t) {
-  return We(e.getHours(), t, 2);
+  return Ue(e.getHours(), t, 2);
 }
 function If(e, t) {
-  return We(e.getHours() % 12 || 12, t, 2);
+  return Ue(e.getHours() % 12 || 12, t, 2);
 }
 function $f(e, t) {
-  return We(1 + hr.count(on(e), e), t, 3);
+  return Ue(1 + hr.count(on(e), e), t, 3);
 }
 function Ji(e, t) {
-  return We(e.getMilliseconds(), t, 3);
+  return Ue(e.getMilliseconds(), t, 3);
 }
 function Mf(e, t) {
   return Ji(e, t) + "000";
 }
 function Pf(e, t) {
-  return We(e.getMonth() + 1, t, 2);
+  return Ue(e.getMonth() + 1, t, 2);
 }
 function Ff(e, t) {
-  return We(e.getMinutes(), t, 2);
+  return Ue(e.getMinutes(), t, 2);
 }
 function Lf(e, t) {
-  return We(e.getSeconds(), t, 2);
+  return Ue(e.getSeconds(), t, 2);
 }
 function Af(e) {
   var t = e.getDay();
   return t === 0 ? 7 : t;
 }
 function Ef(e, t) {
-  return We(Sa.count(on(e) - 1, e), t, 2);
+  return Ue(Sa.count(on(e) - 1, e), t, 2);
 }
 function Qi(e) {
   var t = e.getDay();
   return t >= 4 || t === 0 ? Vn(e) : Vn.ceil(e);
 }
 function Rf(e, t) {
-  return e = Qi(e), We(Vn.count(on(e), e) + (on(e).getDay() === 4), t, 2);
+  return e = Qi(e), Ue(Vn.count(on(e), e) + (on(e).getDay() === 4), t, 2);
 }
 function Bf(e) {
   return e.getDay();
 }
 function Hf(e, t) {
-  return We(Br.count(on(e) - 1, e), t, 2);
+  return Ue(Br.count(on(e) - 1, e), t, 2);
 }
 function Of(e, t) {
-  return We(e.getFullYear() % 100, t, 2);
+  return Ue(e.getFullYear() % 100, t, 2);
 }
 function Uf(e, t) {
-  return e = Qi(e), We(e.getFullYear() % 100, t, 2);
+  return e = Qi(e), Ue(e.getFullYear() % 100, t, 2);
 }
 function Wf(e, t) {
-  return We(e.getFullYear() % 1e4, t, 4);
+  return Ue(e.getFullYear() % 1e4, t, 4);
 }
 function zf(e, t) {
   var n = e.getDay();
-  return e = n >= 4 || n === 0 ? Vn(e) : Vn.ceil(e), We(e.getFullYear() % 1e4, t, 4);
+  return e = n >= 4 || n === 0 ? Vn(e) : Vn.ceil(e), Ue(e.getFullYear() % 1e4, t, 4);
 }
 function Vf(e) {
   var t = e.getTimezoneOffset();
-  return (t > 0 ? "-" : (t *= -1, "+")) + We(t / 60 | 0, "0", 2) + We(t % 60, "0", 2);
+  return (t > 0 ? "-" : (t *= -1, "+")) + Ue(t / 60 | 0, "0", 2) + Ue(t % 60, "0", 2);
 }
 function Wo(e, t) {
-  return We(e.getUTCDate(), t, 2);
+  return Ue(e.getUTCDate(), t, 2);
 }
 function Gf(e, t) {
-  return We(e.getUTCHours(), t, 2);
+  return Ue(e.getUTCHours(), t, 2);
 }
 function Yf(e, t) {
-  return We(e.getUTCHours() % 12 || 12, t, 2);
+  return Ue(e.getUTCHours() % 12 || 12, t, 2);
 }
 function qf(e, t) {
-  return We(1 + Js.count(kn(e), e), t, 3);
+  return Ue(1 + Js.count(kn(e), e), t, 3);
 }
 function el(e, t) {
-  return We(e.getUTCMilliseconds(), t, 3);
+  return Ue(e.getUTCMilliseconds(), t, 3);
 }
 function Xf(e, t) {
   return el(e, t) + "000";
 }
 function Kf(e, t) {
-  return We(e.getUTCMonth() + 1, t, 2);
+  return Ue(e.getUTCMonth() + 1, t, 2);
 }
 function Zf(e, t) {
-  return We(e.getUTCMinutes(), t, 2);
+  return Ue(e.getUTCMinutes(), t, 2);
 }
 function Jf(e, t) {
-  return We(e.getUTCSeconds(), t, 2);
+  return Ue(e.getUTCSeconds(), t, 2);
 }
 function Qf(e) {
   var t = e.getUTCDay();
   return t === 0 ? 7 : t;
 }
 function ep(e, t) {
-  return We(Zi.count(kn(e) - 1, e), t, 2);
+  return Ue(Zi.count(kn(e) - 1, e), t, 2);
 }
 function tl(e) {
   var t = e.getUTCDay();
   return t >= 4 || t === 0 ? Gn(e) : Gn.ceil(e);
 }
 function tp(e, t) {
-  return e = tl(e), We(Gn.count(kn(e), e) + (kn(e).getUTCDay() === 4), t, 2);
+  return e = tl(e), Ue(Gn.count(kn(e), e) + (kn(e).getUTCDay() === 4), t, 2);
 }
 function np(e) {
   return e.getUTCDay();
 }
 function rp(e, t) {
-  return We(Hr.count(kn(e) - 1, e), t, 2);
+  return Ue(Hr.count(kn(e) - 1, e), t, 2);
 }
 function ap(e, t) {
-  return We(e.getUTCFullYear() % 100, t, 2);
+  return Ue(e.getUTCFullYear() % 100, t, 2);
 }
 function sp(e, t) {
-  return e = tl(e), We(e.getUTCFullYear() % 100, t, 2);
+  return e = tl(e), Ue(e.getUTCFullYear() % 100, t, 2);
 }
 function op(e, t) {
-  return We(e.getUTCFullYear() % 1e4, t, 4);
+  return Ue(e.getUTCFullYear() % 1e4, t, 4);
 }
 function ip(e, t) {
   var n = e.getUTCDay();
-  return e = n >= 4 || n === 0 ? Gn(e) : Gn.ceil(e), We(e.getUTCFullYear() % 1e4, t, 4);
+  return e = n >= 4 || n === 0 ? Gn(e) : Gn.ceil(e), Ue(e.getUTCFullYear() % 1e4, t, 4);
 }
 function lp() {
   return "+0000";
@@ -4958,7 +4964,7 @@ function fp({
   onFocus: l,
   "aria-label": c
 }) {
-  const u = Ue(null), [d, f] = Oe(!1), [h, g] = Oe(!1), v = t(e.start), x = t(e.end), p = Math.max(x - v, 20), m = () => {
+  const u = Oe(null), [d, f] = He(!1), [h, g] = He(!1), v = t(e.start), x = t(e.end), p = Math.max(x - v, 20), m = () => {
     if (e.color) return e.color;
     switch (e.priority) {
       case "high":
@@ -5041,7 +5047,7 @@ function pp({ viewStart: e, viewEnd: t, dateCount: n }) {
     a.push(new Date(g));
   const s = /* @__PURE__ */ new Date();
   s.setHours(0, 0, 0, 0);
-  const [i, l] = Oe(-1), c = Ue(null), u = (g) => {
+  const [i, l] = He(-1), c = Oe(null), u = (g) => {
     if (g.key === "ArrowLeft") {
       g.preventDefault();
       const v = Math.max(0, i === -1 ? 0 : i - 1);
@@ -5136,7 +5142,7 @@ function pp({ viewStart: e, viewEnd: t, dateCount: n }) {
   );
 }
 function hp({ resource: e, tasks: t, scale: n, onTaskClick: a, onTaskDoubleClick: o, rowIndex: s, dateCount: i }) {
-  const [l, c] = Oe(!1), [u, d] = Oe(-1), f = Ue(null);
+  const [l, c] = He(!1), [u, d] = He(-1), f = Oe(null);
   Ye(() => {
     l && u >= 0 && t.length > 0 && setTimeout(() => {
       f.current?.querySelector(`[data-task-index="${u}"]`)?.focus();
@@ -5264,7 +5270,7 @@ function jv({
   onTaskClick: o,
   onTaskDoubleClick: s
 }) {
-  const i = Ue(null), [l, c] = Oe(800), u = Me(() => {
+  const i = Oe(null), [l, c] = He(800), u = Me(() => {
     if (n instanceof Date)
       return isNaN(n.getTime()) ? (console.warn("GanttChart: Invalid viewStart date provided, using current date"), /* @__PURE__ */ new Date()) : n;
     const x = new Date(n);
@@ -5460,7 +5466,7 @@ const al = ({
   classes: n,
   attributes: a = {}
 }) => {
-  const [o, s] = Oe(!1);
+  const [o, s] = He(!1);
   Ye(() => {
     s(!0);
   }, []), Ye(() => {
@@ -6249,7 +6255,7 @@ const Lv = qn(({
   "data-testid": d,
   ...f
 }, h) => {
-  const g = n !== void 0, [v, x] = Oe(() => t || e[0]?.id || ""), p = g ? n : v, m = Ue(null), k = Ue(/* @__PURE__ */ new Map()), M = ve(($) => {
+  const g = n !== void 0, [v, x] = He(() => t || e[0]?.id || ""), p = g ? n : v, m = Oe(null), k = Oe(/* @__PURE__ */ new Map()), M = ve(($) => {
     g || x($), a?.($);
   }, [g, a]), D = ve(($) => {
     o?.($), l && M($);
@@ -6772,7 +6778,7 @@ const Rv = ({
   legendPlacement: v = "bottom",
   onA11yModeChange: x
 }) => {
-  const [p, m] = Oe("grid"), k = i || p, [M, D] = Oe(a || []), b = n ?? M, T = Me(() => {
+  const [p, m] = He("grid"), k = i || p, [M, D] = He(a || []), b = n ?? M, T = Me(() => {
     const w = /* @__PURE__ */ new Set();
     return e.forEach((I) => w.add(new Date(I.start).getTime())), Array.from(w).sort((I, C) => I - C);
   }, [e]), j = Me(() => {
@@ -6937,9 +6943,9 @@ const $p = ({
     responsive: x = !1,
     tableType: p = "default"
   }, m) => {
-    const k = Ue(null), M = Ue(null), D = Ue(null);
+    const k = Oe(null), M = Oe(null), D = Oe(null);
     Ct.useImperativeHandle(m, () => k.current, []);
-    const [b, T] = Oe(0), [j, N] = Oe(0), [y, $] = Oe("headers"), [S, _] = Oe("browse"), F = t.length, w = e.length, I = Me(() => !n || n.length === 0 ? e : [...e].sort((H, re) => {
+    const [b, T] = He(0), [j, N] = He(0), [y, $] = He("headers"), [S, _] = He("browse"), F = t.length, w = e.length, I = Me(() => !n || n.length === 0 ? e : [...e].sort((H, re) => {
       for (const { key: z, direction: de } of n) {
         const ge = H[z], le = re[z];
         if (ge == null && le == null) continue;
@@ -7191,7 +7197,7 @@ const ll = ({
   ariaLabel: u = "Sort configuration",
   ariaDescribedBy: d
 }) => {
-  const f = Ue(null), h = Ue(null), g = Ue(null), v = ve((y, $) => {
+  const f = Oe(null), h = Oe(null), g = Oe(null), v = ve((y, $) => {
     c || (h.current = $, y.dataTransfer.effectAllowed = "move", y.dataTransfer.setData("text/plain", $));
   }, [c]), x = ve((y, $) => {
     c || h.current === $ || (y.preventDefault(), y.dataTransfer.dropEffect = "move", g.current = $);
@@ -7411,13 +7417,13 @@ const is = qn(function(t, n) {
     actions: M,
     actionsMinGap: D = 16,
     forceActionsAbove: b = !1
-  } = t, j = Ue(
+  } = t, j = Oe(
     g || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
   ).current, N = typeof u == "string" && u.trim() !== "" && !/\s/.test(u), y = `${j}-description`, $ = `${j}-navigation-help`, {
     dataComparator: S = (L, G) => JSON.stringify(L) === JSON.stringify(G),
     filterFunction: _ = (L) => L,
     booleanRenderer: F = (L) => L ? "✓" : "✗"
-  } = a || {}, w = s !== void 0, I = s ?? 0, [C, P] = Oe({
+  } = a || {}, w = s !== void 0, I = s ?? 0, [C, P] = He({
     focusArea: "tabs",
     focusedTabIndex: I,
     focusedHeaderIndex: 0,
@@ -7466,7 +7472,7 @@ const is = qn(function(t, n) {
       })), i?.(L));
     },
     [o, i]
-  ), re = Ue(!1), z = ve(
+  ), re = Oe(!1), z = ve(
     (L, G) => {
       if (!G?.force && !re.current && L === 0) {
         re.current = !0;
@@ -7495,7 +7501,7 @@ const is = qn(function(t, n) {
       }, 50);
     },
     []
-  ), de = Ue([]), ge = Ue([]), le = ve(
+  ), de = Oe([]), ge = Oe([]), le = ve(
     (L, G) => {
       const K = Y.sortConfig || [], Q = K.find(
         (me) => me.key === G
@@ -7673,8 +7679,8 @@ const is = qn(function(t, n) {
         case "End":
           if (L.preventDefault(), L.ctrlKey) {
             const pe = ae - 1, De = me - 1;
-            P((Ee) => ({
-              ...Ee,
+            P((Re) => ({
+              ...Re,
               focusedRowIndex: pe,
               focusedColumnIndex: De
             })), te(pe, De);
@@ -7692,8 +7698,8 @@ const is = qn(function(t, n) {
             const pe = X.data.some(
               (Ze) => "ews_data" in Ze
             ) ? _(X.data, Y.filters) : X.data, De = Y.sortConfig;
-            let Ee = pe;
-            if (De && De.length > 0 && (Ee = [...pe].sort((Ze, ze) => {
+            let Re = pe;
+            if (De && De.length > 0 && (Re = [...pe].sort((Ze, ze) => {
               for (const { key: it, direction: Dt } of De) {
                 let jt = Ze[it], yt = ze[it];
                 const qe = X.columns.find(
@@ -7711,8 +7717,8 @@ const is = qn(function(t, n) {
                   return Dt === "asc" ? tt : -tt;
               }
               return 0;
-            })), Ee[G]) {
-              const Ze = Ee[G], it = Y.globalSelectedRowData && B(Y.globalSelectedRowData, Ze) ? null : Ze;
+            })), Re[G]) {
+              const Ze = Re[G], it = Y.globalSelectedRowData && B(Y.globalSelectedRowData, Ze) ? null : Ze;
               R({
                 type: "SET_GLOBAL_SELECTED_ROW_DATA",
                 payload: it
@@ -7792,7 +7798,7 @@ const is = qn(function(t, n) {
         ] })
       }
     );
-  const se = Ue(null), he = Ue(null), E = Ue(null), [U, oe] = Oe(!0);
+  const se = Oe(null), he = Oe(null), E = Oe(null), [U, oe] = He(!0);
   Ye(() => {
     if (!M) {
       oe(!1);
@@ -8032,10 +8038,10 @@ const is = qn(function(t, n) {
                   return !ae || ae.length === 0 ? Q : [...Q].sort((me, be) => {
                     for (const { key: we, direction: Ce } of ae) {
                       let pe = me[we], De = be[we];
-                      const Ee = L.columns.find(
+                      const Re = L.columns.find(
                         (ze) => ze.key === we
                       );
-                      if (Ee?.tableRenderer ? (pe = Ee.tableRenderer(me), De = Ee.tableRenderer(be)) : Ee?.render && (pe = Ee.render(me), De = Ee.render(be)), pe == null && De == null) continue;
+                      if (Re?.tableRenderer ? (pe = Re.tableRenderer(me), De = Re.tableRenderer(be)) : Re?.render && (pe = Re.render(me), De = Re.render(be)), pe == null && De == null) continue;
                       if (pe == null) return 1;
                       if (De == null) return -1;
                       let Ze = 0;
@@ -8132,8 +8138,8 @@ const is = qn(function(t, n) {
                             "aria-selected": be,
                             children: L.columns.map((Ce, pe) => {
                               const De = ae[Ce.key];
-                              let Ee;
-                              Ce.tableRenderer ? Ee = Ce.tableRenderer(ae) : Ce.render ? Ee = Ce.render(ae) : Ee = De;
+                              let Re;
+                              Ce.tableRenderer ? Re = Ce.tableRenderer(ae) : Ce.render ? Re = Ce.render(ae) : Re = De;
                               const Ze = C.focusArea === "cells" && C.focusedRowIndex === me && C.focusedColumnIndex === pe, ze = () => {
                                 if (Ce.customRenderer) {
                                   const it = Ce.customRenderer(
@@ -8149,10 +8155,10 @@ const is = qn(function(t, n) {
                                     }
                                   );
                                 }
-                                return typeof De == "boolean" && Ee === De ? /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
+                                return typeof De == "boolean" && Re === De ? /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
                                   Z(De),
                                   /* @__PURE__ */ r.jsx("span", { className: "nhsuk-u-visually-hidden", children: De ? "Yes" : "No" })
-                                ] }) : Ct.isValidElement(Ee) || typeof Ee != "object" ? Ee ?? "" : Ee;
+                                ] }) : Ct.isValidElement(Re) || typeof Re != "object" ? Re ?? "" : Re;
                               };
                               return /* @__PURE__ */ r.jsx(
                                 "td",
@@ -9118,7 +9124,7 @@ function nh(e, t) {
   }
 }
 function rh(e, t) {
-  const [n, a] = Oe("cards");
+  const [n, a] = He("cards");
   return Ye(() => {
     if (t) {
       a(t);
@@ -9194,7 +9200,7 @@ const Uv = ({
     selectedRows: new Array(u.length).fill([]),
     globalSelectedRowData: null,
     filters: void 0
-  }), [T, u.length]), [$, S] = ji(nh, y), _ = Ue([]), F = Ue([]), w = Ue([]), I = Ue(null), [C, P] = Oe({
+  }), [T, u.length]), [$, S] = ji(nh, y), _ = Oe([]), F = Oe([]), w = Oe([]), I = Oe(null), [C, P] = He({
     focusArea: "tabs",
     focusedTabIndex: 0,
     focusedCardIndex: 0,
@@ -9296,7 +9302,7 @@ const Uv = ({
       label: L.getAttribute("aria-label") || L.textContent?.trim() || L.getAttribute("title") || `Element ${G + 1}`,
       type: L.tagName.toLowerCase() === "button" ? "button" : L.tagName.toLowerCase() === "a" ? "link" : ["input", "select", "textarea"].includes(L.tagName.toLowerCase()) ? "input" : "generic"
     }));
-  }, []), ge = Ue(null), le = ve((A) => {
+  }, []), ge = Oe(null), le = ve((A) => {
     const O = ge.current;
     if (!O) return;
     const J = document.createElement("div");
@@ -10607,7 +10613,7 @@ const Uv = ({
     )
   }
 ], gh = () => {
-  const [e, t] = Oe("healthcare"), n = Me(() => ({
+  const [e, t] = He("healthcare"), n = Me(() => ({
     healthcare: {
       title: "Healthcare Workflow Management",
       description: "Comprehensive healthcare workflow with patient cards, appointments, medications, and vitals",
@@ -11095,57 +11101,57 @@ function yh(e) {
         W.current?.focus();
         return;
       }
-      const ye = Math.max(0, Math.min(xe, Ne.length - 1)), Le = Ne[ye];
-      Le.focus(), setTimeout(() => {
-        document.activeElement !== Le && (Le.focus(), setTimeout(() => {
-          document.activeElement !== Le && Le.click();
+      const ye = Math.max(0, Math.min(xe, Ne.length - 1)), Ae = Ne[ye];
+      Ae.focus(), setTimeout(() => {
+        document.activeElement !== Ae && (Ae.focus(), setTimeout(() => {
+          document.activeElement !== Ae && Ae.click();
         }, 10));
       }, 10), Q((Xe) => ({ ...Xe, contentIndex: ye }));
       const nt = (Xe) => {
-        Xe.key === "Escape" && (Xe.preventDefault(), Xe.stopPropagation(), W.current?.focus(), Le.removeEventListener("keydown", nt));
+        Xe.key === "Escape" && (Xe.preventDefault(), Xe.stopPropagation(), W.current?.focus(), Ae.removeEventListener("keydown", nt));
       };
       Ne.forEach((Xe) => {
         const Je = Xe._escapeHandler;
         Je && Xe.removeEventListener("keydown", Je);
-      }), Le._escapeHandler = nt, Le.addEventListener("keydown", nt);
+      }), Ae._escapeHandler = nt, Ae.addEventListener("keydown", nt);
     },
     [pe]
-  ), Ee = q.useCallback(
+  ), Re = q.useCallback(
     (xe) => {
       const Ne = pe(L.current);
       if (!Ne.length) {
         L.current?.focus();
         return;
       }
-      const ye = Math.max(0, Math.min(xe, Ne.length - 1)), Le = Ne[ye];
-      Le.focus(), setTimeout(() => {
-        document.activeElement !== Le && (Le.focus(), setTimeout(() => {
-          document.activeElement !== Le && Le.click();
+      const ye = Math.max(0, Math.min(xe, Ne.length - 1)), Ae = Ne[ye];
+      Ae.focus(), setTimeout(() => {
+        document.activeElement !== Ae && (Ae.focus(), setTimeout(() => {
+          document.activeElement !== Ae && Ae.click();
         }, 10));
       }, 10), Q((Xe) => ({ ...Xe, secondaryIndex: ye }));
       const nt = (Xe) => {
-        Xe.key === "Escape" && (Xe.preventDefault(), Xe.stopPropagation(), L.current?.focus(), Le.removeEventListener("keydown", nt));
+        Xe.key === "Escape" && (Xe.preventDefault(), Xe.stopPropagation(), L.current?.focus(), Ae.removeEventListener("keydown", nt));
       };
       Ne.forEach((Xe) => {
         const Je = Xe._escapeHandler;
         Je && Xe.removeEventListener("keydown", Je);
-      }), Le._escapeHandler = nt, Le.addEventListener("keydown", nt);
+      }), Ae._escapeHandler = nt, Ae.addEventListener("keydown", nt);
     },
     [pe]
   ), Ze = (xe) => {
     if (xe.defaultPrevented) return;
-    const Ne = xe.key, ye = xe.target, Le = !!pt.current && pt.current.contains(ye), nt = !!W.current && W.current.contains(ye), Xe = !!L.current && L.current.contains(ye), Je = !!L.current, In = ye === G.current || ye === W.current || ye === L.current, hn = ze && (he === "list" || he === "cards"), vr = nt && !!ye.closest(".nhs-navigation-split-view__header");
+    const Ne = xe.key, ye = xe.target, Ae = !!pt.current && pt.current.contains(ye), nt = !!W.current && W.current.contains(ye), Xe = !!L.current && L.current.contains(ye), Je = !!L.current, In = ye === G.current || ye === W.current || ye === L.current, hn = ze && (he === "list" || he === "cards"), vr = nt && !!ye.closest(".nhs-navigation-split-view__header");
     if (X === "containers" && In) {
       if (Ne === "ArrowRight") {
         xe.preventDefault();
-        const Re = we(), Qe = Math.min(Re.length - 1, me + 1);
+        const Be = we(), Qe = Math.min(Be.length - 1, me + 1);
         Ce(Qe);
         return;
       }
       if (Ne === "ArrowLeft") {
         xe.preventDefault();
-        const Re = Math.max(0, me - 1);
-        Ce(Re);
+        const Be = Math.max(0, me - 1);
+        Ce(Be);
         return;
       }
       if (Ne === "Home") {
@@ -11159,12 +11165,12 @@ function yh(e) {
       if (Ne === "Enter" || Ne === " ") {
         if (xe.preventDefault(), ye === G.current) {
           if (ae("nav"), pt.current) {
-            const Re = Array.from(
+            const Be = Array.from(
               pt.current.querySelectorAll("[data-nav-item]")
             );
-            (Re[st >= 0 ? st : 0] || Re[0])?.focus();
+            (Be[st >= 0 ? st : 0] || Be[0])?.focus();
           }
-        } else ye === W.current ? (ae("content"), De(K.contentIndex)) : ye === L.current && (ae("secondary"), Ee(K.secondaryIndex));
+        } else ye === W.current ? (ae("content"), De(K.contentIndex)) : ye === L.current && (ae("secondary"), Re(K.secondaryIndex));
         return;
       }
       return;
@@ -11202,26 +11208,26 @@ function yh(e) {
         xe.preventDefault(), xe.stopPropagation(), pe(
           L.current
         ).length > 0 && setTimeout(() => {
-          Ee(K.secondaryIndex);
+          Re(K.secondaryIndex);
         }, 50);
         return;
       }
     }
     if (hn && vr && !In && (Ne === "ArrowRight" || Ne === "ArrowLeft")) {
-      const Re = pe(W.current).filter(
+      const Be = pe(W.current).filter(
         (Qe) => Qe.closest(".nhs-navigation-split-view__header")
       );
-      if (Re.length > 1) {
-        const Qe = Re.indexOf(ye);
+      if (Be.length > 1) {
+        const Qe = Be.indexOf(ye);
         if (Qe >= 0) {
-          const uo = (Qe + (Ne === "ArrowRight" ? 1 : -1) + Re.length) % Re.length;
-          xe.preventDefault(), Re[uo].focus();
+          const uo = (Qe + (Ne === "ArrowRight" ? 1 : -1) + Be.length) % Be.length;
+          xe.preventDefault(), Be[uo].focus();
           return;
         }
       }
     }
     if (Ne === "ArrowRight") {
-      if (Le || X === "nav") {
+      if (Ae || X === "nav") {
         xe.preventDefault(), ae("content"), setTimeout(() => W.current?.focus(), 10);
         return;
       }
@@ -11245,15 +11251,15 @@ function yh(e) {
         return;
       }
     }
-    if (Ne === "Home" && !Le && (xe.preventDefault(), ae("nav"), pt.current)) {
-      const Re = Array.from(
+    if (Ne === "Home" && !Ae && (xe.preventDefault(), ae("nav"), pt.current)) {
+      const Be = Array.from(
         pt.current.querySelectorAll("[data-nav-item]")
-      ), Qe = Re[st >= 0 ? st : 0] || Re[0];
+      ), Qe = Be[st >= 0 ? st : 0] || Be[0];
       setTimeout(() => Qe?.focus(), 10);
     }
     if (Ne === "End") {
-      const Re = Je ? L.current : W.current;
-      Re && !Re.contains(ye) && (xe.preventDefault(), Je ? (ae("secondary"), setTimeout(() => L.current?.focus(), 10)) : (ae("content"), setTimeout(() => W.current?.focus(), 10)));
+      const Be = Je ? L.current : W.current;
+      Be && !Be.contains(ye) && (xe.preventDefault(), Je ? (ae("secondary"), setTimeout(() => L.current?.focus(), 10)) : (ae("content"), setTimeout(() => W.current?.focus(), 10)));
     }
     if (Ne === "ArrowDown" || Ne === "ArrowUp") {
       if (ye === W.current && Ne === "ArrowDown") {
@@ -11263,22 +11269,22 @@ function yh(e) {
       if (ye === L.current && Ne === "ArrowDown") {
         xe.preventDefault(), pe(
           L.current
-        ).length > 0 && Ee(0);
+        ).length > 0 && Re(0);
         return;
       }
       if (nt) {
-        const Re = pe(W.current);
-        if (Re.length) {
+        const Be = pe(W.current);
+        if (Be.length) {
           xe.preventDefault();
-          const Qe = Ne === "ArrowDown" ? 1 : -1, At = (K.contentIndex + Qe + Re.length) % Re.length;
+          const Qe = Ne === "ArrowDown" ? 1 : -1, At = (K.contentIndex + Qe + Be.length) % Be.length;
           De(At);
         }
       } else if (Xe) {
-        const Re = pe(L.current);
-        if (Re.length) {
+        const Be = pe(L.current);
+        if (Be.length) {
           xe.preventDefault();
-          const Qe = Ne === "ArrowDown" ? 1 : -1, At = (K.secondaryIndex + Qe + Re.length) % Re.length;
-          Ee(At);
+          const Qe = Ne === "ArrowDown" ? 1 : -1, At = (K.secondaryIndex + Qe + Be.length) % Be.length;
+          Re(At);
         }
       }
     }
@@ -11298,8 +11304,8 @@ function yh(e) {
       W.current?.focus();
     }, 50));
   }, [tt, qe, X]);
-  const $e = !!ne && (ze && it.mobile || !ze && Dt && it.tablet || !ze && jt && it.desktop) || yt && !qe, Pe = `h${ge}`, et = ne ? q.createElement(
-    Pe,
+  const $e = !!ne && (ze && it.mobile || !ze && Dt && it.tablet || !ze && jt && it.desktop) || yt && !qe, Fe = `h${ge}`, et = ne ? q.createElement(
+    Fe,
     {
       style: {
         marginLeft: ze ? 32 : 0,
@@ -11324,7 +11330,7 @@ function yh(e) {
         Ut(!0);
       }
     }
-  ) : void 0, Fe = !qe && tt ? /* @__PURE__ */ r.jsx(
+  ) : void 0, Le = !qe && tt ? /* @__PURE__ */ r.jsx(
     es,
     {
       element: "button",
@@ -11355,7 +11361,7 @@ function yh(e) {
             minWidth: 0
           },
           children: [
-            Fe || Tt,
+            Le || Tt,
             /* @__PURE__ */ r.jsxs(
               "div",
               {
@@ -11383,7 +11389,7 @@ function yh(e) {
     ze,
     wt,
     Tt,
-    Fe,
+    Le,
     et,
     at,
     ie
@@ -11396,9 +11402,9 @@ function yh(e) {
       Ne || (E.selectedId !== fe && E.setSelectedId(fe), E.drilledIn !== xe && E.setDrilledIn(xe));
     };
     if (_ && _ > 0) {
-      const Le = setTimeout(ye, _);
+      const Ae = setTimeout(ye, _);
       return () => {
-        Ne = !0, clearTimeout(Le);
+        Ne = !0, clearTimeout(Ae);
       };
     } else
       ye();
@@ -11459,28 +11465,28 @@ function yh(e) {
       return;
     }
     if (xe.key === Ne)
-      xe.preventDefault(), Xn((Le) => Math.min(t.length - 1, Le + 1));
+      xe.preventDefault(), Xn((Ae) => Math.min(t.length - 1, Ae + 1));
     else if (xe.key === ye)
-      xe.preventDefault(), Xn((Le) => Math.max(0, Le - 1));
+      xe.preventDefault(), Xn((Ae) => Math.max(0, Ae - 1));
     else if (xe.key === "Home")
       xe.preventDefault(), Xn(0);
     else if (xe.key === "End")
       xe.preventDefault(), Xn(t.length - 1);
     else if (xe.key === "Enter" || xe.key === " ") {
       xe.preventDefault();
-      const Le = t[st];
-      Le && !Le.disabled && Dn(p(Le), Le);
+      const Ae = t[st];
+      Ae && !Ae.disabled && Dn(p(Ae), Ae);
     } else if (xe.key.length === 1 && /[a-z0-9]/i.test(xe.key)) {
       Wt.current || (Wt.current = { buffer: "", last: 0 });
-      const Le = Date.now(), nt = 700, Xe = xe.key.toLowerCase();
-      Le - Wt.current.last > nt ? Wt.current.buffer = Xe : Wt.current.buffer += Xe, Wt.current.last = Le;
+      const Ae = Date.now(), nt = 700, Xe = xe.key.toLowerCase();
+      Ae - Wt.current.last > nt ? Wt.current.buffer = Xe : Wt.current.buffer += Xe, Wt.current.last = Ae;
       let Je = Wt.current.buffer;
       const In = Je.split("").every((At) => At === Je[0]), hn = t.map(
         (At) => String(At.label || "").toLowerCase()
       );
       let vr = 0;
       st >= 0 && (vr = (st + 1) % t.length);
-      let Re;
+      let Be;
       const Qe = (At, uo) => {
         const fo = t.length;
         for (let Ma = 0; Ma < fo; Ma++) {
@@ -11489,7 +11495,7 @@ function yh(e) {
             return Pa;
         }
       };
-      In && Je.length > 1 ? Re = Qe(Je[0]) : (Re = Qe(Je), Re === void 0 && Je.length > 1 && (Re = Qe(Je[Je.length - 1]), Re !== void 0 && Wt.current && (Wt.current.buffer = Je[Je.length - 1]))), Re !== void 0 && Xn(Re);
+      In && Je.length > 1 ? Be = Qe(Je[0]) : (Be = Qe(Je), Be === void 0 && Je.length > 1 && (Be = Qe(Je[Je.length - 1]), Be !== void 0 && Wt.current && (Wt.current.buffer = Je[Je.length - 1]))), Be !== void 0 && Xn(Be);
     }
   }, Xc = q.useMemo(() => {
     if (H && (H === "url" || H === "both") && typeof window < "u") {
@@ -11574,7 +11580,7 @@ function yh(e) {
           "aria-activedescendant": fe ? String(fe) : void 0,
           children: [
             t.map((ye) => {
-              const Le = p(ye), nt = Le === fe;
+              const Ae = p(ye), nt = Ae === fe;
               return /* @__PURE__ */ r.jsx(
                 "li",
                 {
@@ -11584,13 +11590,13 @@ function yh(e) {
                   children: /* @__PURE__ */ r.jsxs(
                     "button",
                     {
-                      id: String(Le),
+                      id: String(Ae),
                       type: "button",
                       className: "nhs-navigation-split-view__card",
                       "data-selected": nt || void 0,
                       "data-disabled": ye.disabled || void 0,
                       disabled: ye.disabled,
-                      onClick: () => !ye.disabled && Dn(Le, ye),
+                      onClick: () => !ye.disabled && Dn(Ae, ye),
                       children: [
                         ye.icon && /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-icon", children: ye.icon }),
                         /* @__PURE__ */ r.jsx("span", { className: "nhs-navigation-split-view__item-label", children: ye.label }),
@@ -11601,7 +11607,7 @@ function yh(e) {
                     }
                   )
                 },
-                Le
+                Ae
               );
             }),
             t.length === 0 && !h && /* @__PURE__ */ r.jsx(
@@ -11618,7 +11624,7 @@ function yh(e) {
     const xe = "nsv-nav-instructions", Ne = q.useMemo(() => q.memo(
       ({
         item: ye,
-        idx: Le,
+        idx: Ae,
         selected: nt,
         focused: Xe
       }) => {
@@ -11628,10 +11634,10 @@ function yh(e) {
         } : {
           tabIndex: Xe ? 0 : -1,
           onClick: () => {
-            br.current = Le, Dn(Je, ye);
+            br.current = Ae, Dn(Je, ye);
           },
           onKeyDown: (hn) => {
-            (hn.key === "Enter" || hn.key === " ") && (hn.preventDefault(), br.current = Le, Dn(Je, ye));
+            (hn.key === "Enter" || hn.key === " ") && (hn.preventDefault(), br.current = Ae, Dn(Je, ye));
           }
         };
         return /* @__PURE__ */ r.jsxs(
@@ -11671,13 +11677,13 @@ function yh(e) {
           "aria-describedby": xe,
           "aria-activedescendant": fe ? String(fe) : void 0,
           children: [
-            t.map((ye, Le) => /* @__PURE__ */ r.jsx(
+            t.map((ye, Ae) => /* @__PURE__ */ r.jsx(
               Ne,
               {
                 item: ye,
-                idx: Le,
+                idx: Ae,
                 selected: p(ye) === fe,
-                focused: Le === st || st === -1 && Le === 0 && b === "first",
+                focused: Ae === st || st === -1 && Ae === 0 && b === "first",
                 "data-just-selected": p(ye) === A ? "true" : void 0
               },
               p(ye)
@@ -11821,7 +11827,7 @@ function yh(e) {
                                   minWidth: 0
                                 },
                                 children: [
-                                  Fe,
+                                  Le,
                                   /* @__PURE__ */ r.jsx(
                                     "div",
                                     {
@@ -11937,7 +11943,7 @@ const wh = typeof window < "u" && window.document ? q.useLayoutEffect : q.useEff
   drilldownMode: c = "overlay",
   ...u
 }) => {
-  const [d, f] = Oe(() => /* @__PURE__ */ new Set()), [h, g] = Oe(() => /* @__PURE__ */ new Set()), v = Ue(/* @__PURE__ */ new Set()), x = ve((_) => d.has(_), [d]), p = ve((_) => {
+  const [d, f] = He(() => /* @__PURE__ */ new Set()), [h, g] = He(() => /* @__PURE__ */ new Set()), v = Oe(/* @__PURE__ */ new Set()), x = ve((_) => d.has(_), [d]), p = ve((_) => {
     f((F) => {
       const w = new Set(F);
       return w.has(_.id) ? (w.delete(_.id), g((I) => {
@@ -14105,7 +14111,7 @@ const Ve = (e, t) => {
     Ve("gradient.stop.end-opacity", "0")
   )
 });
-var vt = /* @__PURE__ */ ((e) => (e.XmR = "XmR", e.T = "T", e.G = "G", e))(vt || {}), Be = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e.Neither = "Neither", e))(Be || {}), je = /* @__PURE__ */ ((e) => (e.Improvement = "improvement", e.Concern = "concern", e.Neither = "neither", e.Suppressed = "suppressed", e))(je || {}), zt = /* @__PURE__ */ ((e) => (e.SinglePoint = "single_point", e.TwoSigma = "two_sigma", e.Shift = "shift", e.Trend = "trend", e))(zt || {});
+var St = /* @__PURE__ */ ((e) => (e.XmR = "XmR", e.T = "T", e.G = "G", e))(St || {}), We = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e.Neither = "Neither", e))(We || {}), je = /* @__PURE__ */ ((e) => (e.Improvement = "improvement", e.Concern = "concern", e.Neither = "neither", e.Suppressed = "suppressed", e))(je || {}), zt = /* @__PURE__ */ ((e) => (e.SinglePoint = "single_point", e.TwoSigma = "two_sigma", e.Shift = "shift", e.Trend = "trend", e))(zt || {});
 const no = [
   "single_point",
   "two_sigma",
@@ -14350,7 +14356,7 @@ function Dm(e, t) {
   let n;
   return e === "common_cause" ? n = fi.common : n = fi.special[t === "lower" ? "lower" : "higher"], n.map((a) => ({ ...a }));
 }
-var St = /* @__PURE__ */ ((e) => (e.XmR = "XmR", e.T = "T", e.G = "G", e))(St || {}), He = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e.Neither = "Neither", e))(He || {}), Ae = /* @__PURE__ */ ((e) => (e.ImprovementHigh = "ImprovementHigh", e.ImprovementLow = "ImprovementLow", e.ConcernHigh = "ConcernHigh", e.ConcernLow = "ConcernLow", e.NeitherHigh = "NeitherHigh", e.NeitherLow = "NeitherLow", e.CommonCause = "CommonCause", e))(Ae || {}), Ke = /* @__PURE__ */ ((e) => (e.SinglePoint = "SinglePoint", e.TwoSigma = "TwoSigma", e.Shift = "Shift", e.Trend = "Trend", e))(Ke || {}), yn = /* @__PURE__ */ ((e) => (e.Upwards = "Upwards", e.Downwards = "Downwards", e.Same = "Same", e))(yn || {}), Et = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e))(Et || {}), Wn = /* @__PURE__ */ ((e) => (e.Improvement = "Improvement", e.Concern = "Concern", e))(Wn || {}), En = /* @__PURE__ */ ((e) => (e.SqlPrimeThenRule = "SqlPrimeThenRule", e.PreferImprovement = "PreferImprovement", e.RuleHierarchy = "RuleHierarchy", e))(En || {}), ht = /* @__PURE__ */ ((e) => (e.FavourableSide = "FavourableSide", e.CrossingAfterFavourable = "CrossingAfterFavourable", e.ExtremeFavourable = "ExtremeFavourable", e.FirstFavourable = "FirstFavourable", e.LongestFavourable = "LongestFavourable", e.LastFavourable = "LastFavourable", e.UnfavourableSide = "UnfavourableSide", e.CrossingAfterUnfavourable = "CrossingAfterUnfavourable", e.ExtremeUnfavourable = "ExtremeUnfavourable", e.FirstUnfavourable = "FirstUnfavourable", e.LongestUnfavourable = "LongestUnfavourable", e.LastUnfavourable = "LastUnfavourable", e))(ht || {}), Vt = /* @__PURE__ */ ((e) => (e.Off = "Off", e.AutoWhenConflict = "AutoWhenConflict", e.Always = "Always", e))(Vt || {});
+var vt = /* @__PURE__ */ ((e) => (e.XmR = "XmR", e.T = "T", e.G = "G", e))(vt || {}), Pe = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e.Neither = "Neither", e))(Pe || {}), Ee = /* @__PURE__ */ ((e) => (e.ImprovementHigh = "ImprovementHigh", e.ImprovementLow = "ImprovementLow", e.ConcernHigh = "ConcernHigh", e.ConcernLow = "ConcernLow", e.NeitherHigh = "NeitherHigh", e.NeitherLow = "NeitherLow", e.CommonCause = "CommonCause", e))(Ee || {}), Ke = /* @__PURE__ */ ((e) => (e.SinglePoint = "SinglePoint", e.TwoSigma = "TwoSigma", e.Shift = "Shift", e.Trend = "Trend", e))(Ke || {}), yn = /* @__PURE__ */ ((e) => (e.Upwards = "Upwards", e.Downwards = "Downwards", e.Same = "Same", e))(yn || {}), Et = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e))(Et || {}), Wn = /* @__PURE__ */ ((e) => (e.Improvement = "Improvement", e.Concern = "Concern", e))(Wn || {}), En = /* @__PURE__ */ ((e) => (e.SqlPrimeThenRule = "SqlPrimeThenRule", e.PreferImprovement = "PreferImprovement", e.RuleHierarchy = "RuleHierarchy", e))(En || {}), ht = /* @__PURE__ */ ((e) => (e.FavourableSide = "FavourableSide", e.CrossingAfterFavourable = "CrossingAfterFavourable", e.ExtremeFavourable = "ExtremeFavourable", e.FirstFavourable = "FirstFavourable", e.LongestFavourable = "LongestFavourable", e.LastFavourable = "LastFavourable", e.UnfavourableSide = "UnfavourableSide", e.CrossingAfterUnfavourable = "CrossingAfterUnfavourable", e.ExtremeUnfavourable = "ExtremeUnfavourable", e.FirstUnfavourable = "FirstUnfavourable", e.LongestUnfavourable = "LongestUnfavourable", e.LastUnfavourable = "LastUnfavourable", e))(ht || {}), Vt = /* @__PURE__ */ ((e) => (e.Off = "Off", e.AutoWhenConflict = "AutoWhenConflict", e.Always = "Always", e))(Vt || {});
 const fn = {
   [Ke.SinglePoint]: 1,
   [Ke.TwoSigma]: 2,
@@ -14410,7 +14416,7 @@ function xi(e, t) {
   };
 }
 function $m(e, t, n, a) {
-  if (e === St.T) {
+  if (e === vt.T) {
     const f = t.map((N) => Te(N) && N > 0 ? Math.pow(N, hi) : null), h = mi(f, n), g = gi(h, a), v = f.filter((N, y) => !n[y] && Te(N)), x = v.length ? Rn(v) : NaN, p = xi(x, g.mrMean), m = (N) => Te(N) && N > 0 ? Math.pow(N, 1 / hi) : null, k = Te(p.upperProcessLimit) ? m(p.upperProcessLimit) : null, M = Te(p.lowerProcessLimit) && p.lowerProcessLimit > 0 ? m(p.lowerProcessLimit) : null, D = Te(p.upperTwoSigma) ? m(p.upperTwoSigma) : null, b = Te(p.lowerTwoSigma) && p.lowerTwoSigma > 0 ? m(p.lowerTwoSigma) : null, T = Te(p.upperOneSigma) ? m(p.upperOneSigma) : null, j = Te(p.lowerOneSigma) && p.lowerOneSigma > 0 ? m(p.lowerOneSigma) : null;
     return {
       mean: Te(x) && x > 0 ? m(x) : null,
@@ -14425,7 +14431,7 @@ function $m(e, t, n, a) {
       lowerOneSigma: j
     };
   }
-  if (e === St.G) {
+  if (e === vt.G) {
     const f = t.filter((S, _) => !n[_] && Te(S)), h = f.length ? Rn(f) : NaN, g = Te(h) ? 1 / (h + 1) : NaN, v = (S) => {
       if (!Te(g) || g <= 0 || g >= 1) return NaN;
       const _ = Math.ceil(Math.log(1 - S) / Math.log(1 - g)) - 1;
@@ -14444,7 +14450,7 @@ function $m(e, t, n, a) {
       lowerOneSigma: Te($) ? $ : null
     };
   }
-  if (e !== St.XmR)
+  if (e !== vt.XmR)
     return {
       mean: NaN,
       mr: new Array(t.length).fill(null),
@@ -14538,14 +14544,14 @@ function Wl(e) {
   return { up: t, dn: n, upMax: a, dnMax: o, primeDirection: s };
 }
 function bi(e, t) {
-  const n = t === He.Up ? e.singlePointUp || e.twoSigmaUp || e.shiftUp || e.trendUp : t === He.Down ? e.singlePointDown || e.twoSigmaDown || e.shiftDown || e.trendDown : !1, a = t === He.Up ? e.singlePointDown || e.twoSigmaDown || e.shiftDown || e.trendDown : t === He.Down ? e.singlePointUp || e.twoSigmaUp || e.shiftUp || e.trendUp : !1;
+  const n = t === Pe.Up ? e.singlePointUp || e.twoSigmaUp || e.shiftUp || e.trendUp : t === Pe.Down ? e.singlePointDown || e.twoSigmaDown || e.shiftDown || e.trendDown : !1, a = t === Pe.Up ? e.singlePointDown || e.twoSigmaDown || e.shiftDown || e.trendDown : t === Pe.Down ? e.singlePointUp || e.twoSigmaUp || e.shiftUp || e.trendUp : !1;
   return { aligned: n, opposite: a };
 }
 function vi(e, t, n, a = !1, o, s, i = !1) {
   const { up: l, dn: c, upMax: u, dnMax: d, primeDirection: f } = Wl(e);
   e.primeDirection = f;
   const h = e.specialCauseImprovementValue, g = e.specialCauseConcernValue;
-  e.specialCauseImprovementValue !== null && e.specialCauseConcernValue !== null && Pm({ row: e, metric: t, metricConflictRule: n, preferImprovementWhenConflict: a, preferTrendWhenConflict: i, primeDirection: f, conflictStrategy: o, ruleHierarchy: s }), t === He.Up ? e.variationIcon = e.specialCauseImprovementValue !== null ? Ae.ImprovementHigh : e.specialCauseConcernValue !== null ? Ae.ConcernLow : Ae.CommonCause : t === He.Down ? e.variationIcon = e.specialCauseImprovementValue !== null ? Ae.ImprovementLow : e.specialCauseConcernValue !== null ? Ae.ConcernHigh : Ae.CommonCause : e.variationIcon = Ae.CommonCause;
+  e.specialCauseImprovementValue !== null && e.specialCauseConcernValue !== null && Pm({ row: e, metric: t, metricConflictRule: n, preferImprovementWhenConflict: a, preferTrendWhenConflict: i, primeDirection: f, conflictStrategy: o, ruleHierarchy: s }), t === Pe.Up ? e.variationIcon = e.specialCauseImprovementValue !== null ? Ee.ImprovementHigh : e.specialCauseConcernValue !== null ? Ee.ConcernLow : Ee.CommonCause : t === Pe.Down ? e.variationIcon = e.specialCauseImprovementValue !== null ? Ee.ImprovementLow : e.specialCauseConcernValue !== null ? Ee.ConcernHigh : Ee.CommonCause : e.variationIcon = Ee.CommonCause;
   const v = e.specialCauseImprovementValue !== null ? Et.Up : e.specialCauseConcernValue !== null ? Et.Down : void 0, x = v === Et.Up ? u : v === Et.Down ? d : Math.max(u, d);
   e.primeRank = x || void 0;
   const p = v === Et.Up ? l.find((m) => m.rank === x) : v === Et.Down ? c.find((m) => m.rank === x) : void 0;
@@ -14564,7 +14570,7 @@ function Pm(e) {
   } = e;
   if (s && t.specialCauseImprovementValue !== null && t.specialCauseConcernValue !== null) {
     const d = !!t.trendUp, f = !!t.trendDown;
-    if (n === He.Up) {
+    if (n === Pe.Up) {
       if (d && !f) {
         t.specialCauseConcernValue = null;
         return;
@@ -14573,7 +14579,7 @@ function Pm(e) {
         t.specialCauseImprovementValue = null;
         return;
       }
-    } else if (n === He.Down) {
+    } else if (n === Pe.Down) {
       if (f && !d) {
         t.specialCauseConcernValue = null;
         return;
@@ -14586,7 +14592,7 @@ function Pm(e) {
   }
   const u = o ? En.PreferImprovement : l ?? En.SqlPrimeThenRule;
   if (u === En.PreferImprovement) {
-    n === He.Up ? t.specialCauseConcernValue = null : n === He.Down && (t.specialCauseImprovementValue = null);
+    n === Pe.Up ? t.specialCauseConcernValue = null : n === Pe.Down && (t.specialCauseImprovementValue = null);
     return;
   }
   if (u === En.RuleHierarchy) {
@@ -14594,20 +14600,20 @@ function Pm(e) {
     for (const g of d) {
       const v = f.some((p) => p.id === g), x = h.some((p) => p.id === g);
       if (v && !x) {
-        n === He.Up ? t.specialCauseConcernValue = null : t.specialCauseImprovementValue = null;
+        n === Pe.Up ? t.specialCauseConcernValue = null : t.specialCauseImprovementValue = null;
         return;
       }
       if (x && !v) {
-        n === He.Up ? t.specialCauseImprovementValue = null : t.specialCauseConcernValue = null;
+        n === Pe.Up ? t.specialCauseImprovementValue = null : t.specialCauseConcernValue = null;
         return;
       }
       if (v && x) {
-        (n === He.Up || n === He.Down) && (a === Wn.Improvement ? t.specialCauseConcernValue = null : t.specialCauseImprovementValue = null);
+        (n === Pe.Up || n === Pe.Down) && (a === Wn.Improvement ? t.specialCauseConcernValue = null : t.specialCauseImprovementValue = null);
         return;
       }
     }
   }
-  i === yn.Upwards ? n === He.Up ? t.specialCauseConcernValue = null : n === He.Down && (t.specialCauseImprovementValue = null) : i === yn.Downwards ? n === He.Up ? t.specialCauseImprovementValue = null : n === He.Down && (t.specialCauseConcernValue = null) : a === Wn.Improvement ? t.specialCauseConcernValue = null : t.specialCauseImprovementValue = null;
+  i === yn.Upwards ? n === Pe.Up ? t.specialCauseConcernValue = null : n === Pe.Down && (t.specialCauseImprovementValue = null) : i === yn.Downwards ? n === Pe.Up ? t.specialCauseImprovementValue = null : n === Pe.Down && (t.specialCauseConcernValue = null) : a === Wn.Improvement ? t.specialCauseConcernValue = null : t.specialCauseImprovementValue = null;
 }
 var gs = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e))(gs || {});
 function Fm(e) {
@@ -14696,8 +14702,8 @@ function yi(e) {
   return t;
 }
 function Am(e) {
-  if (e === He.Up) return "Above";
-  if (e === He.Down) return "Below";
+  if (e === Pe.Up) return "Above";
+  if (e === Pe.Down) return "Below";
 }
 function Em(e) {
   if (e)
@@ -14834,19 +14840,19 @@ function ao(e, t) {
     const { upAny: i, downAny: l } = Rm(s);
     if (i && l) return "Improvement";
     switch (s.variationIcon) {
-      case Ae.ImprovementHigh:
-      case Ae.ImprovementLow:
+      case Ee.ImprovementHigh:
+      case Ee.ImprovementLow:
         return "Improvement";
-      case Ae.ConcernHigh:
-      case Ae.ConcernLow:
+      case Ee.ConcernHigh:
+      case Ee.ConcernLow:
         return "Concern";
-      case Ae.NeitherHigh:
-      case Ae.NeitherLow: {
-        if (a === "Ungated" && n !== He.Neither) {
+      case Ee.NeitherHigh:
+      case Ee.NeitherLow: {
+        if (a === "Ungated" && n !== Pe.Neither) {
           if (i && !l)
-            return n === He.Up ? "Improvement" : "Concern";
+            return n === Pe.Up ? "Improvement" : "Concern";
           if (l && !i)
-            return n === He.Down ? "Improvement" : "Concern";
+            return n === Pe.Down ? "Improvement" : "Concern";
         }
         return o ? "NoJudgement" : "Common";
       }
@@ -14863,7 +14869,7 @@ function Bm(e, t, n) {
     trendVisualMode: Yn.Ungated,
     enableNeutralNoJudgement: !0
   });
-  if (a !== "RecalcCrossing" || t === He.Neither) return o;
+  if (a !== "RecalcCrossing" || t === Pe.Neither) return o;
   const s = Math.max(0, n?.preWindow ?? 2), i = Math.max(0, n?.postWindow ?? 3), l = n?.prePolarity ?? "Opposite", c = (f, h) => {
     if (f < 0 || f >= o.length) return;
     const g = o[f];
@@ -14907,7 +14913,7 @@ function Bm(e, t, n) {
     }
     if (p == null && (p = u(h.partitionId ?? null)), m == null && (m = u(g.partitionId ?? null)), p == null || m == null)
       continue;
-    const k = m - p, M = t === He.Up ? k > 0 : k < 0, D = M ? dt.Improvement : dt.Concern, b = l === "Same" ? D : M ? dt.Concern : dt.Improvement;
+    const k = m - p, M = t === Pe.Up ? k > 0 : k < 0, D = M ? dt.Improvement : dt.Concern, b = l === "Same" ? D : M ? dt.Concern : dt.Improvement;
     for (let T = 1; T <= s; T++) {
       const j = f - T;
       if (j < v) break;
@@ -15006,7 +15012,7 @@ function so(e) {
         // candidates
         specialCauseImprovementValue: null,
         specialCauseConcernValue: null,
-        variationIcon: Ae.CommonCause
+        variationIcon: Ee.CommonCause
       };
     });
     for (const b of M)
@@ -15042,9 +15048,9 @@ function so(e) {
         b,
         n
       );
-      if (b.specialCauseImprovementValue = T ? b.value : null, b.specialCauseConcernValue = j ? b.value : null, n === He.Neither) {
+      if (b.specialCauseImprovementValue = T ? b.value : null, b.specialCauseConcernValue = j ? b.value : null, n === Pe.Neither) {
         const N = b.singlePointUp || b.twoSigmaUp || b.shiftUp || b.trendUp, y = b.singlePointDown || b.twoSigmaDown || b.shiftDown || b.trendDown;
-        b.variationIcon = N ? Ae.NeitherHigh : y ? Ae.NeitherLow : Ae.CommonCause;
+        b.variationIcon = N ? Ee.NeitherHigh : y ? Ee.NeitherLow : Ee.CommonCause;
       } else
         vi(b, n, s.metricConflictRule, s.preferImprovementWhenConflict === !0, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === !0);
       d.push(b);
@@ -15078,7 +15084,7 @@ function so(e) {
       }
     }
     for (const x of d) {
-      if (x.ghost || !Te(x.value) || x.mean === null || n === He.Neither) continue;
+      if (x.ghost || !Te(x.value) || x.mean === null || n === Pe.Neither) continue;
       const { aligned: p, opposite: m } = bi(x, n);
       x.specialCauseImprovementValue = p ? x.value : null, x.specialCauseConcernValue = m ? x.value : null, vi(x, n, s.metricConflictRule, s.preferImprovementWhenConflict === !0, s.conflictStrategy, s.ruleHierarchy, s.preferTrendWhenConflict === !0);
     }
@@ -15190,26 +15196,26 @@ const Yl = (e) => {
   if (e.variationIcon !== void 0) {
     const i = e;
     let l;
-    i.improvementDirection !== void 0 ? l = i.improvementDirection === He.Up ? ot.HigherIsBetter : i.improvementDirection === He.Down ? ot.LowerIsBetter : ot.ContextDependent : i.polarity && (l = i.polarity);
+    i.improvementDirection !== void 0 ? l = i.improvementDirection === Pe.Up ? ot.HigherIsBetter : i.improvementDirection === Pe.Down ? ot.LowerIsBetter : ot.ContextDependent : i.polarity && (l = i.polarity);
     let c;
     const u = i.variationIcon;
     if (u === je.Improvement || u === je.Concern || u === je.Neither || u === je.Suppressed)
       u === je.Improvement ? c = ke.SpecialCauseImproving : u === je.Concern ? c = ke.SpecialCauseDeteriorating : u === je.Neither ? c = ke.CommonCause : c = ke.SpecialCauseNoJudgement;
     else
       switch (i.variationIcon) {
-        case Ae.ImprovementHigh:
-        case Ae.ImprovementLow:
+        case Ee.ImprovementHigh:
+        case Ee.ImprovementLow:
           c = ke.SpecialCauseImproving;
           break;
-        case Ae.ConcernHigh:
-        case Ae.ConcernLow:
+        case Ee.ConcernHigh:
+        case Ee.ConcernLow:
           c = ke.SpecialCauseDeteriorating;
           break;
-        case Ae.NeitherHigh:
-        case Ae.NeitherLow:
+        case Ee.NeitherHigh:
+        case Ee.NeitherLow:
           c = i.specialCauseNeutral ? ke.SpecialCauseNoJudgement : ke.CommonCause;
           break;
-        case Ae.CommonCause:
+        case Ee.CommonCause:
           c = ke.CommonCause;
           break;
         default:
@@ -15810,8 +15816,8 @@ const Xl = ({
     }
     const A = S.map((K, Q) => ({ i: Q, v: K.value }));
     function O(K, Q, X) {
-      const ae = K.i, me = K.v ?? 0, be = Q.i, we = Q.v ?? 0, Ce = X.i, pe = X.v ?? 0, De = Math.abs((pe - we) * ae - (Ce - be) * me + Ce * we - pe * be), Ee = Math.hypot(pe - we, Ce - be);
-      return Ee === 0 ? 0 : De / Ee;
+      const ae = K.i, me = K.v ?? 0, be = Q.i, we = Q.v ?? 0, Ce = X.i, pe = X.v ?? 0, De = Math.abs((pe - we) * ae - (Ce - be) * me + Ce * we - pe * be), Re = Math.hypot(pe - we, Ce - be);
+      return Re === 0 ? 0 : De / Re;
     }
     function J(K, Q) {
       if (K.length <= 2) return K;
@@ -15846,9 +15852,9 @@ const Xl = ({
     [S.length, h]
   ), U = S.length >= (n || 0), oe = v || "SPC sparkline", fe = (() => {
     if (!le) return;
-    const A = $ === Be.Up ? ot.HigherIsBetter : $ === Be.Down ? ot.LowerIsBetter : ot.ContextDependent, O = {
+    const A = $ === Pe.Up ? ot.HigherIsBetter : $ === Pe.Down ? ot.LowerIsBetter : ot.ContextDependent, O = {
       variationIcon: le === ke.SpecialCauseImproving ? "improvement" : le === ke.SpecialCauseDeteriorating ? "concern" : le === ke.SpecialCauseNoJudgement ? "none" : "neither",
-      trend: $ === Be.Up ? Ie.Higher : Ie.Lower,
+      trend: $ === Pe.Up ? Ie.Higher : Ie.Lower,
       polarity: A
     };
     try {
@@ -16076,7 +16082,7 @@ const Xl = ({
             fontWeight: "bold",
             fill: ie,
             "data-glyph-pos": ne < I / 2 ? "top" : "bottom",
-            children: $ === Be.Up ? "H" : "L"
+            children: $ === Pe.Up ? "H" : "L"
           }
         )
       ]
@@ -16192,7 +16198,7 @@ function eg(e) {
     lowerProcessLimit: i,
     target: l
   } = e, c = (u) => typeof u == "number" && Number.isFinite(u);
-  return !c(a) || o === null || !c(l) ? rt.None : n && c(s) && c(i) ? t === Be.Up ? c(i) && i > l ? rt.Pass : c(s) && s < l ? rt.Fail : rt.None : t === Be.Down ? c(s) && s < l ? rt.Pass : c(i) && i > l ? rt.Fail : rt.None : rt.None : t === Be.Down ? a <= l ? rt.Pass : rt.Fail : t === Be.Up ? a >= l ? rt.Pass : rt.Fail : rt.None;
+  return !c(a) || o === null || !c(l) ? rt.None : n && c(s) && c(i) ? t === We.Up ? c(i) && i > l ? rt.Pass : c(s) && s < l ? rt.Fail : rt.None : t === We.Down ? c(s) && s < l ? rt.Pass : c(i) && i > l ? rt.Fail : rt.None : rt.None : t === We.Down ? a <= l ? rt.Pass : rt.Fail : t === We.Up ? a >= l ? rt.Pass : rt.Fail : rt.None;
 }
 function tg(e, t) {
   const {
@@ -16288,7 +16294,7 @@ function rg(e, t, n) {
   if (e.length < a * 2) return;
   const o = e.map((d, f) => ({ idx: f, value: d.value })).filter((d) => Se(d.value));
   if (o.length < a * 2) return;
-  const s = n === Be.Up || n === Be.Neither, i = n === Be.Down;
+  const s = n === We.Up || n === We.Neither, i = n === We.Down;
   function l(d, f) {
     const h = o.slice(d, f).map((g) => g.value);
     return h.length ? Ot(h) : NaN;
@@ -16683,16 +16689,16 @@ function Ql(e) {
         if (_.length === S) {
           let F = !0;
           for (let w = 1; w < _.length && F; w++)
-            n === Be.Up ? _[w].value > _[w - 1].value || (F = !1) : n === Be.Down && _[w].value < _[w - 1].value || (F = !1);
+            n === We.Up ? _[w].value > _[w - 1].value || (F = !1) : n === We.Down && _[w].value < _[w - 1].value || (F = !1);
           N = F;
         }
       }
     }
     if (i.precedenceStrategy === Tr.DirectionalFirst) {
-      const S = n === Be.Up ? T : n === Be.Down ? j : !1, _ = n === Be.Up ? j : n === Be.Down ? T : !1;
+      const S = n === We.Up ? T : n === We.Down ? j : !1, _ = n === We.Up ? j : n === We.Down ? T : !1;
       S && !_ ? m.variationIcon = je.Improvement : _ && !S ? m.variationIcon = N ? je.Neither : je.Concern : S && _ ? m.variationIcon = N || m.specialCauseTrendUp || m.specialCauseTrendDown ? je.Improvement : je.Neither : m.variationIcon = je.Neither;
     } else
-      n === Be.Up ? m.variationIcon = T ? je.Improvement : j ? je.Concern : je.Neither : n === Be.Down ? m.variationIcon = j ? je.Improvement : T ? je.Concern : je.Neither : m.variationIcon = je.Neither;
+      n === We.Up ? m.variationIcon = T ? je.Improvement : j ? je.Concern : je.Neither : n === We.Down ? m.variationIcon = j ? je.Improvement : T ? je.Concern : je.Neither : m.variationIcon = je.Neither;
     const y = T || j;
     if (m.specialCauseImprovementValue = y && m.variationIcon === je.Improvement ? m.value : null, m.specialCauseConcernValue = y && m.variationIcon === je.Concern ? m.value : null, m.specialCauseNeitherValue = y && m.variationIcon === je.Neither ? m.value : null, i.conflictPrecedenceMode === Rl.SqlRankingV26a && m.specialCauseImprovementValue !== null && m.specialCauseConcernValue !== null) {
       const $ = [];
@@ -16701,7 +16707,7 @@ function Ql(e) {
       let F;
       S > _ ? F = Fn.Upwards : _ > S ? F = Fn.Downwards : F = Fn.Same;
       const w = m.specialCauseImprovementValue, I = m.specialCauseConcernValue;
-      F === Fn.Upwards ? n === Be.Up ? m.specialCauseConcernValue = null : n === Be.Down && (m.specialCauseImprovementValue = null) : F === Fn.Downwards ? n === Be.Up ? m.specialCauseImprovementValue = null : n === Be.Down && (m.specialCauseConcernValue = null) : m.variationIcon === je.Improvement ? m.specialCauseConcernValue = null : m.variationIcon === je.Concern ? m.specialCauseImprovementValue = null : m.specialCauseConcernValue = null, m.specialCauseImprovementValue !== null && m.specialCauseConcernValue === null ? m.variationIcon = je.Improvement : m.specialCauseConcernValue !== null && m.specialCauseImprovementValue === null ? m.variationIcon = je.Concern : m.specialCauseImprovementValue === null && m.specialCauseConcernValue === null && (m.variationIcon = je.Neither);
+      F === Fn.Upwards ? n === We.Up ? m.specialCauseConcernValue = null : n === We.Down && (m.specialCauseImprovementValue = null) : F === Fn.Downwards ? n === We.Up ? m.specialCauseImprovementValue = null : n === We.Down && (m.specialCauseConcernValue = null) : m.variationIcon === je.Improvement ? m.specialCauseConcernValue = null : m.variationIcon === je.Concern ? m.specialCauseImprovementValue = null : m.specialCauseConcernValue = null, m.specialCauseImprovementValue !== null && m.specialCauseConcernValue === null ? m.variationIcon = je.Improvement : m.specialCauseConcernValue !== null && m.specialCauseImprovementValue === null ? m.variationIcon = je.Concern : m.specialCauseImprovementValue === null && m.specialCauseConcernValue === null && (m.variationIcon = je.Neither);
       const C = m.specialCauseImprovementValue !== null ? bt.Up : m.specialCauseConcernValue !== null ? bt.Down : void 0, P = C === bt.Up ? S : C === bt.Down ? _ : Math.max(S, _), ee = $.find((Y) => Y.rank === P && (!C || Y.side === C));
       m.conflictPrimeDirection = F, m.conflictResolved = !0, m.conflictResolvedRank = P || void 0, ee && (m.conflictResolvedByRuleId = ee.id), m.pruningMode = Bl.Conflict, m.originalSpecialCauseImprovementValue = w, m.originalSpecialCauseConcernValue = I;
     }
@@ -16745,7 +16751,7 @@ function Ql(e) {
     for (const k of u)
       !k.ghost && Se(k.value) && m++, m > p && (k.mean = k.upperProcessLimit = k.lowerProcessLimit = null, k.upperTwoSigma = k.lowerTwoSigma = k.upperOneSigma = k.lowerOneSigma = null);
   }
-  if (i.nullValueWarning && (t === vt.XmR || t === vt.G)) {
+  if (i.nullValueWarning && (t === St.XmR || t === St.G)) {
     const p = l.filter(
       (m) => !m.ghost && (m.value === null || m.value === void 0 || !Se(m.value))
     ).length;
@@ -16757,13 +16763,13 @@ function Ql(e) {
       context: { nullCount: p }
     });
   }
-  if (i.targetSuppressedWarning && (t === vt.T || t === vt.G) && l.some((m) => Se(m.target)) && d.push({
+  if (i.targetSuppressedWarning && (t === St.T || t === St.G) && l.some((m) => Se(m.target)) && d.push({
     code: "target_ignored_rare_event",
     category: "target",
     severity: "info",
     message: `Targets provided are ignored for ${t} charts in this port.`,
     context: { chartType: t }
-  }), i.ghostOnRareEventWarning && (t === vt.T || t === vt.G)) {
+  }), i.ghostOnRareEventWarning && (t === St.T || t === St.G)) {
     const p = l.filter((m) => m.ghost).length;
     p && d.push({
       code: "ghost_rows_rare_event",
@@ -16864,7 +16870,7 @@ function og(e) {
     values: t,
     x: n,
     chartType: a = vt.XmR,
-    metricImprovement: o = Be.Neither,
+    metricImprovement: o = Pe.Neither,
     showLimits: s = !0,
     showLimitBand: i = !1,
     showInnerBands: l = !1,
@@ -16913,11 +16919,11 @@ function og(e) {
       return b.map((T) => {
         const j = !!T?.specialCauseSinglePointUp || !!T?.specialCauseTwoOfThreeUp || !!T?.specialCauseFourOfFiveUp || !!T?.specialCauseShiftUp || !!T?.specialCauseTrendUp, N = !!T?.specialCauseSinglePointDown || !!T?.specialCauseTwoOfThreeDown || !!T?.specialCauseFourOfFiveDown || !!T?.specialCauseShiftDown || !!T?.specialCauseTrendDown;
         switch (o) {
-          case Be.Up:
+          case Pe.Up:
             return j ? "improvement" : N ? "concern" : "neither";
-          case Be.Down:
+          case Pe.Down:
             return N ? "improvement" : j ? "concern" : "neither";
-          case Be.Neither:
+          case Pe.Neither:
           default:
             return "neither";
         }
@@ -17124,7 +17130,7 @@ function ec(e) {
 }
 const ty = ({
   sparkData: e,
-  direction: t = Be.Neither,
+  direction: t = Pe.Neither,
   showMean: n = !1,
   showLimits: a = !0,
   showLimitBand: o = !1,
@@ -17430,14 +17436,14 @@ function hg(e) {
   let p;
   if (h === je.Suppressed) {
     const b = !!f.rules.singlePoint.up, T = !!f.rules.singlePoint.down;
-    o === Be.Up ? b ? p = Ie.Higher : T && (p = Ie.Lower) : o === Be.Down ? T ? p = Ie.Lower : b && (p = Ie.Higher) : p = Ie.Higher;
+    o === We.Up ? b ? p = Ie.Higher : T && (p = Ie.Lower) : o === We.Down ? T ? p = Ie.Lower : b && (p = Ie.Higher) : p = Ie.Higher;
   } else if (h === je.Neither && v) {
     const b = f.rules.singlePoint.up || f.rules.twoOfThree.up || f.rules.fourOfFive.up || f.rules.shift.up || f.rules.trend.up, T = f.rules.singlePoint.down || f.rules.twoOfThree.down || f.rules.fourOfFive.down || f.rules.shift.down || f.rules.trend.down;
     b && !T ? p = Ie.Higher : T && !b ? p = Ie.Lower : p = Ie.Higher;
   }
   const m = 80, k = f.rules.singlePoint.up || f.rules.twoOfThree.up || f.rules.fourOfFive.up || f.rules.shift.up || f.rules.trend.up, M = f.rules.singlePoint.down || f.rules.twoOfThree.down || f.rules.fourOfFive.down || f.rules.shift.down || f.rules.trend.down;
-  let D = Ae.CommonCause;
-  return h === je.Improvement ? D = Ae.ImprovementHigh : h === je.Concern ? D = Ae.ConcernHigh : h === je.Neither && (v ? p === Ie.Lower || M && !k ? D = Ae.NeitherLow : D = Ae.NeitherHigh : D = Ae.CommonCause), /* @__PURE__ */ r.jsxs("div", { style: { display: "flex", gap: 12, marginRight: 16 }, children: [
+  let D = Ee.CommonCause;
+  return h === je.Improvement ? D = Ee.ImprovementHigh : h === je.Concern ? D = Ee.ConcernHigh : h === je.Neither && (v ? p === Ie.Lower || M && !k ? D = Ee.NeitherLow : D = Ee.NeitherHigh : D = Ee.CommonCause), /* @__PURE__ */ r.jsxs("div", { style: { display: "flex", gap: 12, marginRight: 16 }, children: [
     /* @__PURE__ */ r.jsx("div", { className: "fdp-spc-chart__embedded-icon", "data-variation": String(h), "data-trend": p ? String(p) : "none", style: { width: m, height: m }, children: /* @__PURE__ */ r.jsx(
       io,
       {
@@ -17450,7 +17456,7 @@ function hg(e) {
           lowSideSignal: M,
           ...p ? { trend: p } : {}
         },
-        letterMode: o === Be.Neither ? "Direction" : "Polarity",
+        letterMode: o === We.Neither ? "Direction" : "Polarity",
         size: m,
         variant: s,
         runLength: s === wn.TriangleWithRun ? i : void 0
@@ -18034,7 +18040,7 @@ function xg(e) {
   ), !l && te !== void 0 && console.warn(
     "SPCChart: Consider grouped meta. Use meta={{ source }}."
   ));
-  const ue = n?.data ?? c ?? [], se = n?.targets ?? p, he = n?.baselines ?? m, E = n?.ghosts ?? k, U = a?.chartType ?? D ?? vt.XmR, oe = a?.metricImprovement ?? b ?? Be.Neither, fe = a?.settings ?? M, ne = a?.autoRecalc, A = t?.axes?.alwaysShowZeroY ?? I ?? !0, O = t?.axes?.alwaysShowHundredY ?? C ?? !1, J = t?.axes?.percentScale ?? P ?? !1, W = t?.visuals?.gradientSequences ?? T ?? !1, L = t?.visuals?.sequenceTransition ?? j ?? "slope", G = t?.visuals?.processLineWidth ?? N ?? 2, K = t?.visuals?.trend?.visualMode ?? w ?? "ungated", Q = t?.visuals?.trend?.showGatingExplanation ?? F ?? !0, X = t?.visuals?.rules?.enableNeutralNoJudgement ?? _ ?? !0, ae = t?.visuals?.rules?.enableRules ?? e.enableRules ?? !0, me = t?.visuals?.showZones, be = t?.visuals?.showPoints, we = t?.visuals?.rules?.highlightOutOfControl, Ce = o?.height, pe = o?.className, De = s?.label, Ee = s?.unit, Ze = s?.narrationContext, ze = i?.scenario, it = i?.settings, Dt = l?.source, jt = t?.overlays?.partitionMarkers ?? y ?? !1, yt = t?.overlays?.trendStartMarkers ?? ee ?? !1, qe = t?.overlays?.firstFavourableCrossMarkers ?? Y ?? !1, tt = t?.overlays?.trendBridge ?? R ?? !1, Ut = t?.inspector?.show ?? B ?? !1, xr = t?.inspector?.onFocus ?? H, $e = t?.warnings?.show ?? $ ?? !1, Pe = t?.warnings?.filter ?? S, et = t?.icons?.show ?? re ?? !1, wt = t?.icons?.embedded?.show ?? z ?? !0, xt = t?.icons?.embedded?.variant ?? de ?? wn.Classic, Tt = t?.icons?.embedded?.runLength ?? ge, at = t?.overlays?.focusIndicator ?? le ?? !0;
+  const ue = n?.data ?? c ?? [], se = n?.targets ?? p, he = n?.baselines ?? m, E = n?.ghosts ?? k, U = a?.chartType ?? D ?? St.XmR, oe = a?.metricImprovement ?? b ?? We.Neither, fe = a?.settings ?? M, ne = a?.autoRecalc, A = t?.axes?.alwaysShowZeroY ?? I ?? !0, O = t?.axes?.alwaysShowHundredY ?? C ?? !1, J = t?.axes?.percentScale ?? P ?? !1, W = t?.visuals?.gradientSequences ?? T ?? !1, L = t?.visuals?.sequenceTransition ?? j ?? "slope", G = t?.visuals?.processLineWidth ?? N ?? 2, K = t?.visuals?.trend?.visualMode ?? w ?? "ungated", Q = t?.visuals?.trend?.showGatingExplanation ?? F ?? !0, X = t?.visuals?.rules?.enableNeutralNoJudgement ?? _ ?? !0, ae = t?.visuals?.rules?.enableRules ?? e.enableRules ?? !0, me = t?.visuals?.showZones, be = t?.visuals?.showPoints, we = t?.visuals?.rules?.highlightOutOfControl, Ce = o?.height, pe = o?.className, De = s?.label, Re = s?.unit, Ze = s?.narrationContext, ze = i?.scenario, it = i?.settings, Dt = l?.source, jt = t?.overlays?.partitionMarkers ?? y ?? !1, yt = t?.overlays?.trendStartMarkers ?? ee ?? !1, qe = t?.overlays?.firstFavourableCrossMarkers ?? Y ?? !1, tt = t?.overlays?.trendBridge ?? R ?? !1, Ut = t?.inspector?.show ?? B ?? !1, xr = t?.inspector?.onFocus ?? H, $e = t?.warnings?.show ?? $ ?? !1, Fe = t?.warnings?.filter ?? S, et = t?.icons?.show ?? re ?? !1, wt = t?.icons?.embedded?.show ?? z ?? !0, xt = t?.icons?.embedded?.variant ?? de ?? wn.Classic, Tt = t?.icons?.embedded?.runLength ?? ge, at = t?.overlays?.focusIndicator ?? le ?? !0;
   return {
     effData: ue,
     effTargets: se,
@@ -18047,7 +18053,7 @@ function xg(e) {
     effHeight: Ce,
     effClassName: pe,
     effAriaLabel: De,
-    effUnit: Ee,
+    effUnit: Re,
     effNarrationContext: Ze,
     effShowZones: me,
     effShowPoints: be,
@@ -18072,7 +18078,7 @@ function xg(e) {
     effShowSignalsInspector: Ut,
     effOnSignalFocus: xr,
     effShowWarningsPanel: $e,
-    effWarningsFilter: Pe,
+    effWarningsFilter: Fe,
     effShowIcons: et,
     effShowEmbeddedIcon: wt,
     effEmbeddedIconVariant: xt,
@@ -18156,7 +18162,7 @@ const vg = ({
       W.rules.trend.up && (E = Math.min(E, L)), W.rules.trend.down && (U = Math.min(U, L));
     }), !Number.isFinite(E) && !Number.isFinite(U))
       return null;
-    const oe = E <= U, fe = oe ? Et.Up : Et.Down, ne = oe ? E : U, A = (W) => x == null || x === Be.Neither || W == null || typeof W.data.value != "number" || typeof W.limits.mean != "number" ? !1 : fe === Et.Up ? x === Be.Up ? W.data.value > W.limits.mean : W.data.value < W.limits.mean : x === Be.Down ? W.data.value < W.limits.mean : W.data.value > W.limits.mean;
+    const oe = E <= U, fe = oe ? Et.Up : Et.Down, ne = oe ? E : U, A = (W) => x == null || x === We.Neither || W == null || typeof W.data.value != "number" || typeof W.limits.mean != "number" ? !1 : fe === Et.Up ? x === We.Up ? W.data.value > W.limits.mean : W.data.value < W.limits.mean : x === We.Down ? W.data.value < W.limits.mean : W.data.value > W.limits.mean;
     let O = null;
     for (let W = ne; W < i.length; W++) {
       const L = i[W];
@@ -18299,18 +18305,18 @@ const vg = ({
         const K = ne > 0 ? B[ne - 1] : null, Q = ne < B.length - 1 ? B[ne + 1] : null, X = K && K.category !== lt.Common, ae = Q && Q.category !== lt.Common, me = w(P[A].y), be = w(P[O].y);
         let we = W, Ce = L;
         if (X) {
-          const pe = H[K.end], De = w(P[K.end].y), Ee = P[A].y - P[K.end].y;
-          d === ar.Slope && Ee > 0 ? (G = `M ${pe} ${De} L ${W} ${me}`, we = pe) : (G = `M ${W} ${U} L ${W} ${me}`, we = W);
+          const pe = H[K.end], De = w(P[K.end].y), Re = P[A].y - P[K.end].y;
+          d === ar.Slope && Re > 0 ? (G = `M ${pe} ${De} L ${W} ${me}`, we = pe) : (G = `M ${W} ${U} L ${W} ${me}`, we = W);
         } else
           G = `M ${W} ${U} L ${W} ${me}`;
         for (let pe = A + 1; pe <= O; pe++)
           G += ` L ${H[pe]} ${w(P[pe].y)}`;
         if (G += ` L ${L} ${be}`, ae) {
-          const pe = H[Q.start], De = w(P[Q.start].y), Ee = P[Q.start].y - P[O].y;
-          (d === ar.Slope && Ee <= 0 || d === ar.Extend) && (G += ` L ${pe} ${De}`, Ce = pe);
+          const pe = H[Q.start], De = w(P[Q.start].y), Re = P[Q.start].y - P[O].y;
+          (d === ar.Slope && Re <= 0 || d === ar.Extend) && (G += ` L ${pe} ${De}`, Ce = pe);
         }
         if (G += ` L ${Ce} ${U}`, G += ` L ${we} ${U} Z`, d === ar.Neutral && X) {
-          const pe = H[K.end], De = w(P[K.end].y), Ee = /* @__PURE__ */ r.jsx(
+          const pe = H[K.end], De = w(P[K.end].y), Re = /* @__PURE__ */ r.jsx(
             "path",
             {
               d: `M ${pe} ${U} L ${pe} ${De} L ${W} ${me} L ${W} ${U} Z`,
@@ -18322,7 +18328,7 @@ const vg = ({
             `seq-wedge-${ne}`
           );
           return /* @__PURE__ */ r.jsxs("g", { children: [
-            Ee,
+            Re,
             /* @__PURE__ */ r.jsx(
               "path",
               {
@@ -18888,7 +18894,7 @@ function Sg(e, t, n, a) {
   return n.alwaysShowZeroY && (i = Math.min(0, i)), n.alwaysShowHundredY && (l = Math.max(100, l)), [i, l];
 }
 function bs(e, t) {
-  if (!e?.length || t.chartType !== St.XmR) return null;
+  if (!e?.length || t.chartType !== vt.XmR) return null;
   const n = Math.max(2, Math.floor(t.shiftLength ?? 6)), a = [];
   for (let g = 0; g < e.length; g++) {
     const v = e[g], x = v.value;
@@ -18901,7 +18907,7 @@ function bs(e, t) {
   if (s === 0) return null;
   const l = o / s * (2.66 / 3);
   if (!Number.isFinite(l) || l <= 0) return null;
-  const c = Math.max(0, t.deltaSigma ?? 0.5), u = t.metricImprovement === He.Up, d = t.metricImprovement === He.Down, f = (() => {
+  const c = Math.max(0, t.deltaSigma ?? 0.5), u = t.metricImprovement === Pe.Up, d = t.metricImprovement === Pe.Down, f = (() => {
     for (let g = e.length - 1; g >= 0; g--) if (e[g]?.baseline) return g;
     return -1;
   })();
@@ -18958,7 +18964,7 @@ const Ng = (e) => {
     ($e) => String($e).replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((et) => et.length ? et[0].toUpperCase() + et.slice(1) : et).join(" "),
     []
   ), n = q.useCallback(
-    ($e) => String($e).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((Pe) => Pe.length ? Pe[0].toUpperCase() + Pe.slice(1) : Pe).join(" "),
+    ($e) => String($e).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((Fe) => Fe.length ? Fe[0].toUpperCase() + Fe.slice(1) : Fe).join(" "),
     []
   );
   process.env.NODE_ENV !== "production" && e.disableTrendSideGating !== void 0 && console.warn(
@@ -19006,12 +19012,12 @@ const Ng = (e) => {
     effVisualsEngineSettings: de,
     effSource: ge,
     effEngineAutoRecalc: le
-  } = xg(e), ie = ee ?? e.ariaLabel, Z = C ?? e.height ?? 260, te = P ?? e.className, ce = Y ?? e.unit, V = R ?? e.narrationContext, ue = B ?? e.showZones, se = H ?? e.showPoints, he = re ?? e.highlightOutOfControl, E = z ?? e.visualsScenario ?? Vl.None, U = de ?? e.visualsEngineSettings, oe = ge ?? e.source, fe = e.a11y?.announceFocus ?? e.announceFocus ?? !1, ne = q.useMemo(() => a.map(($e, Pe) => ({
+  } = xg(e), ie = ee ?? e.ariaLabel, Z = C ?? e.height ?? 260, te = P ?? e.className, ce = Y ?? e.unit, V = R ?? e.narrationContext, ue = B ?? e.showZones, se = H ?? e.showPoints, he = re ?? e.highlightOutOfControl, E = z ?? e.visualsScenario ?? Vl.None, U = de ?? e.visualsEngineSettings, oe = ge ?? e.source, fe = e.a11y?.announceFocus ?? e.announceFocus ?? !1, ne = q.useMemo(() => a.map(($e, Fe) => ({
     x: $e.x,
     value: $e.y,
-    target: o?.[Pe] ?? void 0,
-    baseline: s?.[Pe] ?? void 0,
-    ghost: i?.[Pe] ?? void 0
+    target: o?.[Fe] ?? void 0,
+    baseline: s?.[Fe] ?? void 0,
+    ghost: i?.[Fe] ?? void 0
   })), [a, o, s, i]), A = q.useMemo(() => {
     try {
       const $e = le;
@@ -19028,35 +19034,35 @@ const Ng = (e) => {
     }
   }, [ne, le, l, c]), O = q.useMemo(() => {
     try {
-      const $e = u?.minimumPointsPartition ?? u?.minimumPoints, Pe = {};
-      typeof $e == "number" && !isNaN($e) && (Pe.minimumPoints = $e, A.filter(
-        (Fe) => !Fe.ghost && typeof Fe.value == "number"
-      ).length >= $e && (Pe.chartLevelEligibility = !0)), u?.enableFourOfFiveRule != null && (Pe.enableFourOfFiveRule = !!u.enableFourOfFiveRule), U && Object.assign(Pe, U);
+      const $e = u?.minimumPointsPartition ?? u?.minimumPoints, Fe = {};
+      typeof $e == "number" && !isNaN($e) && (Fe.minimumPoints = $e, A.filter(
+        (Le) => !Le.ghost && typeof Le.value == "number"
+      ).length >= $e && (Fe.chartLevelEligibility = !0)), u?.enableFourOfFiveRule != null && (Fe.enableFourOfFiveRule = !!u.enableFourOfFiveRule), U && Object.assign(Fe, U);
       const et = (at) => {
         switch (at) {
-          case vt.XmR:
-            return St.XmR;
-          case vt.T:
-            return St.T;
-          case vt.G:
-            return St.G;
+          case St.XmR:
+            return vt.XmR;
+          case St.T:
+            return vt.T;
+          case St.G:
+            return vt.G;
           default:
-            return St.XmR;
+            return vt.XmR;
         }
       }, wt = (at) => {
         switch (at) {
-          case Be.Up:
-            return He.Up;
-          case Be.Down:
-            return He.Down;
+          case We.Up:
+            return Pe.Up;
+          case We.Down:
+            return Pe.Down;
           default:
-            return He.Neither;
+            return Pe.Neither;
         }
       }, xt = {
         chartType: et(l),
         metricImprovement: wt(c),
         data: A,
-        settings: Object.keys(Pe).length ? Pe : void 0
+        settings: Object.keys(Fe).length ? Fe : void 0
       }, { visuals: Tt } = Hm(xt, E, {
         trendVisualMode: p === nc.Ungated ? Yn.Ungated : Yn.Gated,
         enableNeutralNoJudgement: k
@@ -19076,75 +19082,75 @@ const Ng = (e) => {
     U
   ]), W = q.useMemo(() => {
     try {
-      const $e = u?.minimumPointsPartition ?? u?.minimumPoints, Pe = {};
-      typeof $e == "number" && !isNaN($e) && (Pe.minimumPoints = $e, A.filter(
+      const $e = u?.minimumPointsPartition ?? u?.minimumPoints, Fe = {};
+      typeof $e == "number" && !isNaN($e) && (Fe.minimumPoints = $e, A.filter(
         (Ft) => !Ft.ghost && typeof Ft.value == "number"
-      ).length >= $e && (Pe.chartLevelEligibility = !0)), u?.enableFourOfFiveRule != null && (Pe.enableFourOfFiveRule = !!u.enableFourOfFiveRule), U && Object.assign(Pe, U);
-      const et = (Fe) => {
-        switch (Fe) {
-          case vt.XmR:
-            return St.XmR;
-          case vt.T:
-            return St.T;
-          case vt.G:
-            return St.G;
+      ).length >= $e && (Fe.chartLevelEligibility = !0)), u?.enableFourOfFiveRule != null && (Fe.enableFourOfFiveRule = !!u.enableFourOfFiveRule), U && Object.assign(Fe, U);
+      const et = (Le) => {
+        switch (Le) {
+          case St.XmR:
+            return vt.XmR;
+          case St.T:
+            return vt.T;
+          case St.G:
+            return vt.G;
           default:
-            return St.XmR;
+            return vt.XmR;
         }
-      }, wt = (Fe) => {
-        switch (Fe) {
-          case Be.Up:
-            return He.Up;
-          case Be.Down:
-            return He.Down;
+      }, wt = (Le) => {
+        switch (Le) {
+          case We.Up:
+            return Pe.Up;
+          case We.Down:
+            return Pe.Down;
           default:
-            return He.Neither;
+            return Pe.Neither;
         }
       }, xt = {
         chartType: et(l),
         metricImprovement: wt(c),
         data: A,
-        settings: Object.keys(Pe).length ? Pe : void 0
-      }, { rows: Tt } = wg(xt), at = (Fe) => {
-        switch (Fe) {
-          case Ae.ImprovementHigh:
-          case Ae.ImprovementLow:
+        settings: Object.keys(Fe).length ? Fe : void 0
+      }, { rows: Tt } = wg(xt), at = (Le) => {
+        switch (Le) {
+          case Ee.ImprovementHigh:
+          case Ee.ImprovementLow:
             return je.Improvement;
-          case Ae.ConcernHigh:
-          case Ae.ConcernLow:
+          case Ee.ConcernHigh:
+          case Ee.ConcernLow:
             return je.Concern;
-          case Ae.NeitherHigh:
-          case Ae.NeitherLow:
+          case Ee.NeitherHigh:
+          case Ee.NeitherLow:
             return je.Neither;
-          case Ae.CommonCause:
+          case Ee.CommonCause:
           default:
             return je.Neither;
         }
       };
       return Tt.map(
-        (Fe, Ft) => ({
+        (Le, Ft) => ({
           data: {
-            value: Fe.value,
-            ghost: !!Fe.ghost
+            value: Le.value,
+            ghost: !!Le.ghost
           },
-          partition: { id: Fe.partitionId },
+          partition: { id: Le.partitionId },
           limits: {
-            mean: Fe.mean,
-            ucl: Fe.upperProcessLimit,
-            lcl: Fe.lowerProcessLimit,
-            oneSigma: { upper: Fe.upperOneSigma, lower: Fe.lowerOneSigma },
-            twoSigma: { upper: Fe.upperTwoSigma, lower: Fe.lowerTwoSigma }
+            mean: Le.mean,
+            ucl: Le.upperProcessLimit,
+            lcl: Le.lowerProcessLimit,
+            oneSigma: { upper: Le.upperOneSigma, lower: Le.lowerOneSigma },
+            twoSigma: { upper: Le.upperTwoSigma, lower: Le.lowerTwoSigma }
           },
           rules: {
-            singlePoint: { up: !!Fe.singlePointUp, down: !!Fe.singlePointDown },
-            twoOfThree: { up: !!Fe.twoSigmaUp, down: !!Fe.twoSigmaDown },
-            fourOfFive: { up: !!Fe.fourOfFiveUp, down: !!Fe.fourOfFiveDown },
-            shift: { up: !!Fe.shiftUp, down: !!Fe.shiftDown },
-            trend: { up: !!Fe.trendUp, down: !!Fe.trendDown }
+            singlePoint: { up: !!Le.singlePointUp, down: !!Le.singlePointDown },
+            twoOfThree: { up: !!Le.twoSigmaUp, down: !!Le.twoSigmaDown },
+            fourOfFive: { up: !!Le.fourOfFiveUp, down: !!Le.fourOfFiveDown },
+            shift: { up: !!Le.shiftUp, down: !!Le.shiftDown },
+            trend: { up: !!Le.trendUp, down: !!Le.trendDown }
           },
           classification: {
-            variation: at(Fe.variationIcon),
-            neutralSpecialCauseValue: Fe.variationIcon === Ae.NeitherHigh || Fe.variationIcon === Ae.NeitherLow ? Fe.specialCauseImprovementValue ?? Fe.specialCauseConcernValue ?? 1 : null,
+            variation: at(Le.variationIcon),
+            neutralSpecialCauseValue: Le.variationIcon === Ee.NeitherHigh || Le.variationIcon === Ee.NeitherLow ? Le.specialCauseImprovementValue ?? Le.specialCauseConcernValue ?? 1 : null,
             assurance: void 0
           },
           target: A[Ft]?.target ?? null
@@ -19156,9 +19162,9 @@ const Ng = (e) => {
   }, [A, l, c, u, U]) || null, L = (W || []).slice().reverse().find(($e) => $e.limits.mean != null), G = L?.limits.mean ?? null, K = q.useMemo(() => {
     const $e = [];
     try {
-      const Pe = W, et = u?.minimumPoints ?? 13, wt = u?.minimumPointsPartition ?? 12;
-      if (Pe && Pe.length) {
-        const xt = Pe.filter(
+      const Fe = W, et = u?.minimumPoints ?? 13, wt = u?.minimumPointsPartition ?? 12;
+      if (Fe && Fe.length) {
+        const xt = Fe.filter(
           (at) => !at.data.ghost && at.data.value != null
         ).length;
         xt < et && $e.push({
@@ -19169,19 +19175,19 @@ const Ng = (e) => {
           context: { nonGhostCount: xt, minimumPoints: et }
         });
         const Tt = /* @__PURE__ */ new Map();
-        for (const at of Pe) {
-          const Fe = at.partition.id ?? 0, Ft = Tt.get(Fe) || { size: 0, nonGhost: 0 };
-          Ft.size += 1, !at.data.ghost && at.data.value != null && (Ft.nonGhost += 1), Tt.set(Fe, Ft);
+        for (const at of Fe) {
+          const Le = at.partition.id ?? 0, Ft = Tt.get(Le) || { size: 0, nonGhost: 0 };
+          Ft.size += 1, !at.data.ghost && at.data.value != null && (Ft.nonGhost += 1), Tt.set(Le, Ft);
         }
-        for (const [at, Fe] of Tt)
-          Fe.nonGhost > 0 && Fe.nonGhost < wt && $e.push({
+        for (const [at, Le] of Tt)
+          Le.nonGhost > 0 && Le.nonGhost < wt && $e.push({
             code: qr.InsufficientPointsPartition,
             severity: Rt.Warning,
             category: Yr.Partition,
             message: "A partition/baseline segment has too few points for recommended stability.",
             context: {
               partitionId: at,
-              nonGhostCount: Fe.nonGhost,
+              nonGhostCount: Le.nonGhost,
               minimumPointsPartition: wt
             }
           });
@@ -19192,7 +19198,7 @@ const Ng = (e) => {
   }, [W, u?.minimumPoints, u?.minimumPointsPartition]), Q = q.useMemo(() => K.length ? S ? K.filter(($e) => !(S.severities && $e.severity && !S.severities.includes($e.severity) || S.categories && $e.category && !S.categories.includes($e.category) || S.codes && !S.codes.includes($e.code))) : K : [], [K, S]), X = L?.limits.ucl ?? null, ae = L?.limits.lcl ?? null, me = L?.limits.oneSigma.upper ?? null, be = L?.limits.oneSigma.lower ?? null, we = L?.limits.twoSigma.upper ?? null, Ce = L?.limits.twoSigma.lower ?? null, pe = G != null && me != null ? Math.abs(me - G) : 0, De = q.useMemo(
     () => [{ id: "process", data: a, color: "#A6A6A6" }],
     [a]
-  ), Ee = q.useMemo(
+  ), Re = q.useMemo(
     () => Sg(
       a,
       { mean: G, ucl: X, lcl: ae, onePos: me, oneNeg: be, twoPos: we, twoNeg: Ce },
@@ -19218,8 +19224,8 @@ const Ng = (e) => {
       h
     ]
   ), Ze = q.useMemo(() => {
-    const $e = (Pe) => {
-      const et = Pe.filter(
+    const $e = (Fe) => {
+      const et = Fe.filter(
         (xt) => typeof xt == "number" && !isNaN(xt)
       );
       if (!et.length) return null;
@@ -19227,18 +19233,18 @@ const Ng = (e) => {
       return et.every((xt) => xt === wt) ? wt : null;
     };
     if (W && W.length) {
-      const Pe = $e(W.map((et) => et.target));
-      if (Pe != null) return Pe;
+      const Fe = $e(W.map((et) => et.target));
+      if (Fe != null) return Fe;
     }
     return o && o.length ? $e(o) : null;
   }, [W, o]), { show: ze, slotPx: it, totalReservedPx: Dt } = _g(
-    Ee,
+    Re,
     Z,
     { maxFraction: 0.35 }
   ), jt = ze ? Dt : 0, yt = q.useMemo(() => {
-    const $e = a.map((Pe) => Pe.x);
+    const $e = a.map((Fe) => Fe.x);
     return ec({
-      values: a.map((Pe) => Pe.y),
+      values: a.map((Fe) => Fe.y),
       dates: $e,
       providedUnit: ce || V?.measureUnit,
       percentHeuristic: "0-1",
@@ -19249,8 +19255,8 @@ const Ng = (e) => {
   }, [a, ce, V?.measureUnit]), qe = ce ?? V?.measureUnit ?? yt.unit, tt = q.useMemo(() => qe ? { ...V || {}, measureUnit: qe } : V, [V, qe]), Ut = q.useMemo(() => {
     if (!W) return [];
     const $e = [];
-    for (let Pe = 1; Pe < W.length; Pe++)
-      W[Pe].partition.id !== W[Pe - 1].partition.id && $e.push(Pe);
+    for (let Fe = 1; Fe < W.length; Fe++)
+      W[Fe].partition.id !== W[Fe - 1].partition.id && $e.push(Fe);
     return $e;
   }, [W]), xr = q.useMemo(
     () => hg({
@@ -19290,7 +19296,7 @@ const Ng = (e) => {
             ariaLabel: ie,
             margin: { bottom: 48, left: 56, right: 16, top: 12 },
             className: void 0,
-            children: /* @__PURE__ */ r.jsx(Ih, { series: De, yDomain: Ee, yBottomGapPx: jt, children: (() => {
+            children: /* @__PURE__ */ r.jsx(Ih, { series: De, yDomain: Re, yBottomGapPx: jt, children: (() => {
               const $e = {
                 series: De,
                 showPoints: se,
@@ -19344,9 +19350,9 @@ const Ng = (e) => {
   __proto__: null,
   AssuranceIcon: rt,
   BaselineSuggestionReason: It,
-  ChartType: St,
+  ChartType: vt,
   Icons: pg,
-  ImprovementDirection: He,
+  ImprovementDirection: Pe,
   PARITY_V26: Gl,
   RULE_METADATA: El,
   SPCChart: Ng,
@@ -19357,7 +19363,7 @@ const Ng = (e) => {
   SpcWarningCode: qr,
   SpcWarningSeverity: Rt,
   VARIATION_COLOR_TOKENS: Pt,
-  VariationIcon: Ae,
+  VariationIcon: Ee,
   buildSpc: Ql,
   buildSpcV26a: so,
   buildSpcV26aWithVisuals: oo,

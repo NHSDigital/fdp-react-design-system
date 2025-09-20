@@ -556,8 +556,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		});
 	}, [effData, unit, narrationContext?.measureUnit]);
 
-	const effectiveUnit =
-		unit ?? narrationContext?.measureUnit ?? autoFromHelper.unit;
+	const effectiveUnit = unit ?? narrationContext?.measureUnit ?? autoFromHelper.unit;
 	const effectiveNarrationContext = React.useMemo(() => {
 		return effectiveUnit
 			? { ...(narrationContext || {}), measureUnit: effectiveUnit }

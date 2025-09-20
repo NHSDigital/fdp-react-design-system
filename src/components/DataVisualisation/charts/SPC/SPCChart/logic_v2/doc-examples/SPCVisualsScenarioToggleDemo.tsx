@@ -20,6 +20,24 @@ import {
 } from "../../types";
 import { Heading } from "../../../../../../Heading";
 
+// Strongly-typed enums for demo controls
+export enum PatternDirection {
+	Upward = "Upward",
+	Downward = "Downward",
+}
+
+export enum CrossingStyle {
+	ImmediateShift = "Immediate shift",
+	GradualTrend = "Gradual trend",
+	MinimalNudge = "Minimal nudge",
+}
+
+export enum DatasetType {
+	FavourableCrossing = "Favourable crossing",
+	WeakNoChange = "Weak/no change",
+	Regression = "Regression",
+}
+
 function toV1Dir(value: ImprovementDirection): V1ImprovementDirection {
 	switch (value) {
 		case ImprovementDirection.Up:
@@ -40,13 +58,9 @@ function toV1Dir(value: ImprovementDirection): V1ImprovementDirection {
  */
 export const SPCVisualsScenarioToggleDemo: React.FC = () => {
 	// Dataset pattern: upward or downward crossing sequences
-	const [pattern, setPattern] = useState<"Upward" | "Downward">("Upward");
-	const [crossingStyle, setCrossingStyle] = useState<"Immediate shift" | "Gradual trend" | "Minimal nudge">(
-		"Immediate shift"
-	);
-	const [datasetType, setDatasetType] = useState<
-		"Favourable crossing" | "Weak/no change" | "Regression"
-	>("Favourable crossing");
+	const [pattern, setPattern] = useState<PatternDirection>(PatternDirection.Upward);
+	const [crossingStyle, setCrossingStyle] = useState<CrossingStyle>(CrossingStyle.ImmediateShift);
+	const [datasetType, setDatasetType] = useState<DatasetType>(DatasetType.FavourableCrossing);
 	const [direction, setDirection] = useState(ImprovementDirection.Up);
 	const [scenario, setScenario] = useState<VisualsScenario>(VisualsScenario.None);
 	const [minPoints, setMinPoints] = useState(12);
@@ -58,44 +72,44 @@ export const SPCVisualsScenarioToggleDemo: React.FC = () => {
 	// Auto-sync direction to pattern if enabled
 	useEffect(() => {
 		if (!syncDir) return;
-		setDirection(pattern === "Upward" ? ImprovementDirection.Up : ImprovementDirection.Down);
+		setDirection(pattern === PatternDirection.Upward ? ImprovementDirection.Up : ImprovementDirection.Down);
 	}, [pattern, syncDir]);
 
 	// Craft sequences with clear favourable crossings and controllable consolidation style
 	const series = useMemo(() => {
 		// We keep 11 points of pre‑boundary stability, then switch behaviour.
 		// baselineIndex anchors any explicit baseline we set (first point of new partition)
-		const before = pattern === "Upward"
+		const before = pattern === PatternDirection.Upward
 			? [10.8, 10.9, 10.85, 10.88, 10.86, 10.9, 10.87, 10.89, 10.85, 10.88, 10.9]
 			: [11.3, 11.25, 11.28, 11.26, 11.27, 11.24, 11.26, 11.25, 11.27, 11.26, 11.25];
 
 		let after: number[];
-		if (datasetType === "Favourable crossing") {
+		if (datasetType === DatasetType.FavourableCrossing) {
 			switch (crossingStyle) {
-				case "Immediate shift":
-					after = pattern === "Upward"
+				case CrossingStyle.ImmediateShift:
+					after = pattern === PatternDirection.Upward
 						? [11.15, 11.2, 11.22, 11.24, 11.26, 11.28, 11.3, 11.31, 11.3]
 						: [11.05, 10.98, 10.95, 10.92, 10.9, 10.88, 10.86, 10.85, 10.86];
 					break;
-				case "Gradual trend":
-					after = pattern === "Upward"
+				case CrossingStyle.GradualTrend:
+					after = pattern === PatternDirection.Upward
 						? [10.95, 11.0, 11.05, 11.1, 11.15, 11.2, 11.22, 11.25, 11.26]
 						: [11.15, 11.1, 11.05, 11.0, 10.96, 10.93, 10.9, 10.88, 10.87];
 					break;
-				case "Minimal nudge":
+				case CrossingStyle.MinimalNudge:
 				default:
-					after = pattern === "Upward"
+					after = pattern === PatternDirection.Upward
 						? [10.93, 10.96, 10.99, 11.02, 11.04, 11.06, 11.07, 11.08, 11.09]
 						: [11.1, 11.08, 11.06, 11.04, 11.02, 11.0, 10.99, 10.98, 10.97];
 			}
-		} else if (datasetType === "Weak/no change") {
+		} else if (datasetType === DatasetType.WeakNoChange) {
 			// Post-baseline barely moves; should minimize overlay upgrades.
-			after = pattern === "Upward"
+			after = pattern === PatternDirection.Upward
 				? [10.91, 10.92, 10.9, 10.91, 10.92, 10.9, 10.91, 10.92, 10.91]
 				: [11.24, 11.23, 11.25, 11.24, 11.23, 11.24, 11.25, 11.24, 11.24];
 		} else {
 			// Regression: small favourable move, then revert past the baseline in the unfavourable direction.
-			after = pattern === "Upward"
+			after = pattern === PatternDirection.Upward
 				? [10.98, 11.02, 11.0, 10.95, 10.92, 10.9, 10.88, 10.86, 10.85]
 				: [11.12, 11.06, 11.08, 11.12, 11.16, 11.2, 11.23, 11.25, 11.26];
 		}
@@ -206,12 +220,12 @@ export const SPCVisualsScenarioToggleDemo: React.FC = () => {
 						name="spc-viz-dataset"
 						ariaLabel="Dataset"
 						describedBy="hint-spc-viz-dataset"
-						value={datasetType}
-						onChange={(e) => setDatasetType(e.target.value as any)}
+								value={datasetType}
+								onChange={(e) => setDatasetType(e.target.value as DatasetType)}
 					>
-						<Select.Option value="Favourable crossing">Favourable crossing</Select.Option>
-						<Select.Option value="Weak/no change">Weak/no change</Select.Option>
-						<Select.Option value="Regression">Regression</Select.Option>
+								<Select.Option value={DatasetType.FavourableCrossing}>Favourable crossing</Select.Option>
+								<Select.Option value={DatasetType.WeakNoChange}>Weak/no change</Select.Option>
+								<Select.Option value={DatasetType.Regression}>Regression</Select.Option>
 					</Select>
 				</Column>
 				<Column width={GridWidth.OneThird}>
@@ -225,10 +239,10 @@ export const SPCVisualsScenarioToggleDemo: React.FC = () => {
 						ariaLabel="Pattern"
 						describedBy="hint-spc-viz-pattern"
 						value={pattern}
-						onChange={(e) => setPattern(e.target.value as "Upward" | "Downward")}
+						onChange={(e) => setPattern(e.target.value as PatternDirection)}
 					>
-						<Select.Option value="Upward">Upward crossing</Select.Option>
-						<Select.Option value="Downward">Downward crossing</Select.Option>
+						<Select.Option value={PatternDirection.Upward}>Upward crossing</Select.Option>
+						<Select.Option value={PatternDirection.Downward}>Downward crossing</Select.Option>
 					</Select>
 				</Column>
 				<Column width={GridWidth.OneThird}>
@@ -242,11 +256,11 @@ export const SPCVisualsScenarioToggleDemo: React.FC = () => {
 						ariaLabel="Crossing style"
 						describedBy="hint-spc-viz-crossing"
 						value={crossingStyle}
-						onChange={(e) => setCrossingStyle(e.target.value as any)}
+						onChange={(e) => setCrossingStyle(e.target.value as CrossingStyle)}
 					>
-						<Select.Option value="Immediate shift">Immediate shift</Select.Option>
-						<Select.Option value="Gradual trend">Gradual trend</Select.Option>
-						<Select.Option value="Minimal nudge">Minimal nudge</Select.Option>
+						<Select.Option value={CrossingStyle.ImmediateShift}>Immediate shift</Select.Option>
+						<Select.Option value={CrossingStyle.GradualTrend}>Gradual trend</Select.Option>
+						<Select.Option value={CrossingStyle.MinimalNudge}>Minimal nudge</Select.Option>
 					</Select>
 				</Column>
 			</Row>
@@ -452,23 +466,23 @@ export const SPCVisualsScenarioToggleDemo: React.FC = () => {
 			<Row>
 				<Column>
 					<Table
-				caption="Visual categories under selected scenario"
-				visuallyHiddenCaption
-				responsive
-				firstCellIsHeader={false}
-				columns={[
-					{ key: "i", title: "Index" },
-					{ key: "value", title: "Value", format: "numeric" },
-					{ key: "eligible", title: "Eligible" },
-					{ key: "category", title: "Visual category" },
-				]}
-				data={rows.map((r: SpcRowV2, i: number) => ({
-					i,
-					value: r.value,
-					eligible:
-						typeof r.mean === "number" && Number.isFinite(r.mean) ? "Yes" : "No",
-					category: String(visuals[i]),
-				}))}
+						caption="Visual categories under selected scenario"
+						visuallyHiddenCaption
+						responsive
+						firstCellIsHeader={false}
+						columns={[
+							{ key: "i", title: "Index" },
+							{ key: "value", title: "Value", format: "numeric" },
+							{ key: "eligible", title: "Eligible" },
+							{ key: "category", title: "Visual category" },
+						]}
+						data={rows.map((r: SpcRowV2, i: number) => ({
+							i,
+							value: r.value,
+							eligible:
+								typeof r.mean === "number" && Number.isFinite(r.mean) ? "Yes" : "No",
+							category: String(visuals[i]),
+						}))}
 					/>
 				</Column>
 			</Row>

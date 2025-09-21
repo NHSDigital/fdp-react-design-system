@@ -3,8 +3,7 @@ import {
 	SpcWarningSeverity,
 	SpcWarningCategory,
 	SpcWarningCode,
-	type SpcSettings,
-} from "./logic/spc";
+} from "./logic_v2/types";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import { SpcEmbeddedIconVariant } from "./SPCChart.constants";
 import type { VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
@@ -126,8 +125,8 @@ export interface SPCChartProps {
 	baselines?: (boolean | null | undefined)[];
 	/** @deprecated Prefer grouped: input={{ ghosts }} */
 	ghosts?: (boolean | null | undefined)[];
-	/** @deprecated Prefer grouped engine: engine={{ settings }} */
-	settings?: SpcSettings;
+	/** @deprecated Prefer grouped engine: engine={{ settings }} (SpcSettingsV26a) */
+	settings?: V2Settings;
 	/** Optional contextual metadata used to enrich accessible narration. Prefer grouped: a11y={{ narrationContext }} */
 	narrationContext?: {
 		measureName?: string;
@@ -220,7 +219,7 @@ export interface SPCChartProps {
 	engine?: {
 		chartType?: ChartType;
 		metricImprovement?: ImprovementDirection;
-		settings?: SpcSettings;
+		settings?: V2Settings;
 		/** Optional UI pre-processor: auto-insert a baseline after a sustained favourable shift (XmR only). */
 		autoRecalc?: {
 			enabled?: boolean;
@@ -249,7 +248,7 @@ export type NormalisedSpcProps = {
 	effGhosts?: (boolean | null | undefined)[];
 	effChartTypeCore: ChartType;
 	effMetricImprovementCore: ImprovementDirection;
-	effEngineSettings?: SpcSettings;
+	effEngineSettings?: V2Settings;
 	/** Optional UI pre-processor config resolved from engine.autoRecalc */
 	effEngineAutoRecalc?: {
 		enabled?: boolean;
@@ -425,45 +424,26 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		}
 	}
 
+	// This is where the SPCChartProps are finally normalised to a single value for each prop and defaults applied.
 	// Grouped over flat, with sensible defaults
 	const effData = input?.data ?? data ?? [];
 	const effTargets = input?.targets ?? targets;
 	const effBaselines = input?.baselines ?? baselines;
 	const effGhosts = input?.ghosts ?? ghosts;
 	const effChartTypeCore = engine?.chartType ?? chartType ?? ChartType.XmR;
-	const effMetricImprovementCore =
-		engine?.metricImprovement ??
-		metricImprovement ??
-		ImprovementDirection.Neither;
+	const effMetricImprovementCore = engine?.metricImprovement ?? metricImprovement ?? ImprovementDirection.Neither;
 	const effEngineSettings = engine?.settings ?? settings;
 	const effEngineAutoRecalc = engine?.autoRecalc;
-	const effAlwaysShowZeroY =
-		ui?.axes?.alwaysShowZeroY ?? alwaysShowZeroY ?? true;
-	const effAlwaysShowHundredY =
-		ui?.axes?.alwaysShowHundredY ?? alwaysShowHundredY ?? false;
+	const effAlwaysShowZeroY = ui?.axes?.alwaysShowZeroY ?? alwaysShowZeroY ?? false;
+	const effAlwaysShowHundredY = ui?.axes?.alwaysShowHundredY ?? alwaysShowHundredY ?? false;
 	const effPercentScale = ui?.axes?.percentScale ?? percentScale ?? false;
-	const effGradientSequences =
-		ui?.visuals?.gradientSequences ?? gradientSequences ?? false;
-	const effSequenceTransition =
-		ui?.visuals?.sequenceTransition ??
-		sequenceTransition ??
-		SequenceTransition.Slope;
-	const effProcessLineWidth =
-		ui?.visuals?.processLineWidth ?? processLineWidth ?? 2;
-	const effTrendVisualMode =
-		ui?.visuals?.trend?.visualMode ??
-		trendVisualMode ??
-		TrendVisualMode.Ungated;
-	const effShowTrendGatingExplanation =
-		ui?.visuals?.trend?.showGatingExplanation ??
-		showTrendGatingExplanation ??
-		true;
-	const effEnableNeutralNoJudgement =
-		ui?.visuals?.rules?.enableNeutralNoJudgement ??
-		enableNeutralNoJudgement ??
-		true;
-	const effEnableRules =
-		ui?.visuals?.rules?.enableRules ?? props.enableRules ?? true;
+	const effGradientSequences = ui?.visuals?.gradientSequences ?? gradientSequences ?? true;
+	const effSequenceTransition = ui?.visuals?.sequenceTransition ?? sequenceTransition ?? SequenceTransition.Slope;
+	const effProcessLineWidth = ui?.visuals?.processLineWidth ?? processLineWidth ?? 2;
+	const effTrendVisualMode = ui?.visuals?.trend?.visualMode ?? trendVisualMode ?? TrendVisualMode.Ungated;
+	const effShowTrendGatingExplanation = ui?.visuals?.trend?.showGatingExplanation ?? showTrendGatingExplanation ?? true;
+	const effEnableNeutralNoJudgement = ui?.visuals?.rules?.enableNeutralNoJudgement ?? enableNeutralNoJudgement ?? true;
+	const effEnableRules = ui?.visuals?.rules?.enableRules ?? props.enableRules ?? true;
 
 	// Grouped alias values (undefined means use flat/defaults in component)
 	const effShowZones = ui?.visuals?.showZones;
@@ -477,32 +457,19 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 	const effVisualsScenario = visualsEngine?.scenario;
 	const effVisualsEngineSettings = visualsEngine?.settings;
 	const effSource = meta?.source;
-	const effShowPartitionMarkers =
-		ui?.overlays?.partitionMarkers ?? showPartitionMarkers ?? false;
-	const effShowTrendStartMarkers =
-		ui?.overlays?.trendStartMarkers ?? showTrendStartMarkers ?? false;
-	const effShowFirstFavourableCrossMarkers =
-		ui?.overlays?.firstFavourableCrossMarkers ??
-		showFirstFavourableCrossMarkers ??
-		false;
-	const effShowTrendBridgeOverlay =
-		ui?.overlays?.trendBridge ?? showTrendBridgeOverlay ?? false;
-	const effShowSignalsInspector =
-		ui?.inspector?.show ?? showSignalsInspector ?? false;
+	const effShowPartitionMarkers = ui?.overlays?.partitionMarkers ?? showPartitionMarkers ?? false;
+	const effShowTrendStartMarkers = ui?.overlays?.trendStartMarkers ?? showTrendStartMarkers ?? false;
+	const effShowFirstFavourableCrossMarkers = ui?.overlays?.firstFavourableCrossMarkers ?? showFirstFavourableCrossMarkers ?? false;
+	const effShowTrendBridgeOverlay = ui?.overlays?.trendBridge ?? showTrendBridgeOverlay ?? false;
+	const effShowSignalsInspector = ui?.inspector?.show ?? showSignalsInspector ?? false;
 	const effOnSignalFocus = ui?.inspector?.onFocus ?? onSignalFocus;
 	const effShowWarningsPanel = ui?.warnings?.show ?? showWarningsPanel ?? false;
 	const effWarningsFilter = ui?.warnings?.filter ?? warningsFilter;
 	const effShowIcons = ui?.icons?.show ?? showIcons ?? false;
-	const effShowEmbeddedIcon =
-		ui?.icons?.embedded?.show ?? showEmbeddedIcon ?? true;
-	const effEmbeddedIconVariant =
-		ui?.icons?.embedded?.variant ??
-		embeddedIconVariant ??
-		SpcEmbeddedIconVariant.Classic;
-	const effEmbeddedIconRunLength =
-		ui?.icons?.embedded?.runLength ?? embeddedIconRunLength;
-	const effShowFocusIndicator =
-		ui?.overlays?.focusIndicator ?? showFocusIndicator ?? true;
+	const effShowEmbeddedIcon = ui?.icons?.embedded?.show ?? showEmbeddedIcon ?? true;
+	const effEmbeddedIconVariant = ui?.icons?.embedded?.variant ?? embeddedIconVariant ?? SpcEmbeddedIconVariant.Classic;
+	const effEmbeddedIconRunLength = ui?.icons?.embedded?.runLength ?? embeddedIconRunLength;
+	const effShowFocusIndicator = ui?.overlays?.focusIndicator ?? showFocusIndicator ?? true;
 
 	return {
 		effData,
@@ -512,7 +479,7 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		effChartTypeCore,
 		effMetricImprovementCore,
 		effEngineSettings,
-		 effEngineAutoRecalc,
+		effEngineAutoRecalc,
 		effHeight,
 		effClassName,
 		effAriaLabel,

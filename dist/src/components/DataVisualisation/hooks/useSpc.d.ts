@@ -11,10 +11,9 @@ export interface UseSpcInput {
     showLimitBand?: boolean;
     showInnerBands?: boolean;
     showMean?: boolean;
-    autoClassify?: boolean;
 }
 export interface UseSpcResult {
-    sparkProps: Pick<SPCSparkProps, "data" | "showMean" | "showLimits" | "showLimitBand" | "showInnerBands" | "metricImprovement" | "variationState" | "centerLine" | "controlLimits" | "pointSignals" | "autoClassify" | "onClassification">;
+    sparkProps: Pick<SPCSparkProps, "data" | "showMean" | "showLimits" | "showLimitBand" | "showInnerBands" | "metricImprovement" | "variationState" | "centerLine" | "controlLimits" | "pointSignals" | "sigmaBands" | "pointNeutralSpecialCause">;
     /** Inline style variables for MetricCard background and accent colour */
     metricCardStyle: React.CSSProperties;
     /** Latest SPC state (Improving/Concern/Common/No‑Judgement) */

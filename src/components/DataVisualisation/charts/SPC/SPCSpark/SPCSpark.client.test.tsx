@@ -68,29 +68,21 @@ describe("SPCSpark", () => {
 		expect(document.querySelector("text")).not.toBeNull();
 	});
 
-	it("autoClassify computes limits and classification when enabled", () => {
-		// craft data where last point is a large spike beyond 3 sigma
-		const base = Array.from({ length: 15 }).map((_, i) => ({
-			value: 100 + Math.sin(i) * 2,
-		}));
-		base.push({ value: 140 }); // clear special cause improving
-		render(
-			<SPCSpark
-				data={base}
-				autoClassify
-				showLimits
-				showStateGlyph
-				metricImprovement={ImprovementDirection.Up}
-			/>
-		);
-		// limits lines rendered
-		const dashed = Array.from(document.querySelectorAll("line")).filter((l) =>
-			l.getAttribute("stroke-dasharray")?.includes("4,4")
-		);
-		expect(dashed.length).toBeGreaterThanOrEqual(2);
-		// glyph should show (H)
-		expect(document.querySelector("text")?.textContent).toBe("H");
-	});
+    it("renders limits when provided via engine-like props", () => {
+        const base = Array.from({ length: 15 }).map((_, i) => ({ value: 100 + Math.sin(i) * 2 }));
+        render(
+            <SPCSpark
+                data={base}
+                centerLine={100}
+                controlLimits={{ lower: 90, upper: 110 }}
+                showLimits
+            />
+        );
+        const dashed = Array.from(document.querySelectorAll("line")).filter((l) =>
+            l.getAttribute("stroke-dasharray")?.includes("4,4")
+        );
+        expect(dashed.length).toBeGreaterThanOrEqual(2);
+    });
 
 	it("renders shaded limit band when showLimitBand", () => {
 		const dataVals = Array.from({ length: 30 }).map((_, i) => ({
@@ -114,22 +106,20 @@ describe("SPCSpark", () => {
 		expect(band).toBeTruthy();
 	});
 
-	it("fires run and trend rules with callback", () => {
-		const trend = [10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.6, 11.8];
-		const fired: any[] = [];
-		render(
-			<SPCSpark
-				data={trend.map((v) => ({ value: v }))}
-				autoClassify
-				showLimits
-				metricImprovement={ImprovementDirection.Up}
-				onClassification={(c) => fired.push(c)}
-			/>
-		);
-		expect(fired.length).toBeGreaterThan(0);
-		const last = fired[fired.length - 1];
-		expect(last.firedRules.length).toBeGreaterThan(0);
-	});
+    it("renders without onClassification side-effects (pure)", () => {
+        const trend = [10, 10.2, 10.4, 10.6, 10.8, 11, 11.2, 11.4, 11.6, 11.8];
+        render(
+            <SPCSpark
+                data={trend.map((v) => ({ value: v }))}
+                showLimits
+                centerLine={10.5}
+                controlLimits={{ lower: 9, upper: 12 }}
+            />
+        );
+        // No callback to assert; smoke test that it rendered
+        const svg = screen.getByRole("img");
+        expect(svg).toBeInTheDocument();
+    });
 
 	it("thins points when maxPoints specified and uses solid fill without stroke", () => {
 		const longData = Array.from({ length: 120 }).map((_, i) => ({
@@ -209,7 +199,30 @@ describe("SPCSpark", () => {
 		const base = [10, 11, 10, 11, 10, 50, 10, 11, 10, 11, 10, -15, 10, 11, 10];
 		const data = base.map((v) => ({ value: v }));
 		const { container } = render(
-			<SPCSpark data={data} autoClassify showLimits colorPointsBySignal />
+			<SPCSpark
+				data={data}
+				showLimits
+				colorPointsBySignal
+				centerLine={10}
+				controlLimits={{ lower: 0, upper: 20 }}
+				pointSignals={[
+					"neither",
+					"neither",
+					"neither",
+					"neither",
+					"neither",
+					"improvement",
+					"neither",
+					"neither",
+					"neither",
+					"neither",
+					"neither",
+					"concern",
+					"neither",
+					"neither",
+					"neither",
+				]}
+			/>
 		);
 		const circles = Array.from(container.querySelectorAll("circle"));
 		// Expect at least three colour groupings by fill attribute tokens (improvement, concern, common-cause greys)

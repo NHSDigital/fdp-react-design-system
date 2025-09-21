@@ -1,4 +1,3 @@
-import React from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { renderToString } from 'react-dom/server';
 import { SPCSpark } from './SPCSpark';
@@ -13,10 +12,10 @@ describe('SPCSpark hydration', () => {
     document.body.appendChild(container);
     const rootEl = document.getElementById('root')!;
     // produce real server markup
-    const serverHtml = renderToString(<SPCSpark data={[{value:1},{value:2},{value:3}]} autoClassify showMean />);
+  const serverHtml = renderToString(<SPCSpark data={[{value:1},{value:2},{value:3}]} showMean />);
     rootEl.innerHTML = serverHtml;
     expect(()=>{
-      hydrateRoot(rootEl, <SPCSpark data={[{value:1},{value:2},{value:3}]} autoClassify showMean />);
+  hydrateRoot(rootEl, <SPCSpark data={[{value:1},{value:2},{value:3}]} showMean />);
     }).not.toThrow();
   });
 });

@@ -89,7 +89,7 @@ export const Default: Story = {
 					<Header
 						service={{ text: "National Homepage", href: "/" }}
 						className="nhsuk-header--dark-grey-gradient"
-						logoVariant={LogoVariant.CompactInverted}
+						logoVariant={LogoVariant.Inverse}
 					/>
 				</div>
 

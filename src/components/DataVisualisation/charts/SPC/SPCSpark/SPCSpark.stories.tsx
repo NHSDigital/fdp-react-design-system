@@ -79,7 +79,6 @@ export const ColouredPoints: Story = {
 	name: "Per-point signal colouring",
 	args: {
 		data: denseData,
-		autoClassify: true,
 		showMean: true,
 		showLimits: true,
 		showLimitBand: true,
@@ -148,7 +147,6 @@ export const CommonCauseAuto: Story = {
 	name: "Auto common-cause (grey)",
 	args: {
 		data: commonNoiseData,
-		autoClassify: true,
 		showMean: true,
 		showLimits: true,
 		gradientWash: true,
@@ -166,7 +164,6 @@ export const NoJudgementIsolatedSpike: Story = {
 	name: "Auto no‑judgement (purple) – isolated spike",
 	args: {
 		data: isolatedSpikeData,
-		autoClassify: true,
 		showMean: true,
 		showLimits: true,
 		gradientWash: true,

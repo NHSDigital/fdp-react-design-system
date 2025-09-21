@@ -1,7 +1,7 @@
 import * as React from "react";
 import Table from "../../../../../Tables/Table";
 import { Tag } from "../../../../../Tag/Tag";
-import { SpcWarningSeverity, SpcWarningCode, SpcWarningCategory } from "../logic/spc";
+import { SpcWarningSeverity, SpcWarningCode, SpcWarningCategory } from "../logic_v2/types";
 
 export interface DiagnosticsItem {
   code: SpcWarningCode;

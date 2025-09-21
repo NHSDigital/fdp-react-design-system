@@ -1,4 +1,3 @@
-import { SpcRow } from "./spc";
 import { VariationIcon, AssuranceIcon } from "./spcConstants";
 
 // Stable identifiers for rule flags mapped from SpcRow boolean properties (enum for stronger typing)
@@ -81,7 +80,7 @@ type RuleFlagCarrier = {
 };
 
 /** Extract the triggered rule identifiers for a given SPC row */
-export function extractRuleIds(row: SpcRow | RuleFlagCarrier | undefined | null): SpcRuleId[] {
+export function extractRuleIds(row: RuleFlagCarrier | undefined | null): SpcRuleId[] {
 	if (!row) return [];
 	const ids: SpcRuleId[] = [];
 	if (row.specialCauseSinglePointUp) ids.push(SpcRuleId.SinglePointUp);

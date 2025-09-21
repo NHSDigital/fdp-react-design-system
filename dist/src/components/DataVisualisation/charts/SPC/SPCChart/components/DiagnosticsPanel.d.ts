@@ -1,4 +1,4 @@
-import { SpcWarningSeverity, SpcWarningCode, SpcWarningCategory } from "../logic/spc";
+import { SpcWarningSeverity, SpcWarningCode, SpcWarningCategory } from "../logic_v2/types";
 export interface DiagnosticsItem {
     code: SpcWarningCode;
     severity: SpcWarningSeverity;

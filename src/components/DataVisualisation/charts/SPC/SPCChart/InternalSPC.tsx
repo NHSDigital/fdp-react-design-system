@@ -670,41 +670,39 @@ const InternalSPC: React.FC<InternalSPCProps> = ({
 								/>
 							);
 						})}
-						{limitSegments?.mean.length
-							? (() => {
+						{limitSegments?.mean.length ? (() => {
+						return (
+							<g aria-hidden="true" className="fdp-spc__cl-group">
+								{limitSegments.mean.map((s, i) => (
+									<line
+										key={`mean-${i}`}
+										className="fdp-spc__cl"
+										x1={s.x1}
+										x2={s.x2}
+										y1={s.y}
+										y2={s.y}
+									/>
+								))}
+								{limitSegments.mean.map((s, i) => {
+									if (i === limitSegments.mean.length - 1) return null;
+									const next = limitSegments.mean[i + 1];
+									if (!next) return null;
+									if (s.y === next.y) return null;
+									const gap = Math.max(4, next.x1 - s.x2 || 0);
+									const k = gap * 0.5;
+									const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
 									return (
-										<g aria-hidden="true" className="fdp-spc__cl-group">
-											{limitSegments.mean.map((s, i) => (
-												<line
-													key={`mean-${i}`}
-													className="fdp-spc__cl"
-													x1={s.x1}
-													x2={s.x2}
-													y1={s.y}
-													y2={s.y}
-												/>
-											))}
-											{limitSegments.mean.map((s, i) => {
-												if (i === limitSegments.mean.length - 1) return null;
-												const next = limitSegments.mean[i + 1];
-												if (!next) return null;
-												if (s.y === next.y) return null;
-												const gap = Math.max(4, next.x1 - s.x2 || 0);
-												const k = gap * 0.5;
-												const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-												return (
-													<path
-														key={`mean-join-${i}`}
-														className="fdp-spc__cl fdp-spc__cl-join"
-														d={d}
-														fill="none"
-													/>
-												);
-											})}
-										</g>
+										<path
+											key={`mean-join-${i}`}
+											className="fdp-spc__cl fdp-spc__cl-join"
+											d={d}
+											fill="none"
+										/>
 									);
-								})()
-							: null}
+								})}
+							</g>
+							);
+						})() : null}
 						{uniformTarget != null && <></>}
 						{limitSegments?.ucl.length
 							? (() => (
@@ -1002,8 +1000,7 @@ const InternalSPC: React.FC<InternalSPCProps> = ({
 										: new Date(all[ix].x)
 								);
 								const py = yScale(all[ix].y);
-								const focusYellow =
-									"var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
+								const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
 								return (
 									<g className="fdp-spc__focus-indicator" aria-hidden="true">
 										<circle

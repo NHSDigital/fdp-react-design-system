@@ -261,7 +261,7 @@ What’s not shown:
 
 ## 2. What SPCChart Logic Tracks (State Machine)
 
-The SPCChart logic (spc.ts, spcDescriptors.ts) tracks much more:
+The SPCChart logic (v2 engine with spcDescriptors.ts) tracks much more:
 
 * VariationIcon: improvement, concern, neither, none (mapped to icon).
 * AssuranceIcon: pass, fail, none.

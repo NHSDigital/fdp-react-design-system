@@ -18,8 +18,6 @@ export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {
 	showLimitBand?: boolean;
 	/** Show 1σ/2σ inner bands when available (engine-provided) */
 	showInnerBands?: boolean;
-	/** Auto classify last state from spark values */
-	autoClassify?: boolean;
 	/** Cap rendered points (thinning strategy is stride by default) */
 	maxPoints?: number;
 
@@ -59,7 +57,6 @@ export const SPCMetricCard: React.FC<SPCMetricCardProps> = ({
 	showLimits = true,
 	showLimitBand = false,
 	showInnerBands = false,
-	autoClassify = true,
 	maxPoints,
 	autoValue = true,
 	autoDelta = true,
@@ -79,7 +76,6 @@ export const SPCMetricCard: React.FC<SPCMetricCardProps> = ({
 		showLimitBand,
 		showInnerBands,
 		showMean,
-		autoClassify,
 	});
 
 	const visual = <SPCSpark {...spc.sparkProps} maxPoints={maxPoints} />;

@@ -33,3 +33,9 @@ export type {
 	SpcResultV2,
 	SpcRowV2,
 } from "../SPCChart/logic_v2/types";
+export {
+	SpcWarningSeverity,
+	SpcWarningCategory,
+	SpcWarningCode,
+} from "../SPCChart/logic_v2/types";
+export type { SpcWarning } from "../SPCChart/logic_v2/types";

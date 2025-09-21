@@ -6,8 +6,8 @@ Status: Active (Phase 4)
 
 All SPC engine enums, registries, and constant tables have been centralised into a single module:
 
-- Preferred import: `src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts`
-- Backward compatibility: `spc.ts` re-exports these symbols for now to avoid breaking existing imports.
+- Preferred import: `src/components/DataVisualisation/charts/SPC/engine` (v2 barrel)
+- Legacy note: v1 `spc.ts` is retired; constants live under v2 types/constants.
 
 This reduces duplication and makes ownership clearer across the engine and UI.
 
@@ -21,17 +21,13 @@ These now live in `spcConstants.ts`. The engine module `spc.ts` imports from, an
 ## Recommended imports (new)
 
 ```ts
-// Preferred (new)
-import { ChartType, ImprovementDirection, VariationIcon } from "./logic/spcConstants";
-
-// Still works (compat), but migrate over time
-import { ChartType, ImprovementDirection, VariationIcon } from "./logic/spc";
+// Preferred (new): v2 engine barrel
+import { ChartType, ImprovementDirection, VariationIcon } from "../SPC/engine";
 ```
 
 ## Timeline
 
-- Phase 4: `spc.ts` continues to re-export constants. Prefer the new path for all internal imports. Downstream consumers can migrate opportunistically.
-- Future phase: Direct constant definitions in `spc.ts` will be removed. Re-exports may remain until the next major.
+- Phase 4+: v1 `spc.ts` is retired from public surface. Use the v2 engine barrel for enums and constants.
 
 ## Migration effort
 

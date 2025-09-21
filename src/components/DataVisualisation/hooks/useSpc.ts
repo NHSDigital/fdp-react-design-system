@@ -1,11 +1,10 @@
 import * as React from "react";
-import { buildSpc } from "../charts/SPC/SPCChart/logic/spc";
-// import { buildSpcSqlCompat } from "../charts/SPC/SPCChart/logic/spcSqlCompat";
+import { buildSpcV26a } from "../charts/SPC/engine";
 import {
 	VARIATION_COLOURS,
 	VariationState,
 } from "../charts/SPC/SPCIcons/SPCConstants";
-import { ChartType, ImprovementDirection } from "../charts/SPC/engine";
+import { ChartType, ImprovementDirection, VariationIcon } from "../charts/SPC/engine";
 import type {
 	SPCSparkProps,
 	SPCSparkPoint,
@@ -13,25 +12,33 @@ import type {
 import { getGradientOpacities } from "../charts/SPC/SPCIcons/tokenUtils";
 
 // Helper: map engine icon + neutral flag to VariationState (without series-level No Judgement override)
-function mapIconToVariation(
-	icon?: string,
-	neutralSpecial?: boolean
-): VariationState | null {
-	if (icon === "improvement") return VariationState.SpecialCauseImproving;
-	if (icon === "concern") return VariationState.SpecialCauseDeteriorating;
-	if (icon === "suppressed" || (icon === "neither" && neutralSpecial))
-		return VariationState.SpecialCauseNoJudgement;
-	if (icon === "neither") return VariationState.CommonCause;
-	return null;
+function mapIconToVariation(icon?: VariationIcon | null): VariationState | null {
+	switch (icon) {
+		case VariationIcon.ImprovementHigh:
+		case VariationIcon.ImprovementLow:
+			return VariationState.SpecialCauseImproving;
+		case VariationIcon.ConcernHigh:
+		case VariationIcon.ConcernLow:
+			return VariationState.SpecialCauseDeteriorating;
+		case VariationIcon.NeitherHigh:
+		case VariationIcon.NeitherLow:
+			return VariationState.SpecialCauseNoJudgement;
+		case VariationIcon.CommonCause:
+			return VariationState.CommonCause;
+		default:
+			return null;
+	}
 }
 
 // Helper: whether an icon/neutral combo represents a special-cause data point
-function isSpecialCauseIcon(icon?: string, neutralSpecial?: boolean): boolean {
+function isSpecialCauseIcon(icon?: VariationIcon | null): boolean {
 	return (
-		icon === "improvement" ||
-		icon === "concern" ||
-		icon === "suppressed" ||
-		(icon === "neither" && !!neutralSpecial)
+		icon === VariationIcon.ImprovementHigh ||
+		icon === VariationIcon.ImprovementLow ||
+		icon === VariationIcon.ConcernHigh ||
+		icon === VariationIcon.ConcernLow ||
+		icon === VariationIcon.NeitherHigh ||
+		icon === VariationIcon.NeitherLow
 	);
 }
 
@@ -55,7 +62,7 @@ export interface UseSpcInput {
 	showLimitBand?: boolean;
 	showInnerBands?: boolean;
 	showMean?: boolean;
-	autoClassify?: boolean; // spark auto-classification fallback
+	// autoClassify?: boolean; // spark auto-classification fallback
 }
 
 export interface UseSpcResult {
@@ -71,8 +78,8 @@ export interface UseSpcResult {
 		| "centerLine"
 		| "controlLimits"
 		| "pointSignals"
-		| "autoClassify"
-		| "onClassification"
+		| "sigmaBands"
+		| "pointNeutralSpecialCause"
 	>;
 	/** Inline style variables for MetricCard background and accent colour */
 	metricCardStyle: React.CSSProperties;
@@ -95,7 +102,7 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		showLimitBand = false,
 		showInnerBands = false,
 		showMean = false,
-		autoClassify = true,
+		// autoClassify = true,
 	} = input;
 
 	const rows = React.useMemo(() => {
@@ -106,11 +113,11 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		return pts;
 	}, [values, x]);
 
-	// Build engine result for consistent classification and limits
+	// Build engine result for consistent classification and limits (v2)
 	const engine = React.useMemo(() => {
 		try {
 			const data = rows.map((r, i) => ({ x: (r.x as any) ?? i, value: r.value }));
-			return buildSpc({ chartType, metricImprovement, data, settings: {} });
+			return buildSpcV26a({ chartType, metricImprovement, data, settings: {} });
 		} catch {
 			return null;
 		}
@@ -129,13 +136,15 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 
 	// Determine latest state from representative rows (or rows fallback)
 	const latestState: VariationState | null = React.useMemo(() => {
-		const repr = (engine as any)?.rowsRepresentative ?? (engine as any)?.rows;
-		if (!repr || !Array.isArray(repr) || repr.length === 0) return null;
-		const last = repr[repr.length - 1];
-		return mapIconToVariation(
-			last?.variationIcon as any,
-			(last?.specialCauseNeitherValue ?? null) != null
-		);
+		const rowsEngine: any[] | undefined = (engine as any)?.rows;
+		if (!rowsEngine || rowsEngine.length === 0) return null;
+		// pick the last non-ghost with a value if possible, else last
+		let last = rowsEngine[rowsEngine.length - 1];
+		for (let i = rowsEngine.length - 1; i >= 0; i--) {
+			const r = rowsEngine[i];
+			if (r && r.value != null && !r.ghost) { last = r; break; }
+		}
+		return mapIconToVariation(last?.variationIcon as VariationIcon | null);
 	}, [engine]);
 
 	// Engine-derived centre line, limits, and per-point signals (prefer latest real row)
@@ -210,7 +219,9 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 	const pointNeutralSpecialCause: boolean[] | undefined = React.useMemo(() => {
 		const rowsEngine: any[] | undefined = (engine as any)?.rows;
 		if (!rowsEngine || rowsEngine.length === 0) return undefined;
-		return rowsEngine.map((r) => Boolean(r?.specialCauseNeitherValue));
+		return rowsEngine.map((r) => (
+			r?.variationIcon === VariationIcon.NeitherHigh || r?.variationIcon === VariationIcon.NeitherLow
+		));
 	}, [engine]);
 
 	// Build gradient/accent style based on the final point's signal colour
@@ -218,15 +229,14 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		// Use the precomputed lastRealRow when available
 		let lastSignalState: VariationState | null = null;
 		if (lastRealRow && lastRealRow.value != null && !lastRealRow.ghost) {
-			const icon: string | undefined = lastRealRow.variationIcon;
-			const neutralSpecial = (lastRealRow?.specialCauseNeitherValue ?? null) != null;
+			const icon: VariationIcon | undefined = lastRealRow.variationIcon as VariationIcon | undefined;
 			if (latestState === VariationState.SpecialCauseNoJudgement) {
 				// In a No Judgement series context, any special-cause final point renders purple, else grey
-				lastSignalState = isSpecialCauseIcon(icon, neutralSpecial)
+				lastSignalState = isSpecialCauseIcon(icon)
 					? VariationState.SpecialCauseNoJudgement
 					: VariationState.CommonCause;
 			} else {
-				lastSignalState = mapIconToVariation(icon, neutralSpecial) ?? VariationState.CommonCause;
+				lastSignalState = mapIconToVariation(icon) ?? VariationState.CommonCause;
 			}
 		}
 		const chosen = lastSignalState ?? VariationState.CommonCause;
@@ -255,8 +265,6 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 			pointSignals,
 			pointNeutralSpecialCause,
 			variationState: latestState ?? undefined,
-			autoClassify: !!(autoClassify && !latestState),
-			onClassification: () => {},
 		};
 	}, [
 		rows,
@@ -265,12 +273,10 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		showLimitBand,
 		showInnerBands,
 		metricImprovement,
-		autoClassify,
 		latestState,
 		centerLine,
 		controlLimits?.lower,
 		controlLimits?.upper,
-		sigmaBands?.upperOne,
 		sigmaBands?.upperTwo,
 		sigmaBands?.lowerOne,
 		sigmaBands?.lowerTwo,

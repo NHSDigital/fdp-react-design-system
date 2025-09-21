@@ -280,3 +280,46 @@ export interface BuildArgsV2 {
 export interface SpcResultV2 {
 	rows: SpcRowV2[];
 }
+
+// ------------------------- Warning metadata (shared with chart UI) -------------------------
+// These mirror the legacy v1 enums but live alongside v2 so SPCChart can consume
+// them without depending on the v1 module.
+export enum SpcWarningSeverity {
+	Info = "info",
+	Warning = "warning",
+	Error = "error",
+}
+
+export enum SpcWarningCategory {
+	Config = "config",
+	Data = "data",
+	Limits = "limits",
+	SpecialCause = "special_cause",
+	Baseline = "baseline",
+	Logic = "logic",
+	Target = "target",
+	Ghost = "ghost",
+	Partition = "partition",
+}
+
+// Stable catalog of warning codes (public surface)
+export enum SpcWarningCode {
+	UnknownChartType = 'unknown_chart_type',
+	InsufficientPointsGlobal = 'insufficient_points_global',
+	VariationConflictRow = 'variation_conflict_row',
+	NullValuesExcluded = 'null_values_excluded',
+	TargetIgnoredRareEvent = 'target_ignored_rare_event',
+	GhostRowsRareEvent = 'ghost_rows_rare_event',
+	InsufficientPointsPartition = 'insufficient_points_partition',
+	BaselineWithSpecialCause = 'baseline_with_special_cause',
+	PartitionCapApplied = 'partition_cap_applied',
+	GlobalCapApplied = 'global_cap_applied',
+}
+
+export interface SpcWarning {
+	code: SpcWarningCode; // stable identifier
+	message: string; // human-readable text
+	severity?: SpcWarningSeverity;
+	category?: SpcWarningCategory;
+	context?: Record<string, unknown>; // optional structured data (counts, ids, etc.)
+}

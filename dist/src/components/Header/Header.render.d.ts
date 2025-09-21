@@ -17,5 +17,7 @@ export interface RenderHeaderOptions {
      * interactive HeaderSearch without importing it in this SSR-shared module.
      */
     searchNode?: React.ReactNode;
+    /** Optional brand provided by the caller (supports local scope). */
+    brand?: 'nhs' | 'fdp';
 }
-export declare function renderHeaderMarkup(props: HeaderProps, { variant, isClient, menuOpen, showMoreButton, visibleItems, dropdownVisible, toggleMenu, navContainerRef, navListRef, searchNode, }: RenderHeaderOptions): import("react/jsx-runtime").JSX.Element;
+export declare function renderHeaderMarkup(props: HeaderProps, { variant, isClient, menuOpen, showMoreButton, visibleItems, dropdownVisible, toggleMenu, navContainerRef, navListRef, searchNode, brand: providedBrand, }: RenderHeaderOptions): import("react/jsx-runtime").JSX.Element;

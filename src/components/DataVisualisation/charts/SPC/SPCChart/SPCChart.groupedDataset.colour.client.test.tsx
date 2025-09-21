@@ -80,21 +80,20 @@ describe("SPCChart colours vs grouped JSON", () => {
 			const enableNeutral = grp.data.some((d) => d.colour === "#490092");
 			const { container } = render(
 				<SPCChart
-					ariaLabel={grp.metric}
-					data={data}
-					baselines={baselines}
-					showPartitionMarkers={!!baselines}
-					metricImprovement={dir}
-					visualsScenario={visualsScenario}
-					enableRules
-					showPoints
-					trendVisualMode={TrendVisualMode.Ungated}
-					enableNeutralNoJudgement={enableNeutral}
-					// Keep manual baseline deterministic and aligned with Storybook config
-					settings={{
-						minimumPointsPartition: 12,
-						autoRecalculateAfterShift: false,
-						baselineSuggest: false,
+					a11y={{ label: grp.metric }}
+					input={{ data, baselines }}
+					engine={{ metricImprovement: dir }}
+					visualsEngine={{ scenario: visualsScenario }}
+					ui={{
+						visuals: {
+							showPoints: true,
+							trend: { visualMode: TrendVisualMode.Ungated },
+							rules: {
+								enableRules: true,
+								enableNeutralNoJudgement: enableNeutral,
+							},
+						},
+						overlays: { partitionMarkers: !!baselines },
 					}}
 				/>
 			);

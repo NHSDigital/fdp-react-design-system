@@ -99,7 +99,7 @@ span .nhsuk-u-visually-hidden {
   flex-direction: column;
   width: 100%;
   background: var(--nsplit-background);
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   font-size: 19px;
 }
 .nhs-navigation-split-view__header {
@@ -426,7 +426,7 @@ span .nhsuk-u-visually-hidden {
 .nhs-navigation-split-view__item-content {
   flex: 1;
   min-width: 0;
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   display: block;
 }
 .nhs-navigation-split-view__item-label {

@@ -1,14 +1,13 @@
 #!/usr/bin/env tsx
-import { buildSpc, ChartType, ImprovementDirection, SpcRow } from '../src/components/DataVisualisation/charts/SPC/SPCChart/logic/spc';
-import { buildSpcSqlCompat } from '../src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcSqlCompat';
+import { buildSpcV26a as buildSpc, ChartType, ImprovementDirection, SpcRowV2 as SpcRow } from '../src/components/DataVisualisation/charts/SPC/engine';
 
 const values = [10,10,10,10,10,15,16,17,18,19,19,19,19,19,19];
 function rowsFrom(values:(number|null)[]){ return values.map((v,i)=>({ x:i+1, value:v })); }
 
 const orthodox = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: rowsFrom(values) });
-const sql = buildSpcSqlCompat({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: rowsFrom(values) });
+const sql = buildSpc({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data: rowsFrom(values) });
 
-function fmt(r: SpcRow){
+function fmt(r: any){
   return {
     id: r.rowId,
     v: r.value,

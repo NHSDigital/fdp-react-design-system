@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode, type SpcSettings } from "./logic/spc";
+import { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode } from "./logic_v2/types";
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import { SpcEmbeddedIconVariant } from "./SPCChart.constants";
 import type { VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
@@ -111,8 +111,8 @@ export interface SPCChartProps {
     baselines?: (boolean | null | undefined)[];
     /** @deprecated Prefer grouped: input={{ ghosts }} */
     ghosts?: (boolean | null | undefined)[];
-    /** @deprecated Prefer grouped engine: engine={{ settings }} */
-    settings?: SpcSettings;
+    /** @deprecated Prefer grouped engine: engine={{ settings }} (SpcSettingsV26a) */
+    settings?: V2Settings;
     /** Optional contextual metadata used to enrich accessible narration. Prefer grouped: a11y={{ narrationContext }} */
     narrationContext?: {
         measureName?: string;
@@ -205,7 +205,7 @@ export interface SPCChartProps {
     engine?: {
         chartType?: ChartType;
         metricImprovement?: ImprovementDirection;
-        settings?: SpcSettings;
+        settings?: V2Settings;
         /** Optional UI pre-processor: auto-insert a baseline after a sustained favourable shift (XmR only). */
         autoRecalc?: {
             enabled?: boolean;
@@ -233,7 +233,7 @@ export type NormalisedSpcProps = {
     effGhosts?: (boolean | null | undefined)[];
     effChartTypeCore: ChartType;
     effMetricImprovementCore: ImprovementDirection;
-    effEngineSettings?: SpcSettings;
+    effEngineSettings?: V2Settings;
     /** Optional UI pre-processor config resolved from engine.autoRecalc */
     effEngineAutoRecalc?: {
         enabled?: boolean;

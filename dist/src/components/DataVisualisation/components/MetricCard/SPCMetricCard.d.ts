@@ -15,8 +15,6 @@ export interface SPCMetricCardProps extends Omit<MetricCardProps, "visual"> {
     showLimitBand?: boolean;
     /** Show 1σ/2σ inner bands when available (engine-provided) */
     showInnerBands?: boolean;
-    /** Auto classify last state from spark values */
-    autoClassify?: boolean;
     /** Cap rendered points (thinning strategy is stride by default) */
     maxPoints?: number;
     /** Automatically derive the headline value from the final data point (default true). */

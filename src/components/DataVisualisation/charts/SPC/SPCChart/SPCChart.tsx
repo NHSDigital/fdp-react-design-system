@@ -12,10 +12,10 @@ import type { InternalSPCProps } from "./InternalSPC.types";
 // (Embedded icon constants now encapsulated in utils/embeddedIcon)
 // SPC Logic & types
 import {
-	SpcWarningSeverity,
-	SpcWarningCategory,
-	SpcWarningCode,
-} from "./logic/spc";
+    SpcWarningSeverity,
+    SpcWarningCategory,
+    SpcWarningCode,
+} from "./logic_v2/types";
 import { ImprovementDirection, VariationIcon, ChartType } from "./types";
 import computeAutoMetrics from "../utils/autoMetrics";
 import type { EngineRowUI } from "./SPCChart.types";
@@ -199,17 +199,19 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 	const v2Visuals: SpcVisualCategory[] = React.useMemo(() => {
 		try {
 			// Map legacy SPC settings to v2 engine settings for visual parity (typed)
-			const minPts = effEngineSettings?.minimumPointsPartition ?? effEngineSettings?.minimumPoints;
-			const v2Settings: Partial<V2Settings> = {};
-			if (typeof minPts === "number" && !isNaN(minPts)) {
-				v2Settings.minimumPoints = minPts;
-				// When the series has at least minimum points overall, enable chart-level eligibility
-				// so the engine backfills limits across the partition (colours available from index 0 in tests)
-				const eligibleCount = rowsInputMaybeAuto.filter(
-					(r) => !r.ghost && typeof r.value === "number"
-				).length;
-				if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
-			}
+			// Always resolve a concrete minimumPoints (default 13) and compute chart-level eligibility
+			const resolvedMinPts =
+				typeof effEngineSettings?.minimumPoints === "number" &&
+				!isNaN(effEngineSettings!.minimumPoints!)
+					? effEngineSettings!.minimumPoints!
+					: 13;
+			const v2Settings: Partial<V2Settings> = { minimumPoints: resolvedMinPts };
+			// When the series has at least minimum points overall, enable chart-level eligibility
+			// so the engine backfills limits across the partition (colours available from index 0 in tests)
+			const eligibleCount = rowsInputMaybeAuto.filter(
+				(r) => !r.ghost && typeof r.value === "number"
+			).length;
+			if (eligibleCount >= resolvedMinPts) v2Settings.chartLevelEligibility = true;
 			if (effEngineSettings?.enableFourOfFiveRule != null) {
 				v2Settings.enableFourOfFiveRule = !!effEngineSettings.enableFourOfFiveRule;
 			}
@@ -269,15 +271,16 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 	// Optional: build v2 rows via adapter and map to a UI-compatible shape when enabled
 	const v2RowsForUi: EngineRowUI[] | null = React.useMemo(() => {
 		try {
-			const minPts = effEngineSettings?.minimumPointsPartition ?? effEngineSettings?.minimumPoints;
-			const v2Settings: Partial<V2Settings> = {};
-			if (typeof minPts === "number" && !isNaN(minPts)) {
-				v2Settings.minimumPoints = minPts;
-				const eligibleCount = rowsInputMaybeAuto.filter(
-					(r) => !r.ghost && typeof r.value === "number"
-				).length;
-				if (eligibleCount >= minPts) v2Settings.chartLevelEligibility = true;
-			}
+			const resolvedMinPts =
+				typeof effEngineSettings?.minimumPoints === "number" &&
+				!isNaN(effEngineSettings!.minimumPoints!)
+					? effEngineSettings!.minimumPoints!
+					: 13;
+			const v2Settings: Partial<V2Settings> = { minimumPoints: resolvedMinPts };
+			const eligibleCount = rowsInputMaybeAuto.filter(
+				(r) => !r.ghost && typeof r.value === "number"
+			).length;
+			if (eligibleCount >= resolvedMinPts) v2Settings.chartLevelEligibility = true;
 			if (effEngineSettings?.enableFourOfFiveRule != null) {
 				v2Settings.enableFourOfFiveRule = !!effEngineSettings.enableFourOfFiveRule;
 			}
@@ -392,7 +395,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		try {
 			const engineRows = rowsForUi;
 			const minPointsGlobal = effEngineSettings?.minimumPoints ?? 13;
-			const minPointsPartition = effEngineSettings?.minimumPointsPartition ?? 12;
+			const minPointsPartition = effEngineSettings?.minimumPoints ?? 12;
 			if (engineRows && engineRows.length) {
 				// Global non-ghost count
 				const nonGhostCount = engineRows.filter(
@@ -441,7 +444,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 			// swallow – diagnostics are best-effort
 		}
 		return list;
-	}, [rowsForUi, effEngineSettings?.minimumPoints, effEngineSettings?.minimumPointsPartition]);
+	}, [rowsForUi, effEngineSettings?.minimumPoints]);
 	const filteredWarnings = React.useMemo(() => {
 		if (!warnings.length) return [] as typeof warnings;
 			if (!effWarningsFilter) return warnings;
@@ -614,7 +617,6 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 				height={height}
 				ariaLabel={ariaLabel}
 				margin={{ bottom: 48, left: 56, right: 16, top: 12 }}
-				className={undefined /* avoid duplicating outer class */}
 			>
 				<LineScalesProvider<SPCDatum> series={series} yDomain={yDomain} yBottomGapPx={yBottomGapPx}>
 					{(() => {

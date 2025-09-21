@@ -76,7 +76,7 @@ export const ED4h: Story = {
 					<SPCChart
 						input={{ data }}
 						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
-						ui={{ visuals: { gradientSequences: true } }}
+						ui={{ visuals: { gradientSequences: true }, axes: { alwaysShowZeroY: false } }}
 					/>
 				</div>
 			);
@@ -110,7 +110,7 @@ export const BedOccupancy: Story = {
 					<SPCChart
 						input={{ data }}
 						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
-						ui={{ visuals: { gradientSequences: true } }}
+						ui={{ visuals: { gradientSequences: true }, axes: { alwaysShowZeroY: false } }}
 					/>
 				</div>
 			);
@@ -144,7 +144,7 @@ export const RTTBacklog: Story = {
 					<SPCChart
 						input={{ data }}
 						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
-						ui={{ visuals: { gradientSequences: true } }}
+						ui={{ visuals: { gradientSequences: true }, axes: { alwaysShowZeroY: false } }}
 					/>
 				</div>
 			);
@@ -180,7 +180,7 @@ export const GreyCommonCause: Story = {
 					<SPCChart
 						input={{ data }}
 						engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
-						ui={{ visuals: { gradientSequences: true } }}
+						ui={{ visuals: { gradientSequences: true }, axes: { alwaysShowZeroY: false } }}
 					/>
 				</div>
 			);
@@ -220,7 +220,7 @@ export const YearOverYear: Story = {
 				<SPCChart
 					input={{ data }}
 					engine={{ chartType: ChartType.XmR, metricImprovement: args.direction }}
-					ui={{ visuals: { gradientSequences: true } }}
+					ui={{ visuals: { gradientSequences: true }, axes: { alwaysShowZeroY: false } }}
 				/>
 			</div>
 		);

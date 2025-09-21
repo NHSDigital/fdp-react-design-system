@@ -146,7 +146,7 @@ span .nhsuk-u-visually-hidden {
   max-width: 960px;
   margin: 0 auto;
   padding: 0 8px;
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -167,7 +167,7 @@ span .nhsuk-u-visually-hidden {
   max-width: 100%;
   margin: 0 auto;
   padding: 0 8px;
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;

@@ -1,5 +1,6 @@
-import { AccountProps } from '../Account/Account.types';
-import { HeaderSearchProps } from '../HeaderSearch/HeaderSearch.types';
+import { AccountProps } from "../Account/Account.types";
+import { HeaderSearchProps } from "../HeaderSearch/HeaderSearch.types";
+import { LogoVariant } from "../../assets/brand";
 export interface HeaderProps {
     /** Additional CSS classes */
     className?: string;
@@ -28,7 +29,7 @@ export interface HeaderProps {
     /** Search configuration */
     search?: HeaderSearchProps;
     /** Account configuration */
-    account?: Pick<AccountProps, 'ariaLabel' | 'items' | 'className'>;
+    account?: Pick<AccountProps, "ariaLabel" | "items" | "className">;
     /** Navigation configuration */
     navigation?: {
         ariaLabel?: string;
@@ -40,7 +41,9 @@ export interface HeaderProps {
     /** Container classes */
     containerClasses?: string;
     /** Header variant */
-    variant?: 'default' | 'white' | 'organisation';
+    variant?: "default" | "white" | "organisation";
+    /** Optional brand logo variant hint when brand is active (e.g., FDP). Defaults to LogoVariant.Full. */
+    logoVariant?: LogoVariant;
     maxVisibleItems?: number;
     /** If true (default), navigation is responsive and client enhancement will manage overflow; if false, render all items into dropdown on server */
     responsiveNavigation?: boolean;

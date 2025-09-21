@@ -63,7 +63,7 @@ export interface SpcVariationPayload {
 
 // New: direct engine variation icon payload (maps engine-level VariationIcon enum to a state)
 export interface SpcVariationEngineIconPayload {
-	variationIcon: SpcEngineVariationIcon;
+	variationIcon: SpcEngineVariationIcon | UiVariationIcon;
 	trend?: Direction; // orientation override
 	polarity?: MetricPolarity; // optional explicit polarity
 	improvementDirection?: ImprovementDirection; // engine-style polarity input (preferred over polarity when provided)

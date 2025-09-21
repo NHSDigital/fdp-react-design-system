@@ -184,3 +184,38 @@ export interface BuildArgsV2 {
 export interface SpcResultV2 {
     rows: SpcRowV2[];
 }
+export declare enum SpcWarningSeverity {
+    Info = "info",
+    Warning = "warning",
+    Error = "error"
+}
+export declare enum SpcWarningCategory {
+    Config = "config",
+    Data = "data",
+    Limits = "limits",
+    SpecialCause = "special_cause",
+    Baseline = "baseline",
+    Logic = "logic",
+    Target = "target",
+    Ghost = "ghost",
+    Partition = "partition"
+}
+export declare enum SpcWarningCode {
+    UnknownChartType = "unknown_chart_type",
+    InsufficientPointsGlobal = "insufficient_points_global",
+    VariationConflictRow = "variation_conflict_row",
+    NullValuesExcluded = "null_values_excluded",
+    TargetIgnoredRareEvent = "target_ignored_rare_event",
+    GhostRowsRareEvent = "ghost_rows_rare_event",
+    InsufficientPointsPartition = "insufficient_points_partition",
+    BaselineWithSpecialCause = "baseline_with_special_cause",
+    PartitionCapApplied = "partition_cap_applied",
+    GlobalCapApplied = "global_cap_applied"
+}
+export interface SpcWarning {
+    code: SpcWarningCode;
+    message: string;
+    severity?: SpcWarningSeverity;
+    category?: SpcWarningCategory;
+    context?: Record<string, unknown>;
+}

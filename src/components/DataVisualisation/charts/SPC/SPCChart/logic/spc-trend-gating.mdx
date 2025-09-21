@@ -154,8 +154,8 @@ You can then render lightweight overlays/markers or narrative copy, without chan
 Example outline:
 
 ```ts
-import { buildSpc } from './logic/spc';
-import { ChartType, ImprovementDirection } from '../types';
+import { buildSpcV26a as buildSpc } from '../../engine';
+import { ChartType, ImprovementDirection } from '../../engine';
 import { extractRuleIds } from '../descriptors';
 
 const engine = buildSpc({

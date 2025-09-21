@@ -12,13 +12,13 @@ export { default as SPCChart } from './SPCChart/SPCChart';
 export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart.props';
 
 // Engine logic & enums
-export { buildSpc, normaliseSpcSettings } from './SPCChart/logic/spc';
+// v1 engine entry deprecated; use v2 via './engine'
 // Prefer enums via engine where available; keep other legacy enums from types
 export { ImprovementDirection, VariationIcon, ChartType } from './engine';
 // Minimal public constants (avoids dragging wider enum set into the analyzer)
 export { AssuranceIcon, BaselineSuggestionReason, RULE_METADATA } from './SPCChart/public';
-export { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode } from './SPCChart/logic/spc';
-export type { SpcSettings, SpcSettingsV2, SpcResult, SpcWarning } from './SPCChart/logic/spc';
+export { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode } from './SPCChart/logic_v2/types';
+export type { SpcWarning } from './SPCChart/logic_v2/types';
 
 // v2 engine public exports — routed via curated engine barrel
 export {

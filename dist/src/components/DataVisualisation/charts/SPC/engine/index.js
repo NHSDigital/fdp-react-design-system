@@ -26,6 +26,37 @@ var Side = /* @__PURE__ */ ((Side2) => {
   Side2["Down"] = "Down";
   return Side2;
 })(Side || {});
+var SpcWarningSeverity = /* @__PURE__ */ ((SpcWarningSeverity2) => {
+  SpcWarningSeverity2["Info"] = "info";
+  SpcWarningSeverity2["Warning"] = "warning";
+  SpcWarningSeverity2["Error"] = "error";
+  return SpcWarningSeverity2;
+})(SpcWarningSeverity || {});
+var SpcWarningCategory = /* @__PURE__ */ ((SpcWarningCategory2) => {
+  SpcWarningCategory2["Config"] = "config";
+  SpcWarningCategory2["Data"] = "data";
+  SpcWarningCategory2["Limits"] = "limits";
+  SpcWarningCategory2["SpecialCause"] = "special_cause";
+  SpcWarningCategory2["Baseline"] = "baseline";
+  SpcWarningCategory2["Logic"] = "logic";
+  SpcWarningCategory2["Target"] = "target";
+  SpcWarningCategory2["Ghost"] = "ghost";
+  SpcWarningCategory2["Partition"] = "partition";
+  return SpcWarningCategory2;
+})(SpcWarningCategory || {});
+var SpcWarningCode = /* @__PURE__ */ ((SpcWarningCode2) => {
+  SpcWarningCode2["UnknownChartType"] = "unknown_chart_type";
+  SpcWarningCode2["InsufficientPointsGlobal"] = "insufficient_points_global";
+  SpcWarningCode2["VariationConflictRow"] = "variation_conflict_row";
+  SpcWarningCode2["NullValuesExcluded"] = "null_values_excluded";
+  SpcWarningCode2["TargetIgnoredRareEvent"] = "target_ignored_rare_event";
+  SpcWarningCode2["GhostRowsRareEvent"] = "ghost_rows_rare_event";
+  SpcWarningCode2["InsufficientPointsPartition"] = "insufficient_points_partition";
+  SpcWarningCode2["BaselineWithSpecialCause"] = "baseline_with_special_cause";
+  SpcWarningCode2["PartitionCapApplied"] = "partition_cap_applied";
+  SpcWarningCode2["GlobalCapApplied"] = "global_cap_applied";
+  return SpcWarningCode2;
+})(SpcWarningCode || {});
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/constants.ts
 var RULE_RANK_BY_ID = {
@@ -1319,6 +1350,9 @@ export {
   PARITY_V26,
   Side,
   SpcVisualCategory,
+  SpcWarningCategory,
+  SpcWarningCode,
+  SpcWarningSeverity,
   TrendVisualMode,
   VariationIcon,
   VisualsScenario,

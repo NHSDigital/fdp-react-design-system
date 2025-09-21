@@ -7,6 +7,8 @@ export default defineConfig({
   test: {
     // Include standard component tests and macro parity tests under tests/macroParity
     include: ['src/**/*.test.{ts,tsx}', 'tests/macroParity/**/*.test.{ts,tsx}'],
+    // No exclusions: v1 SPC engine fully retired and files removed
+    exclude: [],
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts'],
     globals: true,

@@ -1,4 +1,6 @@
 import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { SPCSpark } from '../../../SPCSpark/SPCSpark';
+import { ImprovementDirection } from '../../../engine';
 import SPCVisualsScenarioToggleDemo from '../doc-examples/SPCVisualsScenarioToggleDemo';
 
 <Meta title="Data Visualisation/SPC/Guides/Visual Scenarios"/>
@@ -6,6 +8,93 @@ import SPCVisualsScenarioToggleDemo from '../doc-examples/SPCVisualsScenarioTogg
 # SPC v2 Visual Scenarios
 
 This page explains the Visual Scenarios extension around the v2 logic for SPC charts, implemented via the `VisualsScenario` enum and the helper `buildVisualsForScenario`. It covers the motivation, how it integrates with the NHSE SQL v2.6a-aligned engine, how to use it, and some notes on statistical defensibility from a Shewhart chart perspective.
+
+
+
+## Glossary: patterns and signals
+
+The demo uses small, illustrative sequences to teach how SPC visuals behave. Key terms:
+
+<SPCSpark
+		data={[
+				{ value: 8 }, { value: 9 }, { value: 10 }, { value: 9 }, { value: 8 }, { value: 9 },
+				{ value: 13 }, { value: 14 }, { value: 15 }, { value: 14 }, { value: 15 }, { value: 14 },
+		]}
+		showInnerBands={false}
+		showLimits={false}
+		metricImprovement={ImprovementDirection.Up}
+		size="sm"
+/>
+
+- Shift (level shift / run)
+  - What: A step change in the process average. In run‑chart/SPC rules it’s typically “6–8 consecutive points on one side of the mean”.
+  - Why it matters: Indicates a new process level, often the intended outcome of an intervention (e.g., a new triage protocol).
+  - Meaning: a new process level (e.g. a protocol change taking effect).
+
+<SPCSpark
+		data={[
+				{ value: 8 }, { value: 9 }, { value: 10 }, { value: 11 }, { value: 12 }, { value: 13 },
+				{ value: 14 }, { value: 15 },
+		]}
+		showInnerBands={false}
+		showLimits={false}
+		metricImprovement={ImprovementDirection.Up}
+		size="sm"
+/>
+
+- Trend (monotonic run)
+  - What: A sustained sequence of increasing or decreasing points (often 6+), regardless of which side of the mean they fall on.
+  - Meaning: a gradual change in the process, possibly due to external factors.
+
+<SPCSpark
+	data={[
+			{ value: 10 }, { value: 9 }, { value: 10 }, { value: 9 }, { value: 10 },
+			{ value: 12 }, { value: 13 }, { value: 14 }, { value: 13 }, { value: 14 },
+	]}
+	showInnerBands={false}
+	showLimits={false}
+	metricImprovement={ImprovementDirection.Up}
+	size="sm"
+/>
+
+- Crossing
+  - What: A point that moves from one side of the mean to the other, often signalling a potential shift or trend.
+	- Mean crossing (pre vs post): points move from below → above the mean or vice‑versa.
+    - Baseline/partition crossing: when you recalibrate the baseline (new partition) and early post‑baseline points consolidate on the “favourable” side relative to the old mean.
+	- Why it matters: A crossing that consolidates can be the first visible sign of change after a recalculation or intervention.
+
+- Consolidation
+  - What: A series of points that cluster on one side of the mean, often following a crossing.
+  - Meaning: the process is settling into a new state, reinforcing the significance of a shift.
+
+- Regression
+  - What: A return toward the previous process level after a shift. This can be a few points moving back toward the old mean.
+  - Meaning: loss of improvement, possibly due to process drift or external disruption.
+
+<SPCSpark
+	data={[
+			{ value: 10 }, { value: 9 }, { value: 10 }, { value: 9 }, { value: 10 }, { value: 9 },
+			{ value: 20 }, { value: 10 }, { value: 9 },
+	]}
+	showInnerBands={false}
+	showLimits={false}
+	metricImprovement={ImprovementDirection.Up}
+	size="sm"
+/>
+
+- Single 3σ outlier
+  - What: A single point that falls beyond the 3σ control limits, often considered a special cause.
+  - Meaning: an unusual event that may warrant investigation but does not indicate a process change.
+
+- Two-of-three beyond 2σ; Four-of-five beyond 1σ
+  - What: Patterns where two out of three consecutive points exceed the 2σ limits, or four out of five exceed the 1σ limits.
+  - Meaning: potential early warning signs of a shift, but less definitive than a full run.
+
+- Common vs Special cause variation
+  - What: Differentiating between routine process variation (common cause) and unusual events (special cause).
+  - Meaning: helps in understanding whether changes are due to inherent process variability or external factors.
+
+This framing aligns with measurement‑for‑learning in healthcare quality improvement: use SPC to build knowledge about how the system changes, not to punish or overreact to noise.
 
 ## Why this exists
 
@@ -92,35 +181,45 @@ const { rows, visuals } = buildVisualsForScenario(
   }
 );
 ```
-
-Notes:
-
-- If your dataset marks explicit baselines (`baseline: true`), those indices become anchors for the overlay windows.
-- If no baselines are marked, the overlay uses partition breaks discovered by the engine (changes in `partitionId`).
-- The overlay respects core rule outcomes by only upgrading neutral categories.
-
 ## Scenarios in detail
 
 All scenarios anchor on boundary indices. The differences are the window sizes and intended narrative:
-
+– Regression (reversion toward the old level)
 - `RecalcCrossingShift`
   - `preWindow: 2`, `postWindow: 4`, `prePolarity: 'Same'`.
   - Highlights a quick consolidation right after the new baseline.
-
+– Single‑point outlier (3σ point)
 - `RecalcCrossingTrend`
   - `preWindow: 1`, `postWindow: 5`, `prePolarity: 'Same'`.
   - Allows a few points to establish trend post-recalc.
-
+– Two‑of‑three beyond 2σ; Four‑of‑five beyond 1σ
 - `RecalcCrossingTwoSigma`
   - `preWindow: 1`, `postWindow: 1`, `prePolarity: 'Same'`.
   - Minimal and conservative.
-
+– Common vs Special cause variation
 - `RecalculationsRecalculated`
   - Very light overlay; also clears the point immediately before the first boundary to `Common` to avoid over-signalling.
 
 - `BaselinesRecalculated`
   - Uses explicit boundaries if provided and sets `directionOverride` to the input metric’s improvement direction.
   - Does not force post-baseline colours here; assumes dataset-level expectations govern colouring.
+
+## Choosing a scenario (at a glance)
+
+Use this as a lightweight picker; it complements, not replaces, rule‑based interpretation:
+
+| Dataset pattern | Observable behaviour near boundary | Suggested scenario | Rationale |
+| --- | --- | --- | --- |
+| Immediate step change | Post‑boundary points jump and stay favourable | RecalcCrossingShift | Emphasise rapid consolidation right after recalculation |
+| Gradual consolidation | Favourable side emerges over several points | RecalcCrossingTrend | Allow a longer post window for trend to establish |
+| Minimal nudge / borderline | Small moves, high noise | RecalcCrossingTwoSigma | Conservative emphasis; avoid over‑claiming |
+| Pure recalculation narrative | Just acknowledge new baseline | RecalculationsRecalculated | Light‑touch reset for formal reporting |
+| Curated baselines drive story | Explicit boundaries with policy‑set direction | BaselinesRecalculated | Anchor to explicit baselines, defer colour to policy |
+
+Notes:
+- All scenarios only upgrade neutral (Common/NoJudgement) categories in small windows; they never overwrite directional verdicts from rules.
+- For metrics with ImprovementDirection.Neither, overlays avoid directional bias; letters revert to side labelling.
+- Maintain minimum‑points gating to prevent premature summary icons.
 
 ## How this relates to NHSE SQL v2.6a
 

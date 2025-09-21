@@ -26,18 +26,39 @@ const items: DemoItem[] = [
 			"Explore the suite of FDP products with documentation, onboarding guidance, and service status.",
 	},
 	{
-		id: "guidance",
-		label: "Guidance",
-		description: "Design system and service guidance",
+		id: "centre-of-excellence",
+		label: "Centre of Excellence",
+		description: "Training and best practices",
 		detail:
-			"Find design, accessibility, and service standards to build consistent user experiences.",
+			"Access best practices, case studies, and expert advice to help you get the most out of the FDP.",
 	},
 	{
-		id: "analytics",
-		label: "Analytics",
+		id: "analyst-portal",
+		label: "Analyst Portal",
 		description: "Dashboards and insights",
 		detail:
-			"Access national and regional dashboards, metrics, and performance insights.",
+			"Explore the suite of FDP products with documentation, onboarding guidance, and service status.",
+	},
+	{
+		id: "metadata-explorer-hub",
+		label: "Metadata Explorer Hub",
+		description: "Explore and understand existing datasets, metadata and ontologies.",
+		detail:
+			"Access comprehensive metadata documentation, including data models, API specifications, and usage guidelines.",
+	},
+	{
+		id: "solution-exchange",
+		label: "Solution Exchange",
+		description: "Find and share FDP-compatible solutions and services.",
+		detail:
+			"Access comprehensive documentation and resources for FDP-compatible solutions, including implementation guides and best practices.",
+	},
+	{
+		id: "developer-portal",
+		label: "Developer Portal",
+		description: "Resources and tools for developers.",
+		detail:
+			"Access comprehensive documentation, API references, and SDKs for building on the FDP.",
 	},
 ];
 
@@ -66,8 +87,8 @@ export const Default: Story = {
 				{/* Header: FDP brand, inverse logo on dark blue background */}
 				<div style={{ background: "#003087" }}>
 					<Header
-						service={{ text: "Federated Data Platform", href: "/" }}
-						className="nhsuk-header--dark-blue-gradient"
+						service={{ text: "National Homepage", href: "/" }}
+						className="nhsuk-header--dark-grey-gradient"
 						logoVariant={LogoVariant.CompactInverted}
 					/>
 				</div>

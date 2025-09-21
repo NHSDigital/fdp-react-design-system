@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { SPCSpark } from "./SPCSpark";
 import { VariationState } from "../SPCIcons/SPCConstants";
 import { ImprovementDirection } from "../engine";
+import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 
 describe("SPCSpark", () => {
 	const data = Array.from({ length: 10 }).map((_, i) => ({ value: 50 + i }));
@@ -206,21 +207,21 @@ describe("SPCSpark", () => {
 				centerLine={10}
 				controlLimits={{ lower: 0, upper: 20 }}
 				pointSignals={[
-					"neither",
-					"neither",
-					"neither",
-					"neither",
-					"neither",
-					"improvement",
-					"neither",
-					"neither",
-					"neither",
-					"neither",
-					"neither",
-					"concern",
-					"neither",
-					"neither",
-					"neither",
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Improvement,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Concern,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
+					UiVariationIcon.Neither,
 				]}
 			/>
 		);

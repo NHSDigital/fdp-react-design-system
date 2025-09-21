@@ -8,7 +8,7 @@ import {
 import { ImprovementDirection } from "../engine";
 import { mapIconToVariation } from "./state";
 import { DEFAULT_MIN_POINTS } from "./constants";
-import { visualsToNeutralFlags, visualsToPointSignals } from "./transform";
+import { visualsToNeutralFlags, visualsToPointSignals, type PointSignal } from "./transform";
 import type { VariationState } from "../SPCIcons/SPCConstants";
 
 export type SpcDatum =
@@ -19,6 +19,8 @@ export interface SpcPrecomputedSummary {
 	rows: any[];
 	visuals: SpcVisualCategory[];
 	latestState: VariationState | null;
+	/** Engine variation icon on the last real row (preserves side for neutral special cause) */
+	lastVariationIcon: VariationIcon | null;
 	centerLine: number | null;
 	controlLimits: { lower: number | null; upper: number | null } | null;
 	sigmaBands: {
@@ -28,7 +30,7 @@ export interface SpcPrecomputedSummary {
 		lowerTwo: number | null;
 	} | null;
 	/** Optional convenience arrays for spark fallback colouring when visuals aren’t used */
-	pointSignals?: Array<"improvement" | "concern" | "neither" | null>;
+	pointSignals?: Array<PointSignal | null>;
 	pointNeutralSpecialCause?: boolean[];
 }
 
@@ -98,6 +100,7 @@ export function computeSpcPrecomputed(
 	const latestState = mapIconToVariation(
 		last?.variationIcon as VariationIcon | null
 	);
+	const lastVariationIcon = (last?.variationIcon ?? null) as VariationIcon | null;
 	const centerLine = (last?.mean ?? null) as number | null;
 	const controlLimits = last
 		? {
@@ -105,14 +108,12 @@ export function computeSpcPrecomputed(
 			upper: (last?.upperProcessLimit ?? null) as number | null,
 			}
 	: null;
-	const sigmaBands = last
-		? {
+	const sigmaBands = last ? {
 			upperOne: (last?.upperOneSigma ?? null) as number | null,
 			upperTwo: (last?.upperTwoSigma ?? null) as number | null,
 			lowerOne: (last?.lowerOneSigma ?? null) as number | null,
 			lowerTwo: (last?.lowerTwoSigma ?? null) as number | null,
-			}
-	: null;
+	} : null;
 
 	let pointSignals: SpcPrecomputedSummary["pointSignals"] | undefined;
 	let pointNeutralSpecialCause:
@@ -127,6 +128,7 @@ export function computeSpcPrecomputed(
 		rows,
 		visuals,
 		latestState,
+		lastVariationIcon,
 		centerLine,
 		controlLimits,
 		sigmaBands,

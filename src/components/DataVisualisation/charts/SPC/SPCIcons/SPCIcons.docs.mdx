@@ -202,6 +202,35 @@ With gradient wash:
 <SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={5} gradientWash />
 ```
 
+### Use with precomputed summary (one-engine parity)
+
+When you're already computing the SPC engine once for a series (to feed both `SPCChart` and `SPCSpark`), you can also render the exact same summary icon using `SPCVariationIcon` without remapping states yourself.
+
+Pass the `SpcPrecomputedSummary` object and the `improvementDirection`. The icon will use the engine's last-row `variationIcon`, orient the geometry and letter consistently, and match the embedded chart icon.
+
+```tsx
+import { computeSpcPrecomputed, ImprovementDirection, ChartType } from '../utils/precompute';
+import { SPCVariationIcon } from './SPCIcon';
+
+const values = [60,61,60,61,60,61,60,61,60, 78,79,80,81,82,81,83,82,81];
+const data = values.map((v, i) => ({ x: i, value: v }));
+const summary = computeSpcPrecomputed(data, {
+	chartType: ChartType.XmR,
+	metricImprovement: ImprovementDirection.Up,
+});
+
+// Standalone icon that matches SPCChart's embedded variation icon for the same series
+<SPCVariationIcon
+	precomputed={summary}
+	improvementDirection={ImprovementDirection.Up}
+	size={44}
+/>;
+```
+
+Notes:
+- Provide `improvementDirection` so letters align with business polarity when applicable. If omitted, the icon falls back to a neutral orientation heuristic.
+- The `precomputed` path preserves neutral special-cause (purple) behaviour and side orientation from the engine.
+
 ## Storybook
 
 Below are the live icon matrices (sourced from `SPCIcons.stories`).

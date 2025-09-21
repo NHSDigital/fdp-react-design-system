@@ -1,5 +1,5 @@
 import React, { useId, useMemo } from "react";
-import { tokenColour, getGradientOpacities } from "./tokenUtils";
+import { tokenColour, getGradientOpacities, colourForState } from "./tokenUtils";
 import {
 	computePointPositions,
 	Direction,
@@ -18,6 +18,7 @@ import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from ".
 // Also accept UI-level VariationIcon (Improvement/Concern/Neither/Suppressed)
 import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 import { SpcEmbeddedIconVariant, LetterMode, SpcLetterGlyph } from "../SPCChart/SPCChart.constants";
+import type { SpcPrecomputedSummary } from "../utils/precompute";
 
 // Friendly alias exported for consumers who want to pass just the engine icon key
 export type SpcEngineIconPayload = {
@@ -395,6 +396,10 @@ export interface SpcIconBaseProps {
 
 export interface SPCVariationIconProps extends SpcIconBaseProps {
 	data: SpcVariationInput;
+	/** Optional: pass a precomputed SPC summary (rows/visuals) and we will derive the last-row icon automatically. */
+	precomputed?: SpcPrecomputedSummary;
+	/** If using `precomputed`, provide the metric improvement direction to orient letters consistently. */
+	improvementDirection?: ImprovementDirection;
 }
 
 export interface SpcAssuranceIconProps extends SpcIconBaseProps {
@@ -459,6 +464,8 @@ const buildDefs = (
 
 export const SPCVariationIcon = ({
 	data,
+	precomputed,
+	improvementDirection,
 	size = 44,
 	ariaLabel,
 	showLetter = true,
@@ -484,10 +491,23 @@ export const SPCVariationIcon = ({
 	} = getGradientOpacities();
 
 	// Resolve semantic state + layout once
-	const { state, direction, polarity } = useMemo(
-		() => resolveStateAndLayout(data as SpcVariationInput),
-		[data]
-	);
+	const { state, direction, polarity, ariaInput } = useMemo(() => {
+		if (precomputed && precomputed.lastVariationIcon !== undefined) {
+			// Build engine-aligned payload from last variation icon
+			const iconPayload: SpcVariationEngineIconPayload = {
+				variationIcon: (precomputed.lastVariationIcon as unknown) as SpcEngineVariationIcon,
+				improvementDirection: improvementDirection ?? ImprovementDirection.Neither,
+				// Infer neutral special-cause when VariationState was mapped as Neither from engine NeitherHigh/Low
+				specialCauseNeutral:
+					precomputed.latestState === VariationState.SpecialCauseNoJudgement,
+				// Side hints not strictly needed for improvement/concern, only for neutral arrow orientation
+			};
+			const { state, direction, polarity } = resolveStateAndLayout(iconPayload);
+			return { state, direction, polarity, ariaInput: iconPayload };
+		}
+		const { state, direction, polarity } = resolveStateAndLayout(data as SpcVariationInput);
+		return { state, direction, polarity, ariaInput: data as SpcVariationInput };
+	}, [data, precomputed, improvementDirection]);
 	const colour = useMemo(() => getVariationColour(state), [state]);
 	const judgement = useMemo(() => getVariationTrend(state), [state]);
 	const showLetterForJudgement =
@@ -519,9 +539,7 @@ export const SPCVariationIcon = ({
 		`${colour.label}${
 			letter ? (direction === Direction.Higher ? " – Higher" : " – Lower") : ""
 		}`;
-	const ariaDescription = deriveVariationAriaDescription(
-		data as SpcVariationInput
-	);
+	const ariaDescription = deriveVariationAriaDescription(ariaInput as SpcVariationInput);
 
 	// --- Triangle with run rendering (new) ---
 	if (variant === SpcEmbeddedIconVariant.TriangleWithRun) {
@@ -587,11 +605,7 @@ export const SPCVariationIcon = ({
 		const runRadius = 10;
 		const runGap = 26;
 		const runStartX = centerX - 2 * runGap;
-		const runColor = state === VariationState.SpecialCauseImproving
-				? tokenColour("improvement", "#00B0F0")
-				: state === VariationState.SpecialCauseDeteriorating
-					? tokenColour("concern", "#E46C0A")
-					: neutralGrey;
+		const runColor = state === VariationState.CommonCause ? neutralGrey : colourForState(state);
 		const runCircles = Array.from({ length: 5 }).map((_, i) => {
 		const filled = (state === VariationState.SpecialCauseImproving ||
 				state === VariationState.SpecialCauseDeteriorating) &&

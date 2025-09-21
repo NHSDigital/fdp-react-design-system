@@ -5,9 +5,10 @@ import {
 	SparkSize,
 	ComputedSparkMetrics,
 } from "./SPCSpark.types";
-import { tokenColour, getGradientOpacities } from "../SPCIcons/tokenUtils";
+import { tokenColour, getGradientOpacities, colourForState, colourForSignal, colourCommon } from "../SPCIcons/tokenUtils";
 import { VariationState, MetricPolarity, Direction } from "../SPCIcons/SPCConstants";
 import { ImprovementDirection, SpcVisualCategory } from "../engine";
+import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 import { deriveVariationAriaDescription } from "../SPCIcons/SPCIcon";
 
 const SIZE_PRESETS: Record<
@@ -49,20 +50,7 @@ function computeMetrics(points: SPCSparkPoint[]): ComputedSparkMetrics {
 	return { mean, latestValue, latestIndex: absoluteLatestIndex };
 }
 
-function stateColour(state?: VariationState): string {
-	switch (state) {
-		case VariationState.SpecialCauseImproving:
-			return tokenColour("improvement", "#00B0F0");
-		case VariationState.SpecialCauseDeteriorating:
-			return tokenColour("concern", "#E46C0A");
-		case VariationState.SpecialCauseNoJudgement:
-			return tokenColour("no-judgement", "#490092");
-		case VariationState.CommonCause:
-			return tokenColour("common-cause", "#A6A6A6");
-		default:
-			return tokenColour("common-cause", "#A6A6A6");
-	}
-}
+const stateColour = (state?: VariationState): string => colourForState(state);
 
 export const SPCSpark: React.FC<SPCSparkProps> = ({
 	data,
@@ -292,12 +280,12 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 		const input = {
 			variationIcon:
 				derivedState === VariationState.SpecialCauseImproving
-					? "improvement"
+					? UiVariationIcon.Improvement
 					: derivedState === VariationState.SpecialCauseDeteriorating
-						? "concern"
+						? UiVariationIcon.Concern
 						: derivedState === VariationState.SpecialCauseNoJudgement
-							? "none"
-							: "neither",
+							? UiVariationIcon.Suppressed
+							: UiVariationIcon.Neither,
 			trend:
 				dirEnum === ImprovementDirection.Up
 					? Direction.Higher
@@ -463,7 +451,7 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 								x2={canvasWidth}
 								y1={meanY(mean as number)}
 								y2={meanY(mean as number)}
-					stroke={tokenColour("common-cause", "#A6A6A6")}
+					stroke={colourCommon()}
 					strokeWidth={1}
 					strokeDasharray="2,2"
 				/>
@@ -471,7 +459,7 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 			<path
 				d={pathD}
 				fill="none"
-				stroke={tokenColour("common-cause", "#A6A6A6")}
+				stroke={colourCommon()}
 				strokeWidth={preset.stroke}
 				strokeLinecap="round"
 			/>
@@ -487,36 +475,31 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 				const r =
 					(isLatest && showLatestMarker ? preset.pointR + 1 : preset.pointR) -
 					0.5;
-				let fillColour = tokenColour("common-cause", "#A6A6A6");
+				let fillColour = colourCommon();
 
 				if (colorPointsBySignal) {
 					// Prefer exact v2 visual categories for parity when provided
 					const cat: SpcVisualCategory | undefined = visualCategories?.[globalIndexBase + origIdx];
 					if (cat != null) {
-						switch (cat) {
-							case SpcVisualCategory.Improvement:
-								fillColour = tokenColour("improvement", "#00B0F0");
-								break;
-							case SpcVisualCategory.Concern:
-								fillColour = tokenColour("concern", "#E46C0A");
-								break;
-							case SpcVisualCategory.NoJudgement:
-								fillColour = tokenColour("no-judgement", "#490092");
-								break;
-							case SpcVisualCategory.Common:
-							default:
-								fillColour = tokenColour("common-cause", "#A6A6A6");
-						}
+						if (cat === SpcVisualCategory.Improvement) fillColour = colourForSignal(UiVariationIcon.Improvement);
+						else if (cat === SpcVisualCategory.Concern) fillColour = colourForSignal(UiVariationIcon.Concern);
+						else if (cat === SpcVisualCategory.NoJudgement) fillColour = tokenColour("no-judgement", "#490092");
+						else fillColour = colourCommon();
 					} else {
 						// Fallback: per-point signal map with neutral special-cause flag
-						const sig = pointSignals?.[globalIndexBase + origIdx];
-						if (sig === "improvement") fillColour = tokenColour("improvement", "#00B0F0");
-						else if (sig === "concern") fillColour = tokenColour("concern", "#E46C0A");
+												const rawSig = pointSignals?.[globalIndexBase + origIdx] as UiVariationIcon | "improvement" | "concern" | "neither" | "suppressed" | null | undefined;
+												const sig =
+													rawSig === "improvement" ? UiVariationIcon.Improvement :
+													rawSig === "concern" ? UiVariationIcon.Concern :
+													rawSig === "neither" ? UiVariationIcon.Neither :
+													rawSig === "suppressed" ? UiVariationIcon.Suppressed : rawSig;
+												if (sig === UiVariationIcon.Improvement) fillColour = colourForSignal(sig);
+												else if (sig === UiVariationIcon.Concern) fillColour = colourForSignal(sig);
 						else {
 							const neutralSC = pointNeutralSpecialCause?.[globalIndexBase + origIdx];
 							fillColour = neutralSC
-								? tokenColour("no-judgement", "#490092")
-								: tokenColour("common-cause", "#A6A6A6");
+														? tokenColour("no-judgement", "#490092")
+														: colourCommon();
 						}
 					}
 				}

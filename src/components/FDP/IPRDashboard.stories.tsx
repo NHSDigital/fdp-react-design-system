@@ -8,10 +8,10 @@ import { LogoVariant } from "../../assets/brand";
 import { AriaTabsDataGrid } from "../SortableDataTable/AriaTabsDataGrid";
 import { createGenericTabsConfig } from "../SortableDataTable/AriaTabsDataGridFactory";
 // SPC-backed visuals
-import { SPCVariationIcon, VariationJudgement, MetricPolarity, Direction, VariationState } from "../DataVisualisation/charts/SPC/icons";
-import { ImprovementDirection, SPCChart, computeSpcPrecomputed, DEFAULT_MIN_POINTS } from "../DataVisualisation/charts/SPC";
+import { SPCVariationIcon, VariationJudgement, MetricPolarity, Direction } from "../DataVisualisation/charts/SPC/icons";
+import { ImprovementDirection, SPCChart, computeSpcPrecomputed, DEFAULT_MIN_POINTS, type SpcPrecomputedSummary } from "../DataVisualisation/charts/SPC";
 import { SPCSpark } from "../DataVisualisation/charts/SPC/SPCSpark/SPCSpark";
-import { SpcVisualCategory, ChartType } from "../DataVisualisation/charts/SPC/engine";
+import { ChartType } from "../DataVisualisation/charts/SPC/engine";
 
 type PageId = "overview" | "summary" | "exceptions" | "transformation";
 
@@ -162,16 +162,7 @@ export const PerformanceOverview: Story = {
 
 			// Precompute SPC engine rows and visuals once per NOF row for exact spark/chart parity
 			const precomputed = React.useMemo(() => {
-				const map = new Map<string, {
-					rows: any[];
-					visuals: SpcVisualCategory[];
-					latestState: VariationState | null;
-					centerLine: number | null;
-					controlLimits: { lower: number | null; upper: number | null } | null;
-					sigmaBands: { upperOne: number | null; upperTwo: number | null; lowerOne: number | null; lowerTwo: number | null } | null;
-					pointSignals?: Array<"improvement" | "concern" | "neither" | null>;
-					pointNeutralSpecialCause?: boolean[];
-				}>();
+				const map = new Map<string, SpcPrecomputedSummary>();
 
 				for (const row of nofData) {
 					const data = row.dates.map((d, i) => ({ x: d, value: row.values[i] }));
@@ -213,19 +204,14 @@ export const PerformanceOverview: Story = {
 
 			const SpcIconCell: React.FC<{ row: NofRow }> = ({ row }) => {
 				const pc = precomputed.get(row.id);
-				const ls = pc?.latestState ?? null;
-				const judgement: VariationJudgement =
-					ls === VariationState.SpecialCauseImproving
-						? VariationJudgement.Improving
-						: ls === VariationState.SpecialCauseDeteriorating
-							? VariationJudgement.Deteriorating
-							: ls === VariationState.SpecialCauseNoJudgement
-								? VariationJudgement.No_Judgement
-								: VariationJudgement.None;
 				return (
 					<SPCVariationIcon
-						size={36}
-						data={{ judgement, polarity: row.polarity, trend: Direction.Higher }}
+						size={64}
+						// Minimal placeholder input; actual state/layout come from precomputed
+						data={{ judgement: VariationJudgement.None, polarity: row.polarity, trend: Direction.Higher }}
+						precomputed={pc}
+						improvementDirection={row.improvementDirection}
+						dropShadow={false}
 					/>
 				);
 			};
@@ -244,7 +230,9 @@ export const PerformanceOverview: Story = {
 
 			const overviewTabsLocal = createGenericTabsConfig<NofRow>(nofData, [
 				{ id: "trust", label: "Trust", ariaLabel: "National Outcomes Framework metrics", columns: nofColumns },
-				{ id: "division", label: "Division", ariaLabel: "Divisional metrics", columns: nofColumns },
+				{ id: "division", label: "Division", ariaLabel: "Divisional metrics", columns: [] },
+				{ id: "care-group", label: "Care Group", ariaLabel: "Care Group metrics", columns: [] },
+				{ id: "ward", label: "Ward", ariaLabel: "Ward metrics", columns: [] },
 			]);
 
 			return (

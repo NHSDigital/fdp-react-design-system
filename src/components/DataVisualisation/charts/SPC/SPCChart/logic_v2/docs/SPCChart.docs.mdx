@@ -204,6 +204,18 @@ Prop reference:
 - `precomputed` (SPCChart): object with shape `{ rows: V2Row[]; visuals: SpcVisualCategory[] }`
 - `visualCategories` (SPCSpark): `SpcVisualCategory[]`
 
+#### Standalone icon parity using the same precompute
+
+If you want a standalone icon (e.g. in a table cell or summary card) that exactly matches the embedded chart icon, pass the same `summary` to `SPCVariationIcon`:
+
+```tsx
+import { SPCVariationIcon } from '../SPCIcons/SPCIcon';
+
+<SPCVariationIcon precomputed={summary} improvementDirection={ImprovementDirection.Up} />
+```
+
+This consumes the engine's last-row `variationIcon` and orients lettering consistently with `metricImprovement`.
+
 
 ## When to use
 

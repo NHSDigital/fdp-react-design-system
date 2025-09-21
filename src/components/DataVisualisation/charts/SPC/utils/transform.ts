@@ -1,4 +1,5 @@
 import { ChartType, ImprovementDirection, SpcVisualCategory } from "../engine";
+import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 import {
 	ChartType as V2ChartType,
 	ImprovementDirection as V2ImprovementDirection,
@@ -6,18 +7,24 @@ import {
 } from "../SPCChart/logic_v2/types";
 import { DEFAULT_MIN_POINTS } from "./constants";
 
+// Typed point signal values based on UI-level VariationIcon enum (subset only)
+export type PointSignal =
+	| UiVariationIcon.Improvement
+	| UiVariationIcon.Concern
+	| UiVariationIcon.Neither;
+
 export function visualsToPointSignals(
 	visuals: SpcVisualCategory[] | undefined
-) {
+): Array<PointSignal | null> | undefined {
 	if (!visuals || visuals.length === 0) return undefined;
 	return visuals.map((c) => {
 		switch (c) {
 			case SpcVisualCategory.Improvement:
-				return "improvement" as const;
+				return UiVariationIcon.Improvement;
 			case SpcVisualCategory.Concern:
-				return "concern" as const;
+				return UiVariationIcon.Concern;
 			case SpcVisualCategory.NoJudgement:
-				return "neither" as const;
+				return UiVariationIcon.Neither;
 			default:
 				return null;
 		}

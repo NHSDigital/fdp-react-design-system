@@ -43,3 +43,56 @@ export const getGradientOpacities = () => ({
 		tokenColour("gradient.stop.end-opacity", "0")
 	),
 });
+
+// Centralised mapping from enums to token names and fallbacks to avoid scattered string literals
+import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
+import { VariationState } from "./SPCConstants";
+
+export const SPC_TOKEN_KEYS = {
+	improvement: "improvement",
+	concern: "concern",
+	noJudgement: "no-judgement",
+	common: "common-cause",
+} as const;
+
+export const SPC_FALLBACK_HEX = {
+	improvement: "#00B0F0",
+	concern: "#E46C0A",
+	noJudgement: "#490092",
+	common: "#A6A6A6",
+} as const;
+
+export const colourImprovement = () => tokenColour(SPC_TOKEN_KEYS.improvement, SPC_FALLBACK_HEX.improvement);
+export const colourConcern = () => tokenColour(SPC_TOKEN_KEYS.concern, SPC_FALLBACK_HEX.concern);
+export const colourNoJudgement = () => tokenColour(SPC_TOKEN_KEYS.noJudgement, SPC_FALLBACK_HEX.noJudgement);
+export const colourCommon = () => tokenColour(SPC_TOKEN_KEYS.common, SPC_FALLBACK_HEX.common);
+
+/** Map UI VariationIcon to token colour */
+export function colourForSignal(icon: UiVariationIcon | null | undefined): string {
+	switch (icon) {
+		case UiVariationIcon.Improvement:
+			return colourImprovement();
+		case UiVariationIcon.Concern:
+			return colourConcern();
+		case UiVariationIcon.Neither:
+		case UiVariationIcon.Suppressed:
+		default:
+			return colourCommon();
+	}
+}
+
+/** Map series-level VariationState to token colour used for series strokes/bands */
+export function colourForState(state: VariationState | null | undefined): string {
+	switch (state) {
+		case VariationState.SpecialCauseImproving:
+			return colourImprovement();
+		case VariationState.SpecialCauseDeteriorating:
+			return colourConcern();
+		case VariationState.SpecialCauseNoJudgement:
+			return colourNoJudgement();
+		case VariationState.CommonCause:
+		default:
+			return colourCommon();
+	}
+}
+

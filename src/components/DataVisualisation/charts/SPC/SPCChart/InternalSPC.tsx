@@ -24,35 +24,38 @@ let spcSequenceInstanceCounter = 0;
 
 import type { InternalSPCProps } from "./InternalSPC.types";
 
-const InternalSPC: React.FC<InternalSPCProps> = ({
-	series,
-	showPoints,
-	announceFocus,
-	limits,
-	showZones,
-	highlightOutOfControl,
-	engineRows,
-	enableRules,
-	narrationContext,
-	gradientSequences,
-	sequenceTransition,
-	processLineWidth,
-	effectiveUnit,
-	partitionMarkers,
-	ariaLabel,
-	metricImprovement,
-	enableNeutralNoJudgement = true,
-	showTrendGatingExplanation = true,
-	showTrendStartMarkers = false,
-	showFirstFavourableCrossMarkers = false,
-	showTrendBridgeOverlay = false,
-	showSignalsInspector = false,
-	onSignalFocus,
-	visualCategories,
-	uniformTarget,
-	showFocusIndicator = false,
-	zeroBreakSlotGapPx,
-}) => {
+const InternalSPC: React.FC<InternalSPCProps> = ({ data, targets, visuals, a11y, axis, compute }) => {
+	const {
+		series,
+		engineRows,
+		visualCategories,
+		partitionMarkers,
+	} = data;
+	const { limits, uniformTarget } = targets;
+	const {
+		showPoints,
+		showZones,
+		highlightOutOfControl,
+		gradientSequences,
+		sequenceTransition,
+		processLineWidth,
+		showFocusIndicator = false,
+		enableRules,
+		enableNeutralNoJudgement = true,
+		showTrendStartMarkers = false,
+		showFirstFavourableCrossMarkers = false,
+		showTrendBridgeOverlay = false,
+	} = visuals;
+	const {
+		announceFocus,
+		ariaLabel,
+		narrationContext,
+		showSignalsInspector = false,
+		onSignalFocus,
+		showTrendGatingExplanation = true,
+	} = a11y;
+	const { zeroBreakSlotGapPx } = axis;
+	const { metricImprovement, effectiveUnit } = compute;
 	const scaleCtx = useScaleContext();
 	const chartCtx = useChartContext();
 	if (!scaleCtx) return null;

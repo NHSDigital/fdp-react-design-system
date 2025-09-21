@@ -124,6 +124,86 @@ Notes:
 - Dev‑time warnings may guide you to the grouped syntax if you pass deprecated flat props.
 - You can mix approaches during migration; grouped fields win when both are specified.
 
+### Sharing a single engine run with SPCSpark (precomputed visuals)
+
+For perfect colour parity between the compact `SPCSpark` and the full `SPCChart`, compute the SPC engine once for your series and pass the engine results to both components:
+
+- To the chart via `precomputed={{ rows, visuals }}`
+- To the spark via `visualCategories={visuals}` (and optionally series state for icons / narration)
+
+This avoids duplicate engine work and ensures both components classify and colour points identically, including neutral “No Judgement” cases.
+
+Recommended helper (DRY):
+
+```tsx
+import { computeSpcPrecomputed, ImprovementDirection, ChartType, DEFAULT_MIN_POINTS } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import { SPCChart } from '../SPCChart/SPCChart';
+import { SPCSpark } from '../SPCSpark/SPCSpark';
+
+const values = [60,61,60,61,60,61,60,61,60, 78,79,80,81,82,81,83,82,81];
+const data = values.map((v, i) => ({ x: i, value: v }));
+const summary = computeSpcPrecomputed(data, {
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up,
+  minimumPoints: DEFAULT_MIN_POINTS,
+  enableNeutralNoJudgement: true,
+});
+
+<>
+  <SPCChart
+    ariaLabel="A&E 4h performance"
+    data={values.map((y, i) => ({ x: i, y }))}
+    engine={{ metricImprovement: ImprovementDirection.Up }}
+    precomputed={{ rows: summary.rows, visuals: summary.visuals }}
+    showPoints
+  />
+  <SPCSpark
+    data={values.map((v, i) => ({ x: i, value: v }))}
+    metricImprovement={ImprovementDirection.Up}
+    visualCategories={summary.visuals}
+    centerLine={summary.centerLine}
+    controlLimits={summary.controlLimits}
+    sigmaBands={summary.sigmaBands}
+    colorPointsBySignal
+  />
+</>
+```
+
+Manual (advanced):
+
+```tsx
+import { buildSpcV26a, computeSpcVisualCategories, ChartType, ImprovementDirection } from '../engine';
+import { SPCChart } from '../SPCChart/SPCChart';
+import { SPCSpark } from '../SPCSpark/SPCSpark';
+
+const values = [60,61,60,61,60,61,60,61,60, 78,79,80,81,82,81,83,82,81];
+const data = values.map((v, i) => ({ x: i, value: v }));
+const engine = buildSpcV26a({ chartType: ChartType.XmR, metricImprovement: ImprovementDirection.Up, data, settings: { minimumPoints: DEFAULT_MIN_POINTS, chartLevelEligibility: true } });
+const rows = engine.rows;
+const visuals = computeSpcVisualCategories(rows, { metricImprovement: ImprovementDirection.Up, enableNeutralNoJudgement: true });
+
+<>
+  <SPCChart
+    ariaLabel="A&E 4h performance"
+    data={values.map((y, i) => ({ x: i, y }))}
+    metricImprovement={ImprovementDirection.Up}
+    precomputed={{ rows, visuals }}
+    showPoints
+  />
+  <SPCSpark
+    data={values.map((v) => ({ value: v }))}
+    metricImprovement={ImprovementDirection.Up}
+    visualCategories={visuals}
+    colorPointsBySignal
+  />
+</>
+```
+
+Prop reference:
+
+- `precomputed` (SPCChart): object with shape `{ rows: V2Row[]; visuals: SpcVisualCategory[] }`
+- `visualCategories` (SPCSpark): `SpcVisualCategory[]`
+
 
 ## When to use
 

@@ -16,18 +16,12 @@ import {
     SpcWarningCategory,
     SpcWarningCode,
 } from "./logic_v2/types";
-import { ImprovementDirection, VariationIcon, ChartType } from "./types";
+import { VariationIcon } from "./types";
 import computeAutoMetrics from "../utils/autoMetrics";
 import type { EngineRowUI } from "./SPCChart.types";
 // v2 engine visuals and presets
 import { SpcVisualCategory } from "./logic_v2";
-import {
-	ChartType as V2ChartType,
-	ImprovementDirection as V2ImprovementDirection,
-	BuildArgsV2 as V2BuildArgs,
-	SpcRowV2 as V2Row,
-	SpcSettingsV26a as V2Settings,
-} from "./logic_v2/types";
+import { BuildArgsV2 as V2BuildArgs, SpcRowV2 as V2Row } from "./logic_v2/types";
 import { VariationIcon as V2VariationIcon } from "./logic_v2/types";
 import {
 	buildVisualsForScenario,
@@ -35,6 +29,7 @@ import {
 } from "./logic_v2/presets";
 import { TrendVisualMode as V2TrendVisualMode } from "./logic_v2";
 import { buildWithVisuals as buildWithVisualsV2 } from "./logic_v2/adapter";
+import { toV2Enums, toV2Settings } from "../utils/transform";
 // Centralised SPC props/types and normalisation helper
 import type { SPCDatum, SPCChartProps } from "./SPCChart.props";
 import { normalizeSpcProps, TrendVisualMode } from "./SPCChart.props";
@@ -129,7 +124,8 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		effHighlightOutOfControl,
 		effVisualsScenario,
 		effVisualsEngineSettings,
-		effSource,
+			effSource,
+			effPrecomputedVisuals,
 		effEngineAutoRecalc,
 	} = normalizeSpcProps(props);
 
@@ -197,54 +193,25 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 
 	// Compute engine v2 visuals (UI-agnostic categories) so the engine drives colour coding
 	const v2Visuals: SpcVisualCategory[] = React.useMemo(() => {
+		// Prefer precomputed visuals if provided
+		if (effPrecomputedVisuals?.visuals) return effPrecomputedVisuals.visuals;
 		try {
 			// Map legacy SPC settings to v2 engine settings for visual parity (typed)
 			// Always resolve a concrete minimumPoints (default 13) and compute chart-level eligibility
-			const resolvedMinPts =
-				typeof effEngineSettings?.minimumPoints === "number" &&
-				!isNaN(effEngineSettings!.minimumPoints!)
-					? effEngineSettings!.minimumPoints!
-					: 13;
-			const v2Settings: Partial<V2Settings> = { minimumPoints: resolvedMinPts };
-			// When the series has at least minimum points overall, enable chart-level eligibility
-			// so the engine backfills limits across the partition (colours available from index 0 in tests)
-			const eligibleCount = rowsInputMaybeAuto.filter(
-				(r) => !r.ghost && typeof r.value === "number"
-			).length;
-			if (eligibleCount >= resolvedMinPts) v2Settings.chartLevelEligibility = true;
-			if (effEngineSettings?.enableFourOfFiveRule != null) {
-				v2Settings.enableFourOfFiveRule = !!effEngineSettings.enableFourOfFiveRule;
-			}
-			if (visualsEngineSettings) Object.assign(v2Settings, visualsEngineSettings);
-			const mapChartTypeToV2 = (t: ChartType): V2ChartType => {
-				switch (t) {
-					case ChartType.XmR:
-						return V2ChartType.XmR;
-					case ChartType.T:
-						return V2ChartType.T;
-					case ChartType.G:
-						return V2ChartType.G;
-					default:
-						return V2ChartType.XmR;
-				}
-			};
-			const mapImprovementToV2 = (
-				d: ImprovementDirection
-			): V2ImprovementDirection => {
-				switch (d) {
-					case ImprovementDirection.Up:
-						return V2ImprovementDirection.Up;
-					case ImprovementDirection.Down:
-						return V2ImprovementDirection.Down;
-					default:
-						return V2ImprovementDirection.Neither;
-				}
-			};
+			const v2Settings = toV2Settings(
+				effEngineSettings as any,
+				rowsInputMaybeAuto,
+				visualsEngineSettings as any
+			);
+			const { chartType: v2ChartType, metricImprovement: v2Dir } = toV2Enums(
+				effChartTypeCore,
+				effMetricImprovementCore
+			);
 			const v2Args: V2BuildArgs = {
-				chartType: mapChartTypeToV2(effChartTypeCore),
-				metricImprovement: mapImprovementToV2(effMetricImprovementCore),
+				chartType: v2ChartType,
+				metricImprovement: v2Dir,
 				data: rowsInputMaybeAuto,
-				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
+				settings: v2Settings,
 			};
 			const { visuals } = buildVisualsForScenario(v2Args, visualsScenario, {
 				trendVisualMode:
@@ -258,6 +225,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 			return [];
 		}
 	}, [
+		effPrecomputedVisuals?.visuals?.length,
 		rowsInputMaybeAuto,
 		effChartTypeCore,
 		effMetricImprovementCore,
@@ -270,50 +238,80 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 
 	// Optional: build v2 rows via adapter and map to a UI-compatible shape when enabled
 	const v2RowsForUi: EngineRowUI[] | null = React.useMemo(() => {
-		try {
-			const resolvedMinPts =
-				typeof effEngineSettings?.minimumPoints === "number" &&
-				!isNaN(effEngineSettings!.minimumPoints!)
-					? effEngineSettings!.minimumPoints!
-					: 13;
-			const v2Settings: Partial<V2Settings> = { minimumPoints: resolvedMinPts };
-			const eligibleCount = rowsInputMaybeAuto.filter(
-				(r) => !r.ghost && typeof r.value === "number"
-			).length;
-			if (eligibleCount >= resolvedMinPts) v2Settings.chartLevelEligibility = true;
-			if (effEngineSettings?.enableFourOfFiveRule != null) {
-				v2Settings.enableFourOfFiveRule = !!effEngineSettings.enableFourOfFiveRule;
+		// Prefer precomputed rows if provided
+		if (effPrecomputedVisuals?.rows) {
+			try {
+				const rows = effPrecomputedVisuals.rows;
+				const mapVariation = (v: V2VariationIcon): VariationIcon => {
+					switch (v) {
+						case V2VariationIcon.ImprovementHigh:
+						case V2VariationIcon.ImprovementLow:
+							return VariationIcon.Improvement;
+						case V2VariationIcon.ConcernHigh:
+						case V2VariationIcon.ConcernLow:
+							return VariationIcon.Concern;
+						case V2VariationIcon.NeitherHigh:
+						case V2VariationIcon.NeitherLow:
+							return VariationIcon.Neither;
+						case V2VariationIcon.CommonCause:
+						default:
+							return VariationIcon.Neither;
+					}
+				};
+				return rows.map(
+					(r: V2Row, i: number): EngineRowUI => ({
+						data: {
+							value: r.value,
+							ghost: !!r.ghost,
+						},
+						partition: { id: r.partitionId },
+						limits: {
+							mean: r.mean,
+							ucl: r.upperProcessLimit,
+							lcl: r.lowerProcessLimit,
+							oneSigma: { upper: r.upperOneSigma, lower: r.lowerOneSigma },
+							twoSigma: { upper: r.upperTwoSigma, lower: r.lowerTwoSigma },
+						},
+						rules: {
+							singlePoint: { up: !!r.singlePointUp, down: !!r.singlePointDown },
+							twoOfThree: { up: !!r.twoSigmaUp, down: !!r.twoSigmaDown },
+							fourOfFive: { up: !!r.fourOfFiveUp, down: !!r.fourOfFiveDown },
+							shift: { up: !!r.shiftUp, down: !!r.shiftDown },
+							trend: { up: !!r.trendUp, down: !!r.trendDown },
+						},
+						classification: {
+							variation: mapVariation(r.variationIcon),
+							neutralSpecialCauseValue:
+								r.variationIcon === V2VariationIcon.NeitherHigh ||
+								r.variationIcon === V2VariationIcon.NeitherLow
+									? (r.specialCauseImprovementValue ??
+										r.specialCauseConcernValue ??
+										1)
+								: null,
+							assurance: undefined,
+						},
+						target: rowsInputMaybeAuto[i]?.target ?? null,
+					})
+				);
+			} catch {
+				return null;
 			}
-			if (visualsEngineSettings) Object.assign(v2Settings, visualsEngineSettings);
-			const mapChartTypeToV2 = (t: ChartType): V2ChartType => {
-				switch (t) {
-					case ChartType.XmR:
-						return V2ChartType.XmR;
-					case ChartType.T:
-						return V2ChartType.T;
-					case ChartType.G:
-						return V2ChartType.G;
-					default:
-						return V2ChartType.XmR;
-				}
-			};
-			const mapImprovementToV2 = (
-				d: ImprovementDirection
-			): V2ImprovementDirection => {
-				switch (d) {
-					case ImprovementDirection.Up:
-						return V2ImprovementDirection.Up;
-					case ImprovementDirection.Down:
-						return V2ImprovementDirection.Down;
-					default:
-						return V2ImprovementDirection.Neither;
-				}
-			};
+		}
+		try {
+			const v2Settings = toV2Settings(
+				effEngineSettings as any,
+				rowsInputMaybeAuto,
+				visualsEngineSettings as any
+			);
+			const { chartType: v2ChartType, metricImprovement: v2Dir } = toV2Enums(
+				effChartTypeCore,
+				effMetricImprovementCore
+			);
 			const v2Args: V2BuildArgs = {
-				chartType: mapChartTypeToV2(effChartTypeCore),
-				metricImprovement: mapImprovementToV2(effMetricImprovementCore),
+				chartType: v2ChartType,
+				metricImprovement: v2Dir,
 				data: rowsInputMaybeAuto,
-				settings: Object.keys(v2Settings).length ? v2Settings : undefined,
+				settings: v2Settings,
 			};
 			const { rows } = buildWithVisualsV2(v2Args);
 			// Map v2 VariationIcon to UI VariationIcon for rendering booleans
@@ -371,7 +369,14 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		} catch {
 			return null;
 		}
-	}, [rowsInputMaybeAuto, effChartTypeCore, effMetricImprovementCore, effEngineSettings, visualsEngineSettings]);
+	}, [
+		effPrecomputedVisuals?.rows?.length,
+		rowsInputMaybeAuto,
+		effChartTypeCore,
+		effMetricImprovementCore,
+		effEngineSettings,
+		visualsEngineSettings,
+	]);
 
 	// Representative row with populated limits (last available)
 	const rowsForUi: EngineRowUI[] | null = v2RowsForUi || null;

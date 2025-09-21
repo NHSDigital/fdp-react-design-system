@@ -1,4 +1,4 @@
-import { ImprovementDirection } from "../engine";
+import { ImprovementDirection, SpcVisualCategory } from "../engine";
 import {
 	VariationState,
 	VariationJudgement,
@@ -65,6 +65,8 @@ export interface SPCSparkProps {
 	>;
 	/** Preferred: Engine-provided flag per row indicating a neutral special-cause (variation 'neither' with special cause). Aligns with data length. */
 	pointNeutralSpecialCause?: boolean[];
+  /** Exact parity: v2 visual categories computed with the same pipeline as SPCChart. If provided, these take precedence over pointSignals/neutral flags. */
+  visualCategories?: SpcVisualCategory[];
 	ariaLabel?: string;
 	ariaDescriptionContext?: Record<string, string | undefined>;
 	className?: string;

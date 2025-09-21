@@ -1,6 +1,6 @@
 {
   "version": "0.0.34-alpha.9",
-  "generatedAt": "2025-09-21T09:20:46.198Z",
+  "generatedAt": "2025-09-21T13:31:55.660Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -697,39 +697,6 @@
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
     },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
-    },
     "ErrorSummary": {
       "name": "ErrorSummary",
       "category": "form",
@@ -779,6 +746,39 @@
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
     },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
+    },
     "Details": {
       "name": "Details",
       "category": "content",
@@ -826,6 +826,117 @@
         }
       ],
       "source": "src/components/Details/Details.schema.ts"
+    },
+    "DateInput": {
+      "name": "DateInput",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Groups day/month/year inputs with shared hint/error via describedBy.",
+        "Field-level validation errors (client side state in React) are not present in initial SSR/macro output."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Root id used as prefix for generated input IDs and hint/error IDs"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional classes for the date input wrapper"
+        },
+        {
+          "name": "items",
+          "type": "Array<{ name: string; label?: string; value?: string; classes?: string; id?: string; inputmode?: string; autocomplete?: string; pattern?: string }>",
+          "description": "Explicit configuration of day/month/year items (fallback defaults applied when omitted)"
+        },
+        {
+          "name": "namePrefix",
+          "type": "string",
+          "description": "Prefix to wrap submitted field names e.g. prefix[day]"
+        },
+        {
+          "name": "values",
+          "type": "{ day?: string; month?: string; year?: string }",
+          "description": "Initial values for each field"
+        },
+        {
+          "name": "fieldset",
+          "type": "{ legend?: string; classes?: string; describedBy?: string }",
+          "description": "Optional fieldset wrapper and legend text"
+        },
+        {
+          "name": "hint",
+          "type": "{ text?: string; html?: string; classes?: string }",
+          "description": "Hint configuration (before error message)"
+        },
+        {
+          "name": "errorMessage",
+          "type": "{ text?: string; html?: string; classes?: string }",
+          "description": "Group level error message (adds error state styles)"
+        }
+      ],
+      "source": "src/components/DateInput/DateInput.schema.ts"
+    },
+    "Checkboxes": {
+      "name": "Checkboxes",
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxItem[]",
+          "required": true,
+          "description": "Array of checkbox items"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Shared name attribute"
+        },
+        {
+          "name": "idPrefix",
+          "type": "string",
+          "description": "ID prefix for fieldset and inputs"
+        },
+        {
+          "name": "legend",
+          "type": "string",
+          "description": "Legend text"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "description": "Legend rendered as page heading"
+        },
+        {
+          "name": "legendSize",
+          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
+          "description": "Legend size"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Group hint text"
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "description": "Group error message"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra wrapper classes"
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "description": "Small variant"
+        }
+      ],
+      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     },
     "CharacterCount": {
       "name": "CharacterCount",
@@ -906,117 +1017,6 @@
         }
       ],
       "source": "src/components/CharacterCount/CharacterCount.schema.ts"
-    },
-    "Checkboxes": {
-      "name": "Checkboxes",
-      "props": [
-        {
-          "name": "items",
-          "type": "CheckboxItem[]",
-          "required": true,
-          "description": "Array of checkbox items"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Shared name attribute"
-        },
-        {
-          "name": "idPrefix",
-          "type": "string",
-          "description": "ID prefix for fieldset and inputs"
-        },
-        {
-          "name": "legend",
-          "type": "string",
-          "description": "Legend text"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "description": "Legend rendered as page heading"
-        },
-        {
-          "name": "legendSize",
-          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
-          "description": "Legend size"
-        },
-        {
-          "name": "hint",
-          "type": "string",
-          "description": "Group hint text"
-        },
-        {
-          "name": "errorMessage",
-          "type": "string",
-          "description": "Group error message"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra wrapper classes"
-        },
-        {
-          "name": "small",
-          "type": "boolean",
-          "description": "Small variant"
-        }
-      ],
-      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
-    },
-    "DateInput": {
-      "name": "DateInput",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Groups day/month/year inputs with shared hint/error via describedBy.",
-        "Field-level validation errors (client side state in React) are not present in initial SSR/macro output."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true,
-          "description": "Root id used as prefix for generated input IDs and hint/error IDs"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional classes for the date input wrapper"
-        },
-        {
-          "name": "items",
-          "type": "Array<{ name: string; label?: string; value?: string; classes?: string; id?: string; inputmode?: string; autocomplete?: string; pattern?: string }>",
-          "description": "Explicit configuration of day/month/year items (fallback defaults applied when omitted)"
-        },
-        {
-          "name": "namePrefix",
-          "type": "string",
-          "description": "Prefix to wrap submitted field names e.g. prefix[day]"
-        },
-        {
-          "name": "values",
-          "type": "{ day?: string; month?: string; year?: string }",
-          "description": "Initial values for each field"
-        },
-        {
-          "name": "fieldset",
-          "type": "{ legend?: string; classes?: string; describedBy?: string }",
-          "description": "Optional fieldset wrapper and legend text"
-        },
-        {
-          "name": "hint",
-          "type": "{ text?: string; html?: string; classes?: string }",
-          "description": "Hint configuration (before error message)"
-        },
-        {
-          "name": "errorMessage",
-          "type": "{ text?: string; html?: string; classes?: string }",
-          "description": "Group level error message (adds error state styles)"
-        }
-      ],
-      "source": "src/components/DateInput/DateInput.schema.ts"
     },
     "Button": {
       "name": "Button",
@@ -1121,8 +1121,8 @@
       "Label",
       "Input",
       "Fieldset",
-      "ErrorMessage",
       "ErrorSummary",
+      "ErrorMessage",
       "DateInput",
       "Button"
     ],
@@ -1139,8 +1139,8 @@
       "Heading"
     ],
     "uncategorised": [
-      "CharacterCount",
-      "Checkboxes"
+      "Checkboxes",
+      "CharacterCount"
     ]
   }
 }

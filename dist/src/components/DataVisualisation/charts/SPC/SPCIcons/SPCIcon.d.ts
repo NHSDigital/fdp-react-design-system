@@ -1,5 +1,6 @@
 import { Direction, MetricPolarity, VariationJudgement, VariationState } from "./SPCConstants";
 import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../engine";
+import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 import { SpcEmbeddedIconVariant, LetterMode, SpcLetterGlyph } from "../SPCChart/SPCChart.constants";
 export type SpcEngineIconPayload = {
     variationIcon: SpcEngineVariationIcon;
@@ -30,7 +31,7 @@ export interface SpcVariationPayload {
     polarity?: MetricPolarity;
 }
 export interface SpcVariationEngineIconPayload {
-    variationIcon: SpcEngineVariationIcon;
+    variationIcon: SpcEngineVariationIcon | UiVariationIcon;
     trend?: Direction;
     polarity?: MetricPolarity;
     improvementDirection?: ImprovementDirection;

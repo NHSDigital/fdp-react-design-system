@@ -7,7 +7,7 @@ import {
 } from "./SPCSpark.types";
 import { tokenColour, getGradientOpacities } from "../SPCIcons/tokenUtils";
 import { VariationState, MetricPolarity, Direction } from "../SPCIcons/SPCConstants";
-import { ImprovementDirection } from "../engine";
+import { ImprovementDirection, SpcVisualCategory } from "../engine";
 import { deriveVariationAriaDescription } from "../SPCIcons/SPCIcon";
 
 const SIZE_PRESETS: Record<
@@ -89,6 +89,7 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 	sigmaBands,
 	pointSignals,
 	pointNeutralSpecialCause,
+  visualCategories,
 }) => {
 	// Use engine improvement direction enum directly
 	const dirEnum: ImprovementDirection | undefined = metricImprovement;
@@ -489,20 +490,33 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 				let fillColour = tokenColour("common-cause", "#A6A6A6");
 
 				if (colorPointsBySignal) {
-					// Prefer engine-provided per-point signal map
-					const sig = pointSignals?.[globalIndexBase + origIdx];
-					// SPCChart parity:
-					if (sig === "improvement")
-						fillColour = tokenColour("improvement", "#00B0F0");
-					else if (sig === "concern")
-						fillColour = tokenColour("concern", "#E46C0A");
-					else {
-						// Neutral signal case – show purple when neutral special cause is present; otherwise grey
-						const neutralSC = pointNeutralSpecialCause?.[globalIndexBase + origIdx];
-						if (neutralSC) {
-							fillColour = tokenColour("no-judgement", "#490092");
-						} else {
-							fillColour = tokenColour("common-cause", "#A6A6A6");
+					// Prefer exact v2 visual categories for parity when provided
+					const cat: SpcVisualCategory | undefined = visualCategories?.[globalIndexBase + origIdx];
+					if (cat != null) {
+						switch (cat) {
+							case SpcVisualCategory.Improvement:
+								fillColour = tokenColour("improvement", "#00B0F0");
+								break;
+							case SpcVisualCategory.Concern:
+								fillColour = tokenColour("concern", "#E46C0A");
+								break;
+							case SpcVisualCategory.NoJudgement:
+								fillColour = tokenColour("no-judgement", "#490092");
+								break;
+							case SpcVisualCategory.Common:
+							default:
+								fillColour = tokenColour("common-cause", "#A6A6A6");
+						}
+					} else {
+						// Fallback: per-point signal map with neutral special-cause flag
+						const sig = pointSignals?.[globalIndexBase + origIdx];
+						if (sig === "improvement") fillColour = tokenColour("improvement", "#00B0F0");
+						else if (sig === "concern") fillColour = tokenColour("concern", "#E46C0A");
+						else {
+							const neutralSC = pointNeutralSpecialCause?.[globalIndexBase + origIdx];
+							fillColour = neutralSC
+								? tokenColour("no-judgement", "#490092")
+								: tokenColour("common-cause", "#A6A6A6");
 						}
 					}
 				}

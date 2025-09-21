@@ -10,3 +10,8 @@ export { variationLabel, extractRuleIds, ruleGlossary, VARIATION_COLOR_TOKENS, g
 export { default as SPCTooltipOverlay } from './SPCChart/SPCTooltipOverlay';
 export { SpcEmbeddedIconVariant } from './SPCChart/SPCChart.constants';
 export * as Icons from './icons';
+export { mapIconToVariation, isSpecialCauseIcon } from './utils/state';
+export { computeSpcPrecomputed } from './utils/precompute';
+export type { SpcPrecomputedSummary, ComputeSpcPrecomputedOptions, SpcDatum } from './utils/precompute';
+export { DEFAULT_MIN_POINTS } from './utils/constants';
+export { visualsToPointSignals, visualsToNeutralFlags } from './utils/transform';

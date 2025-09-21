@@ -13,7 +13,7 @@ export interface UseSpcInput {
     showMean?: boolean;
 }
 export interface UseSpcResult {
-    sparkProps: Pick<SPCSparkProps, "data" | "showMean" | "showLimits" | "showLimitBand" | "showInnerBands" | "metricImprovement" | "variationState" | "centerLine" | "controlLimits" | "pointSignals" | "sigmaBands" | "pointNeutralSpecialCause">;
+    sparkProps: Pick<SPCSparkProps, "data" | "showMean" | "showLimits" | "showLimitBand" | "showInnerBands" | "metricImprovement" | "variationState" | "centerLine" | "controlLimits" | "pointSignals" | "sigmaBands" | "pointNeutralSpecialCause" | "visualCategories">;
     /** Inline style variables for MetricCard background and accent colour */
     metricCardStyle: React.CSSProperties;
     /** Latest SPC state (Improving/Concern/Common/No‑Judgement) */

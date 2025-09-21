@@ -1,4 +1,3 @@
-import { SpcRow } from "./spc";
 import { VariationIcon, AssuranceIcon } from "./spcConstants";
 export declare enum SpcRuleId {
     SinglePointUp = "singlePointUp",
@@ -32,7 +31,7 @@ type RuleFlagCarrier = {
     specialCauseTrendDown?: boolean;
 };
 /** Extract the triggered rule identifiers for a given SPC row */
-export declare function extractRuleIds(row: SpcRow | RuleFlagCarrier | undefined | null): SpcRuleId[];
+export declare function extractRuleIds(row: RuleFlagCarrier | undefined | null): SpcRuleId[];
 /** Standardised human readable label for variation classification */
 export declare function variationLabel(icon: VariationIcon | undefined): string | null;
 /** Human readable assurance (target) classification */

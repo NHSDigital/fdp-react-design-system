@@ -1,46 +1,15 @@
 import * as React from "react";
-import { buildSpcV26a } from "../charts/SPC/engine";
-import {
-	VARIATION_COLOURS,
-	VariationState,
-} from "../charts/SPC/SPCIcons/SPCConstants";
+import { buildSpcV26a, computeSpcVisualCategories, SpcVisualCategory } from "../charts/SPC/engine";
+import { VARIATION_COLOURS, VariationState } from "../charts/SPC/SPCIcons/SPCConstants";
 import { ChartType, ImprovementDirection, VariationIcon } from "../charts/SPC/engine";
 import type {
 	SPCSparkProps,
 	SPCSparkPoint,
 } from "../charts/SPC/SPCSpark/SPCSpark.types";
 import { getGradientOpacities } from "../charts/SPC/SPCIcons/tokenUtils";
+import { mapIconToVariation, isSpecialCauseIcon } from "../charts/SPC/utils/state";
 
-// Helper: map engine icon + neutral flag to VariationState (without series-level No Judgement override)
-function mapIconToVariation(icon?: VariationIcon | null): VariationState | null {
-	switch (icon) {
-		case VariationIcon.ImprovementHigh:
-		case VariationIcon.ImprovementLow:
-			return VariationState.SpecialCauseImproving;
-		case VariationIcon.ConcernHigh:
-		case VariationIcon.ConcernLow:
-			return VariationState.SpecialCauseDeteriorating;
-		case VariationIcon.NeitherHigh:
-		case VariationIcon.NeitherLow:
-			return VariationState.SpecialCauseNoJudgement;
-		case VariationIcon.CommonCause:
-			return VariationState.CommonCause;
-		default:
-			return null;
-	}
-}
-
-// Helper: whether an icon/neutral combo represents a special-cause data point
-function isSpecialCauseIcon(icon?: VariationIcon | null): boolean {
-	return (
-		icon === VariationIcon.ImprovementHigh ||
-		icon === VariationIcon.ImprovementLow ||
-		icon === VariationIcon.ConcernHigh ||
-		icon === VariationIcon.ConcernLow ||
-		icon === VariationIcon.NeitherHigh ||
-		icon === VariationIcon.NeitherLow
-	);
-}
+// mapIconToVariation and isSpecialCauseIcon now provided by SPC utils/state
 
 // Helper: hex -> rgb tuple
 function hexToRgb(h: string): [number, number, number] {
@@ -80,6 +49,7 @@ export interface UseSpcResult {
 		| "pointSignals"
 		| "sigmaBands"
 		| "pointNeutralSpecialCause"
+		| "visualCategories"
 	>;
 	/** Inline style variables for MetricCard background and accent colour */
 	metricCardStyle: React.CSSProperties;
@@ -117,7 +87,12 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 	const engine = React.useMemo(() => {
 		try {
 			const data = rows.map((r, i) => ({ x: (r.x as any) ?? i, value: r.value }));
-			return buildSpcV26a({ chartType, metricImprovement, data, settings: {} });
+			// Mirror SPCChart defaults: resolve minimumPoints and enable chart-level eligibility when sufficient points
+			const resolvedMinPts = 13;
+			const eligibleCount = data.filter((d) => typeof d.value === "number").length;
+			const settings: any = { minimumPoints: resolvedMinPts };
+			if (eligibleCount >= resolvedMinPts) settings.chartLevelEligibility = true;
+			return buildSpcV26a({ chartType, metricImprovement, data, settings });
 		} catch {
 			return null;
 		}
@@ -176,53 +151,44 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		};
 	}, [lastRealRow]);
 
+	// Compute v2 visual categories (UI-agnostic) for exact parity with SPCChart
+	const visualCategories: SpcVisualCategory[] | undefined = React.useMemo(() => {
+		const rowsEngine: any[] | undefined = (engine as any)?.rows;
+		if (!rowsEngine || rowsEngine.length === 0) return undefined;
+		try {
+			return computeSpcVisualCategories(rowsEngine as any, {
+				metricImprovement,
+				enableNeutralNoJudgement: true,
+			});
+		} catch {
+			return undefined;
+		}
+	}, [engine, metricImprovement]);
+
 	const pointSignals:
 		| Array<"improvement" | "concern" | "neither" | null>
 		| undefined = React.useMemo(() => {
-		const rowsEngine: any[] | undefined = (engine as any)?.rows;
-		if (!rowsEngine || rowsEngine.length === 0) return undefined;
-		// Default engine path: determine up/down then map via polarity
-		return rowsEngine.map((r) => {
-			const up =
-				Boolean(r?.specialCauseSinglePointUp) ||
-				Boolean(r?.specialCauseTwoOfThreeUp) ||
-				Boolean(r?.specialCauseFourOfFiveUp) ||
-				Boolean(r?.specialCauseShiftUp) ||
-				Boolean(r?.specialCauseTrendUp);
-			const down =
-				Boolean(r?.specialCauseSinglePointDown) ||
-				Boolean(r?.specialCauseTwoOfThreeDown) ||
-				Boolean(r?.specialCauseFourOfFiveDown) ||
-				Boolean(r?.specialCauseShiftDown) ||
-				Boolean(r?.specialCauseTrendDown);
-			// Map up/down to improvement/concern based on metricImprovement polarity
-			switch (metricImprovement) {
-				case ImprovementDirection.Up: {
-					if (up) return "improvement" as const;
-					if (down) return "concern" as const;
+		if (!visualCategories || visualCategories.length === 0) return undefined;
+		return visualCategories.map((c) => {
+			switch (c) {
+				case SpcVisualCategory.Improvement:
+					return "improvement" as const;
+				case SpcVisualCategory.Concern:
+					return "concern" as const;
+				case SpcVisualCategory.NoJudgement:
 					return "neither" as const;
-				}
-				case ImprovementDirection.Down: {
-					if (down) return "improvement" as const;
-					if (up) return "concern" as const;
-					return "neither" as const;
-				}
-				case ImprovementDirection.Neither:
+				case SpcVisualCategory.Common:
 				default:
-					// In neutral metrics, avoid implying improvement/concern; leave as neither
-					return "neither" as const;
+					return null;
 			}
 		});
-	}, [engine, metricImprovement]);
+	}, [visualCategories?.length]);
 
 	// Neutral special-cause flags per point (variation 'neither' with specialCauseNeitherValue present)
 	const pointNeutralSpecialCause: boolean[] | undefined = React.useMemo(() => {
-		const rowsEngine: any[] | undefined = (engine as any)?.rows;
-		if (!rowsEngine || rowsEngine.length === 0) return undefined;
-		return rowsEngine.map((r) => (
-			r?.variationIcon === VariationIcon.NeitherHigh || r?.variationIcon === VariationIcon.NeitherLow
-		));
-	}, [engine]);
+		if (!visualCategories || visualCategories.length === 0) return undefined;
+		return visualCategories.map((c) => c === SpcVisualCategory.NoJudgement);
+	}, [visualCategories?.length]);
 
 	// Build gradient/accent style based on the final point's signal colour
 	const metricCardStyle: React.CSSProperties = React.useMemo(() => {
@@ -264,6 +230,7 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 			sigmaBands,
 			pointSignals,
 			pointNeutralSpecialCause,
+			visualCategories,
 			variationState: latestState ?? undefined,
 		};
 	}, [
@@ -282,6 +249,7 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		sigmaBands?.lowerTwo,
 		pointSignals?.length,
 		pointNeutralSpecialCause?.length,
+		visualCategories?.length,
 	]);
 
 	return { sparkProps, metricCardStyle, latestState };

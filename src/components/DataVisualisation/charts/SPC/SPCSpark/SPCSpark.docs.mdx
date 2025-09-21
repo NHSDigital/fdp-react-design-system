@@ -45,11 +45,63 @@ Avoid using when full interpretive context (signals over time, rules detail) is 
 | `maxPoints` | `number` | — | If set, thin rendered circles to at most this count (path also thinned); classification still uses full window. |
 | `thinningStrategy` | `'stride' | 'rdp'` | `'stride'` | `stride` keeps roughly uniform spacing; `rdp` applies a shape-preserving simplification (Ramer–Douglas–Peucker). |
 | `colorPointsBySignal` | `boolean` | `false` | When true, each point is coloured individually (improvement / concern / neutral) instead of using a single series colour; latest marker still enlarges. |
+| `visualCategories` | `SpcVisualCategory[]` | — | Engine-provided per-point visual categories (Improvement/Concern/NoJudgement/Common). Prefer this over \`pointSignals\` for exact parity with SPCChart. |
+| `pointSignals` | Array of string or null | — | Fallback per-point signal labels (allowed values: improvement, concern, neither, or null). Used only when visualCategories isn’t supplied. |
+| `pointNeutralSpecialCause` | `boolean[]` | — | Optional flags for per-point “No Judgement” special causes (purple); typically not needed if `visualCategories` is provided. |
 {/* sigmaMethod removed in pure-only renderer */}
 
 ## Classification Model
 
 SPCSpark is now a pure renderer. Classification and per-point signals come from the SPC engine (see `useSpc` or `SPCChart`). The component does not compute limits or classify locally.
+
+For exact colour parity with `SPCChart`, pass the engine’s visual categories directly via `visualCategories`. When `colorPointsBySignal` is true, SPCSpark will:
+
+- Use `visualCategories` if present to colour points (Improvement → blue, Concern → orange, NoJudgement → purple, Common → grey)
+- Otherwise, fall back to `pointSignals` and `pointNeutralSpecialCause`
+
+This mirrors the chart’s visuals layer and prevents subtle drift in edge cases.
+
+### Single-engine parity with SPCChart
+
+For perfect colour and signal parity with `SPCChart`, compute the SPC engine once and share the results:
+
+- Pass `summary.visuals` to the spark via `visualCategories`
+- Optionally pass `summary.centerLine`, `summary.controlLimits`, and `summary.sigmaBands` to keep baselines aligned
+
+Use the helper exported from the SPC barrel:
+
+```tsx
+import {
+	computeSpcPrecomputed,
+	ImprovementDirection,
+	ChartType,
+	DEFAULT_MIN_POINTS,
+} from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import { SPCSpark } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark';
+
+const values = [12, 11, 10, 9, 8, 7, 20, 22, 21];
+const data = values.map((v, i) => ({ x: i, value: v }));
+
+const summary = computeSpcPrecomputed(data, {
+	chartType: ChartType.XmR,
+	metricImprovement: ImprovementDirection.Down,
+	minimumPoints: DEFAULT_MIN_POINTS,
+	enableNeutralNoJudgement: true,
+});
+
+<SPCSpark
+	data={data}
+	metricImprovement={ImprovementDirection.Down}
+	visualCategories={summary.visuals}
+	// Optional extras for consistent baselines
+	centerLine={summary.centerLine}
+	controlLimits={summary.controlLimits}
+	sigmaBands={summary.sigmaBands}
+	colorPointsBySignal
+/>;
+```
+
+Tip: The same `summary` can be passed to `SPCChart` via its `precomputed` prop: `precomputed={{ rows: summary.rows, visuals: summary.visuals }}`.
 
 ## Visual Anatomy
 
@@ -95,4 +147,5 @@ State colours and gradient wash opacities leverage existing SPC icon tokens (`im
 | 2025-08-31 | Added shaded 3σ limit band (`showLimitBand`) and dynamic glyph vertical avoidance logic. |
 | 2025-08-31 | Added moving-range sigma option (`sigmaMethod`) for parity with XmR charts. |
 | 2025-08-31 | Added per-point signal colouring (`colorPointsBySignal`). Clarified that `showMean` only toggles line visibility (mean still used for limits & classification). |
+| 2025-09-21 | Added `visualCategories` prop. Prefer categories over `pointSignals` for parity with SPCChart; updated docs with single-engine parity pattern. |
 

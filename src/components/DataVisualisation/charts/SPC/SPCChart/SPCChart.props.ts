@@ -7,7 +7,8 @@ import {
 import type { SPCSignalFocusInfo } from "./SPCChart.types";
 import { SpcEmbeddedIconVariant } from "./SPCChart.constants";
 import type { VisualsScenario as V2VisualsScenario } from "./logic_v2/presets";
-import type { SpcSettingsV26a as V2Settings } from "./logic_v2/types";
+import type { SpcSettingsV26a as V2Settings, SpcRowV2 as V2Row } from "./logic_v2/types";
+import type { SpcVisualCategory } from "./logic_v2";
 import { ImprovementDirection, ChartType } from "./types";
 
 export interface SPCDatum {
@@ -235,6 +236,11 @@ export interface SPCChartProps {
 		scenario?: V2VisualsScenario;
 		settings?: Partial<V2Settings>;
 	};
+	/** Optional: supply precomputed v2 engine rows and visuals to avoid recomputation and guarantee parity across components. */
+	precomputed?: {
+		rows: V2Row[];
+		visuals: SpcVisualCategory[];
+	};
 	/** Optional grouped meta props. Preferred over flat props when provided. */
 	meta?: {
 		source?: React.ReactNode;
@@ -275,6 +281,7 @@ export type NormalisedSpcProps = {
 	effHighlightOutOfControl?: boolean;
 	effVisualsScenario?: V2VisualsScenario;
 	effVisualsEngineSettings?: Partial<V2Settings>;
+	effPrecomputedVisuals?: { rows: V2Row[]; visuals: SpcVisualCategory[] };
 	effSource?: React.ReactNode;
 	effAlwaysShowZeroY: boolean;
 	effAlwaysShowHundredY: boolean;
@@ -355,6 +362,7 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		source,
 		narrationContext,
 		highlightOutOfControl,
+		precomputed,
 	} = props;
 
 	// Dev-time migration guidance
@@ -490,6 +498,7 @@ export function normalizeSpcProps(props: SPCChartProps): NormalisedSpcProps {
 		effHighlightOutOfControl,
 		effVisualsScenario,
 		effVisualsEngineSettings,
+		effPrecomputedVisuals: precomputed,
 		effSource,
 		effAlwaysShowZeroY,
 		effAlwaysShowHundredY,

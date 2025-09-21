@@ -51,3 +51,10 @@ export { SpcEmbeddedIconVariant } from './SPCChart/SPCChart.constants';
 
 // Icons-only barrel re-export (optional convenience)
 export * as Icons from './icons';
+
+// Shared helpers & utilities
+export { mapIconToVariation, isSpecialCauseIcon } from './utils/state';
+export { computeSpcPrecomputed } from './utils/precompute';
+export type { SpcPrecomputedSummary, ComputeSpcPrecomputedOptions, SpcDatum } from './utils/precompute';
+export { DEFAULT_MIN_POINTS } from './utils/constants';
+export { visualsToPointSignals, visualsToNeutralFlags } from './utils/transform';

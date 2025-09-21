@@ -60,6 +60,8 @@
 	overflow: hidden;
 	width: 100%;
 	background: var(--wf-background);
+	/* Prevent scroll anchoring causing subtle vertical jumps during horizontal transforms */
+	overflow-anchor: none;
 }
 
 .nhsfdp-cards-track {
@@ -67,6 +69,7 @@
 	grid-auto-flow: column;
 	grid-auto-columns: 100%;
 	transition: transform var(--wf-transition);
+	will-change: transform;
 }
 
 .nhsfdp-pane.mobile-pane {
@@ -86,6 +89,8 @@
 	gap: nhs.$nhs-fdp-spacing-4;
 	padding: 0 nhs.$nhs-fdp-spacing-5;
 	margin-bottom: nhs.$nhs-fdp-spacing-2;
+	/* Reserve vertical space consistently to avoid reflow when back/next toggle */
+	min-height: 48px; // roughly the back link height
 }
 
 // Primary nav list — align with NavigationSplitView list item visuals

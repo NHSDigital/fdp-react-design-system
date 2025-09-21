@@ -57,7 +57,7 @@ export function CardsScroller<T>({
 				<div
 					ref={trackRef}
 					className="nhsfdp-cards-track"
-					style={{ transform: `translateX(-${Math.max(0, currentIndex) * 100}%)` }}
+					style={{ transform: `translate3d(-${Math.max(0, currentIndex) * 100}%, 0, 0)` }}
 				>
 					{steps.map((s, i) => {
 						const isCurrent = i === currentIndex;

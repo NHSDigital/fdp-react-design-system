@@ -102,7 +102,8 @@ export function WorkflowSplitView<ID = string>(
 							onClick={() => navigateTo(getId(steps[idx - 1] as any))}
 						/>
 					) : (
-						<span />
+						// Keep space to avoid layout shift when back is not available
+						<BackLink element="button" text="Back" aria-hidden="true" style={{ visibility: "hidden" }} />
 					)}
 					{hasNext ? (
 						<ForwardLink
@@ -111,7 +112,8 @@ export function WorkflowSplitView<ID = string>(
 							onClick={() => navigateTo(getId(steps[idx + 1] as any))}
 						/>
 					) : (
-						<span />
+						// Keep space to avoid layout shift when next is not available
+						<ForwardLink element="button" text="Next" aria-hidden="true" style={{ visibility: "hidden" }} />
 					)}
 				</div>
 				<CardsScroller

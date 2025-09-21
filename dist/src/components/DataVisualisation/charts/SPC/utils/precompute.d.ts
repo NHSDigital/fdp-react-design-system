@@ -1,5 +1,6 @@
-import { ChartType, SpcVisualCategory } from "../engine";
+import { ChartType, SpcVisualCategory, VariationIcon } from "../engine";
 import { ImprovementDirection } from "../engine";
+import { type PointSignal } from "./transform";
 import type { VariationState } from "../SPCIcons/SPCConstants";
 export type SpcDatum = {
     x: string | number | Date;
@@ -12,6 +13,8 @@ export interface SpcPrecomputedSummary {
     rows: any[];
     visuals: SpcVisualCategory[];
     latestState: VariationState | null;
+    /** Engine variation icon on the last real row (preserves side for neutral special cause) */
+    lastVariationIcon: VariationIcon | null;
     centerLine: number | null;
     controlLimits: {
         lower: number | null;
@@ -24,7 +27,7 @@ export interface SpcPrecomputedSummary {
         lowerTwo: number | null;
     } | null;
     /** Optional convenience arrays for spark fallback colouring when visuals aren’t used */
-    pointSignals?: Array<"improvement" | "concern" | "neither" | null>;
+    pointSignals?: Array<PointSignal | null>;
     pointNeutralSpecialCause?: boolean[];
 }
 export interface ComputeSpcPrecomputedOptions {

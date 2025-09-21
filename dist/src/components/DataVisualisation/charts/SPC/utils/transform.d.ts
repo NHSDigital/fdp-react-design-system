@@ -1,6 +1,8 @@
 import { ChartType, ImprovementDirection, SpcVisualCategory } from "../engine";
+import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 import { SpcSettingsV26a as V2Settings } from "../SPCChart/logic_v2/types";
-export declare function visualsToPointSignals(visuals: SpcVisualCategory[] | undefined): ("improvement" | "concern" | "neither" | null)[] | undefined;
+export type PointSignal = UiVariationIcon.Improvement | UiVariationIcon.Concern | UiVariationIcon.Neither;
+export declare function visualsToPointSignals(visuals: SpcVisualCategory[] | undefined): Array<PointSignal | null> | undefined;
 export declare function visualsToNeutralFlags(visuals: SpcVisualCategory[] | undefined): boolean[] | undefined;
 export declare function toV2Enums(chartType: ChartType, metricImprovement: ImprovementDirection): {
     chartType: ChartType;

@@ -20,8 +20,8 @@ const SIZE_PRESETS: Record<
 	[SparkSize.Md]: { height: 44, pointR: 4, stroke: 1 },
 	[SparkSize.Lg]: { height: 56, pointR: 5, stroke: 1 },
 	[SparkSize.Xl]: { height: 72, pointR: 6, stroke: 1 },
-	// Full uses Md metrics for points; height adapts via 'height' attribute below
-	[SparkSize.Full]: { height: 44, pointR: 4, stroke: 1 },
+	// Full: maintain aspect ratio at container width with smaller point radius for precision
+	[SparkSize.Full]: { height: 44, pointR: 2, stroke: 1 },
 };
 
 function computeWindow(
@@ -107,8 +107,19 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 	const canvasWidth = computedWidth; // geometry width in viewBox units
 	const widthAttr: number | string = sizeEnum === SparkSize.Full ? "100%" : computedWidth;
 	const height = preset.height;
-	const PAD_X = 4;
-	const PAD_Y = 2;
+	const svgStyle = useMemo<React.CSSProperties | undefined>(() => {
+		if (sizeEnum !== SparkSize.Full) return undefined;
+		return {
+			width: "100%",
+			height: "auto",
+			// Maintain the internal viewBox aspect ratio as the element scales with container width
+			aspectRatio: `${canvasWidth} / ${height}`,
+			display: "block",
+		};
+	}, [sizeEnum, canvasWidth, height]);
+	// Dynamic padding to avoid clipping circles at the edges/top/bottom
+	const PAD_X = Math.max(6, preset.pointR + 3);
+	const PAD_Y = Math.max(4, preset.pointR + 3);
 	// When a window is applied, points[] is a tail slice of data[]; compute base index to access engine-mapped arrays
 	const globalIndexBase = useMemo(() => {
 		return (data?.length ?? 0) - (points?.length ?? 0);
@@ -242,17 +253,23 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 		[renderIndexes, points]
 	);
 
+	const innerWidth = useMemo(() => Math.max(1, canvasWidth - PAD_X * 2), [canvasWidth, PAD_X]);
+
+	const xForIndex = useMemo(() => {
+		const count = Math.max(1, renderPoints.length - 1);
+		return (seq: number) => (seq / count) * innerWidth + PAD_X;
+	}, [renderPoints.length, innerWidth, PAD_X]);
+
 	const pathD = useMemo(() => {
 		let d = "";
 		renderPoints.forEach((p, seq) => {
 			if (p.value == null) return;
 			const y = meanY(p.value as number);
-			const x =
-				(seq / (renderPoints.length - 1 || 1)) * (canvasWidth - PAD_X * 2) + PAD_X;
+			const x = xForIndex(seq);
 			d += d ? ` L ${x} ${y}` : `M ${x} ${y}`;
 		});
 		return d;
-	}, [renderPoints, canvasWidth]);
+	}, [renderPoints, xForIndex]);
 
 	const latestIndex = metrics.latestIndex ?? -1;
 
@@ -319,8 +336,9 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 			role="img"
 			aria-label={autoLabel}
 			aria-description={ariaDescription}
-			width={widthAttr}
-			height={height}
+			width={sizeEnum === SparkSize.Full ? undefined : widthAttr}
+			height={sizeEnum === SparkSize.Full ? undefined : height}
+			style={svgStyle}
 			className={className}
 			viewBox={`0 0 ${canvasWidth} ${height}`}
 		>
@@ -469,8 +487,7 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 				if (!p || p.value == null) return null;
 
 				const y = meanY(p.value as number);
-				const x =
-					(seq / (renderPoints.length - 1 || 1)) * (canvasWidth - PAD_X * 2) + PAD_X;
+				const x = xForIndex(seq);
 				const isLatest = origIdx === latestIndex;
 				const r =
 					(isLatest && showLatestMarker ? preset.pointR + 1 : preset.pointR) -
@@ -487,12 +504,7 @@ export const SPCSpark: React.FC<SPCSparkProps> = ({
 						else fillColour = colourCommon();
 					} else {
 						// Fallback: per-point signal map with neutral special-cause flag
-												const rawSig = pointSignals?.[globalIndexBase + origIdx] as UiVariationIcon | "improvement" | "concern" | "neither" | "suppressed" | null | undefined;
-												const sig =
-													rawSig === "improvement" ? UiVariationIcon.Improvement :
-													rawSig === "concern" ? UiVariationIcon.Concern :
-													rawSig === "neither" ? UiVariationIcon.Neither :
-													rawSig === "suppressed" ? UiVariationIcon.Suppressed : rawSig;
+																		const sig = pointSignals?.[globalIndexBase + origIdx] as UiVariationIcon | null | undefined;
 												if (sig === UiVariationIcon.Improvement) fillColour = colourForSignal(sig);
 												else if (sig === UiVariationIcon.Concern) fillColour = colourForSignal(sig);
 						else {

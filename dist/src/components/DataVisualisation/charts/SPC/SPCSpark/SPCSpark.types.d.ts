@@ -1,4 +1,5 @@
 import { ImprovementDirection, SpcVisualCategory } from "../engine";
+import { PointSignal } from "../utils/transform";
 import { VariationState, VariationJudgement, MetricPolarity, AssuranceResult } from "../SPCIcons/SPCConstants";
 export interface SPCSparkPoint {
     x?: string | number | Date;
@@ -53,8 +54,8 @@ export interface SPCSparkProps {
     thinningStrategy?: "stride" | "rdp";
     /** When true, individual point circles are coloured by their own signal (improvement / concern / common) instead of uniform series colour. */
     colorPointsBySignal?: boolean;
-    /** Preferred: Engine-provided per-row signals mapped to 'improvement' | 'concern' | 'neither' | 'suppressed'. Aligns with data length. */
-    pointSignals?: Array<"improvement" | "concern" | "neither" | "suppressed" | null>;
+    /** Engine-provided per-row signals mapped to enum values (Improvement | Concern | Neither). Aligns with data length. */
+    pointSignals?: Array<PointSignal | null>;
     /** Preferred: Engine-provided flag per row indicating a neutral special-cause (variation 'neither' with special cause). Aligns with data length. */
     pointNeutralSpecialCause?: boolean[];
     /** Exact parity: v2 visual categories computed with the same pipeline as SPCChart. If provided, these take precedence over pointSignals/neutral flags. */

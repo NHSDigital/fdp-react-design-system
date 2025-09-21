@@ -2,6 +2,7 @@ import { Direction, MetricPolarity, VariationJudgement, VariationState } from ".
 import { VariationIcon as SpcEngineVariationIcon, ImprovementDirection } from "../engine";
 import { VariationIcon as UiVariationIcon } from "../SPCChart/types";
 import { SpcEmbeddedIconVariant, LetterMode, SpcLetterGlyph } from "../SPCChart/SPCChart.constants";
+import type { SpcPrecomputedSummary } from "../utils/precompute";
 export type SpcEngineIconPayload = {
     variationIcon: SpcEngineVariationIcon;
     trend?: Direction;
@@ -149,6 +150,10 @@ export interface SpcIconBaseProps {
 }
 export interface SPCVariationIconProps extends SpcIconBaseProps {
     data: SpcVariationInput;
+    /** Optional: pass a precomputed SPC summary (rows/visuals) and we will derive the last-row icon automatically. */
+    precomputed?: SpcPrecomputedSummary;
+    /** If using `precomputed`, provide the metric improvement direction to orient letters consistently. */
+    improvementDirection?: ImprovementDirection;
 }
 export interface SpcAssuranceIconProps extends SpcIconBaseProps {
     data: SpcAssurancePayload;
@@ -168,6 +173,6 @@ export interface SPCVariationIconPropsAlt extends SPCVariationIconProps {
     letterOverride?: SpcLetterGlyph;
 }
 export declare const SPCVariationIcon: {
-    ({ data, size, ariaLabel, showLetter, dropShadow, gradientWash, variant, runLength, letterMode, letterOverride, ...rest }: SPCVariationIconPropsAlt & Record<string, unknown>): import("react/jsx-runtime").JSX.Element;
+    ({ data, precomputed, improvementDirection, size, ariaLabel, showLetter, dropShadow, gradientWash, variant, runLength, letterMode, letterOverride, ...rest }: SPCVariationIconPropsAlt & Record<string, unknown>): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };

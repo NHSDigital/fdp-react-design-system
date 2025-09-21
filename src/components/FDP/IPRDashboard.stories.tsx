@@ -189,6 +189,7 @@ export const PerformanceOverview: Story = {
 						showLimitBand={false}
 						showInnerBands={false}
 						showMean={true}
+						showStateGlyph={false}
 						centerLine={pc?.centerLine}
 						controlLimits={pc?.controlLimits ?? null}
 						sigmaBands={pc?.sigmaBands ?? null}

@@ -9895,52 +9895,10 @@ var MetricCard = ({
 var MetricCard_default = MetricCard;
 
 // src/components/DataVisualisation/components/MetricCard/SPCMetricCard.tsx
-import * as React25 from "react";
+import * as React31 from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.tsx
 import { useMemo as useMemo13 } from "react";
-
-// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
-var spcTokenRoot = null;
-var _a, _b;
-try {
-  const tokens = require_tokens();
-  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
-} catch {
-}
-var tokenColour = (key, fallback) => {
-  if (!spcTokenRoot) return fallback;
-  const parts = key.split(".");
-  let current = spcTokenRoot;
-  for (const p of parts) {
-    if (current == null) break;
-    current = current[p];
-  }
-  const val = current;
-  if (val == null) return fallback;
-  if (typeof val === "string" || typeof val === "number") return String(val);
-  if (val.$value != null) return String(val.$value);
-  if (val.value != null) return String(val.value);
-  return fallback;
-};
-var getGradientOpacities = () => ({
-  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
-  start: tokenColour("gradient.stop.start-opacity", "0.12"),
-  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
-  end: tokenColour("gradient.stop.end-opacity", "0"),
-  triStart: tokenColour(
-    "gradient.stop.triangle-start-opacity",
-    tokenColour("gradient.stop.start-opacity", "0.12")
-  ),
-  triMid: tokenColour(
-    "gradient.stop.triangle-mid-opacity",
-    tokenColour("gradient.stop.mid-opacity", "0.03")
-  ),
-  triEnd: tokenColour(
-    "gradient.stop.triangle-end-opacity",
-    tokenColour("gradient.stop.end-opacity", "0")
-  )
-});
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts
 var RULE_PRECEDENCE = [
@@ -10235,6 +10193,89 @@ function computePointPositions(state, direction) {
   else
     src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
   return src.map((p) => ({ ...p }));
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
+var spcTokenRoot = null;
+var _a, _b;
+try {
+  const tokens = require_tokens();
+  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
+} catch {
+}
+var tokenColour = (key, fallback) => {
+  if (!spcTokenRoot) return fallback;
+  const parts = key.split(".");
+  let current = spcTokenRoot;
+  for (const p of parts) {
+    if (current == null) break;
+    current = current[p];
+  }
+  const val = current;
+  if (val == null) return fallback;
+  if (typeof val === "string" || typeof val === "number") return String(val);
+  if (val.$value != null) return String(val.$value);
+  if (val.value != null) return String(val.value);
+  return fallback;
+};
+var getGradientOpacities = () => ({
+  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
+  start: tokenColour("gradient.stop.start-opacity", "0.12"),
+  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
+  end: tokenColour("gradient.stop.end-opacity", "0"),
+  triStart: tokenColour(
+    "gradient.stop.triangle-start-opacity",
+    tokenColour("gradient.stop.start-opacity", "0.12")
+  ),
+  triMid: tokenColour(
+    "gradient.stop.triangle-mid-opacity",
+    tokenColour("gradient.stop.mid-opacity", "0.03")
+  ),
+  triEnd: tokenColour(
+    "gradient.stop.triangle-end-opacity",
+    tokenColour("gradient.stop.end-opacity", "0")
+  )
+});
+var SPC_TOKEN_KEYS = {
+  improvement: "improvement",
+  concern: "concern",
+  noJudgement: "no-judgement",
+  common: "common-cause"
+};
+var SPC_FALLBACK_HEX = {
+  improvement: "#00B0F0",
+  concern: "#E46C0A",
+  noJudgement: "#490092",
+  common: "#A6A6A6"
+};
+var colourImprovement = () => tokenColour(SPC_TOKEN_KEYS.improvement, SPC_FALLBACK_HEX.improvement);
+var colourConcern = () => tokenColour(SPC_TOKEN_KEYS.concern, SPC_FALLBACK_HEX.concern);
+var colourNoJudgement = () => tokenColour(SPC_TOKEN_KEYS.noJudgement, SPC_FALLBACK_HEX.noJudgement);
+var colourCommon = () => tokenColour(SPC_TOKEN_KEYS.common, SPC_FALLBACK_HEX.common);
+function colourForSignal(icon) {
+  switch (icon) {
+    case "improvement" /* Improvement */:
+      return colourImprovement();
+    case "concern" /* Concern */:
+      return colourConcern();
+    case "neither" /* Neither */:
+    case "suppressed" /* Suppressed */:
+    default:
+      return colourCommon();
+  }
+}
+function colourForState(state) {
+  switch (state) {
+    case "special_cause_improving" /* SpecialCauseImproving */:
+      return colourImprovement();
+    case "special_cause_deteriorating" /* SpecialCauseDeteriorating */:
+      return colourConcern();
+    case "special_cause_no_judgement" /* SpecialCauseNoJudgement */:
+      return colourNoJudgement();
+    case "common_cause" /* CommonCause */:
+    default:
+      return colourCommon();
+  }
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/types.ts
@@ -11686,6 +11727,8 @@ var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) =
 ] });
 var SPCVariationIcon = ({
   data,
+  precomputed,
+  improvementDirection,
   size = 44,
   ariaLabel,
   showLetter = true,
@@ -11708,10 +11751,21 @@ var SPCVariationIcon = ({
     triMid: triGradMid,
     triEnd: triGradEnd
   } = getGradientOpacities();
-  const { state, direction, polarity } = useMemo12(
-    () => resolveStateAndLayout(data),
-    [data]
-  );
+  const { state, direction, polarity, ariaInput } = useMemo12(() => {
+    if (precomputed && precomputed.lastVariationIcon !== void 0) {
+      const iconPayload = {
+        variationIcon: precomputed.lastVariationIcon,
+        improvementDirection: improvementDirection != null ? improvementDirection : "Neither" /* Neither */,
+        // Infer neutral special-cause when VariationState was mapped as Neither from engine NeitherHigh/Low
+        specialCauseNeutral: precomputed.latestState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */
+        // Side hints not strictly needed for improvement/concern, only for neutral arrow orientation
+      };
+      const { state: state3, direction: direction3, polarity: polarity3 } = resolveStateAndLayout(iconPayload);
+      return { state: state3, direction: direction3, polarity: polarity3, ariaInput: iconPayload };
+    }
+    const { state: state2, direction: direction2, polarity: polarity2 } = resolveStateAndLayout(data);
+    return { state: state2, direction: direction2, polarity: polarity2, ariaInput: data };
+  }, [data, precomputed, improvementDirection]);
   const colour = useMemo12(() => getVariationColour(state), [state]);
   const judgement = useMemo12(() => getVariationTrend(state), [state]);
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
@@ -11735,9 +11789,7 @@ var SPCVariationIcon = ({
     [state, direction]
   );
   const aria = ariaLabel || `${colour.label}${letter ? direction === "higher" /* Higher */ ? " \u2013 Higher" : " \u2013 Lower" : ""}`;
-  const ariaDescription = deriveVariationAriaDescription(
-    data
-  );
+  const ariaDescription = deriveVariationAriaDescription(ariaInput);
   if (variant === "triangleWithRun" /* TriangleWithRun */) {
     const triSize = 100;
     const centerX = 150;
@@ -11781,7 +11833,7 @@ var SPCVariationIcon = ({
     const runRadius = 10;
     const runGap = 26;
     const runStartX = centerX - 2 * runGap;
-    const runColor = state === "special_cause_improving" /* SpecialCauseImproving */ ? tokenColour("improvement", "#00B0F0") : state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? tokenColour("concern", "#E46C0A") : neutralGrey;
+    const runColor = state === "common_cause" /* CommonCause */ ? neutralGrey : colourForState(state);
     const runCircles = Array.from({ length: 5 }).map((_, i) => {
       const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
       const fill = filled ? runColor : neutralGrey;
@@ -12106,8 +12158,8 @@ var SIZE_PRESETS = {
   ["md" /* Md */]: { height: 44, pointR: 4, stroke: 1 },
   ["lg" /* Lg */]: { height: 56, pointR: 5, stroke: 1 },
   ["xl" /* Xl */]: { height: 72, pointR: 6, stroke: 1 },
-  // Full uses Md metrics for points; height adapts via 'height' attribute below
-  ["full" /* Full */]: { height: 44, pointR: 4, stroke: 1 }
+  // Full: maintain aspect ratio at container width with smaller point radius for precision
+  ["full" /* Full */]: { height: 44, pointR: 2, stroke: 1 }
 };
 function computeWindow(data, windowSize) {
   if (!windowSize || data.length <= windowSize) return data;
@@ -12123,20 +12175,7 @@ function computeMetrics(points) {
   const latestValue = absoluteLatestIndex != null ? points[absoluteLatestIndex].value : null;
   return { mean: mean2, latestValue, latestIndex: absoluteLatestIndex };
 }
-function stateColour(state) {
-  switch (state) {
-    case "special_cause_improving" /* SpecialCauseImproving */:
-      return tokenColour("improvement", "#00B0F0");
-    case "special_cause_deteriorating" /* SpecialCauseDeteriorating */:
-      return tokenColour("concern", "#E46C0A");
-    case "special_cause_no_judgement" /* SpecialCauseNoJudgement */:
-      return tokenColour("no-judgement", "#490092");
-    case "common_cause" /* CommonCause */:
-      return tokenColour("common-cause", "#A6A6A6");
-    default:
-      return tokenColour("common-cause", "#A6A6A6");
-  }
-}
+var stateColour = (state) => colourForState(state);
 var SPCSpark = ({
   data,
   windowSize,
@@ -12197,8 +12236,18 @@ var SPCSpark = ({
   const canvasWidth = computedWidth;
   const widthAttr = sizeEnum === "full" /* Full */ ? "100%" : computedWidth;
   const height = preset.height;
-  const PAD_X = 4;
-  const PAD_Y = 2;
+  const svgStyle = useMemo13(() => {
+    if (sizeEnum !== "full" /* Full */) return void 0;
+    return {
+      width: "100%",
+      height: "auto",
+      // Maintain the internal viewBox aspect ratio as the element scales with container width
+      aspectRatio: `${canvasWidth} / ${height}`,
+      display: "block"
+    };
+  }, [sizeEnum, canvasWidth, height]);
+  const PAD_X = Math.max(6, preset.pointR + 3);
+  const PAD_Y = Math.max(4, preset.pointR + 3);
   const globalIndexBase = useMemo13(() => {
     var _a3, _b3;
     return ((_a3 = data == null ? void 0 : data.length) != null ? _a3 : 0) - ((_b3 = points == null ? void 0 : points.length) != null ? _b3 : 0);
@@ -12291,16 +12340,21 @@ var SPCSpark = ({
     () => renderIndexes.map((i) => points[i]),
     [renderIndexes, points]
   );
+  const innerWidth = useMemo13(() => Math.max(1, canvasWidth - PAD_X * 2), [canvasWidth, PAD_X]);
+  const xForIndex = useMemo13(() => {
+    const count = Math.max(1, renderPoints.length - 1);
+    return (seq) => seq / count * innerWidth + PAD_X;
+  }, [renderPoints.length, innerWidth, PAD_X]);
   const pathD = useMemo13(() => {
     let d = "";
     renderPoints.forEach((p, seq) => {
       if (p.value == null) return;
       const y2 = meanY(p.value);
-      const x2 = seq / (renderPoints.length - 1 || 1) * (canvasWidth - PAD_X * 2) + PAD_X;
+      const x2 = xForIndex(seq);
       d += d ? ` L ${x2} ${y2}` : `M ${x2} ${y2}`;
     });
     return d;
-  }, [renderPoints, canvasWidth]);
+  }, [renderPoints, xForIndex]);
   const latestIndex = (_b2 = metrics.latestIndex) != null ? _b2 : -1;
   const limits = computedLimits;
   const gradient = getGradientOpacities();
@@ -12314,7 +12368,7 @@ var SPCSpark = ({
     if (!derivedState) return void 0;
     const polarity = dirEnum === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : dirEnum === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
     const input = {
-      variationIcon: derivedState === "special_cause_improving" /* SpecialCauseImproving */ ? "improvement" : derivedState === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "concern" : derivedState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */ ? "none" : "neither",
+      variationIcon: derivedState === "special_cause_improving" /* SpecialCauseImproving */ ? "improvement" /* Improvement */ : derivedState === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "concern" /* Concern */ : derivedState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */ ? "suppressed" /* Suppressed */ : "neither" /* Neither */,
       trend: dirEnum === "Up" /* Up */ ? "higher" /* Higher */ : "lower" /* Lower */,
       polarity
     };
@@ -12337,8 +12391,9 @@ var SPCSpark = ({
       role: "img",
       "aria-label": autoLabel,
       "aria-description": ariaDescription,
-      width: widthAttr,
-      height,
+      width: sizeEnum === "full" /* Full */ ? void 0 : widthAttr,
+      height: sizeEnum === "full" /* Full */ ? void 0 : height,
+      style: svgStyle,
       className,
       viewBox: `0 0 ${canvasWidth} ${height}`,
       children: [
@@ -12485,7 +12540,7 @@ var SPCSpark = ({
             x2: canvasWidth,
             y1: meanY(mean2),
             y2: meanY(mean2),
-            stroke: tokenColour("common-cause", "#A6A6A6"),
+            stroke: colourCommon(),
             strokeWidth: 1,
             strokeDasharray: "2,2"
           }
@@ -12495,7 +12550,7 @@ var SPCSpark = ({
           {
             d: pathD,
             fill: "none",
-            stroke: tokenColour("common-cause", "#A6A6A6"),
+            stroke: colourCommon(),
             strokeWidth: preset.stroke,
             strokeLinecap: "round"
           }
@@ -12504,34 +12559,24 @@ var SPCSpark = ({
           const p = points[origIdx];
           if (!p || p.value == null) return null;
           const y2 = meanY(p.value);
-          const x2 = seq / (renderPoints.length - 1 || 1) * (canvasWidth - PAD_X * 2) + PAD_X;
+          const x2 = xForIndex(seq);
           const isLatest = origIdx === latestIndex;
           const r2 = (isLatest && showLatestMarker ? preset.pointR + 1 : preset.pointR) - 0.5;
-          let fillColour = tokenColour("common-cause", "#A6A6A6");
+          let fillColour = colourCommon();
           if (colorPointsBySignal) {
             const cat = visualCategories == null ? void 0 : visualCategories[globalIndexBase + origIdx];
             if (cat != null) {
-              switch (cat) {
-                case "Improvement" /* Improvement */:
-                  fillColour = tokenColour("improvement", "#00B0F0");
-                  break;
-                case "Concern" /* Concern */:
-                  fillColour = tokenColour("concern", "#E46C0A");
-                  break;
-                case "NoJudgement" /* NoJudgement */:
-                  fillColour = tokenColour("no-judgement", "#490092");
-                  break;
-                case "Common" /* Common */:
-                default:
-                  fillColour = tokenColour("common-cause", "#A6A6A6");
-              }
+              if (cat === "Improvement" /* Improvement */) fillColour = colourForSignal("improvement" /* Improvement */);
+              else if (cat === "Concern" /* Concern */) fillColour = colourForSignal("concern" /* Concern */);
+              else if (cat === "NoJudgement" /* NoJudgement */) fillColour = tokenColour("no-judgement", "#490092");
+              else fillColour = colourCommon();
             } else {
               const sig = pointSignals == null ? void 0 : pointSignals[globalIndexBase + origIdx];
-              if (sig === "improvement") fillColour = tokenColour("improvement", "#00B0F0");
-              else if (sig === "concern") fillColour = tokenColour("concern", "#E46C0A");
+              if (sig === "improvement" /* Improvement */) fillColour = colourForSignal(sig);
+              else if (sig === "concern" /* Concern */) fillColour = colourForSignal(sig);
               else {
                 const neutralSC = pointNeutralSpecialCause == null ? void 0 : pointNeutralSpecialCause[globalIndexBase + origIdx];
-                fillColour = neutralSC ? tokenColour("no-judgement", "#490092") : tokenColour("common-cause", "#A6A6A6");
+                fillColour = neutralSC ? tokenColour("no-judgement", "#490092") : colourCommon();
               }
             }
           }
@@ -12572,7 +12617,7 @@ var SPCSpark = ({
 SPCSpark.displayName = "SPCSpark";
 
 // src/components/DataVisualisation/hooks/useSpc.ts
-import * as React24 from "react";
+import * as React30 from "react";
 
 // src/components/DataVisualisation/charts/SPC/utils/state.ts
 function mapIconToVariation(icon) {
@@ -12596,469 +12641,48 @@ function isSpecialCauseIcon(icon) {
   return icon === "ImprovementHigh" /* ImprovementHigh */ || icon === "ImprovementLow" /* ImprovementLow */ || icon === "ConcernHigh" /* ConcernHigh */ || icon === "ConcernLow" /* ConcernLow */ || icon === "NeitherHigh" /* NeitherHigh */ || icon === "NeitherLow" /* NeitherLow */;
 }
 
-// src/components/DataVisualisation/hooks/useSpc.ts
-function hexToRgb2(h) {
-  const v = h.replace("#", "");
-  return [
-    parseInt(v.slice(0, 2), 16),
-    parseInt(v.slice(2, 4), 16),
-    parseInt(v.slice(4, 6), 16)
-  ];
-}
-function useSpc(input) {
-  const {
-    values,
-    x: x2,
-    chartType = "XmR" /* XmR */,
-    metricImprovement = "Neither" /* Neither */,
-    showLimits = true,
-    showLimitBand = false,
-    showInnerBands = false,
-    showMean = false
-    // autoClassify = true,
-  } = input;
-  const rows = React24.useMemo(() => {
-    const pts = [];
-    for (let i = 0; i < values.length; i++) {
-      pts.push({ x: x2 == null ? void 0 : x2[i], value: values[i] });
-    }
-    return pts;
-  }, [values, x2]);
-  const engine = React24.useMemo(() => {
-    try {
-      const data = rows.map((r2, i) => {
-        var _a2;
-        return { x: (_a2 = r2.x) != null ? _a2 : i, value: r2.value };
-      });
-      const resolvedMinPts = 13;
-      const eligibleCount = data.filter((d) => typeof d.value === "number").length;
-      const settings = { minimumPoints: resolvedMinPts };
-      if (eligibleCount >= resolvedMinPts) settings.chartLevelEligibility = true;
-      return buildSpcV26a({ chartType, metricImprovement, data, settings });
-    } catch {
-      return null;
-    }
-  }, [rows, chartType, metricImprovement]);
-  const lastRealRow = React24.useMemo(() => {
-    var _a2;
-    const rowsEngine = engine == null ? void 0 : engine.rows;
-    if (!rowsEngine || rowsEngine.length === 0) return null;
-    for (let i = rowsEngine.length - 1; i >= 0; i--) {
-      const r2 = rowsEngine[i];
-      if (r2 && r2.value != null && !r2.ghost) return r2;
-    }
-    return (_a2 = rowsEngine[rowsEngine.length - 1]) != null ? _a2 : null;
-  }, [engine]);
-  const latestState = React24.useMemo(() => {
-    const rowsEngine = engine == null ? void 0 : engine.rows;
-    if (!rowsEngine || rowsEngine.length === 0) return null;
-    let last = rowsEngine[rowsEngine.length - 1];
-    for (let i = rowsEngine.length - 1; i >= 0; i--) {
-      const r2 = rowsEngine[i];
-      if (r2 && r2.value != null && !r2.ghost) {
-        last = r2;
-        break;
-      }
-    }
-    return mapIconToVariation(last == null ? void 0 : last.variationIcon);
-  }, [engine]);
-  const centerLine = React24.useMemo(() => {
-    var _a2;
-    return (_a2 = lastRealRow == null ? void 0 : lastRealRow.mean) != null ? _a2 : null;
-  }, [lastRealRow]);
-  const controlLimits = React24.useMemo(() => {
-    var _a2, _b2;
-    if (!lastRealRow) return null;
-    const lower = (_a2 = lastRealRow == null ? void 0 : lastRealRow.lowerProcessLimit) != null ? _a2 : null;
-    const upper = (_b2 = lastRealRow == null ? void 0 : lastRealRow.upperProcessLimit) != null ? _b2 : null;
-    if (lower == null && upper == null) return null;
-    return { lower, upper };
-  }, [lastRealRow]);
-  const sigmaBands = React24.useMemo(() => {
-    var _a2, _b2, _c, _d;
-    if (!lastRealRow) return null;
-    return {
-      upperOne: (_a2 = lastRealRow == null ? void 0 : lastRealRow.upperOneSigma) != null ? _a2 : null,
-      upperTwo: (_b2 = lastRealRow == null ? void 0 : lastRealRow.upperTwoSigma) != null ? _b2 : null,
-      lowerOne: (_c = lastRealRow == null ? void 0 : lastRealRow.lowerOneSigma) != null ? _c : null,
-      lowerTwo: (_d = lastRealRow == null ? void 0 : lastRealRow.lowerTwoSigma) != null ? _d : null
-    };
-  }, [lastRealRow]);
-  const visualCategories = React24.useMemo(() => {
-    const rowsEngine = engine == null ? void 0 : engine.rows;
-    if (!rowsEngine || rowsEngine.length === 0) return void 0;
-    try {
-      return computeSpcVisualCategories(rowsEngine, {
-        metricImprovement,
-        enableNeutralNoJudgement: true
-      });
-    } catch {
-      return void 0;
-    }
-  }, [engine, metricImprovement]);
-  const pointSignals = React24.useMemo(() => {
-    if (!visualCategories || visualCategories.length === 0) return void 0;
-    return visualCategories.map((c) => {
-      switch (c) {
-        case "Improvement" /* Improvement */:
-          return "improvement";
-        case "Concern" /* Concern */:
-          return "concern";
-        case "NoJudgement" /* NoJudgement */:
-          return "neither";
-        case "Common" /* Common */:
-        default:
-          return null;
-      }
-    });
-  }, [visualCategories == null ? void 0 : visualCategories.length]);
-  const pointNeutralSpecialCause = React24.useMemo(() => {
-    if (!visualCategories || visualCategories.length === 0) return void 0;
-    return visualCategories.map((c) => c === "NoJudgement" /* NoJudgement */);
-  }, [visualCategories == null ? void 0 : visualCategories.length]);
-  const metricCardStyle = React24.useMemo(() => {
-    var _a2;
-    let lastSignalState = null;
-    if (lastRealRow && lastRealRow.value != null && !lastRealRow.ghost) {
-      const icon = lastRealRow.variationIcon;
-      if (latestState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
-        lastSignalState = isSpecialCauseIcon(icon) ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
-      } else {
-        lastSignalState = (_a2 = mapIconToVariation(icon)) != null ? _a2 : "common_cause" /* CommonCause */;
-      }
-    }
-    const chosen = lastSignalState != null ? lastSignalState : "common_cause" /* CommonCause */;
-    const hex2 = VARIATION_COLOURS[chosen].hex;
-    const [r2, g, b] = hexToRgb2(hex2);
-    const stops = getGradientOpacities();
-    const bg = `linear-gradient(180deg, rgba(${r2}, ${g}, ${b}, ${stops.start}) 0%, rgba(${r2}, ${g}, ${b}, ${stops.mid}) 50%, rgba(${r2}, ${g}, ${b}, ${stops.end}) 100%)`;
-    return {
-      ["--fdp-metric-card-bg"]: bg,
-      ["--fdp-metric-card-accent"]: hex2
-    };
-  }, [lastRealRow, latestState]);
-  const sparkProps = React24.useMemo(() => {
-    return {
-      data: rows,
-      showMean,
-      showLimits,
-      showLimitBand,
-      showInnerBands,
-      metricImprovement,
-      centerLine,
-      controlLimits,
-      sigmaBands,
-      pointSignals,
-      pointNeutralSpecialCause,
-      visualCategories,
-      variationState: latestState != null ? latestState : void 0
-    };
-  }, [
-    rows,
-    showMean,
-    showLimits,
-    showLimitBand,
-    showInnerBands,
-    metricImprovement,
-    latestState,
-    centerLine,
-    controlLimits == null ? void 0 : controlLimits.lower,
-    controlLimits == null ? void 0 : controlLimits.upper,
-    sigmaBands == null ? void 0 : sigmaBands.upperTwo,
-    sigmaBands == null ? void 0 : sigmaBands.lowerOne,
-    sigmaBands == null ? void 0 : sigmaBands.lowerTwo,
-    pointSignals == null ? void 0 : pointSignals.length,
-    pointNeutralSpecialCause == null ? void 0 : pointNeutralSpecialCause.length,
-    visualCategories == null ? void 0 : visualCategories.length
-  ]);
-  return { sparkProps, metricCardStyle, latestState };
-}
-var useSpc_default = useSpc;
+// src/components/DataVisualisation/charts/SPC/index.ts
+var SPC_exports = {};
+__export(SPC_exports, {
+  AssuranceIcon: () => AssuranceIcon,
+  BaselineSuggestionReason: () => BaselineSuggestionReason,
+  ChartType: () => ChartType,
+  DEFAULT_MIN_POINTS: () => DEFAULT_MIN_POINTS,
+  Icons: () => icons_exports,
+  ImprovementDirection: () => ImprovementDirection,
+  PARITY_V26: () => PARITY_V26,
+  RULE_METADATA: () => RULE_METADATA,
+  SPCChart: () => SPCChart_default,
+  SPCTooltipOverlay: () => SPCTooltipOverlay_default,
+  SpcEmbeddedIconVariant: () => SpcEmbeddedIconVariant,
+  SpcVisualCategory: () => SpcVisualCategory,
+  SpcWarningCategory: () => SpcWarningCategory,
+  SpcWarningCode: () => SpcWarningCode,
+  SpcWarningSeverity: () => SpcWarningSeverity,
+  VARIATION_COLOR_TOKENS: () => VARIATION_COLOR_TOKENS,
+  VariationIcon: () => VariationIcon,
+  buildSpcV26a: () => buildSpcV26a,
+  buildSpcV26aWithVisuals: () => buildSpcV26aWithVisuals,
+  computeSpcPrecomputed: () => computeSpcPrecomputed,
+  computeSpcVisualCategories: () => computeSpcVisualCategories,
+  extractRuleIds: () => extractRuleIds,
+  getVariationColorHex: () => getVariationColorHex,
+  getVariationColorToken: () => getVariationColorToken,
+  isSpecialCauseIcon: () => isSpecialCauseIcon,
+  mapIconToVariation: () => mapIconToVariation,
+  normaliseSpcSettingsV2: () => normaliseSpcSettingsV2,
+  ruleGlossary: () => ruleGlossary,
+  variationLabel: () => variationLabel,
+  visualsToNeutralFlags: () => visualsToNeutralFlags,
+  visualsToPointSignals: () => visualsToPointSignals,
+  withParityV26: () => withParityV26
+});
 
-// src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts
-function toDate(v) {
-  if (v == null) return void 0;
-  const d = v instanceof Date ? v : new Date(v);
-  return Number.isNaN(d.valueOf()) ? void 0 : d;
-}
-function synthesizeDates(length, start, hint) {
-  const arr = new Array(length);
-  const d = new Date(start);
-  for (let i = 0; i < length; i++) {
-    arr[i] = new Date(d);
-    switch (hint) {
-      case "hourly":
-        d.setHours(d.getHours() + 1);
-        break;
-      case "daily":
-        d.setDate(d.getDate() + 1);
-        break;
-      case "weekly":
-        d.setDate(d.getDate() + 7);
-        break;
-      case "monthly":
-        d.setMonth(d.getMonth() + 1);
-        break;
-      case "quarterly":
-        d.setMonth(d.getMonth() + 3);
-        break;
-      case "annually":
-        d.setFullYear(d.getFullYear() + 1);
-        break;
-      default:
-        break;
-    }
-  }
-  return arr;
-}
-function inferFrequency(dates, fallback) {
-  const valid = dates.filter(Boolean);
-  if (valid.length < 2) return fallback;
-  const diffs = [];
-  for (let i = 1; i < valid.length; i++)
-    diffs.push(valid[i].getTime() - valid[i - 1].getTime());
-  const sorted = diffs.sort((a, b) => a - b);
-  const median3 = sorted[Math.floor(sorted.length / 2)];
-  const H = 60 * 60 * 1e3;
-  const D = 24 * H;
-  if (median3 <= 2 * H) return "hourly";
-  if (median3 <= 2 * D) return "daily";
-  if (median3 <= 10 * D) return "weekly";
-  if (median3 <= 45 * D) return "monthly";
-  if (median3 <= 120 * D) return "quarterly";
-  return "annually";
-}
-function formatLatest(dt, freq) {
-  if (!dt) return void 0;
-  try {
-    switch (freq) {
-      case "hourly":
-        return new Intl.DateTimeFormat(void 0, {
-          hour: "2-digit",
-          minute: "2-digit",
-          day: "2-digit",
-          month: "short",
-          year: "numeric"
-        }).format(dt);
-      case "daily":
-        return new Intl.DateTimeFormat(void 0, {
-          day: "2-digit",
-          month: "short",
-          year: "numeric"
-        }).format(dt);
-      case "weekly":
-        return `Week of ${new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt)}`;
-      case "monthly":
-        return new Intl.DateTimeFormat(void 0, {
-          month: "short",
-          year: "numeric"
-        }).format(dt);
-      case "quarterly": {
-        const q = Math.floor(dt.getMonth() / 3) + 1;
-        return `Q${q} ${dt.getFullYear()}`;
-      }
-      case "annually":
-        return `${dt.getFullYear()}`;
-      default:
-        return new Intl.DateTimeFormat(void 0, {
-          day: "2-digit",
-          month: "short",
-          year: "numeric"
-        }).format(dt);
-    }
-  } catch {
-    return void 0;
-  }
-}
-function inferUnit(values, provided, def, percentHeuristic = "0-100") {
-  if (provided) return provided;
-  if (def) return def;
-  const vals = values.filter((v) => v != null);
-  if (!vals.length) return void 0;
-  const min = Math.min(...vals);
-  const max = Math.max(...vals);
-  if (percentHeuristic === "0-1") {
-    if (min >= 0 && max <= 1 && max > 0) return "%";
-  } else {
-    if (min >= 0 && max <= 100 && max > 0) return "%";
-  }
-  return void 0;
-}
-function periodLabel(freq, hint, n = 1) {
-  const unit2 = freq || hint;
-  switch (unit2) {
-    case "hourly":
-      return n === 1 ? "last hour" : `last ${n} hours`;
-    case "daily":
-      return n === 1 ? "last day" : `last ${n} days`;
-    case "weekly":
-      return n === 1 ? "last week" : `last ${n} weeks`;
-    case "monthly":
-      return n === 1 ? "last month" : `last ${n} months`;
-    case "quarterly":
-      return n === 1 ? "last quarter" : `last ${n} quarters`;
-    case "annually":
-      return n === 1 ? "last year" : `last ${n} years`;
-    default:
-      return "previous";
-  }
-}
-function computeAutoMetrics(input) {
-  const {
-    values: rawValues,
-    dates: rawDates,
-    intervalHint,
-    startDate,
-    providedUnit,
-    defaultUnit,
-    autoValue = true,
-    autoDelta = true,
-    autoMetadata = true,
-    deltaConfig
-  } = input;
-  const values = rawValues.map(
-    (v) => typeof v === "number" ? v : v == null ? null : Number(v)
-  );
-  let lastIndex = -1;
-  for (let i = values.length - 1; i >= 0; i--) {
-    if (values[i] != null) {
-      lastIndex = i;
-      break;
-    }
-  }
-  let dates = (rawDates || []).map(toDate);
-  const anyDates = dates.some(Boolean);
-  if (!anyDates) {
-    const start = toDate(startDate);
-    if (start && intervalHint)
-      dates = synthesizeDates(values.length, start, intervalHint);
-    else dates = new Array(values.length).fill(void 0);
-  }
-  const frequency = inferFrequency(dates, intervalHint);
-  const unit2 = inferUnit(
-    values,
-    providedUnit,
-    defaultUnit,
-    input.percentHeuristic
-  );
-  const value = autoValue && lastIndex >= 0 && values[lastIndex] != null ? values[lastIndex] : void 0;
-  const cfg = {
-    strategy: "previous",
-    n: 1,
-    absolute: true,
-    skipNulls: true,
-    ...deltaConfig || {}
-  };
-  function findBaselineIndex() {
-    if (lastIndex < 0) return -1;
-    if (cfg.strategy === "previous" || cfg.strategy === "n-points") {
-      let idx = lastIndex - (cfg.strategy === "previous" ? 1 : Math.max(1, cfg.n || 1));
-      if (!cfg.skipNulls) return idx;
-      for (let i = idx; i >= 0; i--) if (values[i] != null) return i;
-      return -1;
-    }
-    const latestDate2 = dates[lastIndex];
-    if (!latestDate2) return -1;
-    const target = new Date(latestDate2);
-    target.setFullYear(target.getFullYear() - 1);
-    let bestIdx = -1;
-    let bestDiff = Infinity;
-    for (let i = 0; i < dates.length; i++) {
-      const d = dates[i];
-      if (!d || values[i] == null) continue;
-      const diff = Math.abs(d.getTime() - target.getTime());
-      if (diff < bestDiff) {
-        bestDiff = diff;
-        bestIdx = i;
-      }
-    }
-    return bestIdx;
-  }
-  const baselineIndex = findBaselineIndex();
-  const baselineValue = baselineIndex >= 0 ? values[baselineIndex] : null;
-  let delta;
-  if (autoDelta && value != null && baselineValue != null) {
-    const abs = value - baselineValue;
-    const useAbsolute = cfg.absolute !== false;
-    const val = useAbsolute ? abs : baselineValue === 0 ? 0 : abs / Math.abs(baselineValue) * 100;
-    delta = {
-      value: Number.isFinite(val) ? Number(val.toFixed(2)) : 0,
-      isPercent: useAbsolute ? unit2 === "%" : true,
-      period: `vs ${periodLabel(frequency, intervalHint, cfg.strategy === "n-points" ? Math.max(1, cfg.n || 1) : 1)}`
-    };
-  }
-  const latestDate = lastIndex >= 0 ? dates[lastIndex] : void 0;
-  const metadata = autoMetadata ? formatLatest(latestDate, frequency) ? `Latest: ${formatLatest(latestDate, frequency)}` : void 0 : void 0;
-  return { value, unit: unit2, delta, metadata, latestDate, frequency };
-}
-var autoMetrics_default = computeAutoMetrics;
+// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
+import * as React29 from "react";
 
-// src/components/DataVisualisation/components/MetricCard/SPCMetricCard.tsx
-import { jsx as jsx31 } from "react/jsx-runtime";
-var SPCMetricCard = ({
-  sparkData,
-  direction = "Neither" /* Neither */,
-  showMean = false,
-  showLimits = true,
-  showLimitBand = false,
-  showInnerBands = false,
-  maxPoints,
-  autoValue = true,
-  autoDelta = true,
-  autoMetadata = true,
-  defaultUnit,
-  intervalHint,
-  startDate,
-  deltaConfig,
-  ...rest
-}) => {
-  const spc = useSpc_default({
-    values: sparkData.map((d) => {
-      var _a2;
-      return (_a2 = d.value) != null ? _a2 : null;
-    }),
-    metricImprovement: direction,
-    showLimits,
-    showLimitBand,
-    showInnerBands,
-    showMean
-  });
-  const visual = /* @__PURE__ */ jsx31(SPCSpark, { ...spc.sparkProps, maxPoints });
-  const auto = React25.useMemo(() => {
-    return autoMetrics_default({
-      values: sparkData.map((d) => typeof d.value === "number" ? d.value : null),
-      dates: sparkData.map((d) => d.date),
-      intervalHint,
-      startDate,
-      providedUnit: rest.unit,
-      defaultUnit,
-      autoValue,
-      autoDelta,
-      autoMetadata,
-      deltaConfig
-    });
-  }, [sparkData, intervalHint, startDate, rest.unit, defaultUnit, autoValue, autoDelta, autoMetadata, deltaConfig]);
-  const finalValue = autoValue && auto.value != null ? auto.value : rest.value;
-  const finalDelta = autoDelta && auto.delta ? auto.delta : rest.delta;
-  const finalUnit = auto.unit || rest.unit;
-  const computedMetadata = autoMetadata && auto.metadata ? auto.metadata : rest.metadata;
-  return /* @__PURE__ */ jsx31(
-    MetricCard_default,
-    {
-      ...rest,
-      value: finalValue,
-      unit: finalUnit,
-      delta: finalDelta,
-      metadata: computedMetadata,
-      visual,
-      style: spc.metricCardStyle
-    }
-  );
-};
-var SPCMetricCard_default = SPCMetricCard;
-
-// src/components/DataVisualisation/wizard/DataVizWizard.tsx
-import * as React30 from "react";
+// src/components/DataVisualisation/charts/SPC/SPCChart/components/DiagnosticsPanel.tsx
+import * as React24 from "react";
 
 // src/mapping/tag.ts
 function mapTagProps(input) {
@@ -13075,7 +12699,7 @@ function mapTagProps(input) {
 }
 
 // src/components/Tag/Tag.tsx
-import { jsx as jsx32, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx31, jsxs as jsxs21 } from "react/jsx-runtime";
 var Tag = ({
   text,
   html,
@@ -13097,8 +12721,8 @@ var Tag = ({
     }
   };
   return /* @__PURE__ */ jsxs21("strong", { className: model.classes, ...props, children: [
-    children ? children : html ? /* @__PURE__ */ jsx32("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
-    closable && /* @__PURE__ */ jsx32(
+    children ? children : html ? /* @__PURE__ */ jsx31("span", { dangerouslySetInnerHTML: { __html: html } }) : text,
+    closable && /* @__PURE__ */ jsx31(
       "button",
       {
         type: "button",
@@ -13113,1308 +12737,17 @@ var Tag = ({
   ] });
 };
 
-// src/components/Checkboxes/Checkboxes.tsx
-var import_classnames4 = __toESM(require_classnames(), 1);
-import { useState as useState11 } from "react";
-
-// src/components/Input/Input.tsx
-import { useState as useState10, useEffect as useEffect7 } from "react";
-
-// src/mapping/input.ts
-function mapInputProps(p) {
-  const type = p.type || "text";
-  const isRange = type === "range";
-  const classes = [
-    "nhsuk-input",
-    p.hasError ? "nhsuk-input--error" : "",
-    isRange ? "nhsuk-input--range" : "",
-    !isRange && p.width && p.width !== "full" ? `nhsuk-input--width-${p.width}` : "",
-    p.className || ""
-  ].filter(Boolean).join(" ");
-  return { classes, isRange };
-}
-
-// src/components/Input/Input.tsx
-import { jsx as jsx33, jsxs as jsxs22 } from "react/jsx-runtime";
-var Input = ({
-  id,
-  name,
-  type = "text",
-  value,
-  defaultValue,
-  placeholder,
-  disabled = false,
-  readOnly = false,
-  required = false,
-  hasError = false,
-  describedBy,
-  className,
-  width = "full",
-  inputMode,
-  autoComplete,
-  maxLength,
-  minLength,
-  pattern,
-  step,
-  min,
-  max,
-  showValueLabels = false,
-  showCurrentValue = false,
-  valueLabels,
-  onChange,
-  onBlur,
-  onFocus,
-  onKeyDown,
-  ...props
-}) => {
-  const [currentValue, setCurrentValue] = useState10(value || defaultValue || (type === "range" ? min || "0" : ""));
-  useEffect7(() => {
-    if (value !== void 0) {
-      setCurrentValue(value);
-    }
-  }, [value]);
-  const handleChange = (event) => {
-    const el = event.target;
-    setCurrentValue(el.value);
-    if ("type" in event && event.nativeEvent) {
-      onChange == null ? void 0 : onChange(event);
-    } else if (event.type === "keydown") {
-      onChange == null ? void 0 : onChange(event);
-    }
-  };
-  const { classes: inputClasses, isRange } = mapInputProps({ id, name, type, hasError, width, className });
-  const isControlled = value !== void 0;
-  const sharedRangeProps = {
-    id,
-    name,
-    type,
-    placeholder,
-    disabled,
-    readOnly,
-    required,
-    "aria-describedby": describedBy,
-    inputMode,
-    autoComplete,
-    maxLength,
-    minLength,
-    pattern,
-    step,
-    min,
-    max,
-    onChange: handleChange,
-    onBlur,
-    onFocus,
-    onKeyDown: (e) => {
-      if (isRange && /[0-9]/.test(e.key)) {
-        const next = ((currentValue == null ? void 0 : currentValue.toString()) || "") + e.key;
-        e.target.value = next;
-        handleChange(e);
-      }
-      onKeyDown == null ? void 0 : onKeyDown(e);
-    },
-    ...props
-  };
-  const uncontrolledRangeProps = !isControlled && defaultValue !== void 0 ? { defaultValue } : {};
-  const controlledRangeProps = isControlled ? { value } : {};
-  const renderRangeInput = () => /* @__PURE__ */ jsx33(
-    "input",
-    {
-      className: inputClasses,
-      ...controlledRangeProps,
-      ...uncontrolledRangeProps,
-      "data-current-value": currentValue,
-      ...sharedRangeProps
-    }
-  );
-  const rangeWrapper = isRange ? /* @__PURE__ */ jsxs22("div", { className: "nhsuk-input-range-wrapper", children: [
-    showValueLabels && /* @__PURE__ */ jsxs22("div", { className: "nhsuk-input-range-labels", children: [
-      /* @__PURE__ */ jsx33("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: (valueLabels == null ? void 0 : valueLabels.min) || min || "0" }),
-      renderRangeInput(),
-      /* @__PURE__ */ jsx33("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: (valueLabels == null ? void 0 : valueLabels.max) || max || "100" })
-    ] }),
-    !showValueLabels && renderRangeInput(),
-    showCurrentValue && /* @__PURE__ */ jsx33("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ jsxs22("span", { className: "nhsuk-input-range-current-label", children: [
-      (valueLabels == null ? void 0 : valueLabels.current) || "Current value:",
-      " ",
-      /* @__PURE__ */ jsx33("strong", { children: currentValue })
-    ] }) })
-  ] }) : null;
-  if (isRange) {
-    return rangeWrapper;
-  }
-  return /* @__PURE__ */ jsx33(
-    "input",
-    {
-      className: inputClasses,
-      id,
-      name,
-      type,
-      value,
-      ...value === void 0 && defaultValue !== void 0 ? { defaultValue } : {},
-      placeholder,
-      disabled,
-      readOnly,
-      required,
-      "aria-describedby": describedBy,
-      inputMode,
-      autoComplete,
-      maxLength,
-      minLength,
-      pattern,
-      step,
-      min,
-      max,
-      onChange,
-      onBlur,
-      onFocus,
-      onKeyDown,
-      ...props
-    }
-  );
-};
-
-// src/mapping/label.ts
-function mapLabelProps(input) {
-  const size = input.size || "m";
-  const classes = [
-    "nhsuk-label",
-    size !== "m" ? `nhsuk-label--${size}` : "",
-    input.className || ""
-  ].filter(Boolean).join(" ");
-  return {
-    tag: input.isPageHeading ? "h1" : "label",
-    classes,
-    size,
-    htmlFor: input.isPageHeading ? void 0 : input.htmlFor,
-    isPageHeading: !!input.isPageHeading
-  };
-}
-
-// src/components/Label/Label.tsx
-import { jsx as jsx34 } from "react/jsx-runtime";
-var Label = ({
-  htmlFor,
-  className,
-  isPageHeading = false,
-  size = "m",
-  children,
-  ...props
-}) => {
-  const model = mapLabelProps({ size, isPageHeading, className, htmlFor });
-  const LabelElement = model.tag;
-  return /* @__PURE__ */ jsx34(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx34("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
-};
-
-// src/mapping/fieldset.ts
-function mapFieldsetProps(input) {
-  var _a2;
-  const fieldsetClasses = ["nhsuk-fieldset", input.className || ""].filter(Boolean).join(" ");
-  const legendClasses = input.legend ? [
-    "nhsuk-fieldset__legend",
-    input.legend.size ? `nhsuk-fieldset__legend--${input.legend.size}` : "",
-    input.legend.className || ""
-  ].filter(Boolean).join(" ") : void 0;
-  return {
-    fieldsetClasses,
-    legendClasses,
-    legendIsPageHeading: !!((_a2 = input.legend) == null ? void 0 : _a2.isPageHeading),
-    describedBy: input.describedBy
-  };
-}
-
-// src/components/Fieldset/Fieldset.tsx
-import { jsx as jsx35, jsxs as jsxs23 } from "react/jsx-runtime";
-var Fieldset = ({
-  children,
-  legend,
-  className,
-  describedBy,
-  ...fieldsetProps
-}) => {
-  const model = mapFieldsetProps({
-    className,
-    describedBy,
-    legend: legend ? {
-      size: legend.size,
-      className: legend.className,
-      isPageHeading: legend.isPageHeading
-    } : void 0
-  });
-  const renderLegendContent = () => {
-    const content = (legend == null ? void 0 : legend.html) ? /* @__PURE__ */ jsx35("span", { dangerouslySetInnerHTML: { __html: legend.html } }) : legend == null ? void 0 : legend.text;
-    if (model.legendIsPageHeading) {
-      return /* @__PURE__ */ jsx35("h1", { className: "nhsuk-fieldset__heading", children: content });
-    }
-    return content;
-  };
-  return /* @__PURE__ */ jsxs23(
-    "fieldset",
-    {
-      className: model.fieldsetClasses,
-      "aria-describedby": model.describedBy,
-      ...fieldsetProps,
-      children: [
-        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx35("legend", { className: model.legendClasses, children: renderLegendContent() }),
-        children
-      ]
-    }
-  );
-};
-
-// src/mapping/checkboxes.ts
-function mapCheckboxesProps(input) {
-  const classes = [
-    "nhsuk-checkboxes",
-    input.small ? "nhsuk-checkboxes--small" : "",
-    input.className || ""
-  ].filter(Boolean).join(" ");
-  const formGroupClasses = [
-    "nhsuk-form-group",
-    input.hasError ? "nhsuk-form-group--error" : ""
-  ].filter(Boolean).join(" ");
-  return { classes, formGroupClasses };
-}
-
-// src/components/Checkboxes/Checkboxes.tsx
-import { jsx as jsx36, jsxs as jsxs24 } from "react/jsx-runtime";
-var Checkboxes = ({
-  items,
-  name,
-  idPrefix,
-  legend,
-  isPageHeading = false,
-  legendSize = "l",
-  hint,
-  errorMessage,
-  className = "",
-  small = false,
-  onChange,
-  fieldsetAttributes,
-  attributes,
-  ...props
-}) => {
-  const [selectedValues, setSelectedValues] = useState11(
-    items.filter((item) => item.checked).map((item) => item.value)
-  );
-  const finalIdPrefix = idPrefix || name;
-  const hintId = hint ? `${finalIdPrefix}-hint` : void 0;
-  const errorId = errorMessage ? `${finalIdPrefix}-error` : void 0;
-  const describedBy = [hintId, errorId].filter(Boolean).join(" ") || void 0;
-  const handleCheckboxChange = (value, checked) => {
-    let newValues;
-    if (checked) {
-      newValues = [...selectedValues, value];
-    } else {
-      newValues = selectedValues.filter((v) => v !== value);
-    }
-    setSelectedValues(newValues);
-    onChange == null ? void 0 : onChange(newValues);
-  };
-  const renderItems = () => {
-    return items.map((item, index) => {
-      const itemId = `${finalIdPrefix}-${index + 1}`;
-      const conditionalId = `${itemId}-conditional`;
-      const isChecked = selectedValues.includes(item.value);
-      const isDisabled = item.disabled || false;
-      return /* @__PURE__ */ jsxs24("div", { className: "nhsuk-checkboxes__item", children: [
-        /* @__PURE__ */ jsx36(
-          "input",
-          {
-            className: "nhsuk-checkboxes__input",
-            id: itemId,
-            name,
-            type: "checkbox",
-            value: item.value,
-            checked: isChecked,
-            disabled: isDisabled,
-            onChange: (e) => handleCheckboxChange(item.value, e.target.checked),
-            "aria-describedby": item.hint ? `${itemId}-hint` : describedBy,
-            ...item.conditional && {
-              "aria-controls": conditionalId,
-              "aria-expanded": isChecked ? "true" : "false"
-            },
-            ...item.attributes
-          }
-        ),
-        /* @__PURE__ */ jsx36("label", { className: "nhsuk-checkboxes__label", htmlFor: itemId, children: item.text }),
-        item.hint && /* @__PURE__ */ jsx36("div", { id: `${itemId}-hint`, className: "nhsuk-checkboxes__hint", children: item.hint }),
-        item.conditional && /* @__PURE__ */ jsx36(
-          "div",
-          {
-            className: (0, import_classnames4.default)("nhsuk-checkboxes__conditional", {
-              "nhsuk-checkboxes__conditional--hidden": !isChecked
-            }),
-            id: conditionalId,
-            children: typeof item.conditional === "object" && item.conditional !== null && "label" in item.conditional && "id" in item.conditional && "name" in item.conditional ? /* @__PURE__ */ jsxs24("div", { style: { marginTop: "16px" }, children: [
-              item.conditional.label && /* @__PURE__ */ jsx36(Label, { htmlFor: item.conditional.id, children: item.conditional.label }),
-              /* @__PURE__ */ jsx36(Input, { ...item.conditional })
-            ] }) : item.conditional
-          }
-        )
-      ] }, item.value);
-    });
-  };
-  const { classes: checkboxesClasses, formGroupClasses } = mapCheckboxesProps({ small, className, hasError: !!errorMessage });
-  return /* @__PURE__ */ jsx36("div", { className: formGroupClasses, ...attributes, ...props, children: /* @__PURE__ */ jsxs24(
-    Fieldset,
-    {
-      legend: legend ? {
-        text: legend,
-        isPageHeading,
-        size: legendSize
-      } : void 0,
-      describedBy,
-      ...fieldsetAttributes,
-      children: [
-        hint && /* @__PURE__ */ jsx36("div", { id: hintId, className: "nhsuk-hint", children: hint }),
-        errorMessage && /* @__PURE__ */ jsxs24("div", { id: errorId, className: "nhsuk-error-message", children: [
-          /* @__PURE__ */ jsx36("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
-          " ",
-          errorMessage
-        ] }),
-        /* @__PURE__ */ jsx36("div", { className: checkboxesClasses, children: renderItems() })
-      ]
-    }
-  ) });
-};
-Checkboxes.displayName = "Checkboxes";
-
-// src/components/Radios/Radios.tsx
-import { useState as useState12, useRef as useRef6, useCallback as useCallback8 } from "react";
-
-// src/components/Radios/Radios.render.tsx
-var import_classnames5 = __toESM(require_classnames(), 1);
-
-// src/mapping/radios.ts
-function mapRadiosProps(input) {
-  const classes = [
-    "nhsuk-radios",
-    input.hasError ? "nhsuk-radios--error" : "",
-    input.size === "small" ? "nhsuk-radios--small" : "",
-    input.inline ? "nhsuk-radios--inline" : "",
-    input.className || ""
-  ].filter(Boolean).join(" ");
-  return { classes, describedBy: input.describedBy };
-}
-
-// src/components/Radios/Radios.render.tsx
-import { jsx as jsx37, jsxs as jsxs25 } from "react/jsx-runtime";
-function renderRadiosMarkup(props, {
-  variant,
-  selectedValue,
-  enableBehaviourAttr,
-  handleChange,
-  handleBlur,
-  handleFocus,
-  handleKeyDown,
-  itemsRef,
-  InputComponent
-}) {
-  const {
-    onChange: _omitOnChange,
-    onBlur: _omitOnBlur,
-    onFocus: _omitOnFocus,
-    ...safeProps
-  } = props;
-  const {
-    name,
-    hasError = false,
-    describedBy,
-    className,
-    size = "normal",
-    inline = false,
-    options,
-    ...rest
-  } = safeProps;
-  const { classes: radiosClasses, describedBy: mappedDescribedBy } = mapRadiosProps({ hasError, size, inline, className, describedBy });
-  return /* @__PURE__ */ jsx37(Fieldset, { children: /* @__PURE__ */ jsx37(
-    "div",
-    {
-      className: radiosClasses,
-      ...rest,
-      ...enableBehaviourAttr ? { "data-nhs-behaviour": "radios" } : {},
-      children: options.map((option, index) => {
-        const radioId = `${name}-${index}`;
-        const conditionalId = option.conditional ? `${radioId}-conditional` : void 0;
-        const isSelected = selectedValue === option.value;
-        return /* @__PURE__ */ jsxs25("div", { className: "nhsuk-radios__item", children: [
-          /* @__PURE__ */ jsx37(
-            "input",
-            {
-              className: "nhsuk-radios__input",
-              id: radioId,
-              name,
-              type: "radio",
-              value: option.value,
-              disabled: option.disabled,
-              ...variant === "client" ? {
-                checked: isSelected,
-                onChange: handleChange,
-                onBlur: handleBlur,
-                onFocus: handleFocus,
-                onKeyDown: handleKeyDown,
-                ref: (el) => {
-                  if (el && itemsRef) itemsRef.current[index] = el;
-                }
-              } : {
-                defaultChecked: isSelected,
-                "data-nhs-radios-input": true
-              },
-              "aria-describedby": mappedDescribedBy
-            }
-          ),
-          /* @__PURE__ */ jsx37("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),
-          option.hint && /* @__PURE__ */ jsx37("div", { className: "nhsuk-radios__hint", children: option.hint }),
-          option.conditional && /* @__PURE__ */ jsx37(
-            "div",
-            {
-              className: (0, import_classnames5.default)("nhsuk-radios__conditional", {
-                "nhsuk-radios__conditional--hidden": !isSelected
-              }),
-              id: conditionalId,
-              ...variant === "server" ? { "data-nhs-radios-conditional": true } : {},
-              children: typeof option.conditional === "object" && option.conditional !== null && "label" in option.conditional && "id" in option.conditional && "name" in option.conditional ? /* @__PURE__ */ jsxs25("div", { style: { marginTop: "16px" }, children: [
-                option.conditional.label && /* @__PURE__ */ jsx37(
-                  Label,
-                  {
-                    htmlFor: option.conditional.id,
-                    children: option.conditional.label
-                  }
-                ),
-                /* @__PURE__ */ jsx37(
-                  InputComponent,
-                  {
-                    ...option.conditional
-                  }
-                )
-              ] }) : option.conditional
-            }
-          )
-        ] }, option.value);
-      })
-    }
-  ) });
-}
-
-// src/components/Radios/Radios.tsx
-var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
-  const [selectedValue, setSelectedValue] = useState12(value || defaultValue || "");
-  const itemsRef = useRef6([]);
-  const lastValueRef = useRef6(selectedValue);
-  const handleChange = (event) => {
-    const newValue = event.target.value;
-    if (newValue === lastValueRef.current) return;
-    lastValueRef.current = newValue;
-    setSelectedValue(newValue);
-    onChange == null ? void 0 : onChange(event);
-  };
-  const handleFocus = (event) => {
-    onFocus == null ? void 0 : onFocus(event);
-  };
-  const handleKeyDown = useCallback8((event) => {
-    const { key } = event;
-    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(key)) return;
-    event.preventDefault();
-    const enabledRadios = itemsRef.current.filter((r2) => r2 && !r2.disabled);
-    const current = enabledRadios.indexOf(event.currentTarget);
-    if (current === -1) return;
-    let nextIndex = current;
-    if (["ArrowDown", "ArrowRight"].includes(key)) nextIndex = (current + 1) % enabledRadios.length;
-    else if (["ArrowUp", "ArrowLeft"].includes(key)) nextIndex = (current - 1 + enabledRadios.length) % enabledRadios.length;
-    const nextRadio = enabledRadios[nextIndex];
-    if (nextRadio) {
-      nextRadio.focus();
-      if (!nextRadio.checked) nextRadio.click();
-    }
-  }, []);
-  return renderRadiosMarkup(
-    { value, defaultValue, onChange, onBlur, onFocus, ...rest },
-    {
-      variant: "client",
-      selectedValue,
-      enableBehaviourAttr: false,
-      handleChange,
-      handleBlur: onBlur,
-      handleFocus,
-      // wrapped to suppress duplicate focus calls
-      handleKeyDown,
-      itemsRef,
-      InputComponent: Input
-    }
-  );
-};
-
-// src/components/Grid/Grid.tsx
-var import_classnames6 = __toESM(require_classnames(), 1);
-import React29 from "react";
-import { jsx as jsx38 } from "react/jsx-runtime";
-var Row = ({
-  children,
-  className,
-  style,
-  align,
-  rowGap,
-  ...props
-}) => {
-  const rowClasses = (0, import_classnames6.default)(
-    "nhsuk-grid-row",
-    // Row-specific alignment class to avoid column flex styles
-    align ? `nhsuk-grid-row-align-${align}` : void 0,
-    className
-  );
-  return /* @__PURE__ */ jsx38("div", { className: rowClasses, style, ...props, children });
-};
-var Column = ({
-  children,
-  width = "full" /* Full */,
-  mobileWidth,
-  tabletWidth,
-  desktopWidth,
-  start,
-  className,
-  forceWidth = false,
-  style,
-  align,
-  ...props
-}) => {
-  const columnClasses = (0, import_classnames6.default)(
-    {
-      // Standard responsive grid columns
-      [`nhsuk-grid-column-${width}`]: !forceWidth,
-      // Utility classes that force width on all screen sizes
-      [`nhsuk-u-${width}`]: forceWidth,
-      // Responsive width overrides
-      [`nhsuk-u-${mobileWidth}-mobile`]: !!mobileWidth,
-      [`nhsuk-u-${tabletWidth}-tablet`]: !!tabletWidth,
-      [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
-      // Grid positioning
-      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
-      // Alignment (robust string-based class to avoid enum identity issues)
-      ...align ? { [`nhsuk-grid-align-${align}`]: true } : {}
-    },
-    className
-  );
-  return /* @__PURE__ */ jsx38("div", { className: columnClasses, style, ...props, children });
-};
-
-// src/components/InsetText/InsetText.tsx
-var import_classnames7 = __toESM(require_classnames(), 1);
-import { jsx as jsx39 } from "react/jsx-runtime";
-var InsetText = ({
-  text,
-  html,
-  children,
-  className,
-  ...rest
-}) => {
-  const insetTextClasses = (0, import_classnames7.default)("nhsuk-inset-text", className);
-  const renderContent = () => {
-    if (children) {
-      return children;
-    }
-    if (html) {
-      return /* @__PURE__ */ jsx39("div", { dangerouslySetInnerHTML: { __html: html } });
-    }
-    if (text) {
-      return /* @__PURE__ */ jsx39("p", { children: text });
-    }
-    return null;
-  };
-  return /* @__PURE__ */ jsx39("div", { className: insetTextClasses, ...rest, children: renderContent() });
-};
-
-// src/components/SummaryList/SummaryList.tsx
-var import_classnames8 = __toESM(require_classnames(), 1);
-import { jsx as jsx40, jsxs as jsxs26 } from "react/jsx-runtime";
-var SummaryList = ({
-  items,
-  noBorder = false,
-  className,
-  ...rest
-}) => {
-  const summaryListClasses = (0, import_classnames8.default)(
-    "nhsuk-summary-list",
-    {
-      "nhsuk-summary-list--no-border": noBorder
-    },
-    className
-  );
-  const renderContent = (content) => {
-    if (content.children) {
-      return content.children;
-    }
-    if (content.html) {
-      return /* @__PURE__ */ jsx40("span", { dangerouslySetInnerHTML: { __html: content.html } });
-    }
-    if (content.text) {
-      return content.text;
-    }
-    return null;
-  };
-  const renderActions = (actions) => {
-    if (!actions || !actions.items.length) {
-      return null;
-    }
-    return /* @__PURE__ */ jsx40("dd", { className: "nhsuk-summary-list__actions", children: /* @__PURE__ */ jsx40("ul", { className: "nhsuk-summary-list__actions-list", children: actions.items.map((action, actionIndex) => /* @__PURE__ */ jsx40(
-      "li",
-      {
-        className: "nhsuk-summary-list__actions-list-item",
-        children: /* @__PURE__ */ jsxs26(
-          "a",
-          {
-            href: action.href,
-            className: "nhsuk-link",
-            ...action.attributes,
-            children: [
-              renderContent(action),
-              action.visuallyHiddenText && /* @__PURE__ */ jsx40("span", { className: "nhsuk-u-visually-hidden", children: action.visuallyHiddenText })
-            ]
-          }
-        )
-      },
-      actionIndex
-    )) }) });
-  };
-  return /* @__PURE__ */ jsx40("div", { className: "nhsuk-summary-list-container", children: /* @__PURE__ */ jsx40("dl", { className: summaryListClasses, ...rest, children: items.map((item, index) => /* @__PURE__ */ jsxs26("div", { className: "nhsuk-summary-list__row", children: [
-    /* @__PURE__ */ jsx40("dt", { className: "nhsuk-summary-list__key", children: renderContent(item.key) }),
-    /* @__PURE__ */ jsx40("dd", { className: "nhsuk-summary-list__value", children: renderContent(item.value) }),
-    renderActions(item.actions)
-  ] }, index)) }) });
-};
-
-// src/components/DataVisualisation/wizard/WizardProgress.tsx
-import { jsx as jsx41, jsxs as jsxs27 } from "react/jsx-runtime";
-var WizardProgress = ({
-  items,
-  currentQuestion,
-  onJumpTo
-}) => {
-  const listItems = items.map((a, i) => ({
-    key: { text: a.question || a.nodeId },
-    value: { text: Array.isArray(a.value) ? a.value.join(", ") : a.value },
-    actions: onJumpTo ? {
-      items: [
-        {
-          href: "#",
-          text: "Change",
-          visuallyHiddenText: a.question || a.nodeId,
-          attributes: {
-            onClick: (e) => {
-              e.preventDefault();
-              onJumpTo(i);
-            }
-          }
-        }
-      ]
-    } : void 0
-  }));
-  return /* @__PURE__ */ jsxs27("aside", { "aria-label": "Progress", style: { position: "relative" }, children: [
-    currentQuestion && /* @__PURE__ */ jsx41("p", { style: { marginTop: 0, marginBottom: 12 }, children: currentQuestion }),
-    items.length > 0 && /* @__PURE__ */ jsx41(SummaryList, { items: listItems })
-  ] });
-};
-var WizardProgress_default = WizardProgress;
-
-// src/components/DataVisualisation/wizard/ReviewAnswers.tsx
-import { jsx as jsx42 } from "react/jsx-runtime";
-var ReviewAnswers = ({ items, onChange }) => {
-  const list = items.map((a, i) => ({
-    key: { text: a.question || a.nodeId },
-    value: { text: Array.isArray(a.value) ? a.value.join(", ") : a.value },
-    actions: onChange ? {
-      items: [
-        {
-          href: "#",
-          text: "Change",
-          visuallyHiddenText: a.question || a.nodeId,
-          attributes: {
-            onClick: (e) => {
-              e.preventDefault();
-              onChange(i);
-            }
-          }
-        }
-      ]
-    } : void 0
-  }));
-  return /* @__PURE__ */ jsx42("div", { children: /* @__PURE__ */ jsx42(SummaryList, { items: list }) });
-};
-var ReviewAnswers_default = ReviewAnswers;
-
-// src/components/DataVisualisation/logic/wizardEngine.ts
-function getWizard(logic, wizardId) {
-  var _a2;
-  const wiz = (_a2 = logic.wizards) == null ? void 0 : _a2[wizardId];
-  if (!wiz) throw new Error(`Wizard '${wizardId}' not found`);
-  return wiz;
-}
-function getNode(wiz, nodeId) {
-  var _a2;
-  const node = (_a2 = wiz.nodes) == null ? void 0 : _a2[nodeId];
-  if (!node) throw new Error(`Node '${nodeId}' not found`);
-  return node;
-}
-function evaluateYesNo(node, answer) {
-  const branch = answer === "yes" ? node.yes : node.no;
-  if (!branch) return {};
-  return { nextId: branch.next, recommend: branch.recommend };
-}
-function evaluateSingleChoice(node, label) {
-  const choice = (node.choices || []).find((c) => c.label === label);
-  if (!choice) return {};
-  return { nextId: choice.next, recommend: choice.recommend };
-}
-function evaluateMultiChoice(node, labels) {
-  const selected = (node.choices || []).filter(
-    (c) => labels.includes(c.label)
-  );
-  if (selected.length === 0) return {};
-  const rec = selected.flatMap(
-    (c) => c.recommend || []
-  );
-  const nextIds = Array.from(
-    new Set(selected.map((c) => c.next).filter(Boolean))
-  );
-  const nextId = nextIds.length === 1 ? nextIds[0] : void 0;
-  const recommend = Array.from(new Set(rec));
-  return { nextId, recommend };
-}
-
-// src/components/DataVisualisation/wizard/DataVizWizard.tsx
-import { Fragment as Fragment5, jsx as jsx43, jsxs as jsxs28 } from "react/jsx-runtime";
-function getWizardRoot(logic, wizardId) {
-  try {
-    return getWizard(logic, wizardId);
-  } catch {
-    return logic.wizards[wizardId];
-  }
-}
-function getNode2(logic, wizardId, nodeId) {
-  try {
-    return getNode(getWizardRoot(logic, wizardId), nodeId);
-  } catch {
-    return logic.wizards[wizardId].nodes[nodeId];
-  }
-}
-function isClient() {
-  return typeof window !== "undefined";
-}
-var DataVizWizard = ({
-  logic,
-  wizardId = "nhs_v1",
-  storageKey = "dv_wizard_state_v1"
-}) => {
-  const wiz = getWizardRoot(logic, wizardId);
-  const rootId = wiz.root;
-  const [path2, setPath] = React30.useState([rootId]);
-  const [answers, setAnswers] = React30.useState([]);
-  const [result, setResult] = React30.useState(null);
-  const [selectedValue, setSelectedValue] = React30.useState("");
-  const [selectedValues, setSelectedValues] = React30.useState([]);
-  const [copyStatus, setCopyStatus] = React30.useState("idle");
-  React30.useEffect(() => {
-    var _a2;
-    if (!isClient()) return;
-    try {
-      const raw = window.localStorage.getItem(storageKey);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed.path) && Array.isArray(parsed.answers)) {
-          setPath(parsed.path);
-          setAnswers(parsed.answers);
-          setResult((_a2 = parsed.result) != null ? _a2 : null);
-        }
-      }
-    } catch {
-    }
-  }, [storageKey]);
-  React30.useEffect(() => {
-    if (!isClient()) return;
-    window.localStorage.setItem(
-      storageKey,
-      JSON.stringify({ path: path2, answers, result })
-    );
-  }, [path2, answers, result, storageKey]);
-  const currentId = path2[path2.length - 1];
-  const node = getNode2(logic, wizardId, currentId);
-  React30.useEffect(() => {
-    const prev = answers.find((a) => a.nodeId === currentId);
-    if (prev) {
-      if (Array.isArray(prev.value)) {
-        setSelectedValues(prev.value);
-        setSelectedValue("");
-      } else {
-        setSelectedValue(prev.value);
-        setSelectedValues([]);
-      }
-    } else {
-      setSelectedValue("");
-      setSelectedValues([]);
-    }
-  }, [currentId]);
-  React30.useEffect(() => {
-    if (!isClient()) return;
-    const state = { path: path2, answers, result };
-    try {
-      window.history.replaceState(state, "");
-    } catch {
-    }
-    const onPop = (e) => {
-      var _a2;
-      const st = e.state || {};
-      if (st && Array.isArray(st.path) && Array.isArray(st.answers)) {
-        setPath(st.path);
-        setAnswers(st.answers);
-        setResult((_a2 = st.result) != null ? _a2 : null);
-      }
-    };
-    window.addEventListener("popstate", onPop);
-    return () => window.removeEventListener("popstate", onPop);
-  }, []);
-  const shapeContextHelp = React30.useMemo(() => {
-    var _a2, _b2, _c;
-    if (currentId !== "components_shape") return null;
-    const prevVal = (_a2 = answers.find((a) => a.nodeId === "components_root")) == null ? void 0 : _a2.value;
-    const prevComponent = Array.isArray(prevVal) ? prevVal[0] || null : prevVal || null;
-    if (!prevComponent) return null;
-    const labelBase = prevComponent.replace(/\s*\(.*\)$/, "").trim().toLowerCase();
-    const comps = (_c = (_b2 = logic == null ? void 0 : logic.models) == null ? void 0 : _b2.abela) == null ? void 0 : _c.components;
-    if (!Array.isArray(comps)) return null;
-    let comp = comps.find(
-      (c) => (c.label || "").toLowerCase().replace(/\s*\(.*\)$/, "").trim() === labelBase
-    );
-    if (!comp && labelBase.includes("resources")) {
-      comp = comps.find((c) => c.id === "resources");
-    }
-    if (!comp) return null;
-    const shapeNames = {
-      time_series: "Time series",
-      categories: "Categories",
-      hierarchy: "Hierarchy",
-      matrix: "Matrix",
-      spatial: "Spatial",
-      distribution: "Distribution"
-    };
-    const shapes = (comp.maps_to_data_shapes || []).map((s) => shapeNames[s] || s).filter(Boolean);
-    if (shapes.length === 0 && !comp.notes) return null;
-    return /* @__PURE__ */ jsxs28(InsetText, { children: [
-      /* @__PURE__ */ jsxs28("div", { children: [
-        /* @__PURE__ */ jsx43("strong", { children: prevComponent }),
-        ": common data shapes"
-      ] }),
-      shapes.length > 0 && /* @__PURE__ */ jsx43("ul", { style: { marginTop: 8 }, children: shapes.map((s) => /* @__PURE__ */ jsx43("li", { children: s }, s)) }),
-      comp.notes && /* @__PURE__ */ jsx43("p", { style: { marginTop: 8 }, children: comp.notes })
-    ] });
-  }, [answers, currentId, logic]);
-  const pushHistoryState = (nextPath, nextAnswers, nextResult) => {
-    if (!isClient()) return;
-    const state = { path: nextPath, answers: nextAnswers, result: nextResult };
-    try {
-      window.history.pushState(state, "");
-    } catch {
-    }
-  };
-  const goBack = () => {
-    if (result) {
-      setResult(null);
-      setAnswers((a) => a.length > 0 ? a.slice(0, -1) : a);
-      return;
-    }
-    if (isClient()) {
-      window.history.back();
-    } else {
-      setPath((p) => p.length > 1 ? p.slice(0, -1) : p);
-      setAnswers((a) => a.length > 0 ? a.slice(0, -1) : a);
-    }
-  };
-  const reset = () => {
-    setPath([rootId]);
-    setAnswers([]);
-    setResult(null);
-    setSelectedValue("");
-    setSelectedValues([]);
-    setCopyStatus("idle");
-    if (isClient()) {
-      const state = { path: [rootId], answers: [], result: null };
-      try {
-        window.history.pushState(state, "");
-      } catch {
-      }
-    }
-  };
-  const getChartName = React30.useCallback(
-    (id) => {
-      try {
-        const add = logic == null ? void 0 : logic.chart_types_add;
-        const found = add == null ? void 0 : add.find((c) => c.id === id);
-        return (found == null ? void 0 : found.name) || id;
-      } catch {
-        return id;
-      }
-    },
-    [logic]
-  );
-  const getChartSupports = React30.useCallback(
-    (id) => {
-      try {
-        const add = logic == null ? void 0 : logic.chart_types_add;
-        const found = add == null ? void 0 : add.find((c) => c.id === id);
-        const supports = (found == null ? void 0 : found.supports) || {};
-        const LABELS = {
-          time_of_day: "time of day",
-          weekday: "weekday",
-          stages: "stages",
-          throughput: "throughput",
-          change_over_time: "trend",
-          baseline: "baseline",
-          percent_of_total: "% of total",
-          metadata: "metadata",
-          actions: "actions",
-          inline_spark: "inline spark",
-          sorting: "sorting",
-          filtering: "filtering",
-          responsive: "responsive",
-          aggregation: "aggregation",
-          grouping: "grouping",
-          totals: "totals",
-          drilldown: "drilldown",
-          duration: "duration",
-          events: "events",
-          exact_values: "exact values",
-          pagination: "pagination",
-          row_details: "row details",
-          latest_value: "latest value",
-          delta: "delta",
-          status: "status",
-          uncertainty: "uncertainty",
-          bulk_select: "bulk select",
-          row_actions: "row actions",
-          validation_flags: "validation flags",
-          // newly added operative supports
-          drag_drop: "drag and drop",
-          swimlanes: "swimlanes",
-          bulk_edit: "bulk edit",
-          shortcuts: "shortcuts",
-          pair_review: "pair review",
-          side_by_side: "side-by-side",
-          merge_preview: "merge preview",
-          save_views: "save views"
-        };
-        const humanize = (k) => LABELS[k] || k.replace(/_/g, " ");
-        return Object.keys(supports).filter((k) => supports[k]).map(humanize);
-      } catch {
-        return [];
-      }
-    },
-    [logic]
-  );
-  const buildSummaryPayload = React30.useCallback(() => {
-    var _a2;
-    const recommendations = result || [];
-    return {
-      wizard: wizardId,
-      logicVersion: (_a2 = logic == null ? void 0 : logic.v) != null ? _a2 : null,
-      generatedAt: (/* @__PURE__ */ new Date()).toISOString(),
-      answers: answers.map((a) => ({
-        nodeId: a.nodeId,
-        question: a.question || a.nodeId,
-        answer: a.value
-      })),
-      recommendations: recommendations.map((id) => ({ id, name: getChartName(id) }))
-    };
-  }, [answers, result, wizardId, logic, getChartName]);
-  const copySummaryToClipboard = React30.useCallback(async () => {
-    var _a2;
-    try {
-      const payload = buildSummaryPayload();
-      const text = JSON.stringify(payload, null, 2);
-      if (isClient() && ((_a2 = navigator == null ? void 0 : navigator.clipboard) == null ? void 0 : _a2.writeText)) {
-        await navigator.clipboard.writeText(text);
-        setCopyStatus("copied");
-        return;
-      }
-      if (isClient()) {
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.setAttribute("readonly", "");
-        ta.style.position = "absolute";
-        ta.style.left = "-9999px";
-        document.body.appendChild(ta);
-        ta.select();
-        try {
-          document.execCommand("copy");
-          setCopyStatus("copied");
-        } finally {
-          document.body.removeChild(ta);
-        }
-        return;
-      }
-      setCopyStatus("error");
-    } catch {
-      setCopyStatus("error");
-    }
-  }, [buildSummaryPayload]);
-  const renderEnd = (recommend) => /* @__PURE__ */ jsxs28(Fragment5, { children: [
-    /* @__PURE__ */ jsx43(Heading, { level: 2, children: "Recommended charts" }),
-    /* @__PURE__ */ jsx43(Panel, { children: /* @__PURE__ */ jsx43("ul", { children: recommend.map((r2) => {
-      const name = getChartName(r2);
-      const caps = getChartSupports(r2);
-      return /* @__PURE__ */ jsxs28("li", { style: { marginBottom: 8 }, children: [
-        /* @__PURE__ */ jsxs28("div", { children: [
-          /* @__PURE__ */ jsx43("strong", { children: name }),
-          " ",
-          /* @__PURE__ */ jsx43("code", { style: { opacity: 0.7 }, children: r2 })
-        ] }),
-        caps.length > 0 && /* @__PURE__ */ jsx43("div", { style: { marginTop: 4 }, "aria-label": "Capabilities", children: caps.map((c) => /* @__PURE__ */ jsx43(
-          Tag,
-          {
-            color: "grey",
-            style: {
-              display: "inline-block",
-              marginRight: 6,
-              marginBottom: 4
-            },
-            children: c
-          },
-          c
-        )) })
-      ] }, r2);
-    }) }) }),
-    /* @__PURE__ */ jsx43(Heading, { level: 3, children: "Your answers" }),
-    /* @__PURE__ */ jsx43(
-      ReviewAnswers_default,
-      {
-        items: answers,
-        onChange: (i) => {
-          setResult(null);
-          setPath((p) => p.slice(0, i + 1));
-          setAnswers((a) => a.slice(0, i));
-        }
-      }
-    ),
-    /* @__PURE__ */ jsx43(Row, { children: /* @__PURE__ */ jsxs28(Column, { width: "one-half" /* OneHalf */, children: [
-      /* @__PURE__ */ jsx43(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }),
-      /* @__PURE__ */ jsx43(Button_default, { onClick: reset, style: { marginLeft: "1em" }, children: "Start again" }),
-      /* @__PURE__ */ jsx43(
-        Button_default,
-        {
-          onClick: copySummaryToClipboard,
-          style: { marginLeft: "1em" },
-          variant: "secondary" /* Secondary */,
-          children: "Copy summary JSON"
-        }
-      ),
-      copyStatus === "copied" && /* @__PURE__ */ jsx43("span", { role: "status", style: { marginLeft: 8 }, children: "Copied" }),
-      copyStatus === "error" && /* @__PURE__ */ jsx43("span", { role: "status", style: { marginLeft: 8, color: "#d5281b" }, children: "Copy failed" })
-    ] }) })
-  ] });
-  let content = null;
-  if ((node == null ? void 0 : node.type) === "end" && !result) {
-    content = renderEnd(node.recommend || []);
-  } else if (result) {
-    content = renderEnd(result);
-  } else if (!node) {
-    content = /* @__PURE__ */ jsxs28(InsetText, { children: [
-      "Unknown node: ",
-      currentId
-    ] });
-  } else if (node.type === "single_choice" || node.type === "choice") {
-    const options = node.choices;
-    const multiple = node.type === "choice" ? node.mode === "multiple" : !!node.multiple;
-    content = /* @__PURE__ */ jsxs28(Row, { children: [
-      /* @__PURE__ */ jsxs28(Column, { width: "one-half" /* OneHalf */, children: [
-        /* @__PURE__ */ jsxs28(Heading, { level: 2, children: [
-          answers.length + 1,
-          ". ",
-          node.question
-        ] }),
-        node.help && /* @__PURE__ */ jsx43(InsetText, { children: node.help }),
-        shapeContextHelp,
-        multiple ? /* @__PURE__ */ jsx43(
-          Checkboxes,
-          {
-            name: currentId,
-            items: options.map((o) => ({ value: o.label, text: o.label })),
-            onChange: (vals) => setSelectedValues(vals)
-          },
-          currentId
-        ) : /* @__PURE__ */ jsx43(
-          Radios,
-          {
-            name: currentId,
-            options: options.map((o) => ({
-              label: o.label,
-              value: o.label,
-              text: o.label
-            })),
-            style: { marginBottom: "1.5em" },
-            onChange: (event) => setSelectedValue(event.target.value)
-          },
-          currentId
-        ),
-        /* @__PURE__ */ jsxs28(Row, { children: [
-          /* @__PURE__ */ jsx43(Column, { width: "one-half" /* OneHalf */, children: path2.length > 1 && /* @__PURE__ */ jsx43(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }) }),
-          /* @__PURE__ */ jsx43(Column, { width: "one-half" /* OneHalf */, align: "right" /* Right */, children: /* @__PURE__ */ jsx43(
-            Button_default,
-            {
-              onClick: () => {
-                if (multiple) {
-                  const res = evaluateMultiChoice(node, selectedValues);
-                  const nextAnswers = [
-                    ...answers,
-                    {
-                      nodeId: currentId,
-                      question: node.question,
-                      value: selectedValues,
-                      recommend: res.recommend
-                    }
-                  ];
-                  if (res.nextId) {
-                    const nextPath = [...path2, res.nextId];
-                    setAnswers(nextAnswers);
-                    setResult(null);
-                    setPath(nextPath);
-                    pushHistoryState(nextPath, nextAnswers, null);
-                  } else if (res.recommend && res.recommend.length) {
-                    setAnswers(nextAnswers);
-                    setResult(res.recommend);
-                    pushHistoryState(path2, nextAnswers, res.recommend);
-                  }
-                } else {
-                  const val = selectedValue;
-                  if (!val) return;
-                  const res = evaluateSingleChoice(node, val);
-                  const nextAnswers = [
-                    ...answers,
-                    {
-                      nodeId: currentId,
-                      question: node.question,
-                      value: val,
-                      recommend: res.recommend
-                    }
-                  ];
-                  if (res.nextId) {
-                    const nextPath = [...path2, res.nextId];
-                    setAnswers(nextAnswers);
-                    setResult(null);
-                    setPath(nextPath);
-                    pushHistoryState(nextPath, nextAnswers, null);
-                  } else if (res.recommend && res.recommend.length) {
-                    setAnswers(nextAnswers);
-                    setResult(res.recommend);
-                    pushHistoryState(path2, nextAnswers, res.recommend);
-                  }
-                }
-              },
-              disabled: multiple ? selectedValues.length === 0 : !selectedValue,
-              children: "Next"
-            }
-          ) })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsx43(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx43(
-        WizardProgress_default,
-        {
-          items: answers,
-          onJumpTo: (i) => {
-            setPath((p) => p.slice(0, i + 1));
-            setAnswers((a) => a.slice(0, i));
-          }
-        }
-      ) })
-    ] });
-  } else if (node.type === "yes_no") {
-    content = /* @__PURE__ */ jsxs28(Row, { children: [
-      /* @__PURE__ */ jsxs28(Column, { width: "two-thirds" /* TwoThirds */, children: [
-        /* @__PURE__ */ jsx43(Heading, { level: 2, children: node.question }),
-        /* @__PURE__ */ jsx43(
-          Radios,
-          {
-            name: currentId,
-            options: [
-              { text: "Yes", value: "Yes" },
-              { text: "No", value: "No" }
-            ],
-            onChange: (event) => setSelectedValue(event.target.value)
-          },
-          currentId
-        ),
-        /* @__PURE__ */ jsxs28(Row, { children: [
-          /* @__PURE__ */ jsx43(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx43(Button_default, { onClick: goBack, variant: "secondary" /* Secondary */, children: "Back" }) }),
-          /* @__PURE__ */ jsx43(Column, { width: "one-half" /* OneHalf */, align: "right" /* Right */, children: /* @__PURE__ */ jsx43(
-            Button_default,
-            {
-              onClick: () => {
-                const val = selectedValue;
-                if (!val) return;
-                const res = evaluateYesNo(
-                  node,
-                  val.toLowerCase() === "yes" ? "yes" : "no"
-                );
-                const nextAnswers = [
-                  ...answers,
-                  {
-                    nodeId: currentId,
-                    question: node.question,
-                    value: val,
-                    recommend: res.recommend
-                  }
-                ];
-                if (res.nextId) {
-                  const nextPath = [...path2, res.nextId];
-                  setAnswers(nextAnswers);
-                  setResult(null);
-                  setPath(nextPath);
-                  pushHistoryState(nextPath, nextAnswers, null);
-                } else if (res.recommend && res.recommend.length) {
-                  setAnswers(nextAnswers);
-                  setResult(res.recommend);
-                  pushHistoryState(path2, nextAnswers, res.recommend);
-                }
-              },
-              disabled: !selectedValue,
-              children: "Next"
-            }
-          ) })
-        ] })
-      ] }),
-      /* @__PURE__ */ jsx43(Column, { width: "one-third" /* OneThird */, children: /* @__PURE__ */ jsx43(
-        WizardProgress_default,
-        {
-          items: answers,
-          currentQuestion: node.question,
-          onJumpTo: (i) => {
-            setPath((p) => p.slice(0, i + 1));
-            setAnswers((a) => a.slice(0, i));
-          }
-        }
-      ) })
-    ] });
-  } else {
-    content = /* @__PURE__ */ jsxs28(InsetText, { children: [
-      "Unsupported node type: ",
-      node.type
-    ] });
-  }
-  return /* @__PURE__ */ jsx43(Fragment5, { children: content });
-};
-var DataVizWizard_default = DataVizWizard;
-
-// src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import * as React36 from "react";
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/components/DiagnosticsPanel.tsx
-import * as React31 from "react";
-import { Fragment as Fragment6, jsx as jsx44, jsxs as jsxs29 } from "react/jsx-runtime";
+import { Fragment as Fragment5, jsx as jsx32, jsxs as jsxs22 } from "react/jsx-runtime";
 function DiagnosticsPanel({
   warnings,
   show,
   formatWarningCategory,
   formatWarningCode
 }) {
-  const [diagnosticsMessage, setDiagnosticsMessage] = React31.useState("");
-  const lastDiagnosticsRef = React31.useRef("");
-  React31.useEffect(() => {
+  const [diagnosticsMessage, setDiagnosticsMessage] = React24.useState("");
+  const lastDiagnosticsRef = React24.useRef("");
+  React24.useEffect(() => {
     if (!show) {
       if (lastDiagnosticsRef.current !== "") {
         lastDiagnosticsRef.current = "";
@@ -14447,8 +12780,8 @@ function DiagnosticsPanel({
     }
   }, [show, warnings]);
   if (!show) return null;
-  return /* @__PURE__ */ jsxs29(Fragment6, { children: [
-    diagnosticsMessage && /* @__PURE__ */ jsx44(
+  return /* @__PURE__ */ jsxs22(Fragment5, { children: [
+    diagnosticsMessage && /* @__PURE__ */ jsx32(
       "div",
       {
         "data-testid": "spc-diagnostics-live",
@@ -14467,9 +12800,9 @@ function DiagnosticsPanel({
         children: diagnosticsMessage
       }
     ),
-    warnings.length > 0 && /* @__PURE__ */ jsxs29("div", { className: "fdp-spc-chart__warnings", role: "region", "aria-label": "SPC diagnostics", children: [
-      /* @__PURE__ */ jsx44("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
-      /* @__PURE__ */ jsx44(
+    warnings.length > 0 && /* @__PURE__ */ jsxs22("div", { className: "fdp-spc-chart__warnings", role: "region", "aria-label": "SPC diagnostics", children: [
+      /* @__PURE__ */ jsx32("p", { className: "fdp-spc-chart__warnings-heading", children: "Diagnostics" }),
+      /* @__PURE__ */ jsx32(
         Table_default,
         {
           firstCellIsHeader: false,
@@ -14483,23 +12816,23 @@ function DiagnosticsPanel({
             else if (w.severity === "info" /* Info */) severityColor = "blue";
             return [
               {
-                node: /* @__PURE__ */ jsx44(Tag, { color: severityColor, text: (w.severity ? String(w.severity) : "Info").replace(/^[a-z]/, (c) => c.toUpperCase()) }),
+                node: /* @__PURE__ */ jsx32(Tag, { color: severityColor, text: (w.severity ? String(w.severity) : "Info").replace(/^[a-z]/, (c) => c.toUpperCase()) }),
                 classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--severity"
               },
               {
-                node: w.category ? /* @__PURE__ */ jsx44(Tag, { color: "purple", text: formatWarningCategory(w.category) }) : /* @__PURE__ */ jsx44("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
+                node: w.category ? /* @__PURE__ */ jsx32(Tag, { color: "purple", text: formatWarningCategory(w.category) }) : /* @__PURE__ */ jsx32("span", { className: "fdp-spc-chart__warning-empty", children: "\u2013" }),
                 classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--category"
               },
               {
-                node: /* @__PURE__ */ jsx44(Tag, { color: "grey", text: formatWarningCode(w.code) }),
+                node: /* @__PURE__ */ jsx32(Tag, { color: "grey", text: formatWarningCode(w.code) }),
                 classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--code"
               },
               {
-                node: /* @__PURE__ */ jsxs29("div", { className: "fdp-spc-chart__warning-message", children: [
-                  /* @__PURE__ */ jsx44("span", { children: w.message }),
-                  w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs29("details", { className: "fdp-spc-chart__warning-context", style: { marginTop: 4 }, children: [
-                    /* @__PURE__ */ jsx44("summary", { children: "context" }),
-                    /* @__PURE__ */ jsx44("pre", { children: JSON.stringify(w.context, null, 2) })
+                node: /* @__PURE__ */ jsxs22("div", { className: "fdp-spc-chart__warning-message", children: [
+                  /* @__PURE__ */ jsx32("span", { children: w.message }),
+                  w.context && Object.keys(w.context).length > 0 && /* @__PURE__ */ jsxs22("details", { className: "fdp-spc-chart__warning-context", style: { marginTop: 4 }, children: [
+                    /* @__PURE__ */ jsx32("summary", { children: "context" }),
+                    /* @__PURE__ */ jsx32("pre", { children: JSON.stringify(w.context, null, 2) })
                   ] })
                 ] }),
                 classes: "fdp-spc-chart__warning-cell fdp-spc-chart__warning-cell--message"
@@ -14515,14 +12848,14 @@ function DiagnosticsPanel({
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/components/EmbeddedIconsRow.tsx
-import { jsx as jsx45, jsxs as jsxs30 } from "react/jsx-runtime";
+import { jsx as jsx33, jsxs as jsxs23 } from "react/jsx-runtime";
 function EmbeddedIconsRow({
   variationNode,
   assuranceNode,
   show
 }) {
   if (!show) return null;
-  return /* @__PURE__ */ jsxs30("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: [
+  return /* @__PURE__ */ jsxs23("div", { className: "fdp-spc-chart__top-row", style: { display: "flex", justifyContent: "flex-end", marginBottom: 4 }, children: [
     variationNode,
     assuranceNode
   ] });
@@ -14544,7 +12877,7 @@ __export(icons_exports, {
 
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCAssuranceIcon.tsx
 import { useId as useId8 } from "react";
-import { Fragment as Fragment7, jsx as jsx46, jsxs as jsxs31 } from "react/jsx-runtime";
+import { Fragment as Fragment6, jsx as jsx34, jsxs as jsxs24 } from "react/jsx-runtime";
 var SPCAssuranceIcon = ({
   status,
   size = 44,
@@ -14562,7 +12895,7 @@ var SPCAssuranceIcon = ({
   const colour = colourOverride || DEFAULT_COLOURS[status];
   const letter = (letterOverride || DEFAULT_LETTERS[status]).slice(0, 2);
   const aria = ariaLabel || `Assurance ${status}`;
-  return /* @__PURE__ */ jsxs31(
+  return /* @__PURE__ */ jsxs24(
     "svg",
     {
       width: size,
@@ -14572,21 +12905,21 @@ var SPCAssuranceIcon = ({
       "aria-label": aria,
       ...rest,
       children: [
-        /* @__PURE__ */ jsxs31("defs", { children: [
-          dropShadow && /* @__PURE__ */ jsxs31("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
-            /* @__PURE__ */ jsx46("feGaussianBlur", { stdDeviation: "3" }),
-            /* @__PURE__ */ jsx46("feOffset", { dx: "-1", dy: "15", result: "blur" }),
-            /* @__PURE__ */ jsx46("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
-            /* @__PURE__ */ jsx46("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
-            /* @__PURE__ */ jsx46("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
+        /* @__PURE__ */ jsxs24("defs", { children: [
+          dropShadow && /* @__PURE__ */ jsxs24("filter", { id: shadowId, filterUnits: "objectBoundingBox", children: [
+            /* @__PURE__ */ jsx34("feGaussianBlur", { stdDeviation: "3" }),
+            /* @__PURE__ */ jsx34("feOffset", { dx: "-1", dy: "15", result: "blur" }),
+            /* @__PURE__ */ jsx34("feFlood", { floodColor: "rgb(166,166,166)", floodOpacity: "1" }),
+            /* @__PURE__ */ jsx34("feComposite", { in2: "blur", operator: "in", result: "colorShadow" }),
+            /* @__PURE__ */ jsx34("feComposite", { in: "SourceGraphic", in2: "colorShadow", operator: "over" })
           ] }),
-          gradientWash && /* @__PURE__ */ jsxs31("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
-            /* @__PURE__ */ jsx46("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
-            /* @__PURE__ */ jsx46("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
-            /* @__PURE__ */ jsx46("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
+          gradientWash && /* @__PURE__ */ jsxs24("linearGradient", { id: washId, x1: "0%", y1: "0%", x2: "100%", y2: "100%", children: [
+            /* @__PURE__ */ jsx34("stop", { offset: "0%", stopColor: colour, stopOpacity: parseFloat(gradStart) }),
+            /* @__PURE__ */ jsx34("stop", { offset: "65%", stopColor: colour, stopOpacity: parseFloat(gradMid) }),
+            /* @__PURE__ */ jsx34("stop", { offset: "100%", stopColor: "#ffffff", stopOpacity: parseFloat(gradEnd) })
           ] })
         ] }),
-        /* @__PURE__ */ jsx46(
+        /* @__PURE__ */ jsx34(
           "circle",
           {
             stroke: "none",
@@ -14597,7 +12930,7 @@ var SPCAssuranceIcon = ({
             r: "120"
           }
         ),
-        /* @__PURE__ */ jsx46(
+        /* @__PURE__ */ jsx34(
           "text",
           {
             fill: colour,
@@ -14608,11 +12941,11 @@ var SPCAssuranceIcon = ({
             y: 0,
             transform: "translate(121.01, 32) scale(0.5, 0.5)",
             textAnchor: "middle",
-            children: /* @__PURE__ */ jsx46("tspan", { x: 60, y: 184, children: letter })
+            children: /* @__PURE__ */ jsx34("tspan", { x: 60, y: 184, children: letter })
           }
         ),
-        showTrendLines && /* @__PURE__ */ jsxs31(Fragment7, { children: [
-          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx46(
+        showTrendLines && /* @__PURE__ */ jsxs24(Fragment6, { children: [
+          status === "fail" /* Fail */ ? /* @__PURE__ */ jsx34(
             "path",
             {
               id: "fail-line",
@@ -14624,7 +12957,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 33,143 L 268,143"
             }
-          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx46(
+          ) : status === "uncertain" /* Uncertain */ ? /* @__PURE__ */ jsx34(
             "path",
             {
               id: "uncertain-line",
@@ -14636,7 +12969,7 @@ var SPCAssuranceIcon = ({
               fill: "none",
               d: "M 36,174 L 266,174"
             }
-          ) : /* @__PURE__ */ jsx46(
+          ) : /* @__PURE__ */ jsx34(
             "path",
             {
               id: "pass-line",
@@ -14649,7 +12982,7 @@ var SPCAssuranceIcon = ({
               d: "M 48,204 L 254,204"
             }
           ),
-          /* @__PURE__ */ jsx46(
+          /* @__PURE__ */ jsx34(
             "path",
             {
               id: "data-sparkline",
@@ -14660,7 +12993,7 @@ var SPCAssuranceIcon = ({
               d: "M 59.9,187.91 C 72.79,171.72 87.33,158.06 104.4,157.83 121.91,158.58 140.94,187.85 153.4,189.91 164.1,192.12 163.78,171.38 169.17,170.53 172.87,169.55 174.88,187.45 184.94,189.24 197,191.86 230.54,184.47 239.01,185.9"
             }
           ),
-          /* @__PURE__ */ jsx46(
+          /* @__PURE__ */ jsx34(
             "circle",
             {
               stroke: colour,
@@ -14680,7 +13013,7 @@ var SPCAssuranceIcon = ({
 SPCAssuranceIcon.displayName = "SPCAssuranceIcon";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/utils/embeddedIcon.tsx
-import { jsx as jsx47, jsxs as jsxs32 } from "react/jsx-runtime";
+import { jsx as jsx35, jsxs as jsxs25 } from "react/jsx-runtime";
 function buildEmbeddedIcon(args) {
   var _a2, _b2, _c;
   const { show, rowsForUi, minPoints, metricImprovement, variant, runLength } = args;
@@ -14742,19 +13075,19 @@ function buildEmbeddedIcon(args) {
       variationEngine = "CommonCause" /* CommonCause */;
     }
   }
-  return /* @__PURE__ */ jsxs32(
+  return /* @__PURE__ */ jsxs25(
     "div",
     {
       style: { display: "flex", gap: 12, marginRight: 16 },
       children: [
-        /* @__PURE__ */ jsx47(
+        /* @__PURE__ */ jsx35(
           "div",
           {
             className: "fdp-spc-chart__embedded-icon",
             "data-variation": String(variation),
             "data-trend": trend ? String(trend) : "none",
             style: { width: iconSize, height: iconSize },
-            children: /* @__PURE__ */ jsx47(
+            children: /* @__PURE__ */ jsx35(
               SPCVariationIcon,
               {
                 dropShadow: false,
@@ -14774,13 +13107,13 @@ function buildEmbeddedIcon(args) {
             )
           }
         ),
-        /* @__PURE__ */ jsx47(
+        /* @__PURE__ */ jsx35(
           "div",
           {
             className: "fdp-spc-chart__embedded-assurance-icon",
             "data-assurance": String(assuranceRaw),
             style: { width: iconSize, height: iconSize },
-            children: /* @__PURE__ */ jsx47(
+            children: /* @__PURE__ */ jsx35(
               SPCAssuranceIcon,
               {
                 status: assuranceRenderStatus,
@@ -14797,12 +13130,12 @@ function buildEmbeddedIcon(args) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.tsx
-import * as React34 from "react";
+import * as React27 from "react";
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCTooltipOverlay.tsx
-import * as React32 from "react";
+import * as React25 from "react";
 import { createPortal } from "react-dom";
-import { jsx as jsx48, jsxs as jsxs33 } from "react/jsx-runtime";
+import { jsx as jsx36, jsxs as jsxs26 } from "react/jsx-runtime";
 var SPCTooltipOverlay = ({
   engineRows,
   limits,
@@ -14816,10 +13149,10 @@ var SPCTooltipOverlay = ({
   var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k;
   const tooltip = useTooltipContext();
   const chart = useChartContext();
-  const [cachedFocus, setCachedFocus] = React32.useState(null);
-  const [hoveringTooltip, setHoveringTooltip] = React32.useState(false);
-  const hideTimeoutRef = React32.useRef(null);
-  React32.useEffect(() => {
+  const [cachedFocus, setCachedFocus] = React25.useState(null);
+  const [hoveringTooltip, setHoveringTooltip] = React25.useState(false);
+  const hideTimeoutRef = React25.useRef(null);
+  React25.useEffect(() => {
     if (!tooltip) return;
     if (tooltip.focused) {
       setCachedFocus(tooltip.focused);
@@ -14843,8 +13176,8 @@ var SPCTooltipOverlay = ({
     };
   }, [tooltip, tooltip == null ? void 0 : tooltip.focused, hoveringTooltip]);
   const focused = tooltip && (tooltip.focused || (hoveringTooltip ? cachedFocus : null) || cachedFocus);
-  const [visible, setVisible] = React32.useState(false);
-  React32.useEffect(() => {
+  const [visible, setVisible] = React25.useState(false);
+  React25.useEffect(() => {
     const id = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(id);
   }, [focused == null ? void 0 : focused.index]);
@@ -14917,7 +13250,7 @@ var SPCTooltipOverlay = ({
   const tooltipId = focused ? `spc-tooltip-${focused.index}` : "spc-tooltip";
   const pointIndex = typeof focused.index === "number" ? focused.index : NaN;
   const portal = host ? createPortal(
-    /* @__PURE__ */ jsx48(
+    /* @__PURE__ */ jsx36(
       "div",
       {
         id: tooltipId,
@@ -14954,27 +13287,27 @@ var SPCTooltipOverlay = ({
             hideTimeoutRef.current = id;
           }
         },
-        children: /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__body", children: [
-          /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--point", children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Point" }) }),
-            /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__primary-line", children: [
+        children: /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__body", children: [
+          /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--point", children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Point" }) }),
+            /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__primary-line", children: [
               "Index: ",
               pointIndex
             ] })
           ] }),
-          /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Date" }) }),
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
+          /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--date", children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Date" }) }),
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__primary-line", children: dateLabel })
           ] }),
-          /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Value" }) }),
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
+          /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--value", children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Value" }) }),
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__primary-line", children: valueLabel })
           ] }),
-          showBadges && /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Signals" }) }),
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
+          showBadges && /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--signals", children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Signals" }) }),
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Signals", children: (() => {
               if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                return /* @__PURE__ */ jsx48(
+                return /* @__PURE__ */ jsx36(
                   Tag,
                   {
                     text: variationDesc,
@@ -14984,7 +13317,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                return /* @__PURE__ */ jsx48(
+                return /* @__PURE__ */ jsx36(
                   Tag,
                   {
                     text: variationDesc,
@@ -14994,7 +13327,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (isNoJudgement) {
-                return /* @__PURE__ */ jsx48(
+                return /* @__PURE__ */ jsx36(
                   Tag,
                   {
                     text: "No judgement",
@@ -15005,7 +13338,7 @@ var SPCTooltipOverlay = ({
                 );
               }
               if (variationDesc) {
-                return /* @__PURE__ */ jsx48(
+                return /* @__PURE__ */ jsx36(
                   Tag,
                   {
                     text: variationDesc,
@@ -15017,13 +13350,13 @@ var SPCTooltipOverlay = ({
               return null;
             })() })
           ] }),
-          assuranceDesc && /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Assurance" }) }),
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
+          assuranceDesc && /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--assurance", children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Assurance" }) }),
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: (() => {
               const lower = assuranceDesc.toLowerCase();
               const isFail = lower.includes("not met") || lower.includes("not achieved");
               const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
-              return /* @__PURE__ */ jsx48(
+              return /* @__PURE__ */ jsx36(
                 Tag,
                 {
                   text: assuranceDesc,
@@ -15034,9 +13367,9 @@ var SPCTooltipOverlay = ({
               );
             })() })
           ] }),
-          zone && /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Control Limits & Sigma" }) }),
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx48(
+          zone && /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--limits", children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Control Limits & Sigma" }) }),
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__badges", "aria-label": "Limits", children: /* @__PURE__ */ jsx36(
               Tag,
               {
                 text: (() => {
@@ -15053,13 +13386,13 @@ var SPCTooltipOverlay = ({
               }
             ) })
           ] }),
-          gatingExplanation && /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Trend gating" }) }),
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
+          gatingExplanation && /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--gating", "data-gating": true, children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Trend gating" }) }),
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__explanation", "aria-live": "off", children: gatingExplanation })
           ] }),
-          hasRules && /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
-            /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx48("strong", { children: "Special cause" }) }),
-            /* @__PURE__ */ jsx48(
+          hasRules && /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", children: [
+            /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", children: /* @__PURE__ */ jsx36("strong", { children: "Special cause" }) }),
+            /* @__PURE__ */ jsx36(
               "div",
               {
                 className: "fdp-spc-tooltip__rule-tags",
@@ -15068,7 +13401,7 @@ var SPCTooltipOverlay = ({
                   const idStr = String(id);
                   const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
                   const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
-                  return /* @__PURE__ */ jsx48(
+                  return /* @__PURE__ */ jsx36(
                     Tag,
                     {
                       text: label,
@@ -15081,12 +13414,12 @@ var SPCTooltipOverlay = ({
                 })
               }
             ),
-            primeDirection && /* @__PURE__ */ jsxs33("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
-              /* @__PURE__ */ jsx48("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx48("strong", { children: "Prime Direction" }) }),
+            primeDirection && /* @__PURE__ */ jsxs26("div", { className: "fdp-spc-tooltip__section fdp-spc-tooltip__section--rules", style: { marginTop: 16 }, children: [
+              /* @__PURE__ */ jsx36("div", { className: "fdp-spc-tooltip__section-label", style: { marginBottom: 6 }, children: /* @__PURE__ */ jsx36("strong", { children: "Prime Direction" }) }),
               (() => {
                 const primeColorClass = isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
                 const primeLabel = `${primeDirection}${primeRuleId ? ` (${primeRuleId})` : ""}`;
-                return /* @__PURE__ */ jsx48(
+                return /* @__PURE__ */ jsx36(
                   Tag,
                   {
                     text: primeLabel,
@@ -15103,14 +13436,14 @@ var SPCTooltipOverlay = ({
     ),
     host
   ) : null;
-  return /* @__PURE__ */ jsxs33(
+  return /* @__PURE__ */ jsxs26(
     "g",
     {
       className: "fdp-tooltip-layer fdp-spc-tooltip",
       pointerEvents: "none",
       "aria-hidden": "true",
       children: [
-        /* @__PURE__ */ jsx48(
+        /* @__PURE__ */ jsx36(
           "circle",
           {
             cx: clampX,
@@ -15121,7 +13454,7 @@ var SPCTooltipOverlay = ({
             strokeWidth: 3
           }
         ),
-        /* @__PURE__ */ jsx48(
+        /* @__PURE__ */ jsx36(
           "circle",
           {
             cx: clampX,
@@ -15132,7 +13465,7 @@ var SPCTooltipOverlay = ({
             strokeWidth: 1.5
           }
         ),
-        /* @__PURE__ */ jsx48(
+        /* @__PURE__ */ jsx36(
           "circle",
           {
             cx: clampX,
@@ -15151,8 +13484,8 @@ var SPCTooltipOverlay = ({
 var SPCTooltipOverlay_default = SPCTooltipOverlay;
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCSignalsInspector.tsx
-import * as React33 from "react";
-import { jsx as jsx49, jsxs as jsxs34 } from "react/jsx-runtime";
+import * as React26 from "react";
+import { jsx as jsx37, jsxs as jsxs27 } from "react/jsx-runtime";
 var SPCSignalsInspector = ({
   engineRows,
   measureName,
@@ -15164,7 +13497,7 @@ var SPCSignalsInspector = ({
   const focused = (_a2 = t == null ? void 0 : t.focused) != null ? _a2 : null;
   const index = (_b2 = focused == null ? void 0 : focused.index) != null ? _b2 : null;
   const row = typeof index === "number" && engineRows ? engineRows[index] : null;
-  const rules = React33.useMemo(
+  const rules = React26.useMemo(
     () => row ? extractRuleIds({
       specialCauseSinglePointUp: !!row.rules.singlePoint.up,
       specialCauseSinglePointDown: !!row.rules.singlePoint.down,
@@ -15179,7 +13512,7 @@ var SPCSignalsInspector = ({
     }) : [],
     [row]
   );
-  const uniqueRuleNarr = React33.useMemo(
+  const uniqueRuleNarr = React26.useMemo(
     () => Array.from(
       new Set(rules.map((r2) => {
         var _a3;
@@ -15192,8 +13525,8 @@ var SPCSignalsInspector = ({
   const assuranceDesc = row ? assuranceLabel((_d = row.classification) == null ? void 0 : _d.assurance) : null;
   const hasRules = rules.length > 0;
   const isNoJudgement = row ? ((_e = row.classification) == null ? void 0 : _e.variation) === "neither" /* Neither */ && hasRules : false;
-  const lastKeyRef = React33.useRef(null);
-  React33.useEffect(() => {
+  const lastKeyRef = React26.useRef(null);
+  React26.useEffect(() => {
     if (!onSignalFocus) return;
     if (!focused || row == null) return;
     const key = `${focused.seriesId}:${focused.index}`;
@@ -15210,7 +13543,7 @@ var SPCSignalsInspector = ({
     } catch {
     }
   }, [focused == null ? void 0 : focused.seriesId, focused == null ? void 0 : focused.index, focused == null ? void 0 : focused.x, focused == null ? void 0 : focused.y, row, rules, onSignalFocus]);
-  return /* @__PURE__ */ jsxs34(
+  return /* @__PURE__ */ jsxs27(
     "div",
     {
       className: "fdp-spc-inspector",
@@ -15218,7 +13551,7 @@ var SPCSignalsInspector = ({
       "aria-label": "Signals inspector",
       "data-testid": "spc-signals-inspector",
       children: [
-        /* @__PURE__ */ jsxs34(
+        /* @__PURE__ */ jsxs27(
           "div",
           {
             className: "fdp-spc-inspector__header",
@@ -15228,9 +13561,9 @@ var SPCSignalsInspector = ({
               justifyContent: "space-between"
             },
             children: [
-              /* @__PURE__ */ jsx49("strong", { children: "Signals inspector" }),
-              /* @__PURE__ */ jsx49("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs34("div", { style: { display: "flex", gap: 8 }, children: [
-                /* @__PURE__ */ jsx49(
+              /* @__PURE__ */ jsx37("strong", { children: "Signals inspector" }),
+              /* @__PURE__ */ jsx37("div", { className: "fdp-spc-inspector__nav", "aria-hidden": !t, children: t && /* @__PURE__ */ jsxs27("div", { style: { display: "flex", gap: 8 }, children: [
+                /* @__PURE__ */ jsx37(
                   "button",
                   {
                     type: "button",
@@ -15243,7 +13576,7 @@ var SPCSignalsInspector = ({
                     children: "\u25C0"
                   }
                 ),
-                /* @__PURE__ */ jsx49(
+                /* @__PURE__ */ jsx37(
                   "button",
                   {
                     type: "button",
@@ -15260,20 +13593,20 @@ var SPCSignalsInspector = ({
             ]
           }
         ),
-        !row || !focused ? /* @__PURE__ */ jsx49("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs34("div", { className: "fdp-spc-inspector__body", children: [
-          /* @__PURE__ */ jsxs34(
+        !row || !focused ? /* @__PURE__ */ jsx37("p", { className: "fdp-spc-inspector__empty", children: "No point selected." }) : /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-inspector__body", children: [
+          /* @__PURE__ */ jsxs27(
             "div",
             {
               className: "fdp-spc-inspector__summary",
               style: { display: "flex", gap: 16, flexWrap: "wrap" },
               children: [
-                /* @__PURE__ */ jsxs34("span", { children: [
-                  /* @__PURE__ */ jsx49("strong", { children: "Point:" }),
+                /* @__PURE__ */ jsxs27("span", { children: [
+                  /* @__PURE__ */ jsx37("strong", { children: "Point:" }),
                   " ",
                   focused.index + 1
                 ] }),
-                /* @__PURE__ */ jsxs34("span", { children: [
-                  /* @__PURE__ */ jsx49("strong", { children: "Value:" }),
+                /* @__PURE__ */ jsxs27("span", { children: [
+                  /* @__PURE__ */ jsx37("strong", { children: "Value:" }),
                   " ",
                   focused.y,
                   measureUnit ? ` ${measureUnit}` : "",
@@ -15282,12 +13615,12 @@ var SPCSignalsInspector = ({
               ]
             }
           ),
-          (variationDesc || isNoJudgement || assuranceDesc) && /* @__PURE__ */ jsx49(
+          (variationDesc || isNoJudgement || assuranceDesc) && /* @__PURE__ */ jsx37(
             "div",
             {
               className: "fdp-spc-inspector__signals",
               style: { marginTop: 8 },
-              children: /* @__PURE__ */ jsxs34(
+              children: /* @__PURE__ */ jsxs27(
                 "div",
                 {
                   style: {
@@ -15299,7 +13632,7 @@ var SPCSignalsInspector = ({
                   children: [
                     (() => {
                       if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("concern")) {
-                        return /* @__PURE__ */ jsx49(
+                        return /* @__PURE__ */ jsx37(
                           Tag,
                           {
                             text: variationDesc,
@@ -15309,7 +13642,7 @@ var SPCSignalsInspector = ({
                         );
                       }
                       if (variationDesc == null ? void 0 : variationDesc.toLowerCase().includes("improvement")) {
-                        return /* @__PURE__ */ jsx49(
+                        return /* @__PURE__ */ jsx37(
                           Tag,
                           {
                             text: variationDesc,
@@ -15319,7 +13652,7 @@ var SPCSignalsInspector = ({
                         );
                       }
                       if (isNoJudgement) {
-                        return /* @__PURE__ */ jsx49(
+                        return /* @__PURE__ */ jsx37(
                           Tag,
                           {
                             text: "No judgement",
@@ -15330,7 +13663,7 @@ var SPCSignalsInspector = ({
                         );
                       }
                       if (variationDesc) {
-                        return /* @__PURE__ */ jsx49(
+                        return /* @__PURE__ */ jsx37(
                           Tag,
                           {
                             text: variationDesc,
@@ -15345,7 +13678,7 @@ var SPCSignalsInspector = ({
                       const lower = assuranceDesc.toLowerCase();
                       const isFail = lower.includes("not met") || lower.includes("not achieved");
                       const isPass = !isFail && /(^|\b)(met|achieved)(\b|$)/.test(lower);
-                      return /* @__PURE__ */ jsx49(
+                      return /* @__PURE__ */ jsx37(
                         Tag,
                         {
                           text: assuranceDesc,
@@ -15360,9 +13693,9 @@ var SPCSignalsInspector = ({
               )
             }
           ),
-          /* @__PURE__ */ jsxs34("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
-            /* @__PURE__ */ jsx49("strong", { children: "Special cause:" }),
-            /* @__PURE__ */ jsx49(
+          /* @__PURE__ */ jsxs27("div", { className: "fdp-spc-inspector__rules", style: { marginTop: 8 }, children: [
+            /* @__PURE__ */ jsx37("strong", { children: "Special cause:" }),
+            /* @__PURE__ */ jsx37(
               "div",
               {
                 className: "fdp-spc-tooltip__rule-tags",
@@ -15373,13 +13706,13 @@ var SPCSignalsInspector = ({
                   flexWrap: "wrap",
                   marginTop: 4
                 },
-                children: rules.length === 0 ? /* @__PURE__ */ jsx49("span", { children: " None" }) : rules.map((r2) => {
+                children: rules.length === 0 ? /* @__PURE__ */ jsx37("span", { children: " None" }) : rules.map((r2) => {
                   var _a3, _b3;
                   const idStr = String(r2);
                   const isTrend = idStr === "trend_inc" /* TrendIncreasing */ || idStr === "trend_dec" /* TrendDecreasing */;
                   const ruleColorClass = isTrend ? "fdp-spc-tag--trend" : isNoJudgement ? "fdp-spc-tag--no-judgement" : variationDesc ? variationDesc.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : variationDesc.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
                   const label = ((_a3 = ruleGlossary[r2]) == null ? void 0 : _a3.tooltip) || idStr;
-                  return /* @__PURE__ */ jsx49(
+                  return /* @__PURE__ */ jsx37(
                     Tag,
                     {
                       text: label,
@@ -15394,13 +13727,13 @@ var SPCSignalsInspector = ({
               }
             )
           ] }),
-          uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs34(
+          uniqueRuleNarr.length > 0 && /* @__PURE__ */ jsxs27(
             "div",
             {
               className: "fdp-spc-inspector__narration",
               style: { marginTop: 8 },
               children: [
-                /* @__PURE__ */ jsx49("strong", { children: "Summary:" }),
+                /* @__PURE__ */ jsx37("strong", { children: "Summary:" }),
                 " ",
                 uniqueRuleNarr.join("; ")
               ]
@@ -15638,7 +13971,7 @@ function normalizeSpcProps(props) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/InternalSPC.tsx
-import { Fragment as Fragment8, jsx as jsx50, jsxs as jsxs35 } from "react/jsx-runtime";
+import { Fragment as Fragment7, jsx as jsx38, jsxs as jsxs28 } from "react/jsx-runtime";
 var spcSequenceInstanceCounter = 0;
 var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
   var _a2, _b2;
@@ -15677,12 +14010,12 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
   const chartCtx = useChartContext();
   if (!scaleCtx) return null;
   const { xScale, yScale } = scaleCtx;
-  const gradientIdBaseRef = React34.useRef(
+  const gradientIdBaseRef = React27.useRef(
     "spc-seq-" + ++spcSequenceInstanceCounter
   );
   const tooltipCtx = useTooltipContext();
   const all = ((_a2 = series[0]) == null ? void 0 : _a2.data) || [];
-  const outOfControl = React34.useMemo(() => {
+  const outOfControl = React27.useMemo(() => {
     if (!limits.ucl && !limits.lcl) return /* @__PURE__ */ new Set();
     const set = /* @__PURE__ */ new Set();
     all.forEach((d, i) => {
@@ -15691,7 +14024,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
     });
     return set;
   }, [limits.ucl, limits.lcl, all]);
-  const engineSignals = React34.useMemo(() => {
+  const engineSignals = React27.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const map2 = [];
     engineRows.forEach((r2, idx) => {
@@ -15721,7 +14054,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
     });
     return map2;
   }, [engineRows]);
-  const categories = React34.useMemo(() => {
+  const categories = React27.useMemo(() => {
     return (visualCategories || []).map((c) => {
       if (c === "Improvement" /* Improvement */)
         return SPCChart_constants_default.Improvement;
@@ -15731,18 +14064,18 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
       return SPCChart_constants_default.Common;
     });
   }, [visualCategories]);
-  const sequences = React34.useMemo(() => {
+  const sequences = React27.useMemo(() => {
     if (!gradientSequences || !categories.length)
       return [];
     return computeGradientSequences(categories, true);
   }, [gradientSequences, categories, ariaLabel]);
-  const xPositions = React34.useMemo(
+  const xPositions = React27.useMemo(
     () => all.map((d) => xScale(d.x instanceof Date ? d.x : new Date(d.x))),
     [all, xScale]
   );
   const plotWidth = xScale.range()[1];
   const plotLeft = xScale.range()[0];
-  const trendInsights = React34.useMemo(() => {
+  const trendInsights = React27.useMemo(() => {
     if (!engineRows || !engineRows.length)
       return null;
     let earliestUp = Number.POSITIVE_INFINITY;
@@ -15794,7 +14127,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
       persistedAcrossMean
     };
   }, [engineRows, metricImprovement]);
-  const limitSegments = React34.useMemo(() => {
+  const limitSegments = React27.useMemo(() => {
     if (!engineRows || !engineRows.length) return null;
     const buildFrom = (extractor) => {
       const segs = [];
@@ -15875,10 +14208,10 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
       })
     };
   }, [engineRows, xPositions, yScale]);
-  const sequenceDefs = React34.useMemo(() => {
+  const sequenceDefs = React27.useMemo(() => {
     if (!sequences.length) return null;
-    return /* @__PURE__ */ jsxs35("defs", { children: [
-      /* @__PURE__ */ jsxs35(
+    return /* @__PURE__ */ jsxs28("defs", { children: [
+      /* @__PURE__ */ jsxs28(
         "linearGradient",
         {
           id: `${gradientIdBaseRef.current}-grad-common`,
@@ -15887,7 +14220,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
           x2: "0%",
           y2: "100%",
           children: [
-            /* @__PURE__ */ jsx50(
+            /* @__PURE__ */ jsx38(
               "stop",
               {
                 offset: "0%",
@@ -15895,7 +14228,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                 stopOpacity: 0.28
               }
             ),
-            /* @__PURE__ */ jsx50(
+            /* @__PURE__ */ jsx38(
               "stop",
               {
                 offset: "70%",
@@ -15903,7 +14236,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                 stopOpacity: 0.12
               }
             ),
-            /* @__PURE__ */ jsx50(
+            /* @__PURE__ */ jsx38(
               "stop",
               {
                 offset: "100%",
@@ -15940,15 +14273,15 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
           default:
             baseVar = "var(--nhs-fdp-color-data-viz-spc-common-cause, #A6A6A6)";
         }
-        return /* @__PURE__ */ jsxs35("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
-          /* @__PURE__ */ jsx50("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
-          /* @__PURE__ */ jsx50("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
-          /* @__PURE__ */ jsx50("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
+        return /* @__PURE__ */ jsxs28("linearGradient", { id, x1: "0%", y1: "0%", x2: "0%", y2: "100%", children: [
+          /* @__PURE__ */ jsx38("stop", { offset: "0%", stopColor: baseVar, stopOpacity: top }),
+          /* @__PURE__ */ jsx38("stop", { offset: "70%", stopColor: baseVar, stopOpacity: mid }),
+          /* @__PURE__ */ jsx38("stop", { offset: "100%", stopColor: baseVar, stopOpacity: end })
         ] }, id);
       })
     ] });
   }, [sequences]);
-  const sequenceAreas = React34.useMemo(() => {
+  const sequenceAreas = React27.useMemo(() => {
     if (!sequences.length) return null;
     const [domainMin] = yScale.domain();
     const baseY = yScale(domainMin);
@@ -16014,7 +14347,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
         if (sequenceTransition === "neutral" /* Neutral */ && prevColoured) {
           const prevX = xPositions[prevSeq.end];
           const prevY = yScale(all[prevSeq.end].y);
-          const wedge = /* @__PURE__ */ jsx50(
+          const wedge = /* @__PURE__ */ jsx38(
             "path",
             {
               d: `M ${prevX} ${baseY} L ${prevX} ${prevY} L ${firstX} ${firstY} L ${firstX} ${baseY} Z`,
@@ -16025,9 +14358,9 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
             },
             `seq-wedge-${idx}`
           );
-          return /* @__PURE__ */ jsxs35("g", { children: [
+          return /* @__PURE__ */ jsxs28("g", { children: [
             wedge,
-            /* @__PURE__ */ jsx50(
+            /* @__PURE__ */ jsx38(
               "path",
               {
                 d,
@@ -16041,7 +14374,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
           ] }, `seq-group-${idx}`);
         }
       }
-      return /* @__PURE__ */ jsx50(
+      return /* @__PURE__ */ jsx38(
         "path",
         {
           d,
@@ -16053,9 +14386,9 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
         `seq-area-${idx}`
       );
     }).filter(Boolean);
-    return /* @__PURE__ */ jsx50("g", { className: "fdp-spc__sequence-bgs", children: areas });
+    return /* @__PURE__ */ jsx38("g", { className: "fdp-spc__sequence-bgs", children: areas });
   }, [sequences, xPositions, plotWidth, yScale, all, sequenceTransition]);
-  const computedTimeframe = React34.useMemo(() => {
+  const computedTimeframe = React27.useMemo(() => {
     if (!(narrationContext == null ? void 0 : narrationContext.timeframe) && all.length >= 2) {
       const xs = all.map((d) => d.x instanceof Date ? d.x : new Date(d.x));
       const min = new Date(Math.min(...xs.map((d) => d.getTime())));
@@ -16093,7 +14426,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
     specialCauseTrendUp: !!(row == null ? void 0 : row.rules.trend.up),
     specialCauseTrendDown: !!(row == null ? void 0 : row.rules.trend.down)
   });
-  const formatLive = React34.useCallback(
+  const formatLive = React27.useCallback(
     ({
       index,
       x: x2,
@@ -16132,7 +14465,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
     },
     [engineRows, narrationContext, computedTimeframe]
   );
-  const describePoint = React34.useCallback(
+  const describePoint = React27.useCallback(
     (index, d) => {
       const row = engineRows == null ? void 0 : engineRows[index];
       if (!row) return void 0;
@@ -16146,7 +14479,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
     },
     [engineRows, formatLive]
   );
-  const showZeroBreak = React34.useMemo(() => {
+  const showZeroBreak = React27.useMemo(() => {
     try {
       const dom = typeof (yScale == null ? void 0 : yScale.domain) === "function" ? yScale.domain() : void 0;
       if (!dom || !Array.isArray(dom) || dom.length < 2) return false;
@@ -16157,7 +14490,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
       return false;
     }
   }, [yScale]);
-  return /* @__PURE__ */ jsx50(TooltipProvider, { children: /* @__PURE__ */ jsxs35(
+  return /* @__PURE__ */ jsx38(TooltipProvider, { children: /* @__PURE__ */ jsxs28(
     "div",
     {
       className: "fdp-spc-chart",
@@ -16165,15 +14498,15 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
       "aria-label": "Statistical process control chart",
       "aria-roledescription": "chart",
       children: [
-        /* @__PURE__ */ jsx50(
+        /* @__PURE__ */ jsx38(
           "svg",
           {
             width: scaleCtx.xScale.range()[1] + 56 + 16,
             height: ((_b2 = chartCtx == null ? void 0 : chartCtx.innerHeight) != null ? _b2 : scaleCtx.yScale.range()[0]) + 12 + 48,
             role: "img",
-            children: /* @__PURE__ */ jsxs35("g", { transform: `translate(56,12)`, children: [
-              /* @__PURE__ */ jsx50(Axis_default, { type: "x" }),
-              /* @__PURE__ */ jsx50(
+            children: /* @__PURE__ */ jsxs28("g", { transform: `translate(56,12)`, children: [
+              /* @__PURE__ */ jsx38(Axis_default, { type: "x" }),
+              /* @__PURE__ */ jsx38(
                 Axis_default,
                 {
                   type: "y",
@@ -16184,14 +14517,14 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   }
                 }
               ),
-              /* @__PURE__ */ jsx50(GridLines_default, { axis: "y" }),
+              /* @__PURE__ */ jsx38(GridLines_default, { axis: "y" }),
               sequenceDefs,
               sequenceAreas,
               partitionMarkers.map((idx, i) => {
                 const d = all[idx];
                 if (!d) return null;
                 const x2 = xScale(d.x instanceof Date ? d.x : new Date(d.x));
-                return /* @__PURE__ */ jsx50(
+                return /* @__PURE__ */ jsx38(
                   "line",
                   {
                     x1: x2,
@@ -16208,8 +14541,8 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                 );
               }),
               (limitSegments == null ? void 0 : limitSegments.mean.length) ? (() => {
-                return /* @__PURE__ */ jsxs35("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
-                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx50(
+                return /* @__PURE__ */ jsxs28("g", { "aria-hidden": "true", className: "fdp-spc__cl-group", children: [
+                  limitSegments.mean.map((s, i) => /* @__PURE__ */ jsx38(
                     "line",
                     {
                       className: "fdp-spc__cl",
@@ -16228,7 +14561,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                     const gap = Math.max(4, next.x1 - s.x2 || 0);
                     const k = gap * 0.5;
                     const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                    return /* @__PURE__ */ jsx50(
+                    return /* @__PURE__ */ jsx38(
                       "path",
                       {
                         className: "fdp-spc__cl fdp-spc__cl-join",
@@ -16240,14 +14573,14 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   })
                 ] });
               })() : null,
-              uniformTarget != null && /* @__PURE__ */ jsx50(Fragment8, {}),
-              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs35(
+              uniformTarget != null && /* @__PURE__ */ jsx38(Fragment7, {}),
+              (limitSegments == null ? void 0 : limitSegments.ucl.length) ? (() => /* @__PURE__ */ jsxs28(
                 "g",
                 {
                   "aria-hidden": "true",
                   className: "fdp-spc__limit-group fdp-spc__limit-group--ucl",
                   children: [
-                    limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx50(
+                    limitSegments.ucl.map((s, i) => /* @__PURE__ */ jsx38(
                       "line",
                       {
                         className: "fdp-spc__limit fdp-spc__limit--ucl",
@@ -16267,7 +14600,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                       const gap = Math.max(4, next.x1 - s.x2 || 0);
                       const k = gap * 0.5;
                       const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                      return /* @__PURE__ */ jsx50(
+                      return /* @__PURE__ */ jsx38(
                         "path",
                         {
                           className: "fdp-spc__limit fdp-spc__limit--ucl fdp-spc__limit-join",
@@ -16281,13 +14614,13 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   ]
                 }
               ))() : null,
-              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs35(
+              (limitSegments == null ? void 0 : limitSegments.lcl.length) ? (() => /* @__PURE__ */ jsxs28(
                 "g",
                 {
                   "aria-hidden": "true",
                   className: "fdp-spc__limit-group fdp-spc__limit-group--lcl",
                   children: [
-                    limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx50(
+                    limitSegments.lcl.map((s, i) => /* @__PURE__ */ jsx38(
                       "line",
                       {
                         className: "fdp-spc__limit fdp-spc__limit--lcl",
@@ -16307,7 +14640,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                       const gap = Math.max(4, next.x1 - s.x2 || 0);
                       const k = gap * 0.5;
                       const d = `M ${s.x2},${s.y} C ${s.x2 + k},${s.y} ${next.x1 - k},${next.y} ${next.x1},${next.y}`;
-                      return /* @__PURE__ */ jsx50(
+                      return /* @__PURE__ */ jsx38(
                         "path",
                         {
                           className: "fdp-spc__limit fdp-spc__limit--lcl fdp-spc__limit-join",
@@ -16321,8 +14654,8 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   ]
                 }
               ))() : null,
-              uniformTarget != null && /* @__PURE__ */ jsxs35("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
-                /* @__PURE__ */ jsx50(
+              uniformTarget != null && /* @__PURE__ */ jsxs28("g", { "aria-hidden": "true", className: "fdp-spc__target-group", children: [
+                /* @__PURE__ */ jsx38(
                   "line",
                   {
                     className: "fdp-spc__target",
@@ -16334,7 +14667,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                     strokeWidth: 2.5
                   }
                 ),
-                /* @__PURE__ */ jsxs35(
+                /* @__PURE__ */ jsxs28(
                   "text",
                   {
                     "data-testid": "spc-target-label",
@@ -16352,8 +14685,8 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   }
                 )
               ] }),
-              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs35(Fragment8, { children: [
-                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx50(
+              showZones && limitSegments && limitSegments.mean.length > 0 && /* @__PURE__ */ jsxs28(Fragment7, { children: [
+                limitSegments.onePos.map((s, i) => /* @__PURE__ */ jsx38(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos1",
@@ -16366,7 +14699,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   },
                   `onePos-${i}`
                 )),
-                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx50(
+                limitSegments.oneNeg.map((s, i) => /* @__PURE__ */ jsx38(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg1",
@@ -16379,7 +14712,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   },
                   `oneNeg-${i}`
                 )),
-                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx50(
+                limitSegments.twoPos.map((s, i) => /* @__PURE__ */ jsx38(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--pos2",
@@ -16392,7 +14725,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   },
                   `twoPos-${i}`
                 )),
-                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx50(
+                limitSegments.twoNeg.map((s, i) => /* @__PURE__ */ jsx38(
                   "line",
                   {
                     className: "fdp-spc__zone fdp-spc__zone--neg2",
@@ -16417,8 +14750,8 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   all[crossIdx].x instanceof Date ? all[crossIdx].x : new Date(all[crossIdx].x)
                 ) : null;
                 const cy = crossIdx != null && all[crossIdx] ? yScale(all[crossIdx].y) : null;
-                return /* @__PURE__ */ jsxs35("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
-                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx50(
+                return /* @__PURE__ */ jsxs28("g", { "aria-hidden": "true", className: "fdp-spc__trend-overlays", children: [
+                  showTrendBridgeOverlay && sx != null && sy != null && cx != null && cy != null && /* @__PURE__ */ jsx38(
                     "line",
                     {
                       x1: sx,
@@ -16428,10 +14761,10 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                       stroke: "#888",
                       strokeDasharray: "4 4",
                       strokeWidth: 2,
-                      children: /* @__PURE__ */ jsx50("title", { children: "Trend bridge: start to first favourable-side point" })
+                      children: /* @__PURE__ */ jsx38("title", { children: "Trend bridge: start to first favourable-side point" })
                     }
                   ),
-                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx50(
+                  showTrendStartMarkers && sx != null && sy != null && /* @__PURE__ */ jsx38(
                     "circle",
                     {
                       cx: sx,
@@ -16440,13 +14773,13 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                       fill: "white",
                       stroke: "#555",
                       strokeWidth: 2,
-                      children: /* @__PURE__ */ jsx50("title", { children: "Trend start (run reached N)" })
+                      children: /* @__PURE__ */ jsx38("title", { children: "Trend start (run reached N)" })
                     }
                   ),
-                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx50("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx50("title", { children: "First favourable-side inclusion" }) })
+                  showFirstFavourableCrossMarkers && cx != null && cy != null && /* @__PURE__ */ jsx38("circle", { cx, cy, r: 5, fill: "#555", children: /* @__PURE__ */ jsx38("title", { children: "First favourable-side inclusion" }) })
                 ] });
               })(),
-              /* @__PURE__ */ jsx50(
+              /* @__PURE__ */ jsx38(
                 LineSeriesPrimitive_default,
                 {
                   series: series[0],
@@ -16480,7 +14813,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   (sig == null ? void 0 : sig.assurance) === "fail" /* Fail */ ? "fdp-spc__point--assurance-fail" : null
                 ].filter(Boolean).join(" ");
                 const isFocused = ((_a3 = tooltipCtx == null ? void 0 : tooltipCtx.focused) == null ? void 0 : _a3.index) === i;
-                return /* @__PURE__ */ jsx50(
+                return /* @__PURE__ */ jsx38(
                   "circle",
                   {
                     cx,
@@ -16504,8 +14837,8 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                 );
                 const py = yScale(all[ix].y);
                 const focusYellow = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)";
-                return /* @__PURE__ */ jsxs35("g", { className: "fdp-spc__focus-indicator", "aria-hidden": "true", children: [
-                  /* @__PURE__ */ jsx50(
+                return /* @__PURE__ */ jsxs28("g", { className: "fdp-spc__focus-indicator", "aria-hidden": "true", children: [
+                  /* @__PURE__ */ jsx38(
                     "circle",
                     {
                       cx: px,
@@ -16516,7 +14849,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                       strokeWidth: 3
                     }
                   ),
-                  /* @__PURE__ */ jsx50(
+                  /* @__PURE__ */ jsx38(
                     "circle",
                     {
                       cx: px,
@@ -16527,7 +14860,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                       strokeWidth: 1.5
                     }
                   ),
-                  /* @__PURE__ */ jsx50(
+                  /* @__PURE__ */ jsx38(
                     "circle",
                     {
                       cx: px,
@@ -16540,14 +14873,14 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
                   )
                 ] });
               })(),
-              chartCtx && /* @__PURE__ */ jsx50(
+              chartCtx && /* @__PURE__ */ jsx38(
                 InteractionLayer,
                 {
                   width: xScale.range()[1],
                   height: yScale.range()[0]
                 }
               ),
-              !showSignalsInspector && /* @__PURE__ */ jsx50(
+              !showSignalsInspector && /* @__PURE__ */ jsx38(
                 SPCTooltipOverlay_default,
                 {
                   engineRows,
@@ -16563,7 +14896,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
             ] })
           }
         ),
-        showSignalsInspector && /* @__PURE__ */ jsx50("div", { style: { marginTop: 8 }, children: /* @__PURE__ */ jsx50(
+        showSignalsInspector && /* @__PURE__ */ jsx38("div", { style: { marginTop: 8 }, children: /* @__PURE__ */ jsx38(
           SPCSignalsInspector_default,
           {
             engineRows,
@@ -16572,7 +14905,7 @@ var InternalSPC = ({ data, targets, visuals, a11y, axis, compute }) => {
             onSignalFocus
           }
         ) }),
-        announceFocus && /* @__PURE__ */ jsx50(
+        announceFocus && /* @__PURE__ */ jsx38(
           VisuallyHiddenLiveRegion_default,
           {
             format: (d) => formatLive({ ...d, x: d.x instanceof Date ? d.x : new Date(d.x) })
@@ -16588,7 +14921,7 @@ var InteractionLayer = ({
 }) => {
   const t = useTooltipContext();
   if (!t) return null;
-  return /* @__PURE__ */ jsx50(
+  return /* @__PURE__ */ jsx38(
     "rect",
     {
       className: "fdp-spc__interaction-layer",
@@ -16639,6 +14972,224 @@ var InteractionLayer = ({
 };
 var InternalSPC_default = InternalSPC;
 
+// src/components/DataVisualisation/charts/SPC/utils/autoMetrics.ts
+function toDate(v) {
+  if (v == null) return void 0;
+  const d = v instanceof Date ? v : new Date(v);
+  return Number.isNaN(d.valueOf()) ? void 0 : d;
+}
+function synthesizeDates(length, start, hint) {
+  const arr = new Array(length);
+  const d = new Date(start);
+  for (let i = 0; i < length; i++) {
+    arr[i] = new Date(d);
+    switch (hint) {
+      case "hourly":
+        d.setHours(d.getHours() + 1);
+        break;
+      case "daily":
+        d.setDate(d.getDate() + 1);
+        break;
+      case "weekly":
+        d.setDate(d.getDate() + 7);
+        break;
+      case "monthly":
+        d.setMonth(d.getMonth() + 1);
+        break;
+      case "quarterly":
+        d.setMonth(d.getMonth() + 3);
+        break;
+      case "annually":
+        d.setFullYear(d.getFullYear() + 1);
+        break;
+      default:
+        break;
+    }
+  }
+  return arr;
+}
+function inferFrequency(dates, fallback) {
+  const valid = dates.filter(Boolean);
+  if (valid.length < 2) return fallback;
+  const diffs = [];
+  for (let i = 1; i < valid.length; i++)
+    diffs.push(valid[i].getTime() - valid[i - 1].getTime());
+  const sorted = diffs.sort((a, b) => a - b);
+  const median3 = sorted[Math.floor(sorted.length / 2)];
+  const H = 60 * 60 * 1e3;
+  const D = 24 * H;
+  if (median3 <= 2 * H) return "hourly";
+  if (median3 <= 2 * D) return "daily";
+  if (median3 <= 10 * D) return "weekly";
+  if (median3 <= 45 * D) return "monthly";
+  if (median3 <= 120 * D) return "quarterly";
+  return "annually";
+}
+function formatLatest(dt, freq) {
+  if (!dt) return void 0;
+  try {
+    switch (freq) {
+      case "hourly":
+        return new Intl.DateTimeFormat(void 0, {
+          hour: "2-digit",
+          minute: "2-digit",
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }).format(dt);
+      case "daily":
+        return new Intl.DateTimeFormat(void 0, {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }).format(dt);
+      case "weekly":
+        return `Week of ${new Intl.DateTimeFormat(void 0, { day: "2-digit", month: "short", year: "numeric" }).format(dt)}`;
+      case "monthly":
+        return new Intl.DateTimeFormat(void 0, {
+          month: "short",
+          year: "numeric"
+        }).format(dt);
+      case "quarterly": {
+        const q = Math.floor(dt.getMonth() / 3) + 1;
+        return `Q${q} ${dt.getFullYear()}`;
+      }
+      case "annually":
+        return `${dt.getFullYear()}`;
+      default:
+        return new Intl.DateTimeFormat(void 0, {
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }).format(dt);
+    }
+  } catch {
+    return void 0;
+  }
+}
+function inferUnit(values, provided, def, percentHeuristic = "0-100") {
+  if (provided) return provided;
+  if (def) return def;
+  const vals = values.filter((v) => v != null);
+  if (!vals.length) return void 0;
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  if (percentHeuristic === "0-1") {
+    if (min >= 0 && max <= 1 && max > 0) return "%";
+  } else {
+    if (min >= 0 && max <= 100 && max > 0) return "%";
+  }
+  return void 0;
+}
+function periodLabel(freq, hint, n = 1) {
+  const unit2 = freq || hint;
+  switch (unit2) {
+    case "hourly":
+      return n === 1 ? "last hour" : `last ${n} hours`;
+    case "daily":
+      return n === 1 ? "last day" : `last ${n} days`;
+    case "weekly":
+      return n === 1 ? "last week" : `last ${n} weeks`;
+    case "monthly":
+      return n === 1 ? "last month" : `last ${n} months`;
+    case "quarterly":
+      return n === 1 ? "last quarter" : `last ${n} quarters`;
+    case "annually":
+      return n === 1 ? "last year" : `last ${n} years`;
+    default:
+      return "previous";
+  }
+}
+function computeAutoMetrics(input) {
+  const {
+    values: rawValues,
+    dates: rawDates,
+    intervalHint,
+    startDate,
+    providedUnit,
+    defaultUnit,
+    autoValue = true,
+    autoDelta = true,
+    autoMetadata = true,
+    deltaConfig
+  } = input;
+  const values = rawValues.map(
+    (v) => typeof v === "number" ? v : v == null ? null : Number(v)
+  );
+  let lastIndex = -1;
+  for (let i = values.length - 1; i >= 0; i--) {
+    if (values[i] != null) {
+      lastIndex = i;
+      break;
+    }
+  }
+  let dates = (rawDates || []).map(toDate);
+  const anyDates = dates.some(Boolean);
+  if (!anyDates) {
+    const start = toDate(startDate);
+    if (start && intervalHint)
+      dates = synthesizeDates(values.length, start, intervalHint);
+    else dates = new Array(values.length).fill(void 0);
+  }
+  const frequency = inferFrequency(dates, intervalHint);
+  const unit2 = inferUnit(
+    values,
+    providedUnit,
+    defaultUnit,
+    input.percentHeuristic
+  );
+  const value = autoValue && lastIndex >= 0 && values[lastIndex] != null ? values[lastIndex] : void 0;
+  const cfg = {
+    strategy: "previous",
+    n: 1,
+    absolute: true,
+    skipNulls: true,
+    ...deltaConfig || {}
+  };
+  function findBaselineIndex() {
+    if (lastIndex < 0) return -1;
+    if (cfg.strategy === "previous" || cfg.strategy === "n-points") {
+      let idx = lastIndex - (cfg.strategy === "previous" ? 1 : Math.max(1, cfg.n || 1));
+      if (!cfg.skipNulls) return idx;
+      for (let i = idx; i >= 0; i--) if (values[i] != null) return i;
+      return -1;
+    }
+    const latestDate2 = dates[lastIndex];
+    if (!latestDate2) return -1;
+    const target = new Date(latestDate2);
+    target.setFullYear(target.getFullYear() - 1);
+    let bestIdx = -1;
+    let bestDiff = Infinity;
+    for (let i = 0; i < dates.length; i++) {
+      const d = dates[i];
+      if (!d || values[i] == null) continue;
+      const diff = Math.abs(d.getTime() - target.getTime());
+      if (diff < bestDiff) {
+        bestDiff = diff;
+        bestIdx = i;
+      }
+    }
+    return bestIdx;
+  }
+  const baselineIndex = findBaselineIndex();
+  const baselineValue = baselineIndex >= 0 ? values[baselineIndex] : null;
+  let delta;
+  if (autoDelta && value != null && baselineValue != null) {
+    const abs = value - baselineValue;
+    const useAbsolute = cfg.absolute !== false;
+    const val = useAbsolute ? abs : baselineValue === 0 ? 0 : abs / Math.abs(baselineValue) * 100;
+    delta = {
+      value: Number.isFinite(val) ? Number(val.toFixed(2)) : 0,
+      isPercent: useAbsolute ? unit2 === "%" : true,
+      period: `vs ${periodLabel(frequency, intervalHint, cfg.strategy === "n-points" ? Math.max(1, cfg.n || 1) : 1)}`
+    };
+  }
+  const latestDate = lastIndex >= 0 ? dates[lastIndex] : void 0;
+  const metadata = autoMetadata ? formatLatest(latestDate, frequency) ? `Latest: ${formatLatest(latestDate, frequency)}` : void 0 : void 0;
+  return { value, unit: unit2, delta, metadata, latestDate, frequency };
+}
+var autoMetrics_default = computeAutoMetrics;
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/adapter.ts
 function buildWithVisuals(args) {
   const { rows } = buildSpcV26a(args);
@@ -16655,11 +15206,11 @@ function visualsToPointSignals(visuals) {
   return visuals.map((c) => {
     switch (c) {
       case "Improvement" /* Improvement */:
-        return "improvement";
+        return "improvement" /* Improvement */;
       case "Concern" /* Concern */:
-        return "concern";
+        return "concern" /* Concern */;
       case "NoJudgement" /* NoJudgement */:
-        return "neither";
+        return "neither" /* Neither */;
       default:
         return null;
     }
@@ -16688,15 +15239,15 @@ function toV2Settings(effEngineSettings, rowsInputMaybeAuto, visualsEngineSettin
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/hooks/useZeroAxisBreak.ts
-import * as React35 from "react";
+import * as React28 from "react";
 function useZeroAxisBreak(yDomain, chartHeight, options) {
-  const show = React35.useMemo(() => {
+  const show = React28.useMemo(() => {
     if (!yDomain || yDomain.length < 2) return false;
     const min = Math.min(yDomain[0], yDomain[1]);
     const max = Math.max(yDomain[0], yDomain[1]);
     return !(0 >= min && 0 <= max);
   }, [yDomain]);
-  const { slotPx, totalReservedPx } = React35.useMemo(() => {
+  const { slotPx, totalReservedPx } = React28.useMemo(() => {
     var _a2;
     if (!show) return { slotPx: 0, totalReservedPx: 0 };
     const height = chartHeight != null ? chartHeight : 260;
@@ -16854,17 +15405,17 @@ function autoInsertBaselinesMultiV2(rows, args) {
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.tsx
-import { jsx as jsx51, jsxs as jsxs36 } from "react/jsx-runtime";
+import { jsx as jsx39, jsxs as jsxs29 } from "react/jsx-runtime";
 var SPCChart = (props) => {
   var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o;
-  const formatWarningCode = React36.useCallback(
+  const formatWarningCode = React29.useCallback(
     (code) => {
       const raw = String(code);
       return raw.replace(/^spc_warning_code\.?/i, "").replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
     []
   );
-  const formatWarningCategory = React36.useCallback(
+  const formatWarningCategory = React29.useCallback(
     (cat) => {
       return String(cat).replace(/[_\-]+/g, " ").trim().split(" ").filter(Boolean).map((w) => w.length ? w[0].toUpperCase() + w.slice(1) : w).join(" ");
     },
@@ -16931,7 +15482,7 @@ var SPCChart = (props) => {
   const visualsEngineSettings = effVisualsEngineSettings != null ? effVisualsEngineSettings : props.visualsEngineSettings;
   const source = effSource != null ? effSource : props.source;
   const announceFocus = (_e = (_d = (_c = props.a11y) == null ? void 0 : _c.announceFocus) != null ? _d : props.announceFocus) != null ? _e : false;
-  const rowsInput = React36.useMemo(() => {
+  const rowsInput = React29.useMemo(() => {
     return effData.map((d, i) => {
       var _a3, _b3, _c2;
       return {
@@ -16943,7 +15494,7 @@ var SPCChart = (props) => {
       };
     });
   }, [effData, effTargets, effBaselines, effGhosts]);
-  const rowsInputMaybeAuto = React36.useMemo(() => {
+  const rowsInputMaybeAuto = React29.useMemo(() => {
     try {
       const cfg = effEngineAutoRecalc;
       if (!(cfg == null ? void 0 : cfg.enabled)) return rowsInput;
@@ -16959,7 +15510,7 @@ var SPCChart = (props) => {
       return rowsInput;
     }
   }, [rowsInput, effEngineAutoRecalc, effChartTypeCore, effMetricImprovementCore]);
-  const v2Visuals = React36.useMemo(() => {
+  const v2Visuals = React29.useMemo(() => {
     if (effPrecomputedVisuals == null ? void 0 : effPrecomputedVisuals.visuals) return effPrecomputedVisuals.visuals;
     try {
       const v2Settings = toV2Settings(
@@ -16996,7 +15547,7 @@ var SPCChart = (props) => {
     visualsScenario,
     visualsEngineSettings
   ]);
-  const v2RowsForUi = React36.useMemo(() => {
+  const v2RowsForUi = React29.useMemo(() => {
     if (effPrecomputedVisuals == null ? void 0 : effPrecomputedVisuals.rows) {
       try {
         const rows = effPrecomputedVisuals.rows;
@@ -17131,7 +15682,7 @@ var SPCChart = (props) => {
   const rowsForUi = v2RowsForUi || null;
   const engineRepresentative = (rowsForUi || []).slice().reverse().find((r2) => r2.limits.mean != null);
   const mean2 = (_h = engineRepresentative == null ? void 0 : engineRepresentative.limits.mean) != null ? _h : null;
-  const warnings = React36.useMemo(() => {
+  const warnings = React29.useMemo(() => {
     var _a3, _b3, _c2;
     const list = [];
     try {
@@ -17179,7 +15730,7 @@ var SPCChart = (props) => {
     }
     return list;
   }, [rowsForUi, effEngineSettings == null ? void 0 : effEngineSettings.minimumPoints]);
-  const filteredWarnings = React36.useMemo(() => {
+  const filteredWarnings = React29.useMemo(() => {
     if (!warnings.length) return [];
     if (!effWarningsFilter) return warnings;
     return warnings.filter((w) => {
@@ -17199,11 +15750,11 @@ var SPCChart = (props) => {
   const twoPos = (_m = engineRepresentative == null ? void 0 : engineRepresentative.limits.twoSigma.upper) != null ? _m : null;
   const twoNeg = (_n = engineRepresentative == null ? void 0 : engineRepresentative.limits.twoSigma.lower) != null ? _n : null;
   const sigma = mean2 != null && onePos != null ? Math.abs(onePos - mean2) : 0;
-  const series = React36.useMemo(
+  const series = React29.useMemo(
     () => [{ id: "process", data: effData, color: "#A6A6A6" }],
     [effData]
   );
-  const yDomain = React36.useMemo(
+  const yDomain = React29.useMemo(
     () => computeYDomain(
       effData,
       { mean: mean2, ucl, lcl, onePos, oneNeg, twoPos, twoNeg },
@@ -17229,7 +15780,7 @@ var SPCChart = (props) => {
       effPercentScale
     ]
   );
-  const uniformTarget = React36.useMemo(() => {
+  const uniformTarget = React29.useMemo(() => {
     const collectUniform = (arr) => {
       const nums = arr.filter(
         (t) => typeof t === "number" && !isNaN(t)
@@ -17253,7 +15804,7 @@ var SPCChart = (props) => {
     { maxFraction: 0.35 }
   );
   const yBottomGapPx = showZeroBreakOuter ? totalReservedPx : 0;
-  const autoFromHelper = React36.useMemo(() => {
+  const autoFromHelper = React29.useMemo(() => {
     const dateCandidates = effData.map((d) => d.x);
     return autoMetrics_default({
       values: effData.map((d) => d.y),
@@ -17266,10 +15817,10 @@ var SPCChart = (props) => {
     });
   }, [effData, unit2, narrationContext == null ? void 0 : narrationContext.measureUnit]);
   const effectiveUnit = (_o = unit2 != null ? unit2 : narrationContext == null ? void 0 : narrationContext.measureUnit) != null ? _o : autoFromHelper.unit;
-  const effectiveNarrationContext = React36.useMemo(() => {
+  const effectiveNarrationContext = React29.useMemo(() => {
     return effectiveUnit ? { ...narrationContext || {}, measureUnit: effectiveUnit } : narrationContext;
   }, [narrationContext, effectiveUnit]);
-  const partitionMarkers = React36.useMemo(() => {
+  const partitionMarkers = React29.useMemo(() => {
     if (!rowsForUi) return [];
     const markers = [];
     for (let i = 1; i < rowsForUi.length; i++) {
@@ -17278,7 +15829,7 @@ var SPCChart = (props) => {
     }
     return markers;
   }, [rowsForUi]);
-  const embeddedIcon = React36.useMemo(
+  const embeddedIcon = React29.useMemo(
     () => {
       var _a3;
       return buildEmbeddedIcon({
@@ -17299,12 +15850,12 @@ var SPCChart = (props) => {
       effEmbeddedIconRunLength
     ]
   );
-  return /* @__PURE__ */ jsxs36(
+  return /* @__PURE__ */ jsxs29(
     "div",
     {
       className: className ? `fdp-spc-chart-wrapper ${className}` : "fdp-spc-chart-wrapper",
       children: [
-        /* @__PURE__ */ jsx51(
+        /* @__PURE__ */ jsx39(
           EmbeddedIconsRow,
           {
             show: !!effShowEmbeddedIcon,
@@ -17312,13 +15863,13 @@ var SPCChart = (props) => {
             assuranceNode: null
           }
         ),
-        /* @__PURE__ */ jsx51(
+        /* @__PURE__ */ jsx39(
           ChartRoot,
           {
             height,
             ariaLabel,
             margin: { bottom: 48, left: 56, right: 16, top: 12 },
-            children: /* @__PURE__ */ jsx51(LineScalesProvider, { series, yDomain, yBottomGapPx, children: (() => {
+            children: /* @__PURE__ */ jsx39(LineScalesProvider, { series, yDomain, yBottomGapPx, children: (() => {
               const internalProps = {
                 data: {
                   series,
@@ -17355,15 +15906,15 @@ var SPCChart = (props) => {
                 axis: { zeroBreakSlotGapPx: slotGapPx },
                 compute: { effectiveUnit, metricImprovement: effMetricImprovementCore }
               };
-              return /* @__PURE__ */ jsx51(InternalSPC_default, { ...internalProps });
+              return /* @__PURE__ */ jsx39(InternalSPC_default, { ...internalProps });
             })() })
           }
         ),
-        source && /* @__PURE__ */ jsx51("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs36("small", { children: [
+        source && /* @__PURE__ */ jsx39("div", { className: "fdp-spc-chart__source", "aria-label": "Chart data source", children: typeof source === "string" ? /* @__PURE__ */ jsxs29("small", { children: [
           "Source: ",
           source
         ] }) : source }),
-        /* @__PURE__ */ jsx51(
+        /* @__PURE__ */ jsx39(
           DiagnosticsPanel,
           {
             show: !!effShowWarningsPanel,
@@ -17378,46 +15929,9 @@ var SPCChart = (props) => {
 };
 var SPCChart_default = SPCChart;
 
-// src/components/DataVisualisation/charts/SPC/index.ts
-var SPC_exports = {};
-__export(SPC_exports, {
-  AssuranceIcon: () => AssuranceIcon,
-  BaselineSuggestionReason: () => BaselineSuggestionReason,
-  ChartType: () => ChartType,
-  DEFAULT_MIN_POINTS: () => DEFAULT_MIN_POINTS,
-  Icons: () => icons_exports,
-  ImprovementDirection: () => ImprovementDirection,
-  PARITY_V26: () => PARITY_V26,
-  RULE_METADATA: () => RULE_METADATA,
-  SPCChart: () => SPCChart_default,
-  SPCTooltipOverlay: () => SPCTooltipOverlay_default,
-  SpcEmbeddedIconVariant: () => SpcEmbeddedIconVariant,
-  SpcVisualCategory: () => SpcVisualCategory,
-  SpcWarningCategory: () => SpcWarningCategory,
-  SpcWarningCode: () => SpcWarningCode,
-  SpcWarningSeverity: () => SpcWarningSeverity,
-  VARIATION_COLOR_TOKENS: () => VARIATION_COLOR_TOKENS,
-  VariationIcon: () => VariationIcon,
-  buildSpcV26a: () => buildSpcV26a,
-  buildSpcV26aWithVisuals: () => buildSpcV26aWithVisuals,
-  computeSpcPrecomputed: () => computeSpcPrecomputed,
-  computeSpcVisualCategories: () => computeSpcVisualCategories,
-  extractRuleIds: () => extractRuleIds,
-  getVariationColorHex: () => getVariationColorHex,
-  getVariationColorToken: () => getVariationColorToken,
-  isSpecialCauseIcon: () => isSpecialCauseIcon,
-  mapIconToVariation: () => mapIconToVariation,
-  normaliseSpcSettingsV2: () => normaliseSpcSettingsV2,
-  ruleGlossary: () => ruleGlossary,
-  variationLabel: () => variationLabel,
-  visualsToNeutralFlags: () => visualsToNeutralFlags,
-  visualsToPointSignals: () => visualsToPointSignals,
-  withParityV26: () => withParityV26
-});
-
 // src/components/DataVisualisation/charts/SPC/utils/precompute.ts
 function computeSpcPrecomputed(data, opts) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j;
   const {
     chartType = "XmR" /* XmR */,
     metricImprovement,
@@ -17461,16 +15975,17 @@ function computeSpcPrecomputed(data, opts) {
   const latestState = mapIconToVariation(
     last == null ? void 0 : last.variationIcon
   );
-  const centerLine = (_c = last == null ? void 0 : last.mean) != null ? _c : null;
+  const lastVariationIcon = (_c = last == null ? void 0 : last.variationIcon) != null ? _c : null;
+  const centerLine = (_d = last == null ? void 0 : last.mean) != null ? _d : null;
   const controlLimits = last ? {
-    lower: (_d = last == null ? void 0 : last.lowerProcessLimit) != null ? _d : null,
-    upper: (_e = last == null ? void 0 : last.upperProcessLimit) != null ? _e : null
+    lower: (_e = last == null ? void 0 : last.lowerProcessLimit) != null ? _e : null,
+    upper: (_f = last == null ? void 0 : last.upperProcessLimit) != null ? _f : null
   } : null;
   const sigmaBands = last ? {
-    upperOne: (_f = last == null ? void 0 : last.upperOneSigma) != null ? _f : null,
-    upperTwo: (_g = last == null ? void 0 : last.upperTwoSigma) != null ? _g : null,
-    lowerOne: (_h = last == null ? void 0 : last.lowerOneSigma) != null ? _h : null,
-    lowerTwo: (_i = last == null ? void 0 : last.lowerTwoSigma) != null ? _i : null
+    upperOne: (_g = last == null ? void 0 : last.upperOneSigma) != null ? _g : null,
+    upperTwo: (_h = last == null ? void 0 : last.upperTwoSigma) != null ? _h : null,
+    lowerOne: (_i = last == null ? void 0 : last.lowerOneSigma) != null ? _i : null,
+    lowerTwo: (_j = last == null ? void 0 : last.lowerTwoSigma) != null ? _j : null
   } : null;
   let pointSignals;
   let pointNeutralSpecialCause;
@@ -17482,6 +15997,7 @@ function computeSpcPrecomputed(data, opts) {
     rows,
     visuals,
     latestState,
+    lastVariationIcon,
     centerLine,
     controlLimits,
     sigmaBands,
@@ -17489,6 +16005,1526 @@ function computeSpcPrecomputed(data, opts) {
     pointNeutralSpecialCause
   };
 }
+
+// src/components/DataVisualisation/hooks/useSpc.ts
+function hexToRgb2(h) {
+  const v = h.replace("#", "");
+  return [
+    parseInt(v.slice(0, 2), 16),
+    parseInt(v.slice(2, 4), 16),
+    parseInt(v.slice(4, 6), 16)
+  ];
+}
+function useSpc(input) {
+  const {
+    values,
+    x: x2,
+    chartType = "XmR" /* XmR */,
+    metricImprovement = "Neither" /* Neither */,
+    showLimits = true,
+    showLimitBand = false,
+    showInnerBands = false,
+    showMean = false
+    // autoClassify = true,
+  } = input;
+  const rows = React30.useMemo(() => {
+    const pts = [];
+    for (let i = 0; i < values.length; i++) {
+      pts.push({ x: x2 == null ? void 0 : x2[i], value: values[i] });
+    }
+    return pts;
+  }, [values, x2]);
+  const engine = React30.useMemo(() => {
+    try {
+      const data = rows.map((r2, i) => {
+        var _a2;
+        return { x: (_a2 = r2.x) != null ? _a2 : i, value: r2.value };
+      });
+      const resolvedMinPts = 13;
+      const eligibleCount = data.filter((d) => typeof d.value === "number").length;
+      const settings = { minimumPoints: resolvedMinPts };
+      if (eligibleCount >= resolvedMinPts) settings.chartLevelEligibility = true;
+      return buildSpcV26a({ chartType, metricImprovement, data, settings });
+    } catch {
+      return null;
+    }
+  }, [rows, chartType, metricImprovement]);
+  const lastRealRow = React30.useMemo(() => {
+    var _a2;
+    const rowsEngine = engine == null ? void 0 : engine.rows;
+    if (!rowsEngine || rowsEngine.length === 0) return null;
+    for (let i = rowsEngine.length - 1; i >= 0; i--) {
+      const r2 = rowsEngine[i];
+      if (r2 && r2.value != null && !r2.ghost) return r2;
+    }
+    return (_a2 = rowsEngine[rowsEngine.length - 1]) != null ? _a2 : null;
+  }, [engine]);
+  const latestState = React30.useMemo(() => {
+    const rowsEngine = engine == null ? void 0 : engine.rows;
+    if (!rowsEngine || rowsEngine.length === 0) return null;
+    let last = rowsEngine[rowsEngine.length - 1];
+    for (let i = rowsEngine.length - 1; i >= 0; i--) {
+      const r2 = rowsEngine[i];
+      if (r2 && r2.value != null && !r2.ghost) {
+        last = r2;
+        break;
+      }
+    }
+    return mapIconToVariation(last == null ? void 0 : last.variationIcon);
+  }, [engine]);
+  const centerLine = React30.useMemo(() => {
+    var _a2;
+    return (_a2 = lastRealRow == null ? void 0 : lastRealRow.mean) != null ? _a2 : null;
+  }, [lastRealRow]);
+  const controlLimits = React30.useMemo(() => {
+    var _a2, _b2;
+    if (!lastRealRow) return null;
+    const lower = (_a2 = lastRealRow == null ? void 0 : lastRealRow.lowerProcessLimit) != null ? _a2 : null;
+    const upper = (_b2 = lastRealRow == null ? void 0 : lastRealRow.upperProcessLimit) != null ? _b2 : null;
+    if (lower == null && upper == null) return null;
+    return { lower, upper };
+  }, [lastRealRow]);
+  const sigmaBands = React30.useMemo(() => {
+    var _a2, _b2, _c, _d;
+    if (!lastRealRow) return null;
+    return {
+      upperOne: (_a2 = lastRealRow == null ? void 0 : lastRealRow.upperOneSigma) != null ? _a2 : null,
+      upperTwo: (_b2 = lastRealRow == null ? void 0 : lastRealRow.upperTwoSigma) != null ? _b2 : null,
+      lowerOne: (_c = lastRealRow == null ? void 0 : lastRealRow.lowerOneSigma) != null ? _c : null,
+      lowerTwo: (_d = lastRealRow == null ? void 0 : lastRealRow.lowerTwoSigma) != null ? _d : null
+    };
+  }, [lastRealRow]);
+  const visualCategories = React30.useMemo(() => {
+    const rowsEngine = engine == null ? void 0 : engine.rows;
+    if (!rowsEngine || rowsEngine.length === 0) return void 0;
+    try {
+      return computeSpcVisualCategories(rowsEngine, {
+        metricImprovement,
+        enableNeutralNoJudgement: true
+      });
+    } catch {
+      return void 0;
+    }
+  }, [engine, metricImprovement]);
+  const pointSignals = React30.useMemo(() => {
+    return visualsToPointSignals(visualCategories);
+  }, [visualCategories == null ? void 0 : visualCategories.length]);
+  const pointNeutralSpecialCause = React30.useMemo(() => {
+    if (!visualCategories || visualCategories.length === 0) return void 0;
+    return visualCategories.map((c) => c === "NoJudgement" /* NoJudgement */);
+  }, [visualCategories == null ? void 0 : visualCategories.length]);
+  const metricCardStyle = React30.useMemo(() => {
+    var _a2;
+    let lastSignalState = null;
+    if (lastRealRow && lastRealRow.value != null && !lastRealRow.ghost) {
+      const icon = lastRealRow.variationIcon;
+      if (latestState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */) {
+        lastSignalState = isSpecialCauseIcon(icon) ? "special_cause_no_judgement" /* SpecialCauseNoJudgement */ : "common_cause" /* CommonCause */;
+      } else {
+        lastSignalState = (_a2 = mapIconToVariation(icon)) != null ? _a2 : "common_cause" /* CommonCause */;
+      }
+    }
+    const chosen = lastSignalState != null ? lastSignalState : "common_cause" /* CommonCause */;
+    const hex2 = VARIATION_COLOURS[chosen].hex;
+    const [r2, g, b] = hexToRgb2(hex2);
+    const stops = getGradientOpacities();
+    const bg = `linear-gradient(180deg, rgba(${r2}, ${g}, ${b}, ${stops.start}) 0%, rgba(${r2}, ${g}, ${b}, ${stops.mid}) 50%, rgba(${r2}, ${g}, ${b}, ${stops.end}) 100%)`;
+    return {
+      ["--fdp-metric-card-bg"]: bg,
+      ["--fdp-metric-card-accent"]: hex2
+    };
+  }, [lastRealRow, latestState]);
+  const sparkProps = React30.useMemo(() => {
+    return {
+      data: rows,
+      showMean,
+      showLimits,
+      showLimitBand,
+      showInnerBands,
+      metricImprovement,
+      centerLine,
+      controlLimits,
+      sigmaBands,
+      pointSignals,
+      pointNeutralSpecialCause,
+      visualCategories,
+      variationState: latestState != null ? latestState : void 0
+    };
+  }, [
+    rows,
+    showMean,
+    showLimits,
+    showLimitBand,
+    showInnerBands,
+    metricImprovement,
+    latestState,
+    centerLine,
+    controlLimits == null ? void 0 : controlLimits.lower,
+    controlLimits == null ? void 0 : controlLimits.upper,
+    sigmaBands == null ? void 0 : sigmaBands.upperTwo,
+    sigmaBands == null ? void 0 : sigmaBands.lowerOne,
+    sigmaBands == null ? void 0 : sigmaBands.lowerTwo,
+    pointSignals == null ? void 0 : pointSignals.length,
+    pointNeutralSpecialCause == null ? void 0 : pointNeutralSpecialCause.length,
+    visualCategories == null ? void 0 : visualCategories.length
+  ]);
+  return { sparkProps, metricCardStyle, latestState };
+}
+var useSpc_default = useSpc;
+
+// src/components/DataVisualisation/components/MetricCard/SPCMetricCard.tsx
+import { jsx as jsx40 } from "react/jsx-runtime";
+var SPCMetricCard = ({
+  sparkData,
+  direction = "Neither" /* Neither */,
+  showMean = false,
+  showLimits = true,
+  showLimitBand = false,
+  showInnerBands = false,
+  maxPoints,
+  autoValue = true,
+  autoDelta = true,
+  autoMetadata = true,
+  defaultUnit,
+  intervalHint,
+  startDate,
+  deltaConfig,
+  ...rest
+}) => {
+  const spc = useSpc_default({
+    values: sparkData.map((d) => {
+      var _a2;
+      return (_a2 = d.value) != null ? _a2 : null;
+    }),
+    metricImprovement: direction,
+    showLimits,
+    showLimitBand,
+    showInnerBands,
+    showMean
+  });
+  const visual = /* @__PURE__ */ jsx40(SPCSpark, { ...spc.sparkProps, maxPoints });
+  const auto = React31.useMemo(() => {
+    return autoMetrics_default({
+      values: sparkData.map((d) => typeof d.value === "number" ? d.value : null),
+      dates: sparkData.map((d) => d.date),
+      intervalHint,
+      startDate,
+      providedUnit: rest.unit,
+      defaultUnit,
+      autoValue,
+      autoDelta,
+      autoMetadata,
+      deltaConfig
+    });
+  }, [sparkData, intervalHint, startDate, rest.unit, defaultUnit, autoValue, autoDelta, autoMetadata, deltaConfig]);
+  const finalValue = autoValue && auto.value != null ? auto.value : rest.value;
+  const finalDelta = autoDelta && auto.delta ? auto.delta : rest.delta;
+  const finalUnit = auto.unit || rest.unit;
+  const computedMetadata = autoMetadata && auto.metadata ? auto.metadata : rest.metadata;
+  return /* @__PURE__ */ jsx40(
+    MetricCard_default,
+    {
+      ...rest,
+      value: finalValue,
+      unit: finalUnit,
+      delta: finalDelta,
+      metadata: computedMetadata,
+      visual,
+      style: spc.metricCardStyle
+    }
+  );
+};
+var SPCMetricCard_default = SPCMetricCard;
+
+// src/components/DataVisualisation/wizard/DataVizWizard.tsx
+import * as React36 from "react";
+
+// src/components/Checkboxes/Checkboxes.tsx
+var import_classnames4 = __toESM(require_classnames(), 1);
+import { useState as useState13 } from "react";
+
+// src/components/Input/Input.tsx
+import { useState as useState12, useEffect as useEffect10 } from "react";
+
+// src/mapping/input.ts
+function mapInputProps(p) {
+  const type = p.type || "text";
+  const isRange = type === "range";
+  const classes = [
+    "nhsuk-input",
+    p.hasError ? "nhsuk-input--error" : "",
+    isRange ? "nhsuk-input--range" : "",
+    !isRange && p.width && p.width !== "full" ? `nhsuk-input--width-${p.width}` : "",
+    p.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, isRange };
+}
+
+// src/components/Input/Input.tsx
+import { jsx as jsx41, jsxs as jsxs30 } from "react/jsx-runtime";
+var Input = ({
+  id,
+  name,
+  type = "text",
+  value,
+  defaultValue,
+  placeholder,
+  disabled = false,
+  readOnly = false,
+  required = false,
+  hasError = false,
+  describedBy,
+  className,
+  width = "full",
+  inputMode,
+  autoComplete,
+  maxLength,
+  minLength,
+  pattern,
+  step,
+  min,
+  max,
+  showValueLabels = false,
+  showCurrentValue = false,
+  valueLabels,
+  onChange,
+  onBlur,
+  onFocus,
+  onKeyDown,
+  ...props
+}) => {
+  const [currentValue, setCurrentValue] = useState12(value || defaultValue || (type === "range" ? min || "0" : ""));
+  useEffect10(() => {
+    if (value !== void 0) {
+      setCurrentValue(value);
+    }
+  }, [value]);
+  const handleChange = (event) => {
+    const el = event.target;
+    setCurrentValue(el.value);
+    if ("type" in event && event.nativeEvent) {
+      onChange == null ? void 0 : onChange(event);
+    } else if (event.type === "keydown") {
+      onChange == null ? void 0 : onChange(event);
+    }
+  };
+  const { classes: inputClasses, isRange } = mapInputProps({ id, name, type, hasError, width, className });
+  const isControlled = value !== void 0;
+  const sharedRangeProps = {
+    id,
+    name,
+    type,
+    placeholder,
+    disabled,
+    readOnly,
+    required,
+    "aria-describedby": describedBy,
+    inputMode,
+    autoComplete,
+    maxLength,
+    minLength,
+    pattern,
+    step,
+    min,
+    max,
+    onChange: handleChange,
+    onBlur,
+    onFocus,
+    onKeyDown: (e) => {
+      if (isRange && /[0-9]/.test(e.key)) {
+        const next = ((currentValue == null ? void 0 : currentValue.toString()) || "") + e.key;
+        e.target.value = next;
+        handleChange(e);
+      }
+      onKeyDown == null ? void 0 : onKeyDown(e);
+    },
+    ...props
+  };
+  const uncontrolledRangeProps = !isControlled && defaultValue !== void 0 ? { defaultValue } : {};
+  const controlledRangeProps = isControlled ? { value } : {};
+  const renderRangeInput = () => /* @__PURE__ */ jsx41(
+    "input",
+    {
+      className: inputClasses,
+      ...controlledRangeProps,
+      ...uncontrolledRangeProps,
+      "data-current-value": currentValue,
+      ...sharedRangeProps
+    }
+  );
+  const rangeWrapper = isRange ? /* @__PURE__ */ jsxs30("div", { className: "nhsuk-input-range-wrapper", children: [
+    showValueLabels && /* @__PURE__ */ jsxs30("div", { className: "nhsuk-input-range-labels", children: [
+      /* @__PURE__ */ jsx41("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min", children: (valueLabels == null ? void 0 : valueLabels.min) || min || "0" }),
+      renderRangeInput(),
+      /* @__PURE__ */ jsx41("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max", children: (valueLabels == null ? void 0 : valueLabels.max) || max || "100" })
+    ] }),
+    !showValueLabels && renderRangeInput(),
+    showCurrentValue && /* @__PURE__ */ jsx41("div", { className: "nhsuk-input-range-current-value", children: /* @__PURE__ */ jsxs30("span", { className: "nhsuk-input-range-current-label", children: [
+      (valueLabels == null ? void 0 : valueLabels.current) || "Current value:",
+      " ",
+      /* @__PURE__ */ jsx41("strong", { children: currentValue })
+    ] }) })
+  ] }) : null;
+  if (isRange) {
+    return rangeWrapper;
+  }
+  return /* @__PURE__ */ jsx41(
+    "input",
+    {
+      className: inputClasses,
+      id,
+      name,
+      type,
+      value,
+      ...value === void 0 && defaultValue !== void 0 ? { defaultValue } : {},
+      placeholder,
+      disabled,
+      readOnly,
+      required,
+      "aria-describedby": describedBy,
+      inputMode,
+      autoComplete,
+      maxLength,
+      minLength,
+      pattern,
+      step,
+      min,
+      max,
+      onChange,
+      onBlur,
+      onFocus,
+      onKeyDown,
+      ...props
+    }
+  );
+};
+
+// src/mapping/label.ts
+function mapLabelProps(input) {
+  const size = input.size || "m";
+  const classes = [
+    "nhsuk-label",
+    size !== "m" ? `nhsuk-label--${size}` : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return {
+    tag: input.isPageHeading ? "h1" : "label",
+    classes,
+    size,
+    htmlFor: input.isPageHeading ? void 0 : input.htmlFor,
+    isPageHeading: !!input.isPageHeading
+  };
+}
+
+// src/components/Label/Label.tsx
+import { jsx as jsx42 } from "react/jsx-runtime";
+var Label = ({
+  htmlFor,
+  className,
+  isPageHeading = false,
+  size = "m",
+  children,
+  ...props
+}) => {
+  const model = mapLabelProps({ size, isPageHeading, className, htmlFor });
+  const LabelElement = model.tag;
+  return /* @__PURE__ */ jsx42(LabelElement, { className: model.classes, htmlFor: model.htmlFor, ...props, children: isPageHeading ? /* @__PURE__ */ jsx42("label", { className: "nhsuk-label-wrapper", htmlFor, children }) : children });
+};
+
+// src/mapping/fieldset.ts
+function mapFieldsetProps(input) {
+  var _a2;
+  const fieldsetClasses = ["nhsuk-fieldset", input.className || ""].filter(Boolean).join(" ");
+  const legendClasses = input.legend ? [
+    "nhsuk-fieldset__legend",
+    input.legend.size ? `nhsuk-fieldset__legend--${input.legend.size}` : "",
+    input.legend.className || ""
+  ].filter(Boolean).join(" ") : void 0;
+  return {
+    fieldsetClasses,
+    legendClasses,
+    legendIsPageHeading: !!((_a2 = input.legend) == null ? void 0 : _a2.isPageHeading),
+    describedBy: input.describedBy
+  };
+}
+
+// src/components/Fieldset/Fieldset.tsx
+import { jsx as jsx43, jsxs as jsxs31 } from "react/jsx-runtime";
+var Fieldset = ({
+  children,
+  legend,
+  className,
+  describedBy,
+  ...fieldsetProps
+}) => {
+  const model = mapFieldsetProps({
+    className,
+    describedBy,
+    legend: legend ? {
+      size: legend.size,
+      className: legend.className,
+      isPageHeading: legend.isPageHeading
+    } : void 0
+  });
+  const renderLegendContent = () => {
+    const content = (legend == null ? void 0 : legend.html) ? /* @__PURE__ */ jsx43("span", { dangerouslySetInnerHTML: { __html: legend.html } }) : legend == null ? void 0 : legend.text;
+    if (model.legendIsPageHeading) {
+      return /* @__PURE__ */ jsx43("h1", { className: "nhsuk-fieldset__heading", children: content });
+    }
+    return content;
+  };
+  return /* @__PURE__ */ jsxs31(
+    "fieldset",
+    {
+      className: model.fieldsetClasses,
+      "aria-describedby": model.describedBy,
+      ...fieldsetProps,
+      children: [
+        legend && (legend.text || legend.html) && /* @__PURE__ */ jsx43("legend", { className: model.legendClasses, children: renderLegendContent() }),
+        children
+      ]
+    }
+  );
+};
+
+// src/mapping/checkboxes.ts
+function mapCheckboxesProps(input) {
+  const classes = [
+    "nhsuk-checkboxes",
+    input.small ? "nhsuk-checkboxes--small" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  const formGroupClasses = [
+    "nhsuk-form-group",
+    input.hasError ? "nhsuk-form-group--error" : ""
+  ].filter(Boolean).join(" ");
+  return { classes, formGroupClasses };
+}
+
+// src/components/Checkboxes/Checkboxes.tsx
+import { jsx as jsx44, jsxs as jsxs32 } from "react/jsx-runtime";
+var Checkboxes = ({
+  items,
+  name,
+  idPrefix,
+  legend,
+  isPageHeading = false,
+  legendSize = "l",
+  hint,
+  errorMessage,
+  className = "",
+  small = false,
+  onChange,
+  fieldsetAttributes,
+  attributes,
+  ...props
+}) => {
+  const [selectedValues, setSelectedValues] = useState13(
+    items.filter((item) => item.checked).map((item) => item.value)
+  );
+  const finalIdPrefix = idPrefix || name;
+  const hintId = hint ? `${finalIdPrefix}-hint` : void 0;
+  const errorId = errorMessage ? `${finalIdPrefix}-error` : void 0;
+  const describedBy = [hintId, errorId].filter(Boolean).join(" ") || void 0;
+  const handleCheckboxChange = (value, checked) => {
+    let newValues;
+    if (checked) {
+      newValues = [...selectedValues, value];
+    } else {
+      newValues = selectedValues.filter((v) => v !== value);
+    }
+    setSelectedValues(newValues);
+    onChange == null ? void 0 : onChange(newValues);
+  };
+  const renderItems = () => {
+    return items.map((item, index) => {
+      const itemId = `${finalIdPrefix}-${index + 1}`;
+      const conditionalId = `${itemId}-conditional`;
+      const isChecked = selectedValues.includes(item.value);
+      const isDisabled = item.disabled || false;
+      return /* @__PURE__ */ jsxs32("div", { className: "nhsuk-checkboxes__item", children: [
+        /* @__PURE__ */ jsx44(
+          "input",
+          {
+            className: "nhsuk-checkboxes__input",
+            id: itemId,
+            name,
+            type: "checkbox",
+            value: item.value,
+            checked: isChecked,
+            disabled: isDisabled,
+            onChange: (e) => handleCheckboxChange(item.value, e.target.checked),
+            "aria-describedby": item.hint ? `${itemId}-hint` : describedBy,
+            ...item.conditional && {
+              "aria-controls": conditionalId,
+              "aria-expanded": isChecked ? "true" : "false"
+            },
+            ...item.attributes
+          }
+        ),
+        /* @__PURE__ */ jsx44("label", { className: "nhsuk-checkboxes__label", htmlFor: itemId, children: item.text }),
+        item.hint && /* @__PURE__ */ jsx44("div", { id: `${itemId}-hint`, className: "nhsuk-checkboxes__hint", children: item.hint }),
+        item.conditional && /* @__PURE__ */ jsx44(
+          "div",
+          {
+            className: (0, import_classnames4.default)("nhsuk-checkboxes__conditional", {
+              "nhsuk-checkboxes__conditional--hidden": !isChecked
+            }),
+            id: conditionalId,
+            children: typeof item.conditional === "object" && item.conditional !== null && "label" in item.conditional && "id" in item.conditional && "name" in item.conditional ? /* @__PURE__ */ jsxs32("div", { style: { marginTop: "16px" }, children: [
+              item.conditional.label && /* @__PURE__ */ jsx44(Label, { htmlFor: item.conditional.id, children: item.conditional.label }),
+              /* @__PURE__ */ jsx44(Input, { ...item.conditional })
+            ] }) : item.conditional
+          }
+        )
+      ] }, item.value);
+    });
+  };
+  const { classes: checkboxesClasses, formGroupClasses } = mapCheckboxesProps({ small, className, hasError: !!errorMessage });
+  return /* @__PURE__ */ jsx44("div", { className: formGroupClasses, ...attributes, ...props, children: /* @__PURE__ */ jsxs32(
+    Fieldset,
+    {
+      legend: legend ? {
+        text: legend,
+        isPageHeading,
+        size: legendSize
+      } : void 0,
+      describedBy,
+      ...fieldsetAttributes,
+      children: [
+        hint && /* @__PURE__ */ jsx44("div", { id: hintId, className: "nhsuk-hint", children: hint }),
+        errorMessage && /* @__PURE__ */ jsxs32("div", { id: errorId, className: "nhsuk-error-message", children: [
+          /* @__PURE__ */ jsx44("span", { className: "nhsuk-u-visually-hidden", children: "Error:" }),
+          " ",
+          errorMessage
+        ] }),
+        /* @__PURE__ */ jsx44("div", { className: checkboxesClasses, children: renderItems() })
+      ]
+    }
+  ) });
+};
+Checkboxes.displayName = "Checkboxes";
+
+// src/components/Radios/Radios.tsx
+import { useState as useState14, useRef as useRef10, useCallback as useCallback10 } from "react";
+
+// src/components/Radios/Radios.render.tsx
+var import_classnames5 = __toESM(require_classnames(), 1);
+
+// src/mapping/radios.ts
+function mapRadiosProps(input) {
+  const classes = [
+    "nhsuk-radios",
+    input.hasError ? "nhsuk-radios--error" : "",
+    input.size === "small" ? "nhsuk-radios--small" : "",
+    input.inline ? "nhsuk-radios--inline" : "",
+    input.className || ""
+  ].filter(Boolean).join(" ");
+  return { classes, describedBy: input.describedBy };
+}
+
+// src/components/Radios/Radios.render.tsx
+import { jsx as jsx45, jsxs as jsxs33 } from "react/jsx-runtime";
+function renderRadiosMarkup(props, {
+  variant,
+  selectedValue,
+  enableBehaviourAttr,
+  handleChange,
+  handleBlur,
+  handleFocus,
+  handleKeyDown,
+  itemsRef,
+  InputComponent
+}) {
+  const {
+    onChange: _omitOnChange,
+    onBlur: _omitOnBlur,
+    onFocus: _omitOnFocus,
+    ...safeProps
+  } = props;
+  const {
+    name,
+    hasError = false,
+    describedBy,
+    className,
+    size = "normal",
+    inline = false,
+    options,
+    ...rest
+  } = safeProps;
+  const { classes: radiosClasses, describedBy: mappedDescribedBy } = mapRadiosProps({ hasError, size, inline, className, describedBy });
+  return /* @__PURE__ */ jsx45(Fieldset, { children: /* @__PURE__ */ jsx45(
+    "div",
+    {
+      className: radiosClasses,
+      ...rest,
+      ...enableBehaviourAttr ? { "data-nhs-behaviour": "radios" } : {},
+      children: options.map((option, index) => {
+        const radioId = `${name}-${index}`;
+        const conditionalId = option.conditional ? `${radioId}-conditional` : void 0;
+        const isSelected = selectedValue === option.value;
+        return /* @__PURE__ */ jsxs33("div", { className: "nhsuk-radios__item", children: [
+          /* @__PURE__ */ jsx45(
+            "input",
+            {
+              className: "nhsuk-radios__input",
+              id: radioId,
+              name,
+              type: "radio",
+              value: option.value,
+              disabled: option.disabled,
+              ...variant === "client" ? {
+                checked: isSelected,
+                onChange: handleChange,
+                onBlur: handleBlur,
+                onFocus: handleFocus,
+                onKeyDown: handleKeyDown,
+                ref: (el) => {
+                  if (el && itemsRef) itemsRef.current[index] = el;
+                }
+              } : {
+                defaultChecked: isSelected,
+                "data-nhs-radios-input": true
+              },
+              "aria-describedby": mappedDescribedBy
+            }
+          ),
+          /* @__PURE__ */ jsx45("label", { className: "nhsuk-radios__label", htmlFor: radioId, children: option.text }),
+          option.hint && /* @__PURE__ */ jsx45("div", { className: "nhsuk-radios__hint", children: option.hint }),
+          option.conditional && /* @__PURE__ */ jsx45(
+            "div",
+            {
+              className: (0, import_classnames5.default)("nhsuk-radios__conditional", {
+                "nhsuk-radios__conditional--hidden": !isSelected
+              }),
+              id: conditionalId,
+              ...variant === "server" ? { "data-nhs-radios-conditional": true } : {},
+              children: typeof option.conditional === "object" && option.conditional !== null && "label" in option.conditional && "id" in option.conditional && "name" in option.conditional ? /* @__PURE__ */ jsxs33("div", { style: { marginTop: "16px" }, children: [
+                option.conditional.label && /* @__PURE__ */ jsx45(
+                  Label,
+                  {
+                    htmlFor: option.conditional.id,
+                    children: option.conditional.label
+                  }
+                ),
+                /* @__PURE__ */ jsx45(
+                  InputComponent,
+                  {
+                    ...option.conditional
+                  }
+                )
+              ] }) : option.conditional
+            }
+          )
+        ] }, option.value);
+      })
+    }
+  ) });
+}
+
+// src/components/Radios/Radios.tsx
+var Radios = ({ value, defaultValue, onChange, onBlur, onFocus, ...rest }) => {
+  const [selectedValue, setSelectedValue] = useState14(value || defaultValue || "");
+  const itemsRef = useRef10([]);
+  const lastValueRef = useRef10(selectedValue);
+  const handleChange = (event) => {
+    const newValue = event.target.value;
+    if (newValue === lastValueRef.current) return;
+    lastValueRef.current = newValue;
+    setSelectedValue(newValue);
+    onChange == null ? void 0 : onChange(event);
+  };
+  const handleFocus = (event) => {
+    onFocus == null ? void 0 : onFocus(event);
+  };
+  const handleKeyDown = useCallback10((event) => {
+    const { key } = event;
+    if (!["ArrowDown", "ArrowUp", "ArrowRight", "ArrowLeft"].includes(key)) return;
+    event.preventDefault();
+    const enabledRadios = itemsRef.current.filter((r2) => r2 && !r2.disabled);
+    const current = enabledRadios.indexOf(event.currentTarget);
+    if (current === -1) return;
+    let nextIndex = current;
+    if (["ArrowDown", "ArrowRight"].includes(key)) nextIndex = (current + 1) % enabledRadios.length;
+    else if (["ArrowUp", "ArrowLeft"].includes(key)) nextIndex = (current - 1 + enabledRadios.length) % enabledRadios.length;
+    const nextRadio = enabledRadios[nextIndex];
+    if (nextRadio) {
+      nextRadio.focus();
+      if (!nextRadio.checked) nextRadio.click();
+    }
+  }, []);
+  return renderRadiosMarkup(
+    { value, defaultValue, onChange, onBlur, onFocus, ...rest },
+    {
+      variant: "client",
+      selectedValue,
+      enableBehaviourAttr: false,
+      handleChange,
+      handleBlur: onBlur,
+      handleFocus,
+      // wrapped to suppress duplicate focus calls
+      handleKeyDown,
+      itemsRef,
+      InputComponent: Input
+    }
+  );
+};
+
+// src/components/Grid/Grid.tsx
+var import_classnames6 = __toESM(require_classnames(), 1);
+import React35 from "react";
+import { jsx as jsx46 } from "react/jsx-runtime";
+var Row = ({
+  children,
+  className,
+  style,
+  align,
+  rowGap,
+  ...props
+}) => {
+  const rowClasses = (0, import_classnames6.default)(
+    "nhsuk-grid-row",
+    // Row-specific alignment class to avoid column flex styles
+    align ? `nhsuk-grid-row-align-${align}` : void 0,
+    className
+  );
+  return /* @__PURE__ */ jsx46("div", { className: rowClasses, style, ...props, children });
+};
+var Column = ({
+  children,
+  width = "full" /* Full */,
+  mobileWidth,
+  tabletWidth,
+  desktopWidth,
+  start,
+  className,
+  forceWidth = false,
+  style,
+  align,
+  ...props
+}) => {
+  const columnClasses = (0, import_classnames6.default)(
+    {
+      // Standard responsive grid columns
+      [`nhsuk-grid-column-${width}`]: !forceWidth,
+      // Utility classes that force width on all screen sizes
+      [`nhsuk-u-${width}`]: forceWidth,
+      // Responsive width overrides
+      [`nhsuk-u-${mobileWidth}-mobile`]: !!mobileWidth,
+      [`nhsuk-u-${tabletWidth}-tablet`]: !!tabletWidth,
+      [`nhsuk-u-${desktopWidth}-desktop`]: !!desktopWidth,
+      // Grid positioning
+      [`nhsuk-grid-column-start-${start}`]: start && start >= 1 && start <= 7,
+      // Alignment (robust string-based class to avoid enum identity issues)
+      ...align ? { [`nhsuk-grid-align-${align}`]: true } : {}
+    },
+    className
+  );
+  return /* @__PURE__ */ jsx46("div", { className: columnClasses, style, ...props, children });
+};
+
+// src/components/InsetText/InsetText.tsx
+var import_classnames7 = __toESM(require_classnames(), 1);
+import { jsx as jsx47 } from "react/jsx-runtime";
+var InsetText = ({
+  text,
+  html,
+  children,
+  className,
+  ...rest
+}) => {
+  const insetTextClasses = (0, import_classnames7.default)("nhsuk-inset-text", className);
+  const renderContent = () => {
+    if (children) {
+      return children;
+    }
+    if (html) {
+      return /* @__PURE__ */ jsx47("div", { dangerouslySetInnerHTML: { __html: html } });
+    }
+    if (text) {
+      return /* @__PURE__ */ jsx47("p", { children: text });
+    }
+    return null;
+  };
+  return /* @__PURE__ */ jsx47("div", { className: insetTextClasses, ...rest, children: renderContent() });
+};
+
+// src/components/SummaryList/SummaryList.tsx
+var import_classnames8 = __toESM(require_classnames(), 1);
+import { jsx as jsx48, jsxs as jsxs34 } from "react/jsx-runtime";
+var SummaryList = ({
+  items,
+  noBorder = false,
+  className,
+  ...rest
+}) => {
+  const summaryListClasses = (0, import_classnames8.default)(
+    "nhsuk-summary-list",
+    {
+      "nhsuk-summary-list--no-border": noBorder
+    },
+    className
+  );
+  const renderContent = (content) => {
+    if (content.children) {
+      return content.children;
+    }
+    if (content.html) {
+      return /* @__PURE__ */ jsx48("span", { dangerouslySetInnerHTML: { __html: content.html } });
+    }
+    if (content.text) {
+      return content.text;
+    }
+    return null;
+  };
+  const renderActions = (actions) => {
+    if (!actions || !actions.items.length) {
+      return null;
+    }
+    return /* @__PURE__ */ jsx48("dd", { className: "nhsuk-summary-list__actions", children: /* @__PURE__ */ jsx48("ul", { className: "nhsuk-summary-list__actions-list", children: actions.items.map((action, actionIndex) => /* @__PURE__ */ jsx48(
+      "li",
+      {
+        className: "nhsuk-summary-list__actions-list-item",
+        children: /* @__PURE__ */ jsxs34(
+          "a",
+          {
+            href: action.href,
+            className: "nhsuk-link",
+            ...action.attributes,
+            children: [
+              renderContent(action),
+              action.visuallyHiddenText && /* @__PURE__ */ jsx48("span", { className: "nhsuk-u-visually-hidden", children: action.visuallyHiddenText })
+            ]
+          }
+        )
+      },
+      actionIndex
+    )) }) });
+  };
+  return /* @__PURE__ */ jsx48("div", { className: "nhsuk-summary-list-container", children: /* @__PURE__ */ jsx48("dl", { className: summaryListClasses, ...rest, children: items.map((item, index) => /* @__PURE__ */ jsxs34("div", { className: "nhsuk-summary-list__row", children: [
+    /* @__PURE__ */ jsx48("dt", { className: "nhsuk-summary-list__key", children: renderContent(item.key) }),
+    /* @__PURE__ */ jsx48("dd", { className: "nhsuk-summary-list__value", children: renderContent(item.value) }),
+    renderActions(item.actions)
+  ] }, index)) }) });
+};
+
+// src/components/DataVisualisation/wizard/WizardProgress.tsx
+import { jsx as jsx49, jsxs as jsxs35 } from "react/jsx-runtime";
+var WizardProgress = ({
+  items,
+  currentQuestion,
+  onJumpTo
+}) => {
+  const listItems = items.map((a, i) => ({
+    key: { text: a.question || a.nodeId },
+    value: { text: Array.isArray(a.value) ? a.value.join(", ") : a.value },
+    actions: onJumpTo ? {
+      items: [
+        {
+          href: "#",
+          text: "Change",
+          visuallyHiddenText: a.question || a.nodeId,
+          attributes: {
+            onClick: (e) => {
+              e.preventDefault();
+              onJumpTo(i);
+            }
+          }
+        }
+      ]
+    } : void 0
+  }));
+  return /* @__PURE__ */ jsxs35("aside", { "aria-label": "Progress", style: { position: "relative" }, children: [
+    currentQuestion && /* @__PURE__ */ jsx49("p", { style: { marginTop: 0, marginBottom: 12 }, children: currentQuestion }),
+    items.length > 0 && /* @__PURE__ */ jsx49(SummaryList, { items: listItems })
+  ] });
+};
+var WizardProgress_default = WizardProgress;
+
+// src/components/DataVisualisation/wizard/ReviewAnswers.tsx
+import { jsx as jsx50 } from "react/jsx-runtime";
+var ReviewAnswers = ({ items, onChange }) => {
+  const list = items.map((a, i) => ({
+    key: { text: a.question || a.nodeId },
+    value: { text: Array.isArray(a.value) ? a.value.join(", ") : a.value },
+    actions: onChange ? {
+      items: [
+        {
+          href: "#",
+          text: "Change",
+          visuallyHiddenText: a.question || a.nodeId,
+          attributes: {
+            onClick: (e) => {
+              e.preventDefault();
+              onChange(i);
+            }
+          }
+        }
+      ]
+    } : void 0
+  }));
+  return /* @__PURE__ */ jsx50("div", { children: /* @__PURE__ */ jsx50(SummaryList, { items: list }) });
+};
+var ReviewAnswers_default = ReviewAnswers;
+
+// src/components/DataVisualisation/logic/wizardEngine.ts
+function getWizard(logic, wizardId) {
+  var _a2;
+  const wiz = (_a2 = logic.wizards) == null ? void 0 : _a2[wizardId];
+  if (!wiz) throw new Error(`Wizard '${wizardId}' not found`);
+  return wiz;
+}
+function getNode(wiz, nodeId) {
+  var _a2;
+  const node = (_a2 = wiz.nodes) == null ? void 0 : _a2[nodeId];
+  if (!node) throw new Error(`Node '${nodeId}' not found`);
+  return node;
+}
+function evaluateYesNo(node, answer) {
+  const branch = answer === "yes" ? node.yes : node.no;
+  if (!branch) return {};
+  return { nextId: branch.next, recommend: branch.recommend };
+}
+function evaluateSingleChoice(node, label) {
+  const choice = (node.choices || []).find((c) => c.label === label);
+  if (!choice) return {};
+  return { nextId: choice.next, recommend: choice.recommend };
+}
+function evaluateMultiChoice(node, labels) {
+  const selected = (node.choices || []).filter(
+    (c) => labels.includes(c.label)
+  );
+  if (selected.length === 0) return {};
+  const rec = selected.flatMap(
+    (c) => c.recommend || []
+  );
+  const nextIds = Array.from(
+    new Set(selected.map((c) => c.next).filter(Boolean))
+  );
+  const nextId = nextIds.length === 1 ? nextIds[0] : void 0;
+  const recommend = Array.from(new Set(rec));
+  return { nextId, recommend };
+}
+
+// src/components/DataVisualisation/wizard/DataVizWizard.tsx
+import { Fragment as Fragment8, jsx as jsx51, jsxs as jsxs36 } from "react/jsx-runtime";
+function getWizardRoot(logic, wizardId) {
+  try {
+    return getWizard(logic, wizardId);
+  } catch {
+    return logic.wizards[wizardId];
+  }
+}
+function getNode2(logic, wizardId, nodeId) {
+  try {
+    return getNode(getWizardRoot(logic, wizardId), nodeId);
+  } catch {
+    return logic.wizards[wizardId].nodes[nodeId];
+  }
+}
+function isClient() {
+  return typeof window !== "undefined";
+}
+var DataVizWizard = ({
+  logic,
+  wizardId = "nhs_v1",
+  storageKey = "dv_wizard_state_v1"
+}) => {
+  const wiz = getWizardRoot(logic, wizardId);
+  const rootId = wiz.root;
+  const [path2, setPath] = React36.useState([rootId]);
+  const [answers, setAnswers] = React36.useState([]);
+  const [result, setResult] = React36.useState(null);
+  const [selectedValue, setSelectedValue] = React36.useState("");
+  const [selectedValues, setSelectedValues] = React36.useState([]);
+  const [copyStatus, setCopyStatus] = React36.useState("idle");
+  React36.useEffect(() => {
+    var _a2;
+    if (!isClient()) return;
+    try {
+      const raw = window.localStorage.getItem(storageKey);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.path) && Array.isArray(parsed.answers)) {
+          setPath(parsed.path);
+          setAnswers(parsed.answers);
+          setResult((_a2 = parsed.result) != null ? _a2 : null);
+        }
+      }
+    } catch {
+    }
+  }, [storageKey]);
+  React36.useEffect(() => {
+    if (!isClient()) return;
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({ path: path2, answers, result })
+    );
+  }, [path2, answers, result, storageKey]);
+  const currentId = path2[path2.length - 1];
+  const node = getNode2(logic, wizardId, currentId);
+  React36.useEffect(() => {
+    const prev = answers.find((a) => a.nodeId === currentId);
+    if (prev) {
+      if (Array.isArray(prev.value)) {
+        setSelectedValues(prev.value);
+        setSelectedValue("");
+      } else {
+        setSelectedValue(prev.value);
+        setSelectedValues([]);
+      }
+    } else {
+      setSelectedValue("");
+      setSelectedValues([]);
+    }
+  }, [currentId]);
+  React36.useEffect(() => {
+    if (!isClient()) return;
+    const state = { path: path2, answers, result };
+    try {
+      window.history.replaceState(state, "");
+    } catch {
+    }
+    const onPop = (e) => {
+      var _a2;
+      const st = e.state || {};
+      if (st && Array.isArray(st.path) && Array.isArray(st.answers)) {
+        setPath(st.path);
+        setAnswers(st.answers);
+        setResult((_a2 = st.result) != null ? _a2 : null);
+      }
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+  const shapeContextHelp = React36.useMemo(() => {
+    var _a2, _b2, _c;
+    if (currentId !== "components_shape") return null;
+    const prevVal = (_a2 = answers.find((a) => a.nodeId === "components_root")) == null ? void 0 : _a2.value;
+    const prevComponent = Array.isArray(prevVal) ? prevVal[0] || null : prevVal || null;
+    if (!prevComponent) return null;
+    const labelBase = prevComponent.replace(/\s*\(.*\)$/, "").trim().toLowerCase();
+    const comps = (_c = (_b2 = logic == null ? void 0 : logic.models) == null ? void 0 : _b2.abela) == null ? void 0 : _c.components;
+    if (!Array.isArray(comps)) return null;
+    let comp = comps.find(
+      (c) => (c.label || "").toLowerCase().replace(/\s*\(.*\)$/, "").trim() === labelBase
+    );
+    if (!comp && labelBase.includes("resources")) {
+      comp = comps.find((c) => c.id === "resources");
+    }
+    if (!comp) return null;
+    const shapeNames = {
+      time_series: "Time series",
+      categories: "Categories",
+      hierarchy: "Hierarchy",
+      matrix: "Matrix",
+      spatial: "Spatial",
+      distribution: "Distribution"
+    };
+    const shapes = (comp.maps_to_data_shapes || []).map((s) => shapeNames[s] || s).filter(Boolean);
+    if (shapes.length === 0 && !comp.notes) return null;
+    return /* @__PURE__ */ jsxs36(InsetText, { children: [
+      /* @__PURE__ */ jsxs36("div", { children: [
+        /* @__PURE__ */ jsx51("strong", { children: prevComponent }),
+        ": common data shapes"
+      ] }),
+      shapes.length > 0 && /* @__PURE__ */ jsx51("ul", { style: { marginTop: 8 }, children: shapes.map((s) => /* @__PURE__ */ jsx51("li", { children: s }, s)) }),
+      comp.notes && /* @__PURE__ */ jsx51("p", { style: { marginTop: 8 }, children: comp.notes })
+    ] });
+  }, [answers, currentId, logic]);
+  const pushHistoryState = (nextPath, nextAnswers, nextResult) => {
+    if (!isClient()) return;
+    const state = { path: nextPath, answers: nextAnswers, result: nextResult };
+    try {
+      window.history.pushState(state, "");
+    } catch {
+    }
+  };
+  const goBack = () => {
+    if (result) {
+      setResult(null);
+      setAnswers((a) => a.length > 0 ? a.slice(0, -1) : a);
+      return;
+    }
+    if (isClient()) {
+      window.history.back();
+    } else {
+      setPath((p) => p.length > 1 ? p.slice(0, -1) : p);
+      setAnswers((a) => a.length > 0 ? a.slice(0, -1) : a);
+    }
+  };
+  const reset = () => {
+    setPath([rootId]);
+    setAnswers([]);
+    setResult(null);
+    setSelectedValue("");
+    setSelectedValues([]);
+    setCopyStatus("idle");
+    if (isClient()) {
+      const state = { path: [rootId], answers: [], result: null };
+      try {
+        window.history.pushState(state, "");
+      } catch {
+      }
+    }
+  };
+  const getChartName = React36.useCallback(
+    (id) => {
+      try {
+        const add = logic == null ? void 0 : logic.chart_types_add;
+        const found = add == null ? void 0 : add.find((c) => c.id === id);
+        return (found == null ? void 0 : found.name) || id;
+      } catch {
+        return id;
+      }
+    },
+    [logic]
+  );
+  const getChartSupports = React36.useCallback(
+    (id) => {
+      try {
+        const add = logic == null ? void 0 : logic.chart_types_add;
+        const found = add == null ? void 0 : add.find((c) => c.id === id);
+        const supports = (found == null ? void 0 : found.supports) || {};
+        const LABELS = {
+          time_of_day: "time of day",
+          weekday: "weekday",
+          stages: "stages",
+          throughput: "throughput",
+          change_over_time: "trend",
+          baseline: "baseline",
+          percent_of_total: "% of total",
+          metadata: "metadata",
+          actions: "actions",
+          inline_spark: "inline spark",
+          sorting: "sorting",
+          filtering: "filtering",
+          responsive: "responsive",
+          aggregation: "aggregation",
+          grouping: "grouping",
+          totals: "totals",
+          drilldown: "drilldown",
+          duration: "duration",
+          events: "events",
+          exact_values: "exact values",
+          pagination: "pagination",
+          row_details: "row details",
+          latest_value: "latest value",
+          delta: "delta",
+          status: "status",
+          uncertainty: "uncertainty",
+          bulk_select: "bulk select",
+          row_actions: "row actions",
+          validation_flags: "validation flags",
+          // newly added operative supports
+          drag_drop: "drag and drop",
+          swimlanes: "swimlanes",
+          bulk_edit: "bulk edit",
+          shortcuts: "shortcuts",
+          pair_review: "pair review",
+          side_by_side: "side-by-side",
+          merge_preview: "merge preview",
+          save_views: "save views"
+        };
+        const humanize = (k) => LABELS[k] || k.replace(/_/g, " ");
+        return Object.keys(supports).filter((k) => supports[k]).map(humanize);
+      } catch {
+        return [];
+      }
+    },
+    [logic]
+  );
+  const buildSummaryPayload = React36.useCallback(() => {
+    var _a2;
+    const recommendations = result || [];
+    return {
+      wizard: wizardId,
+      logicVersion: (_a2 = logic == null ? void 0 : logic.v) != null ? _a2 : null,
+      generatedAt: (/* @__PURE__ */ new Date()).toISOString(),
+      answers: answers.map((a) => ({
+        nodeId: a.nodeId,
+        question: a.question || a.nodeId,
+        answer: a.value
+      })),
+      recommendations: recommendations.map((id) => ({ id, name: getChartName(id) }))
+    };
+  }, [answers, result, wizardId, logic, getChartName]);
+  const copySummaryToClipboard = React36.useCallback(async () => {
+    var _a2;
+    try {
+      const payload = buildSummaryPayload();
+      const text = JSON.stringify(payload, null, 2);
+      if (isClient() && ((_a2 = navigator == null ? void 0 : navigator.clipboard) == null ? void 0 : _a2.writeText)) {
+        await navigator.clipboard.writeText(text);
+        setCopyStatus("copied");
+        return;
+      }
+      if (isClient()) {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "absolute";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          document.execCommand("copy");
+          setCopyStatus("copied");
+        } finally {
+          document.body.removeChild(ta);
+        }
+        return;
+      }
+      setCopyStatus("error");
+    } catch {
+      setCopyStatus("error");
+    }
+  }, [buildSummaryPayload]);
+  const renderEnd = (recommend) => /* @__PURE__ */ jsxs36(Fragment8, { children: [
+    /* @__PURE__ */ jsx51(Heading, { level: 2, children: "Recommended charts" }),
+    /* @__PURE__ */ jsx51(Panel, { children: /* @__PURE__ */ jsx51("ul", { children: recommend.map((r2) => {
+      const name = getChartName(r2);
+      const caps = getChartSupports(r2);
+      return /* @__PURE__ */ jsxs36("li", { style: { marginBottom: 8 }, children: [
+        /* @__PURE__ */ jsxs36("div", { children: [
+          /* @__PURE__ */ jsx51("strong", { children: name }),
+          " ",
+          /* @__PURE__ */ jsx51("code", { style: { opacity: 0.7 }, children: r2 })
+        ] }),
+        caps.length > 0 && /* @__PURE__ */ jsx51("div", { style: { marginTop: 4 }, "aria-label": "Capabilities", children: caps.map((c) => /* @__PURE__ */ jsx51(
+          Tag,
+          {
+            color: "grey",
+            style: {
+              display: "inline-block",
+              marginRight: 6,
+              marginBottom: 4
+            },
+            children: c
+          },
+          c
+        )) })
+      ] }, r2);
+    }) }) }),
+    /* @__PURE__ */ jsx51(Heading, { level: 3, children: "Your answers" }),
+    /* @__PURE__ */ jsx51(
+      ReviewAnswers_default,
+      {
+        items: answers,
+        onChange: (i) => {
+          setResult(null);
+          setPath((p) => p.slice(0, i + 1));
+          setAnswers((a) => a.slice(0, i));
+        }
+      }
+    ),
+    /* @__PURE__ */ jsx51(Row, { children: /* @__PURE__ */ jsxs36(Column, { width: "one-half" /* OneHalf */, children: [
+      /* @__PURE__ */ jsx51(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }),
+      /* @__PURE__ */ jsx51(Button_default, { onClick: reset, style: { marginLeft: "1em" }, children: "Start again" }),
+      /* @__PURE__ */ jsx51(
+        Button_default,
+        {
+          onClick: copySummaryToClipboard,
+          style: { marginLeft: "1em" },
+          variant: "secondary" /* Secondary */,
+          children: "Copy summary JSON"
+        }
+      ),
+      copyStatus === "copied" && /* @__PURE__ */ jsx51("span", { role: "status", style: { marginLeft: 8 }, children: "Copied" }),
+      copyStatus === "error" && /* @__PURE__ */ jsx51("span", { role: "status", style: { marginLeft: 8, color: "#d5281b" }, children: "Copy failed" })
+    ] }) })
+  ] });
+  let content = null;
+  if ((node == null ? void 0 : node.type) === "end" && !result) {
+    content = renderEnd(node.recommend || []);
+  } else if (result) {
+    content = renderEnd(result);
+  } else if (!node) {
+    content = /* @__PURE__ */ jsxs36(InsetText, { children: [
+      "Unknown node: ",
+      currentId
+    ] });
+  } else if (node.type === "single_choice" || node.type === "choice") {
+    const options = node.choices;
+    const multiple = node.type === "choice" ? node.mode === "multiple" : !!node.multiple;
+    content = /* @__PURE__ */ jsxs36(Row, { children: [
+      /* @__PURE__ */ jsxs36(Column, { width: "one-half" /* OneHalf */, children: [
+        /* @__PURE__ */ jsxs36(Heading, { level: 2, children: [
+          answers.length + 1,
+          ". ",
+          node.question
+        ] }),
+        node.help && /* @__PURE__ */ jsx51(InsetText, { children: node.help }),
+        shapeContextHelp,
+        multiple ? /* @__PURE__ */ jsx51(
+          Checkboxes,
+          {
+            name: currentId,
+            items: options.map((o) => ({ value: o.label, text: o.label })),
+            onChange: (vals) => setSelectedValues(vals)
+          },
+          currentId
+        ) : /* @__PURE__ */ jsx51(
+          Radios,
+          {
+            name: currentId,
+            options: options.map((o) => ({
+              label: o.label,
+              value: o.label,
+              text: o.label
+            })),
+            style: { marginBottom: "1.5em" },
+            onChange: (event) => setSelectedValue(event.target.value)
+          },
+          currentId
+        ),
+        /* @__PURE__ */ jsxs36(Row, { children: [
+          /* @__PURE__ */ jsx51(Column, { width: "one-half" /* OneHalf */, children: path2.length > 1 && /* @__PURE__ */ jsx51(Button_default, { onClick: goBack, variant: "secondary", children: "Back" }) }),
+          /* @__PURE__ */ jsx51(Column, { width: "one-half" /* OneHalf */, align: "right" /* Right */, children: /* @__PURE__ */ jsx51(
+            Button_default,
+            {
+              onClick: () => {
+                if (multiple) {
+                  const res = evaluateMultiChoice(node, selectedValues);
+                  const nextAnswers = [
+                    ...answers,
+                    {
+                      nodeId: currentId,
+                      question: node.question,
+                      value: selectedValues,
+                      recommend: res.recommend
+                    }
+                  ];
+                  if (res.nextId) {
+                    const nextPath = [...path2, res.nextId];
+                    setAnswers(nextAnswers);
+                    setResult(null);
+                    setPath(nextPath);
+                    pushHistoryState(nextPath, nextAnswers, null);
+                  } else if (res.recommend && res.recommend.length) {
+                    setAnswers(nextAnswers);
+                    setResult(res.recommend);
+                    pushHistoryState(path2, nextAnswers, res.recommend);
+                  }
+                } else {
+                  const val = selectedValue;
+                  if (!val) return;
+                  const res = evaluateSingleChoice(node, val);
+                  const nextAnswers = [
+                    ...answers,
+                    {
+                      nodeId: currentId,
+                      question: node.question,
+                      value: val,
+                      recommend: res.recommend
+                    }
+                  ];
+                  if (res.nextId) {
+                    const nextPath = [...path2, res.nextId];
+                    setAnswers(nextAnswers);
+                    setResult(null);
+                    setPath(nextPath);
+                    pushHistoryState(nextPath, nextAnswers, null);
+                  } else if (res.recommend && res.recommend.length) {
+                    setAnswers(nextAnswers);
+                    setResult(res.recommend);
+                    pushHistoryState(path2, nextAnswers, res.recommend);
+                  }
+                }
+              },
+              disabled: multiple ? selectedValues.length === 0 : !selectedValue,
+              children: "Next"
+            }
+          ) })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx51(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx51(
+        WizardProgress_default,
+        {
+          items: answers,
+          onJumpTo: (i) => {
+            setPath((p) => p.slice(0, i + 1));
+            setAnswers((a) => a.slice(0, i));
+          }
+        }
+      ) })
+    ] });
+  } else if (node.type === "yes_no") {
+    content = /* @__PURE__ */ jsxs36(Row, { children: [
+      /* @__PURE__ */ jsxs36(Column, { width: "two-thirds" /* TwoThirds */, children: [
+        /* @__PURE__ */ jsx51(Heading, { level: 2, children: node.question }),
+        /* @__PURE__ */ jsx51(
+          Radios,
+          {
+            name: currentId,
+            options: [
+              { text: "Yes", value: "Yes" },
+              { text: "No", value: "No" }
+            ],
+            onChange: (event) => setSelectedValue(event.target.value)
+          },
+          currentId
+        ),
+        /* @__PURE__ */ jsxs36(Row, { children: [
+          /* @__PURE__ */ jsx51(Column, { width: "one-half" /* OneHalf */, children: /* @__PURE__ */ jsx51(Button_default, { onClick: goBack, variant: "secondary" /* Secondary */, children: "Back" }) }),
+          /* @__PURE__ */ jsx51(Column, { width: "one-half" /* OneHalf */, align: "right" /* Right */, children: /* @__PURE__ */ jsx51(
+            Button_default,
+            {
+              onClick: () => {
+                const val = selectedValue;
+                if (!val) return;
+                const res = evaluateYesNo(
+                  node,
+                  val.toLowerCase() === "yes" ? "yes" : "no"
+                );
+                const nextAnswers = [
+                  ...answers,
+                  {
+                    nodeId: currentId,
+                    question: node.question,
+                    value: val,
+                    recommend: res.recommend
+                  }
+                ];
+                if (res.nextId) {
+                  const nextPath = [...path2, res.nextId];
+                  setAnswers(nextAnswers);
+                  setResult(null);
+                  setPath(nextPath);
+                  pushHistoryState(nextPath, nextAnswers, null);
+                } else if (res.recommend && res.recommend.length) {
+                  setAnswers(nextAnswers);
+                  setResult(res.recommend);
+                  pushHistoryState(path2, nextAnswers, res.recommend);
+                }
+              },
+              disabled: !selectedValue,
+              children: "Next"
+            }
+          ) })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsx51(Column, { width: "one-third" /* OneThird */, children: /* @__PURE__ */ jsx51(
+        WizardProgress_default,
+        {
+          items: answers,
+          currentQuestion: node.question,
+          onJumpTo: (i) => {
+            setPath((p) => p.slice(0, i + 1));
+            setAnswers((a) => a.slice(0, i));
+          }
+        }
+      ) })
+    ] });
+  } else {
+    content = /* @__PURE__ */ jsxs36(InsetText, { children: [
+      "Unsupported node type: ",
+      node.type
+    ] });
+  }
+  return /* @__PURE__ */ jsx51(Fragment8, { children: content });
+};
+var DataVizWizard_default = DataVizWizard;
 
 // src/components/DataVisualisation/charts/RunChart/RunChart.tsx
 import * as React37 from "react";

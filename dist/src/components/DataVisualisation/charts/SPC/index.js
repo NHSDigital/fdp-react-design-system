@@ -6330,48 +6330,6 @@ __export(icons_exports, {
 // src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon.tsx
 import { useId, useMemo as useMemo3 } from "react";
 
-// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
-var spcTokenRoot = null;
-var _a, _b;
-try {
-  const tokens = require_tokens();
-  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
-} catch {
-}
-var tokenColour = (key, fallback) => {
-  if (!spcTokenRoot) return fallback;
-  const parts = key.split(".");
-  let current = spcTokenRoot;
-  for (const p of parts) {
-    if (current == null) break;
-    current = current[p];
-  }
-  const val = current;
-  if (val == null) return fallback;
-  if (typeof val === "string" || typeof val === "number") return String(val);
-  if (val.$value != null) return String(val.$value);
-  if (val.value != null) return String(val.value);
-  return fallback;
-};
-var getGradientOpacities = () => ({
-  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
-  start: tokenColour("gradient.stop.start-opacity", "0.12"),
-  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
-  end: tokenColour("gradient.stop.end-opacity", "0"),
-  triStart: tokenColour(
-    "gradient.stop.triangle-start-opacity",
-    tokenColour("gradient.stop.start-opacity", "0.12")
-  ),
-  triMid: tokenColour(
-    "gradient.stop.triangle-mid-opacity",
-    tokenColour("gradient.stop.mid-opacity", "0.03")
-  ),
-  triEnd: tokenColour(
-    "gradient.stop.triangle-end-opacity",
-    tokenColour("gradient.stop.end-opacity", "0")
-  )
-});
-
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts
 var RULE_PRECEDENCE = [
   "single_point" /* SinglePoint */,
@@ -6665,6 +6623,77 @@ function computePointPositions(state, direction) {
   else
     src = POINT_LAYOUTS.special[direction === "lower" /* Lower */ ? "lower" : "higher"];
   return src.map((p) => ({ ...p }));
+}
+
+// src/components/DataVisualisation/charts/SPC/SPCIcons/tokenUtils.ts
+var spcTokenRoot = null;
+var _a, _b;
+try {
+  const tokens = require_tokens();
+  spcTokenRoot = ((_b = (_a = tokens == null ? void 0 : tokens.color) == null ? void 0 : _a["data-viz"]) == null ? void 0 : _b.spc) || null;
+} catch {
+}
+var tokenColour = (key, fallback) => {
+  if (!spcTokenRoot) return fallback;
+  const parts = key.split(".");
+  let current = spcTokenRoot;
+  for (const p of parts) {
+    if (current == null) break;
+    current = current[p];
+  }
+  const val = current;
+  if (val == null) return fallback;
+  if (typeof val === "string" || typeof val === "number") return String(val);
+  if (val.$value != null) return String(val.$value);
+  if (val.value != null) return String(val.value);
+  return fallback;
+};
+var getGradientOpacities = () => ({
+  // Lightened defaults (previous 0.18 -> 0.12, 0.06 -> 0.03) to reduce intensity of wash.
+  start: tokenColour("gradient.stop.start-opacity", "0.12"),
+  mid: tokenColour("gradient.stop.mid-opacity", "0.03"),
+  end: tokenColour("gradient.stop.end-opacity", "0"),
+  triStart: tokenColour(
+    "gradient.stop.triangle-start-opacity",
+    tokenColour("gradient.stop.start-opacity", "0.12")
+  ),
+  triMid: tokenColour(
+    "gradient.stop.triangle-mid-opacity",
+    tokenColour("gradient.stop.mid-opacity", "0.03")
+  ),
+  triEnd: tokenColour(
+    "gradient.stop.triangle-end-opacity",
+    tokenColour("gradient.stop.end-opacity", "0")
+  )
+});
+var SPC_TOKEN_KEYS = {
+  improvement: "improvement",
+  concern: "concern",
+  noJudgement: "no-judgement",
+  common: "common-cause"
+};
+var SPC_FALLBACK_HEX = {
+  improvement: "#00B0F0",
+  concern: "#E46C0A",
+  noJudgement: "#490092",
+  common: "#A6A6A6"
+};
+var colourImprovement = () => tokenColour(SPC_TOKEN_KEYS.improvement, SPC_FALLBACK_HEX.improvement);
+var colourConcern = () => tokenColour(SPC_TOKEN_KEYS.concern, SPC_FALLBACK_HEX.concern);
+var colourNoJudgement = () => tokenColour(SPC_TOKEN_KEYS.noJudgement, SPC_FALLBACK_HEX.noJudgement);
+var colourCommon = () => tokenColour(SPC_TOKEN_KEYS.common, SPC_FALLBACK_HEX.common);
+function colourForState(state) {
+  switch (state) {
+    case "special_cause_improving" /* SpecialCauseImproving */:
+      return colourImprovement();
+    case "special_cause_deteriorating" /* SpecialCauseDeteriorating */:
+      return colourConcern();
+    case "special_cause_no_judgement" /* SpecialCauseNoJudgement */:
+      return colourNoJudgement();
+    case "common_cause" /* CommonCause */:
+    default:
+      return colourCommon();
+  }
 }
 
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/constants.ts
@@ -8058,6 +8087,8 @@ var buildDefs = (colourHex, shadowId, washId, dropShadow, gradientWash, stops) =
 ] });
 var SPCVariationIcon = ({
   data,
+  precomputed,
+  improvementDirection,
   size = 44,
   ariaLabel,
   showLetter = true,
@@ -8080,10 +8111,21 @@ var SPCVariationIcon = ({
     triMid: triGradMid,
     triEnd: triGradEnd
   } = getGradientOpacities();
-  const { state, direction, polarity } = useMemo3(
-    () => resolveStateAndLayout(data),
-    [data]
-  );
+  const { state, direction, polarity, ariaInput } = useMemo3(() => {
+    if (precomputed && precomputed.lastVariationIcon !== void 0) {
+      const iconPayload = {
+        variationIcon: precomputed.lastVariationIcon,
+        improvementDirection: improvementDirection != null ? improvementDirection : "Neither" /* Neither */,
+        // Infer neutral special-cause when VariationState was mapped as Neither from engine NeitherHigh/Low
+        specialCauseNeutral: precomputed.latestState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */
+        // Side hints not strictly needed for improvement/concern, only for neutral arrow orientation
+      };
+      const { state: state3, direction: direction3, polarity: polarity3 } = resolveStateAndLayout(iconPayload);
+      return { state: state3, direction: direction3, polarity: polarity3, ariaInput: iconPayload };
+    }
+    const { state: state2, direction: direction2, polarity: polarity2 } = resolveStateAndLayout(data);
+    return { state: state2, direction: direction2, polarity: polarity2, ariaInput: data };
+  }, [data, precomputed, improvementDirection]);
   const colour = useMemo3(() => getVariationColour(state), [state]);
   const judgement = useMemo3(() => getVariationTrend(state), [state]);
   const showLetterForJudgement = judgement === "improving" /* Improving */ || judgement === "deteriorating" /* Deteriorating */;
@@ -8107,9 +8149,7 @@ var SPCVariationIcon = ({
     [state, direction]
   );
   const aria = ariaLabel || `${colour.label}${letter ? direction === "higher" /* Higher */ ? " \u2013 Higher" : " \u2013 Lower" : ""}`;
-  const ariaDescription = deriveVariationAriaDescription(
-    data
-  );
+  const ariaDescription = deriveVariationAriaDescription(ariaInput);
   if (variant === "triangleWithRun" /* TriangleWithRun */) {
     const triSize = 100;
     const centerX = 150;
@@ -8153,7 +8193,7 @@ var SPCVariationIcon = ({
     const runRadius = 10;
     const runGap = 26;
     const runStartX = centerX - 2 * runGap;
-    const runColor = state === "special_cause_improving" /* SpecialCauseImproving */ ? tokenColour("improvement", "#00B0F0") : state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? tokenColour("concern", "#E46C0A") : neutralGrey;
+    const runColor = state === "common_cause" /* CommonCause */ ? neutralGrey : colourForState(state);
     const runCircles = Array.from({ length: 5 }).map((_, i) => {
       const filled = (state === "special_cause_improving" /* SpecialCauseImproving */ || state === "special_cause_deteriorating" /* SpecialCauseDeteriorating */) && i >= 5 - runLen;
       const fill = filled ? runColor : neutralGrey;
@@ -12166,11 +12206,11 @@ function visualsToPointSignals(visuals) {
   return visuals.map((c) => {
     switch (c) {
       case "Improvement" /* Improvement */:
-        return "improvement";
+        return "improvement" /* Improvement */;
       case "Concern" /* Concern */:
-        return "concern";
+        return "concern" /* Concern */;
       case "NoJudgement" /* NoJudgement */:
-        return "neither";
+        return "neither" /* Neither */;
       default:
         return null;
     }
@@ -12913,7 +12953,7 @@ function isSpecialCauseIcon(icon) {
 
 // src/components/DataVisualisation/charts/SPC/utils/precompute.ts
 function computeSpcPrecomputed(data, opts) {
-  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i;
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i, _j;
   const {
     chartType = "XmR" /* XmR */,
     metricImprovement,
@@ -12957,16 +12997,17 @@ function computeSpcPrecomputed(data, opts) {
   const latestState = mapIconToVariation(
     last == null ? void 0 : last.variationIcon
   );
-  const centerLine = (_c = last == null ? void 0 : last.mean) != null ? _c : null;
+  const lastVariationIcon = (_c = last == null ? void 0 : last.variationIcon) != null ? _c : null;
+  const centerLine = (_d = last == null ? void 0 : last.mean) != null ? _d : null;
   const controlLimits = last ? {
-    lower: (_d = last == null ? void 0 : last.lowerProcessLimit) != null ? _d : null,
-    upper: (_e = last == null ? void 0 : last.upperProcessLimit) != null ? _e : null
+    lower: (_e = last == null ? void 0 : last.lowerProcessLimit) != null ? _e : null,
+    upper: (_f = last == null ? void 0 : last.upperProcessLimit) != null ? _f : null
   } : null;
   const sigmaBands = last ? {
-    upperOne: (_f = last == null ? void 0 : last.upperOneSigma) != null ? _f : null,
-    upperTwo: (_g = last == null ? void 0 : last.upperTwoSigma) != null ? _g : null,
-    lowerOne: (_h = last == null ? void 0 : last.lowerOneSigma) != null ? _h : null,
-    lowerTwo: (_i = last == null ? void 0 : last.lowerTwoSigma) != null ? _i : null
+    upperOne: (_g = last == null ? void 0 : last.upperOneSigma) != null ? _g : null,
+    upperTwo: (_h = last == null ? void 0 : last.upperTwoSigma) != null ? _h : null,
+    lowerOne: (_i = last == null ? void 0 : last.lowerOneSigma) != null ? _i : null,
+    lowerTwo: (_j = last == null ? void 0 : last.lowerTwoSigma) != null ? _j : null
   } : null;
   let pointSignals;
   let pointNeutralSpecialCause;
@@ -12978,6 +13019,7 @@ function computeSpcPrecomputed(data, opts) {
     rows,
     visuals,
     latestState,
+    lastVariationIcon,
     centerLine,
     controlLimits,
     sigmaBands,

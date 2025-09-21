@@ -8,6 +8,8 @@ import type {
 } from "../charts/SPC/SPCSpark/SPCSpark.types";
 import { getGradientOpacities } from "../charts/SPC/SPCIcons/tokenUtils";
 import { mapIconToVariation, isSpecialCauseIcon } from "../charts/SPC/utils/state";
+import { visualsToPointSignals } from "../charts/SPC";
+import type { PointSignal } from "../charts/SPC/utils/transform";
 
 // mapIconToVariation and isSpecialCauseIcon now provided by SPC utils/state
 
@@ -165,23 +167,8 @@ export function useSpc(input: UseSpcInput): UseSpcResult {
 		}
 	}, [engine, metricImprovement]);
 
-	const pointSignals:
-		| Array<"improvement" | "concern" | "neither" | null>
-		| undefined = React.useMemo(() => {
-		if (!visualCategories || visualCategories.length === 0) return undefined;
-		return visualCategories.map((c) => {
-			switch (c) {
-				case SpcVisualCategory.Improvement:
-					return "improvement" as const;
-				case SpcVisualCategory.Concern:
-					return "concern" as const;
-				case SpcVisualCategory.NoJudgement:
-					return "neither" as const;
-				case SpcVisualCategory.Common:
-				default:
-					return null;
-			}
-		});
+	const pointSignals: Array<PointSignal | null> | undefined = React.useMemo(() => {
+		return visualsToPointSignals(visualCategories);
 	}, [visualCategories?.length]);
 
 	// Neutral special-cause flags per point (variation 'neither' with specialCauseNeitherValue present)

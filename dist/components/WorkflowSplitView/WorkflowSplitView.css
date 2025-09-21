@@ -1,0 +1,59 @@
+.nhsfdp-workflow {
+  display: block;
+}
+
+.nhsfdp-workflow-grid {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 8px;
+}
+
+.nhsfdp-workflow-body {
+  display: grid;
+  grid-template-columns: 240px 1fr 240px;
+  gap: 16px;
+}
+
+.nhsfdp-workflow-grid.panes-2 .nhsfdp-workflow-body {
+  grid-template-columns: 240px 1fr;
+}
+
+.nhsfdp-pane {
+  background: transparent;
+}
+
+.nhsfdp-primary-nav__item.is-current {
+  font-weight: 700;
+}
+
+.nhsfdp-breadcrumbs {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.nhsfdp-breadcrumb button.nhsfdp-breadcrumb {
+  background: none;
+  border: none;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.nhsfdp-cards-scroller {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 8px;
+}
+
+.nhsfdp-card {
+  scroll-snap-align: start;
+}
+
+.nhsfdp-card.is-current {
+  outline: 2px solid currentColor;
+}

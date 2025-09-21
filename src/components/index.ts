@@ -158,6 +158,8 @@ export type { PageTemplateProps } from './PageTemplate';
 export { TransactionalPageTemplate } from './TransactionalPageTemplate';
 export type { TransactionalPageTemplateProps } from './TransactionalPageTemplate';
 export * from './NavigationSplitView';
+export { WorkflowSplitView } from './WorkflowSplitView/WorkflowSplitView';
+export type { WorkflowSplitViewProps, WorkflowStep, WorkflowPaneConfig, WorkflowBreakpoint } from './WorkflowSplitView/WorkflowSplitView.types';
 export { ProductRoadmap } from './ProductRoadmap';
 export type { ProductRoadmapProps, ProductRoadmapCategory, ProductRoadmapItem } from './ProductRoadmap';
 

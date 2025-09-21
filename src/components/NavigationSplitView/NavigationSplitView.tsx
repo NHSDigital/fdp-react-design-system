@@ -2,45 +2,16 @@ import * as React from "react";
 import {
 	NavigationSplitViewProps,
 	NavigationSplitItem,
-	NavigationSplitLayoutMode,
 } from "./NavigationSplitView.types";
 import "./NavigationSplitView.scss";
 import { BackLink } from "../BackLink/BackLink";
-import { ForwardLink } from "../BackLink/ForwardLink";
-import { useNhsFdpBreakpoints } from "../../hooks/useBreakpoints";
 import { useNavigationSplitUrlSync } from "../../hooks/useNavigationSplitUrlSync";
+import { ChevronLeftIcon, ChevronRightIcon } from "./components/Icons";
+import { ContentHeader } from "./components/ContentHeader";
+import { NavigationCollection } from "./components/NavigationCollection";
+import { useEffectiveLayout } from "./hooks/useEffectiveLayout";
+import { useCollapsibleNav } from "./hooks/useCollapsibleNav";
 
-// Inline SVG icons for nav collapse/expand (kept lightweight, no external dependency)
-const ChevronLeftIcon: React.FC<{ className?: string }> = ({ className }) => (
-	<svg
-		className={className}
-		width="16"
-		height="16"
-		viewBox="0 0 16 16"
-		aria-hidden="true"
-		focusable="false"
-	>
-		<path
-			fill="currentColor"
-			d="M10.7 3.3a1 1 0 0 1 0 1.4L7.41 8l3.3 3.3a1 1 0 1 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.42 0Z"
-		/>
-	</svg>
-);
-const ChevronRightIcon: React.FC<{ className?: string }> = ({ className }) => (
-	<svg
-		className={className}
-		width="16"
-		height="16"
-		viewBox="0 0 16 16"
-		aria-hidden="true"
-		focusable="false"
-	>
-		<path
-			fill="currentColor"
-			d="M5.3 12.7a1 1 0 0 1 0-1.4L8.59 8l-3.3-3.3a1 1 0 0 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42 0Z"
-		/>
-	</svg>
-);
 
 // (Deprecated internal) Previous responsive layout helper removed in favour of hydration-safe inline logic.
 
@@ -100,33 +71,12 @@ export function NavigationSplitView<
 		secondarySubheader,
 	} = props;
 
-	const { up } = useNhsFdpBreakpoints();
-	// Hydration gating: avoid reading real breakpoints on first client render to match SSR markup
-	const [hydrated, setHydrated] = React.useState(false);
-	React.useEffect(() => {
-		setHydrated(true);
-	}, []);
-
-	// Treat all breakpoints as mobile until hydrated unless forceLayout provided
-	const isAtLeastMedium = hydrated && up("medium");
-	const isAtLeastXlarge = hydrated && up("xlarge");
-
-	let effectiveLayout: NavigationSplitLayoutMode;
-	if (forceLayout) {
-		effectiveLayout = forceLayout;
-	} else if (isAtLeastMedium) {
-		effectiveLayout = "two-column";
-	} else {
-		effectiveLayout = "list";
-	}
-	if (
-		!forceLayout &&
-		autoEnableThirdColumn &&
-		renderSecondaryContent &&
-		isAtLeastXlarge
-	) {
-		effectiveLayout = "three-column";
-	}
+	// Layout evaluation with hydration-safe gating
+	const { effectiveLayout, hydrated, isAtLeastMedium } = useEffectiveLayout(
+		forceLayout,
+		autoEnableThirdColumn,
+		!!renderSecondaryContent
+	);
 
 	// URL sync integration (optional)
 	const urlSync = useNavigationSplitUrlSync<ID>({
@@ -186,7 +136,7 @@ export function NavigationSplitView<
 	const focusContainerByIndex = (idx: number) => {
 		const order = getPaneOrder();
 		const clamped = Math.max(0, Math.min(idx, order.length - 1));
-		order[clamped]?.focus();
+		focusEl(order[clamped]);
 		setContainerIndex(clamped);
 	};
 
@@ -202,11 +152,21 @@ export function NavigationSplitView<
 		[]
 	);
 
+	// Helper to focus without scrolling the page (prevents jump-to-top on state changes)
+	const focusEl = React.useCallback((el?: HTMLElement | null) => {
+		if (!el) return;
+		try {
+			(el as any).focus({ preventScroll: true });
+		} catch {
+			el.focus();
+		}
+	}, []);
+
 	const focusContentElement = React.useCallback(
 		(idx: number) => {
 			const els = getFocusableElements(contentPaneRef.current);
 			if (!els.length) {
-				contentPaneRef.current?.focus();
+				focusEl(contentPaneRef.current);
 				return;
 			}
 			const clamped = Math.max(0, Math.min(idx, els.length - 1));
@@ -237,7 +197,7 @@ export function NavigationSplitView<
 					e.preventDefault();
 					e.stopPropagation();
 					// Return focus to content pane container
-					contentPaneRef.current?.focus();
+					focusEl(contentPaneRef.current);
 					// Remove this listener
 					targetElement.removeEventListener("keydown", handleChildEscape);
 				}
@@ -261,7 +221,7 @@ export function NavigationSplitView<
 		(idx: number) => {
 			const els = getFocusableElements(secondaryPaneRef.current);
 			if (!els.length) {
-				secondaryPaneRef.current?.focus();
+				focusEl(secondaryPaneRef.current);
 				return;
 			}
 			const clamped = Math.max(0, Math.min(idx, els.length - 1));
@@ -285,7 +245,7 @@ export function NavigationSplitView<
 				if (e.key === "Escape") {
 					e.preventDefault();
 					e.stopPropagation();
-					secondaryPaneRef.current?.focus();
+					focusEl(secondaryPaneRef.current);
 					targetElement.removeEventListener("keydown", handleChildEscape);
 				}
 			};
@@ -477,7 +437,7 @@ export function NavigationSplitView<
 				e.preventDefault();
 				setPaneFocusMode("content");
 				// Focus the content pane container to show focus ring
-				setTimeout(() => contentPaneRef.current?.focus(), 10);
+				setTimeout(() => focusEl(contentPaneRef.current), 10);
 				return;
 			}
 			if (inContent || paneFocusMode === "content") {
@@ -486,7 +446,7 @@ export function NavigationSplitView<
 					e.preventDefault();
 					setPaneFocusMode("secondary");
 					// Focus the secondary pane container to show focus ring
-					setTimeout(() => secondaryPaneRef.current?.focus(), 10);
+					setTimeout(() => focusEl(secondaryPaneRef.current), 10);
 				}
 				return;
 			}
@@ -499,7 +459,7 @@ export function NavigationSplitView<
 				e.preventDefault();
 				setPaneFocusMode("content");
 				// Focus the content pane container to show focus ring
-				setTimeout(() => contentPaneRef.current?.focus(), 10);
+				setTimeout(() => focusEl(contentPaneRef.current), 10);
 				return;
 			}
 			if (inContent || paneFocusMode === "content") {
@@ -511,7 +471,7 @@ export function NavigationSplitView<
 						listRef.current.querySelectorAll("[data-nav-item]")
 					) as HTMLElement[];
 					const candidate = nodes[focusedIndex >= 0 ? focusedIndex : 0];
-					setTimeout(() => candidate?.focus(), 10);
+					setTimeout(() => focusEl(candidate), 10);
 				}
 				return;
 			}
@@ -529,7 +489,7 @@ export function NavigationSplitView<
 					) as HTMLElement[];
 					const candidate =
 						nodes[focusedIndex >= 0 ? focusedIndex : 0] || nodes[0];
-					setTimeout(() => candidate?.focus(), 10);
+					setTimeout(() => focusEl(candidate), 10);
 				}
 			}
 		}
@@ -542,10 +502,10 @@ export function NavigationSplitView<
 				e.preventDefault();
 				if (hasSecondary) {
 					setPaneFocusMode("secondary");
-					setTimeout(() => secondaryPaneRef.current?.focus(), 10);
+					setTimeout(() => focusEl(secondaryPaneRef.current), 10);
 				} else {
 					setPaneFocusMode("content");
-					setTimeout(() => contentPaneRef.current?.focus(), 10);
+					setTimeout(() => focusEl(contentPaneRef.current), 10);
 				}
 			}
 		}
@@ -624,8 +584,8 @@ export function NavigationSplitView<
 	}, [autoContentHeader]);
 
 	// Breakpoint buckets for header logic (reuse breakpoint hook 'up')
-	const isTabletRange = hydrated && up("medium") && !up("xlarge");
-	const isDesktopRange = hydrated && up("xlarge");
+	const isTabletRange = hydrated && isAtLeastMedium && effectiveLayout !== "three-column";
+	const isDesktopRange = hydrated && effectiveLayout === "three-column";
 
 	// Header visibility:
 	// 1. Original behaviour when a selection exists according to per-breakpoint config.
@@ -647,7 +607,7 @@ export function NavigationSplitView<
 
 			// Focus the secondary pane container
 			setTimeout(() => {
-				secondaryPaneRef.current?.focus();
+				focusEl(secondaryPaneRef.current);
 			}, 50);
 		}
 	}, [tertiaryInlineActive, tertiaryVisible]);
@@ -663,136 +623,24 @@ export function NavigationSplitView<
 			setContainerIndex(1); // Content pane is index 1
 			// Focus the content pane container
 			setTimeout(() => {
-				contentPaneRef.current?.focus();
+				focusEl(contentPaneRef.current);
 			}, 50);
 		}
 	}, [tertiaryInlineActive, tertiaryVisible, paneFocusMode]);
+
 	const baseHeaderCondition =
 		!!selectedItem &&
 		((detailActive && autoHeaderConfig.mobile) ||
 			(!detailActive && isTabletRange && autoHeaderConfig.tablet) ||
 			(!detailActive && isDesktopRange && autoHeaderConfig.desktop));
-	const showHeader =
-		baseHeaderCondition || (tertiaryAvailable && !tertiaryVisible);
 
-	// Build default heading node respecting chosen level
-	const headingTag = `h${contentHeaderLevel}` as keyof HTMLElementTagNameMap;
-	const defaultHeadingNode = selectedItem
-		? React.createElement(
-				headingTag,
-				{
-					style: {
-						marginLeft: detailActive ? 32 : 0,
-						marginRight: detailActive ? 32 : 0,
-					},
-				},
-				selectedItem.label
-			)
-		: null;
+	const showHeader = baseHeaderCondition || (tertiaryAvailable && !tertiaryVisible);
 
 	const headerContext: "mobile" | "tablet" | "desktop" = detailActive
 		? "mobile"
 		: isTabletRange
 			? "tablet"
 			: "desktop";
-
-	// Forward button shows whenever tertiary exists but isn't visible (sub‑xlarge or forced two-column)
-	const showForward =
-		tertiaryAvailable && !tertiaryVisible && !tertiaryInlineActive;
-
-	const backLinkNode =
-		detailActive && autoHeaderConfig.mobile ? (
-			<BackLink
-				element="button"
-				text={backLabel}
-				style={{ marginRight: 16 }}
-				onClick={() => handleSelect(undefined as any, undefined as any)}
-			/>
-		) : undefined;
-
-	const forwardLinkNode = showForward ? (
-		<ForwardLink
-			element="button"
-			text={nextLabel}
-			onClick={() => {
-				setTertiaryInlineActive(true);
-			}}
-		/>
-	) : undefined;
-
-	const tertiaryBackNode =
-		!tertiaryVisible && tertiaryInlineActive ? (
-			<BackLink
-				element="button"
-				text={backLabel}
-				style={{ marginRight: 16 }}
-				onClick={() => setTertiaryInlineActive(false)}
-			/>
-		) : undefined;
-
-	const renderedHeaderInner = React.useMemo(() => {
-		if (!showHeader || !selectedItem) return null;
-		if (renderContentHeader)
-			return renderContentHeader({
-				item: selectedItem as any,
-				detailActive,
-				context: headerContext,
-				backLink: backLinkNode,
-				defaultHeading: defaultHeadingNode,
-			});
-		// Default header (auto) including optional subheader underneath
-		const sub =
-			selectedItem && contentSubheader
-				? typeof contentSubheader === "function"
-					? contentSubheader(selectedItem as any)
-					: contentSubheader
-				: null;
-		return (
-			<div style={{ display: "flex", alignItems: "center", width: "100%" }}>
-				<div
-					style={{
-						display: "flex",
-						alignItems: "center",
-						gap: 0,
-						flex: "1 1 auto",
-						minWidth: 0,
-					}}
-				>
-					{
-						tertiaryBackNode ||
-							backLinkNode /* show tertiary inline back else mobile Back */
-					}
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "column",
-							gap: 4,
-							minWidth: 0,
-						}}
-					>
-						{defaultHeadingNode}
-						{sub && (
-							<div className="nhs-navigation-split-view__subheader">{sub}</div>
-						)}
-					</div>
-				</div>
-				{forwardLinkNode && (
-					<div style={{ marginLeft: "auto" }}>{forwardLinkNode}</div>
-				)}
-			</div>
-		);
-	}, [
-		showHeader,
-		selectedItem,
-		renderContentHeader,
-		detailActive,
-		headerContext,
-		backLinkNode,
-		tertiaryBackNode,
-		defaultHeadingNode,
-		forwardLinkNode,
-		contentSubheader,
-	]);
 
 	// Keep URL in sync with selection and drill state (two vs three column) without adding history entries
 	React.useEffect(() => {
@@ -857,7 +705,7 @@ export function NavigationSplitView<
 	// When entering detail view on mobile/card layouts move focus into content pane
 	React.useEffect(() => {
 		if (!skipFocusOnSelect && detailActive && contentPaneRef.current) {
-			const t = setTimeout(() => contentPaneRef.current?.focus(), 30);
+			const t = setTimeout(() => focusEl(contentPaneRef.current), 30);
 			return () => clearTimeout(t);
 		}
 	}, [detailActive, selectedId, skipFocusOnSelect]);
@@ -879,7 +727,7 @@ export function NavigationSplitView<
 		if (node) {
 			// Focus only if it isn't already focused to avoid unnecessary blur/focus cycles (reduces flicker)
 			if (document.activeElement !== node) {
-				node.focus();
+				focusEl(node);
 			}
 			lastFocusedIndexRef.current = focusedIndex;
 			const item = items[focusedIndex];
@@ -903,7 +751,7 @@ export function NavigationSplitView<
 				setPaneFocusMode("secondary");
 				// Use setTimeout to ensure the DOM updates before focusing
 				setTimeout(() => {
-					secondaryPaneRef.current?.focus();
+					focusEl(secondaryPaneRef.current);
 				}, 10);
 			} else {
 				setPaneFocusMode("content");
@@ -911,7 +759,7 @@ export function NavigationSplitView<
 				setTimeout(() => {
 					// For now, always focus the content pane container directly
 					// This ensures reliable focus transfer and visible focus ring
-					contentPaneRef.current?.focus();
+					focusEl(contentPaneRef.current);
 				}, 10);
 			}
 			return;
@@ -987,73 +835,16 @@ export function NavigationSplitView<
 		}
 	};
 
-	// Collapsible nav (>= medium)
-	// Collapsed state initialisation with persistence sources (URL overrides localStorage overrides prop)
-	const initialCollapsed = React.useMemo(() => {
-		if (
-			persistNavCollapsed &&
-			(persistNavCollapsed === "url" || persistNavCollapsed === "both") &&
-			typeof window !== "undefined"
-		) {
-			const sp = new URLSearchParams(window.location.search);
-			const val = sp.get(navCollapsedUrlParam);
-			if (val === "1") return true;
-			if (val === "0") return false;
-		}
-		if (
-			persistNavCollapsed &&
-			(persistNavCollapsed === "localStorage" ||
-				persistNavCollapsed === "both") &&
-			typeof window !== "undefined"
-		) {
-			try {
-				const raw = window.localStorage.getItem(navCollapsedStorageKey);
-				if (raw === "1") return true;
-				if (raw === "0") return false;
-			} catch {}
-		}
-		return navInitiallyCollapsed;
-	}, [
-		persistNavCollapsed,
-		navInitiallyCollapsed,
-		navCollapsedStorageKey,
-		navCollapsedUrlParam,
-	]);
-	const [navCollapsed, setNavCollapsed] = React.useState(initialCollapsed);
-	React.useEffect(() => {
-		onNavCollapseChange?.(navCollapsed);
-	}, [navCollapsed, onNavCollapseChange]);
-	const toggleNav = React.useCallback(() => {
-		if (isAtLeastMedium && collapsibleNav) setNavCollapsed((c) => !c);
-	}, [isAtLeastMedium, collapsibleNav]);
-
-	// Persist collapsed state when it changes
-	React.useEffect(() => {
-		if (!persistNavCollapsed) return;
-		if (typeof window === "undefined") return;
-		if (
-			persistNavCollapsed === "localStorage" ||
-			persistNavCollapsed === "both"
-		) {
-			try {
-				window.localStorage.setItem(
-					navCollapsedStorageKey,
-					navCollapsed ? "1" : "0"
-				);
-			} catch {}
-		}
-		if (persistNavCollapsed === "url" || persistNavCollapsed === "both") {
-			const sp = new URLSearchParams(window.location.search);
-			sp.set(navCollapsedUrlParam, navCollapsed ? "1" : "0");
-			const newUrl = `${window.location.pathname}?${sp.toString()}${window.location.hash}`;
-			window.history.replaceState(null, "", newUrl);
-		}
-	}, [
-		navCollapsed,
-		persistNavCollapsed,
-		navCollapsedStorageKey,
-		navCollapsedUrlParam,
-	]);
+	// Collapsible nav (>= medium) via hook
+	const { collapsed: navCollapsed, toggle: toggleNav } = useCollapsibleNav({
+		enabled: collapsibleNav,
+		isAtLeastMedium,
+		initiallyCollapsed: navInitiallyCollapsed,
+		persist: persistNavCollapsed,
+		storageKey: navCollapsedStorageKey,
+		urlParam: navCollapsedUrlParam,
+		onChange: onNavCollapseChange,
+	});
 
 	const rootClasses = [
 		"nhs-navigation-split-view",
@@ -1089,7 +880,7 @@ export function NavigationSplitView<
 			const target = nodes[lastFocusedIndexRef.current] as
 				| HTMLElement
 				| undefined;
-			target?.focus();
+			focusEl(target);
 		}
 	}, [detailActive, selectedId]);
 
@@ -1107,199 +898,7 @@ export function NavigationSplitView<
 		}
 	}, [drilledIn, onDrillChange]);
 
-	// Render list or card collection depending on layout
-	const renderNavigationCollection = () => {
-		if (effectiveLayout === "cards") {
-			return (
-				<ul
-					className="nhs-navigation-split-view__cards"
-					role="listbox"
-					aria-activedescendant={selectedId ? String(selectedId) : undefined}
-				>
-					{items.map((item) => {
-						const id = getId(item);
-						const selected = id === selectedId;
-						return (
-							<li
-								key={id}
-								className="nhs-navigation-split-view__card-item"
-								role="option"
-								aria-selected={selected}
-							>
-								<button
-									id={String(id)}
-									type="button"
-									className="nhs-navigation-split-view__card"
-									data-selected={selected || undefined}
-									data-disabled={item.disabled || undefined}
-									disabled={item.disabled}
-									onClick={() => !item.disabled && handleSelect(id, item as T)}
-								>
-									{item.icon && (
-										<span className="nhs-navigation-split-view__item-icon">
-											{item.icon}
-										</span>
-									)}
-									<span className="nhs-navigation-split-view__item-label">
-										{item.label}
-									</span>
-									{item.description && (
-										<span className="nhs-navigation-split-view__item-description">
-											{item.description}
-										</span>
-									)}
-									{renderItemContent?.(item)}
-									{item.badge !== undefined && (
-										<span className="nhs-navigation-split-view__badge">
-											{item.badge}
-										</span>
-									)}
-								</button>
-							</li>
-						);
-					})}
-					{items.length === 0 && !isLoading && (
-						<li
-							className="nhs-navigation-split-view__card-item"
-							aria-disabled="true"
-						>
-							{emptyState || <div style={{ padding: 16 }}>No items</div>}
-						</li>
-					)}
-				</ul>
-			);
-		}
-
-		// Default list layout
-		const instructionsId = "nsv-nav-instructions";
-		const NavItem = React.useMemo(() => {
-			// Include focusedIndex in dependencies so we can derive tabIndex declaratively
-			// and avoid an extra post-render mutation pass (removes visual flicker).
-			return React.memo(
-				<
-					P extends {
-						item: T;
-						idx: number;
-						selected: boolean;
-						focused: boolean;
-					},
-				>({
-					item,
-					idx,
-					selected,
-					focused,
-				}: P) => {
-					const id = getId(item);
-					const interactiveProps: React.HTMLAttributes<HTMLLIElement> =
-						item.disabled
-							? {
-									"aria-disabled": true,
-									tabIndex: -1,
-								}
-							: {
-									tabIndex: focused ? 0 : -1,
-									onClick: () => {
-										lastFocusedIndexRef.current = idx;
-										handleSelect(id, item as T);
-									},
-									onKeyDown: (e) => {
-										if (e.key === "Enter" || e.key === " ") {
-											e.preventDefault();
-											lastFocusedIndexRef.current = idx;
-											handleSelect(id, item as T);
-										}
-									},
-								};
-					return (
-						<li
-							id={String(id)}
-							data-nav-item
-							className="nhs-navigation-split-view__list-item nhs-navigation-split-view__item-button"
-							role="option"
-							aria-selected={selected}
-							aria-current={selected ? "true" : undefined}
-							data-selected={selected || undefined}
-							data-disabled={item.disabled || undefined}
-							{...interactiveProps}
-						>
-							{item.icon && (
-								<span className="nhs-navigation-split-view__item-icon">
-									{item.icon}
-								</span>
-							)}
-							<span className="nhs-navigation-split-view__item-content">
-								<span className="nhs-navigation-split-view__item-label">
-									{item.label}
-								</span>
-								{item.description && (
-									<span className="nhs-navigation-split-view__item-description">
-										{item.description}
-									</span>
-								)}
-								{renderItemContent?.(item)}
-							</span>
-							{item.badge !== undefined && (
-								<span className="nhs-navigation-split-view__badge">
-									{item.badge}
-								</span>
-							)}
-						</li>
-					);
-				}
-			);
-			// We intentionally depend on getId / handleSelect / renderItemContent because they affect rendering.
-			// focusedIndex is passed as a prop so component instances update without remount.
-		}, [getId, handleSelect, renderItemContent]);
-		return (
-			<>
-				<ul
-					ref={listRef}
-					className="nhs-navigation-split-view__list"
-					onKeyDown={onKeyDownList}
-					role="listbox"
-					aria-label={"Navigation items"}
-					aria-describedby={instructionsId}
-					aria-activedescendant={selectedId ? String(selectedId) : undefined}
-				>
-					{items.map((item, idx) => (
-						<NavItem
-							key={getId(item)}
-							item={item}
-							idx={idx}
-							selected={getId(item) === selectedId}
-							focused={
-								idx === focusedIndex ||
-								(focusedIndex === -1 && idx === 0 && initialFocus === "first")
-							}
-							data-just-selected={
-								getId(item) === justSelectedId ? "true" : undefined
-							}
-						/>
-					))}
-					{items.length === 0 && !isLoading && (
-						<li
-							className="nhs-navigation-split-view__list-item"
-							aria-disabled="true"
-						>
-							{emptyState || <div style={{ padding: 16 }}>No items</div>}
-						</li>
-					)}
-				</ul>
-				<div
-					id={instructionsId}
-					style={{
-						position: "absolute",
-						width: 1,
-						height: 1,
-						overflow: "hidden",
-						clip: "rect(0 0 0 0)",
-					}}
-				>
-					{navigationInstructions}
-				</div>
-			</>
-		);
-	};
+    // (List/cards rendering moved into NavigationCollection component)
 
 	return (
 		<div
@@ -1349,7 +948,27 @@ export function NavigationSplitView<
 							</div>
 						)}
 						<div className="nhs-navigation-split-view__nav-scroll">
-							{renderNavigationCollection()}
+							<NavigationCollection
+								layout={effectiveLayout === "cards" ? "cards" : "list"}
+								items={items as any}
+								getId={getId as any}
+								selectedId={selectedId as any}
+								isLoading={isLoading}
+								emptyState={emptyState}
+								renderItemContent={renderItemContent as any}
+								onSelect={(id, item, idx) => {
+									lastFocusedIndexRef.current = idx;
+									handleSelect(id as any, item as any);
+								}}
+								orientation={orientation}
+								initialFocus={initialFocus}
+								onFocusChange={onFocusChange as any}
+								justSelectedId={justSelectedId as any}
+								listRef={listRef as any}
+								onKeyDownList={onKeyDownList}
+								navigationInstructions={navigationInstructions}
+								controlledFocusedIndex={focusedIndex}
+							/>
 						</div>
 						{navFooter && (
 							<div
@@ -1375,9 +994,21 @@ export function NavigationSplitView<
 						}}
 					>
 						{showHeader && (
-							<div className="nhs-navigation-split-view__header">
-								{renderedHeaderInner}
-							</div>
+							<ContentHeader
+								show={showHeader}
+								label={selectedItem ? (selectedItem as any).label : undefined}
+								contentHeaderLevel={contentHeaderLevel}
+								detailActive={detailActive}
+								headerContext={headerContext}
+								backLabel={backLabel}
+								nextLabel={nextLabel}
+								onBack={() => handleSelect(undefined as any, undefined as any)}
+								onForward={() => setTertiaryInlineActive(true)}
+								renderContentHeader={renderContentHeader as any}
+								item={selectedItem as any}
+								contentSubheader={contentSubheader as any}
+								tertiaryInlineActive={tertiaryInlineActive}
+							/>
 						)}
 						<div
 							className="nhs-navigation-split-view__content-inner"
@@ -1426,7 +1057,12 @@ export function NavigationSplitView<
 													minWidth: 0,
 												}}
 											>
-												{tertiaryBackNode}
+												<BackLink
+													element="button"
+													text={backLabel}
+													style={{ marginRight: 16 }}
+													onClick={() => setTertiaryInlineActive(false)}
+												/>
 												<div
 													style={{
 														display: "flex",

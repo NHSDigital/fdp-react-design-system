@@ -23,6 +23,7 @@ This document outlines the target ARIA semantics, keyboard interaction model, an
 - Modes: "containers" | "nav" | "content" | "secondary"
 - Roving container focus (when a gridcell itself is focused):
   - ArrowLeft/Right: move focus across gridcells
+  - ArrowUp/Down: move up and down gridcell
   - Home/End: jump to first/last gridcell
   - Enter/Space: "enter" the container (switch mode and focus first tabbable inside)
 - Escape (hierarchy ascent):

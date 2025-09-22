@@ -9,6 +9,7 @@ export type BreadcrumbsBarProps<T> = {
 	renderLabel?: (step: WorkflowStep<T>, index: number) => React.ReactNode;
 	ariaLabel?: string;
 	className?: string;
+	style? : React.CSSProperties;
 };
 
 export function BreadcrumbsBar<T>({
@@ -18,6 +19,7 @@ export function BreadcrumbsBar<T>({
 	renderLabel,
 	ariaLabel = "Breadcrumbs",
 	className,
+	style,
 }: BreadcrumbsBarProps<T>) {
 	// Breadcrumb semantics: only show links for previous steps; current is active; future steps omitted
 	const items = steps.map((s, i) => {
@@ -55,7 +57,7 @@ export function BreadcrumbsBar<T>({
 	};
 
 	return (
-		<div onClick={handleClick}>
+		<div style={style} onClick={handleClick}>
 			<Breadcrumb labelText={ariaLabel} classes={className} items={items as any} />
 		</div>
 	);

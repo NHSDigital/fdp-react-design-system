@@ -69,6 +69,7 @@ export function WorkflowSplitView<ID = string>(
 		? renderBreadcrumbs({ steps, current, onNavigate: navigateTo })
 		: (
 			<BreadcrumbsBar
+				style={{ marginBottom: 24, marginTop: 0 }}
 				steps={steps as any}
 				currentIndex={Math.max(0, currentIndex)}
 				onNavigate={(index) => navigateTo(getId(steps[index] as any))}
@@ -86,9 +87,7 @@ export function WorkflowSplitView<ID = string>(
 
 	// Determine if a specific view is preselected by the consumer
 	// If so, on desktop we want to start in "nav" focus mode with the current item focused
-	const preselectedView =
-		currentStepId !== undefined ||
-		(defaultStepId !== undefined && steps.length > 0 && defaultStepId !== getId(steps[0] as any));
+	const preselectedView = currentStepId !== undefined || (defaultStepId !== undefined && steps.length > 0 && defaultStepId !== getId(steps[0] as any));
 
 	// --- Keyboard navigation (desktop grid) ---
 	const rootRef = useRef<HTMLDivElement | null>(null);

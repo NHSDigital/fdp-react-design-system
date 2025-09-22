@@ -1,4 +1,4 @@
-@use '../../../packages/nhs-fdp/scss' as nhs;
+@use "../../../packages/nhs-fdp/scss" as nhs;
 
 .nhsfdp-workflow {
 	--wf-transition: 300ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -9,7 +9,16 @@
 
 	display: block;
 	background: var(--wf-background);
-	font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
+	font-family: var(
+		--nhs-font-family-base,
+		-apple-system,
+		system-ui,
+		"Segoe UI",
+		Roboto,
+		Arial,
+		Helvetica,
+		sans-serif
+	);
 	font-size: nhs.$nhs-fdp-font-size-19-desktop;
 }
 
@@ -33,6 +42,13 @@
 	background: var(--wf-background);
 }
 
+// Desktop/tablet: make pane containers clearly visible when focused via keyboard
+.nhsfdp-pane:focus-visible {
+	outline: 3px solid var(--wf-focus-outline);
+	outline-offset: -3px;
+	z-index: 1;
+}
+
 .nhsfdp-primary-nav__item.is-current {
 	font-weight: nhs.$nhs-fdp-font-weight-bold;
 }
@@ -46,8 +62,8 @@
 		padding-left: nhs.$nhs-fdp-spacing-5;
 		padding-right: nhs.$nhs-fdp-spacing-5;
 		@media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
-			padding-left: nhs.$nhs-fdp-spacing-3;
-			padding-right: nhs.$nhs-fdp-spacing-3;
+			padding-left: nhs.$nhs-fdp-spacing-1;
+			padding-right: nhs.$nhs-fdp-spacing-1;
 		}
 		@media (max-width: calc(nhs.$nhs-fdp-breakpoint-medium - 1px)) {
 			display: none;
@@ -78,7 +94,10 @@
 	// Optional divider similar to pane borders when swiping
 	border-right: 1px solid var(--wf-divider);
 
-	&:focus-visible { outline: 3px solid var(--wf-focus-outline); outline-offset: -3px; }
+	&:focus-visible {
+		outline: 3px solid var(--wf-focus-outline);
+		outline-offset: -3px;
+	}
 }
 
 // Mobile previous/next controls
@@ -95,34 +114,58 @@
 
 // Primary nav list — align with NavigationSplitView list item visuals
 .nhsfdp-primary-nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  border-right: 1px solid var(--wf-divider);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-right: 1px solid var(--wf-divider);
 	// Brand-aware typography for the nav list
-	font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
+	font-family: var(
+		--nhs-font-family-base,
+		-apple-system,
+		system-ui,
+		"Segoe UI",
+		Roboto,
+		Arial,
+		Helvetica,
+		sans-serif
+	);
 }
 
 .nhsfdp-primary-nav__item {
-  width: 100%;
-  text-align: left;
-  background: none;
-  border: none;
-  padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-5;
-  cursor: pointer;
-  display: block;
-  font-size: nhs.$nhs-fdp-font-size-19-desktop;
-  line-height: 1.4;
-  position: relative;
+	width: 100%;
+	text-align: left;
+	background: none;
+	border: none;
+	padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-5;
+	cursor: pointer;
+	display: block;
+	font-size: nhs.$nhs-fdp-font-size-19-desktop;
+	line-height: 1.4;
+	position: relative;
 	// Brand-aware typography for the nav item label
-	font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
+	font-family: var(
+		--nhs-font-family-base,
+		-apple-system,
+		system-ui,
+		"Segoe UI",
+		Roboto,
+		Arial,
+		Helvetica,
+		sans-serif
+	);
 
-  &:hover { background: nhs.$nhs-fdp-color-grey-5; }
+	&:hover {
+		background: nhs.$nhs-fdp-color-grey-5;
+	}
 
-  &.is-current {
-    background: nhs.$nhs-fdp-color-grey-5;
-    box-shadow: inset 4px 0 0 nhs.$nhs-fdp-color-primary-blue;
-  }
+	&.is-current {
+		background: nhs.$nhs-fdp-color-grey-5;
+		box-shadow: inset 4px 0 0 nhs.$nhs-fdp-color-primary-blue;
+	}
 
-  &:focus-visible { outline: 3px solid var(--wf-focus-outline); outline-offset: -3px; z-index: 1; }
+	&:focus-visible {
+		outline: 3px solid var(--wf-focus-outline);
+		outline-offset: -3px;
+		z-index: 1;
+	}
 }

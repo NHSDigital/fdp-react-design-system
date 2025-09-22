@@ -118,7 +118,7 @@ export const MobileCards: Story = {
 		renderStepContent: (s?: Step) => (
 			<div style={{ padding: 12 }}>
 				<strong>Step:</strong> {s?.label}
-				<div style={{ fontSize: 12, color: "#666" }}>{s?.description}</div>
+				<div className="step-meta" style={{ fontSize: 16, color: "#666", marginTop: 8 }}>{s?.description}</div>
 			</div>
 		),
 	},
@@ -242,7 +242,7 @@ export const CustomBreadcrumbs: Story = {
 							gap: 8,
 						}}
 					>
-						{steps.map((s: Step, i: number) => (
+						{ steps.map((s: Step, i: number) => (
 							<li key={s.id}>
 								{i === currentIndex ? (
 									<span aria-current="step" style={{ fontWeight: 600 }}>

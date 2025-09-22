@@ -76,9 +76,13 @@
 		// Show on tablet and desktop; add padding on desktop and above only
 		padding-left: nhs.$nhs-fdp-spacing-5;
 		padding-right: nhs.$nhs-fdp-spacing-5;
+
 		@media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+			padding-top: 0;
+			padding-bottom: 0;
 			padding-left: 0;
 			padding-right: nhs.$nhs-fdp-spacing-1;
+			margin-bottom: nhs.$nhs-fdp-spacing-4;
 		}
 		@media (max-width: calc(nhs.$nhs-fdp-breakpoint-medium - 1px)) {
 			display: none;

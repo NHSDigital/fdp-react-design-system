@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type {
 	WorkflowPaneConfig,
 	WorkflowSplitViewProps,
+	WorkflowStep,
 } from "./WorkflowSplitView.types";
 import { CardsScroller } from "./components/CardsScroller";
 import { BreadcrumbsBar } from "./components/BreadcrumbsBar";
@@ -11,8 +12,8 @@ import { BackLink } from "../BackLink/BackLink";
 import { ForwardLink } from "../BackLink/ForwardLink";
 // Grid/Row/Column intentionally not used per request; layout uses component's own CSS grid
 
-export function WorkflowSplitView<ID = string>(
-	props: WorkflowSplitViewProps<ID>
+export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = WorkflowStep<ID>>(
+	props: WorkflowSplitViewProps<ID, T>
 ) {
 	const {
 		steps,
@@ -26,20 +27,21 @@ export function WorkflowSplitView<ID = string>(
 		renderSecondaryNav,
 		renderBreadcrumbs,
 		className,
-		getId = (s) => (s as any).id as ID,
+		getId = (s: T) => s.id,
 	} = props;
 
 	// --- Debug logging ---
 	// Toggle at runtime in dev tools with: window.__WSV_DEBUG_FOCUS = true/false
 	const DEBUG_FOCUS: boolean =
-		(typeof window !== "undefined" && !!(window as any).__WSV_DEBUG_FOCUS) || false;
+		(typeof window !== "undefined" && Boolean((window as unknown as { __WSV_DEBUG_FOCUS?: boolean }).__WSV_DEBUG_FOCUS)) || false;
 	const dlog = (...args: any[]) => {
 		if (DEBUG_FOCUS) {
 			console.log("[WorkflowSplitView]", ...args);
 		}
 	};
-	const focusSummary = () => {
-		if (typeof document === "undefined") return {} as any;
+	type FocusSummary = { activeTag?: string; activeId?: string; activeRole?: string | null; activeClasses?: string };
+	const focusSummary = (): FocusSummary => {
+		if (typeof document === "undefined") return {} as FocusSummary;
 		const ae = document.activeElement as HTMLElement | null;
 		const role = ae?.getAttribute?.("role");
 		return {
@@ -51,43 +53,45 @@ export function WorkflowSplitView<ID = string>(
 	};
 
 	const [uncontrolledId, setUncontrolledId] = useState<ID | undefined>(
-		defaultStepId ?? (steps[0] ? getId(steps[0] as any) : undefined)
+		defaultStepId ?? (steps[0] ? getId(steps[0]) : undefined)
 	);
 	const activeId: ID | undefined = currentStepId ?? uncontrolledId;
-	const currentIndex = steps.findIndex((s) => getId(s as any) === activeId);
+	const currentIndex = steps.findIndex((s) => getId(s) === activeId);
 	const current = currentIndex >= 0 ? steps[currentIndex] : steps[0];
 
 	const navigateTo = (id: ID) => {
 		dlog("navigateTo", String(id));
 		if (currentStepId === undefined) setUncontrolledId(id);
-		const step = steps.find((s) => getId(s as any) === id);
-		if (step && onStepChange) onStepChange(id, step as any);
+		const step = steps.find((s) => getId(s) === id);
+		if (step && onStepChange) onStepChange(id, step);
 	};
 
 	// Precompute breadcrumbs element (if provided) and a visibility flag
 	const breadcrumbs = renderBreadcrumbs
 		? renderBreadcrumbs({ steps, current, onNavigate: navigateTo })
 		: (
-			<BreadcrumbsBar
-				style={{ marginBottom: 24, marginTop: 0 }}
-				steps={steps as any}
+			<BreadcrumbsBar<ID>
+				steps={steps}
 				currentIndex={Math.max(0, currentIndex)}
-				onNavigate={(index) => navigateTo(getId(steps[index] as any))}
+				onNavigate={(index) => {
+					const step = steps[index];
+					if (step) navigateTo(getId(step));
+				}}
 			/>
 		);
 	const showBreadcrumbs = true;
 
     // selection handled via navigateTo()
 
-	const { hydrated, breakpoint, paneConfig } = useWorkflowLayout({
-		step: current as any,
+	const { hydrated, breakpoint, paneConfig } = useWorkflowLayout<T>({
+		step: current,
 		index: currentIndex,
-		layoutForStep: layoutForStep as any,
+		layoutForStep,
 	});
 
 	// Determine if a specific view is preselected by the consumer
 	// If so, on desktop we want to start in "nav" focus mode with the current item focused
-	const preselectedView = currentStepId !== undefined || (defaultStepId !== undefined && steps.length > 0 && defaultStepId !== getId(steps[0] as any));
+	const preselectedView = currentStepId !== undefined || (defaultStepId !== undefined && steps.length > 0 && steps[0] && defaultStepId !== getId(steps[0]));
 
 	// --- Keyboard navigation (desktop grid) ---
 	const rootRef = useRef<HTMLDivElement | null>(null);
@@ -100,9 +104,7 @@ export function WorkflowSplitView<ID = string>(
 	const ignoreNextNavItemActivationRef = useRef(false);
 	const navBootstrapTimeoutRef = useRef<number | null>(null);
 
-	const [paneFocusMode, setPaneFocusMode] = useState<
-		"containers" | "nav" | "content" | "secondary"
-	>("nav");
+	const [paneFocusMode, setPaneFocusMode] = useState<"containers" | "nav" | "content" | "secondary">("nav");
 	const paneFocusModeRef = useRef<"containers" | "nav" | "content" | "secondary">("nav");
 	useEffect(() => {
 		paneFocusModeRef.current = paneFocusMode;
@@ -115,7 +117,7 @@ export function WorkflowSplitView<ID = string>(
 	const focusEl = useCallback((el?: HTMLElement | null) => {
 		if (!el) return;
 		try {
-			(el as any).focus({ preventScroll: true });
+			el.focus({ preventScroll: true });
 		} catch {
 			el.focus();
 		}
@@ -480,7 +482,7 @@ export function WorkflowSplitView<ID = string>(
 			setNavFocusedIndex(idx);
 			navActiveButtonIndexRef.current = idx;
 			dlog("Root: Enter/Space activate from nav context", { idx });
-			navigateTo(getId(steps[idx] as any));
+			navigateTo(getId(steps[idx]));
 			setPaneFocusMode("content");
 			paneFocusModeRef.current = "content";
 			ignoreNextClickRef.current = true;
@@ -566,7 +568,7 @@ export function WorkflowSplitView<ID = string>(
 			setNavFocusedIndex(idx);
 			navActiveButtonIndexRef.current = idx;
 			dlog("PrimaryNav: Enter/Space activate (capture)", { idx });
-			navigateTo(getId(steps[idx] as any));
+			navigateTo(getId(steps[idx]));
 			setPaneFocusMode("content");
 			paneFocusModeRef.current = "content";
 			ignoreNextClickRef.current = true; // swallow synthetic click after keyboard activation
@@ -596,7 +598,7 @@ export function WorkflowSplitView<ID = string>(
 			setNavFocusedIndex(idx);
 			navActiveButtonIndexRef.current = idx;
 			dlog("PrimaryNav: click delegate activate", { idx });
-			navigateTo(getId(steps[idx] as any));
+			navigateTo(getId(steps[idx]));
 			setPaneFocusMode("content");
 			blurActiveIfInNav();
 			if (navBootstrapTimeoutRef.current != null) {
@@ -611,14 +613,14 @@ export function WorkflowSplitView<ID = string>(
 				ref={navListRef}
 				className="nhsfdp-primary-nav"
 				role="listbox"
-				aria-activedescendant={String(getId(steps[Math.max(0, navFocusedIndex)] as any))}
+				aria-activedescendant={String(getId(steps[Math.max(0, navFocusedIndex)]))}
 				onKeyDownCapture={onKeyDownCapture}
 				onKeyDown={onKeyDown}
 				onKeyUp={onKeyUp}
 				onClick={onClickList}
 			>
 				{steps.map((s, i) => {
-					const id = getId(s as any);
+					const id = getId(s);
 					const isCurrent = i === currentIndex;
 					const focused = paneFocusMode === "nav" && i === navFocusedIndex;
 					return (
@@ -642,8 +644,8 @@ export function WorkflowSplitView<ID = string>(
 										}
 										navActiveButtonIndexRef.current = i;
 										ignoreNextClickRef.current = true;
-										dlog("NavItem: onKeyDown activate", { i, id: String(getId(steps[i] as any)) });
-										navigateTo(getId(steps[i] as any));
+										dlog("NavItem: onKeyDown activate", { i, id: String(getId(steps[i])) });
+										navigateTo(getId(steps[i]));
 										setPaneFocusMode("content");
 										paneFocusModeRef.current = "content";
 										if (navBootstrapTimeoutRef.current != null) {
@@ -661,8 +663,8 @@ export function WorkflowSplitView<ID = string>(
 											return;
 										}
 										navActiveButtonIndexRef.current = i;
-										dlog("NavItem: onKeyUp activate (fallback)", { i, id: String(getId(steps[i] as any)) });
-										navigateTo(getId(steps[i] as any));
+										dlog("NavItem: onKeyUp activate (fallback)", { i, id: String(getId(steps[i])) });
+										navigateTo(getId(steps[i]));
 										setPaneFocusMode("content");
 										paneFocusModeRef.current = "content";
 										if (navBootstrapTimeoutRef.current != null) {
@@ -694,7 +696,7 @@ export function WorkflowSplitView<ID = string>(
 									focusContentSoon();
 								}}
 							>
-								{(s as any).label}
+								{s.label}
 							</button>
 						</li>
 					);
@@ -717,7 +719,10 @@ export function WorkflowSplitView<ID = string>(
 						<BackLink
 							element="button"
 							text="Back"
-							onClick={() => navigateTo(getId(steps[idx - 1] as any))}
+							onClick={() => {
+								const step = steps[idx - 1];
+								if (step) navigateTo(getId(step));
+							}}
 						/>
 					) : (
 						// Keep space to avoid layout shift when back is not available
@@ -727,21 +732,25 @@ export function WorkflowSplitView<ID = string>(
 						<ForwardLink
 							element="button"
 							text="Next"
-							onClick={() => navigateTo(getId(steps[idx + 1] as any))}
+							onClick={() => {
+								const step = steps[idx + 1];
+								if (step) navigateTo(getId(step));
+							}}
 						/>
 					) : (
 						// Keep space to avoid layout shift when next is not available
 						<ForwardLink element="button" text="Next" aria-hidden="true" style={{ visibility: "hidden" }} />
 					)}
 				</div>
-				<CardsScroller
-					steps={steps as any}
+				<CardsScroller<ID>
+					steps={steps}
 					currentIndex={idx}
-					onNavigate={(i) => navigateTo(getId(steps[i] as any))}
-					renderCard={(s) =>
-						renderStepCard
-							? renderStepCard(s as any)
-							: renderStepContent(s as any)
+					onNavigate={(i) => {
+						const step = steps[i];
+						if (step) navigateTo(getId(step));
+					}}
+					renderCard={(s, _i, _isCurrent) =>
+						renderStepCard ? renderStepCard(s as T) : renderStepContent(s as T)
 					}
 				/>
 			</div>
@@ -761,7 +770,7 @@ export function WorkflowSplitView<ID = string>(
 			<div className="nhsfdp-workflow-body" role="row">
 				{cfg.showPrimaryNav && (
 					<aside
-						ref={navPaneRef as any}
+						ref={navPaneRef}
 						className={
 							"nhsfdp-pane primary-nav" +
 							(paneFocusMode === "nav" ? " is-active-pane" : "")
@@ -776,7 +785,7 @@ export function WorkflowSplitView<ID = string>(
 					</aside>
 				)}
 				<main
-					ref={contentPaneRef as any}
+					ref={contentPaneRef}
 					className={
 						"nhsfdp-pane content" +
 						(paneFocusMode === "content" ? " is-active-pane" : "")
@@ -787,13 +796,13 @@ export function WorkflowSplitView<ID = string>(
 				>
 					{showBreadcrumbs ? breadcrumbs : null}
 					<div role="main">
-						{renderStepContent(current as any)}
+						{renderStepContent(current)}
 					</div>
 				</main>
 				{cfg.showSecondaryNav &&
 					(renderSecondaryNav || renderSecondaryContent) && (
 						<aside
-							ref={secondaryPaneRef as any}
+							ref={secondaryPaneRef}
 							className={
 								"nhsfdp-pane secondary-nav" +
 								(paneFocusMode === "secondary" ? " is-active-pane" : "")
@@ -803,8 +812,8 @@ export function WorkflowSplitView<ID = string>(
 							tabIndex={0}
 						>
 							<section role="complementary" aria-label="Secondary navigation">
-								{renderSecondaryNav?.(current as any)}
-								{renderSecondaryContent?.(current as any)}
+								{renderSecondaryNav?.(current)}
+								{renderSecondaryContent?.(current)}
 							</section>
 						</aside>
 					)}
@@ -822,7 +831,7 @@ export function WorkflowSplitView<ID = string>(
 						{renderBreadcrumbs
 							? renderBreadcrumbs({ steps, current, onNavigate: navigateTo })
 							: null}
-						{current ? renderStepContent(current as any) : null}
+						{current ? renderStepContent(current) : null}
 					</main>
 				</div>
 			</div>

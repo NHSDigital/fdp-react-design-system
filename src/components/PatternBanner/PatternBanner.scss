@@ -1,0 +1,13 @@
+.nhs-pattern-banner{position:relative;overflow:hidden}
+.nhs-pattern-banner__svg{position:absolute;inset:0;width:100%;height:100%}
+.nhs-pattern-banner__feature{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center}
+.nhs-pattern-banner-shape{mix-blend-mode:normal}
+.nhs-pattern-banner-connector{stroke:rgba(76,98,114,.6);stroke-width:.6;vector-effect:non-scaling-stroke}
+
+/* Example gradient hooks; map to defs by class or CSS vars */
+/* Gradient hooks for PatternBanner (exact colors derived from sample SVG) */
+.pb-grad-aqua-green{fill:url(#pb-grad-aqua-green)}
+.pb-grad-purple{fill:url(#pb-grad-purple)}
+.pb-grad-blue{fill:url(#pb-grad-blue)}
+.pb-grad-grey{fill:url(#pb-grad-grey)}
+.pb-grad-azure{fill:url(#pb-grad-azure)}

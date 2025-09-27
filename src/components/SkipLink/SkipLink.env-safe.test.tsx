@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import '@testing-library/jest-dom';
 import { SkipLink } from './SkipLink';
+import { initAll, teardownAll } from '../../behaviours';
 
 /**
  * Environment-Safe SSR Compatibility Tests for SkipLink Component
@@ -73,6 +74,7 @@ describe('SkipLink Environment-Safe SSR Compatibility', () => {
   });
   
   afterEach(() => {
+    try { teardownAll(document); } catch {}
     vi.restoreAllMocks();
   });
 
@@ -113,13 +115,15 @@ describe('SkipLink Environment-Safe SSR Compatibility', () => {
     expect(skipLink).toHaveTextContent('Skip to main content');
   });
 
-  it('handles client-side enhancement safely', async () => {
+  it('handles client-side enhancement safely (via behaviours)', async () => {
     const { container } = render(<SkipLink />);
+    // Init behaviours on the rendered scope so the link is enhanced
+    try { initAll(container); } catch {}
     
     const skipLink = container.querySelector('.nhsuk-skip-link');
     expect(skipLink).toBeInTheDocument();
     
-    // Wait for potential useEffect completion
+    // Wait for behaviours to mark as enhanced
     await waitFor(() => {
       expect(skipLink).toHaveAttribute('data-enhanced');
     }, { timeout: 1000 });
@@ -144,13 +148,14 @@ describe('SkipLink Environment-Safe SSR Compatibility', () => {
 
   // Conditional test that only runs if full DOM is available
   if (isTestEnvironmentReady()) {
-    it('provides enhanced functionality when DOM is available', async () => {
+  it('provides enhanced functionality when DOM is available (via behaviours)', async () => {
       // Mock target element for skip link
       const targetElement = document.createElement('main');
       targetElement.id = 'maincontent';
       document.body.appendChild(targetElement);
       
-      const { container } = render(<SkipLink />);
+  const { container } = render(<SkipLink />);
+  try { initAll(container); } catch {}
       const skipLink = container.querySelector('.nhsuk-skip-link') as HTMLAnchorElement;
       
       // Simulate click

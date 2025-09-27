@@ -13,6 +13,7 @@ export {
 } from "./characterCountBehaviour.js";
 export { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour.js";
 export { initHeaders, detachHeaders } from "./headerBehaviour.js";
+export { initSkipLinks, detachSkipLinks } from "./skipLinkBehaviour.js";
 import { initButtons, detachButtons } from "./buttonBehaviour.js";
 import { initRadios, detachRadios } from "./radiosBehaviour.js";
 import { initRanges, detachRanges } from "./rangeBehaviour.js";
@@ -22,6 +23,7 @@ import {
 } from "./characterCountBehaviour.js";
 import { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour.js";
 import { initHeaders, detachHeaders } from "./headerBehaviour.js";
+import { initSkipLinks, detachSkipLinks } from "./skipLinkBehaviour.js";
 
 export function initAll(scope: ParentNode = document) {
 	initButtons(scope);
@@ -30,6 +32,7 @@ export function initAll(scope: ParentNode = document) {
 	initCharacterCounts(scope);
 	initCheckboxes(scope);
 	initHeaders(scope);
+	initSkipLinks(scope);
 	// Future: conditional reveals generalisation util.
 }
 
@@ -40,6 +43,7 @@ export function teardownAll(scope: ParentNode = document) {
 	detachCharacterCounts(scope);
 	detachCheckboxes(scope);
 	detachHeaders(scope);
+	detachSkipLinks(scope);
 }
 
 // Auto init hook (opt-in via data attribute in future if needed)

@@ -86,7 +86,6 @@ var require_classnames = __commonJS({
 
 // src/components/SkipLink/SkipLink.tsx
 var import_classnames = __toESM(require_classnames(), 1);
-import { useEffect, useState } from "react";
 import { jsx } from "react/jsx-runtime";
 var SkipLink = ({
   text = "Skip to main content",
@@ -94,59 +93,6 @@ var SkipLink = ({
   classes,
   attributes = {}
 }) => {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-  useEffect(() => {
-    if (typeof window === "undefined" || typeof document === "undefined" || !document.querySelector || !document.querySelectorAll) {
-      return;
-    }
-    const handleSkipLinkClick = (event) => {
-      const target = event.target;
-      const targetId = target.getAttribute("href");
-      if (targetId && targetId.startsWith("#")) {
-        const targetElement = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(targetId) : null : null : null : null : null : null : null : null;
-        if (targetElement) {
-          if (!targetElement.hasAttribute("tabindex")) {
-            targetElement.setAttribute("tabindex", "-1");
-          }
-          targetElement.focus();
-          targetElement.classList.add("nhsuk-skip-link-focused-element");
-          const timeoutId = window.setTimeout(() => {
-            targetElement.classList.remove("nhsuk-skip-link-focused-element");
-            if (targetElement.getAttribute("tabindex") === "-1") {
-              targetElement.removeAttribute("tabindex");
-            }
-          }, 3e3);
-          target.__nhsSkipLinkTimeout = timeoutId;
-        }
-      }
-    };
-    try {
-      const skipLinks = document.querySelectorAll(".nhsuk-skip-link");
-      skipLinks.forEach((link) => {
-        link.addEventListener("click", handleSkipLinkClick);
-      });
-      return () => {
-        try {
-          skipLinks.forEach((link) => {
-            link.removeEventListener("click", handleSkipLinkClick);
-            const timeoutId = link.__nhsSkipLinkTimeout;
-            if (timeoutId && window.clearTimeout) {
-              window.clearTimeout(timeoutId);
-            }
-          });
-        } catch (error) {
-          console.warn("SkipLink cleanup error:", error);
-        }
-      };
-    } catch (error) {
-      console.warn("SkipLink initialization error:", error);
-      return () => {
-      };
-    }
-  }, [isClient]);
   const skipLinkClasses = (0, import_classnames.default)("nhsuk-skip-link", classes);
   return /* @__PURE__ */ jsx(
     "a",
@@ -154,7 +100,6 @@ var SkipLink = ({
       className: skipLinkClasses,
       href,
       "data-module": "nhsuk-skip-link",
-      "data-enhanced": isClient ? "true" : "false",
       ...attributes,
       children: text
     }

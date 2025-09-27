@@ -11,6 +11,7 @@ import {
 } from "./characterCountBehaviour.js";
 import { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour.js";
 import { initHeaders, detachHeaders } from "./headerBehaviour.js";
+import { initSkipLinks, detachSkipLinks } from "./skipLinkBehaviour.js";
 import { initButtons as initButtons2, detachButtons as detachButtons2 } from "./buttonBehaviour.js";
 import { initRadios as initRadios2, detachRadios as detachRadios2 } from "./radiosBehaviour.js";
 import { initRanges as initRanges2, detachRanges as detachRanges2 } from "./rangeBehaviour.js";
@@ -20,6 +21,7 @@ import {
 } from "./characterCountBehaviour.js";
 import { initCheckboxes as initCheckboxes2, detachCheckboxes as detachCheckboxes2 } from "./checkboxesBehaviour.js";
 import { initHeaders as initHeaders2, detachHeaders as detachHeaders2 } from "./headerBehaviour.js";
+import { initSkipLinks as initSkipLinks2, detachSkipLinks as detachSkipLinks2 } from "./skipLinkBehaviour.js";
 function initAll(scope = document) {
   initButtons2(scope);
   initRadios2(scope);
@@ -27,6 +29,7 @@ function initAll(scope = document) {
   initCharacterCounts2(scope);
   initCheckboxes2(scope);
   initHeaders2(scope);
+  initSkipLinks2(scope);
 }
 function teardownAll(scope = document) {
   detachButtons2(scope);
@@ -35,6 +38,7 @@ function teardownAll(scope = document) {
   detachCharacterCounts2(scope);
   detachCheckboxes2(scope);
   detachHeaders2(scope);
+  detachSkipLinks2(scope);
 }
 if (typeof window !== "undefined") {
   if (!window.__nhsInitAllBehaviours) {
@@ -55,6 +59,7 @@ export {
   detachHeaders,
   detachRadios,
   detachRanges,
+  detachSkipLinks,
   initAll,
   initButtons,
   initCharacterCounts,
@@ -62,6 +67,7 @@ export {
   initHeaders,
   initRadios,
   initRanges,
+  initSkipLinks,
   teardownAll
 };
 //# sourceMappingURL=index.js.map

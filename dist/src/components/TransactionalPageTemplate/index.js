@@ -86,7 +86,6 @@ var require_classnames = __commonJS({
 
 // src/components/SkipLink/SkipLink.tsx
 var import_classnames = __toESM(require_classnames(), 1);
-import { useEffect, useState } from "react";
 import { jsx } from "react/jsx-runtime";
 var SkipLink = ({
   text = "Skip to main content",
@@ -94,59 +93,6 @@ var SkipLink = ({
   classes,
   attributes = {}
 }) => {
-  const [isClient, setIsClient] = useState(false);
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-  useEffect(() => {
-    if (typeof window === "undefined" || typeof document === "undefined" || !document.querySelector || !document.querySelectorAll) {
-      return;
-    }
-    const handleSkipLinkClick = (event) => {
-      const target = event.target;
-      const targetId = target.getAttribute("href");
-      if (targetId && targetId.startsWith("#")) {
-        const targetElement = typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? typeof document !== "undefined" ? document.querySelector(targetId) : null : null : null : null : null : null : null : null;
-        if (targetElement) {
-          if (!targetElement.hasAttribute("tabindex")) {
-            targetElement.setAttribute("tabindex", "-1");
-          }
-          targetElement.focus();
-          targetElement.classList.add("nhsuk-skip-link-focused-element");
-          const timeoutId = window.setTimeout(() => {
-            targetElement.classList.remove("nhsuk-skip-link-focused-element");
-            if (targetElement.getAttribute("tabindex") === "-1") {
-              targetElement.removeAttribute("tabindex");
-            }
-          }, 3e3);
-          target.__nhsSkipLinkTimeout = timeoutId;
-        }
-      }
-    };
-    try {
-      const skipLinks = document.querySelectorAll(".nhsuk-skip-link");
-      skipLinks.forEach((link) => {
-        link.addEventListener("click", handleSkipLinkClick);
-      });
-      return () => {
-        try {
-          skipLinks.forEach((link) => {
-            link.removeEventListener("click", handleSkipLinkClick);
-            const timeoutId = link.__nhsSkipLinkTimeout;
-            if (timeoutId && window.clearTimeout) {
-              window.clearTimeout(timeoutId);
-            }
-          });
-        } catch (error) {
-          console.warn("SkipLink cleanup error:", error);
-        }
-      };
-    } catch (error) {
-      console.warn("SkipLink initialization error:", error);
-      return () => {
-      };
-    }
-  }, [isClient]);
   const skipLinkClasses = (0, import_classnames.default)("nhsuk-skip-link", classes);
   return /* @__PURE__ */ jsx(
     "a",
@@ -154,7 +100,6 @@ var SkipLink = ({
       className: skipLinkClasses,
       href,
       "data-module": "nhsuk-skip-link",
-      "data-enhanced": isClient ? "true" : "false",
       ...attributes,
       children: text
     }
@@ -162,7 +107,7 @@ var SkipLink = ({
 };
 
 // src/components/Header/Header.tsx
-import { useState as useState4, useEffect as useEffect4, useRef as useRef2, useCallback as useCallback2 } from "react";
+import { useState as useState3, useEffect as useEffect3, useRef as useRef2, useCallback as useCallback2 } from "react";
 
 // src/components/Header/Header.render.tsx
 var import_classnames3 = __toESM(require_classnames(), 1);
@@ -667,7 +612,7 @@ function renderHeaderMarkup(props, {
 }
 
 // src/themes/BrandThemeProvider.tsx
-import { createContext, useContext, useEffect as useEffect2, useMemo, useState as useState2 } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { jsx as jsx4 } from "react/jsx-runtime";
 var BrandContext = createContext(void 0);
 function useBrand() {
@@ -678,7 +623,7 @@ function useBrand() {
 
 // src/components/HeaderSearch/HeaderSearch.tsx
 var import_classnames4 = __toESM(require_classnames(), 1);
-import { useState as useState3, useCallback, useRef, useEffect as useEffect3 } from "react";
+import { useState as useState2, useCallback, useRef, useEffect as useEffect2 } from "react";
 import { jsx as jsx5, jsxs as jsxs3 } from "react/jsx-runtime";
 var HeaderSearch = ({
   mode = "form",
@@ -702,8 +647,8 @@ var HeaderSearch = ({
   debounceMs = 300,
   minQueryLength = 1
 }) => {
-  const [internalValue, setInternalValue] = useState3("");
-  const [isFocused, setIsFocused] = useState3(false);
+  const [internalValue, setInternalValue] = useState2("");
+  const [isFocused, setIsFocused] = useState2(false);
   const debounceRef = useRef(void 0);
   const formRef = useRef(null);
   const inputRef = useRef(null);
@@ -779,7 +724,7 @@ var HeaderSearch = ({
     (_a = callbacks.onClear) == null ? void 0 : _a.call(callbacks);
     (_b = inputRef.current) == null ? void 0 : _b.focus();
   }, [isControlled, callbacks.onClear]);
-  useEffect3(() => {
+  useEffect2(() => {
     return () => {
       if (debounceRef.current) {
         clearTimeout(debounceRef.current);
@@ -989,19 +934,19 @@ var Header = ({
   ...props
 }) => {
   var _a, _b;
-  const [menuOpen, setMenuOpen] = useState4(false);
-  const [showMoreButton, setShowMoreButton] = useState4(false);
-  const [visibleItems, setVisibleItems] = useState4(((_a = navigation == null ? void 0 : navigation.items) == null ? void 0 : _a.length) || 0);
-  const [dropdownVisible, setDropdownVisible] = useState4(false);
-  const [isClient, setIsClient] = useState4(false);
+  const [menuOpen, setMenuOpen] = useState3(false);
+  const [showMoreButton, setShowMoreButton] = useState3(false);
+  const [visibleItems, setVisibleItems] = useState3(((_a = navigation == null ? void 0 : navigation.items) == null ? void 0 : _a.length) || 0);
+  const [dropdownVisible, setDropdownVisible] = useState3(false);
+  const [isClient, setIsClient] = useState3(false);
   const navContainerRef = useRef2(null);
   const navListRef = useRef2(null);
   const computingRef = useRef2(false);
-  useEffect4(() => {
+  useEffect3(() => {
     if (typeof window === "undefined") return;
     setIsClient(true);
   }, []);
-  useEffect4(() => {
+  useEffect3(() => {
     if (typeof document === "undefined") return;
     const handleEscapeKey = (event) => {
       if (event.key === "Escape" && menuOpen) {
@@ -1062,7 +1007,7 @@ var Header = ({
     container.classList.remove("nhsuk-header__navigation-container--measuring");
     computingRef.current = false;
   }, [isClient, navigation == null ? void 0 : navigation.items]);
-  useEffect4(() => {
+  useEffect3(() => {
     if (!isClient) return;
     const container = navContainerRef.current;
     if (!container) return;
@@ -1083,7 +1028,7 @@ var Header = ({
       ro.disconnect();
     };
   }, [isClient, recomputeLayout]);
-  useEffect4(() => {
+  useEffect3(() => {
     if (!isClient) return;
     recomputeLayout();
   }, [(_b = navigation == null ? void 0 : navigation.items) == null ? void 0 : _b.length, isClient, recomputeLayout]);
@@ -1136,7 +1081,7 @@ var Header = ({
 
 // src/components/Grid/Grid.tsx
 var import_classnames5 = __toESM(require_classnames(), 1);
-import React5 from "react";
+import React4 from "react";
 import { jsx as jsx7 } from "react/jsx-runtime";
 var Container = ({
   children,

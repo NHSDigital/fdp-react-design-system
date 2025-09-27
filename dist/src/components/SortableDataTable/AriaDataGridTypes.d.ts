@@ -11,6 +11,27 @@ export interface AriaDataGridColumn {
     tableRenderer?: (data: any) => any;
     /** Enhanced renderer for card view (overrides render if provided) */
     cardRenderer?: (data: any) => any;
+    /**
+     * Sorting type hint. When provided, sorting uses this type branch. If omitted, a simple inference is used.
+     * 'custom' requires providing a sortComparator.
+     */
+    sortType?: SortType;
+    /**
+     * Function to derive the value used for sorting from a row. Takes precedence over using renderers.
+     */
+    sortAccessor?: (row: any) => any;
+    /**
+     * Custom comparator for sorting values when sortType is 'custom' or when full control is desired.
+     */
+    sortComparator?: (a: any, b: any) => number;
+    /**
+     * When true, uses the column's tableRenderer/render output as the sort value (if sortAccessor not provided).
+     */
+    useRendererForSort?: boolean;
+    /** Per-column null placement policy (overrides global/default). */
+    nullsPosition?: NullsPosition;
+    /** Per-column boolean ordering policy (overrides global/default). */
+    booleanOrder?: BooleanOrder;
 }
 export interface SortConfig {
     key: string;
@@ -20,6 +41,8 @@ export type TableType = 'default' | 'responsive' | 'compact';
 export interface AriaDataGridProps {
     data: Record<string, any>[];
     columns: AriaDataGridColumn[];
+    /** Optional sorting behavior configuration */
+    sortingOptions?: SortingOptions;
     sortConfig?: SortConfig[];
     onSort?: (columnKey: string) => void;
     onSortChange?: (newSortConfig: SortConfig[]) => void;
@@ -50,6 +73,48 @@ export interface ColumnDefinition {
     cardRenderer?: (data: any) => any;
     /** Optional per-column custom renderer (receives raw value & full row). Highest precedence for primitive finalisation */
     customRenderer?: (value: any, row: any) => React.ReactNode;
+    /**
+     * Sorting type hint. When provided, sorting uses this type branch. If omitted, a simple inference is used.
+     * 'custom' requires providing a sortComparator.
+     */
+    sortType?: SortType;
+    /** Function to derive the value used for sorting from a row. Takes precedence over using renderers. */
+    sortAccessor?: (row: any) => any;
+    /** Custom comparator for sorting values when sortType is 'custom' or when full control is desired. */
+    sortComparator?: (a: any, b: any) => number;
+    /** When true, uses the column's tableRenderer/render output as the sort value (if sortAccessor not provided). */
+    useRendererForSort?: boolean;
+    /** Per-column null placement policy (overrides global/default). */
+    nullsPosition?: NullsPosition;
+    /** Per-column boolean ordering policy (overrides global/default). */
+    booleanOrder?: BooleanOrder;
+}
+/** Global sorting options shared by data grids and tabs data grids */
+export interface SortingOptions {
+    /** Default placement of null/undefined values when not overridden by a column. */
+    nullsPosition?: NullsPosition;
+    /** Default boolean ordering when not overridden by a column. */
+    booleanOrder?: BooleanOrder;
+    /** When true, applies a stable tiebreaker using the original item index if provided. */
+    stable?: boolean;
+}
+/** Enum for supported sort types */
+export declare enum SortType {
+    String = "string",
+    Number = "number",
+    Boolean = "boolean",
+    Date = "date",
+    Custom = "custom"
+}
+/** Enum representing where null/undefined values should sort */
+export declare enum NullsPosition {
+    First = "first",
+    Last = "last"
+}
+/** Enum for boolean ordering */
+export declare enum BooleanOrder {
+    TrueFirst = "trueFirst",
+    FalseFirst = "falseFirst"
 }
 export interface AriaGridCellProps {
     item: Node<any>;

@@ -8,6 +8,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 0;
 }
 
 .nhs-pattern-banner__feature {
@@ -18,10 +19,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+}
+
+.nhs-pattern-banner--feature-under .nhs-pattern-banner__feature {
+  z-index: 0;
+}
+
+.nhs-pattern-banner--feature-under .nhs-pattern-banner__svg {
+  z-index: 1;
 }
 
 .nhs-pattern-banner-shape {
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;
 }
 
 .nhs-pattern-banner-connector {

@@ -635,6 +635,105 @@ var SortStatusControl = ({
   ] });
 };
 
+// src/components/SortableDataTable/sortUtils.ts
+function toComparableDate(value) {
+  if (value == null) return null;
+  const d = value instanceof Date ? value : new Date(value);
+  const t = d.getTime();
+  return Number.isNaN(t) ? null : t;
+}
+var defaultCollator = new Intl.Collator(void 0, { numeric: true, sensitivity: "base" });
+function defaultStringCompare(a, b) {
+  return defaultCollator.compare(String(a), String(b));
+}
+function getSortValue(row, column) {
+  if (column.sortAccessor) return column.sortAccessor(row);
+  if (column.useRendererForSort) {
+    if (column.tableRenderer) return column.tableRenderer(row);
+    if (column.render) return column.render(row);
+  }
+  return row[column.key];
+}
+function compareValues(aVal, bVal, column, opts) {
+  var _a, _b, _c, _d;
+  if (column == null ? void 0 : column.sortComparator) {
+    return column.sortComparator(aVal, bVal);
+  }
+  const type = column == null ? void 0 : column.sortType;
+  if (type === "number" /* Number */) {
+    const an = Number(aVal);
+    const bn = Number(bVal);
+    const aNaN = Number.isNaN(an);
+    const bNaN = Number.isNaN(bn);
+    if (aNaN && bNaN) return 0;
+    if (aNaN) return 1;
+    if (bNaN) return -1;
+    return an - bn;
+  }
+  if (type === "boolean" /* Boolean */) {
+    const ab = Boolean(aVal), bb = Boolean(bVal);
+    const order = (_b = (_a = column == null ? void 0 : column.booleanOrder) != null ? _a : opts == null ? void 0 : opts.booleanOrder) != null ? _b : "falseFirst" /* FalseFirst */;
+    if (ab === bb) return 0;
+    return order === "trueFirst" /* TrueFirst */ ? ab ? -1 : 1 : ab ? 1 : -1;
+  }
+  if (type === "date" /* Date */) {
+    const at = toComparableDate(aVal);
+    const bt = toComparableDate(bVal);
+    if (at == null && bt == null) return 0;
+    if (at == null) return 1;
+    if (bt == null) return -1;
+    return at - bt;
+  }
+  if (typeof aVal === "number" && typeof bVal === "number") {
+    const aNaN = Number.isNaN(aVal);
+    const bNaN = Number.isNaN(bVal);
+    if (aNaN && bNaN) return 0;
+    if (aNaN) return 1;
+    if (bNaN) return -1;
+    return aVal - bVal;
+  }
+  if (typeof aVal === "boolean" && typeof bVal === "boolean") {
+    const order = (_d = (_c = column == null ? void 0 : column.booleanOrder) != null ? _c : opts == null ? void 0 : opts.booleanOrder) != null ? _d : "falseFirst" /* FalseFirst */;
+    if (aVal === bVal) return 0;
+    return order === "trueFirst" /* TrueFirst */ ? aVal ? -1 : 1 : aVal ? 1 : -1;
+  }
+  return defaultStringCompare(aVal, bVal);
+}
+function buildMultiComparator(columns, sortConfig, nullsPosition = "last" /* Last */, options) {
+  const colMap = new Map(columns.map((c) => [c.key, c]));
+  const configs = sortConfig != null ? sortConfig : [];
+  return (a, b) => {
+    var _a, _b, _c, _d, _e, _f;
+    if (!configs.length) return 0;
+    for (const { key, direction } of configs) {
+      const col = colMap.get(key);
+      const aVal = col ? getSortValue(a, col) : a[key];
+      const bVal = col ? getSortValue(b, col) : b[key];
+      const aNull = aVal == null;
+      const bNull = bVal == null;
+      if (aNull || bNull) {
+        if (aNull && bNull) continue;
+        const effectiveNulls = (_b = (_a = col == null ? void 0 : col.nullsPosition) != null ? _a : options == null ? void 0 : options.nullsPosition) != null ? _b : nullsPosition;
+        if (effectiveNulls === "first" /* First */) {
+          return aNull ? -1 : 1;
+        } else {
+          return aNull ? 1 : -1;
+        }
+      }
+      let cmp = compareValues(aVal, bVal, col, options);
+      if (cmp !== 0) return direction === "asc" ? cmp : -cmp;
+    }
+    if (options == null ? void 0 : options.stable) {
+      const ai = (_d = (_c = a.__originalIndex__) != null ? _c : a.originalIndex) != null ? _d : void 0;
+      const bi = (_f = (_e = b.__originalIndex__) != null ? _e : b.originalIndex) != null ? _f : void 0;
+      if (typeof ai === "number" && typeof bi === "number") {
+        return ai - bi;
+      }
+    }
+    return 0;
+  };
+}
+
 // src/components/SortableDataTable/AriaTabsDataGrid.tsx
 import { Fragment, jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
 function tabsDataGridReducer(state, action) {
@@ -1101,39 +1200,8 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
             const sortConfig = state.sortConfig;
             let sortedData = displayData;
             if (sortConfig && sortConfig.length > 0) {
-              sortedData = [...displayData].sort((a, b) => {
-                for (const { key: key2, direction } of sortConfig) {
-                  let aValue = a[key2];
-                  let bValue = b[key2];
-                  const column = currentPanel.columns.find(
-                    (col) => col.key === key2
-                  );
-                  if (column == null ? void 0 : column.tableRenderer) {
-                    aValue = column.tableRenderer(a);
-                    bValue = column.tableRenderer(b);
-                  } else if (column == null ? void 0 : column.render) {
-                    aValue = column.render(a);
-                    bValue = column.render(b);
-                  }
-                  if (aValue == null && bValue == null) continue;
-                  if (aValue == null) return direction === "asc" ? -1 : 1;
-                  if (bValue == null) return direction === "asc" ? 1 : -1;
-                  let result = 0;
-                  if (typeof aValue === "number" && typeof bValue === "number") {
-                    result = aValue - bValue;
-                  } else {
-                    result = String(aValue).localeCompare(
-                      String(bValue),
-                      void 0,
-                      { numeric: true, sensitivity: "base" }
-                    );
-                  }
-                  if (result !== 0) {
-                    return direction === "asc" ? result : -result;
-                  }
-                }
-                return 0;
-              });
+              const comparator = buildMultiComparator(currentPanel.columns, sortConfig, "last" /* Last */, dataConfig == null ? void 0 : dataConfig.sortingOptions);
+              sortedData = [...displayData].sort(comparator);
             }
             if (sortedData[rowIndex]) {
               const row = sortedData[rowIndex];
@@ -1536,47 +1604,10 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
                 ) ? getFilteredData(panel.data, state.filters) : panel.data;
                 const sortedData = useMemo2(() => {
                   const sortConfig = state.sortConfig;
-                  if (!sortConfig || sortConfig.length === 0)
-                    return displayData;
-                  return [...displayData].sort((a, b) => {
-                    for (const { key, direction } of sortConfig) {
-                      let aValue = a[key];
-                      let bValue = b[key];
-                      const column = panel.columns.find(
-                        (col) => col.key === key
-                      );
-                      if (column == null ? void 0 : column.tableRenderer) {
-                        aValue = column.tableRenderer(a);
-                        bValue = column.tableRenderer(b);
-                      } else if (column == null ? void 0 : column.render) {
-                        aValue = column.render(a);
-                        bValue = column.render(b);
-                      }
-                      if (aValue == null && bValue == null) continue;
-                      if (aValue == null) return 1;
-                      if (bValue == null) return -1;
-                      let comparison = 0;
-                      if (typeof aValue === "number" && typeof bValue === "number") {
-                        comparison = aValue - bValue;
-                      } else if (typeof aValue === "boolean" && typeof bValue === "boolean") {
-                        comparison = aValue === bValue ? 0 : aValue ? 1 : -1;
-                      } else {
-                        comparison = String(aValue).localeCompare(
-                          String(bValue),
-                          void 0,
-                          {
-                            numeric: true,
-                            sensitivity: "base"
-                          }
-                        );
-                      }
-                      if (comparison !== 0) {
-                        return direction === "asc" ? comparison : -comparison;
-                      }
-                    }
-                    return 0;
-                  });
-                }, [displayData, state.sortConfig, panel.columns]);
+                  if (!sortConfig || sortConfig.length === 0) return displayData;
+                  const comparator = buildMultiComparator(panel.columns, sortConfig, "last" /* Last */, dataConfig == null ? void 0 : dataConfig.sortingOptions);
+                  return [...displayData].sort(comparator);
+                }, [displayData, state.sortConfig, panel.columns, dataConfig == null ? void 0 : dataConfig.sortingOptions]);
                 return /* @__PURE__ */ jsxs3(
                   "table",
                   {

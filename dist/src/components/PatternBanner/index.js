@@ -12,7 +12,7 @@ function mulberry32(a) {
 function clamp(n, min, max) {
   return Math.max(min, Math.min(max, n));
 }
-function generateShapes(seed, density, gradients, excludeBox) {
+function generateShapes(seed, density, gradients, excludeBox, centrality, hexAspectRatio, allowOverlaps, overlapColorPolicy, ignoreProtectedZones, uniformDistribution, excludeCirclePct, excludeEllipsePct) {
   const rng = mulberry32(seed);
   const shapes = [];
   const boxes = [];
@@ -27,6 +27,22 @@ function generateShapes(seed, density, gradients, excludeBox) {
     right: center.x + ex.w / 2,
     top: center.y - ex.h / 2,
     bottom: center.y + ex.h / 2
+  };
+  const hasCircle = !ignoreProtectedZones && !!excludeCirclePct && excludeCirclePct.r > 0;
+  const hasEllipse = !ignoreProtectedZones && !!excludeEllipsePct && (excludeEllipsePct.rx > 0 || excludeEllipsePct.ry > 0);
+  const inCircle = (xPct, yPct) => {
+    if (!hasCircle) return false;
+    const dx = xPct - center.x;
+    const dy = yPct - center.y;
+    return dx * dx + dy * dy <= excludeCirclePct.r * excludeCirclePct.r;
+  };
+  const inEllipse = (xPct, yPct) => {
+    if (!hasEllipse) return false;
+    const rx = Math.max(1e-6, excludeEllipsePct.rx || 0);
+    const ry = Math.max(1e-6, excludeEllipsePct.ry || 0);
+    const dx = (xPct - center.x) / rx;
+    const dy = (yPct - center.y) / ry;
+    return dx * dx + dy * dy <= 1;
   };
   const intersects = (a, b) => !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
   const withinViewBox = (b) => b.left >= 0 && b.top >= 0 && b.right <= 100 && b.bottom <= 100;
@@ -45,7 +61,7 @@ function generateShapes(seed, density, gradients, excludeBox) {
     } else {
       const s = sizePx != null ? sizePx : 40;
       wPct = s / BASE_W * 100;
-      hPct = s * 0.866 / BASE_H * 100;
+      hPct = s * hexAspectRatio / BASE_H * 100;
     }
     return {
       left: x - wPct / 2 - PADDING_PCT,
@@ -56,57 +72,161 @@ function generateShapes(seed, density, gradients, excludeBox) {
   };
   let attempts = 0;
   const target = clamp(Math.round(density), 4, 48);
+  let gridCenters = null;
+  if (uniformDistribution) {
+    const cols = Math.ceil(Math.sqrt(target));
+    const rows = Math.ceil(target / cols);
+    gridCenters = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if (gridCenters.length >= target) break;
+        const x = (c + 0.5) / cols * 100;
+        const y = (r + 0.5) / rows * 100;
+        gridCenters.push({ x, y });
+      }
+    }
+  }
   while (shapes.length < target && attempts < target * 120) {
     attempts++;
     const kind = kinds[Math.floor(rng() * kinds.length)];
-    const x = rng() * 100;
-    const y = rng() * 100;
+    let x, y;
+    if (uniformDistribution && gridCenters && gridCenters.length) {
+      const idx = shapes.length % gridCenters.length;
+      x = gridCenters[idx].x;
+      y = gridCenters[idx].y;
+    } else {
+      const bias = clamp(centrality != null ? centrality : 0, 0, 1);
+      const sampleUniform = () => rng() * 100;
+      const sampleGaussian = () => {
+        const u1 = Math.max(rng(), 1e-6);
+        const u2 = Math.max(rng(), 1e-6);
+        const r = Math.sqrt(-2 * Math.log(u1));
+        const theta = 2 * Math.PI * u2;
+        const z0 = r * Math.cos(theta);
+        const sigma = 12.5;
+        return 50 + z0 * sigma;
+      };
+      const mix = (a, b, t) => a * (1 - t) + b * t;
+      x = clamp(mix(sampleUniform(), sampleGaussian(), bias), 0, 100);
+      y = clamp(mix(sampleUniform(), sampleGaussian(), bias), 0, 100);
+    }
     const minBox = candidateBox(kind, x, y, 32, 24, 28);
     if (!withinViewBox(minBox)) continue;
     const depth = clamp(rng(), 0.15, 0.95);
     const rotate = 0;
-    const fill = gradients[Math.floor(rng() * gradients.length)];
     if (kind === "rect") {
       const width = 40 + rng() * 80;
       const height = 28 + rng() * 64;
       const box = candidateBox(kind, x, y, width, height);
-      if (intersects(box, excludeBoxRect)) continue;
-      let overlaps = false;
-      for (let i = 0; i < boxes.length; i++) {
-        if (intersects(box, boxes[i])) {
-          overlaps = true;
-          break;
-        }
+      if (!ignoreProtectedZones) {
+        if (intersects(box, excludeBoxRect)) continue;
+        if (inCircle(x, y) || inEllipse(x, y)) continue;
       }
-      if (overlaps) continue;
+      if (!allowOverlaps) {
+        let overlaps = false;
+        for (let i = 0; i < boxes.length; i++) {
+          if (intersects(box, boxes[i])) {
+            overlaps = true;
+            break;
+          }
+        }
+        if (overlaps) continue;
+      }
+      let fill;
+      if (allowOverlaps) {
+        const conflict = /* @__PURE__ */ new Set();
+        for (let i = 0; i < boxes.length; i++) {
+          if (intersects(box, boxes[i])) {
+            const f = shapes[i].fill;
+            if (f) conflict.add(f);
+          }
+        }
+        const available = gradients.filter((g) => !conflict.has(g));
+        if (available.length === 0) {
+          if (overlapColorPolicy === "skip") continue;
+          fill = gradients[Math.floor(rng() * gradients.length)];
+        } else {
+          fill = available[Math.floor(rng() * available.length)];
+        }
+      } else {
+        fill = gradients[Math.floor(rng() * gradients.length)];
+      }
       boxes.push(box);
       shapes.push({ kind, x, y, width, height, rotate, depth, fill, shadow: "soft" });
     } else if (kind === "circle") {
       const size = 24 + rng() * 80;
       const box = candidateBox(kind, x, y, void 0, void 0, size);
-      if (intersects(box, excludeBoxRect)) continue;
-      let overlaps = false;
-      for (let i = 0; i < boxes.length; i++) {
-        if (intersects(box, boxes[i])) {
-          overlaps = true;
-          break;
-        }
+      if (!ignoreProtectedZones) {
+        if (intersects(box, excludeBoxRect)) continue;
+        if (inCircle(x, y) || inEllipse(x, y)) continue;
       }
-      if (overlaps) continue;
+      if (!allowOverlaps) {
+        let overlaps = false;
+        for (let i = 0; i < boxes.length; i++) {
+          if (intersects(box, boxes[i])) {
+            overlaps = true;
+            break;
+          }
+        }
+        if (overlaps) continue;
+      }
+      let fill;
+      if (allowOverlaps) {
+        const conflict = /* @__PURE__ */ new Set();
+        for (let i = 0; i < boxes.length; i++) {
+          if (intersects(box, boxes[i])) {
+            const f = shapes[i].fill;
+            if (f) conflict.add(f);
+          }
+        }
+        const available = gradients.filter((g) => !conflict.has(g));
+        if (available.length === 0) {
+          if (overlapColorPolicy === "skip") continue;
+          fill = gradients[Math.floor(rng() * gradients.length)];
+        } else {
+          fill = available[Math.floor(rng() * available.length)];
+        }
+      } else {
+        fill = gradients[Math.floor(rng() * gradients.length)];
+      }
       boxes.push(box);
       shapes.push({ kind, x, y, size, rotate, depth, fill, shadow: "soft" });
     } else {
       const size = 28 + rng() * 72;
       const box = candidateBox(kind, x, y, void 0, void 0, size);
-      if (intersects(box, excludeBoxRect)) continue;
-      let overlaps = false;
-      for (let i = 0; i < boxes.length; i++) {
-        if (intersects(box, boxes[i])) {
-          overlaps = true;
-          break;
-        }
+      if (!ignoreProtectedZones) {
+        if (intersects(box, excludeBoxRect)) continue;
+        if (inCircle(x, y) || inEllipse(x, y)) continue;
       }
-      if (overlaps) continue;
+      if (!allowOverlaps) {
+        let overlaps = false;
+        for (let i = 0; i < boxes.length; i++) {
+          if (intersects(box, boxes[i])) {
+            overlaps = true;
+            break;
+          }
+        }
+        if (overlaps) continue;
+      }
+      let fill;
+      if (allowOverlaps) {
+        const conflict = /* @__PURE__ */ new Set();
+        for (let i = 0; i < boxes.length; i++) {
+          if (intersects(box, boxes[i])) {
+            const f = shapes[i].fill;
+            if (f) conflict.add(f);
+          }
+        }
+        const available = gradients.filter((g) => !conflict.has(g));
+        if (available.length === 0) {
+          if (overlapColorPolicy === "skip") continue;
+          fill = gradients[Math.floor(rng() * gradients.length)];
+        } else {
+          fill = available[Math.floor(rng() * available.length)];
+        }
+      } else {
+        fill = gradients[Math.floor(rng() * gradients.length)];
+      }
       boxes.push(box);
       shapes.push({ kind, x, y, size, rotate, depth, fill, shadow: "soft" });
     }
@@ -118,6 +238,7 @@ var PatternBanner = ({
   width = "100%",
   height = 400,
   density = 16,
+  centrality = 0,
   gradients = [
     "pb-grad-aqua-green",
     "pb-grad-purple",
@@ -126,9 +247,20 @@ var PatternBanner = ({
     "pb-grad-azure"
   ],
   shapes: shapesProp,
+  neighbors = 1,
+  connectorColor,
+  connectorWidth,
+  connectorDasharray,
+  hexAspectRatio = Math.sqrt(3) / 2,
+  allowOverlaps = false,
+  overlapColorPolicy = "recolor",
   feature,
   featureWidth = "min(640px, 80%)",
+  featureLayer = "over",
   excludeBoxPct = { w: 50, h: 36 },
+  excludeCirclePct,
+  excludeEllipsePct,
+  uniformDistribution = false,
   className,
   style
 }) => {
@@ -147,21 +279,61 @@ var PatternBanner = ({
   }, []);
   const shapes = React.useMemo(() => {
     if (shapesProp == null ? void 0 : shapesProp.length) return shapesProp;
-    return generateShapes(seed, density, gradients, excludeBoxPct);
+    const ignoreProtectedZones = featureLayer === "over" || uniformDistribution;
+    return generateShapes(
+      seed,
+      density,
+      gradients,
+      excludeBoxPct,
+      centrality,
+      hexAspectRatio,
+      allowOverlaps,
+      overlapColorPolicy,
+      ignoreProtectedZones,
+      uniformDistribution,
+      excludeCirclePct,
+      excludeEllipsePct
+    );
   }, [
     seed,
     density,
     gradients.join(","),
     excludeBoxPct.w,
     excludeBoxPct.h,
+    centrality,
+    hexAspectRatio,
+    allowOverlaps,
+    overlapColorPolicy,
+    featureLayer,
+    uniformDistribution,
+    excludeCirclePct == null ? void 0 : excludeCirclePct.r,
+    excludeEllipsePct == null ? void 0 : excludeEllipsePct.rx,
+    excludeEllipsePct == null ? void 0 : excludeEllipsePct.ry,
     shapesProp
   ]);
   const viewW = 100, viewH = 100;
+  const DEFAULT_HEX_RATIO = Math.sqrt(3) / 2;
+  const hexCornerPoints = (cxPct, cyPct, widthPx) => {
+    const R = (widthPx != null ? widthPx : 40) / 2;
+    const cxPx = cxPct / 100 * size.w;
+    const cyPx = cyPct / 100 * size.h;
+    const sy = hexAspectRatio / DEFAULT_HEX_RATIO;
+    const angles = [Math.PI, 2 * Math.PI / 3, Math.PI / 3, 0, -Math.PI / 3, -(2 * Math.PI) / 3];
+    return angles.map((a) => {
+      const x = cxPx + R * Math.cos(a);
+      const y = cyPx + R * Math.sin(a) * sy;
+      return [clamp(x / size.w * 100, 0, 100), clamp(y / size.h * 100, 0, 100)];
+    });
+  };
   return /* @__PURE__ */ jsxs(
     "div",
     {
       ref,
-      className: ["nhs-pattern-banner", className].filter(Boolean).join(" "),
+      className: [
+        "nhs-pattern-banner",
+        featureLayer === "under" ? "nhs-pattern-banner--feature-under" : "nhs-pattern-banner--feature-over",
+        className
+      ].filter(Boolean).join(" "),
       style: {
         width: typeof width === "number" ? `${width}px` : width,
         height: typeof height === "number" ? `${height}px` : height,
@@ -258,69 +430,50 @@ var PatternBanner = ({
               /* @__PURE__ */ jsx("g", { children: (() => {
                 const wPct = (px) => px / size.w * 100;
                 const hPct = (px) => px / size.h * 100;
-                const cornersByShape = shapes.map((s) => {
-                  var _a, _b, _c, _d, _e, _f, _g;
-                  const cx = s.x;
-                  const cy = s.y;
-                  if (s.kind === "circle") {
-                    const w2 = wPct((_a = s.size) != null ? _a : 40);
-                    const h2 = hPct((_b = s.size) != null ? _b : 40);
-                    return [
-                      [cx, cy - h2 / 2],
-                      [cx + w2 / 2, cy],
-                      [cx, cy + h2 / 2],
-                      [cx - w2 / 2, cy]
-                    ];
-                  }
+                const candidates = shapes.map((s) => {
+                  var _a, _b, _c, _d, _e;
+                  const cx = clamp(s.x, 0, 100);
+                  const cy = clamp(s.y, 0, 100);
+                  if (s.kind === "circle") return [[cx, cy]];
                   if (s.kind === "rect") {
-                    const w2 = wPct((_c = s.width) != null ? _c : 48);
-                    const h2 = hPct((_d = s.height) != null ? _d : 36);
+                    const w = wPct((_a = s.width) != null ? _a : 48);
+                    const h = hPct((_b = s.height) != null ? _b : 36);
                     return [
-                      [cx - w2 / 2, cy - h2 / 2],
-                      [cx + w2 / 2, cy - h2 / 2],
-                      [cx + w2 / 2, cy + h2 / 2],
-                      [cx - w2 / 2, cy + h2 / 2]
+                      [cx - w / 2, cy - h / 2],
+                      [cx + w / 2, cy - h / 2],
+                      [cx + w / 2, cy + h / 2],
+                      [cx - w / 2, cy + h / 2]
                     ];
                   }
                   if (s.kind === "svg") {
-                    const w2 = wPct((_e = s.width) != null ? _e : 48);
-                    const h2 = hPct((_f = s.height) != null ? _f : 48);
+                    const w = wPct((_c = s.width) != null ? _c : 48);
+                    const h = hPct((_d = s.height) != null ? _d : 48);
                     return [
-                      [cx - w2 / 2, cy - h2 / 2],
-                      [cx + w2 / 2, cy - h2 / 2],
-                      [cx + w2 / 2, cy + h2 / 2],
-                      [cx - w2 / 2, cy + h2 / 2]
+                      [cx - w / 2, cy - h / 2],
+                      [cx + w / 2, cy - h / 2],
+                      [cx + w / 2, cy + h / 2],
+                      [cx - w / 2, cy + h / 2]
                     ];
                   }
-                  const w = wPct((_g = s.size) != null ? _g : 40);
-                  const h = w * 0.866 * (size.h / size.w);
-                  return [
-                    [cx - w / 2, cy],
-                    [cx - w / 4, cy - h / 2],
-                    [cx + w / 4, cy - h / 2],
-                    [cx + w / 2, cy],
-                    [cx + w / 4, cy + h / 2],
-                    [cx - w / 4, cy + h / 2]
-                  ];
+                  return hexCornerPoints(cx, cy, (_e = s.size) != null ? _e : 40);
                 });
+                const k = Math.max(1, Math.floor(neighbors != null ? neighbors : 1));
                 const edges = /* @__PURE__ */ new Set();
                 const pairs = [];
                 for (let i = 0; i < shapes.length; i++) {
-                  let bestJ = -1;
-                  let bestD2 = Infinity;
+                  const dists = [];
                   for (let j = 0; j < shapes.length; j++) {
                     if (i === j) continue;
                     const dx = shapes[i].x - shapes[j].x;
                     const dy = shapes[i].y - shapes[j].y;
-                    const d2 = dx * dx + dy * dy;
-                    if (d2 < bestD2) {
-                      bestD2 = d2;
-                      bestJ = j;
-                    }
+                    dists.push({ j, d2: dx * dx + dy * dy });
                   }
-                  if (bestJ >= 0) {
-                    const a = Math.min(i, bestJ);
-                    const b = Math.max(i, bestJ);
+                  dists.sort((a, b) => a.d2 - b.d2);
+                  const limit = Math.min(k, dists.length);
+                  for (let n = 0; n < limit; n++) {
+                    const j = dists[n].j;
+                    const a = Math.min(i, j);
+                    const b = Math.max(i, j);
                     const key = `${a}-${b}`;
                     if (!edges.has(key)) {
                       edges.add(key);
@@ -330,11 +483,11 @@ var PatternBanner = ({
                 }
                 const lines = [];
                 for (const [i, j] of pairs) {
-                  const ci = cornersByShape[i];
-                  const cj = cornersByShape[j];
+                  const Ai = candidates[i];
+                  const Bj = candidates[j];
                   let best = null;
-                  for (const p of ci) {
-                    for (const q of cj) {
+                  for (const p of Ai) {
+                    for (const q of Bj) {
                       const dx = p[0] - q[0];
                       const dy = p[1] - q[1];
                       const d2 = dx * dx + dy * dy;
@@ -350,9 +503,14 @@ var PatternBanner = ({
                           y1: clamp(best.p[1], 0, 100),
                           x2: clamp(best.q[0], 0, 100),
                           y2: clamp(best.q[1], 0, 100),
-                          className: "nhs-pattern-banner-connector"
+                          className: "nhs-pattern-banner-connector",
+                          style: {
+                            stroke: connectorColor,
+                            strokeWidth: connectorWidth,
+                            strokeDasharray: connectorDasharray
+                          }
                         },
-                        `edge-${i}-${j}`
+                        `nn-line-${i}-${j}`
                       )
                     );
                   }
@@ -379,50 +537,42 @@ var PatternBanner = ({
                   );
                 }
                 if (s.kind === "rect") {
-                  const w2 = ((_b = s.width) != null ? _b : 48) / size.w * 100;
-                  const h2 = ((_c = s.height) != null ? _c : 36) / size.h * 100;
-                  const x = clamp(s.x - w2 / 2, 0, 100), y = clamp(s.y - h2 / 2, 0, 100);
+                  const w = ((_b = s.width) != null ? _b : 48) / size.w * 100;
+                  const h = ((_c = s.height) != null ? _c : 36) / size.h * 100;
+                  const x = clamp(s.x - w / 2, 0, 100), y = clamp(s.y - h / 2, 0, 100);
                   return /* @__PURE__ */ jsx(
                     "rect",
                     {
                       x,
                       y,
-                      width: w2,
-                      height: h2,
+                      width: w,
+                      height: h,
                       className: className2
                     },
                     i
                   );
                 }
                 if (s.kind === "svg" && s.src) {
-                  const w2 = ((_d = s.width) != null ? _d : 48) / size.w * 100;
-                  const h2 = ((_e = s.height) != null ? _e : 48) / size.h * 100;
-                  const x = clamp(s.x - w2 / 2, 0, 100), y = clamp(s.y - h2 / 2, 0, 100);
+                  const w = ((_d = s.width) != null ? _d : 48) / size.w * 100;
+                  const h = ((_e = s.height) != null ? _e : 48) / size.h * 100;
+                  const x = clamp(s.x - w / 2, 0, 100), y = clamp(s.y - h / 2, 0, 100);
                   return /* @__PURE__ */ jsx(
                     "image",
                     {
                       href: s.src,
                       x,
                       y,
-                      width: w2,
-                      height: h2,
+                      width: w,
+                      height: h,
                       preserveAspectRatio: "xMidYMid meet",
                       className: className2
                     },
                     i
                   );
                 }
-                const w = ((_f = s.size) != null ? _f : 40) / size.w * 100;
-                const h = w * 0.866 * (size.h / size.w);
                 const tx = clamp(s.x, 0, 100), ty = clamp(s.y, 0, 100);
-                const points = [
-                  [tx - w / 2, ty],
-                  [tx - w / 4, ty - h / 2],
-                  [tx + w / 4, ty - h / 2],
-                  [tx + w / 2, ty],
-                  [tx + w / 4, ty + h / 2],
-                  [tx - w / 4, ty + h / 2]
-                ].map((p) => p.join(",")).join(" ");
+                const pts = hexCornerPoints(tx, ty, (_f = s.size) != null ? _f : 40);
+                const points = pts.map((p) => p.join(",")).join(" ");
                 return /* @__PURE__ */ jsx("polygon", { points, className: className2 }, i);
               }) })
             ]

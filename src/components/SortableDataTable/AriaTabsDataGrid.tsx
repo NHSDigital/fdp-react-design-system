@@ -16,6 +16,8 @@ import {
 import { SortConfig } from "./AriaDataGridTypes";
 import "./AriaTabsDataGrid.scss";
 import { SortStatusControl } from "./SortStatusControl/SortStatusControl";
+import { buildMultiComparator } from './sortUtils';
+import { NullsPosition } from './AriaDataGridTypes';
 
 /**
  * Navigation focus areas for hierarchical keyboard navigation
@@ -680,50 +682,8 @@ export const AriaTabsDataGrid = forwardRef<
 						const sortConfig = state.sortConfig;
 						let sortedData = displayData;
 						if (sortConfig && sortConfig.length > 0) {
-							sortedData = [...displayData].sort((a: any, b: any) => {
-								// Apply each sort configuration in order
-								for (const { key, direction } of sortConfig) {
-									let aValue = a[key];
-									let bValue = b[key];
-
-									// Handle rendered values
-									const column = currentPanel.columns.find(
-										(col) => col.key === key
-									);
-									if (column?.tableRenderer) {
-										aValue = column.tableRenderer(a);
-										bValue = column.tableRenderer(b);
-									} else if (column?.render) {
-										aValue = column.render(a);
-										bValue = column.render(b);
-									}
-
-									// Handle null/undefined values
-									if (aValue == null && bValue == null) continue;
-									if (aValue == null) return direction === "asc" ? -1 : 1;
-									if (bValue == null) return direction === "asc" ? 1 : -1;
-
-									// Type-specific comparison
-									let result = 0;
-									if (
-										typeof aValue === "number" &&
-										typeof bValue === "number"
-									) {
-										result = aValue - bValue;
-									} else {
-										result = String(aValue).localeCompare(
-											String(bValue),
-											undefined,
-											{ numeric: true, sensitivity: "base" }
-										);
-									}
-
-									if (result !== 0) {
-										return direction === "asc" ? result : -result;
-									}
-								}
-								return 0;
-							});
+							const comparator = buildMultiComparator(currentPanel.columns as any, sortConfig, NullsPosition.Last, dataConfig?.sortingOptions);
+							sortedData = [...displayData].sort(comparator);
 						}
 
 						if (sortedData[rowIndex]) {
@@ -1167,61 +1127,10 @@ export const AriaTabsDataGrid = forwardRef<
 								// Sort the data based on the global sort configuration
 								const sortedData = useMemo(() => {
 									const sortConfig = state.sortConfig;
-									if (!sortConfig || sortConfig.length === 0)
-										return displayData;
-
-									return [...displayData].sort((a, b) => {
-										// Apply each sort configuration in order
-										for (const { key, direction } of sortConfig) {
-											let aValue = a[key];
-											let bValue = b[key];
-
-											// Handle rendered values
-											const column = panel.columns.find(
-												(col) => col.key === key
-											);
-											if (column?.tableRenderer) {
-												aValue = column.tableRenderer(a);
-												bValue = column.tableRenderer(b);
-											} else if (column?.render) {
-												aValue = column.render(a);
-												bValue = column.render(b);
-											}
-
-											if (aValue == null && bValue == null) continue;
-											if (aValue == null) return 1;
-											if (bValue == null) return -1;
-
-											let comparison = 0;
-											if (
-												typeof aValue === "number" &&
-												typeof bValue === "number"
-											) {
-												comparison = aValue - bValue;
-											} else if (
-												typeof aValue === "boolean" &&
-												typeof bValue === "boolean"
-											) {
-												comparison = aValue === bValue ? 0 : aValue ? 1 : -1;
-											} else {
-												// Use natural string comparison for strings that may contain numbers
-												comparison = String(aValue).localeCompare(
-													String(bValue),
-													undefined,
-													{
-														numeric: true,
-														sensitivity: "base",
-													}
-												);
-											}
-
-											if (comparison !== 0) {
-												return direction === "asc" ? comparison : -comparison;
-											}
-										}
-										return 0;
-									});
-								}, [displayData, state.sortConfig, panel.columns]);
+									if (!sortConfig || sortConfig.length === 0) return displayData;
+									const comparator = buildMultiComparator(panel.columns as any, sortConfig, NullsPosition.Last, dataConfig?.sortingOptions);
+									return [...displayData].sort(comparator);
+								}, [displayData, state.sortConfig, panel.columns, dataConfig?.sortingOptions]);
 
 								return (
 									<table

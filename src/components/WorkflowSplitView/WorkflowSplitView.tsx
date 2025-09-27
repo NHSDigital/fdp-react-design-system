@@ -3,6 +3,7 @@ import type {
 	WorkflowPaneConfig,
 	WorkflowSplitViewProps,
 	WorkflowStep,
+    WorkflowSection,
 } from "./WorkflowSplitView.types";
 import { CardsScroller } from "./components/CardsScroller";
 import { BreadcrumbsBar } from "./components/BreadcrumbsBar";
@@ -28,6 +29,12 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 		renderBreadcrumbs,
 		className,
 		getId = (s: T) => s.id,
+		enableTabletGrid = false,
+		isStepComplete,
+		showMobileControls,
+		currentSectionId,
+		defaultSectionIdForStep,
+		onSectionChange,
 	} = props;
 
 	// --- Debug logging ---
@@ -58,6 +65,31 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 	const activeId: ID | undefined = currentStepId ?? uncontrolledId;
 	const currentIndex = steps.findIndex((s) => getId(s) === activeId);
 	const current = currentIndex >= 0 ? steps[currentIndex] : steps[0];
+
+	// Section state (uncontrolled per-step) using a keyed record by step id string
+	const [sectionByStep, setSectionByStep] = useState<Record<string, ID | undefined>>({});
+	const stepKey = (s: T | undefined) => (s ? String(getId(s)) : "");
+	const resolveDefaultSectionId = useCallback((s: T | undefined): ID | undefined => {
+		if (!s) return undefined;
+		try {
+			const viaFn = defaultSectionIdForStep?.(s as T);
+			if (viaFn !== undefined) return viaFn;
+		} catch {}
+		const first = (s as T).sections && (s as T).sections![0];
+		return first ? (first.id as ID) : undefined;
+	}, [defaultSectionIdForStep]);
+	const activeSectionId: ID | undefined = currentSectionId ?? sectionByStep[stepKey(current)] ?? resolveDefaultSectionId(current);
+	const currentSections: WorkflowSection<ID>[] | undefined = (current && (current as T).sections ? (current as T).sections as WorkflowSection<ID>[] : undefined);
+	const activeSection: WorkflowSection<ID> | undefined = currentSections?.find(s => s.id === activeSectionId);
+	const selectSection = (sectionId: ID) => {
+		if (current) {
+			const k = stepKey(current);
+			if (currentSectionId === undefined) {
+				setSectionByStep(prev => ({ ...prev, [k]: sectionId }));
+			}
+			onSectionChange?.(sectionId, currentSections?.find(s => s.id === sectionId), current);
+		}
+	};
 
 	const navigateTo = (id: ID) => {
 		dlog("navigateTo", String(id));
@@ -108,11 +140,20 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 	const paneFocusModeRef = useRef<"containers" | "nav" | "content" | "secondary">("nav");
 	useEffect(() => {
 		paneFocusModeRef.current = paneFocusMode;
+		// When mode changes away from a container, clear container focus flags to avoid stale rings
+		if (paneFocusMode !== "nav") setNavContainerFocused(false);
+		if (paneFocusMode !== "content") setContentContainerFocused(false);
+		if (paneFocusMode !== "secondary") setSecondaryContainerFocused(false);
 	}, [paneFocusMode]);
 	const [containerIndex, setContainerIndex] = useState(0); // 0=nav,1=content,2=secondary
 	const [navFocusedIndex, setNavFocusedIndex] = useState(() =>
 		Math.max(0, currentIndex)
 	);
+
+	// Track direct focus on pane containers to drive visible focus ring styling accurately
+	const [navContainerFocused, setNavContainerFocused] = useState(false);
+	const [contentContainerFocused, setContentContainerFocused] = useState(false);
+	const [secondaryContainerFocused, setSecondaryContainerFocused] = useState(false);
 
 	const focusEl = useCallback((el?: HTMLElement | null) => {
 		if (!el) return;
@@ -229,22 +270,23 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 	// Enter containers mode by default on desktop, unless a preselected view is provided.
 	useEffect(() => {
 		if (!hydrated) return;
-		if (breakpoint === "desktop") {
+		const gridLike = breakpoint === "desktop" || (enableTabletGrid && breakpoint === "tablet");
+		if (gridLike) {
 			if (preselectedView) {
 				setPaneFocusMode("nav");
 				setContainerIndex(0);
 				// Do not auto-focus a nav item; avoid stealing focus during early user interaction
-				dlog("init: desktop preselected → mode=nav", { containerIndex: 0 });
+				dlog("init: grid preselected → mode=nav", { containerIndex: 0 });
 			} else {
 				setPaneFocusMode("containers");
 				setContainerIndex(0);
-				dlog("init: desktop default → mode=containers", { containerIndex: 0 });
+				dlog("init: grid default → mode=containers", { containerIndex: 0 });
 			}
 		} else {
 			setPaneFocusMode("nav");
-			dlog("init: non-desktop → mode=nav");
+			dlog("init: non-grid → mode=nav");
 		}
-	}, [hydrated, breakpoint, preselectedView]);
+	}, [hydrated, breakpoint, preselectedView, enableTabletGrid]);
 
 	// Clear any pending nav bootstrapping on unmount
 	useEffect(() => {
@@ -270,7 +312,9 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 	}, [paneFocusMode]);
 
 	const onRootKeyDown = (e: React.KeyboardEvent) => {
-		if (!(hydrated && breakpoint === "desktop")) return; // desktop grid only
+		// Grid keyboard model applies on desktop, and on tablet when enabled via prop
+		const gridLike = hydrated && (breakpoint === "desktop" || (enableTabletGrid && breakpoint === "tablet"));
+		if (!gridLike) return;
 		const key = e.key;
 		const target = e.target as HTMLElement;
 		// Editable field guard: ignore arrow/home/end inside text inputs, textareas, selects, or contenteditable
@@ -303,12 +347,23 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				focusNavItemSoon(navFocusedIndex);
 				return;
 			}
+			if (key === "ArrowRight" && target === contentPaneRef.current && hasSecondary) {
+				// From content container directly to the secondary container
+				e.preventDefault();
+				dlog("container: ArrowRight on content container → secondary");
+				setPaneFocusMode("secondary");
+				blurActiveIfInside(contentPaneRef.current, "from-content");
+				setContentContainerFocused(false);
+				setTimeout(() => focusEl(secondaryPaneRef.current), 10);
+				return;
+			}
 			if (key === "ArrowRight" && target === navPaneRef.current) {
 				// From nav container to content container
 				e.preventDefault();
 				dlog("container: ArrowRight on nav container → content");
 				setPaneFocusMode("content");
 				blurActiveIfInside(navPaneRef.current, "from-nav");
+				setNavContainerFocused(false);
 				focusContentSoon();
 				return;
 			}
@@ -318,6 +373,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				dlog("container: ArrowLeft on secondary container → content");
 				setPaneFocusMode("content");
 				blurActiveIfInside(secondaryPaneRef.current, "from-secondary");
+				setSecondaryContainerFocused(false);
 				focusContentSoon();
 				return;
 			}
@@ -327,6 +383,9 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				e.preventDefault();
 				dlog("container: ArrowRight → next container");
 				blurActiveIfInside(target as HTMLElement, "container-roving");
+				if (target === navPaneRef.current) setNavContainerFocused(false);
+				if (target === contentPaneRef.current) setContentContainerFocused(false);
+				if (target === secondaryPaneRef.current) setSecondaryContainerFocused(false);
 				focusContainerByIndex(containerIndex + 1);
 				return;
 			}
@@ -334,6 +393,9 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				e.preventDefault();
 				dlog("container: ArrowLeft → prev container");
 				blurActiveIfInside(target as HTMLElement, "container-roving");
+				if (target === navPaneRef.current) setNavContainerFocused(false);
+				if (target === contentPaneRef.current) setContentContainerFocused(false);
+				if (target === secondaryPaneRef.current) setSecondaryContainerFocused(false);
 				focusContainerByIndex(containerIndex - 1);
 				return;
 			}
@@ -341,6 +403,9 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				e.preventDefault();
 				dlog("container: Home → first container");
 				blurActiveIfInside(target as HTMLElement, "container-roving");
+				if (target === navPaneRef.current) setNavContainerFocused(false);
+				if (target === contentPaneRef.current) setContentContainerFocused(false);
+				if (target === secondaryPaneRef.current) setSecondaryContainerFocused(false);
 				focusContainerByIndex(0);
 				return;
 			}
@@ -348,22 +413,25 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				e.preventDefault();
 				dlog("container: End → last container");
 				blurActiveIfInside(target as HTMLElement, "container-roving");
+				if (target === navPaneRef.current) setNavContainerFocused(false);
+				if (target === contentPaneRef.current) setContentContainerFocused(false);
+				if (target === secondaryPaneRef.current) setSecondaryContainerFocused(false);
 				focusContainerByIndex(getPaneOrder().length - 1);
 				return;
 			}
-			if (key === "Enter" || key === " ") {
+				if (key === "Enter" || key === " ") {
 				e.preventDefault();
-				if (target === navPaneRef.current) {
+					if (target === navPaneRef.current) {
 					setPaneFocusMode("nav");
 					dlog("container: Enter/Space on nav → focus nav item", { navFocusedIndex });
 					navActiveButtonIndexRef.current = navFocusedIndex;
 					ignoreNextNavItemActivationRef.current = true;
-					ignoreNextClickRef.current = true;
 					focusNavItemSoon(navFocusedIndex);
 				} else if (target === contentPaneRef.current) {
 					setPaneFocusMode("content");
 					// Blur the content container before focusing its first child (descend)
 					blurActiveIfInside(contentPaneRef.current, "descend-content");
+						setContentContainerFocused(false);
 					const els = getFocusableElements(contentPaneRef.current);
 					dlog("container: Enter/Space on content → focus first focusable", { count: els.length });
 					(els[0] || contentPaneRef.current)?.focus();
@@ -371,6 +439,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 					setPaneFocusMode("secondary");
 					// Blur the secondary container before focusing its first child (descend)
 					blurActiveIfInside(secondaryPaneRef.current, "descend-secondary");
+						setSecondaryContainerFocused(false);
 					const els = getFocusableElements(secondaryPaneRef.current);
 					dlog("container: Enter/Space on secondary → focus first focusable", { count: els.length });
 					(els[0] || secondaryPaneRef.current)?.focus();
@@ -434,6 +503,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				setPaneFocusMode("content");
 				dlog("ArrowRight: from nav → content (focus content)");
 				blurActiveIfInside(navPaneRef.current, "from-nav");
+				setNavContainerFocused(false);
 				focusContentSoon();
 				return;
 			}
@@ -443,6 +513,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 					setPaneFocusMode("secondary");
 					dlog("ArrowRight: from content → secondary (focus secondary)");
 					blurActiveIfInside(contentPaneRef.current, "from-content");
+					setContentContainerFocused(false);
 					setTimeout(() => focusEl(secondaryPaneRef.current), 10);
 				}
 				return;
@@ -453,6 +524,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				e.preventDefault();
 				dlog("ArrowLeft: from secondary → content (focus content)");
 				blurActiveIfInside(secondaryPaneRef.current, "from-secondary");
+				setSecondaryContainerFocused(false);
 				focusContentSoon();
 				return;
 			}
@@ -462,6 +534,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				dlog("ArrowLeft: from content → nav (focus nav item)", { navFocusedIndex });
 				navActiveButtonIndexRef.current = navFocusedIndex;
 				blurActiveIfInside(contentPaneRef.current, "from-content");
+				setContentContainerFocused(false);
 				focusNavItemSoon(navFocusedIndex);
 				return;
 			}
@@ -497,6 +570,11 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 
 	// PrimaryNav component encapsulating keyboard roving and activation
 	const PrimaryNav = () => {
+		const resetClickSuppression = () => {
+			// Any real pointer/mouse interaction should clear suppression flags
+			ignoreNextClickRef.current = false;
+			ignoreNextNavItemActivationRef.current = false;
+		};
 		const onKeyDown = (e: React.KeyboardEvent<HTMLUListElement>) => {
 			if (!navListRef.current) return;
 			const nodes = Array.from(navListRef.current.querySelectorAll<HTMLElement>("[data-nav-item]"));
@@ -584,10 +662,8 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 			// Safety net: if a click happens on a nav item button but its handler didn't run,
 			// handle activation here via event delegation.
 			if (e.defaultPrevented) return;
-			if (ignoreNextClickRef.current) {
-				// Let the button handler consume this synthetic click
-				return;
-			}
+			// Always clear the ignore flag here to ensure subsequent real clicks aren't swallowed
+			ignoreNextClickRef.current = false;
 			const target = e.target as HTMLElement | null;
 			if (!target) return;
 			const button = target.closest("[data-nav-item]") as HTMLButtonElement | null;
@@ -617,6 +693,8 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 				onKeyDownCapture={onKeyDownCapture}
 				onKeyDown={onKeyDown}
 				onKeyUp={onKeyUp}
+				onPointerDown={resetClickSuppression}
+				onMouseDown={resetClickSuppression}
 				onClick={onClickList}
 			>
 				{steps.map((s, i) => {
@@ -635,6 +713,8 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 									(focused ? " is-focused" : "")
 								}
 								aria-current={isCurrent ? "step" : undefined}
+								onPointerDown={resetClickSuppression}
+								onMouseDown={resetClickSuppression}
 								onKeyDown={(e) => {
 									if (e.key === "Enter" || e.key === " ") {
 										e.preventDefault();
@@ -676,12 +756,15 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 									}
 								}}
 								onClick={(e) => {
+									// If this click immediately follows a keyboard activation (no pointerdown), swallow it
 									if (ignoreNextClickRef.current) {
 										ignoreNextClickRef.current = false;
 										e.preventDefault();
-										dlog("NavItem: ignore synthetic click after keyboard activation", { i });
+										e.stopPropagation();
+										dlog("NavItem: ignored synthetic click after keyboard activation", { i });
 										return;
 									}
+									// Treat this as an intentional pointer click
 									setNavFocusedIndex(i);
 									navActiveButtonIndexRef.current = i;
 									dlog("NavItem: onClick select", { i, id: String(id) });
@@ -710,10 +793,12 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 		const idx = Math.max(0, currentIndex);
 		const hasPrev = idx > 0;
 		const hasNext = idx < steps.length - 1;
+		const allowControls = (showMobileControls ? showMobileControls(current as T) : (isStepComplete ? isStepComplete(current as T) : true));
 		return (
 			<div className="nhsfdp-workflow-mobile">
 				{/* On tablet, show breadcrumbs above the mobile controls; keep hidden on mobile */}
 				{breakpoint === "tablet" ? breadcrumbs : null}
+				{allowControls && (
 				<div className="nhsfdp-mobile-controls" aria-label="Step navigation">
 					{hasPrev ? (
 						<BackLink
@@ -742,6 +827,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 						<ForwardLink element="button" text="Next" aria-hidden="true" style={{ visibility: "hidden" }} />
 					)}
 				</div>
+				)}
 				<CardsScroller<ID>
 					steps={steps}
 					currentIndex={idx}
@@ -773,11 +859,17 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 						ref={navPaneRef}
 						className={
 							"nhsfdp-pane primary-nav" +
-							(paneFocusMode === "nav" ? " is-active-pane" : "")
+							(navContainerFocused ? " is-active-pane" : "")
 						}
 						aria-label="Primary navigation"
 						role="gridcell"
 						tabIndex={0}
+						onFocus={(e) => {
+							if (e.target === navPaneRef.current) setNavContainerFocused(true);
+						}}
+						onBlur={(e) => {
+							if (e.target === navPaneRef.current) setNavContainerFocused(false);
+						}}
 					>
 						<section role="complementary" aria-label="Primary navigation">
 							<PrimaryNav />
@@ -788,35 +880,74 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 					ref={contentPaneRef}
 					className={
 						"nhsfdp-pane content" +
-						(paneFocusMode === "content" ? " is-active-pane" : "")
+						(contentContainerFocused ? " is-active-pane" : "")
 					}
 					aria-live="polite"
 					role="gridcell"
 					tabIndex={0}
+					onFocus={(e) => {
+						if (e.target === contentPaneRef.current) setContentContainerFocused(true);
+					}}
+					onBlur={(e) => {
+						if (e.target === contentPaneRef.current) setContentContainerFocused(false);
+					}}
 				>
 					{showBreadcrumbs ? breadcrumbs : null}
 					<div role="main">
-						{renderStepContent(current)}
+						{renderStepContent(current, activeSection)}
 					</div>
 				</main>
-				{cfg.showSecondaryNav &&
-					(renderSecondaryNav || renderSecondaryContent) && (
+				{(() => {
+					// Compute secondary nav/content nodes
+					const secondaryNavNode = renderSecondaryNav
+						? renderSecondaryNav(current, currentSections, activeSection, (id: ID) => selectSection(id))
+						: (currentSections && currentSections.length > 0
+							? (
+								<ul className="nhsfdp-secondary-nav" role="listbox" aria-label="Sections">
+									{currentSections.map((sec) => {
+										const isActive = activeSectionId === sec.id;
+										return (
+											<li key={String(sec.id)} role="option" aria-selected={isActive}>
+												<button
+													type="button"
+													className={"nhsfdp-secondary-nav__item" + (isActive ? " is-current" : "")}
+													data-sec-item
+													onClick={() => selectSection(sec.id)}
+												>
+													{sec.label}
+												</button>
+											</li>
+										);
+									})}
+								</ul>
+							  )
+							: undefined);
+					const secondaryContentNode = renderSecondaryContent?.(current, activeSection);
+					const shouldRenderAside = cfg.showSecondaryNav && (secondaryNavNode || secondaryContentNode);
+					return shouldRenderAside ? (
 						<aside
 							ref={secondaryPaneRef}
 							className={
 								"nhsfdp-pane secondary-nav" +
-								(paneFocusMode === "secondary" ? " is-active-pane" : "")
+								(secondaryContainerFocused ? " is-active-pane" : "")
 							}
 							aria-label="Secondary navigation"
 							role="gridcell"
 							tabIndex={0}
+							onFocus={(e) => {
+								if (e.target === secondaryPaneRef.current) setSecondaryContainerFocused(true);
+							}}
+							onBlur={(e) => {
+								if (e.target === secondaryPaneRef.current) setSecondaryContainerFocused(false);
+							}}
 						>
 							<section role="complementary" aria-label="Secondary navigation">
-								{renderSecondaryNav?.(current)}
-								{renderSecondaryContent?.(current)}
+								{secondaryNavNode}
+								{secondaryContentNode}
 							</section>
 						</aside>
-					)}
+					) : null;
+				})()}
 			</div>
 		</div>
 	);
@@ -831,7 +962,7 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 						{renderBreadcrumbs
 							? renderBreadcrumbs({ steps, current, onNavigate: navigateTo })
 							: null}
-						{current ? renderStepContent(current) : null}
+						{current ? renderStepContent(current, (current?.sections as WorkflowSection<ID>[] | undefined)?.find(s => s.id === (defaultSectionIdForStep?.(current as T) ?? (current?.sections?.[0]?.id as ID))) ) : null}
 					</main>
 				</div>
 			</div>
@@ -840,7 +971,12 @@ export function WorkflowSplitView<ID = string, T extends WorkflowStep<ID> = Work
 
 	// Use the mobile sliding-panels pattern for both mobile and tablet breakpoints,
 	// and also when a step explicitly declares a single pane.
-	if (breakpoint === "mobile" || breakpoint === "tablet" || (paneConfig.panes ?? 1) === 1) {
+	const useMobilePattern =
+		breakpoint === "mobile" ||
+		(!enableTabletGrid && breakpoint === "tablet") ||
+		(paneConfig.panes ?? 1) === 1;
+
+	if (useMobilePattern) {
 		return (
 			<div className={"nhsfdp-workflow " + (className ?? "")}>
 				{renderMobile()}

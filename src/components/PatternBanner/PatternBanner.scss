@@ -1,6 +1,8 @@
 .nhs-pattern-banner{position:relative;overflow:hidden}
-.nhs-pattern-banner__svg{position:absolute;inset:0;width:100%;height:100%}
-.nhs-pattern-banner__feature{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center}
+.nhs-pattern-banner__svg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+.nhs-pattern-banner__feature{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;z-index:1}
+.nhs-pattern-banner--feature-under .nhs-pattern-banner__feature{z-index:0}
+.nhs-pattern-banner--feature-under .nhs-pattern-banner__svg{z-index:1}
 .nhs-pattern-banner-shape{mix-blend-mode:normal}
 .nhs-pattern-banner-connector{stroke:rgba(76,98,114,.6);stroke-width:.6;vector-effect:non-scaling-stroke}
 

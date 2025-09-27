@@ -1,4 +1,4 @@
-import { ColumnDefinition, SortConfig } from './AriaDataGridTypes';
+import { ColumnDefinition, SortConfig, SortingOptions } from './AriaDataGridTypes';
 import * as React from 'react';
 
 /**
@@ -41,6 +41,8 @@ export interface DataOperationConfig<T> {
   booleanRenderer?: (value: boolean) => React.ReactNode;
   /** Custom function to get a unique identifier for a data object */
   getDataId?: (data: T) => string;
+  /** Global sorting behavior defaults for this data set */
+  sortingOptions?: SortingOptions;
 }
 
 /**

@@ -179,4 +179,37 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
     // Focus remains in input
     expect(document.activeElement).toBe(input);
   });
+
+  it("ArrowRight from content container moves focus to secondary and blurs content", async () => {
+    render(
+      <WorkflowSplitView
+        steps={steps}
+        defaultStepId="one"
+        renderStepContent={(s) => <h2>{s?.label}</h2>}
+        renderSecondaryContent={(s) => <div>Secondary {s?.label}</div>}
+        layoutForStep={({ breakpoint }) =>
+          breakpoint === "desktop"
+            ? { panes: 3, showPrimaryNav: true, showSecondaryNav: true }
+            : { panes: 2, showPrimaryNav: true, showSecondaryNav: false }
+        }
+      />
+    );
+
+    // Ensure we're in 3-pane desktop grid
+    const grid = document.querySelector(".nhsfdp-workflow-grid.panes-3") as HTMLElement;
+    expect(grid).toBeTruthy();
+
+    const cells = Array.from(grid.querySelectorAll('[role="gridcell"]')) as HTMLElement[];
+    expect(cells.length).toBeGreaterThanOrEqual(3);
+    const contentCell = cells[1];
+    const secondaryCell = cells[2];
+
+    // Focus content container and move right
+    contentCell.focus();
+    expect(document.activeElement).toBe(contentCell);
+    fireEvent.keyDown(contentCell, { key: "ArrowRight" });
+
+    // Focus should now be on the secondary container (content loses focus)
+    await waitFor(() => expect(document.activeElement).toBe(secondaryCell));
+  });
 });

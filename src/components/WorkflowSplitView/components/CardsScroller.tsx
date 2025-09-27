@@ -69,7 +69,18 @@ export function CardsScroller<T>({
 								aria-roledescription="step"
 								aria-label={(s.label ?? `Step ${i + 1}`).toString()}
 								aria-hidden={!isCurrent}
-								onClick={() => onNavigate?.(i)}
+								onClick={(e) => {
+									if (e.defaultPrevented) return;
+									const target = e.target as HTMLElement | null;
+									if (target) {
+										// Ignore clicks that originate from interactive descendants (buttons, inputs, links, etc.)
+										const interactive = target.closest(
+											'button, a, input, select, textarea, [role="button"], [role="link"], [contenteditable="true"], [data-prevent-card-click]'
+										);
+										if (interactive) return;
+									}
+									onNavigate?.(i);
+								}}
 							>
 								{renderCard(s, i, isCurrent)}
 							</div>

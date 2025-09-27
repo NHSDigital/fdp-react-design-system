@@ -330,7 +330,6 @@ span .nhsuk-u-visually-hidden {
 @media (max-width: 768px) {
   .nhs-aria-button {
     width: 100%;
-    margin-bottom: 16px;
   }
   .nhs-aria-button:last-child {
     margin-bottom: 0;

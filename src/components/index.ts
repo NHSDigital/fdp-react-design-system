@@ -215,3 +215,11 @@ export {
 } from './DataVisualisation';
 export { SPC as SPC } from './DataVisualisation';
 export { useSpc } from './DataVisualisation';
+
+// Parallax experimental component
+export { ParallaxScene } from './Parallax/ParallaxScene';
+export type { ParallaxSceneProps, ParallaxShapeSpec, ParallaxMode } from './Parallax/ParallaxScene.types';
+
+// Pattern Banner experimental component
+export { PatternBanner } from './PatternBanner/PatternBanner';
+export type { PatternBannerProps, PatternBannerShape } from './PatternBanner/PatternBanner.types';

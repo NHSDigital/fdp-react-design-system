@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Account } from './Account';
 
 const meta: Meta<typeof Account> = {
-  title: 'Components/Account',
+  title: 'NHS/Components/Header/Account',
   component: Account,
   parameters: {
     layout: 'padded',

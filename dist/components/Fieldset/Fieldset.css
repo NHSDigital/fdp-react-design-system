@@ -94,6 +94,8 @@ span .nhsuk-u-visually-hidden {
   padding-top: 24px;
   padding-bottom: 24px;
   margin-bottom: 32px;
+  margin-top: 24px;
+  padding-inline: 0;
 }
 .nhsuk-fieldset::after {
   content: "";
@@ -104,7 +106,7 @@ span .nhsuk-u-visually-hidden {
   box-sizing: border-box;
   color: #212b32;
   display: table;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   margin-top: 0;
   max-width: 100%;
   padding: 0;
@@ -120,7 +122,7 @@ span .nhsuk-u-visually-hidden {
   }
 }
 .nhsuk-fieldset__legend--xl {
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   font-size: 33px;
   font-weight: 600;
 }
@@ -130,7 +132,7 @@ span .nhsuk-u-visually-hidden {
   }
 }
 .nhsuk-fieldset__legend--l {
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   font-size: 27px;
   font-weight: 600;
 }
@@ -140,7 +142,7 @@ span .nhsuk-u-visually-hidden {
   }
 }
 .nhsuk-fieldset__legend--m {
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   font-size: 22px;
   font-weight: 600;
 }
@@ -150,7 +152,7 @@ span .nhsuk-u-visually-hidden {
   }
 }
 .nhsuk-fieldset__legend--s {
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   font-size: 16px;
   font-weight: 600;
 }

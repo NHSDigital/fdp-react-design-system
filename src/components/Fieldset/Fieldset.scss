@@ -7,7 +7,8 @@
 	padding-top: nhs.$nhs-fdp-spacing-4;
 	padding-bottom: nhs.$nhs-fdp-spacing-4;
 	margin-bottom: nhs.$nhs-fdp-spacing-5;
-
+	margin-top: nhs.$nhs-fdp-spacing-4;
+	padding-inline: 0;
 	// Clearfix for legacy browser support
 	&::after {
 		content: "";
@@ -20,7 +21,7 @@
 		box-sizing: border-box;
 		color: nhs.$nhs-fdp-semantic-color-text-primary;
 		display: table;
-		margin-bottom: nhs.$nhs-fdp-spacing-3;
+		margin-bottom: 0;
 		margin-top: 0;
 		max-width: 100%;
 		padding: 0;
@@ -40,7 +41,7 @@
 
 		// Legend size modifiers
 		&--xl {
-			margin-bottom: nhs.$nhs-fdp-spacing-3;
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
 			font-size: nhs.$nhs-fdp-font-size-48-mobile;
 			font-weight: nhs.$nhs-fdp-font-weight-bold;
 
@@ -50,7 +51,7 @@
 		}
 
 		&--l {
-			margin-bottom: nhs.$nhs-fdp-spacing-3;
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
 			font-size: nhs.$nhs-fdp-font-size-36-mobile;
 			font-weight: nhs.$nhs-fdp-font-weight-bold;
 
@@ -60,7 +61,7 @@
 		}
 
 		&--m {
-			margin-bottom: nhs.$nhs-fdp-spacing-3;
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
 			font-size: nhs.$nhs-fdp-font-size-26-mobile;
 			font-weight: nhs.$nhs-fdp-font-weight-bold;
 
@@ -70,7 +71,7 @@
 		}
 
 		&--s {
-			margin-bottom: nhs.$nhs-fdp-spacing-3;
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
 			font-size: nhs.$nhs-fdp-font-size-19-mobile;
 			font-weight: nhs.$nhs-fdp-font-weight-bold;
 

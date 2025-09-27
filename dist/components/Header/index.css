@@ -30,6 +30,15 @@
   --nhs-font-family-heading: var(--nhs-font-family-base);
 }
 
+/* NHS brand (explicit): allow local NHS scopes to reset back to Frutiger
+   This is required when an ancestor has data-brand="fdp" and a subtree wishes
+   to return to NHS defaults; variables inherit, so we must re-declare here. */
+
+[data-brand="nhs"] {
+  --nhs-font-family-base: "Frutiger W01", Arial, Helvetica, sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
+
 /* Frutiger W01 Normal Weight (400) */
 
 @font-face {

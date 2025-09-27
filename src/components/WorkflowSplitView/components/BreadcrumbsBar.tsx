@@ -58,7 +58,7 @@ export function BreadcrumbsBar<T>({
 
 	return (
 		<div style={style} onClick={handleClick}>
-			<Breadcrumb labelText={ariaLabel} classes={className} items={items as any} />
+			<Breadcrumb labelText={ariaLabel} classes={className} items={items} />
 		</div>
 	);
 }

@@ -19,7 +19,7 @@ const steps: Step[] = [
   { id: 'b', label: 'B' },
 ];
 
-describe('WorkflowSplitView (tablet behaves like mobile)', () => {
+describe('WorkflowSplitView (tablet default = mobile pattern)', () => {
   beforeEach(() => vi.clearAllMocks());
 
   it('renders sliding panes (mobile pattern) with no side asides', () => {
@@ -41,6 +41,38 @@ describe('WorkflowSplitView (tablet behaves like mobile)', () => {
     expect(
       screen.queryByRole('complementary', { name: 'Primary navigation' })
     ).toBeNull();
+    expect(
+      screen.queryByRole('complementary', { name: 'Secondary navigation' })
+    ).toBeNull();
+  });
+});
+
+describe('WorkflowSplitView (tablet grid when opted-in)', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('renders grid with primary nav and grid semantics when enableTabletGrid=true and panes>1', () => {
+    render(
+      <WorkflowSplitView
+        steps={steps}
+        defaultStepId="a"
+        enableTabletGrid
+        renderStepContent={(s) => <div>Content {s?.label}</div>}
+      />
+    );
+
+    // Should NOT use the mobile wrapper
+    expect(document.querySelector('.nhsfdp-workflow-mobile')).toBeFalsy();
+
+    // Grid is rendered
+    expect(screen.getByRole('grid', { name: 'Workflow layout' })).toBeTruthy();
+    expect(screen.getByRole('row')).toBeTruthy();
+
+    // Primary nav aside visible
+    expect(
+      screen.getByRole('complementary', { name: 'Primary navigation' })
+    ).toBeTruthy();
+
+    // Secondary nav is hidden by default on tablet unless step requests it via layoutForStep
     expect(
       screen.queryByRole('complementary', { name: 'Secondary navigation' })
     ).toBeNull();

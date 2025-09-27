@@ -178,7 +178,9 @@
     "./dist/js/tokens.json": "./packages/nhs-fdp/dist/js/tokens.json",
     "./meta/components.json": "./dist/meta/components.json",
     "./components/FormNavButtonBar/css": "./dist/components/FormNavButtonBar/FormNavButtonBar.css",
-    "./components/WorkflowSplitView/css": "./dist/components/WorkflowSplitView/WorkflowSplitView.css"
+    "./components/WorkflowSplitView/css": "./dist/components/WorkflowSplitView/WorkflowSplitView.css",
+    "./components/Parallax/ParallaxScene/css": "./dist/components/Parallax/ParallaxScene.css",
+    "./components/PatternBanner/css": "./dist/components/PatternBanner/PatternBanner.css"
   },
   "sideEffects": [
     "dist/**/*.css"

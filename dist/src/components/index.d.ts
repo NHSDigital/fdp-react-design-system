@@ -120,3 +120,7 @@ export type { SPCChartProps, SPCDatum, ChartRootProps, AxisProps, AxisTickFormat
 export { AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX, AXIS_Y_ZERO_BREAK_MIN_GAP_PX, AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX, AXIS_ZIGZAG_DEFAULT_AMPLITUDE_PX, AXIS_ZIGZAG_DEFAULT_CYCLES, AXIS_ZIGZAG_DEFAULT_STEP_X_PX, AXIS_ZIGZAG_DEFAULT_HEIGHT_PX, } from './DataVisualisation';
 export { SPC as SPC } from './DataVisualisation';
 export { useSpc } from './DataVisualisation';
+export { ParallaxScene } from './Parallax/ParallaxScene';
+export type { ParallaxSceneProps, ParallaxShapeSpec, ParallaxMode } from './Parallax/ParallaxScene.types';
+export { PatternBanner } from './PatternBanner/PatternBanner';
+export type { PatternBannerProps, PatternBannerShape } from './PatternBanner/PatternBanner.types';

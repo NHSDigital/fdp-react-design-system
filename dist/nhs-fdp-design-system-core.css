@@ -2933,7 +2933,7 @@ span .nhsuk-u-visually-hidden {
   display: inline-block;
   color: #005eb8;
   text-decoration: underline;
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   font-size: 14px;
   line-height: 1.6;
   text-decoration-thickness: max(1px, 0.0625rem);
@@ -2985,7 +2985,7 @@ span .nhsuk-u-visually-hidden {
   position: relative;
   color: #005eb8;
   text-decoration: underline;
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   font-size: 14px;
   line-height: 24px-6;
 }
@@ -3154,6 +3154,14 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] {
   /* If Source Sans is self-hosted, this will take effect automatically */
   --nhs-font-family-base: "Source Sans Pro", "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
+
+/* NHS brand (explicit): allow local NHS scopes to reset back to Frutiger
+   This is required when an ancestor has data-brand="fdp" and a subtree wishes
+   to return to NHS defaults; variables inherit, so we must re-declare here. */
+[data-brand=nhs] {
+  --nhs-font-family-base: "Frutiger W01", Arial, Helvetica, sans-serif;
   --nhs-font-family-heading: var(--nhs-font-family-base);
 }
 

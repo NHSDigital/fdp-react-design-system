@@ -1,6 +1,7 @@
 import React, { useRef, useState, useCallback, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
-import { AriaDataGridProps } from './AriaDataGridTypes';
+import { AriaDataGridProps, NullsPosition } from './AriaDataGridTypes';
+import { buildMultiComparator } from './sortUtils';
 import './AriaTabsDataGrid.scss';
 
 type NavigationMode = 'browse' | 'navigate';
@@ -17,6 +18,7 @@ export const AriaDataGrid = React.forwardRef<HTMLTableElement, AriaDataGridProps
     columns,
     sortConfig,
     onSort,
+    sortingOptions,
     selectedRowIndex,
     onRowSelect,
     id,
@@ -50,31 +52,9 @@ export const AriaDataGrid = React.forwardRef<HTMLTableElement, AriaDataGridProps
     // Sort the data based on the current sort configuration
   const sortedData = useMemo(() => {
     if (!sortConfig || sortConfig.length === 0) return data;
-    
-    return [...data].sort((a, b) => {
-      // Apply each sort configuration in order
-      for (const { key, direction } of sortConfig) {
-        const aValue = a[key];
-        const bValue = b[key];
-        
-        if (aValue == null && bValue == null) continue;
-        if (aValue == null) return 1;
-        if (bValue == null) return -1;
-        
-        let comparison = 0;
-        if (typeof aValue === 'number' && typeof bValue === 'number') {
-          comparison = aValue - bValue;
-        } else {
-          comparison = String(aValue).localeCompare(String(bValue));
-        }
-        
-        if (comparison !== 0) {
-          return direction === 'asc' ? comparison : -comparison;
-        }
-      }
-      return 0;
-    });
-  }, [data, sortConfig]);
+  const comparator = buildMultiComparator(columns as any, sortConfig, NullsPosition.Last, sortingOptions);
+    return [...data].sort(comparator);
+  }, [data, sortConfig, columns, sortingOptions]);
 
   // Focus a specific cell and scroll it into view
   const focusCell = useCallback((rowIndex: number, colIndex: number) => {

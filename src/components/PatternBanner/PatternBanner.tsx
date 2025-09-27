@@ -23,7 +23,17 @@ function generateShapes(
 	seed: number,
 	density: number,
 	gradients: string[],
-	excludeBox: { w: number; h: number }
+	excludeBox: { w: number; h: number },
+	centrality: number,
+	hexAspectRatio: number,
+	allowOverlaps: boolean,
+	overlapColorPolicy: 'recolor' | 'skip',
+	// when true, ignore all exclusion zones (rect/circle/ellipse)
+	ignoreProtectedZones: boolean,
+	// when true, distribute evenly (grid layout)
+	uniformDistribution: boolean,
+	excludeCirclePct?: { r: number },
+	excludeEllipsePct?: { rx: number; ry: number }
 ): PatternBannerShape[] {
 	const rng = mulberry32(seed);
 	const shapes: PatternBannerShape[] = [];
@@ -44,6 +54,24 @@ function generateShapes(
 		right: center.x + ex.w / 2,
 		top: center.y - ex.h / 2,
 		bottom: center.y + ex.h / 2,
+	};
+
+	// Circle/Ellipse protected regions (centred at 50,50) expressed in % units
+	const hasCircle = !ignoreProtectedZones && !!excludeCirclePct && excludeCirclePct.r > 0;
+	const hasEllipse = !ignoreProtectedZones && !!excludeEllipsePct && (excludeEllipsePct.rx > 0 || excludeEllipsePct.ry > 0);
+	const inCircle = (xPct: number, yPct: number) => {
+		if (!hasCircle) return false;
+		const dx = xPct - center.x;
+		const dy = yPct - center.y;
+		return dx * dx + dy * dy <= (excludeCirclePct!.r * excludeCirclePct!.r);
+	};
+	const inEllipse = (xPct: number, yPct: number) => {
+		if (!hasEllipse) return false;
+		const rx = Math.max(1e-6, excludeEllipsePct!.rx || 0);
+		const ry = Math.max(1e-6, excludeEllipsePct!.ry || 0);
+		const dx = (xPct - center.x) / rx;
+		const dy = (yPct - center.y) / ry;
+		return dx * dx + dy * dy <= 1;
 	};
 
 	const intersects = (a: Box, b: Box) =>
@@ -71,10 +99,10 @@ function generateShapes(
 			wPct = (d / BASE_W) * 100;
 			hPct = (d / BASE_H) * 100;
 		} else {
-			// hex: width = size, height ≈ size * 0.866 in viewBox terms
+			// hex: width = size, height ≈ size * hexAspectRatio (screen-space), convert to viewBox
 			const s = sizePx ?? 40;
 			wPct = (s / BASE_W) * 100;
-			hPct = ((s * 0.866) / BASE_H) * 100;
+			hPct = ((s * hexAspectRatio) / BASE_H) * 100;
 		}
 		return {
 			left: x - wPct / 2 - PADDING_PCT,
@@ -86,63 +114,175 @@ function generateShapes(
 
 	let attempts = 0;
 	const target = clamp(Math.round(density), 4, 48);
+
+	// If uniform distribution, precompute evenly spaced centers across a grid
+	let gridCenters: Array<{ x: number; y: number }> | null = null;
+	if (uniformDistribution) {
+		const cols = Math.ceil(Math.sqrt(target));
+		const rows = Math.ceil(target / cols);
+		gridCenters = [];
+		for (let r = 0; r < rows; r++) {
+			for (let c = 0; c < cols; c++) {
+				if (gridCenters.length >= target) break;
+				const x = ((c + 0.5) / cols) * 100;
+				const y = ((r + 0.5) / rows) * 100;
+				gridCenters.push({ x, y });
+			}
+		}
+	}
+
 	while (shapes.length < target && attempts < target * 120) {
 		attempts++;
 		const kind = kinds[Math.floor(rng() * kinds.length)];
-		const x = rng() * 100;
-		const y = rng() * 100;
+		// Choose candidate position
+		let x: number, y: number;
+		if (uniformDistribution && gridCenters && gridCenters.length) {
+			const idx = shapes.length % gridCenters.length;
+			x = gridCenters[idx].x;
+			y = gridCenters[idx].y;
+		} else {
+			// Sample positions with optional centrality bias: interpolate between uniform and Gaussian around center
+			const bias = clamp(centrality ?? 0, 0, 1);
+			const sampleUniform = () => rng() * 100;
+			const sampleGaussian = () => {
+				// Box-Muller for normal distribution; clamp into [0,100] around center
+				const u1 = Math.max(rng(), 1e-6);
+				const u2 = Math.max(rng(), 1e-6);
+				const r = Math.sqrt(-2.0 * Math.log(u1));
+				const theta = 2.0 * Math.PI * u2;
+				const z0 = r * Math.cos(theta); // standard normal
+				// Scale so ~95% within +/- 25 units; adjust if needed
+				const sigma = 12.5; // std dev in viewBox units
+				return 50 + z0 * sigma;
+			};
+			const mix = (a: number, b: number, t: number) => a * (1 - t) + b * t;
+			x = clamp(mix(sampleUniform(), sampleGaussian(), bias), 0, 100);
+			y = clamp(mix(sampleUniform(), sampleGaussian(), bias), 0, 100);
+		}
 		// Quick reject if outside viewbox margins when accounting for min size
 		// Use a modest min size per kind to avoid placing too close to edge
 		const minBox = candidateBox(kind, x, y, 32, 24, 28);
-		if (!withinViewBox(minBox)) continue;
+	if (!withinViewBox(minBox)) continue;
 
-		// Exclude overlap with feature box (by full candidate box after actual sizing below)
+		// Exclude overlap with protected regions (box + optional circle/ellipse)
 		const depth = clamp(rng(), 0.15, 0.95);
 		const rotate = 0; // no rotation per request
-		const fill = gradients[Math.floor(rng() * gradients.length)];
 
 		if (kind === "rect") {
 			const width = 40 + rng() * 80; // px
 			const height = 28 + rng() * 64; // px
 			const box = candidateBox(kind, x, y, width, height);
-			if (intersects(box, excludeBoxRect)) continue;
-			// Check collisions
-			let overlaps = false;
-			for (let i = 0; i < boxes.length; i++) {
-				if (intersects(box, boxes[i])) {
-					overlaps = true;
-					break;
-				}
+			if (!ignoreProtectedZones) {
+				if (intersects(box, excludeBoxRect)) continue;
+				if (inCircle(x, y) || inEllipse(x, y)) continue;
 			}
-			if (overlaps) continue;
+			// Check collisions
+			if (!allowOverlaps) {
+				let overlaps = false;
+				for (let i = 0; i < boxes.length; i++) {
+					if (intersects(box, boxes[i])) {
+						overlaps = true;
+						break;
+					}
+				}
+				if (overlaps) continue;
+			}
+			// Choose a fill ensuring it differs from any overlapping shapes when overlaps are allowed
+			let fill: string | undefined;
+			if (allowOverlaps) {
+				const conflict = new Set<string>();
+				for (let i = 0; i < boxes.length; i++) {
+					if (intersects(box, boxes[i])) {
+						const f = shapes[i].fill;
+						if (f) conflict.add(f);
+					}
+				}
+				const available = gradients.filter((g) => !conflict.has(g));
+				if (available.length === 0) {
+					if (overlapColorPolicy === 'skip') continue; // cannot place without duplicating colour on overlap
+					fill = gradients[Math.floor(rng() * gradients.length)];
+				} else {
+					fill = available[Math.floor(rng() * available.length)];
+				}
+			} else {
+				fill = gradients[Math.floor(rng() * gradients.length)];
+			}
 			boxes.push(box);
 			shapes.push({ kind, x, y, width, height, rotate, depth, fill, shadow: "soft" });
 		} else if (kind === "circle") {
 			const size = 24 + rng() * 80; // px (diameter)
 			const box = candidateBox(kind, x, y, undefined, undefined, size);
-			if (intersects(box, excludeBoxRect)) continue;
-			let overlaps = false;
-			for (let i = 0; i < boxes.length; i++) {
-				if (intersects(box, boxes[i])) {
-					overlaps = true;
-					break;
-				}
+			if (!ignoreProtectedZones) {
+				if (intersects(box, excludeBoxRect)) continue;
+				if (inCircle(x, y) || inEllipse(x, y)) continue;
 			}
-			if (overlaps) continue;
+			if (!allowOverlaps) {
+				let overlaps = false;
+				for (let i = 0; i < boxes.length; i++) {
+					if (intersects(box, boxes[i])) {
+						overlaps = true;
+						break;
+					}
+				}
+				if (overlaps) continue;
+			}
+			let fill: string | undefined;
+			if (allowOverlaps) {
+				const conflict = new Set<string>();
+				for (let i = 0; i < boxes.length; i++) {
+					if (intersects(box, boxes[i])) {
+						const f = shapes[i].fill;
+						if (f) conflict.add(f);
+					}
+				}
+				const available = gradients.filter((g) => !conflict.has(g));
+				if (available.length === 0) {
+					if (overlapColorPolicy === 'skip') continue;
+					fill = gradients[Math.floor(rng() * gradients.length)];
+				} else {
+					fill = available[Math.floor(rng() * available.length)];
+				}
+			} else {
+				fill = gradients[Math.floor(rng() * gradients.length)];
+			}
 			boxes.push(box);
 			shapes.push({ kind, x, y, size, rotate, depth, fill, shadow: "soft" });
 		} else {
 			const size = 28 + rng() * 72; // px (hex width)
 			const box = candidateBox(kind, x, y, undefined, undefined, size);
-			if (intersects(box, excludeBoxRect)) continue;
-			let overlaps = false;
-			for (let i = 0; i < boxes.length; i++) {
-				if (intersects(box, boxes[i])) {
-					overlaps = true;
-					break;
-				}
+			if (!ignoreProtectedZones) {
+				if (intersects(box, excludeBoxRect)) continue;
+				if (inCircle(x, y) || inEllipse(x, y)) continue;
 			}
-			if (overlaps) continue;
+			if (!allowOverlaps) {
+				let overlaps = false;
+				for (let i = 0; i < boxes.length; i++) {
+					if (intersects(box, boxes[i])) {
+						overlaps = true;
+						break;
+					}
+				}
+				if (overlaps) continue;
+			}
+			let fill: string | undefined;
+			if (allowOverlaps) {
+				const conflict = new Set<string>();
+				for (let i = 0; i < boxes.length; i++) {
+					if (intersects(box, boxes[i])) {
+						const f = shapes[i].fill;
+						if (f) conflict.add(f);
+					}
+				}
+				const available = gradients.filter((g) => !conflict.has(g));
+				if (available.length === 0) {
+					if (overlapColorPolicy === 'skip') continue;
+					fill = gradients[Math.floor(rng() * gradients.length)];
+				} else {
+					fill = available[Math.floor(rng() * available.length)];
+				}
+			} else {
+				fill = gradients[Math.floor(rng() * gradients.length)];
+			}
 			boxes.push(box);
 			shapes.push({ kind, x, y, size, rotate, depth, fill, shadow: "soft" });
 		}
@@ -155,6 +295,7 @@ export const PatternBanner: React.FC<PatternBannerProps> = ({
 	width = "100%",
 	height = 400,
 	density = 16,
+	centrality = 0,
 	gradients = [
 		"pb-grad-aqua-green",
 		"pb-grad-purple",
@@ -167,9 +308,16 @@ export const PatternBanner: React.FC<PatternBannerProps> = ({
 	connectorColor,
 	connectorWidth,
 	connectorDasharray,
+	hexAspectRatio = Math.sqrt(3) / 2,
+	allowOverlaps = false,
+	overlapColorPolicy = 'recolor',
 	feature,
 	featureWidth = "min(640px, 80%)",
+	featureLayer = 'over',
 	excludeBoxPct = { w: 50, h: 36 },
+	excludeCirclePct,
+	excludeEllipsePct,
+	uniformDistribution = false,
 	className,
 	style,
 }) => {
@@ -190,26 +338,65 @@ export const PatternBanner: React.FC<PatternBannerProps> = ({
 
 	const shapes = React.useMemo(() => {
 		if (shapesProp?.length) return shapesProp;
-		return generateShapes(seed, density, gradients, excludeBoxPct);
+		const ignoreProtectedZones = featureLayer === 'over' || uniformDistribution;
+		return generateShapes(
+			seed,
+			density,
+			gradients,
+			excludeBoxPct,
+			centrality,
+			hexAspectRatio,
+			allowOverlaps,
+			overlapColorPolicy,
+			ignoreProtectedZones,
+			uniformDistribution,
+			excludeCirclePct,
+			excludeEllipsePct
+		);
 	}, [
 		seed,
 		density,
 		gradients.join(","),
 		excludeBoxPct.w,
 		excludeBoxPct.h,
+		centrality,
+		hexAspectRatio,
+		allowOverlaps,
+		overlapColorPolicy,
+		featureLayer,
+			uniformDistribution,
+		excludeCirclePct?.r,
+		excludeEllipsePct?.rx,
+		excludeEllipsePct?.ry,
 		shapesProp,
 	]);
 
 	const viewW = 100,
 		viewH = 100;
 
-	// Constant used for regular hexagon vertical span relative to width (sqrt(3)/2)
-	const SQRT3_2 = Math.sqrt(300) / 2; // ≈ 0.8660254038
+	// Helper: compute hex corner points via circumradius in screen space then map to viewBox units
+	const DEFAULT_HEX_RATIO = Math.sqrt(3) / 2;
+	const hexCornerPoints = (cxPct: number, cyPct: number, widthPx: number): [number, number][] => {
+		const R = (widthPx ?? 40) / 2; // circumradius in px
+		const cxPx = (cxPct / 100) * size.w;
+		const cyPx = (cyPct / 100) * size.h;
+		const sy = hexAspectRatio / DEFAULT_HEX_RATIO; // vertical scale relative to regular hex
+		const angles = [Math.PI, (2 * Math.PI) / 3, Math.PI / 3, 0, -Math.PI / 3, -(2 * Math.PI) / 3];
+		return angles.map((a) => {
+			const x = cxPx + R * Math.cos(a);
+			const y = cyPx + (R * Math.sin(a)) * sy;
+			return [clamp((x / size.w) * 100, 0, 100), clamp((y / size.h) * 100, 0, 100)] as [number, number];
+		});
+	};
 
 	return (
 		<div
 			ref={ref}
-			className={["nhs-pattern-banner", className].filter(Boolean).join(" ")}
+			className={[
+				"nhs-pattern-banner",
+				featureLayer === 'under' ? 'nhs-pattern-banner--feature-under' : 'nhs-pattern-banner--feature-over',
+				className,
+			].filter(Boolean).join(" ")}
 			style={{
 				width: typeof width === "number" ? `${width}px` : width,
 				height: typeof height === "number" ? `${height}px` : height,
@@ -318,17 +505,8 @@ export const PatternBanner: React.FC<PatternBannerProps> = ({
 									[cx - w / 2, cy + h / 2],
 								];
 							}
-							// hex: match polygon points used below for fills (equilateral in screen space)
-							const w = wPct(s.size ?? 40);
-							const h = (w * SQRT3_2) * (size.h / size.w);
-							return [
-								[cx - w / 2, cy],
-								[cx - w / 4, cy - h / 2],
-								[cx + w / 4, cy - h / 2],
-								[cx + w / 2, cy],
-								[cx + w / 4, cy + h / 2],
-								[cx - w / 4, cy + h / 2],
-							];
+							// hex: radius/angles in screen space -> viewBox corner points
+							return hexCornerPoints(cx, cy, s.size ?? 40);
 						});
 
 						// Build unique k-nearest-neighbour pairs (by center distance)
@@ -451,20 +629,10 @@ export const PatternBanner: React.FC<PatternBannerProps> = ({
 								/>
 							);
 						}
-						// hexagon (pre-compensate height for aspect ratio to remain equilateral in screen space)
-						const w = ((s.size ?? 40) / size.w) * 100; // viewBox units along x
-						const h = w * SQRT3_2 * (size.h / size.w); // final screen-space height corresponds to regular hex
+						// hexagon: use radius/angles generation mapped to viewBox
 						const tx = clamp(s.x, 0, 100), ty = clamp(s.y, 0, 100);
-						const points = [
-							[tx - w / 2, ty],
-							[tx - w / 4, ty - h / 2],
-							[tx + w / 4, ty - h / 2],
-							[tx + w / 2, ty],
-							[tx + w / 4, ty + h / 2],
-							[tx - w / 4, ty + h / 2],
-						]
-							.map((p) => p.join(","))
-							.join(" ");
+						const pts = hexCornerPoints(tx, ty, s.size ?? 40);
+						const points = pts.map((p) => p.join(",")).join(" ");
 						return <polygon key={i} points={points} className={className} />;
 					})}
 				</g>

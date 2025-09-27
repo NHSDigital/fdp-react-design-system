@@ -7,5 +7,6 @@ export type BreadcrumbsBarProps<T> = {
     renderLabel?: (step: WorkflowStep<T>, index: number) => React.ReactNode;
     ariaLabel?: string;
     className?: string;
+    style?: React.CSSProperties;
 };
-export declare function BreadcrumbsBar<T>({ steps, currentIndex, onNavigate, renderLabel, ariaLabel, className, }: BreadcrumbsBarProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function BreadcrumbsBar<T>({ steps, currentIndex, onNavigate, renderLabel, ariaLabel, className, style, }: BreadcrumbsBarProps<T>): import("react/jsx-runtime").JSX.Element;

@@ -16,9 +16,9 @@
 		--nhs-font-family-base,
 		-apple-system,
 		system-ui,
+		Arial,
 		"Segoe UI",
 		Roboto,
-		Arial,
 		Helvetica,
 		sans-serif
 	);
@@ -34,7 +34,7 @@
 .nhsfdp-workflow-body {
 	display: grid;
 	grid-template-columns: 320px 1fr 360px; // align with NavigationSplitView nav/secondary
-	gap: nhs.$nhs-fdp-spacing-4;
+	gap: 0;
 }
 
 .nhsfdp-workflow-grid.panes-2 .nhsfdp-workflow-body {
@@ -47,7 +47,7 @@
 	overflow: visible;
 
 	&.content {
-		padding: 16px;
+		padding: 32px;
 	}
 }
 
@@ -145,8 +145,8 @@
 		-apple-system,
 		system-ui,
 		"Segoe UI",
-		Roboto,
 		Arial,
+		Roboto,
 		Helvetica,
 		sans-serif
 	);

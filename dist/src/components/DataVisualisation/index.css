@@ -29,6 +29,14 @@
     sans-serif;
   --nhs-font-family-heading: var(--nhs-font-family-base);
 }
+[data-brand=nhs] {
+  --nhs-font-family-base:
+    "Frutiger W01",
+    Arial,
+    Helvetica,
+    sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
 @font-face {
   font-display: swap;
   font-family: "Frutiger W01";

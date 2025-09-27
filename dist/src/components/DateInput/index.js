@@ -469,78 +469,99 @@ var DateInput = ({
     }
     return void 0;
   };
-  const handleInputChange = useCallback((fieldName, value) => {
-    const newValues = {
-      ...currentValues,
-      [fieldName]: value
-    };
-    setCurrentValues(newValues);
-    if (onChange) {
-      onChange(newValues);
-    }
-  }, [currentValues, onChange]);
-  const handleInputBlur = useCallback((fieldName) => {
-    const value = currentValues[fieldName];
-    let fieldError;
-    if (fieldName === "day") {
-      fieldError = validateDay(value, currentValues.month, currentValues.year);
-    } else if (fieldName === "month") {
-      fieldError = validateMonth(value);
-      if (!fieldError && currentValues.day) {
-        const dayError = validateDay(currentValues.day, value, currentValues.year);
-        setFieldErrors((prev) => ({
-          ...prev,
-          day: dayError
-        }));
+  const handleInputChange = useCallback(
+    (fieldName, value) => {
+      const newValues = {
+        ...currentValues,
+        [fieldName]: value
+      };
+      setCurrentValues(newValues);
+      if (onChange) {
+        onChange(newValues);
       }
-    } else if (fieldName === "year") {
-      fieldError = validateYear(value);
-      if (!fieldError && currentValues.day && currentValues.month) {
-        const dayError = validateDay(currentValues.day, currentValues.month, value);
-        setFieldErrors((prev) => ({
-          ...prev,
-          day: dayError
-        }));
-      }
-    }
-    setFieldErrors((prev) => ({
-      ...prev,
-      [fieldName]: fieldError
-    }));
-    if (currentValues.day && currentValues.month && currentValues.year) {
-      const dateError = validateDate(
-        fieldName === "day" ? value : currentValues.day,
-        fieldName === "month" ? value : currentValues.month,
-        fieldName === "year" ? value : currentValues.year
-      );
-      if (dateError) {
-        setFieldErrors((prev) => ({
-          ...prev,
-          day: dateError
-        }));
-      }
-    }
-  }, [currentValues, validateDay, validateMonth, validateYear, validateDate]);
-  const defaultItems = useMemo(() => [
-    {
-      name: "day",
-      classes: "nhsuk-input--width-2",
-      inputmode: "numeric",
-      pattern: "[0-9]*"
     },
-    {
-      name: "month",
-      classes: "nhsuk-input--width-2",
-      inputmode: "numeric",
-      pattern: "[0-9]*"
+    [currentValues, onChange]
+  );
+  const handleInputBlur = useCallback(
+    (fieldName) => {
+      const value = currentValues[fieldName];
+      let fieldError;
+      if (fieldName === "day") {
+        fieldError = validateDay(
+          value,
+          currentValues.month,
+          currentValues.year
+        );
+      } else if (fieldName === "month") {
+        fieldError = validateMonth(value);
+        if (!fieldError && currentValues.day) {
+          const dayError = validateDay(
+            currentValues.day,
+            value,
+            currentValues.year
+          );
+          setFieldErrors((prev) => ({
+            ...prev,
+            day: dayError
+          }));
+        }
+      } else if (fieldName === "year") {
+        fieldError = validateYear(value);
+        if (!fieldError && currentValues.day && currentValues.month) {
+          const dayError = validateDay(
+            currentValues.day,
+            currentValues.month,
+            value
+          );
+          setFieldErrors((prev) => ({
+            ...prev,
+            day: dayError
+          }));
+        }
+      }
+      setFieldErrors((prev) => ({
+        ...prev,
+        [fieldName]: fieldError
+      }));
+      if (currentValues.day && currentValues.month && currentValues.year) {
+        const dateError = validateDate(
+          fieldName === "day" ? value : currentValues.day,
+          fieldName === "month" ? value : currentValues.month,
+          fieldName === "year" ? value : currentValues.year
+        );
+        if (dateError) {
+          setFieldErrors((prev) => ({
+            ...prev,
+            day: dateError
+          }));
+        }
+      }
     },
-    {
-      name: "year",
-      classes: "nhsuk-input--width-4",
-      inputmode: "numeric",
-      pattern: "[0-9]*"
-    }
-  ], []);
+    [currentValues, validateDay, validateMonth, validateYear, validateDate]
+  );
+  const defaultItems = useMemo(
+    () => [
+      {
+        name: "day",
+        classes: "nhsuk-input--width-2",
+        inputmode: "numeric",
+        pattern: "[0-9]*"
+      },
+      {
+        name: "month",
+        classes: "nhsuk-input--width-2",
+        inputmode: "numeric",
+        pattern: "[0-9]*"
+      },
+      {
+        name: "year",
+        classes: "nhsuk-input--width-4",
+        inputmode: "numeric",
+        pattern: "[0-9]*"
+      }
+    ],
+    []
+  );
   const dateInputItems = items || defaultItems;
   let describedBy = (fieldset == null ? void 0 : fieldset.describedBy) || "";
   const hintId = hint ? `${id}-hint` : "";
@@ -552,33 +573,13 @@ var DateInput = ({
     describedBy = describedBy ? `${describedBy} ${errorId}` : errorId;
   }
   const hasFieldErrors = Object.values(fieldErrors).some((error) => error);
-  const formGroupClasses = (0, import_classnames.default)(
-    "nhsuk-form-group",
-    {
-      "nhsuk-form-group--error": errorMessage || hasFieldErrors
-    }
-  );
-  const dateInputClasses = (0, import_classnames.default)(
-    "nhsuk-date-input",
-    className
-  );
+  const formGroupClasses = (0, import_classnames.default)("nhsuk-form-group", {
+    "nhsuk-form-group--error": errorMessage || hasFieldErrors
+  });
+  const dateInputClasses = (0, import_classnames.default)("nhsuk-date-input", className);
   const renderInputs = () => /* @__PURE__ */ jsxs4(Fragment, { children: [
-    hint && /* @__PURE__ */ jsx5(
-      Hint,
-      {
-        id: hintId,
-        className: hint.classes,
-        children: hint.html ? /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: hint.html } }) : hint.text
-      }
-    ),
-    errorMessage && /* @__PURE__ */ jsx5(
-      ErrorMessage,
-      {
-        id: errorId,
-        className: errorMessage.classes,
-        children: errorMessage.html ? /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: errorMessage.html } }) : errorMessage.text
-      }
-    ),
+    hint && /* @__PURE__ */ jsx5(Hint, { id: hintId, className: hint.classes, children: hint.html ? /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: hint.html } }) : hint.text }),
+    errorMessage && /* @__PURE__ */ jsx5(ErrorMessage, { id: errorId, className: errorMessage.classes, children: errorMessage.html ? /* @__PURE__ */ jsx5("span", { dangerouslySetInnerHTML: { __html: errorMessage.html } }) : errorMessage.text }),
     Object.entries(fieldErrors).map(
       ([field, error]) => error ? /* @__PURE__ */ jsxs4(
         ErrorMessage,
@@ -594,46 +595,48 @@ var DateInput = ({
         `${field}-error`
       ) : null
     ),
-    /* @__PURE__ */ jsx5("div", { className: dateInputClasses, id, "data-testid": "date-input", ...props, children: dateInputItems.map((item) => {
-      const inputId = item.id || `${id}-${item.name}`;
-      const inputName = namePrefix ? `${namePrefix}[${item.name}]` : item.name;
-      const labelText = item.label || item.name.charAt(0).toUpperCase() + item.name.slice(1);
-      const fieldError = fieldErrors[item.name];
-      const currentValue = currentValues[item.name] || "";
-      let inputDescribedBy = describedBy;
-      if (fieldError) {
-        const fieldErrorId = `${id}-${item.name}-error`;
-        inputDescribedBy = inputDescribedBy ? `${inputDescribedBy} ${fieldErrorId}` : fieldErrorId;
+    /* @__PURE__ */ jsx5(
+      "div",
+      {
+        className: dateInputClasses,
+        id,
+        "data-testid": "date-input",
+        ...props,
+        children: dateInputItems.map((item) => {
+          const inputId = item.id || `${id}-${item.name}`;
+          const inputName = namePrefix ? `${namePrefix}[${item.name}]` : item.name;
+          const labelText = item.label || item.name.charAt(0).toUpperCase() + item.name.slice(1);
+          const fieldError = fieldErrors[item.name];
+          const currentValue = currentValues[item.name] || "";
+          let inputDescribedBy = describedBy;
+          if (fieldError) {
+            const fieldErrorId = `${id}-${item.name}-error`;
+            inputDescribedBy = inputDescribedBy ? `${inputDescribedBy} ${fieldErrorId}` : fieldErrorId;
+          }
+          return /* @__PURE__ */ jsxs4("div", { className: "nhsuk-date-input__item", children: [
+            /* @__PURE__ */ jsx5(Label, { htmlFor: inputId, className: "nhsuk-date-input__label", children: labelText }),
+            /* @__PURE__ */ jsx5(
+              Input,
+              {
+                id: inputId,
+                name: inputName,
+                value: currentValue,
+                className: (0, import_classnames.default)("nhsuk-date-input__input", item.classes, {
+                  "nhsuk-input--error": fieldError
+                }),
+                inputMode: item.inputmode,
+                autoComplete: item.autocomplete,
+                pattern: item.pattern,
+                "aria-describedby": inputDescribedBy || void 0,
+                hasError: !!fieldError,
+                onChange: (e) => handleInputChange(item.name, e.target.value),
+                onBlur: () => handleInputBlur(item.name)
+              }
+            )
+          ] }, item.name);
+        })
       }
-      return /* @__PURE__ */ jsxs4("div", { className: "nhsuk-date-input__item", children: [
-        /* @__PURE__ */ jsx5(
-          Label,
-          {
-            htmlFor: inputId,
-            className: "nhsuk-date-input__label",
-            children: labelText
-          }
-        ),
-        /* @__PURE__ */ jsx5(
-          Input,
-          {
-            id: inputId,
-            name: inputName,
-            value: currentValue,
-            className: (0, import_classnames.default)("nhsuk-date-input__input", item.classes, {
-              "nhsuk-input--error": fieldError
-            }),
-            inputMode: item.inputmode,
-            autoComplete: item.autocomplete,
-            pattern: item.pattern,
-            "aria-describedby": inputDescribedBy || void 0,
-            hasError: !!fieldError,
-            onChange: (e) => handleInputChange(item.name, e.target.value),
-            onBlur: () => handleInputBlur(item.name)
-          }
-        )
-      ] }, item.name);
-    }) })
+    )
   ] });
   return /* @__PURE__ */ jsx5("div", { className: formGroupClasses, children: fieldset ? /* @__PURE__ */ jsx5(
     Fieldset,

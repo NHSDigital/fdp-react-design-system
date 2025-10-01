@@ -1,0 +1,163 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.nhs-step-nav {
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+
+  &__intro {
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+  }
+
+  &__controls {
+    margin-top: nhs.$nhs-fdp-spacing-2;
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-2;
+  }
+  &__control {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: nhs.$nhs-fdp-semantic-color-link-default;
+    text-decoration: underline;
+    cursor: pointer;
+
+    &:hover { color: nhs.$nhs-fdp-semantic-color-link-hover; text-decoration: none; }
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+      text-decoration: none;
+    }
+  }
+
+  &__heading {
+    margin: 0 0 nhs.$nhs-fdp-spacing-1 0;
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+  }
+
+  &__summary {
+    margin: 0;
+    color: nhs.$nhs-fdp-semantic-color-text-secondary;
+  }
+
+  &__list {
+    list-style: decimal inside;
+    padding: 0;
+    margin: 0;
+
+    &--numbered {
+      list-style: decimal outside; // allow markers
+      padding-left: nhs.$nhs-fdp-spacing-4;
+    }
+  }
+
+  &__item {
+    margin: 0 0 nhs.$nhs-fdp-spacing-3 0;
+
+    &--current .nhs-step-nav__title {
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+    }
+
+    &--completed .nhs-step-nav__title::after {
+      content: ' (completed)';
+      color: nhs.$nhs-fdp-semantic-color-text-secondary;
+      font-weight: nhs.$nhs-fdp-font-weight-normal;
+    }
+  }
+
+  &__header {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-2;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  &__title { color: inherit; }
+
+  &__meta {
+    display: inline-flex;
+    gap: nhs.$nhs-fdp-spacing-2;
+    color: nhs.$nhs-fdp-semantic-color-text-secondary;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
+  }
+
+  // optional and duration inherit meta styles
+
+  &__content {
+    margin-top: nhs.$nhs-fdp-spacing-1;
+    border-left: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-border-color-default;
+    padding-left: nhs.$nhs-fdp-spacing-3;
+
+    &.is-collapsed {
+      display: none;
+    }
+  }
+
+  &__description { margin: 0 0 nhs.$nhs-fdp-spacing-2 0; }
+
+  &__sublist {
+    margin: 0;
+    padding-left: nhs.$nhs-fdp-spacing-4;
+  }
+
+  &__link, &__sublink {
+    color: nhs.$nhs-fdp-semantic-color-link-default;
+    text-decoration: underline;
+    text-decoration-thickness: max(1px, 0.0625rem);
+    text-underline-offset: 0.15em;
+
+    &:visited { color: nhs.$nhs-fdp-semantic-color-link-visited; }
+    &:hover { color: nhs.$nhs-fdp-semantic-color-link-hover; text-decoration: none; }
+    &:active { color: nhs.$nhs-fdp-semantic-color-link-active; }
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+      text-decoration: none;
+    }
+  }
+
+  &--sidebar {
+    .nhs-step-nav__list {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .nhs-step-nav__item {
+      border-bottom: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-border-color-default;
+      padding: nhs.$nhs-fdp-spacing-2 0;
+      margin: 0;
+    }
+  }
+
+  &__toggle {
+    margin-left: auto;
+    background: transparent;
+    border: 0;
+    width: nhs.$nhs-fdp-spacing-4;
+    height: nhs.$nhs-fdp-spacing-4;
+    cursor: pointer;
+    position: relative;
+    flex: 0 0 auto;
+
+    &:focus {
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+    }
+  }
+
+  &__toggle-icon {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(0deg);
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid nhs.$nhs-fdp-semantic-color-text-secondary; // chevron-like triangle
+  }
+}

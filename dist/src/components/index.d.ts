@@ -97,6 +97,8 @@ export { Images } from './Images';
 export type { ImagesProps } from './Images';
 export { SlotMatrix } from './SlotMatrix';
 export type { SlotMatrixProps, SlotMatrixSlot, SlotMatrixSession } from './SlotMatrix';
+export { StepByStepNavigation } from './StepByStepNavigation';
+export type { StepByStepNavigationProps, StepItem, StepStatus } from './StepByStepNavigation';
 export { SummaryCard } from './SummaryCard';
 export type { SummaryCardProps } from './SummaryCard';
 export { DashboardSummaryGrid } from './DashboardSummaryGrid';

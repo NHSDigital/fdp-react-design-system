@@ -1,0 +1,4 @@
+// Entry point for SCSS token usage via package exports
+// Forward the single aggregated token file to avoid @forward conflicts
+// (Some partials define overlapping variables; _tokens.scss contains a deduped set)
+@forward "../packages/nhs-fdp/dist/scss/_tokens.scss";

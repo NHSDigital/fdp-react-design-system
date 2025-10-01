@@ -1,0 +1,2 @@
+// Wrapper for diagram SCSS variables so consumers can @use the package path
+@forward "../../packages/nhs-fdp/dist/scss/components/_diagram.scss";

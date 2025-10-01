@@ -46,6 +46,7 @@ const genMonths = (startYear: number, startMonth1Based: number, count: number): 
 	}
 	return out;
 };
+
 const MONTHS_18 = genMonths(2024, 3, 18);
 
 const nofData: NofRow[] = [
@@ -241,39 +242,39 @@ export const PerformanceOverview: Story = {
 					<div>
 						<Header
 							service={{ text: "IPR Dashboard", href: "/" }}
-							className="nhsuk-header--dark-grey-gradient"
-							logoVariant={LogoVariant.Inverse}
+							className="nhsuk-header--white"
+							logoVariant={LogoVariant.Graphic}
 						/>
 						<NavigationSplitView<PageId, PageItem>
 							items={pages}
 							autoContentHeader={{ mobile: true, tablet: true, desktop: true }}
 							contentSubheader={(item) => item?.description}
 							// Provide a tertiary renderer; shows placeholder until a row is selected
-							renderSecondaryContent={() => (
-								selectedRow ? (
-									<div>
-										<SPCChart
-											ariaLabel={`${selectedRow.metric} SPC chart`}
-											data={selectedRow.dates
-												.map((d, i) => {
-													const v = selectedRow.values[i];
-													return v != null ? { x: d, y: v } : null;
-												})
-												.filter(Boolean) as { x: string; y: number }[]}
-											engine={{ metricImprovement: selectedRow.improvementDirection }}
-											showPoints={true}
-											highlightOutOfControl={true}
-											precomputed={{
-												rows: precomputed.get(selectedRow.id)?.rows ?? [],
-												visuals: precomputed.get(selectedRow.id)?.visuals ?? [],
-											}}
-											height={250}
-										/>
-									</div>
-								) : (
-									<p style={{ margin: 0 }}>Select a metric row to view its SPC chart here.</p>
-								)
-							)}
+							// renderSecondaryContent={() => (
+							// 	selectedRow ? (
+							// 		<div>
+							// 			<SPCChart
+							// 				ariaLabel={`${selectedRow.metric} SPC chart`}
+							// 				data={selectedRow.dates
+							// 					.map((d, i) => {
+							// 						const v = selectedRow.values[i];
+							// 						return v != null ? { x: d, y: v } : null;
+							// 					})
+							// 					.filter(Boolean) as { x: string; y: number }[]}
+							// 				engine={{ metricImprovement: selectedRow.improvementDirection }}
+							// 				showPoints={true}
+							// 				highlightOutOfControl={true}
+							// 				precomputed={{
+							// 					rows: precomputed.get(selectedRow.id)?.rows ?? [],
+							// 					visuals: precomputed.get(selectedRow.id)?.visuals ?? [],
+							// 				}}
+							// 				height={250}
+							// 			/>
+							// 		</div>
+							// 	) : (
+							// 		<p style={{ margin: 0 }}>Select a metric row to view its SPC chart here.</p>
+							// 	)
+							// )}
 							// Helpful label for mobile/tablet forward action
 							nextLabel="View chart"
 							// Secondary header can show selected metric context when available

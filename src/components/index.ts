@@ -103,6 +103,8 @@ export { Images } from './Images';
 export type { ImagesProps } from './Images';
 export { SlotMatrix } from './SlotMatrix';
 export type { SlotMatrixProps, SlotMatrixSlot, SlotMatrixSession } from './SlotMatrix';
+export { StepByStepNavigation } from './StepByStepNavigation';
+export type { StepByStepNavigationProps, StepItem, StepStatus } from './StepByStepNavigation';
 
 // Data Dashboard Components
 export { SummaryCard } from './SummaryCard';

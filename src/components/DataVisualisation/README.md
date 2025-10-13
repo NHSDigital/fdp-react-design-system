@@ -346,3 +346,80 @@ Category mode bars (different colour per datum within a single series):
 ```
 
 If the palette array is shorter than the number of series / categories, remaining items fall back to internal palette values.
+
+---
+
+## Bar colours, opacity, and gradients
+
+BarSeriesPrimitive exposes a small set of props to control fills, strokes, opacity, and gradients. Defaults are chosen to be clear and accessible out of the box.
+
+- colors?: string[]
+	- Optional explicit palette. Precedence: series.color > colors[...] > internal palette.
+	- With colorMode="series" (default), colors[seriesIndex] is used.
+	- With colorMode="category", colors[datumIndex] is used per bar.
+- colorMode?: "series" | "category" (default: "series")
+	- Switch to "category" for a different colour per bar within one series.
+- opacity?: number (default: 1)
+	- Overall group opacity for the series &lt;g&gt;, applied to visible bars. Hidden series with visibilityMode="fade" use fadedOpacity instead.
+- fadedOpacity?: number (default: 0.25)
+	- Opacity when a series is hidden and visibilityMode is "fade".
+- flatFillOpacity?: number (default: 1)
+	- Applied to rect when gradientFill=false (flat colour mode).
+- gradientFill?: boolean (default: false)
+	- When true, bars use a vertical gradient (stronger at top, softer toward baseline). When false, solid flat fill is used.
+- gradientStrokeMatch?: boolean (default: true)
+	- When gradientFill=true, match stroke to the bar’s base colour. If false, stroke falls back to a dark token via CSS.
+
+Stroke for stacked segments: When gradientStrokeMatch is false (or gradientFill is false) stacked bars fall back to a CSS variable: --nhs-fdp-chart-stacked-stroke (default #212b32).
+
+Examples
+
+1) Flat colours (default):
+
+<BarSeriesPrimitive
+  series={s}
+  seriesIndex={i}
+  seriesCount={n}
+  palette="categorical"
+  parseX={parse}
+  // gradientFill defaults to false
+  // flatFillOpacity defaults to 1
+  // opacity defaults to 1
+/>
+
+2) Enable gradients with matched stroke:
+
+<BarSeriesPrimitive
+	{...common}
+	gradientFill
+	gradientStrokeMatch
+/>
+
+3) Custom palette per series and semi‑transparent group:
+
+<BarSeriesPrimitive
+	{...common}
+	colors={['#1b9e77','#d95f02','#7570b3']}
+	opacity={0.85}
+/>
+
+4) Per‑category colours within one series, no gradient, 80% fill opacity:
+
+<BarSeriesPrimitive
+	series={oneSeries}
+	seriesIndex={0}
+	seriesCount={1}
+	palette="categorical"
+	parseX={parse}
+	colorMode="category"
+	colors={['#264653','#2a9d8f','#e9c46a','#f4a261','#e76f51']}
+	gradientFill={false}
+	flatFillOpacity={0.8}
+/>
+
+Quick recipes
+
+- No gradient, fully opaque (default): omit both props; you can also set gradientFill={false} explicitly for clarity.
+- Subtle gradient: gradientFill; keep gradientStrokeMatch (default) for colour‑matched stroke.
+- High‑contrast stroke on gradients: gradientFill with gradientStrokeMatch={false}; customise stroke with CSS var if needed.
+- Global transparency layer: set opacity to fade a whole series without changing fill.

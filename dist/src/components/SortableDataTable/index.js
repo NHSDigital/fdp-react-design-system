@@ -1168,8 +1168,10 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
     "data-testid": dataTestId,
     actions,
     actionsMinGap = 16,
-    forceActionsAbove = false
+    forceActionsAbove = false,
+    hideTabsIfSingle = false
   } = props;
+  const tabsHidden = hideTabsIfSingle && tabPanels.length === 1;
   const baseIdRef = useRef3(
     id || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
   );
@@ -1185,7 +1187,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
   const isControlled = selectedIndexProp !== void 0;
   const selectedIndex = selectedIndexProp != null ? selectedIndexProp : 0;
   const [navigationState, setNavigationState] = useState3({
-    focusArea: "tabs",
+    focusArea: tabsHidden ? "headers" : "tabs",
     focusedTabIndex: selectedIndex,
     focusedHeaderIndex: 0,
     focusedRowIndex: 0,
@@ -1221,7 +1223,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
   useEffect2(() => {
     setNavigationState((prev) => ({
       ...prev,
-      focusArea: "tabs",
+      focusArea: tabsHidden ? "headers" : "tabs",
       focusedTabIndex: state.selectedIndex,
       focusedHeaderIndex: 0,
       focusedRowIndex: 0,
@@ -1229,7 +1231,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       focusedActionIndex: 0,
       isGridActive: false
     }));
-  }, [state.selectedIndex]);
+  }, [state.selectedIndex, tabsHidden]);
   useEffect2(() => {
     if (onGlobalRowSelectionChange) {
       onGlobalRowSelectionChange(state.globalSelectedRowData);
@@ -1382,8 +1384,10 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
     focusGridCell
   ]);
   useEffect2(() => {
-    scrollTabIntoView(state.selectedIndex);
-  }, [state.selectedIndex, scrollTabIntoView]);
+    if (!tabsHidden) {
+      scrollTabIntoView(state.selectedIndex);
+    }
+  }, [state.selectedIndex, scrollTabIntoView, tabsHidden]);
   const handleHeaderKeyDown = useCallback4(
     (event, headerIndex) => {
       var _a, _b;
@@ -1411,13 +1415,24 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
           break;
         case "ArrowUp":
           event.preventDefault();
-          setNavigationState((prev) => ({
-            ...prev,
-            focusArea: "tabs",
-            focusedTabIndex: state.selectedIndex
-          }));
-          scrollTabIntoView(state.selectedIndex);
-          (_a = tabRefs.current[state.selectedIndex]) == null ? void 0 : _a.focus();
+          if (!tabsHidden) {
+            setNavigationState((prev) => ({
+              ...prev,
+              focusArea: "tabs",
+              focusedTabIndex: state.selectedIndex
+            }));
+            scrollTabIntoView(state.selectedIndex);
+            (_a = tabRefs.current[state.selectedIndex]) == null ? void 0 : _a.focus();
+          } else if (actions) {
+            setTimeout(() => {
+              const toolbar = actionsRef.current;
+              if (!toolbar) return;
+              const focusable = toolbar.querySelector(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+              );
+              focusable == null ? void 0 : focusable.focus();
+            }, 0);
+          }
           break;
         case "ArrowDown":
           event.preventDefault();
@@ -1668,7 +1683,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       setPlaceActionsInline(false);
       return;
     }
-    if (forceActionsAbove) {
+    if (tabsHidden || forceActionsAbove) {
       setPlaceActionsInline(false);
       return;
     }
@@ -1692,7 +1707,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       cancelAnimationFrame(raf);
       ro.disconnect();
     };
-  }, [actions, actionsMinGap, forceActionsAbove, tabPanels.length]);
+  }, [actions, actionsMinGap, forceActionsAbove, tabPanels.length, tabsHidden]);
   const actionsContainerRef = actionsRef;
   const getActionElements = useCallback4(() => {
     if (!actionsContainerRef.current) return [];
@@ -1871,7 +1886,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
             ariaLabel: "Data grid sort configuration"
           }
         ),
-        actions && !placeActionsInline && /* @__PURE__ */ jsx5(
+        actions && (!placeActionsInline || tabsHidden) && /* @__PURE__ */ jsx5(
           "div",
           {
             className: "aria-tabs-datagrid__actions aria-tabs-datagrid__actions--above",
@@ -1882,7 +1897,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
             children: actions
           }
         ),
-        /* @__PURE__ */ jsxs4("div", { className: `aria-tabs-datagrid__tabs-wrapper ${placeActionsInline ? "aria-tabs-datagrid__tabs-wrapper--inline-actions" : ""}`, children: [
+        !tabsHidden && /* @__PURE__ */ jsxs4("div", { className: `aria-tabs-datagrid__tabs-wrapper ${placeActionsInline ? "aria-tabs-datagrid__tabs-wrapper--inline-actions" : ""}`, children: [
           /* @__PURE__ */ jsx5(
             "div",
             {
@@ -1944,13 +1959,13 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
           )
         ] }),
         tabPanels.map((panel, index) => {
-          const isSelected = index === state.selectedIndex;
+          const isSelected = tabsHidden ? index === 0 : index === state.selectedIndex;
           return /* @__PURE__ */ jsx5(
             "div",
             {
-              role: "tabpanel",
-              id: `panel-${panel.id}`,
-              "aria-labelledby": `tab-${panel.id}`,
+              role: tabsHidden ? void 0 : "tabpanel",
+              id: tabsHidden ? void 0 : `panel-${panel.id}`,
+              "aria-labelledby": tabsHidden ? void 0 : `tab-${panel.id}`,
               tabIndex: 0,
               hidden: !isSelected,
               ref: (el) => {

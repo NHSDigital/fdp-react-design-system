@@ -806,7 +806,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 	// Navigation background on light background
 	// Only apply the white override when NOT explicitly using the blue variant
-	&:not(.nhsuk-header--blue) .nhsuk-header__navigation {
+	&:where(:not(.nhsuk-header--blue):not(.nhsuk-header--dark-grey-gradient):not(.nhsuk-header--dark-gray-gradient):not(.nhsuk-header--dark-blue-gradient)) .nhsuk-header__navigation {
 		background-color: var(--brand-fdp-semantic-surface-background-primary, #ffffff);
 	}
 
@@ -1003,8 +1003,9 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	background: tokens.$nhs-fdp-gradient-palette-grey;
 	color: tokens.$nhs-fdp-color-primary-white;
 
-	.nhsuk-header__navigation { background: transparent; }
-
+	// Ensure the navigation itself renders the same gradient to avoid any white override leakage
+	// Ensure the navigation itself renders the same gradient to avoid any white override leakage
+	.nhsuk-header__navigation { background: inherit; }
 	// Reset link/button colors back to white for dark background
 	.nhsuk-header__service-logo,
 	.nhsuk-header__service-name,
@@ -1016,7 +1017,10 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	}
 
 	// Navigation separator hairline on dark background
-	.nhsuk-header__navigation-container { box-shadow: inset 0 0.25px 0 0 tokens.$nhs-fdp-border-color-default; }
+	.nhsuk-header__navigation-container { 
+		background: inherit;
+		box-shadow: inset 0 0.25px 0 0 tokens.$nhs-fdp-border-color-default; 
+	}
 
 }
 

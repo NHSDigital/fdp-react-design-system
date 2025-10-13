@@ -16,6 +16,7 @@ export { default as GridLines, type GridLinesProps, } from "./charts/GridLines/G
 export { default as LineSeriesPrimitive, type LineSeriesPrimitiveProps, } from "./series/LineSeriesPrimitive";
 export { default as AreaSeriesPrimitive, type AreaSeriesPrimitiveProps, type AreaSeries, type AreaDatum, } from "./series/AreaSeriesPrimitive";
 export { default as BarSeriesPrimitive, type BarSeriesPrimitiveProps, type BarSeries, type BarDatum, } from "./series/BarSeriesPrimitive";
+export { default as SimpleBarChart, type SimpleBarChartProps } from "./charts/BarChart/SimpleBarChart";
 export { BandScalesProvider } from "./core/BandScalesProvider";
 export { VisibilityProvider, useVisibility } from "./core/VisibilityContext";
 export { TooltipProvider, useTooltipContext } from "./core/TooltipContext";

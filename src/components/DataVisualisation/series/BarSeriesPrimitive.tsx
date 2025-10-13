@@ -55,15 +55,15 @@ export interface BarSeriesPrimitiveProps {
 	stacked?: { y0: number; y1: number }[];
 	/** If true, renders stacked segments individually instead of grouping across series. Provided mainly for future extension (multi-encoded). */
 	stackedMode?: boolean;
-	/** Apply vertical gradient wash (solid at top -> transparent at baseline). Default true. */
+	/** Apply vertical gradient wash (solid at top -> transparent at baseline). Default false. */
 	gradientFill?: boolean;
 	/** When gradientFill is true, match stroke to primary bar colour. If false, fall back to token/dark stroke. Default true. */
 	gradientStrokeMatch?: boolean;
-	/** Overall opacity for visible bars (applied to wrapper group). Default 1 (was previously 0.25 in some non‑gradient cases). */
+	/** Overall opacity for visible bars (applied to wrapper group). Default 1 (fully opaque). */
 	opacity?: number;
 	/** Opacity applied when visibilityMode === 'fade'. Default 0.25 (existing visual behaviour). */
 	fadedOpacity?: number;
-	/** Fill opacity when gradientFill = false (flat colour mode). Default 1 (previously hard‑coded to 0.25). */
+	/** Fill opacity when gradientFill = false (flat colour mode). Default 1 (fully opaque). */
 	flatFillOpacity?: number;
 	/** Optional explicit colour palette overriding default pickSeriesColor / pickRegionColor logic.
 	 *  Precedence: series.color (single override) > colors[index] > internal palette.
@@ -90,7 +90,7 @@ export const BarSeriesPrimitive: React.FC<BarSeriesPrimitiveProps> = ({
 	stacked,
 	gapRatio = 0.15,
 	minBarWidth,
-	gradientFill = true,
+	gradientFill = false,
 	gradientStrokeMatch = true,
 	opacity = 1,
 	fadedOpacity = 0.25,

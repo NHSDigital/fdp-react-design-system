@@ -131,9 +131,11 @@ export const SecondaryDisabled: Story = {
 
 export const Reverse: Story = {
 	args: { variant: "reverse", children: "Reverse on dark BG" },
-	parameters: {
-		backgrounds: { default: "dark" },
-	},
+	globals: {
+        backgrounds: {
+            value: "dark"
+        }
+    },
 };
 
 export const Warning: Story = {

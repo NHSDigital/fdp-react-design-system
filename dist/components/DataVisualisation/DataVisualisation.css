@@ -245,6 +245,7 @@ span .nhsuk-u-visually-hidden {
 }
 
 rect.fdp-bar--stacked {
+  /* Default stroke for stacked bars when gradientStrokeMatch=false or gradientFill=false */
   stroke: var(--nhs-fdp-chart-stacked-stroke, #212b32);
 }
 

@@ -162,3 +162,32 @@ export const WithActionsForcedAbove: Story = {
     }
   }
 };
+
+// Demonstrates hiding the tab list when only a single panel is present
+export const SinglePanelNoTabs: Story = {
+  args: {
+    ariaLabel: 'Single tab grid without tab list',
+    hideTabsIfSingle: true,
+    tabPanels: createGenericTabsConfig(products, [
+      {
+        id: 'single',
+        label: 'Only Panel',
+        ariaLabel: 'Single panel grid',
+        columns: [
+          { key: 'name', label: 'Name' },
+          { key: 'category', label: 'Category' },
+          { key: 'price', label: 'Price', render: (row: Product) => `£${row.price.toFixed(2)}` },
+          { key: 'featured', label: 'Featured' }
+        ]
+      }
+    ]),
+    dataConfig
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'When hideTabsIfSingle is true and only one tab panel is provided, the tab list is hidden and only the data table is shown.'
+      }
+    }
+  }
+};

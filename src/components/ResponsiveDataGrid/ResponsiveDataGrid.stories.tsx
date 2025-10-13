@@ -187,6 +187,7 @@ export const FourColumnTable: Story = {
         ]
       }
     ],
+    hideTabsIfSingle: true,
     // Minimal cardConfig (kept for type completeness even though forceLayout=table)
     cardConfig: {
       primaryField: 'name',
@@ -202,7 +203,7 @@ export const FourColumnTable: Story = {
 };
 
 /**
- * Action Areas: Demonstrates top and bottom action areas in different layouts
+        story: 'Minimal table-focused story used to reproduce and verify header width/overflow; also demonstrates hideTabsIfSingle to remove the tablist for a single panel.'
  */
 export const WithActionAreas: Story = {
   args: {

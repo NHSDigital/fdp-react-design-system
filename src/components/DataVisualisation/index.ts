@@ -68,6 +68,7 @@ export {
 	type BarSeries,
 	type BarDatum,
 } from "./series/BarSeriesPrimitive";
+export { default as SimpleBarChart, type SimpleBarChartProps } from "./charts/BarChart/SimpleBarChart";
 export { BandScalesProvider } from "./core/BandScalesProvider";
 export { VisibilityProvider, useVisibility } from "./core/VisibilityContext";
 export { TooltipProvider, useTooltipContext } from "./core/TooltipContext";
@@ -114,3 +115,6 @@ export type { SPCChartProps, SPCDatum } from "./charts/SPC/SPCChart/SPCChart.pro
 export * as SPC from "./charts/SPC";
 
 export { default as RunChart, type RunChartProps, type RunSeries, type RunDatum } from "./charts/RunChart/RunChart";
+
+export { default as PriestleyTimeline, type PriestleyTimelineProps, type Interval as PriestleyInterval } from "./charts/PriestleyTimeline/PriestleyTimeline";
+export { default as CUSUMChart, type CUSUMChartProps, type CUSUMSeries, type CUSUMDatum } from "./charts/CUSUM/CUSUMChart";

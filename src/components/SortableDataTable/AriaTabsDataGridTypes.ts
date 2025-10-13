@@ -53,6 +53,8 @@ export interface AriaTabsDataGridProps<T = any> {
   dataConfig?: DataOperationConfig<T>;
   /** Array of tab panel configurations */
   tabPanels: TabPanelConfig<T>[];
+  /** When true and only one tab panel is provided, hides the tab list and renders just the data table. Defaults to false. */
+  hideTabsIfSingle?: boolean;
   /** Currently selected tab index */
   selectedIndex?: number;
   /** Handler for tab selection changes */

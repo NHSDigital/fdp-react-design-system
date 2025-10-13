@@ -1,0 +1,420 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import React from 'react';
+import BorderFirstStackDemo from './LayeringDemos/BorderFirstStackDemo';
+import SectionDividersDemo from './LayeringDemos/SectionDividersDemo';
+import FocusRingDemo from './LayeringDemos/FocusRingDemo';
+import HeaderDepthDemo from './LayeringDemos/HeaderDepthDemo';
+import HeaderGradientDepthDemo from './LayeringDemos/HeaderGradientDepthDemo';
+
+<Meta title="NHS/Foundations/Layering and Elevation" />
+
+# Layering and Elevation
+
+A coherent “layering” model gives consistent separation, focus, and stacking across components. This doc sets out the concepts, tokens, and adoption guidance so components can opt in gradually without visual regressions.
+
+## Goals
+
+- Shared mental model for “depth” across the system
+- Token-first approach that scales to themes (light/dark/HC)
+- Deterministic stacking layers (z-index policy)
+- Accessibility fallbacks where shadows are insufficient
+- Incremental, opt-in migration per component
+
+## Conceptual models of depth
+
+- **Spatial elevation:** Perceived height via shadows, slight blur, and scale.
+- **Surface hierarchy:** Materials with distinct visual weight (default, sunken, raised, floating, overlay).
+- **Atmospheric separation:** Scrims and backdrops for overlays and focus.
+- **Structural stacking:** Fixed global layers for popovers, modals, toasts, tooltips, etc.
+- **Stateful elevation:** Subtle elevation changes on hover/focus/pressed/dragged.
+- **Accessibility fallbacks:** Borders and contrast for forced-colors/high-contrast environments.
+
+---
+
+## Human perception and visual hierarchy
+
+### Why depth helps
+
+- **Figure–ground:** Elevated surfaces appear in front, improving target identification and reducing visual search time.
+- **Perceptual grouping:** Common surfaces and subtle separation group related elements (Gestalt proximity/similarity).
+- **Contrast and depth cues:** Shadows, scrims, and luminance steps create clear separation without heavy borders.
+- **Attentional focus:** Overlays with scrims direct attention to primary tasks and reduce distractions.
+- **Motion as a cue:** Small elevation transitions reinforce state changes without relying on color alone.
+- **Continuity and context:** Semi-transparent scrims preserve context behind modals while signalling a mode change.
+- **Cognitive load reduction:** Predictable layers make it easier to infer what’s interactive vs informational.
+
+### Hierarchies layering can illustrate
+
+- **Base content:** page background, reading surfaces, long-form content.
+- **Contained surfaces:** cards, panels, tiles inside sections.
+- **Interactive chrome:** menus, dropdowns, popovers above base content.
+- **Transient overlays:** dialogs, sheets, toasts, tooltips at higher elevations.
+- **Global affordances:** skip links, live notifications at the topmost layer.
+
+### Practical heuristics
+
+- Keep steps few and meaningful: 0–6 is ample; map components consistently.
+- Prefer clarity over drama: use spacing, contrast, and type first; let elevation be supportive.
+- Accessibility equivalence: never rely solely on depth; pair with focus rings, borders, or contrast.
+- Respect context density: in dense tables/feeds, reduce elevation and use borders to avoid noise.
+- Be consistent across themes: tweak opacities/blur by theme, but keep the semantic mapping stable.
+
+### Measurable outcomes to track
+
+- Faster task completion and reduced misclicks in flows with overlays/menus.
+- Lower visual search time in card grids and navigation.
+- Stable stacking with fewer z-index collisions and escape-key failures.
+- Robust accessibility: forced-colors legibility and focus visibility maintained.
+
+---
+
+## Why layering has been historically underspecified in NHS brand/UX
+
+### Contextual reasons
+
+- **Print-first, content-first heritage:** NHS brand emphasises clarity, legibility, and strong colour blocks from print; early web guidance favoured flat, low-ornamentation UI to keep content primary.
+- **Accessibility caution:** Depth cues (shadows, transparency) can fail under high-contrast/forced-colors, so teams avoided relying on them; guidance often prioritised borders and spacing instead.
+- **Simpler site archetypes:** Much guidance targeted informational sites rather than complex app UIs that demand robust overlay/menu/modal layering.
+- **Legacy platform constraints:** Historic browser support (e.g. IE), performance concerns, and limited CSS features made blur/scrims/shadow stacks risky or inconsistent.
+- **Distributed delivery:** Multiple teams and products evolved ad hoc patterns; central guidance focused on typography/color/spacing, leaving layering under-specified.
+- **Token maturity timeline:** Elevation, overlay, and z-index semantics typically arrived later in token architectures than colour and spacing.
+
+### Consequences in products
+
+- **Unpredictable stacking:** Ad hoc z-index values cause collisions (tooltips under headers, popovers behind modals) and context-specific hacks.
+- **Ambiguous affordance:** Containers vs cards look the same; menus/panels lack clear separation, raising misclicks and navigation errors.
+- **Focus and mode ambiguity:** Dialogs without scrims leave background interactive, ESC/dismiss behaviour is inconsistent, background scroll often remains enabled.
+- **Higher visual noise or low separation:** Teams compensate with heavy borders or large shadows, either increasing noise or still not achieving figure–ground separation.
+- **Theming regressions:** In dark mode, ad hoc shadows become too strong/unclear; overlays lack consistent contrast; no defined fallbacks for forced-colors.
+- **Accessibility risk:** Depth used without equivalents; reliance on colour/background changes without focus rings/borders; inconsistent focus trapping.
+- **Engineering overhead:** Each team invents bespoke shadow sets and z-index scales; harder to test and document; more visual regressions and bug churn.
+
+### How this document addresses those gaps
+
+- Establishes a small, meaningful elevation scale (0–6), semantic z-index layers, and scrim/backdrop tokens.
+- Provides accessibility equivalents (border emphasis, motion guidance, forced-colors behaviour) so depth is never the only signal.
+- Encourages predictable adoption through utilities and optional component props, reducing local reinvention and collisions.
+
+---
+
+## Incremental, border‑first layering roadmap (accessible-first)
+
+If we want a modest path that respects existing flat/accessible NHS conventions, we can introduce depth using only borders, outlines, surface contrast, and spacing—no drop-shadows required. This creates clear grouping and hierarchy today, while keeping a compatible path to full elevation later.
+
+### Principles
+
+- Depth without dependence on shadow: borders, contrast steps, and spacing communicate layers reliably (works in forced-colors/high-contrast).
+- Small, consistent steps: 3–4 meaningful surface/border tiers are enough for phase one.
+- Semantic tokens first: define border emphasis and background steps; components opt in via classes/props.
+- Predictable stacking: even without shadows, keep semantic z-index so overlays don’t collide.
+
+#### Suggested tokens (phase one)
+- Border emphasis: `border.color.{subtle|default|strong}` (maps to existing `--nhs-fdp-surface-border-...` where available)
+- Border width: `border.width.{hairline|1|2}` (hairline can equal 1px; allow DPR-specific tuning later)
+- Surface steps: `surface.bg.{base|contained|raised|overlay}` (e.g., map to `--nhs-fdp-surface-bg-primary|secondary|elevated`)
+- Divider color: `divider.color.{subtle|default|strong}` (same scale as borders, reserved for content separators)
+- Outline ring: `outline.color.focus`, `outline.width`, `outline.offset` (to keep focus separate from container borders)
+- Z-index: keep `zIndex.{base|sticky|dropdown|overlay|modal|...}` from earlier guidance
+
+#### CSS recipes (no shadow)
+
+```scss
+// Layer utilities (border + background only)
+.nhs-layer-0 { /* base page */
+  background: var(--nhs-fdp-surface-bg-primary);
+}
+.nhs-layer-1 { /* contained panels/cards */
+  background: var(--nhs-fdp-surface-bg-secondary);
+  border: var(--nhs-fdp-border-width-1, 1px) solid var(--nhs-fdp-surface-border-subtle);
+  border-radius: var(--nhs-fdp-border-radius-small, 4px);
+}
+.nhs-layer-2 { /* floating-like without shadow */
+  background: var(--nhs-fdp-surface-bg-elevated);
+  border: var(--nhs-fdp-border-width-1, 1px) solid var(--nhs-fdp-surface-border-default);
+  /* Optional: add a 1px separation ring using outline, not shadow */
+  outline: var(--nhs-fdp-border-width-hairline, 1px) solid var(--nhs-fdp-surface-border-subtle);
+  outline-offset: var(--nhs-fdp-spacing-1, 4px);
+}
+.nhs-layer-overlay { /* modal/panel shells without shadow */
+  background: var(--nhs-fdp-surface-color-overlay, rgba(255,255,255,0.92));
+  border: var(--nhs-fdp-border-width-2, 2px) solid var(--nhs-fdp-surface-border-strong);
+}
+
+// Header as a distinct layer using only a bottom border
+.nhs-header-layer {
+  background: var(--nhs-fdp-surface-bg-primary);
+  border-bottom: var(--nhs-fdp-border-width-1, 1px) solid var(--nhs-fdp-surface-border-strong);
+  z-index: var(--nhs-fdp-z-index-sticky);
+  position: sticky; top: 0;
+}
+
+// Content sections grouped by dividers
+.nhs-section + .nhs-section {
+  border-top: var(--nhs-fdp-border-width-1, 1px) solid var(--nhs-fdp-surface-border-subtle);
+  margin-top: var(--nhs-fdp-spacing-6);
+  padding-top: var(--nhs-fdp-spacing-6);
+}
+
+// Focus ring remains distinct from borders
+.is-focusable:focus {
+  outline: var(--nhs-fdp-outline-width, 3px) solid var(--nhs-fdp-semantic-color-focus-text);
+  outline-offset: var(--nhs-fdp-outline-offset, 2px);
+}
+```
+
+### Concept of Azimuth and “real world” cues without shadows
+
+- **Light direction:** if using split-edge borders, keep “light from above” consistent. Practical rule: the bottom edge can be slightly stronger (border-bottom uses `default`, others `subtle`) to imply elevation without a shadow.
+- **Separation rings:** a 1px outline with a small offset reads like a halo; place it evenly (not directional) unless a design needs stronger bottom emphasis.
+- **Radii and spacing:** slightly larger border radius and increased outer spacing imply “above” without adding drop-shadows.
+
+### Component mappings (border-first)
+
+- Header (sticky): base background + strong bottom border + `zIndex.sticky`.
+- Main content surface: base background (layer 0).
+- Cards/panels: layer 1 (subtle border + secondary background). Hover/focus can switch to `border.color.default`.
+- Menus/popovers: layer 2 border + elevated background; add scrim later when moving to overlays.
+- Modal: start with strong border + overlay surface; add scrim + focus trap behaviour even before adding shadows.
+
+### Accessibility and density guidance
+
+- Ensure ≥3:1 contrast for borders against their surfaces; use `strong` where secondary backgrounds are close in luminance.
+- In dense regions (tables/feeds), prefer layer 0 with dividers instead of bordered cards to reduce noise.
+- Keep focus rings visible and independent of border changes.
+
+### Path to full elevation (compatibility)
+- Once border-first layering is stable, we can introduce shadows as an optional enhancement without changing the existing classes or props.
+- The class names and props remain the same when we later add optional shadows. For example, `.nhs-layer-2` can gain a small shadow token while keeping its existing border; tokens drive the change without code churn.
+
+### Live examples (embedded components)
+
+<BorderFirstStackDemo />
+<SectionDividersDemo />
+<FocusRingDemo />
+
+#### FDP Header: strong bottom border for depth
+
+Use a strong bottom border on the header to communicate a separate, higher layer without shadows. Keep it sticky with `zIndex.sticky`, and reserve shadows for later phases.
+
+Recommended tokens
+- `border.color.strong` for the header bottom rule
+- `zIndex.sticky` for stacking above main UI
+- `surface.bg.primary` for header background (avoid transparency for clarity)
+
+Example
+
+<div className="nhs-docs-sandbox">
+  <HeaderDepthDemo />
+  </div>
+
+##### Summary of header depth discussion
+
+- There’s an existing NHS visual convention where buttons use a heavier bottom edge to imply an outset/shadow.
+- For system-wide layering, we’re testing three header treatments: Subtle (1px, low emphasis), Strong (1px, higher contrast), and Button-style (thicker edge akin to the NHS button).
+- Our hypothesis: the design system could start with the button-style weight (familiar today) and iterate towards subtler, more scalable depth across components.
+- Accessibility: all variants retain clear focus treatment and avoid relying on shadow alone; borders and contrast remain primary depth cues.
+- Tokens: each variant is driven by border width and color/opacity tokens so we can tune globally across themes (light/dark/HC) without per-component overrides.
+
+###### Dark grey gradient exploration (header)
+
+When the header background is a dark grey gradient, we need to ensure the “depth shadow” bottom edge stays perceptible. We compare 1px subtle, 1px strong, and 4px “button-style” darker edges to check:
+- Is the azimuth (light from above) clear on dark surfaces without inner shadows?
+- Do we need different opacities or shades on grey/gradient surfaces to preserve contrast and separation?
+- Does a 4px edge feel heavy against app chrome; should it be reserved for higher-attention moments only?
+
+<div className="nhs-docs-sandbox">
+  <HeaderGradientDepthDemo />
+</div>
+
+---
+
+## Token architecture (primitives → semantic → component)
+
+> Naming shown uses the existing `--nhs-fdp-…` CSS variable prefixing convention. Adjust to the final emitted names from the token build.
+
+### 1. Primitive tokens (mechanics)
+
+- Elevation shadows: `elevation.level.0–6` → `--nhs-fdp-elevation-level-{n}`
+- Scrims: `overlay.scrim.subtle|default|strong` → `--nhs-fdp-overlay-scrim-{name}`
+- Backdrop blur: `overlay.backdrop.blur.sm|md|lg` → `--nhs-fdp-overlay-backdrop-blur-{size}`
+- Surface colors: `surface.color.default|sunken|raised|floating|overlay` → `--nhs-fdp-surface-color-{name}`
+- Border emphasis (fallback): `border.color.low|md|high` → `--nhs-fdp-border-color-{name}`
+- Motion: `motion.duration.elevation.in|out`, `motion.easing.elevation` → `--nhs-fdp-motion-duration-elevation-{in|out}`, `--nhs-fdp-motion-easing-elevation`
+- Z index: `zIndex.base|raised|sticky|dropdown|overlay|modal|toast|tooltip|skipLink` → `--nhs-fdp-z-index-{name}`
+
+#### Scrims and backdrops (detailed)
+
+- Definition: A scrim is a semi‑transparent “veil” between page content and an elevated surface (modal, sheet, panel). It de‑emphasises the background and communicates a temporary mode.
+- Purpose: Focus attention on the foreground; prevent clicks/keys reaching background; signal modality.
+- vs Backdrop blur: The scrim is the translucent colour layer (for example `rgba(0,0,0,0.48)`). Backdrop blur is an optional effect (`backdrop-filter`) applied to the scrim to blur what’s behind it. Use scrim alone, or scrim + blur.
+- vs Shadows: Shadows suggest the foreground surface’s height. Scrims create atmospheric separation around it; they are complementary.
+- Stack order: page (base) < scrim (overlay) < panel (modal). Use `zIndex.overlay` for scrim, `zIndex.modal` for the panel.
+- Tokens to use: `overlay.scrim.{subtle|default|strong}`, `overlay.backdrop.blur.{sm|md|lg}`, `zIndex.overlay`, `zIndex.modal`.
+- Accessibility: Don’t rely on scrim alone for focus—keep strong focus rings and trap focus in dialogs. Use `aria-modal` or hide app root. Lock background scroll. In forced-colors/high-contrast, reduce heavy dimming and ensure panel contrast.
+- Dismissal guidance: Allow scrim click-to-dismiss for lightweight overlays (sheets/popovers) if appropriate; avoid accidental dismissal for critical modals—make this an explicit per-component choice.
+
+### 2. Semantic roles (intent)
+
+- Surfaces: `surface.default|sunken|raised|floating|overlay`
+- Elevation: `elevation.card.default`, `elevation.dropdown`, `elevation.modal`, `elevation.tooltip`
+- Overlays: `overlay.modal|sheet|panel` (scrims and optional blur)
+- Borders: `border.emphasis.low|md|high` for accessibility/high-contrast
+
+### 3. Component mapping (examples)
+
+- Card: level 1 (hover 2)
+- Dropdown/Popover/Menu: level 3
+- Modal/Sheet: level 5 + scrim default (+ optional blur md)
+- Toast: level 4
+- Tooltip: level 6
+- Sticky header/footer: `zIndex.sticky`
+
+---
+
+## Deterministic z-index policy
+
+- base: 0
+- raised (page chrome): 10
+- sticky: 100
+- dropdown/popover: 1000
+- overlay backdrop: 1100
+- modal/sheet: 1200
+- toast: 1300
+- tooltip: 1400
+- skip-link: 1500
+
+> Do not use magic numbers. Consume semantic tokens, e.g. `z-index: var(--nhs-fdp-z-index-modal);`.
+
+---
+
+## Usage patterns
+
+### SCSS/CSS (consuming CSS custom properties)
+
+```scss
+.my-card {
+  background: var(--nhs-fdp-surface-color-raised);
+  box-shadow: var(--nhs-fdp-elevation-level-1);
+  transition: box-shadow var(--nhs-fdp-motion-duration-elevation-in) var(--nhs-fdp-motion-easing-elevation);
+}
+.my-card:is(:hover, :focus-within) {
+  box-shadow: var(--nhs-fdp-elevation-level-2);
+}
+@media (forced-colors: active) {
+  .my-card {
+    box-shadow: none;
+    border: 1px solid var(--nhs-fdp-border-color-md);
+  }
+}
+```
+
+### React (opt-in via class or data attribute)
+
+```tsx
+<Card
+  className="nhs-surface--raised nhs-elevation-2 nhs-elevation-transition"
+  // or: data-elevation={2}
+>
+  {/* content */}
+</Card>
+```
+
+### Overlay pattern
+
+```scss
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: var(--nhs-fdp-overlay-scrim-default);
+  z-index: var(--nhs-fdp-z-index-overlay);
+  backdrop-filter: blur(var(--nhs-fdp-overlay-backdrop-blur-md)); // optional
+}
+.modal-panel {
+  background: var(--nhs-fdp-surface-color-overlay);
+  box-shadow: var(--nhs-fdp-elevation-level-5);
+  z-index: var(--nhs-fdp-z-index-modal);
+}
+```
+
+---
+
+## Accessibility and theming
+
+- Forced colors/high contrast: Replace shadows with borders using `border.color.*` tokens.
+- Reduced motion: Honour `prefers-reduced-motion`; remove or reduce animated elevation.
+- Dark mode: Lower shadow opacities; rely more on surface luminance steps and border emphasis.
+- Focus: Do not use elevation alone to indicate focus; retain visible focus rings.
+
+---
+
+## Recommended elevation levels (reference)
+
+- 0: flat (page surface)
+- 1–2: cards, panels, focus/hover transitions
+- 3–4: menus, popovers, toasts
+- 5: modal/sheet panels
+- 6: tooltip and topmost ephemeral UI
+
+---
+
+## Adoption plan (incremental, no regressions)
+
+1) Introduce tokens
+   - Add elevation, surfaces, overlays, z-index, and motion primitives (Style Dictionary)
+   - Generate CSS vars with the `nhs-fdp` prefix
+2) Add utilities (opt-in)
+   - `.nhs-elevation-{0..6}`, `.nhs-surface--{default|sunken|raised|floating|overlay}`
+   - `.nhs-overlay-scrim--{subtle|default|strong}`, `.nhs-backdrop--blur-{sm|md|lg}`
+   - `.nhs-elevation-transition`
+3) Map high-impact components
+   - Card → level 1 (hover 2), surface raised
+   - Dropdown/Popover → level 3
+   - Modal → level 5 + scrim default (+ blur md optional)
+   - Tooltip → level 6
+   - Sticky header → `zIndex.sticky`
+4) Add props (non-breaking)
+   - `elevation?: 0|1|2|3|4|5|6`
+   - `surface?: 'default'|'sunken'|'raised'|'floating'|'overlay'`
+   - Defaults preserve current visuals (elevation 0)
+5) Validate
+   - Storybook visual checks (this page + gallery)
+   - `npm run test:components` and `npm run test:ssr-components`
+   - A11y: verify focus order and contrast in Storybook’s a11y panel
+6) Document and socialise
+   - Keep this page as the single source of truth
+   - Add component-specific notes where patterns diverge
+
+---
+
+## Component-specific notes
+
+- Card
+  - Default: elevation 1; hover/focus: elevation 2
+  - In dense lists, consider elevation 0 + `border.color.md` to reduce noise
+- Popover/Dropdown
+  - Above page chrome; avoid exceeding tooltip z-index
+- Modal/Sheet
+  - Use scrim default; optional blur; keep behind-content readable
+- Tooltip
+  - Highest elevation (6); keep shadows subtle in dark themes
+- Sticky header/footer
+  - Use `zIndex.sticky`; don’t stack above overlays
+
+---
+
+## FAQ
+
+- Why both “surface” and “elevation”?  
+  Surface communicates material; elevation communicates separation/height. They combine to form a coherent layer.
+- Why semantic z-index tokens?  
+  Prevents collisions and ad-hoc values; makes stacking predictable.
+- Do we need blur?  
+  Optional. Prefer clarity; use sparingly for overlays where it helps focus.
+
+---
+
+## Next steps
+
+- Add the token files and utilities (see Foundations/Tokens)
+- Build tokens: `npm run build:tokens:smart`
+- Create a “Layering – Gallery” story showing surfaces, levels, overlays
+- Start adoption with Card, Popover, Modal, Tooltip props for opt-in elevation

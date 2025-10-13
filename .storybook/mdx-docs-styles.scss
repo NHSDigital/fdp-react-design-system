@@ -78,12 +78,8 @@ $heading-sizes: (
 
 // Root docs scope
 .sbdocs {
-	// Base wrapper contexts Storybook applies (defensive grouping)
-	&,
-	&.sbdocs-wrapper,
-	.docs-story,
-	.sbdocs-content,
-	.docs-container {
+	// Scope base typography to docs prose only to avoid leaking into preview/canvas (.docs-story)
+	.sbdocs-content {
 		font-family: $ds-font-stack;
 		color: tokens.$nhs-fdp-semantic-color-text-primary;
 		line-height: 1.5;
@@ -91,12 +87,12 @@ $heading-sizes: (
 	}
 
 	// Typography
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
+	.sbdocs-content h1,
+	.sbdocs-content h2,
+	.sbdocs-content h3,
+	.sbdocs-content h4,
+	.sbdocs-content h5,
+	.sbdocs-content h6 {
 		font-family: $ds-font-stack;
 		font-weight: 600;
 		line-height: 1.25;
@@ -108,7 +104,7 @@ $heading-sizes: (
 
 	// Size + responsive line-height & margins loop
 	@each $tag, $cfg in $heading-sizes {
-		#{$tag} {
+		.sbdocs-content #{$tag} {
 			font-size: map.get($cfg, font-mobile);
 			line-height: map.get($cfg, lh-mobile);
 			margin-bottom: map.get($cfg, mb-mobile);
@@ -126,20 +122,20 @@ $heading-sizes: (
 		}
 	}
 
-	p,
-	ul,
-	ol,
-	table,
-	pre,
-	code,
-	blockquote {
+	.sbdocs-content p,
+	.sbdocs-content ul,
+	.sbdocs-content ol,
+	.sbdocs-content table,
+	.sbdocs-content pre,
+	.sbdocs-content code,
+	.sbdocs-content blockquote {
 		margin-top: 0;
 		margin-bottom: tokens.$nhs-fdp-spacing-4;
 		font-size: tokens.$nhs-fdp-font-size-19-desktop;
 		line-height: tokens.$nhs-fdp-font-line-height-19-desktop;
 	}
 
-	li {
+	.sbdocs-content li {
 		margin-bottom: 0;
 		font-size: tokens.$nhs-fdp-font-size-19-desktop;
 		line-height: tokens.$nhs-fdp-font-line-height-19-desktop;
@@ -176,10 +172,10 @@ $heading-sizes: (
 		font-weight: tokens.$nhs-fdp-font-weight-normal !important;
 	}
 
-	p,
-	em,
-	table,
-	li {
+	.sbdocs-content p,
+	.sbdocs-content em,
+	.sbdocs-content table,
+	.sbdocs-content li {
 		font-family: $ds-font-stack;
 
 		code {
@@ -187,14 +183,14 @@ $heading-sizes: (
 		}
 	}
 
-	a {
+	.sbdocs-content a {
 		color: tokens.$nhs-fdp-semantic-color-link-default;
 		&:hover {
 			color: tokens.$nhs-fdp-semantic-color-link-hover;
 		}
 	}
 
-	pre {
+	.sbdocs-content pre {
 		font-size: 1rem;
 
 		code {
@@ -202,7 +198,7 @@ $heading-sizes: (
 		}
 	}
 
-	table {
+	.sbdocs-content table {
 		border-collapse: collapse;
 
 		th,
@@ -213,9 +209,29 @@ $heading-sizes: (
 	}
 
 	// Mermaid diagram tweaks within docs
-	.mermaid-diagram {
+	.sbdocs-content .mermaid-diagram {
 		svg .node rect {
 			rx: 4px;
+		}
+	}
+
+	// Escape hatch: prevent docs typography rules from affecting embedded components
+	// Wrap any interactive demo with `.nhs-docs-sandbox` to reset prose margins inside it.
+	.nhs-docs-sandbox {
+		ul,
+		ol, li {
+			margin: 0 !important;
+		}
+		p,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6,
+		blockquote,
+		pre {
+			margin: 0 !important;
 		}
 	}
 }

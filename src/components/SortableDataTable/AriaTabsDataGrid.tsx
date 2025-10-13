@@ -148,7 +148,11 @@ export const AriaTabsDataGrid = forwardRef<
 		actions,
 		actionsMinGap = 16,
 		forceActionsAbove = false,
+		hideTabsIfSingle = false,
 	} = props;
+
+	// Allow developer to hide the tab list when only a single tab/panel is provided
+	const tabsHidden = hideTabsIfSingle && tabPanels.length === 1;
 
 	// Generate a stable base id for internal helper elements when no `id` prop is provided.
 	const baseIdRef = useRef<string>(
@@ -177,7 +181,7 @@ export const AriaTabsDataGrid = forwardRef<
 
 	// Navigation state for hierarchical keyboard navigation (like GanttChart)
 	const [navigationState, setNavigationState] = useState<NavigationState>({
-		focusArea: "tabs",
+		focusArea: tabsHidden ? "headers" : "tabs",
 		focusedTabIndex: selectedIndex,
 		focusedHeaderIndex: 0,
 		focusedRowIndex: 0,
@@ -225,7 +229,7 @@ export const AriaTabsDataGrid = forwardRef<
 	useEffect(() => {
 		setNavigationState((prev) => ({
 			...prev,
-			focusArea: "tabs",
+			focusArea: tabsHidden ? "headers" : "tabs",
 			focusedTabIndex: state.selectedIndex,
 			focusedHeaderIndex: 0,
 			focusedRowIndex: 0,
@@ -233,7 +237,7 @@ export const AriaTabsDataGrid = forwardRef<
 			focusedActionIndex: 0,
 			isGridActive: false,
 		}));
-	}, [state.selectedIndex]);
+	}, [state.selectedIndex, tabsHidden]);
 
 	// Handle global row selection callback
 	useEffect(() => {
@@ -471,8 +475,10 @@ export const AriaTabsDataGrid = forwardRef<
 
 	// Scroll selected tab into view when tab changes
 	useEffect(() => {
-		scrollTabIntoView(state.selectedIndex);
-	}, [state.selectedIndex, scrollTabIntoView]);
+		if (!tabsHidden) {
+			scrollTabIntoView(state.selectedIndex);
+		}
+	}, [state.selectedIndex, scrollTabIntoView, tabsHidden]);
 
 	// Grid header navigation (similar to GanttChart date navigation)
 	const handleHeaderKeyDown = useCallback(
@@ -504,14 +510,26 @@ export const AriaTabsDataGrid = forwardRef<
 
 				case "ArrowUp":
 					event.preventDefault();
-					// Navigate back to tabs
-					setNavigationState((prev) => ({
-						...prev,
-						focusArea: "tabs",
-						focusedTabIndex: state.selectedIndex,
-					}));
-					scrollTabIntoView(state.selectedIndex);
-					tabRefs.current[state.selectedIndex]?.focus();
+					// When tabs are visible, navigate back to tabs; otherwise, try actions if present
+					if (!tabsHidden) {
+						setNavigationState((prev) => ({
+							...prev,
+							focusArea: "tabs",
+							focusedTabIndex: state.selectedIndex,
+						}));
+						scrollTabIntoView(state.selectedIndex);
+						tabRefs.current[state.selectedIndex]?.focus();
+					} else if (actions) {
+						// focus first action if available
+						setTimeout(() => {
+							const toolbar = actionsRef.current;
+							if (!toolbar) return;
+							const focusable = toolbar.querySelector<HTMLElement>(
+								'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+							);
+							focusable?.focus();
+						}, 0);
+					}
 					break;
 
 				case "ArrowDown":
@@ -813,7 +831,8 @@ export const AriaTabsDataGrid = forwardRef<
 			setPlaceActionsInline(false);
 			return;
 		}
-		if (forceActionsAbove) {
+		// If there are no tabs visible, always place actions above the table
+		if (tabsHidden || forceActionsAbove) {
 			setPlaceActionsInline(false);
 			return;
 		}
@@ -839,7 +858,7 @@ export const AriaTabsDataGrid = forwardRef<
 			cancelAnimationFrame(raf);
 			ro.disconnect();
 		};
-	}, [actions, actionsMinGap, forceActionsAbove, tabPanels.length]);
+	}, [actions, actionsMinGap, forceActionsAbove, tabPanels.length, tabsHidden]);
 
 	// Actions toolbar navigation helpers now that placement state exists
 	const actionsContainerRef = actionsRef; // reuse DOM ref
@@ -1024,8 +1043,8 @@ export const AriaTabsDataGrid = forwardRef<
 			/>
 
 			{/* Tab List with Manual ARIA Implementation */}
-			{/* Actions above when not inline */}
-			{actions && !placeActionsInline && (
+			{/* Actions above when not inline, or when tabs are hidden */}
+			{actions && (!placeActionsInline || tabsHidden) && (
 				<div
 					className="aria-tabs-datagrid__actions aria-tabs-datagrid__actions--above"
 					ref={actionsRef}
@@ -1037,76 +1056,78 @@ export const AriaTabsDataGrid = forwardRef<
 				</div>
 			)}
 
-			<div className={`aria-tabs-datagrid__tabs-wrapper ${placeActionsInline ? 'aria-tabs-datagrid__tabs-wrapper--inline-actions' : ''}`}> 
-				<div
-					role="tablist"
-					aria-label={ariaLabel}
-					aria-describedby={(() => {
-						if (ariaDescription) {
-							return descriptionLooksLikeId ? (ariaDescription as string) : generatedDescriptionId;
-						}
-						return navigationHelpId;
-					})()}
-					aria-orientation={orientation}
-					className="aria-tabs-datagrid__tabs"
-					ref={tabListRef}
-				>
-					{tabPanels.map((panel, index) => {
-						const isSelected = index === state.selectedIndex;
-						const isDisabled = panel.disabled || disabled;
-						return (
-							<button
-								key={panel.id}
-								role="tab"
-								id={`tab-${panel.id}`}
-								aria-controls={`panel-${panel.id}`}
-								aria-selected={isSelected}
-								aria-disabled={isDisabled}
-								tabIndex={isSelected ? 0 : -1}
-								ref={(el) => { tabRefs.current[index] = el; }}
-								onClick={() => handleTabSelect(index)}
-								onKeyDown={(event) => handleTabKeyDown(event, index)}
-								disabled={isDisabled}
-								className={[
-									'aria-tabs-datagrid__tab',
-									isSelected ? 'aria-tabs-datagrid__tab--selected' : '',
-									isDisabled ? 'aria-tabs-datagrid__tab--disabled' : '',
-								].filter(Boolean).join(' ')}
-							>
-								<span className="aria-tabs-datagrid__tab-label">{panel.label}</span>
-								{state.tabLoadingStates[index] && (
-									<span className="aria-tabs-datagrid__tab-loading" aria-hidden="true">⏳</span>
-								)}
-								{state.tabErrors[index] && (
-									<span className="aria-tabs-datagrid__tab-error" aria-hidden="true">⚠️</span>
-								)}
-							</button>
-						);
-					})}
-				</div>
-				{ actions && placeActionsInline && (
+			{!tabsHidden && (
+				<div className={`aria-tabs-datagrid__tabs-wrapper ${placeActionsInline ? 'aria-tabs-datagrid__tabs-wrapper--inline-actions' : ''}`}> 
 					<div
-						className="aria-tabs-datagrid__actions aria-tabs-datagrid__actions--inline"
-						ref={actionsRef}
-						role="toolbar"
-						aria-label="Additional actions"
-						onKeyDown={handleActionsKeyDown}
+						role="tablist"
+						aria-label={ariaLabel}
+						aria-describedby={(() => {
+							if (ariaDescription) {
+								return descriptionLooksLikeId ? (ariaDescription as string) : generatedDescriptionId;
+							}
+							return navigationHelpId;
+						})()}
+						aria-orientation={orientation}
+						className="aria-tabs-datagrid__tabs"
+						ref={tabListRef}
 					>
-						{actions}
+						{tabPanels.map((panel, index) => {
+							const isSelected = index === state.selectedIndex;
+							const isDisabled = panel.disabled || disabled;
+							return (
+								<button
+									key={panel.id}
+									role="tab"
+									id={`tab-${panel.id}`}
+									aria-controls={`panel-${panel.id}`}
+									aria-selected={isSelected}
+									aria-disabled={isDisabled}
+									tabIndex={isSelected ? 0 : -1}
+									ref={(el) => { tabRefs.current[index] = el; }}
+									onClick={() => handleTabSelect(index)}
+									onKeyDown={(event) => handleTabKeyDown(event, index)}
+									disabled={isDisabled}
+									className={[
+										'aria-tabs-datagrid__tab',
+										isSelected ? 'aria-tabs-datagrid__tab--selected' : '',
+										isDisabled ? 'aria-tabs-datagrid__tab--disabled' : '',
+									].filter(Boolean).join(' ')}
+								>
+									<span className="aria-tabs-datagrid__tab-label">{panel.label}</span>
+									{state.tabLoadingStates[index] && (
+										<span className="aria-tabs-datagrid__tab-loading" aria-hidden="true">⏳</span>
+									)}
+									{state.tabErrors[index] && (
+										<span className="aria-tabs-datagrid__tab-error" aria-hidden="true">⚠️</span>
+									)}
+								</button>
+							);
+						})}
 					</div>
-				)}
-			</div>
+					{ actions && placeActionsInline && (
+						<div
+							className="aria-tabs-datagrid__actions aria-tabs-datagrid__actions--inline"
+							ref={actionsRef}
+							role="toolbar"
+							aria-label="Additional actions"
+							onKeyDown={handleActionsKeyDown}
+						>
+							{actions}
+						</div>
+					)}
+				</div>
+			)}
 
 			{/* Tab Panels */}
 			{tabPanels.map((panel, index) => {
-				const isSelected = index === state.selectedIndex;
+				const isSelected = tabsHidden ? index === 0 : index === state.selectedIndex;
 
 				return (
 					<div
 						key={panel.id}
-						role="tabpanel"
-						id={`panel-${panel.id}`}
-						aria-labelledby={`tab-${panel.id}`}
+						role={tabsHidden ? undefined : "tabpanel"}
+						id={tabsHidden ? undefined as any : `panel-${panel.id}`}
+						aria-labelledby={tabsHidden ? undefined : `tab-${panel.id}`}
 						tabIndex={0}
 						hidden={!isSelected}
 						ref={(el) => {
@@ -1140,7 +1161,7 @@ export const AriaTabsDataGrid = forwardRef<
 										aria-describedby={
 											panel.ariaDescription
 												? `panel-${panel.id}-description`
-												: undefined
+											: undefined
 										}
 									>
 										{panel.ariaDescription && (

@@ -18,6 +18,7 @@
 	display: block;
 	// Use design system font tokens so brands (e.g. FDP) can override via CSS variables
 	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+	max-width: 300px;
 
 	// Accent bar (variant colour) implemented with ::before to avoid extra markup
 	&::before {

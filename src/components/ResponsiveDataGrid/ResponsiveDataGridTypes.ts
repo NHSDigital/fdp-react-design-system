@@ -29,6 +29,8 @@ export interface ResponsiveTabPanelConfig<T = any> extends TabPanelConfig<T> {
 export interface ResponsiveDataGridProps<T = any> extends Omit<AriaTabsDataGridProps<T>, 'tabPanels'> {
   /** Array of responsive tab panel configurations with card template support */
   tabPanels: ResponsiveTabPanelConfig<T>[];
+  /** When true and only one tab panel is provided, hides the tab list and renders just the data table. Passed through to AriaTabsDataGrid. */
+  hideTabsIfSingle?: boolean;
   
   /** 
    * Enable advanced sorting with SortStatusControl component.

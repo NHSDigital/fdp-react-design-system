@@ -39,7 +39,7 @@ if (typeof document !== "undefined") {
 // No global brand toolbar. Brand switching for docs should be scoped within pages (e.g., data-brand="fdp").
 
 const preview: Preview = {
-	parameters: {
+    parameters: {
         controls: {
 			matchers: {
 				color: /(background|color)$/i,
@@ -49,26 +49,28 @@ const preview: Preview = {
 
         // Configure backgrounds for testing reverse buttons
         backgrounds: {
-			default: "light",
-			values: [
-				{
+            options: {
+                light: {
 					name: "light",
 					value: "#ffffff",
 				},
-				{
+
+                dark: {
 					name: "dark",
 					value: "#d8dde0", // Light Grey for dark mode
 				},
-				{
+
+                "nhs-blue": {
 					name: "nhs-blue",
 					value: "#005eb8",
 				},
-				{
+
+                grey: {
 					name: "grey",
 					value: "#425563", // NHS Warm Grey
-				},
-			],
-		},
+				}
+            }
+        },
 
         a11y: {
             // 'todo' - show a11y violations in the test UI only
@@ -77,7 +79,8 @@ const preview: Preview = {
             test: "todo"
         }
 	},
-	decorators: [
+
+    decorators: [
 		(Story) => (
 			<BrandThemeProvider brand="nhs">
 				<NHSThemeProvider>
@@ -86,6 +89,12 @@ const preview: Preview = {
 			</BrandThemeProvider>
 		),
 	],
+
+    initialGlobals: {
+        backgrounds: {
+            value: "light"
+        }
+    }
 };
 
 export default preview;

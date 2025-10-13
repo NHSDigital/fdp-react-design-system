@@ -325,7 +325,7 @@ export const FDPOnNHSDarkGrey: Story = {
 export const FDPOnNHSDarkGreyGradient: Story = {
 	args: { ...baseArgs, logoVariant: LogoVariant.Inverse },
 	render: (args) => (
-		<div style={{ background: 'linear-gradient(180deg, #4C4C4C 0%, #2F2F2F 100%)', padding: 0 }}>
+		<div style={{ padding: 0 }}>
 			<BrandThemeProvider brand="fdp" scope="local">
 				<Header {...(args as any)} className="nhsuk-header--dark-grey-gradient" />
 			</BrandThemeProvider>

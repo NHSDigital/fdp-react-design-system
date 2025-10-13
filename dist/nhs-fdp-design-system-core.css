@@ -2525,6 +2525,7 @@ span .nhsuk-u-visually-hidden {
   color: #ffffff;
 }
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation-container {
+  background: linear-gradient(90deg, #4c6272, #768692);
   box-shadow: inset 0 0.25px 0 0 #d8dde0;
 }
 

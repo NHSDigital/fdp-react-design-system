@@ -45,3 +45,49 @@ See the `GenericCard` stories for extended usage patterns.
 
 {/* Stories table auto-generated */}
 
+
+## Column widths and overflow
+
+ResponsiveDataGrid forwards all width and collapse settings to its underlying table implementation.
+
+### API surface
+
+- `minColumnWidth?: number | string` – global minimum width for columns
+- `enableColumnCollapse?: boolean` – enable collapse algorithm when content exceeds container width
+- `minVisibleColumns?: number` – ensure a baseline of visible columns
+- `showCollapsedColumnsIndicator?: boolean` – show a chip indicating count of hidden columns
+
+Per-column overrides live on each `ColumnDefinition`:
+
+- `minWidth?: number | string`
+- `collapsePriority?: number`
+- `alwaysVisible?: boolean`
+- `collapseGroup?: string`
+- `collapseGroupPriority?: number`
+
+### Example
+
+```tsx
+<ResponsiveDataGrid
+	ariaLabel="Cases"
+	minColumnWidth={160}
+	enableColumnCollapse
+	minVisibleColumns={3}
+	showCollapsedColumnsIndicator
+	tabPanels={[{
+		id: 'open',
+		label: 'Open',
+		ariaLabel: 'Open cases',
+		data,
+		columns: [
+			{ key: 'title', label: 'Title', minWidth: 240, alwaysVisible: true },
+			{ key: 'ref', label: 'Ref', minWidth: 160, collapseGroup: 'ids', collapseGroupPriority: 2 },
+			{ key: 'owner', label: 'Owner', minWidth: 180, collapsePriority: 1 },
+			{ key: 'status', label: 'Status', minWidth: 140 }
+		]
+	}]}
+/>
+```
+
+See also the in-depth guide: “Column widths, overflow and collapse” in the docs directory.
+

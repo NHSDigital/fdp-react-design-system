@@ -31,6 +31,12 @@ export interface ResponsiveDataGridProps<T = any> extends Omit<AriaTabsDataGridP
   tabPanels: ResponsiveTabPanelConfig<T>[];
   /** When true and only one tab panel is provided, hides the tab list and renders just the data table. Passed through to AriaTabsDataGrid. */
   hideTabsIfSingle?: boolean;
+  /** Minimum column width for table cells/headers (e.g. 160 or '12rem'). Forwarded to AriaTabsDataGrid. */
+  minColumnWidth?: number | string;
+  /** Enable low-priority column collapse to fit container. Forwarded to AriaTabsDataGrid. */
+  enableColumnCollapse?: boolean;
+  /** Minimum number of columns to keep visible when collapsing. Forwarded to AriaTabsDataGrid. */
+  minVisibleColumns?: number;
   
   /** 
    * Enable advanced sorting with SortStatusControl component.

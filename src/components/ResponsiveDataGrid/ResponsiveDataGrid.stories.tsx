@@ -203,6 +203,53 @@ export const FourColumnTable: Story = {
 };
 
 /**
+ * ColumnMinWidthAndCollapse: Demonstrates global minColumnWidth, per-column overrides,
+ * and low-priority collapse. Resize the canvas to see columns hide by priority.
+ */
+export const ColumnMinWidthAndCollapse: Story = {
+  args: {
+    ...baseProps,
+    forceLayout: 'table',
+    tabPanels: [
+      {
+        id: 'min-width-collapse',
+        label: 'Wide dataset',
+        ariaLabel: 'Dataset with many columns to demonstrate min width and collapse',
+        data: patientData.map(p => ({
+          name: p.name,
+          nhs_number: (p as any).nhs_number || '000-000-0000',
+          age: p.age,
+          ward: p.ward_name,
+          condition: (p as any).condition || 'Stable',
+          ews_score: p.ews_score,
+          consultant: p.consultant,
+          status: (p as any).status || 'Active',
+          pathway: p.pathway,
+          speciality: p.speciality
+        })),
+        columns: [
+          { key: 'name', label: 'Patient Name', minWidth: 220, alwaysVisible: true, collapsePriority: -1 },
+          { key: 'nhs_number', label: 'NHS Number', minWidth: 180, collapseGroup: 'ids', collapseGroupPriority: 2 },
+          { key: 'age', label: 'Age', minWidth: 120, collapseGroup: 'demographics', collapseGroupPriority: 1 },
+          { key: 'ward', label: 'Ward', minWidth: 160, collapseGroup: 'location', collapseGroupPriority: 3 },
+          { key: 'condition', label: 'Condition', minWidth: 200, collapseGroup: 'clinical', collapseGroupPriority: 4 },
+          { key: 'ews_score', label: 'EWS', minWidth: 120, collapseGroup: 'clinical', collapseGroupPriority: 4 },
+          { key: 'consultant', label: 'Consultant', minWidth: 200, collapseGroup: 'staff', collapseGroupPriority: 5 },
+          { key: 'status', label: 'Status', minWidth: 160, collapseGroup: 'state', collapseGroupPriority: 6 },
+          { key: 'pathway', label: 'Pathway', minWidth: 200, collapseGroup: 'process', collapseGroupPriority: 7 },
+          { key: 'speciality', label: 'Speciality', minWidth: 220, collapseGroup: 'process', collapseGroupPriority: 7 }
+        ]
+      }
+    ],
+    hideTabsIfSingle: true,
+    minColumnWidth: 160,
+    enableColumnCollapse: true,
+    minVisibleColumns: 3,
+    showCollapsedColumnsIndicator: true
+  }
+};
+
+/**
         story: 'Minimal table-focused story used to reproduce and verify header width/overflow; also demonstrates hideTabsIfSingle to remove the tablist for a single panel.'
  */
 export const WithActionAreas: Story = {

@@ -14,6 +14,7 @@ import {
 	AriaTabsDataGridAction,
 } from "./AriaTabsDataGridTypes";
 import { SortConfig } from "./AriaDataGridTypes";
+import type { ColumnDefinition } from "./AriaDataGridTypes";
 import "./AriaTabsDataGrid.scss";
 import { SortStatusControl } from "./SortStatusControl/SortStatusControl";
 import { buildMultiComparator } from './sortUtils';
@@ -76,11 +77,7 @@ function tabsDataGridReducer(
 			const adjustedSelectedRows = new Array(newLength).fill([]);
 
 			// Copy existing states up to the minimum length
-			for (
-				let i = 0;
-				i < Math.min(state.tabLoadingStates.length, newLength);
-				i++
-			) {
+			for (let i = 0; i < Math.min(state.tabLoadingStates.length, newLength); i++) {
 				adjustedLoadingStates[i] = state.tabLoadingStates[i];
 				adjustedErrors[i] = state.tabErrors[i];
 				adjustedSelectedRows[i] = state.selectedRows[i];
@@ -149,6 +146,10 @@ export const AriaTabsDataGrid = forwardRef<
 		actionsMinGap = 16,
 		forceActionsAbove = false,
 		hideTabsIfSingle = false,
+		minColumnWidth,
+		enableColumnCollapse = false,
+		minVisibleColumns = 2,
+		showCollapsedColumnsIndicator = true,
 	} = props;
 
 	// Allow developer to hide the tab list when only a single tab/panel is provided
@@ -238,6 +239,132 @@ export const AriaTabsDataGrid = forwardRef<
 			isGridActive: false,
 		}));
 	}, [state.selectedIndex, tabsHidden]);
+
+	// Horizontal scroll support for wide tables when min column width is applied
+	const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+	const onOverflowScrollKey = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (!e.shiftKey) return;
+		if (e.key === 'ArrowLeft') {
+			e.preventDefault();
+			scrollContainerRef.current?.scrollBy({ left: -64, behavior: 'smooth' });
+		} else if (e.key === 'ArrowRight') {
+			e.preventDefault();
+			scrollContainerRef.current?.scrollBy({ left: 64, behavior: 'smooth' });
+		}
+	}, []);
+
+	// Column collapse state: track hidden column keys per active panel index
+	const [hiddenColumnsByPanel, setHiddenColumnsByPanel] = useState<Record<number, Set<string>>>({});
+	const [collapsedPopoverOpen, setCollapsedPopoverOpen] = useState(false);
+	const collapsedButtonRef = useRef<HTMLButtonElement | null>(null);
+	const liveRegionRef = useRef<HTMLDivElement | null>(null);
+
+	// Helper to get visible columns for a given panel index
+	const getVisibleColumns = useCallback((panelIndex: number): ColumnDefinition[] => {
+		const panel = tabPanels[panelIndex];
+		if (!panel) return [] as ColumnDefinition[];
+		const hidden = hiddenColumnsByPanel[panelIndex] || new Set<string>();
+		return panel.columns.filter((col: ColumnDefinition) => !hidden.has(col.key));
+	}, [tabPanels, hiddenColumnsByPanel]);
+
+	// Compute visible columns for current panel given collapse rules
+	const computeHiddenColumns = useCallback((panelIndex: number) => {
+		const panel = tabPanels[panelIndex];
+		if (!panel) return new Set<string>();
+		// If collapse disabled, nothing hidden
+		if (!enableColumnCollapse) return new Set<string>();
+		const container = scrollContainerRef.current?.parentElement as HTMLElement | null;
+		if (!container) return new Set<string>();
+		// Start with all columns visible, measure total min widths
+		const defaultMin = typeof minColumnWidth === 'number' ? `${minColumnWidth}px` : (minColumnWidth || '160px');
+		const cols = panel.columns.map((c, i) => ({
+			key: c.key,
+			min: c.minWidth !== undefined ? (typeof c.minWidth === 'number' ? `${c.minWidth}px` : String(c.minWidth)) : defaultMin,
+			priority: c.collapsePriority ?? i,
+			lock: !!c.alwaysVisible,
+			group: c.collapseGroup,
+			groupPriority: c.collapseGroupPriority ?? 0,
+		}));
+		// Calculate pixels from CSS lengths by creating a temporary element
+		const toPx = (len: string): number => {
+			if (len.endsWith('px')) return parseFloat(len);
+			const probe = document.createElement('div');
+			probe.style.width = len;
+			container.appendChild(probe);
+			const px = probe.getBoundingClientRect().width;
+			probe.remove();
+			return px || 0;
+		};
+		const totalWidth = cols.reduce((sum, c) => sum + toPx(c.min), 0);
+		const available = container.clientWidth;
+		if (totalWidth <= available || cols.length <= minVisibleColumns) return new Set<string>();
+		// Build collapse groups: group columns when group id provided, else treat individually
+		const items = cols.map((c, idx) => ({ ...c, idx }));
+		const groups = new Map<string, { keys: string[]; width: number; groupPriority: number; lock: boolean; indices: number[] }>();
+		for (const it of items) {
+			if (it.group) {
+				const g = groups.get(it.group) || { keys: [], width: 0, groupPriority: it.groupPriority, lock: false, indices: [] };
+				g.keys.push(it.key);
+				g.width += toPx(it.min);
+				g.groupPriority = Math.max(g.groupPriority, it.groupPriority);
+				g.lock = g.lock || it.lock;
+				g.indices.push(it.idx);
+				groups.set(it.group, g);
+			}
+		}
+		// Candidates list: start with groups (that are not locked), then individual non-group columns
+		type Candidate = { type: 'group' | 'column'; keys: string[]; width: number; priority: number; rightmostIndex: number };
+		const candidates: Candidate[] = [];
+		for (const [_, g] of groups) {
+			if (!g.lock) {
+				candidates.push({ type: 'group', keys: g.keys, width: g.width, priority: g.groupPriority, rightmostIndex: Math.max(...g.indices) });
+			}
+		}
+		for (const it of items) {
+			if (!it.group && !it.lock) {
+				candidates.push({ type: 'column', keys: [it.key], width: toPx(it.min), priority: it.priority, rightmostIndex: it.idx });
+			}
+		}
+		// Sort candidates: higher priority first, then drop rightmost first
+		candidates.sort((a, b) => {
+			if (a.priority !== b.priority) return b.priority - a.priority;
+			return b.rightmostIndex - a.rightmostIndex;
+		});
+		let hidden = new Set<string>();
+		let currentTotal = totalWidth;
+		const totalCols = cols.length;
+		for (const c of candidates) {
+			if (totalCols - hidden.size <= minVisibleColumns) break;
+			if (currentTotal - c.width >= available) {
+				for (const k of c.keys) hidden.add(k);
+				currentTotal -= c.width;
+			} else {
+				// not enough to fit; try next lower priority
+				continue;
+			}
+		}
+		return hidden;
+	}, [tabPanels, enableColumnCollapse, minColumnWidth, minVisibleColumns]);
+
+	// Recompute on resize and when selectedIndex or columns change
+	useEffect(() => {
+		if (!enableColumnCollapse) return;
+		const recompute = () => {
+			const hidden = computeHiddenColumns(state.selectedIndex);
+			setHiddenColumnsByPanel(prev => ({ ...prev, [state.selectedIndex]: hidden }));
+			// Announce change to assistive tech
+			if (showCollapsedColumnsIndicator && liveRegionRef.current) {
+				const count = hidden.size;
+				liveRegionRef.current.textContent = count > 0 ? `${count} column${count === 1 ? '' : 's'} collapsed` : 'All columns visible';
+			}
+		};
+		recompute();
+		const ro = new ResizeObserver(recompute);
+		if (containerRef.current) ro.observe(containerRef.current);
+		return () => {
+			ro.disconnect();
+		};
+	}, [state.selectedIndex, tabPanels, enableColumnCollapse, computeHiddenColumns, showCollapsedColumnsIndicator]);
 
 	// Handle global row selection callback
 	useEffect(() => {
@@ -484,8 +611,7 @@ export const AriaTabsDataGrid = forwardRef<
 	const handleHeaderKeyDown = useCallback(
 		(event: React.KeyboardEvent, headerIndex: number) => {
 			const { key } = event;
-			const currentPanel = tabPanels[state.selectedIndex];
-			const columnCount = currentPanel?.columns.length || 0;
+			const columnCount = getVisibleColumns(state.selectedIndex).length || 0;
 
 			switch (key) {
 				case "ArrowLeft":
@@ -564,8 +690,8 @@ export const AriaTabsDataGrid = forwardRef<
 				case "Enter":
 				case " ":
 					event.preventDefault();
-					// Sort by this column
-					const columnKey = currentPanel?.columns[headerIndex]?.key;
+					// Sort by this visible column
+					const columnKey = getVisibleColumns(state.selectedIndex)[headerIndex]?.key;
 					if (columnKey) {
 						handleSort(state.selectedIndex, columnKey);
 					}
@@ -580,6 +706,7 @@ export const AriaTabsDataGrid = forwardRef<
 			focusGridHeader,
 			focusGridCell,
 			tabRefs,
+			getVisibleColumns,
 		]
 	);
 
@@ -589,7 +716,7 @@ export const AriaTabsDataGrid = forwardRef<
 			const { key } = event;
 			const currentPanel = tabPanels[state.selectedIndex];
 			const rowCount = currentPanel?.data.length || 0;
-			const columnCount = currentPanel?.columns.length || 0;
+			const columnCount = getVisibleColumns(state.selectedIndex).length || 0;
 
 			// Grid navigation mode (moving between cells)
 			switch (key) {
@@ -730,6 +857,7 @@ export const AriaTabsDataGrid = forwardRef<
 			setNavigationState,
 			focusGridHeader,
 			focusGridCell,
+			getVisibleColumns,
 		]
 	);
 
@@ -1153,7 +1281,53 @@ export const AriaTabsDataGrid = forwardRef<
 									return [...displayData].sort(comparator);
 								}, [displayData, state.sortConfig, panel.columns, dataConfig?.sortingOptions]);
 
-								return (
+									return (
+										<div
+										className="aria-tabs-datagrid__scroll"
+										ref={scrollContainerRef}
+										onKeyDown={onOverflowScrollKey}
+										style={{
+											// Expose CSS var to SCSS; inline for SSR safety
+											['--atd-min-col-w' as any]: typeof minColumnWidth === 'number' ? `${minColumnWidth}px` : (minColumnWidth || undefined),
+										}}
+									>
+											{/* Collapsed columns indicator */}
+											{enableColumnCollapse && showCollapsedColumnsIndicator && (
+												<div className="aria-tabs-datagrid__collapsed-indicator">
+													<div
+														className="nhsuk-u-visually-hidden"
+														aria-live="polite"
+														ref={liveRegionRef}
+													/>
+													{(() => {
+														const hidden = hiddenColumnsByPanel[index] || new Set<string>();
+														if (hidden.size === 0) return null;
+														const hiddenLabels = panel.columns.filter(c => hidden.has(c.key)).map(c => c.label);
+														return (
+															<div className="collapsed-chip-wrapper">
+																<button
+																	ref={collapsedButtonRef}
+																	type="button"
+																	className="collapsed-chip"
+																	title={`Collapsed columns: ${hiddenLabels.join(', ')}`}
+																	onClick={() => setCollapsedPopoverOpen((v) => !v)}
+																>
+																	{hidden.size} hidden column{hidden.size === 1 ? '' : 's'}
+																</button>
+																{collapsedPopoverOpen && (
+																	<div className="collapsed-popover" role="dialog" aria-label="Collapsed columns">
+																		<ul>
+																			{hiddenLabels.map((name, i) => (
+																				<li key={i}>{name}</li>
+																			))}
+																		</ul>
+																	</div>
+																)}
+															</div>
+														);
+													})()}
+												</div>
+											)}
 									<table
 										className="nhsuk-table aria-tabs-datagrid__grid"
 										role="grid"
@@ -1172,9 +1346,9 @@ export const AriaTabsDataGrid = forwardRef<
 												{panel.ariaDescription}
 											</caption>
 										)}
-										<thead className="nhsuk-table__head" role="rowgroup">
+											<thead className="nhsuk-table__head" role="rowgroup">
 											<tr role="row">
-												{panel.columns.map((column, colIndex) => {
+													{getVisibleColumns(index).map((column: ColumnDefinition, colIndex: number) => {
 													const sortInfo = state.sortConfig?.find(
 														(config: SortConfig) => config.key === column.key
 													);
@@ -1200,6 +1374,9 @@ export const AriaTabsDataGrid = forwardRef<
 																		: "descending"
 																	: "none"
 															}
+															style={{ minWidth: (column.minWidth !== undefined
+																? (typeof column.minWidth === 'number' ? `${column.minWidth}px` : column.minWidth)
+																: (typeof minColumnWidth === 'number' ? `${minColumnWidth}px` : (minColumnWidth || undefined))) as any }}
 														>
 															<div className="header-content">
 																<span className="header-label">
@@ -1250,8 +1427,8 @@ export const AriaTabsDataGrid = forwardRef<
 												})}
 											</tr>
 										</thead>
-										<tbody className="nhsuk-table__body" role="rowgroup">
-											{sortedData.map((row, rowIndex) => {
+											<tbody className="nhsuk-table__body" role="rowgroup">
+												{sortedData.map((row, rowIndex) => {
 												// Use global row selection instead of per-tab selection
 												const isRowSelected =
 													state.globalSelectedRowData &&
@@ -1267,7 +1444,7 @@ export const AriaTabsDataGrid = forwardRef<
 														className={`data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`}
 														aria-selected={isRowSelected}
 													>
-														{panel.columns.map((column, colIndex) => {
+															{getVisibleColumns(index).map((column: ColumnDefinition, colIndex: number) => {
 															// Determine raw data value first (before any custom rendering)
 															const rawValue = row[column.key];
 															// Apply custom renderer precedence: tableRenderer > render
@@ -1333,6 +1510,9 @@ export const AriaTabsDataGrid = forwardRef<
 																	role="gridcell"
 																	className={`data-cell ${isCellFocused ? "data-cell--focused" : ""}`}
 																	tabIndex={isCellFocused ? 0 : -1}
+																	style={{ minWidth: (column.minWidth !== undefined
+																		? (typeof column.minWidth === 'number' ? `${column.minWidth}px` : column.minWidth)
+																		: (typeof minColumnWidth === 'number' ? `${minColumnWidth}px` : (minColumnWidth || undefined))) as any }}
 																	onClick={() => {
 																		// Toggle global row selection - if same row clicked, deselect it
 																		const isCurrentlySelected =
@@ -1352,15 +1532,14 @@ export const AriaTabsDataGrid = forwardRef<
 																		handleCellKeyDown(e, rowIndex, colIndex)
 																	}
 																>
-																	{renderValue()}
-																</td>
-															);
-														})}
+																{renderValue()}
+															</td>
+														)})}
 													</tr>
-												);
-											})}
-										</tbody>
-									</table>
+												)})}
+											</tbody>
+										</table>
+									</div>
 								);
 							})()}
 					</div>

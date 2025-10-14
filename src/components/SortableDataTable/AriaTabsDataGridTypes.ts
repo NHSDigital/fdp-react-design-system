@@ -91,6 +91,19 @@ export interface AriaTabsDataGridProps<T = any> {
   actionsMinGap?: number;
   /** When true, disables dynamic measurement and always places actions above the tab list. */
   forceActionsAbove?: boolean;
+  /** Minimum column width for table cells/headers (e.g. 160 or '12rem'). If total min widths exceed container, horizontal scrolling is enabled. */
+  minColumnWidth?: number | string;
+  /**
+   * Enable low-priority column collapse to fit within container width before scrolling.
+   * When true, columns with higher collapsePriority (or rightmost by default) will be hidden until the table fits.
+   */
+  enableColumnCollapse?: boolean;
+  /**
+   * Minimum number of columns that must remain visible even after collapsing. Defaults to 2.
+   */
+  minVisibleColumns?: number;
+  /** Show a collapsed-columns indicator chip with count and popover list (defaults to true when collapse enabled). */
+  showCollapsedColumnsIndicator?: boolean;
 }
 
 /**

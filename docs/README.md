@@ -6,7 +6,11 @@ Welcome to the NHS FDP Design System documentation. This directory contains comp
 
 ### Components (`/docs/components/`)
 
-TODO - Component-specific implementation guides and patterns:
+Component-specific implementation guides and patterns:
+
+- [ResponsiveDataGrid: Column widths and collapse](./components/ResponsiveDataGrid-Column-Widths-and-Collapse.md)
+- [ResponsiveDataGrid: Enhanced renderers](./components/ResponsiveDataGrid-Enhanced-Renderers.md)
+- [ResponsiveDataGrid: Implementation guide](./components/ResponsiveDataGrid-Implementation-Guide.md)
 
 ### Migration (`/docs/migration/`)
 

@@ -62,7 +62,7 @@ const items: DemoItem[] = [
 	},
 ];
 
-const meta: Meta = {
+const meta: Meta<{ logoVariant: LogoVariant }> = {
 	title: "FDP/National Homepage",
 	parameters: {
 		layout: "fullscreen",
@@ -73,6 +73,36 @@ const meta: Meta = {
 			},
 		},
 	},
+	args: {
+		logoVariant: LogoVariant.Inverse,
+	},
+	argTypes: {
+		logoVariant: {
+			control: {
+				type: 'select',
+				labels: {
+					[LogoVariant.Full]: 'Full',
+					[LogoVariant.TwoLine]: 'Two line',
+					[LogoVariant.Inverse]: 'Inverse',
+					[LogoVariant.TwoLineInverse]: 'Two line (inverse)',
+					[LogoVariant.Compact]: 'Compact',
+					[LogoVariant.CompactInverted]: 'Compact (inverted)',
+					[LogoVariant.Graphic]: 'Graphic device',
+				}
+			},
+			options: [
+				LogoVariant.Full,
+				LogoVariant.TwoLine,
+				LogoVariant.Inverse,
+				LogoVariant.TwoLineInverse,
+				LogoVariant.Compact,
+				LogoVariant.CompactInverted,
+				LogoVariant.Graphic,
+			],
+			description: 'Select the FDP header logo variant',
+			table: { category: 'Header' },
+		},
+	},
 };
 
 export default meta;
@@ -81,7 +111,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
 	name: "Homepage (Header + Split Navigation)",
-	render: () => (
+	render: ({ logoVariant }) => (
 		<BrandThemeProvider brand="fdp" scope="local">
 			<div>
 				{/* Header: FDP brand, inverse logo on dark blue background */}
@@ -89,7 +119,7 @@ export const Default: Story = {
 					<Header
 						service={{ text: "National Homepage", href: "/" }}
 						className="nhsuk-header--dark-grey-gradient"
-						logoVariant={LogoVariant.Inverse}
+						logoVariant={logoVariant}
 					/>
 				</div>
 

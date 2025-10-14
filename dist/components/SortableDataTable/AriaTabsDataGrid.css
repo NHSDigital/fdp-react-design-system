@@ -125,7 +125,7 @@ span .nhsuk-u-visually-hidden {
 }
 
 .aria-tabs-datagrid {
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   background: #ffffff;
   border-radius: 0;
   width: 100%;
@@ -135,6 +135,47 @@ span .nhsuk-u-visually-hidden {
 .aria-tabs-datagrid--loading, .aria-tabs-datagrid--error {
   padding: 32px;
   text-align: center;
+}
+.aria-tabs-datagrid__collapsed-indicator {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+  position: relative;
+}
+.aria-tabs-datagrid__collapsed-indicator .collapsed-chip-wrapper {
+  position: relative;
+}
+.aria-tabs-datagrid__collapsed-indicator .collapsed-chip {
+  appearance: none;
+  border: 1px solid #aeb7bd;
+  background: #f0f4f5;
+  color: #212b32;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.aria-tabs-datagrid__collapsed-indicator .collapsed-chip:focus-visible {
+  outline: 2px solid #ffeb3b;
+  outline-offset: 2px;
+}
+.aria-tabs-datagrid__collapsed-indicator .collapsed-popover {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 4px);
+  background: #ffffff;
+  border: 1px solid #aeb7bd;
+  border-radius: 4px;
+  box-shadow: none;
+  padding: 8px;
+  z-index: 5;
+}
+.aria-tabs-datagrid__collapsed-indicator .collapsed-popover ul {
+  margin: 0;
+  padding-left: 16px;
+}
+.aria-tabs-datagrid__collapsed-indicator .collapsed-popover li {
+  margin: 0;
 }
 .aria-tabs-datagrid--vertical .aria-tabs-datagrid__tabs {
   flex-direction: column;
@@ -414,6 +455,22 @@ span .nhsuk-u-visually-hidden {
     white-space: normal;
     word-break: break-word;
   }
+}
+.aria-tabs-datagrid__tab .aria-tabs-datagrid__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.aria-tabs-datagrid__tab .aria-tabs-datagrid__grid {
+  min-width: max-content;
+  width: 100%;
+}
+.aria-tabs-datagrid__tab .aria-tabs-datagrid__grid th,
+.aria-tabs-datagrid__tab .aria-tabs-datagrid__grid td {
+  min-width: var(--atd-min-col-w, 160px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 @media (min-width: 481px) and (max-width: 768px) {
   .aria-tabs-datagrid__tab .aria-tabs-datagrid__grid.nhsuk-table th {

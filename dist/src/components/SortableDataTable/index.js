@@ -1169,7 +1169,12 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
     actions,
     actionsMinGap = 16,
     forceActionsAbove = false,
-    hideTabsIfSingle = false
+    hideTabsIfSingle = false,
+    minColumnWidth,
+    enableColumnCollapse = false,
+    minVisibleColumns = 2,
+    showCollapsedColumnsIndicator = true,
+    sortStatusPlacement = "header"
   } = props;
   const tabsHidden = hideTabsIfSingle && tabPanels.length === 1;
   const baseIdRef = useRef3(
@@ -1232,6 +1237,118 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       isGridActive: false
     }));
   }, [state.selectedIndex, tabsHidden]);
+  const scrollContainerRef = useRef3(null);
+  const onOverflowScrollKey = useCallback4((e) => {
+    var _a, _b;
+    if (!e.shiftKey) return;
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      (_a = scrollContainerRef.current) == null ? void 0 : _a.scrollBy({ left: -64, behavior: "smooth" });
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      (_b = scrollContainerRef.current) == null ? void 0 : _b.scrollBy({ left: 64, behavior: "smooth" });
+    }
+  }, []);
+  const [hiddenColumnsByPanel, setHiddenColumnsByPanel] = useState3({});
+  const [collapsedPopoverOpen, setCollapsedPopoverOpen] = useState3(false);
+  const collapsedButtonRef = useRef3(null);
+  const liveRegionRef = useRef3(null);
+  const getVisibleColumns = useCallback4((panelIndex) => {
+    const panel = tabPanels[panelIndex];
+    if (!panel) return [];
+    const hidden = hiddenColumnsByPanel[panelIndex] || /* @__PURE__ */ new Set();
+    return panel.columns.filter((col) => !hidden.has(col.key));
+  }, [tabPanels, hiddenColumnsByPanel]);
+  const computeHiddenColumns = useCallback4((panelIndex) => {
+    var _a;
+    const panel = tabPanels[panelIndex];
+    if (!panel) return /* @__PURE__ */ new Set();
+    if (!enableColumnCollapse) return /* @__PURE__ */ new Set();
+    const container = (_a = scrollContainerRef.current) == null ? void 0 : _a.parentElement;
+    if (!container) return /* @__PURE__ */ new Set();
+    const defaultMin = typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || "160px";
+    const cols = panel.columns.map((c, i) => {
+      var _a2, _b;
+      return {
+        key: c.key,
+        min: c.minWidth !== void 0 ? typeof c.minWidth === "number" ? `${c.minWidth}px` : String(c.minWidth) : defaultMin,
+        priority: (_a2 = c.collapsePriority) != null ? _a2 : i,
+        lock: !!c.alwaysVisible,
+        group: c.collapseGroup,
+        groupPriority: (_b = c.collapseGroupPriority) != null ? _b : 0
+      };
+    });
+    const toPx = (len) => {
+      if (len.endsWith("px")) return parseFloat(len);
+      const probe = document.createElement("div");
+      probe.style.width = len;
+      container.appendChild(probe);
+      const px = probe.getBoundingClientRect().width;
+      probe.remove();
+      return px || 0;
+    };
+    const totalWidth = cols.reduce((sum, c) => sum + toPx(c.min), 0);
+    const available = container.clientWidth;
+    if (totalWidth <= available || cols.length <= minVisibleColumns) return /* @__PURE__ */ new Set();
+    const items = cols.map((c, idx) => ({ ...c, idx }));
+    const groups = /* @__PURE__ */ new Map();
+    for (const it of items) {
+      if (it.group) {
+        const g = groups.get(it.group) || { keys: [], width: 0, groupPriority: it.groupPriority, lock: false, indices: [] };
+        g.keys.push(it.key);
+        g.width += toPx(it.min);
+        g.groupPriority = Math.max(g.groupPriority, it.groupPriority);
+        g.lock = g.lock || it.lock;
+        g.indices.push(it.idx);
+        groups.set(it.group, g);
+      }
+    }
+    const candidates = [];
+    for (const [_, g] of groups) {
+      if (!g.lock) {
+        candidates.push({ type: "group", keys: g.keys, width: g.width, priority: g.groupPriority, rightmostIndex: Math.max(...g.indices) });
+      }
+    }
+    for (const it of items) {
+      if (!it.group && !it.lock) {
+        candidates.push({ type: "column", keys: [it.key], width: toPx(it.min), priority: it.priority, rightmostIndex: it.idx });
+      }
+    }
+    candidates.sort((a, b) => {
+      if (a.priority !== b.priority) return b.priority - a.priority;
+      return b.rightmostIndex - a.rightmostIndex;
+    });
+    let hidden = /* @__PURE__ */ new Set();
+    let currentTotal = totalWidth;
+    const totalCols = cols.length;
+    for (const c of candidates) {
+      if (totalCols - hidden.size <= minVisibleColumns) break;
+      if (currentTotal - c.width >= available) {
+        for (const k of c.keys) hidden.add(k);
+        currentTotal -= c.width;
+      } else {
+        continue;
+      }
+    }
+    return hidden;
+  }, [tabPanels, enableColumnCollapse, minColumnWidth, minVisibleColumns]);
+  useEffect2(() => {
+    if (!enableColumnCollapse) return;
+    const recompute = () => {
+      const hidden = computeHiddenColumns(state.selectedIndex);
+      setHiddenColumnsByPanel((prev) => ({ ...prev, [state.selectedIndex]: hidden }));
+      if (showCollapsedColumnsIndicator && liveRegionRef.current) {
+        const count = hidden.size;
+        liveRegionRef.current.textContent = count > 0 ? `${count} column${count === 1 ? "" : "s"} collapsed` : "All columns visible";
+      }
+    };
+    recompute();
+    const ro = new ResizeObserver(recompute);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => {
+      ro.disconnect();
+    };
+  }, [state.selectedIndex, tabPanels, enableColumnCollapse, computeHiddenColumns, showCollapsedColumnsIndicator]);
   useEffect2(() => {
     if (onGlobalRowSelectionChange) {
       onGlobalRowSelectionChange(state.globalSelectedRowData);
@@ -1392,8 +1509,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
     (event, headerIndex) => {
       var _a, _b;
       const { key } = event;
-      const currentPanel = tabPanels[state.selectedIndex];
-      const columnCount = (currentPanel == null ? void 0 : currentPanel.columns.length) || 0;
+      const columnCount = getVisibleColumns(state.selectedIndex).length || 0;
       switch (key) {
         case "ArrowLeft":
           event.preventDefault();
@@ -1461,7 +1577,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
         case "Enter":
         case " ":
           event.preventDefault();
-          const columnKey = (_b = currentPanel == null ? void 0 : currentPanel.columns[headerIndex]) == null ? void 0 : _b.key;
+          const columnKey = (_b = getVisibleColumns(state.selectedIndex)[headerIndex]) == null ? void 0 : _b.key;
           if (columnKey) {
             handleSort(state.selectedIndex, columnKey);
           }
@@ -1475,7 +1591,8 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       setNavigationState,
       focusGridHeader,
       focusGridCell,
-      tabRefs
+      tabRefs,
+      getVisibleColumns
     ]
   );
   const handleCellKeyDown = useCallback4(
@@ -1483,7 +1600,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       const { key } = event;
       const currentPanel = tabPanels[state.selectedIndex];
       const rowCount = (currentPanel == null ? void 0 : currentPanel.data.length) || 0;
-      const columnCount = (currentPanel == null ? void 0 : currentPanel.columns.length) || 0;
+      const columnCount = getVisibleColumns(state.selectedIndex).length || 0;
       switch (key) {
         case "ArrowUp":
           event.preventDefault();
@@ -1601,7 +1718,8 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       dispatch,
       setNavigationState,
       focusGridHeader,
-      focusGridCell
+      focusGridCell,
+      getVisibleColumns
     ]
   );
   const getFilteredData = useCallback4(
@@ -1870,16 +1988,11 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
             children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells."
           }
         ),
-        /* @__PURE__ */ jsx5(
+        sortStatusPlacement === "header" && /* @__PURE__ */ jsx5(
           SortStatusControl,
           {
             sortConfig: state.sortConfig || [],
-            columns: tabPanels.flatMap(
-              (panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))
-            ).filter(
-              (col, index, arr) => arr.findIndex((c) => c.key === col.key) === index
-              // Remove duplicates
-            ),
+            columns: tabPanels.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))).filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index),
             onSortChange: (newSortConfig) => {
               dispatch({ type: "SET_SORT", payload: newSortConfig });
             },
@@ -1958,6 +2071,52 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
             }
           )
         ] }),
+        enableColumnCollapse && showCollapsedColumnsIndicator && (() => {
+          const panelIndex = tabsHidden ? 0 : state.selectedIndex;
+          const hidden = hiddenColumnsByPanel[panelIndex] || /* @__PURE__ */ new Set();
+          if (hidden.size === 0) return null;
+          const panel = tabPanels[panelIndex];
+          const hiddenLabels = panel ? panel.columns.filter((c) => hidden.has(c.key)).map((c) => c.label) : [];
+          return /* @__PURE__ */ jsxs4("div", { className: "aria-tabs-datagrid__collapsed-indicator", children: [
+            /* @__PURE__ */ jsx5(
+              "div",
+              {
+                className: "nhsuk-u-visually-hidden",
+                "aria-live": "polite",
+                ref: liveRegionRef
+              }
+            ),
+            /* @__PURE__ */ jsxs4("div", { className: "collapsed-chip-wrapper", children: [
+              /* @__PURE__ */ jsxs4(
+                "button",
+                {
+                  ref: collapsedButtonRef,
+                  type: "button",
+                  className: "collapsed-chip",
+                  title: `Collapsed columns: ${hiddenLabels.join(", ")}`,
+                  onClick: () => setCollapsedPopoverOpen((v) => !v),
+                  children: [
+                    hidden.size,
+                    " hidden column",
+                    hidden.size === 1 ? "" : "s"
+                  ]
+                }
+              ),
+              collapsedPopoverOpen && /* @__PURE__ */ jsx5("div", { className: "collapsed-popover", role: "dialog", "aria-label": "Collapsed columns", children: /* @__PURE__ */ jsx5("ul", { children: hiddenLabels.map((name, i) => /* @__PURE__ */ jsx5("li", { children: name }, i)) }) })
+            ] })
+          ] });
+        })(),
+        sortStatusPlacement === "above" && /* @__PURE__ */ jsx5(
+          SortStatusControl,
+          {
+            sortConfig: state.sortConfig || [],
+            columns: tabPanels.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))).filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index),
+            onSortChange: (newSortConfig) => {
+              dispatch({ type: "SET_SORT", payload: newSortConfig });
+            },
+            ariaLabel: "Data grid sort configuration"
+          }
+        ),
         tabPanels.map((panel, index) => {
           const isSelected = tabsHidden ? index === 0 : index === state.selectedIndex;
           return /* @__PURE__ */ jsx5(
@@ -1983,160 +2142,185 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
                   const comparator = buildMultiComparator(panel.columns, sortConfig, "last" /* Last */, dataConfig == null ? void 0 : dataConfig.sortingOptions);
                   return [...displayData].sort(comparator);
                 }, [displayData, state.sortConfig, panel.columns, dataConfig == null ? void 0 : dataConfig.sortingOptions]);
-                return /* @__PURE__ */ jsxs4(
-                  "table",
+                return /* @__PURE__ */ jsx5(
+                  "div",
                   {
-                    className: "nhsuk-table aria-tabs-datagrid__grid",
-                    role: "grid",
-                    "aria-label": panel.ariaLabel,
-                    "aria-describedby": panel.ariaDescription ? `panel-${panel.id}-description` : void 0,
-                    children: [
-                      panel.ariaDescription && /* @__PURE__ */ jsx5(
-                        "caption",
-                        {
-                          className: "nhsuk-u-visually-hidden",
-                          id: `panel-${panel.id}-description`,
-                          children: panel.ariaDescription
-                        }
-                      ),
-                      /* @__PURE__ */ jsx5("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx5("tr", { role: "row", children: panel.columns.map((column, colIndex) => {
-                        var _a;
-                        const sortInfo = (_a = state.sortConfig) == null ? void 0 : _a.find(
-                          (config) => config.key === column.key
-                        );
-                        const isSorted = !!sortInfo;
-                        const isFocused = navigationState.focusArea === "headers" && navigationState.focusedHeaderIndex === colIndex;
-                        return /* @__PURE__ */ jsx5(
-                          "th",
-                          {
-                            className: `sortable-header ${isFocused ? "sortable-header--focused" : ""} ${isSorted ? "sortable-header--sorted" : ""}`,
-                            role: "columnheader",
-                            tabIndex: isFocused ? 0 : -1,
-                            onClick: () => handleSort(index, column.key),
-                            onKeyDown: (e) => handleHeaderKeyDown(e, colIndex),
-                            "aria-sort": isSorted ? (sortInfo == null ? void 0 : sortInfo.direction) === "asc" ? "ascending" : "descending" : "none",
-                            children: /* @__PURE__ */ jsxs4("div", { className: "header-content", children: [
-                              /* @__PURE__ */ jsx5("span", { className: "header-label", children: column.label }),
-                              /* @__PURE__ */ jsxs4(
-                                "div",
-                                {
-                                  className: `sort-indicator-container ${isSorted ? `sort-indicator--${sortInfo == null ? void 0 : sortInfo.direction}` : ""}`,
-                                  children: [
-                                    state.sortConfig && state.sortConfig.length > 0 && state.sortConfig.findIndex(
-                                      (config) => config.key === column.key
-                                    ) !== -1 && /* @__PURE__ */ jsx5(
-                                      "span",
-                                      {
-                                        className: `sort-priority sort-priority--priority-${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
-                                        "data-priority": state.sortConfig.findIndex(
-                                          (config) => config.key === column.key
-                                        ) + 1,
-                                        title: `Sort priority: ${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
-                                        children: state.sortConfig.findIndex(
-                                          (config) => config.key === column.key
-                                        ) + 1
-                                      }
-                                    ),
-                                    isSorted && /* @__PURE__ */ jsx5(
-                                      "svg",
-                                      {
-                                        className: `nhsuk-icon sort-arrow sort-arrow--${sortInfo == null ? void 0 : sortInfo.direction}`,
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 24 24",
-                                        "aria-hidden": "true",
-                                        focusable: "false",
-                                        children: /* @__PURE__ */ jsx5("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
-                                      }
-                                    )
-                                  ]
-                                }
-                              )
-                            ] })
-                          },
-                          column.key
-                        );
-                      }) }) }),
-                      /* @__PURE__ */ jsx5("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: sortedData.map((row, rowIndex) => {
-                        const isRowSelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
-                        const isRowFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex;
-                        return /* @__PURE__ */ jsx5(
-                          "tr",
-                          {
-                            role: "row",
-                            className: `data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`,
-                            "aria-selected": isRowSelected,
-                            children: panel.columns.map((column, colIndex) => {
-                              const rawValue = row[column.key];
-                              let value;
-                              if (column.tableRenderer) {
-                                value = column.tableRenderer(row);
-                              } else if (column.render) {
-                                value = column.render(row);
-                              } else {
-                                value = rawValue;
-                              }
-                              const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
-                              const renderValue = () => {
-                                if (column.customRenderer) {
-                                  const rendered = column.customRenderer(
-                                    rawValue,
-                                    row
-                                  );
-                                  return /* @__PURE__ */ jsx5(
-                                    "span",
+                    className: "aria-tabs-datagrid__scroll",
+                    ref: scrollContainerRef,
+                    onKeyDown: onOverflowScrollKey,
+                    style: {
+                      // Expose CSS var to SCSS; inline for SSR safety
+                      ["--atd-min-col-w"]: typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || void 0
+                    },
+                    children: /* @__PURE__ */ jsxs4(
+                      "table",
+                      {
+                        className: "nhsuk-table aria-tabs-datagrid__grid",
+                        role: "grid",
+                        "aria-label": panel.ariaLabel,
+                        "aria-describedby": panel.ariaDescription ? `panel-${panel.id}-description` : void 0,
+                        children: [
+                          panel.ariaDescription && /* @__PURE__ */ jsx5(
+                            "caption",
+                            {
+                              className: "nhsuk-u-visually-hidden",
+                              id: `panel-${panel.id}-description`,
+                              children: panel.ariaDescription
+                            }
+                          ),
+                          /* @__PURE__ */ jsx5("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx5("tr", { role: "row", children: getVisibleColumns(index).map((column, colIndex) => {
+                            var _a;
+                            const sortInfo = (_a = state.sortConfig) == null ? void 0 : _a.find(
+                              (config) => config.key === column.key
+                            );
+                            const isSorted = !!sortInfo;
+                            const isFocused = navigationState.focusArea === "headers" && navigationState.focusedHeaderIndex === colIndex;
+                            return /* @__PURE__ */ jsx5(
+                              "th",
+                              {
+                                className: `sortable-header ${isFocused ? "sortable-header--focused" : ""} ${isSorted ? "sortable-header--sorted" : ""}`,
+                                role: "columnheader",
+                                tabIndex: isFocused ? 0 : -1,
+                                onClick: () => handleSort(index, column.key),
+                                onKeyDown: (e) => handleHeaderKeyDown(e, colIndex),
+                                "aria-sort": isSorted ? (sortInfo == null ? void 0 : sortInfo.direction) === "asc" ? "ascending" : "descending" : "none",
+                                style: { minWidth: column.minWidth !== void 0 ? typeof column.minWidth === "number" ? `${column.minWidth}px` : column.minWidth : typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || void 0 },
+                                children: /* @__PURE__ */ jsxs4("div", { className: "header-content", children: [
+                                  /* @__PURE__ */ jsx5("span", { className: "header-label", children: column.label }),
+                                  /* @__PURE__ */ jsxs4(
+                                    "div",
                                     {
-                                      className: "data-cell__custom",
-                                      "data-custom-rendered": "true",
-                                      children: rendered
+                                      className: `sort-indicator-container ${isSorted ? `sort-indicator--${sortInfo == null ? void 0 : sortInfo.direction}` : ""}`,
+                                      children: [
+                                        state.sortConfig && state.sortConfig.length > 0 && state.sortConfig.findIndex(
+                                          (config) => config.key === column.key
+                                        ) !== -1 && /* @__PURE__ */ jsx5(
+                                          "span",
+                                          {
+                                            className: `sort-priority sort-priority--priority-${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
+                                            "data-priority": state.sortConfig.findIndex(
+                                              (config) => config.key === column.key
+                                            ) + 1,
+                                            title: `Sort priority: ${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
+                                            children: state.sortConfig.findIndex(
+                                              (config) => config.key === column.key
+                                            ) + 1
+                                          }
+                                        ),
+                                        isSorted && /* @__PURE__ */ jsx5(
+                                          "svg",
+                                          {
+                                            className: `nhsuk-icon sort-arrow sort-arrow--${sortInfo == null ? void 0 : sortInfo.direction}`,
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            viewBox: "0 0 24 24",
+                                            "aria-hidden": "true",
+                                            focusable: "false",
+                                            children: /* @__PURE__ */ jsx5("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
+                                          }
+                                        )
+                                      ]
                                     }
+                                  )
+                                ] })
+                              },
+                              column.key
+                            );
+                          }) }) }),
+                          /* @__PURE__ */ jsx5("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: sortedData.map((row, rowIndex) => {
+                            const isRowSelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
+                            const isRowFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex;
+                            return /* @__PURE__ */ jsx5(
+                              "tr",
+                              {
+                                role: "row",
+                                className: `data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`,
+                                "aria-selected": isRowSelected,
+                                children: getVisibleColumns(index).map((column, colIndex) => {
+                                  const rawValue = row[column.key];
+                                  let value;
+                                  if (column.tableRenderer) {
+                                    value = column.tableRenderer(row);
+                                  } else if (column.render) {
+                                    value = column.render(row);
+                                  } else {
+                                    value = rawValue;
+                                  }
+                                  const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
+                                  const renderValue = () => {
+                                    if (column.customRenderer) {
+                                      const rendered = column.customRenderer(
+                                        rawValue,
+                                        row
+                                      );
+                                      return /* @__PURE__ */ jsx5(
+                                        "span",
+                                        {
+                                          className: "data-cell__custom",
+                                          "data-custom-rendered": "true",
+                                          children: rendered
+                                        }
+                                      );
+                                    }
+                                    if (typeof rawValue === "boolean" && value === rawValue) {
+                                      return /* @__PURE__ */ jsxs4(Fragment2, { children: [
+                                        renderBooleanIcon(rawValue),
+                                        /* @__PURE__ */ jsx5("span", { className: "nhsuk-u-visually-hidden", children: rawValue ? "Yes" : "No" })
+                                      ] });
+                                    }
+                                    if (React4.isValidElement(value) || typeof value !== "object") {
+                                      return value != null ? value : "";
+                                    }
+                                    return value;
+                                  };
+                                  return /* @__PURE__ */ jsx5(
+                                    "td",
+                                    {
+                                      role: "gridcell",
+                                      className: `data-cell ${isCellFocused ? "data-cell--focused" : ""}`,
+                                      tabIndex: isCellFocused ? 0 : -1,
+                                      style: { minWidth: column.minWidth !== void 0 ? typeof column.minWidth === "number" ? `${column.minWidth}px` : column.minWidth : typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || void 0 },
+                                      onClick: () => {
+                                        const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(
+                                          state.globalSelectedRowData,
+                                          row
+                                        );
+                                        const newSelectedRowData = isCurrentlySelected ? null : row;
+                                        dispatch({
+                                          type: "SET_GLOBAL_SELECTED_ROW_DATA",
+                                          payload: newSelectedRowData
+                                        });
+                                      },
+                                      onKeyDown: (e) => handleCellKeyDown(e, rowIndex, colIndex),
+                                      children: renderValue()
+                                    },
+                                    column.key
                                   );
-                                }
-                                if (typeof rawValue === "boolean" && value === rawValue) {
-                                  return /* @__PURE__ */ jsxs4(Fragment2, { children: [
-                                    renderBooleanIcon(rawValue),
-                                    /* @__PURE__ */ jsx5("span", { className: "nhsuk-u-visually-hidden", children: rawValue ? "Yes" : "No" })
-                                  ] });
-                                }
-                                if (React4.isValidElement(value) || typeof value !== "object") {
-                                  return value != null ? value : "";
-                                }
-                                return value;
-                              };
-                              return /* @__PURE__ */ jsx5(
-                                "td",
-                                {
-                                  role: "gridcell",
-                                  className: `data-cell ${isCellFocused ? "data-cell--focused" : ""}`,
-                                  tabIndex: isCellFocused ? 0 : -1,
-                                  onClick: () => {
-                                    const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(
-                                      state.globalSelectedRowData,
-                                      row
-                                    );
-                                    const newSelectedRowData = isCurrentlySelected ? null : row;
-                                    dispatch({
-                                      type: "SET_GLOBAL_SELECTED_ROW_DATA",
-                                      payload: newSelectedRowData
-                                    });
-                                  },
-                                  onKeyDown: (e) => handleCellKeyDown(e, rowIndex, colIndex),
-                                  children: renderValue()
-                                },
-                                column.key
-                              );
-                            })
-                          },
-                          rowIndex
-                        );
-                      }) })
-                    ]
+                                })
+                              },
+                              rowIndex
+                            );
+                          }) })
+                        ]
+                      }
+                    )
                   }
                 );
               })()
             },
             panel.id
           );
-        })
+        }),
+        sortStatusPlacement === "below" && /* @__PURE__ */ jsx5(
+          SortStatusControl,
+          {
+            sortConfig: state.sortConfig || [],
+            columns: tabPanels.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))).filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index),
+            onSortChange: (newSortConfig) => {
+              dispatch({ type: "SET_SORT", payload: newSortConfig });
+            },
+            ariaLabel: "Data grid sort configuration"
+          }
+        )
       ]
     }
   );
@@ -2185,34 +2369,57 @@ var SortStatusControl2 = ({
   ariaDescribedBy
 }) => {
   const sortedConfig = useMemo4(() => sortByPriority(sortConfig), [sortConfig]);
-  const handleDirectionToggle = useCallback5((sortId) => {
-    if (disabled) return;
-    const updatedConfig = sortConfig.map(
-      (config) => config.id === sortId ? { ...config, direction: config.direction === "asc" ? "desc" : "asc" } : config
-    );
-    onSortChange(updatedConfig);
-  }, [sortConfig, onSortChange, disabled]);
-  const handleMoveUp = useCallback5((sortId) => {
-    if (disabled) return;
-    const sortIndex = sortConfig.findIndex((c) => c.id === sortId);
-    if (sortIndex <= 0) return;
-    const newConfig = [...sortConfig];
-    [newConfig[sortIndex], newConfig[sortIndex - 1]] = [newConfig[sortIndex - 1], newConfig[sortIndex]];
-    onSortChange(reassignPriorities(newConfig));
-  }, [sortConfig, onSortChange, disabled]);
-  const handleMoveDown = useCallback5((sortId) => {
-    if (disabled) return;
-    const sortIndex = sortConfig.findIndex((c) => c.id === sortId);
-    if (sortIndex >= sortConfig.length - 1 || sortIndex === -1) return;
-    const newConfig = [...sortConfig];
-    [newConfig[sortIndex], newConfig[sortIndex + 1]] = [newConfig[sortIndex + 1], newConfig[sortIndex]];
-    onSortChange(reassignPriorities(newConfig));
-  }, [sortConfig, onSortChange, disabled]);
-  const handleRemove = useCallback5((sortId) => {
-    if (disabled) return;
-    const filteredConfig = sortConfig.filter((config) => config.id !== sortId);
-    onSortChange(reassignPriorities(filteredConfig));
-  }, [sortConfig, onSortChange, disabled]);
+  const handleDirectionToggle = useCallback5(
+    (sortId) => {
+      if (disabled) return;
+      const updatedConfig = sortConfig.map(
+        (config) => config.id === sortId ? {
+          ...config,
+          direction: config.direction === "asc" ? "desc" : "asc"
+        } : config
+      );
+      onSortChange(updatedConfig);
+    },
+    [sortConfig, onSortChange, disabled]
+  );
+  const handleMoveUp = useCallback5(
+    (sortId) => {
+      if (disabled) return;
+      const sortIndex = sortConfig.findIndex((c) => c.id === sortId);
+      if (sortIndex <= 0) return;
+      const newConfig = [...sortConfig];
+      [newConfig[sortIndex], newConfig[sortIndex - 1]] = [
+        newConfig[sortIndex - 1],
+        newConfig[sortIndex]
+      ];
+      onSortChange(reassignPriorities(newConfig));
+    },
+    [sortConfig, onSortChange, disabled]
+  );
+  const handleMoveDown = useCallback5(
+    (sortId) => {
+      if (disabled) return;
+      const sortIndex = sortConfig.findIndex((c) => c.id === sortId);
+      if (sortIndex >= sortConfig.length - 1 || sortIndex === -1) return;
+      const newConfig = [...sortConfig];
+      [newConfig[sortIndex], newConfig[sortIndex + 1]] = [
+        newConfig[sortIndex + 1],
+        newConfig[sortIndex]
+      ];
+      onSortChange(reassignPriorities(newConfig));
+    },
+    [sortConfig, onSortChange, disabled]
+  );
+  const handleRemove = useCallback5(
+    (sortId) => {
+      if (disabled) return;
+      const filteredConfig = sortConfig.filter(
+        (config) => config.id !== sortId
+      );
+      onSortChange(reassignPriorities(filteredConfig));
+    },
+    [sortConfig, onSortChange, disabled]
+  );
   const handleReset = useCallback5(() => {
     if (disabled) return;
     onSortChange([]);
@@ -2244,15 +2451,21 @@ var SortStatusControl2 = ({
     return ids.join(" ");
   }, [showHelp, ariaDescribedBy]);
   if (sortConfig.length === 0) {
-    return /* @__PURE__ */ jsx6("div", { className: `sort-status-control sort-status-control--empty ${className}`, children: /* @__PURE__ */ jsx6(
+    return /* @__PURE__ */ jsx6(
       "div",
       {
-        className: "sort-status-control__description",
-        id: "sort-description",
-        "aria-live": "polite",
-        children: getSortDescription()
+        className: `sort-status-control sort-status-control--empty ${className}`,
+        children: /* @__PURE__ */ jsx6(
+          "div",
+          {
+            className: "sort-status-control__description",
+            id: "sort-description",
+            "aria-live": "polite",
+            children: getSortDescription()
+          }
+        )
       }
-    ) });
+    );
   }
   return /* @__PURE__ */ jsxs5("div", { className: `sort-status-control ${className}`, children: [
     /* @__PURE__ */ jsx6(
@@ -2353,7 +2566,8 @@ var SortStatusControl2 = ({
       DEFAULT_DIRECTION_LABELS.asc,
       "/",
       DEFAULT_DIRECTION_LABELS.desc,
-      " to toggle ascending/descending. Use \u25B2/\u25BC to change sort priority. Click \xD7 to remove a sort."
+      " ",
+      "to toggle ascending/descending. Use \u25B2/\u25BC to change sort priority. Click \xD7 to remove a sort."
     ] }) })
   ] });
 };

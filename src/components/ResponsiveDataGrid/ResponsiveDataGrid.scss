@@ -3,7 +3,8 @@
 
 // Mobile-first approach: Start with cards, enhance to table
 .aria-tabs-datagrid-adaptive {
-  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  // Inherit font via CSS var so BrandThemeProvider can switch brand fonts
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   background: nhs.$nhs-fdp-color-primary-white;
   border-radius: 0;
   box-shadow: none;

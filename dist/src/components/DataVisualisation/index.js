@@ -17901,6 +17901,412 @@ var RunChart = (props) => {
   );
 };
 var RunChart_default = RunChart;
+
+// src/components/DataVisualisation/charts/PriestleyTimeline/PriestleyTimeline.tsx
+import * as React39 from "react";
+import { jsx as jsx54, jsxs as jsxs39 } from "react/jsx-runtime";
+var toTs = (v) => v === void 0 ? void 0 : v instanceof Date ? v.getTime() : new Date(v).getTime();
+function packIntervals(intervals) {
+  const items = intervals.map((d, i) => {
+    var _a2;
+    return { i, start: toTs(d.start), end: (_a2 = toTs(d.end)) != null ? _a2 : Number.POSITIVE_INFINITY };
+  }).sort((a, b) => a.start - b.start || a.i - b.i);
+  const lanes = [];
+  const laneByIndex = new Array(intervals.length).fill(0);
+  for (const it of items) {
+    let placed = false;
+    for (let li = 0; li < lanes.length; li++) {
+      if (it.start >= lanes[li].end) {
+        lanes[li].end = it.end;
+        laneByIndex[it.i] = li;
+        placed = true;
+        break;
+      }
+    }
+    if (!placed) {
+      lanes.push({ end: it.end });
+      laneByIndex[it.i] = lanes.length - 1;
+    }
+  }
+  return laneByIndex;
+}
+var OpenCap = ({ x: x2, y: y2, h }) => /* @__PURE__ */ jsxs39("g", { "aria-hidden": true, children: [
+  /* @__PURE__ */ jsx54("line", { x1: x2 - 4, x2, y1: y2 + 1, y2: y2 + 1, stroke: "#4c6272", strokeWidth: 1 }),
+  /* @__PURE__ */ jsx54("line", { x1: x2 - 4, x2, y1: y2 + h - 2, y2: y2 + h - 2, stroke: "#4c6272", strokeWidth: 1 })
+] });
+var PriestleyTimelineInner = ({
+  data,
+  rowHeight = 24,
+  rowGap = 4,
+  barRadius = 2,
+  // future: support alternate stacking strategies (currently greedy pack)
+  showNowMarker = true,
+  now,
+  gridLines = true,
+  ariaLabel = "Priestley timeline",
+  getBarLabel,
+  onBarClick,
+  onBarKeyDown,
+  showInlineLabels = false,
+  labelColor,
+  enableKeyboardNav = true
+}) => {
+  var _a2, _b2, _c, _d, _e, _f, _g, _h, _i;
+  const ctx = useChartContext();
+  const height = (_a2 = ctx == null ? void 0 : ctx.innerHeight) != null ? _a2 : 0;
+  const scaleCtx = useScaleContext();
+  const xScale = (_b2 = scaleCtx == null ? void 0 : scaleCtx.xScale) != null ? _b2 : null;
+  const [d0, d1] = (_d = (_c = xScale == null ? void 0 : xScale.domain) == null ? void 0 : _c.call(xScale)) != null ? _d : [];
+  const domain = d0 && d1 ? [d0.getTime(), d1.getTime()] : [Date.now() - 864e5 * 30, Date.now()];
+  const rectRefs = React39.useRef([]);
+  const [focusedIndex, setFocusedIndex] = React39.useState(0);
+  const laneIndices = React39.useMemo(() => packIntervals(data), [data]);
+  const laneCount = React39.useMemo(
+    () => laneIndices.length ? Math.max(...laneIndices) + 1 : 0,
+    [laneIndices]
+  );
+  const starts = React39.useMemo(() => data.map((d) => toTs(d.start) || 0), [data]);
+  const orderByTime = React39.useMemo(
+    () => starts.map((s, i) => ({ i, s })).sort((a, b) => a.s - b.s || a.i - b.i).map((o) => o.i),
+    [starts]
+  );
+  const laneBuckets = React39.useMemo(() => {
+    var _a3;
+    const buckets = /* @__PURE__ */ new Map();
+    for (let i = 0; i < laneIndices.length; i++) {
+      const lane = (_a3 = laneIndices[i]) != null ? _a3 : 0;
+      if (!buckets.has(lane)) buckets.set(lane, []);
+      buckets.get(lane).push(i);
+    }
+    for (const [lane, arr] of buckets) {
+      arr.sort((a, b) => starts[a] - starts[b] || a - b);
+      buckets.set(lane, arr);
+    }
+    return buckets;
+  }, [laneIndices, starts]);
+  const focusBar = (idx) => {
+    setFocusedIndex(idx);
+    const el = rectRefs.current[idx];
+    if (el) {
+      requestAnimationFrame(() => el.focus());
+    }
+  };
+  const moveByTime = (current, dir) => {
+    const pos = orderByTime.indexOf(current);
+    if (pos === -1) return;
+    const nextPos = Math.max(0, Math.min(orderByTime.length - 1, pos + dir));
+    focusBar(orderByTime[nextPos]);
+  };
+  const moveWithinLane = (current, dir) => {
+    var _a3;
+    const lane = (_a3 = laneIndices[current]) != null ? _a3 : 0;
+    const arr = laneBuckets.get(lane) || [];
+    const p = arr.indexOf(current);
+    if (p === -1) return;
+    const nextP = Math.max(0, Math.min(arr.length - 1, p + dir));
+    focusBar(arr[nextP]);
+  };
+  const totalRowsPx = laneCount * rowHeight + Math.max(0, laneCount - 1) * rowGap;
+  const yOffset = Math.max(0, (height - totalRowsPx) / 2);
+  const pal = getCategoricalPalette();
+  const idBase = React39.useId();
+  const nowTs = (_e = toTs(now)) != null ? _e : Date.now();
+  return /* @__PURE__ */ jsx54(TooltipProvider, { children: /* @__PURE__ */ jsxs39("div", { className: "fdp-priestley-timeline", role: "group", "aria-label": ariaLabel, children: [
+    /* @__PURE__ */ jsx54("svg", { width: (_f = ctx == null ? void 0 : ctx.width) != null ? _f : 0, height: (_g = ctx == null ? void 0 : ctx.height) != null ? _g : 0, role: "img", children: /* @__PURE__ */ jsxs39("g", { transform: `translate(${(_h = ctx == null ? void 0 : ctx.margin.left) != null ? _h : 0},${(_i = ctx == null ? void 0 : ctx.margin.top) != null ? _i : 0})`, children: [
+      /* @__PURE__ */ jsx54(Axis_default, { type: "x" }),
+      gridLines && /* @__PURE__ */ jsx54(GridLines_default, { axis: "x" }),
+      showNowMarker && /* @__PURE__ */ jsx54("g", { "aria-hidden": true, children: /* @__PURE__ */ jsx54(
+        "line",
+        {
+          x1: xScale(new Date(nowTs)),
+          x2: xScale(new Date(nowTs)),
+          y1: 0,
+          y2: height,
+          stroke: "var(--nhs-fdp-color-grey-4,#aeb7bd)",
+          strokeDasharray: "4 4"
+        }
+      ) }),
+      data.map((d, i) => {
+        var _a3, _b3;
+        const s = toTs(d.start);
+        const e = toTs(d.end);
+        const x1 = xScale(new Date(s));
+        const x2 = xScale(new Date(e != null ? e : domain[1]));
+        const lane = (_a3 = laneIndices[i]) != null ? _a3 : 0;
+        const y2 = yOffset + lane * (rowHeight + rowGap);
+        const w = Math.max(1, x2 - x1);
+        const fill = d.color || pal[i % pal.length];
+        const labelText = getBarLabel ? getBarLabel(d) : (d.label ? `${d.label}, ` : "") + (e ? `${new Date(s).toLocaleDateString()} to ${new Date(e).toLocaleDateString()}` : `since ${new Date(s).toLocaleDateString()}`);
+        const a11y = d.ariaLabel || labelText;
+        const commonProps = {
+          role: d.href || onBarClick ? "button" : void 0,
+          tabIndex: enableKeyboardNav ? i === focusedIndex ? 0 : -1 : 0,
+          "aria-label": a11y,
+          onKeyDown: (ev) => {
+            if (enableKeyboardNav) {
+              switch (ev.key) {
+                case "ArrowLeft":
+                  ev.preventDefault();
+                  moveByTime(i, -1);
+                  break;
+                case "ArrowRight":
+                  ev.preventDefault();
+                  moveByTime(i, 1);
+                  break;
+                case "ArrowUp":
+                  ev.preventDefault();
+                  moveWithinLane(i, -1);
+                  break;
+                case "ArrowDown":
+                  ev.preventDefault();
+                  moveWithinLane(i, 1);
+                  break;
+                case "Home":
+                  ev.preventDefault();
+                  focusBar(orderByTime[0]);
+                  break;
+                case "End":
+                  ev.preventDefault();
+                  focusBar(orderByTime[orderByTime.length - 1]);
+                  break;
+                case " ":
+                case "Enter":
+                  if (onBarClick) {
+                    ev.preventDefault();
+                    onBarClick(d);
+                  }
+                  break;
+              }
+            }
+            onBarKeyDown == null ? void 0 : onBarKeyDown(ev, d);
+          },
+          onClick: () => onBarClick == null ? void 0 : onBarClick(d)
+        };
+        return /* @__PURE__ */ jsxs39("g", { className: "fdp-priestley-interval", children: [
+          /* @__PURE__ */ jsx54(
+            "rect",
+            {
+              ref: (el) => rectRefs.current[i] = el,
+              x: x1,
+              y: y2,
+              width: w,
+              height: rowHeight,
+              rx: barRadius,
+              ry: barRadius,
+              fill,
+              ...commonProps
+            }
+          ),
+          e === void 0 && /* @__PURE__ */ jsx54(OpenCap, { x: x2, y: y2, h: rowHeight }),
+          showInlineLabels && (d.label || d.category) && /* @__PURE__ */ jsx54(
+            "text",
+            {
+              x: x1 + 4,
+              y: y2 + rowHeight * 0.65,
+              fontSize: 12,
+              fill: labelColor || "var(--nhs-fdp-color-text,#0b0c0c)",
+              children: d.label || d.category
+            }
+          )
+        ] }, (_b3 = d.id) != null ? _b3 : `${idBase}-${i}`);
+      }),
+      /* @__PURE__ */ jsx54(TooltipOverlay_default, {})
+    ] }) }),
+    /* @__PURE__ */ jsx54(VisuallyHiddenLiveRegion_default, {})
+  ] }) });
+};
+var PriestleyTimeline = (props) => {
+  var _a2;
+  const WithScale = (pp) => {
+    var _a3;
+    const ctx2 = useChartContext();
+    const width = (_a3 = ctx2 == null ? void 0 : ctx2.innerWidth) != null ? _a3 : 0;
+    const allTs = React39.useMemo(() => {
+      var _a4;
+      const xs = pp.data.flatMap((d) => {
+        var _a5;
+        return [toTs(d.start), (_a5 = toTs(d.end)) != null ? _a5 : void 0];
+      }).filter(Boolean);
+      const nowTs = (_a4 = toTs(pp.now)) != null ? _a4 : Date.now();
+      if (pp.xDomain) {
+        const a = toTs(pp.xDomain[0]);
+        const b = toTs(pp.xDomain[1]);
+        return [Math.min(a, b), Math.max(a, b)];
+      }
+      if (!xs.length) return [nowTs - 864e5 * 30, nowTs];
+      const min = Math.min(...xs);
+      const max = Math.max(...xs.concat(pp.showNowMarker ? [nowTs] : []));
+      const pad2 = Math.max(1, Math.round((max - min) * 0.04));
+      return [min - pad2, max + pad2];
+    }, [pp.data, pp.xDomain, pp.now, pp.showNowMarker]);
+    const xScale = React39.useMemo(() => {
+      return createXTimeScale(
+        [{ x: new Date(allTs[0]) }, { x: new Date(allTs[1]) }],
+        (d) => d.x,
+        [0, width]
+      ).domain([new Date(allTs[0]), new Date(allTs[1])]);
+    }, [allTs, width]);
+    const value = React39.useMemo(
+      () => ({
+        xScale,
+        yScale: (y2) => y2,
+        getXTicks: (c = 6) => xScale.ticks(c),
+        getYTicks: () => []
+      }),
+      [xScale]
+    );
+    return /* @__PURE__ */ jsx54(ScaleContext_default.Provider, { value, children: /* @__PURE__ */ jsx54(PriestleyTimelineInner, { ...pp }) });
+  };
+  const ctx = useChartContext();
+  if (ctx) return /* @__PURE__ */ jsx54(WithScale, { ...props });
+  return /* @__PURE__ */ jsx54(ChartRoot, { height: (_a2 = props.height) != null ? _a2 : 240, ariaLabel: props.ariaLabel, margin: { bottom: 40, left: 16, right: 16, top: 12 }, children: /* @__PURE__ */ jsx54(WithScale, { ...props }) });
+};
+var PriestleyTimeline_default = PriestleyTimeline;
+
+// src/components/DataVisualisation/charts/CUSUM/CUSUMChart.tsx
+import * as React40 from "react";
+import { jsx as jsx55, jsxs as jsxs40 } from "react/jsx-runtime";
+function stats(values) {
+  const n = values.length;
+  const mean2 = n ? values.reduce((a, b) => a + b, 0) / n : 0;
+  const variance = n > 1 ? values.reduce((a, b) => a + (b - mean2) ** 2, 0) / (n - 1) : 0;
+  const sd = Math.sqrt(variance);
+  return { mean: mean2, sd };
+}
+function computeCUSUM(series, opts) {
+  const parseX = (v) => v instanceof Date ? v : new Date(v);
+  const xs = series.data.map((d) => parseX(d.x));
+  const ys = series.data.map((d) => d.y);
+  const \u03BC0 = opts.targetMean;
+  const k = opts.k;
+  const h = opts.h;
+  const reset = !!opts.resetAtZero;
+  let sPlus = 0;
+  let sMinus = 0;
+  const outPlus = [];
+  const outMinus = [];
+  const alerts = [];
+  for (let i = 0; i < ys.length; i++) {
+    const x2 = xs[i];
+    const y2 = ys[i];
+    const z = y2 - \u03BC0;
+    if (opts.sided !== "lower") {
+      sPlus = reset ? Math.max(0, sPlus + (z - k)) : sPlus + (z - k);
+      outPlus.push({ x: x2, y: sPlus });
+      if (sPlus > h) alerts.push({ x: x2, type: "upper" });
+    }
+    if (opts.sided !== "upper") {
+      sMinus = reset ? Math.max(0, sMinus + (-z - k)) : sMinus + (-z - k);
+      outMinus.push({ x: x2, y: -sMinus });
+      if (sMinus > h) alerts.push({ x: x2, type: "lower" });
+    }
+  }
+  return { sPlus: outPlus, sMinus: outMinus, alerts, k, h };
+}
+var InternalCUSUMChart = ({
+  series,
+  targetMean,
+  sigma,
+  k,
+  h,
+  sided = "two",
+  resetAtZero = true,
+  higherIsBetter = true,
+  ariaLabel = "CUSUM chart"
+}) => {
+  var _a2, _b2, _c, _d, _e, _f;
+  const ctx = useChartContext();
+  const parseX = React40.useCallback((d) => d.x instanceof Date ? d.x : new Date(d.x), []);
+  const ys = React40.useMemo(() => series.data.map((d) => d.y), [series]);
+  const baseStats = React40.useMemo(() => stats(ys), [ys]);
+  const \u03BC0 = targetMean != null ? targetMean : baseStats.mean;
+  const \u03C3 = sigma != null ? sigma : baseStats.sd || 1;
+  const _k = k != null ? k : 0.5 * \u03C3;
+  const _h = h != null ? h : 5 * \u03C3;
+  const cusum = React40.useMemo(() => computeCUSUM(series, {
+    targetMean: \u03BC0,
+    sigma: \u03C3,
+    k: _k,
+    h: _h,
+    sided,
+    resetAtZero
+  }), [series, \u03BC0, \u03C3, _k, _h, sided, resetAtZero]);
+  const allCusumPoints = React40.useMemo(() => [...cusum.sPlus, ...cusum.sMinus], [cusum]);
+  const xScale = React40.useMemo(() => {
+    if (!ctx) return null;
+    const points = series.data.map((d) => ({ x: parseX(d) }));
+    return createXTimeScale(points, (d) => d.x, [0, ctx.innerWidth]);
+  }, [ctx, series, parseX]);
+  const yScale = React40.useMemo(() => {
+    if (!ctx) return null;
+    return createYLinearScale(allCusumPoints, (d) => d.y, [ctx.innerHeight, 0]);
+  }, [ctx, allCusumPoints]);
+  const colorPlus = pickSeriesColor(0);
+  const colorMinus = pickSeriesColor(1);
+  const markers = cusum.alerts.map((a) => {
+    var _a3, _b3;
+    return {
+      x: (_b3 = (_a3 = series.data.find((d) => (d.x instanceof Date ? d.x : new Date(d.x)).getTime() === a.x.getTime())) == null ? void 0 : _a3.x) != null ? _b3 : a.x,
+      label: a.type === "upper" ? "CUSUM upper alarm" : "CUSUM lower alarm",
+      status: a.type === (higherIsBetter ? "upper" : "lower") ? "warning" : "info"
+    };
+  });
+  const content = /* @__PURE__ */ jsx55(TooltipProvider, { children: /* @__PURE__ */ jsxs40("div", { className: "fdp-cusum-chart", role: "group", "aria-label": ariaLabel, children: [
+    /* @__PURE__ */ jsx55("svg", { width: (_a2 = ctx == null ? void 0 : ctx.width) != null ? _a2 : 0, height: (_b2 = ctx == null ? void 0 : ctx.height) != null ? _b2 : 0, role: "img", children: /* @__PURE__ */ jsxs40("g", { transform: `translate(${(_c = ctx == null ? void 0 : ctx.margin.left) != null ? _c : 0},${(_d = ctx == null ? void 0 : ctx.margin.top) != null ? _d : 0})`, children: [
+      /* @__PURE__ */ jsx55(Axis_default, { type: "x" }),
+      /* @__PURE__ */ jsx55(Axis_default, { type: "y" }),
+      /* @__PURE__ */ jsx55(GridLines_default, { axis: "y" }),
+      /* @__PURE__ */ jsxs40("g", { "aria-hidden": true, children: [
+        /* @__PURE__ */ jsx55("line", { x1: 0, x2: (_e = ctx == null ? void 0 : ctx.innerWidth) != null ? _e : 0, y1: yScale(_h), y2: yScale(_h), stroke: "var(--nhs-fdp-color-grey-4,#aeb7bd)", strokeDasharray: "6 4" }),
+        /* @__PURE__ */ jsx55("line", { x1: 0, x2: (_f = ctx == null ? void 0 : ctx.innerWidth) != null ? _f : 0, y1: yScale(-_h), y2: yScale(-_h), stroke: "var(--nhs-fdp-color-grey-4,#aeb7bd)", strokeDasharray: "6 4" })
+      ] }),
+      sided !== "lower" && /* @__PURE__ */ jsx55(
+        LineSeriesPrimitive_default,
+        {
+          series: { id: "CUSUM+", data: cusum.sPlus.map((p) => ({ x: p.x, y: p.y })) },
+          seriesIndex: 0,
+          palette: "categorical",
+          showPoints: false,
+          focusablePoints: false,
+          focusIndex: -1,
+          parseX: (d) => d.x instanceof Date ? d.x : new Date(d.x),
+          strokeWidth: 2,
+          colors: [colorPlus]
+        }
+      ),
+      sided !== "upper" && /* @__PURE__ */ jsx55(
+        LineSeriesPrimitive_default,
+        {
+          series: { id: "CUSUM-", data: cusum.sMinus.map((p) => ({ x: p.x, y: p.y })) },
+          seriesIndex: 1,
+          palette: "categorical",
+          showPoints: false,
+          focusablePoints: false,
+          focusIndex: -1,
+          parseX: (d) => d.x instanceof Date ? d.x : new Date(d.x),
+          strokeWidth: 2,
+          colors: [colorMinus]
+        }
+      ),
+      markers.length > 0 && /* @__PURE__ */ jsx55(AlertMarkers_default, { points: markers, shape: "diamond", size: 4 }),
+      /* @__PURE__ */ jsx55(TooltipOverlay_default, {})
+    ] }) }),
+    /* @__PURE__ */ jsx55(VisuallyHiddenLiveRegion_default, {})
+  ] }) });
+  if (useScaleContext()) return content;
+  if (!xScale || !yScale) return content;
+  const value = { xScale, yScale, getXTicks: (c = 6) => xScale.ticks(c), getYTicks: (c = 5) => yScale.ticks(c) };
+  return /* @__PURE__ */ jsx55(ScaleContext_default.Provider, { value, children: content });
+};
+var CUSUMChart = (props) => {
+  var _a2;
+  const ctx = useChartContext();
+  if (ctx) {
+    return useScaleContext() ? /* @__PURE__ */ jsx55(InternalCUSUMChart, { ...props }) : /* @__PURE__ */ jsx55(LineScalesProvider, { series: [props.series], innerWidth: ctx.innerWidth, innerHeight: ctx.innerHeight, children: /* @__PURE__ */ jsx55(InternalCUSUMChart, { ...props }) });
+  }
+  return /* @__PURE__ */ jsx55(ChartRoot, { height: (_a2 = props.height) != null ? _a2 : 240, ariaLabel: props.ariaLabel, margin: { bottom: 48, left: 56, right: 16, top: 12 }, children: /* @__PURE__ */ jsx55(InternalCUSUMChart, { ...props }) });
+};
+var CUSUMChart_default = CUSUMChart;
 export {
   AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX,
   AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX,
@@ -17916,6 +18322,7 @@ export {
   Axis_default as Axis,
   BandScalesProvider,
   BarSeriesPrimitive_default as BarSeriesPrimitive,
+  CUSUMChart_default as CUSUMChart,
   ChartContainer_default as ChartContainer,
   ChartEnhancer_default as ChartEnhancer,
   ChartNoScript_default as ChartNoScript,
@@ -17929,6 +18336,7 @@ export {
   LineScalesProvider,
   LineSeriesPrimitive_default as LineSeriesPrimitive,
   MetricCard_default as MetricCard,
+  PriestleyTimeline_default as PriestleyTimeline,
   RunChart_default as RunChart,
   SPC_exports as SPC,
   SPCChart_default as SPCChart,

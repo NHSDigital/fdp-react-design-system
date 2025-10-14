@@ -100,6 +100,7 @@ span .nhsuk-u-visually-hidden {
   min-width: 0;
   display: block;
   font-family: Frutiger W01, Arial, sans-serif;
+  max-width: 300px;
   /* Variants */
   /* Loading / error state cursors */
   /* Status driven delta colouring overrides */

@@ -88,6 +88,27 @@ export interface AriaTabsDataGridProps<T = any> {
     actionsMinGap?: number;
     /** When true, disables dynamic measurement and always places actions above the tab list. */
     forceActionsAbove?: boolean;
+    /** Minimum column width for table cells/headers (e.g. 160 or '12rem'). If total min widths exceed container, horizontal scrolling is enabled. */
+    minColumnWidth?: number | string;
+    /**
+     * Enable low-priority column collapse to fit within container width before scrolling.
+     * When true, columns with higher collapsePriority (or rightmost by default) will be hidden until the table fits.
+     */
+    enableColumnCollapse?: boolean;
+    /**
+     * Minimum number of columns that must remain visible even after collapsing. Defaults to 2.
+     */
+    minVisibleColumns?: number;
+    /** Show a collapsed-columns indicator chip with count and popover list (defaults to true when collapse enabled). */
+    showCollapsedColumnsIndicator?: boolean;
+    /**
+     * Placement for the SortStatusControl component that manages multi-column sorting.
+     * - 'header': render in the header area before the tabs (default, preserves current behaviour)
+     * - 'above': render above the grid/table, after tabs/actions
+     * - 'below': render below the grid/table
+     * - 'none': do not render the control
+     */
+    sortStatusPlacement?: 'header' | 'above' | 'below' | 'none';
 }
 /**
  * Healthcare-specific tab panel configurations for EWS patient data

@@ -20,91 +20,91 @@ import { SortStatusControl } from "./SortStatusControl/SortStatusControl";
 import { buildMultiComparator } from './sortUtils';
 import { NullsPosition } from './AriaDataGridTypes';
 
-/**
- * Navigation focus areas for hierarchical keyboard navigation
- */
-type FocusArea = "tabs" | "headers" | "cells" | "actions";
+	/**
+	 * Navigation focus areas for hierarchical keyboard navigation
+	 */
+	type FocusArea = "tabs" | "headers" | "cells" | "actions";
 
-/**
- * Navigation state for hierarchical keyboard navigation
- */
-interface NavigationState {
-	focusArea: FocusArea;
-	focusedTabIndex: number;
-	focusedHeaderIndex: number;
-	focusedRowIndex: number;
-	focusedColumnIndex: number;
-	focusedActionIndex: number;
-	isGridActive: boolean;
-}
-
-function tabsDataGridReducer(
-	state: AriaTabsDataGridState,
-	action: AriaTabsDataGridAction
-): AriaTabsDataGridState {
-	switch (action.type) {
-		case "SET_SELECTED_INDEX":
-			return { ...state, selectedIndex: action.payload };
-
-		case "SET_TAB_LOADING":
-			const newLoadingStates = [...state.tabLoadingStates];
-			newLoadingStates[action.payload.tabIndex] = action.payload.isLoading;
-			return { ...state, tabLoadingStates: newLoadingStates };
-
-		case "SET_TAB_ERROR":
-			const newErrors = [...state.tabErrors];
-			newErrors[action.payload.tabIndex] = action.payload.error;
-			return { ...state, tabErrors: newErrors };
-
-		case "SET_SORT":
-			return { ...state, sortConfig: action.payload };
-
-		case "SET_SELECTED_ROWS":
-			const newSelectedRows = [...state.selectedRows];
-			newSelectedRows[action.payload.tabIndex] = action.payload.rowIndices;
-			return { ...state, selectedRows: newSelectedRows };
-
-		case "SET_GLOBAL_SELECTED_ROW_DATA":
-			return { ...state, globalSelectedRowData: action.payload };
-
-		case "SET_FILTERS":
-			return { ...state, filters: action.payload };
-
-		case "ADJUST_ARRAYS":
-			const { newLength } = action.payload;
-			const adjustedLoadingStates = new Array(newLength).fill(false);
-			const adjustedErrors = new Array(newLength).fill(null);
-			const adjustedSelectedRows = new Array(newLength).fill([]);
-
-			// Copy existing states up to the minimum length
-			for (let i = 0; i < Math.min(state.tabLoadingStates.length, newLength); i++) {
-				adjustedLoadingStates[i] = state.tabLoadingStates[i];
-				adjustedErrors[i] = state.tabErrors[i];
-				adjustedSelectedRows[i] = state.selectedRows[i];
-			}
-
-			return {
-				...state,
-				tabLoadingStates: adjustedLoadingStates,
-				tabErrors: adjustedErrors,
-				selectedRows: adjustedSelectedRows,
-			};
-
-		case "RESET_STATE":
-			return {
-				selectedIndex: 0,
-				tabLoadingStates: new Array(state.tabLoadingStates.length).fill(false),
-				tabErrors: new Array(state.tabErrors.length).fill(null),
-				sortConfig: [],
-				selectedRows: new Array(state.selectedRows.length).fill([]),
-				globalSelectedRowData: null,
-				filters: undefined,
-			};
-
-		default:
-			return state;
+	/**
+	 * Navigation state for hierarchical keyboard navigation
+	 */
+	interface NavigationState {
+		focusArea: FocusArea;
+		focusedTabIndex: number;
+		focusedHeaderIndex: number;
+		focusedRowIndex: number;
+		focusedColumnIndex: number;
+		focusedActionIndex: number;
+		isGridActive: boolean;
 	}
-}
+
+	function tabsDataGridReducer(
+		state: AriaTabsDataGridState,
+		action: AriaTabsDataGridAction
+	): AriaTabsDataGridState {
+		switch (action.type) {
+			case "SET_SELECTED_INDEX":
+				return { ...state, selectedIndex: action.payload };
+
+			case "SET_TAB_LOADING":
+				const newLoadingStates = [...state.tabLoadingStates];
+				newLoadingStates[action.payload.tabIndex] = action.payload.isLoading;
+				return { ...state, tabLoadingStates: newLoadingStates };
+
+			case "SET_TAB_ERROR":
+				const newErrors = [...state.tabErrors];
+				newErrors[action.payload.tabIndex] = action.payload.error;
+				return { ...state, tabErrors: newErrors };
+
+			case "SET_SORT":
+				return { ...state, sortConfig: action.payload };
+
+			case "SET_SELECTED_ROWS":
+				const newSelectedRows = [...state.selectedRows];
+				newSelectedRows[action.payload.tabIndex] = action.payload.rowIndices;
+				return { ...state, selectedRows: newSelectedRows };
+
+			case "SET_GLOBAL_SELECTED_ROW_DATA":
+				return { ...state, globalSelectedRowData: action.payload };
+
+			case "SET_FILTERS":
+				return { ...state, filters: action.payload };
+
+			case "ADJUST_ARRAYS":
+				const { newLength } = action.payload;
+				const adjustedLoadingStates = new Array(newLength).fill(false);
+				const adjustedErrors = new Array(newLength).fill(null);
+				const adjustedSelectedRows = new Array(newLength).fill([]);
+
+				// Copy existing states up to the minimum length
+				for (let i = 0; i < Math.min(state.tabLoadingStates.length, newLength); i++) {
+					adjustedLoadingStates[i] = state.tabLoadingStates[i];
+					adjustedErrors[i] = state.tabErrors[i];
+					adjustedSelectedRows[i] = state.selectedRows[i];
+				}
+
+				return {
+					...state,
+					tabLoadingStates: adjustedLoadingStates,
+					tabErrors: adjustedErrors,
+					selectedRows: adjustedSelectedRows,
+				};
+
+			case "RESET_STATE":
+				return {
+					selectedIndex: 0,
+					tabLoadingStates: new Array(state.tabLoadingStates.length).fill(false),
+					tabErrors: new Array(state.tabErrors.length).fill(null),
+					sortConfig: [],
+					selectedRows: new Array(state.selectedRows.length).fill([]),
+					globalSelectedRowData: null,
+					filters: undefined,
+				};
+
+			default:
+				return state;
+		}
+	}
 
 /**
  * Component reference interface for imperative actions
@@ -150,6 +150,7 @@ export const AriaTabsDataGrid = forwardRef<
 		enableColumnCollapse = false,
 		minVisibleColumns = 2,
 		showCollapsedColumnsIndicator = true,
+		sortStatusPlacement = 'header',
 	} = props;
 
 	// Allow developer to hide the tab list when only a single tab/panel is provided
@@ -1154,21 +1155,19 @@ export const AriaTabsDataGrid = forwardRef<
 				headers moves to table cells. Use Arrow keys to navigate between cells.
 			</div>
 
-			<SortStatusControl
-				sortConfig={state.sortConfig || []}
-				columns={tabPanels
-					.flatMap((panel) =>
-						panel.columns.map((col) => ({ key: col.key, label: col.label }))
-					)
-					.filter(
-						(col, index, arr) =>
-							arr.findIndex((c) => c.key === col.key) === index // Remove duplicates
-					)}
-				onSortChange={(newSortConfig) => {
-					dispatch({ type: "SET_SORT", payload: newSortConfig });
-				}}
-				ariaLabel="Data grid sort configuration"
-			/>
+			{sortStatusPlacement === 'header' && (
+				<SortStatusControl
+					sortConfig={state.sortConfig || []}
+					columns={tabPanels
+						.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label })))
+						.filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index)
+					}
+					onSortChange={(newSortConfig) => {
+						dispatch({ type: "SET_SORT", payload: newSortConfig });
+					}}
+					ariaLabel="Data grid sort configuration"
+				/>
+			)}
 
 			{/* Tab List with Manual ARIA Implementation */}
 			{/* Actions above when not inline, or when tabs are hidden */}
@@ -1246,6 +1245,59 @@ export const AriaTabsDataGrid = forwardRef<
 				</div>
 			)}
 
+				{/* Collapsed columns indicator (outside of panel) */}
+				{enableColumnCollapse && showCollapsedColumnsIndicator && (() => {
+					const panelIndex = tabsHidden ? 0 : state.selectedIndex;
+					const hidden = hiddenColumnsByPanel[panelIndex] || new Set<string>();
+					if (hidden.size === 0) return null;
+					const panel = tabPanels[panelIndex];
+					const hiddenLabels = panel ? panel.columns.filter(c => hidden.has(c.key)).map(c => c.label) : [];
+					return (
+						<div className="aria-tabs-datagrid__collapsed-indicator">
+							<div
+								className="nhsuk-u-visually-hidden"
+								aria-live="polite"
+								ref={liveRegionRef}
+							/>
+							<div className="collapsed-chip-wrapper">
+								<button
+									ref={collapsedButtonRef}
+									type="button"
+									className="collapsed-chip"
+									title={`Collapsed columns: ${hiddenLabels.join(', ')}`}
+									onClick={() => setCollapsedPopoverOpen((v) => !v)}
+								>
+									{hidden.size} hidden column{hidden.size === 1 ? '' : 's'}
+								</button>
+								{collapsedPopoverOpen && (
+									<div className="collapsed-popover" role="dialog" aria-label="Collapsed columns">
+										<ul>
+											{hiddenLabels.map((name, i) => (
+												<li key={i}>{name}</li>
+											))}
+										</ul>
+									</div>
+								)}
+							</div>
+						</div>
+					);
+				})()}
+
+			{/* Sort status control placement: above grid (after tabs/actions) */}
+			{sortStatusPlacement === 'above' && (
+				<SortStatusControl
+					sortConfig={state.sortConfig || []}
+					columns={tabPanels
+						.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label })))
+						.filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index)
+					}
+					onSortChange={(newSortConfig) => {
+						dispatch({ type: 'SET_SORT', payload: newSortConfig });
+					}}
+					ariaLabel="Data grid sort configuration"
+				/>
+			)}
+
 			{/* Tab Panels */}
 			{tabPanels.map((panel, index) => {
 				const isSelected = tabsHidden ? index === 0 : index === state.selectedIndex;
@@ -1291,43 +1343,7 @@ export const AriaTabsDataGrid = forwardRef<
 											['--atd-min-col-w' as any]: typeof minColumnWidth === 'number' ? `${minColumnWidth}px` : (minColumnWidth || undefined),
 										}}
 									>
-											{/* Collapsed columns indicator */}
-											{enableColumnCollapse && showCollapsedColumnsIndicator && (
-												<div className="aria-tabs-datagrid__collapsed-indicator">
-													<div
-														className="nhsuk-u-visually-hidden"
-														aria-live="polite"
-														ref={liveRegionRef}
-													/>
-													{(() => {
-														const hidden = hiddenColumnsByPanel[index] || new Set<string>();
-														if (hidden.size === 0) return null;
-														const hiddenLabels = panel.columns.filter(c => hidden.has(c.key)).map(c => c.label);
-														return (
-															<div className="collapsed-chip-wrapper">
-																<button
-																	ref={collapsedButtonRef}
-																	type="button"
-																	className="collapsed-chip"
-																	title={`Collapsed columns: ${hiddenLabels.join(', ')}`}
-																	onClick={() => setCollapsedPopoverOpen((v) => !v)}
-																>
-																	{hidden.size} hidden column{hidden.size === 1 ? '' : 's'}
-																</button>
-																{collapsedPopoverOpen && (
-																	<div className="collapsed-popover" role="dialog" aria-label="Collapsed columns">
-																		<ul>
-																			{hiddenLabels.map((name, i) => (
-																				<li key={i}>{name}</li>
-																			))}
-																		</ul>
-																	</div>
-																)}
-															</div>
-														);
-													})()}
-												</div>
-											)}
+											{/* Collapsed columns indicator moved outside panel */}
 									<table
 										className="nhsuk-table aria-tabs-datagrid__grid"
 										role="grid"
@@ -1425,6 +1441,7 @@ export const AriaTabsDataGrid = forwardRef<
 														</th>
 													);
 												})}
+
 											</tr>
 										</thead>
 											<tbody className="nhsuk-table__body" role="rowgroup">
@@ -1545,6 +1562,19 @@ export const AriaTabsDataGrid = forwardRef<
 					</div>
 				);
 			})}
+			{sortStatusPlacement === 'below' && (
+				<SortStatusControl
+					sortConfig={state.sortConfig || []}
+					columns={tabPanels
+						.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label })))
+						.filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index)
+					}
+					onSortChange={(newSortConfig) => {
+						dispatch({ type: 'SET_SORT', payload: newSortConfig });
+					}}
+					ariaLabel="Data grid sort configuration"
+				/>
+			)}
 		</div>
 	);
 });

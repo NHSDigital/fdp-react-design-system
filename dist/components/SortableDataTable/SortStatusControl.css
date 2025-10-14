@@ -501,7 +501,8 @@ span .nhsuk-u-visually-hidden {
   background: #f0f4f5;
   border: 1px solid #d8dde0;
   border-radius: 0;
-  margin-bottom: 24px;
+  margin-top: 8px;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: column;
 }

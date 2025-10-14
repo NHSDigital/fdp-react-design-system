@@ -25,7 +25,8 @@ $color-white: nhs.$nhs-fdp-color-primary-white;
 
 $border-radius: nhs.$nhs-fdp-border-radius-small;
 $transition-default: all nhs.$nhs-fdp-animation-duration-normal nhs.$nhs-fdp-animation-easing-ease-out;
-$font-family-primary: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+// Use CSS variable so font follows BrandThemeProvider (data-brand scoped)
+$font-family-primary: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
 
 // ---------------------------------------------------------------------------
 // Breakpoint & Utility Mixins (initial refactor pass)

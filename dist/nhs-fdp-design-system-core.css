@@ -2340,7 +2340,7 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] .nhsuk-header__navigation-container a {
   text-decoration: none;
 }
-[data-brand=fdp] .nhsuk-header:not(.nhsuk-header--blue) .nhsuk-header__navigation {
+[data-brand=fdp] .nhsuk-header:where(:not(.nhsuk-header--blue):not(.nhsuk-header--dark-grey-gradient):not(.nhsuk-header--dark-gray-gradient):not(.nhsuk-header--dark-blue-gradient)) .nhsuk-header__navigation {
   background-color: var(--brand-fdp-semantic-surface-background-primary, #ffffff);
 }
 [data-brand=fdp] .nhsuk-header__navigation-link, [data-brand=fdp] .nhsuk-header__navigation-button {
@@ -2514,7 +2514,7 @@ span .nhsuk-u-visually-hidden {
   color: #ffffff;
 }
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation {
-  background: transparent;
+  background: inherit;
 }
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__service-logo,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__service-name,
@@ -2525,7 +2525,7 @@ span .nhsuk-u-visually-hidden {
   color: #ffffff;
 }
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation-container {
-  background: linear-gradient(90deg, #4c6272, #768692);
+  background: inherit;
   box-shadow: inset 0 0.25px 0 0 #d8dde0;
 }
 

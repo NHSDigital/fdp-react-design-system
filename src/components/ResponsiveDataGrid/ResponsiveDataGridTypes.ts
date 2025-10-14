@@ -37,6 +37,10 @@ export interface ResponsiveDataGridProps<T = any> extends Omit<AriaTabsDataGridP
   enableColumnCollapse?: boolean;
   /** Minimum number of columns to keep visible when collapsing. Forwarded to AriaTabsDataGrid. */
   minVisibleColumns?: number;
+  /** Show the collapsed-columns indicator chip/popover when columns are hidden. Forwarded to AriaTabsDataGrid. */
+  showCollapsedColumnsIndicator?: boolean;
+  /** Controls where the SortStatusControl is rendered in table/hybrid modes. Forwarded to AriaTabsDataGrid. */
+  sortStatusPlacement?: 'header' | 'above' | 'below' | 'none';
   
   /** 
    * Enable advanced sorting with SortStatusControl component.

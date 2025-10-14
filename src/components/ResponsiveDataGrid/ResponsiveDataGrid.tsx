@@ -347,6 +347,14 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 	forceGridActionsAbove,
 	hideTabsIfSingle,
 
+	// Overflow/collapse props (typed from ResponsiveDataGridProps)
+	minColumnWidth,
+	enableColumnCollapse,
+	minVisibleColumns,
+	showCollapsedColumnsIndicator,
+	// Additional grid options
+	sortStatusPlacement,
+
 	// Standard AriaTabsDataGrid props
 	tabPanels,
 	dataConfig,
@@ -1623,22 +1631,23 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 				{/* Conditional Sort Controls: Advanced vs Simple */}
 				{currentPanel && currentPanel.columns && (
 					<>
-						{enableAdvancedSorting ? (
-							/* Advanced sorting with SortStatusControl */
-							<SortStatusControl
-								sortConfig={state.sortConfig || []}
-								columns={currentPanel.columns.map((col) => ({
-									key: col.key,
-									label: col.label,
-								}))}
-								onSortChange={(newSortConfig) => {
-									dispatch({ type: "SET_SORT", payload: newSortConfig });
-								}}
-								ariaLabel="Card view sort configuration"
-								className="aria-tabs-datagrid-adaptive__advanced-sort-controls"
-							/>
+						{ enableAdvancedSorting ? (
+							/* Advanced sorting with SortStatusControl: place above cards for 'header'/'above' (default), hide when 'none' */
+							<>
+								{(!sortStatusPlacement || sortStatusPlacement === 'header' || sortStatusPlacement === 'above') && (
+									<SortStatusControl
+										sortConfig={state.sortConfig || []}
+										columns={currentPanel.columns.map((col) => ({ key: col.key, label: col.label }))}
+										onSortChange={(newSortConfig) => {
+											dispatch({ type: "SET_SORT", payload: newSortConfig });
+										}}
+										ariaLabel="Card view sort configuration"
+										className="aria-tabs-datagrid-adaptive__advanced-sort-controls"
+									/>
+								)}
+							</>
 						) : (
-							/* Simple card sorting */
+							/* Simple card sorting (unaffected by sortStatusPlacement) */
 							<div
 								className="aria-tabs-datagrid-adaptive__sort-controls"
 								role="region"
@@ -1663,27 +1672,21 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 											value={
 												cardNavState.cardSortConfig
 													? `${cardNavState.cardSortConfig.key}-${cardNavState.cardSortConfig.direction}`
-													: ""
+												: ""
 											}
 											onChange={(e) => handleCardSort(e.target.value)}
 											className="sort-select"
 										>
-											{generateSortOptions(currentPanel.columns).map(
-												(option) => (
-													<option key={option.value} value={option.value}>
-														{option.label}
-													</option>
-												)
-											)}
+											{generateSortOptions(currentPanel.columns).map((option) => (
+												<option key={option.value} value={option.value}>
+													{option.label}
+												</option>
+											))}
 										</Select>
 									</div>
 
 									{cardNavState.cardSortConfig && (
-										<div
-											className="sort-indicator"
-											role="status"
-											aria-live="polite"
-										>
+										<div className="sort-indicator" role="status" aria-live="polite">
 											<span className="sort-indicator-text">
 												Sorted by {getSortLabel(cardNavState.cardSortConfig)}
 											</span>
@@ -1823,8 +1826,8 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 								? "aria-tabs-datagrid-adaptive__card--card-navigation"
 								: "",
 						]
-							.filter(Boolean)
-							.join(" ");
+						.filter(Boolean)
+						.join(" ");
 
 						return (
 							<div
@@ -1852,7 +1855,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 									aria-colindex={gridPosition.col + 1}
 									aria-selected={isSelected}
 									aria-expanded={isInCardNavigation}
-									onKeyDown={(event) => {
+									onKeyDown={(event: React.KeyboardEvent) => {
 										if (event.key === "Enter") {
 											event.preventDefault();
 											setCardNavState((prev) => ({
@@ -1860,7 +1863,7 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 												selectedCardIndex: index,
 											}));
 										}
-										handleCardKeyDown(event as any, index);
+										handleCardKeyDown(event, index);
 									}}
 								>
 									<Card
@@ -1905,6 +1908,19 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 						);
 					})}
 				</div>
+
+				{/* Advanced sorting below cards when requested */}
+				{enableAdvancedSorting && sortStatusPlacement === 'below' && currentPanel && currentPanel.columns && (
+					<SortStatusControl
+						sortConfig={state.sortConfig || []}
+						columns={currentPanel.columns.map((col) => ({ key: col.key, label: col.label }))}
+						onSortChange={(newSortConfig) => {
+							dispatch({ type: "SET_SORT", payload: newSortConfig });
+						}}
+						ariaLabel="Card view sort configuration"
+						className="aria-tabs-datagrid-adaptive__advanced-sort-controls aria-tabs-datagrid-adaptive__advanced-sort-controls--below"
+					/>
+				)}
 
 				{/* Bottom actions area */}
 				{bottomActions && (
@@ -1964,9 +1980,11 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 					actions={gridActions}
 					forceActionsAbove={forceGridActionsAbove}
 					hideTabsIfSingle={hideTabsIfSingle}
-					minColumnWidth={(props as any).minColumnWidth}
-					enableColumnCollapse={(props as any).enableColumnCollapse}
-					minVisibleColumns={(props as any).minVisibleColumns}
+					minColumnWidth={minColumnWidth}
+					enableColumnCollapse={enableColumnCollapse}
+					minVisibleColumns={minVisibleColumns}
+					showCollapsedColumnsIndicator={showCollapsedColumnsIndicator}
+					sortStatusPlacement={sortStatusPlacement}
 					{...props}
 				/>
 
@@ -2005,9 +2023,11 @@ export const ResponsiveDataGrid: React.FC<ResponsiveDataGridProps> = ({
 				actions={gridActions}
 				forceActionsAbove={forceGridActionsAbove}
 				hideTabsIfSingle={hideTabsIfSingle}
-				minColumnWidth={(props as any).minColumnWidth}
-				enableColumnCollapse={(props as any).enableColumnCollapse}
-				minVisibleColumns={(props as any).minVisibleColumns}
+				minColumnWidth={minColumnWidth}
+				enableColumnCollapse={enableColumnCollapse}
+				minVisibleColumns={minVisibleColumns}
+				showCollapsedColumnsIndicator={showCollapsedColumnsIndicator}
+				sortStatusPlacement={sortStatusPlacement}
 				{...props}
 			/>
 

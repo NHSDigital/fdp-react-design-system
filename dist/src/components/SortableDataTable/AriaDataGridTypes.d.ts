@@ -1,11 +1,11 @@
-import { GridState } from '@react-stately/grid';
-import { Node } from '@react-types/shared';
+import { GridState } from "@react-stately/grid";
+import { Node } from "@react-types/shared";
 export interface AriaDataGridColumn {
     key: string;
     label: string;
     sortable?: boolean;
     width?: string | number;
-    align?: 'left' | 'center' | 'right';
+    align?: "left" | "center" | "right";
     render?: (data: any) => any;
     /** Enhanced renderer for table view (overrides render if provided) */
     tableRenderer?: (data: any) => any;
@@ -35,9 +35,9 @@ export interface AriaDataGridColumn {
 }
 export interface SortConfig {
     key: string;
-    direction: 'asc' | 'desc';
+    direction: "asc" | "desc";
 }
-export type TableType = 'default' | 'responsive' | 'compact';
+export type TableType = "default" | "responsive" | "compact";
 export interface AriaDataGridProps {
     data: Record<string, any>[];
     columns: AriaDataGridColumn[];
@@ -65,7 +65,9 @@ export interface ColumnDefinition {
     label: string;
     sortable?: boolean;
     width?: string | number;
-    align?: 'left' | 'center' | 'right';
+    /** Minimum width for this column when calculating layout (overrides global minColumnWidth) */
+    minWidth?: string | number;
+    align?: "left" | "center" | "right";
     render?: (data: any) => any;
     /** Enhanced renderer for table view (overrides render if provided) */
     tableRenderer?: (data: any) => any;
@@ -88,6 +90,17 @@ export interface ColumnDefinition {
     nullsPosition?: NullsPosition;
     /** Per-column boolean ordering policy (overrides global/default). */
     booleanOrder?: BooleanOrder;
+    /**
+     * Optional collapse priority used when column collapse is enabled to avoid horizontal overflow.
+     * Higher numbers collapse earlier (lower importance). Defaults to the column index (rightmost tends to be higher).
+     */
+    collapsePriority?: number;
+    /** Prevent this column from being collapsed (always visible). Useful for key identifiers. */
+    alwaysVisible?: boolean;
+    /** Optional group identifier for grouped collapsing. Columns sharing the same group collapse together. */
+    collapseGroup?: string;
+    /** Priority of the collapse group. Higher numbers collapse earlier. */
+    collapseGroupPriority?: number;
 }
 /** Global sorting options shared by data grids and tabs data grids */
 export interface SortingOptions {

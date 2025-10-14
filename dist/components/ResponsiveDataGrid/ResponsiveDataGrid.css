@@ -89,7 +89,7 @@ span .nhsuk-u-visually-hidden {
 }
 
 .aria-tabs-datagrid-adaptive {
-  font-family: Frutiger W01, Arial, sans-serif;
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
   background: #ffffff;
   border-radius: 0;
   box-shadow: none;

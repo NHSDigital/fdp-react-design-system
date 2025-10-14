@@ -45,12 +45,12 @@
  * - Live regions announce navigation changes
  * - Comprehensive keyboard support following NHS design system
  */
-import React from 'react';
-import { ResponsiveDataGridProps } from './ResponsiveDataGridTypes';
-import './ResponsiveDataGrid.scss';
-import './HealthcareCardTemplates.scss';
-import '../Select/Select.scss';
-import '../Button/Button.scss';
+import React from "react";
+import { ResponsiveDataGridProps } from "./ResponsiveDataGridTypes";
+import "./ResponsiveDataGrid.scss";
+import "./HealthcareCardTemplates.scss";
+import "../Select/Select.scss";
+import "../Button/Button.scss";
 /**
  * Responsive Data Grid with mobile-first card layout - Now Generic with Plugin Support
  */

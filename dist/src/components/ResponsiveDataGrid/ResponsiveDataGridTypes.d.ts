@@ -27,6 +27,16 @@ export interface ResponsiveDataGridProps<T = any> extends Omit<AriaTabsDataGridP
     tabPanels: ResponsiveTabPanelConfig<T>[];
     /** When true and only one tab panel is provided, hides the tab list and renders just the data table. Passed through to AriaTabsDataGrid. */
     hideTabsIfSingle?: boolean;
+    /** Minimum column width for table cells/headers (e.g. 160 or '12rem'). Forwarded to AriaTabsDataGrid. */
+    minColumnWidth?: number | string;
+    /** Enable low-priority column collapse to fit container. Forwarded to AriaTabsDataGrid. */
+    enableColumnCollapse?: boolean;
+    /** Minimum number of columns to keep visible when collapsing. Forwarded to AriaTabsDataGrid. */
+    minVisibleColumns?: number;
+    /** Show the collapsed-columns indicator chip/popover when columns are hidden. Forwarded to AriaTabsDataGrid. */
+    showCollapsedColumnsIndicator?: boolean;
+    /** Controls where the SortStatusControl is rendered in table/hybrid modes. Forwarded to AriaTabsDataGrid. */
+    sortStatusPlacement?: 'header' | 'above' | 'below' | 'none';
     /**
      * Enable advanced sorting with SortStatusControl component.
      * When true, provides multi-column sorting, drag reordering, and sort management.

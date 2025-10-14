@@ -35,3 +35,5 @@ export { default as SPCChart, } from "./charts/SPC/SPCChart/SPCChart.tsx";
 export type { SPCChartProps, SPCDatum } from "./charts/SPC/SPCChart/SPCChart.props";
 export * as SPC from "./charts/SPC";
 export { default as RunChart, type RunChartProps, type RunSeries, type RunDatum } from "./charts/RunChart/RunChart";
+export { default as PriestleyTimeline, type PriestleyTimelineProps, type Interval as PriestleyInterval } from "./charts/PriestleyTimeline/PriestleyTimeline";
+export { default as CUSUMChart, type CUSUMChartProps, type CUSUMSeries, type CUSUMDatum } from "./charts/CUSUM/CUSUMChart";

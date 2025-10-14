@@ -50,6 +50,8 @@ See the `GenericCard` stories for extended usage patterns.
 
 ResponsiveDataGrid forwards all width and collapse settings to its underlying table implementation.
 
+Brand theming: The grid now uses the CSS variable `--nhs-font-family-base` for its font-family and will adopt whatever font is provided by `BrandThemeProvider` (either document-scoped or local-scoped branding).
+
 ### API surface
 
 - `minColumnWidth?: number | string` – global minimum width for columns

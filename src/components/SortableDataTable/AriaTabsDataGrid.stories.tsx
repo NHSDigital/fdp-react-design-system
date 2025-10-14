@@ -191,3 +191,35 @@ export const SinglePanelNoTabs: Story = {
     }
   }
 };
+
+// Demonstrates SortStatusControl placement options in AriaTabsDataGrid table (single panel)
+export const SortPlacementVariants: Story = {
+  args: {
+    ariaLabel: 'Sort placement demo',
+    hideTabsIfSingle: true,
+    sortStatusPlacement: 'header',
+    tabPanels: createGenericTabsConfig(products, [
+      {
+        id: 'placement',
+        label: 'Placement',
+        ariaLabel: 'Sort placement demo',
+        columns: [
+          { key: 'name', label: 'Name' },
+          { key: 'category', label: 'Category' },
+          { key: 'price', label: 'Price', render: (row: Product) => `£${row.price.toFixed(2)}` },
+          { key: 'featured', label: 'Featured' }
+        ]
+      }
+    ])
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use the Controls panel to switch sortStatusPlacement between header, above, below, and none.'
+      }
+    },
+    controls: {
+      include: ['sortStatusPlacement']
+    }
+  }
+};

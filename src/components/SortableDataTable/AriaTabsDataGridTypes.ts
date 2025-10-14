@@ -104,6 +104,14 @@ export interface AriaTabsDataGridProps<T = any> {
   minVisibleColumns?: number;
   /** Show a collapsed-columns indicator chip with count and popover list (defaults to true when collapse enabled). */
   showCollapsedColumnsIndicator?: boolean;
+  /**
+   * Placement for the SortStatusControl component that manages multi-column sorting.
+   * - 'header': render in the header area before the tabs (default, preserves current behaviour)
+   * - 'above': render above the grid/table, after tabs/actions
+   * - 'below': render below the grid/table
+   * - 'none': do not render the control
+   */
+  sortStatusPlacement?: 'header' | 'above' | 'below' | 'none';
 }
 
 /**

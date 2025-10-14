@@ -430,6 +430,83 @@ export const WithGridActionsInline: Story = {
 };
 
 /**
+ * Demonstrates SortStatusControl placement options in TABLE layout using sortStatusPlacement.
+ * Try switching sortStatusPlacement between 'header' | 'above' | 'below' | 'none'.
+ */
+export const SortPlacementTable: Story = {
+  args: {
+    ...baseProps,
+    forceLayout: 'table',
+    sortStatusPlacement: 'header',
+    hideTabsIfSingle: true,
+    tabPanels: [
+      {
+        id: 'patients-table',
+        label: 'Patients',
+        ariaLabel: 'Patients (table)',
+        data: patientData,
+        columns: patientColumns
+      }
+    ],
+    // Card config not used in table layout but kept for type parity
+    cardConfig: {
+      primaryField: 'name',
+      secondaryFields: ['nhs_number', 'ward'],
+      badgeFields: ['ews_score'],
+      cardTemplate: getCardTemplate('patient')
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'SortStatusControl placement in desktop table layout. Use the Controls panel to change sortStatusPlacement.'
+      }
+    },
+    controls: {
+      include: ['sortStatusPlacement']
+    }
+  }
+};
+
+/**
+ * Demonstrates SortStatusControl placement options in CARDS layout for advanced sorting.
+ * Requires enableAdvancedSorting to render the control in cards mode.
+ */
+export const SortPlacementCards: Story = {
+  args: {
+    ...baseProps,
+    forceLayout: 'cards',
+    enableAdvancedSorting: true,
+    sortStatusPlacement: 'above',
+    tabPanels: [
+      {
+        id: 'patients-cards',
+        label: 'Patients',
+        ariaLabel: 'Patients (cards)',
+        data: patientData,
+        columns: patientColumns
+      }
+    ],
+    cardConfig: {
+      primaryField: 'name',
+      secondaryFields: ['nhs_number', 'ward'],
+      badgeFields: ['ews_score'],
+      cardTemplate: getCardTemplate('patient')
+    }
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Advanced sorting control placement in mobile-first cards layout. Use the Controls to switch between 'header'/'above' (renders above cards), 'below' (renders after cards), and 'none' (hidden)."
+      }
+    },
+    controls: {
+      include: ['sortStatusPlacement']
+    }
+  }
+};
+
+/**
  * Grid Actions Forced Above: Demonstrates forceGridActionsAbove prop.
  */
 export const WithGridActionsForcedAbove: Story = {

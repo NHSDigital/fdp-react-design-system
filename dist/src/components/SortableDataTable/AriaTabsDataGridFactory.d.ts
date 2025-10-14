@@ -1,8 +1,8 @@
 /**
  * Generic factory helpers for creating tabs configurations
  */
-import { TabPanelConfig } from './AriaTabsDataGridTypes';
-import { SortConfig } from './AriaDataGridTypes';
+import { TabPanelConfig } from "./AriaTabsDataGridTypes";
+import { SortConfig } from "./AriaDataGridTypes";
 /**
  * Column definition for generic tab creation
  */

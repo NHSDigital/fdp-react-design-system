@@ -85,7 +85,14 @@ var require_classnames = __commonJS({
 });
 
 // src/components/ResponsiveDataGrid/ResponsiveDataGrid.tsx
-import { useState as useState3, useEffect as useEffect2, useCallback as useCallback4, useRef as useRef3, useReducer as useReducer2, useMemo as useMemo3 } from "react";
+import {
+  useState as useState3,
+  useEffect as useEffect2,
+  useCallback as useCallback4,
+  useRef as useRef3,
+  useReducer as useReducer2,
+  useMemo as useMemo3
+} from "react";
 
 // src/components/SortableDataTable/AriaTabsDataGrid.tsx
 import React3, {
@@ -809,7 +816,12 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
     actions,
     actionsMinGap = 16,
     forceActionsAbove = false,
-    hideTabsIfSingle = false
+    hideTabsIfSingle = false,
+    minColumnWidth,
+    enableColumnCollapse = false,
+    minVisibleColumns = 2,
+    showCollapsedColumnsIndicator = true,
+    sortStatusPlacement = "header"
   } = props;
   const tabsHidden = hideTabsIfSingle && tabPanels.length === 1;
   const baseIdRef = useRef2(
@@ -872,6 +884,118 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       isGridActive: false
     }));
   }, [state.selectedIndex, tabsHidden]);
+  const scrollContainerRef = useRef2(null);
+  const onOverflowScrollKey = useCallback3((e) => {
+    var _a, _b;
+    if (!e.shiftKey) return;
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      (_a = scrollContainerRef.current) == null ? void 0 : _a.scrollBy({ left: -64, behavior: "smooth" });
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      (_b = scrollContainerRef.current) == null ? void 0 : _b.scrollBy({ left: 64, behavior: "smooth" });
+    }
+  }, []);
+  const [hiddenColumnsByPanel, setHiddenColumnsByPanel] = useState2({});
+  const [collapsedPopoverOpen, setCollapsedPopoverOpen] = useState2(false);
+  const collapsedButtonRef = useRef2(null);
+  const liveRegionRef = useRef2(null);
+  const getVisibleColumns = useCallback3((panelIndex) => {
+    const panel = tabPanels[panelIndex];
+    if (!panel) return [];
+    const hidden = hiddenColumnsByPanel[panelIndex] || /* @__PURE__ */ new Set();
+    return panel.columns.filter((col) => !hidden.has(col.key));
+  }, [tabPanels, hiddenColumnsByPanel]);
+  const computeHiddenColumns = useCallback3((panelIndex) => {
+    var _a;
+    const panel = tabPanels[panelIndex];
+    if (!panel) return /* @__PURE__ */ new Set();
+    if (!enableColumnCollapse) return /* @__PURE__ */ new Set();
+    const container = (_a = scrollContainerRef.current) == null ? void 0 : _a.parentElement;
+    if (!container) return /* @__PURE__ */ new Set();
+    const defaultMin = typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || "160px";
+    const cols = panel.columns.map((c, i) => {
+      var _a2, _b;
+      return {
+        key: c.key,
+        min: c.minWidth !== void 0 ? typeof c.minWidth === "number" ? `${c.minWidth}px` : String(c.minWidth) : defaultMin,
+        priority: (_a2 = c.collapsePriority) != null ? _a2 : i,
+        lock: !!c.alwaysVisible,
+        group: c.collapseGroup,
+        groupPriority: (_b = c.collapseGroupPriority) != null ? _b : 0
+      };
+    });
+    const toPx = (len) => {
+      if (len.endsWith("px")) return parseFloat(len);
+      const probe = document.createElement("div");
+      probe.style.width = len;
+      container.appendChild(probe);
+      const px = probe.getBoundingClientRect().width;
+      probe.remove();
+      return px || 0;
+    };
+    const totalWidth = cols.reduce((sum, c) => sum + toPx(c.min), 0);
+    const available = container.clientWidth;
+    if (totalWidth <= available || cols.length <= minVisibleColumns) return /* @__PURE__ */ new Set();
+    const items = cols.map((c, idx) => ({ ...c, idx }));
+    const groups = /* @__PURE__ */ new Map();
+    for (const it of items) {
+      if (it.group) {
+        const g = groups.get(it.group) || { keys: [], width: 0, groupPriority: it.groupPriority, lock: false, indices: [] };
+        g.keys.push(it.key);
+        g.width += toPx(it.min);
+        g.groupPriority = Math.max(g.groupPriority, it.groupPriority);
+        g.lock = g.lock || it.lock;
+        g.indices.push(it.idx);
+        groups.set(it.group, g);
+      }
+    }
+    const candidates = [];
+    for (const [_, g] of groups) {
+      if (!g.lock) {
+        candidates.push({ type: "group", keys: g.keys, width: g.width, priority: g.groupPriority, rightmostIndex: Math.max(...g.indices) });
+      }
+    }
+    for (const it of items) {
+      if (!it.group && !it.lock) {
+        candidates.push({ type: "column", keys: [it.key], width: toPx(it.min), priority: it.priority, rightmostIndex: it.idx });
+      }
+    }
+    candidates.sort((a, b) => {
+      if (a.priority !== b.priority) return b.priority - a.priority;
+      return b.rightmostIndex - a.rightmostIndex;
+    });
+    let hidden = /* @__PURE__ */ new Set();
+    let currentTotal = totalWidth;
+    const totalCols = cols.length;
+    for (const c of candidates) {
+      if (totalCols - hidden.size <= minVisibleColumns) break;
+      if (currentTotal - c.width >= available) {
+        for (const k of c.keys) hidden.add(k);
+        currentTotal -= c.width;
+      } else {
+        continue;
+      }
+    }
+    return hidden;
+  }, [tabPanels, enableColumnCollapse, minColumnWidth, minVisibleColumns]);
+  useEffect(() => {
+    if (!enableColumnCollapse) return;
+    const recompute = () => {
+      const hidden = computeHiddenColumns(state.selectedIndex);
+      setHiddenColumnsByPanel((prev) => ({ ...prev, [state.selectedIndex]: hidden }));
+      if (showCollapsedColumnsIndicator && liveRegionRef.current) {
+        const count = hidden.size;
+        liveRegionRef.current.textContent = count > 0 ? `${count} column${count === 1 ? "" : "s"} collapsed` : "All columns visible";
+      }
+    };
+    recompute();
+    const ro = new ResizeObserver(recompute);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => {
+      ro.disconnect();
+    };
+  }, [state.selectedIndex, tabPanels, enableColumnCollapse, computeHiddenColumns, showCollapsedColumnsIndicator]);
   useEffect(() => {
     if (onGlobalRowSelectionChange) {
       onGlobalRowSelectionChange(state.globalSelectedRowData);
@@ -1032,8 +1156,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
     (event, headerIndex) => {
       var _a, _b;
       const { key } = event;
-      const currentPanel = tabPanels[state.selectedIndex];
-      const columnCount = (currentPanel == null ? void 0 : currentPanel.columns.length) || 0;
+      const columnCount = getVisibleColumns(state.selectedIndex).length || 0;
       switch (key) {
         case "ArrowLeft":
           event.preventDefault();
@@ -1101,7 +1224,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
         case "Enter":
         case " ":
           event.preventDefault();
-          const columnKey = (_b = currentPanel == null ? void 0 : currentPanel.columns[headerIndex]) == null ? void 0 : _b.key;
+          const columnKey = (_b = getVisibleColumns(state.selectedIndex)[headerIndex]) == null ? void 0 : _b.key;
           if (columnKey) {
             handleSort(state.selectedIndex, columnKey);
           }
@@ -1115,7 +1238,8 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       setNavigationState,
       focusGridHeader,
       focusGridCell,
-      tabRefs
+      tabRefs,
+      getVisibleColumns
     ]
   );
   const handleCellKeyDown = useCallback3(
@@ -1123,7 +1247,7 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       const { key } = event;
       const currentPanel = tabPanels[state.selectedIndex];
       const rowCount = (currentPanel == null ? void 0 : currentPanel.data.length) || 0;
-      const columnCount = (currentPanel == null ? void 0 : currentPanel.columns.length) || 0;
+      const columnCount = getVisibleColumns(state.selectedIndex).length || 0;
       switch (key) {
         case "ArrowUp":
           event.preventDefault();
@@ -1241,7 +1365,8 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
       dispatch,
       setNavigationState,
       focusGridHeader,
-      focusGridCell
+      focusGridCell,
+      getVisibleColumns
     ]
   );
   const getFilteredData = useCallback3(
@@ -1510,16 +1635,11 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
             children: "Keyboard navigation: Use Tab to move between tabs and grid. Arrow keys navigate within tabs and grid cells. Enter activates tabs and sorts columns. Arrow Down from tabs moves to table headers. Arrow Down from headers moves to table cells. Use Arrow keys to navigate between cells."
           }
         ),
-        /* @__PURE__ */ jsx4(
+        sortStatusPlacement === "header" && /* @__PURE__ */ jsx4(
           SortStatusControl,
           {
             sortConfig: state.sortConfig || [],
-            columns: tabPanels.flatMap(
-              (panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))
-            ).filter(
-              (col, index, arr) => arr.findIndex((c) => c.key === col.key) === index
-              // Remove duplicates
-            ),
+            columns: tabPanels.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))).filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index),
             onSortChange: (newSortConfig) => {
               dispatch({ type: "SET_SORT", payload: newSortConfig });
             },
@@ -1598,6 +1718,52 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
             }
           )
         ] }),
+        enableColumnCollapse && showCollapsedColumnsIndicator && (() => {
+          const panelIndex = tabsHidden ? 0 : state.selectedIndex;
+          const hidden = hiddenColumnsByPanel[panelIndex] || /* @__PURE__ */ new Set();
+          if (hidden.size === 0) return null;
+          const panel = tabPanels[panelIndex];
+          const hiddenLabels = panel ? panel.columns.filter((c) => hidden.has(c.key)).map((c) => c.label) : [];
+          return /* @__PURE__ */ jsxs3("div", { className: "aria-tabs-datagrid__collapsed-indicator", children: [
+            /* @__PURE__ */ jsx4(
+              "div",
+              {
+                className: "nhsuk-u-visually-hidden",
+                "aria-live": "polite",
+                ref: liveRegionRef
+              }
+            ),
+            /* @__PURE__ */ jsxs3("div", { className: "collapsed-chip-wrapper", children: [
+              /* @__PURE__ */ jsxs3(
+                "button",
+                {
+                  ref: collapsedButtonRef,
+                  type: "button",
+                  className: "collapsed-chip",
+                  title: `Collapsed columns: ${hiddenLabels.join(", ")}`,
+                  onClick: () => setCollapsedPopoverOpen((v) => !v),
+                  children: [
+                    hidden.size,
+                    " hidden column",
+                    hidden.size === 1 ? "" : "s"
+                  ]
+                }
+              ),
+              collapsedPopoverOpen && /* @__PURE__ */ jsx4("div", { className: "collapsed-popover", role: "dialog", "aria-label": "Collapsed columns", children: /* @__PURE__ */ jsx4("ul", { children: hiddenLabels.map((name, i) => /* @__PURE__ */ jsx4("li", { children: name }, i)) }) })
+            ] })
+          ] });
+        })(),
+        sortStatusPlacement === "above" && /* @__PURE__ */ jsx4(
+          SortStatusControl,
+          {
+            sortConfig: state.sortConfig || [],
+            columns: tabPanels.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))).filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index),
+            onSortChange: (newSortConfig) => {
+              dispatch({ type: "SET_SORT", payload: newSortConfig });
+            },
+            ariaLabel: "Data grid sort configuration"
+          }
+        ),
         tabPanels.map((panel, index) => {
           const isSelected = tabsHidden ? index === 0 : index === state.selectedIndex;
           return /* @__PURE__ */ jsx4(
@@ -1623,160 +1789,185 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
                   const comparator = buildMultiComparator(panel.columns, sortConfig, "last" /* Last */, dataConfig == null ? void 0 : dataConfig.sortingOptions);
                   return [...displayData].sort(comparator);
                 }, [displayData, state.sortConfig, panel.columns, dataConfig == null ? void 0 : dataConfig.sortingOptions]);
-                return /* @__PURE__ */ jsxs3(
-                  "table",
+                return /* @__PURE__ */ jsx4(
+                  "div",
                   {
-                    className: "nhsuk-table aria-tabs-datagrid__grid",
-                    role: "grid",
-                    "aria-label": panel.ariaLabel,
-                    "aria-describedby": panel.ariaDescription ? `panel-${panel.id}-description` : void 0,
-                    children: [
-                      panel.ariaDescription && /* @__PURE__ */ jsx4(
-                        "caption",
-                        {
-                          className: "nhsuk-u-visually-hidden",
-                          id: `panel-${panel.id}-description`,
-                          children: panel.ariaDescription
-                        }
-                      ),
-                      /* @__PURE__ */ jsx4("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx4("tr", { role: "row", children: panel.columns.map((column, colIndex) => {
-                        var _a;
-                        const sortInfo = (_a = state.sortConfig) == null ? void 0 : _a.find(
-                          (config) => config.key === column.key
-                        );
-                        const isSorted = !!sortInfo;
-                        const isFocused = navigationState.focusArea === "headers" && navigationState.focusedHeaderIndex === colIndex;
-                        return /* @__PURE__ */ jsx4(
-                          "th",
-                          {
-                            className: `sortable-header ${isFocused ? "sortable-header--focused" : ""} ${isSorted ? "sortable-header--sorted" : ""}`,
-                            role: "columnheader",
-                            tabIndex: isFocused ? 0 : -1,
-                            onClick: () => handleSort(index, column.key),
-                            onKeyDown: (e) => handleHeaderKeyDown(e, colIndex),
-                            "aria-sort": isSorted ? (sortInfo == null ? void 0 : sortInfo.direction) === "asc" ? "ascending" : "descending" : "none",
-                            children: /* @__PURE__ */ jsxs3("div", { className: "header-content", children: [
-                              /* @__PURE__ */ jsx4("span", { className: "header-label", children: column.label }),
-                              /* @__PURE__ */ jsxs3(
-                                "div",
-                                {
-                                  className: `sort-indicator-container ${isSorted ? `sort-indicator--${sortInfo == null ? void 0 : sortInfo.direction}` : ""}`,
-                                  children: [
-                                    state.sortConfig && state.sortConfig.length > 0 && state.sortConfig.findIndex(
-                                      (config) => config.key === column.key
-                                    ) !== -1 && /* @__PURE__ */ jsx4(
-                                      "span",
-                                      {
-                                        className: `sort-priority sort-priority--priority-${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
-                                        "data-priority": state.sortConfig.findIndex(
-                                          (config) => config.key === column.key
-                                        ) + 1,
-                                        title: `Sort priority: ${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
-                                        children: state.sortConfig.findIndex(
-                                          (config) => config.key === column.key
-                                        ) + 1
-                                      }
-                                    ),
-                                    isSorted && /* @__PURE__ */ jsx4(
-                                      "svg",
-                                      {
-                                        className: `nhsuk-icon sort-arrow sort-arrow--${sortInfo == null ? void 0 : sortInfo.direction}`,
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        viewBox: "0 0 24 24",
-                                        "aria-hidden": "true",
-                                        focusable: "false",
-                                        children: /* @__PURE__ */ jsx4("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
-                                      }
-                                    )
-                                  ]
-                                }
-                              )
-                            ] })
-                          },
-                          column.key
-                        );
-                      }) }) }),
-                      /* @__PURE__ */ jsx4("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: sortedData.map((row, rowIndex) => {
-                        const isRowSelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
-                        const isRowFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex;
-                        return /* @__PURE__ */ jsx4(
-                          "tr",
-                          {
-                            role: "row",
-                            className: `data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`,
-                            "aria-selected": isRowSelected,
-                            children: panel.columns.map((column, colIndex) => {
-                              const rawValue = row[column.key];
-                              let value;
-                              if (column.tableRenderer) {
-                                value = column.tableRenderer(row);
-                              } else if (column.render) {
-                                value = column.render(row);
-                              } else {
-                                value = rawValue;
-                              }
-                              const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
-                              const renderValue = () => {
-                                if (column.customRenderer) {
-                                  const rendered = column.customRenderer(
-                                    rawValue,
-                                    row
-                                  );
-                                  return /* @__PURE__ */ jsx4(
-                                    "span",
+                    className: "aria-tabs-datagrid__scroll",
+                    ref: scrollContainerRef,
+                    onKeyDown: onOverflowScrollKey,
+                    style: {
+                      // Expose CSS var to SCSS; inline for SSR safety
+                      ["--atd-min-col-w"]: typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || void 0
+                    },
+                    children: /* @__PURE__ */ jsxs3(
+                      "table",
+                      {
+                        className: "nhsuk-table aria-tabs-datagrid__grid",
+                        role: "grid",
+                        "aria-label": panel.ariaLabel,
+                        "aria-describedby": panel.ariaDescription ? `panel-${panel.id}-description` : void 0,
+                        children: [
+                          panel.ariaDescription && /* @__PURE__ */ jsx4(
+                            "caption",
+                            {
+                              className: "nhsuk-u-visually-hidden",
+                              id: `panel-${panel.id}-description`,
+                              children: panel.ariaDescription
+                            }
+                          ),
+                          /* @__PURE__ */ jsx4("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx4("tr", { role: "row", children: getVisibleColumns(index).map((column, colIndex) => {
+                            var _a;
+                            const sortInfo = (_a = state.sortConfig) == null ? void 0 : _a.find(
+                              (config) => config.key === column.key
+                            );
+                            const isSorted = !!sortInfo;
+                            const isFocused = navigationState.focusArea === "headers" && navigationState.focusedHeaderIndex === colIndex;
+                            return /* @__PURE__ */ jsx4(
+                              "th",
+                              {
+                                className: `sortable-header ${isFocused ? "sortable-header--focused" : ""} ${isSorted ? "sortable-header--sorted" : ""}`,
+                                role: "columnheader",
+                                tabIndex: isFocused ? 0 : -1,
+                                onClick: () => handleSort(index, column.key),
+                                onKeyDown: (e) => handleHeaderKeyDown(e, colIndex),
+                                "aria-sort": isSorted ? (sortInfo == null ? void 0 : sortInfo.direction) === "asc" ? "ascending" : "descending" : "none",
+                                style: { minWidth: column.minWidth !== void 0 ? typeof column.minWidth === "number" ? `${column.minWidth}px` : column.minWidth : typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || void 0 },
+                                children: /* @__PURE__ */ jsxs3("div", { className: "header-content", children: [
+                                  /* @__PURE__ */ jsx4("span", { className: "header-label", children: column.label }),
+                                  /* @__PURE__ */ jsxs3(
+                                    "div",
                                     {
-                                      className: "data-cell__custom",
-                                      "data-custom-rendered": "true",
-                                      children: rendered
+                                      className: `sort-indicator-container ${isSorted ? `sort-indicator--${sortInfo == null ? void 0 : sortInfo.direction}` : ""}`,
+                                      children: [
+                                        state.sortConfig && state.sortConfig.length > 0 && state.sortConfig.findIndex(
+                                          (config) => config.key === column.key
+                                        ) !== -1 && /* @__PURE__ */ jsx4(
+                                          "span",
+                                          {
+                                            className: `sort-priority sort-priority--priority-${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
+                                            "data-priority": state.sortConfig.findIndex(
+                                              (config) => config.key === column.key
+                                            ) + 1,
+                                            title: `Sort priority: ${state.sortConfig.findIndex((config) => config.key === column.key) + 1}`,
+                                            children: state.sortConfig.findIndex(
+                                              (config) => config.key === column.key
+                                            ) + 1
+                                          }
+                                        ),
+                                        isSorted && /* @__PURE__ */ jsx4(
+                                          "svg",
+                                          {
+                                            className: `nhsuk-icon sort-arrow sort-arrow--${sortInfo == null ? void 0 : sortInfo.direction}`,
+                                            xmlns: "http://www.w3.org/2000/svg",
+                                            viewBox: "0 0 24 24",
+                                            "aria-hidden": "true",
+                                            focusable: "false",
+                                            children: /* @__PURE__ */ jsx4("path", { d: "M15.5 12a1 1 0 0 1-.29.71l-5 5a1 1 0 0 1-1.42-1.42l4.3-4.29-4.3-4.29a1 1 0 0 1 1.42-1.42l5 5a1 1 0 0 1 .29.71z" })
+                                          }
+                                        )
+                                      ]
                                     }
+                                  )
+                                ] })
+                              },
+                              column.key
+                            );
+                          }) }) }),
+                          /* @__PURE__ */ jsx4("tbody", { className: "nhsuk-table__body", role: "rowgroup", children: sortedData.map((row, rowIndex) => {
+                            const isRowSelected = state.globalSelectedRowData && isDataEqual(state.globalSelectedRowData, row);
+                            const isRowFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex;
+                            return /* @__PURE__ */ jsx4(
+                              "tr",
+                              {
+                                role: "row",
+                                className: `data-row ${isRowSelected ? "data-row--selected" : ""} ${isRowFocused ? "data-row--focused" : ""}`,
+                                "aria-selected": isRowSelected,
+                                children: getVisibleColumns(index).map((column, colIndex) => {
+                                  const rawValue = row[column.key];
+                                  let value;
+                                  if (column.tableRenderer) {
+                                    value = column.tableRenderer(row);
+                                  } else if (column.render) {
+                                    value = column.render(row);
+                                  } else {
+                                    value = rawValue;
+                                  }
+                                  const isCellFocused = navigationState.focusArea === "cells" && navigationState.focusedRowIndex === rowIndex && navigationState.focusedColumnIndex === colIndex;
+                                  const renderValue = () => {
+                                    if (column.customRenderer) {
+                                      const rendered = column.customRenderer(
+                                        rawValue,
+                                        row
+                                      );
+                                      return /* @__PURE__ */ jsx4(
+                                        "span",
+                                        {
+                                          className: "data-cell__custom",
+                                          "data-custom-rendered": "true",
+                                          children: rendered
+                                        }
+                                      );
+                                    }
+                                    if (typeof rawValue === "boolean" && value === rawValue) {
+                                      return /* @__PURE__ */ jsxs3(Fragment, { children: [
+                                        renderBooleanIcon(rawValue),
+                                        /* @__PURE__ */ jsx4("span", { className: "nhsuk-u-visually-hidden", children: rawValue ? "Yes" : "No" })
+                                      ] });
+                                    }
+                                    if (React3.isValidElement(value) || typeof value !== "object") {
+                                      return value != null ? value : "";
+                                    }
+                                    return value;
+                                  };
+                                  return /* @__PURE__ */ jsx4(
+                                    "td",
+                                    {
+                                      role: "gridcell",
+                                      className: `data-cell ${isCellFocused ? "data-cell--focused" : ""}`,
+                                      tabIndex: isCellFocused ? 0 : -1,
+                                      style: { minWidth: column.minWidth !== void 0 ? typeof column.minWidth === "number" ? `${column.minWidth}px` : column.minWidth : typeof minColumnWidth === "number" ? `${minColumnWidth}px` : minColumnWidth || void 0 },
+                                      onClick: () => {
+                                        const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(
+                                          state.globalSelectedRowData,
+                                          row
+                                        );
+                                        const newSelectedRowData = isCurrentlySelected ? null : row;
+                                        dispatch({
+                                          type: "SET_GLOBAL_SELECTED_ROW_DATA",
+                                          payload: newSelectedRowData
+                                        });
+                                      },
+                                      onKeyDown: (e) => handleCellKeyDown(e, rowIndex, colIndex),
+                                      children: renderValue()
+                                    },
+                                    column.key
                                   );
-                                }
-                                if (typeof rawValue === "boolean" && value === rawValue) {
-                                  return /* @__PURE__ */ jsxs3(Fragment, { children: [
-                                    renderBooleanIcon(rawValue),
-                                    /* @__PURE__ */ jsx4("span", { className: "nhsuk-u-visually-hidden", children: rawValue ? "Yes" : "No" })
-                                  ] });
-                                }
-                                if (React3.isValidElement(value) || typeof value !== "object") {
-                                  return value != null ? value : "";
-                                }
-                                return value;
-                              };
-                              return /* @__PURE__ */ jsx4(
-                                "td",
-                                {
-                                  role: "gridcell",
-                                  className: `data-cell ${isCellFocused ? "data-cell--focused" : ""}`,
-                                  tabIndex: isCellFocused ? 0 : -1,
-                                  onClick: () => {
-                                    const isCurrentlySelected = state.globalSelectedRowData && isDataEqual(
-                                      state.globalSelectedRowData,
-                                      row
-                                    );
-                                    const newSelectedRowData = isCurrentlySelected ? null : row;
-                                    dispatch({
-                                      type: "SET_GLOBAL_SELECTED_ROW_DATA",
-                                      payload: newSelectedRowData
-                                    });
-                                  },
-                                  onKeyDown: (e) => handleCellKeyDown(e, rowIndex, colIndex),
-                                  children: renderValue()
-                                },
-                                column.key
-                              );
-                            })
-                          },
-                          rowIndex
-                        );
-                      }) })
-                    ]
+                                })
+                              },
+                              rowIndex
+                            );
+                          }) })
+                        ]
+                      }
+                    )
                   }
                 );
               })()
             },
             panel.id
           );
-        })
+        }),
+        sortStatusPlacement === "below" && /* @__PURE__ */ jsx4(
+          SortStatusControl,
+          {
+            sortConfig: state.sortConfig || [],
+            columns: tabPanels.flatMap((panel) => panel.columns.map((col) => ({ key: col.key, label: col.label }))).filter((col, index, arr) => arr.findIndex((c) => c.key === col.key) === index),
+            onSortChange: (newSortConfig) => {
+              dispatch({ type: "SET_SORT", payload: newSortConfig });
+            },
+            ariaLabel: "Data grid sort configuration"
+          }
+        )
       ]
     }
   );
@@ -2802,7 +2993,11 @@ function createCard(data, columns, cardConfig, domainPlugin) {
   if (domainPlugin && domainPlugin.cardTemplates) {
     const dataType = detectHealthcareDataType(data);
     if (dataType && domainPlugin.cardTemplates[dataType]) {
-      const customCardContent = domainPlugin.cardTemplates[dataType](data, columns, effectiveConfig);
+      const customCardContent = domainPlugin.cardTemplates[dataType](
+        data,
+        columns,
+        effectiveConfig
+      );
       if (customCardContent) {
         return {
           variant: "default",
@@ -2812,7 +3007,11 @@ function createCard(data, columns, cardConfig, domainPlugin) {
     }
   }
   if (effectiveConfig.cardTemplate) {
-    const customCard = effectiveConfig.cardTemplate(data, columns, effectiveConfig);
+    const customCard = effectiveConfig.cardTemplate(
+      data,
+      columns,
+      effectiveConfig
+    );
     if (customCard) {
       return createGenericCard(data, columns, effectiveConfig);
     }
@@ -2831,6 +3030,13 @@ var ResponsiveDataGrid = ({
   gridActions,
   forceGridActionsAbove,
   hideTabsIfSingle,
+  // Overflow/collapse props (typed from ResponsiveDataGridProps)
+  minColumnWidth,
+  enableColumnCollapse,
+  minVisibleColumns,
+  showCollapsedColumnsIndicator,
+  // Additional grid options
+  sortStatusPlacement,
   // Standard AriaTabsDataGrid props
   tabPanels,
   dataConfig,
@@ -2899,63 +3105,81 @@ var ResponsiveDataGrid = ({
     focusedSortControlIndex: 0,
     isSortControlsActive: false
   });
-  const calculateGridDimensions = useCallback4((containerRef) => {
-    if (!containerRef.current) {
-      return { columns: 1, rows: 0 };
-    }
-    const container = containerRef.current;
-    const cards = container.querySelectorAll(".aria-tabs-datagrid-adaptive__card-wrapper");
-    if (cards.length === 0) {
-      return { columns: 1, rows: 0 };
-    }
-    const containerWidth = container.offsetWidth;
-    const firstCard = cards[0];
-    const cardWidth = firstCard.offsetWidth;
-    const columns = Math.floor(containerWidth / cardWidth) || 1;
-    const rows = Math.ceil(cards.length / columns);
-    return { columns, rows };
-  }, []);
+  const calculateGridDimensions = useCallback4(
+    (containerRef) => {
+      if (!containerRef.current) {
+        return { columns: 1, rows: 0 };
+      }
+      const container = containerRef.current;
+      const cards = container.querySelectorAll(
+        ".aria-tabs-datagrid-adaptive__card-wrapper"
+      );
+      if (cards.length === 0) {
+        return { columns: 1, rows: 0 };
+      }
+      const containerWidth = container.offsetWidth;
+      const firstCard = cards[0];
+      const cardWidth = firstCard.offsetWidth;
+      const columns = Math.floor(containerWidth / cardWidth) || 1;
+      const rows = Math.ceil(cards.length / columns);
+      return { columns, rows };
+    },
+    []
+  );
   const indexToGrid = useCallback4((index, columns) => {
     return {
       row: Math.floor(index / columns),
       col: index % columns
     };
   }, []);
-  const gridToIndex = useCallback4((row, col, columns) => {
-    return row * columns + col;
-  }, []);
-  const navigate2D = useCallback4((currentIndex, direction, totalCards, columns) => {
-    const { row, col } = indexToGrid(currentIndex, columns);
-    let newRow = row;
-    let newCol = col;
-    switch (direction) {
-      case "up":
-        newRow = Math.max(0, row - 1);
-        break;
-      case "down":
-        newRow = Math.min(Math.floor((totalCards - 1) / columns), row + 1);
-        break;
-      case "left":
-        newCol = Math.max(0, col - 1);
-        break;
-      case "right":
-        newCol = Math.min(columns - 1, col + 1);
-        break;
-    }
-    const newIndex = gridToIndex(newRow, newCol, columns);
-    return Math.min(newIndex, totalCards - 1);
-  }, [indexToGrid, gridToIndex]);
+  const gridToIndex = useCallback4(
+    (row, col, columns) => {
+      return row * columns + col;
+    },
+    []
+  );
+  const navigate2D = useCallback4(
+    (currentIndex, direction, totalCards, columns) => {
+      const { row, col } = indexToGrid(currentIndex, columns);
+      let newRow = row;
+      let newCol = col;
+      switch (direction) {
+        case "up":
+          newRow = Math.max(0, row - 1);
+          break;
+        case "down":
+          newRow = Math.min(Math.floor((totalCards - 1) / columns), row + 1);
+          break;
+        case "left":
+          newCol = Math.max(0, col - 1);
+          break;
+        case "right":
+          newCol = Math.min(columns - 1, col + 1);
+          break;
+      }
+      const newIndex = gridToIndex(newRow, newCol, columns);
+      return Math.min(newIndex, totalCards - 1);
+    },
+    [indexToGrid, gridToIndex]
+  );
   useEffect2(() => {
     if (cardNavState.isCardNavigationActive && cardNavState.focusedCardElementIndex >= 0 && cardNavState.cardElements.length > 0) {
       setTimeout(() => {
         const currentElement = cardNavState.cardElements[cardNavState.focusedCardElementIndex];
         if (currentElement) {
           currentElement.element.focus();
-          currentElement.element.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          currentElement.element.scrollIntoView({
+            block: "nearest",
+            behavior: "smooth"
+          });
         }
       }, 0);
     }
-  }, [cardNavState.isCardNavigationActive, cardNavState.focusedCardElementIndex, cardNavState.cardElements.length]);
+  }, [
+    cardNavState.isCardNavigationActive,
+    cardNavState.focusedCardElementIndex,
+    cardNavState.cardElements.length
+  ]);
   useEffect2(() => {
     const updateGridDimensions = () => {
       if (layout === "cards" && cardsContainerRef.current) {
@@ -2989,12 +3213,15 @@ var ResponsiveDataGrid = ({
       dispatch({ type: "SET_SELECTED_INDEX", payload: selectedIndexProp });
     }
   }, [isControlled, selectedIndexProp, state.selectedIndex]);
-  const handleTabSelect = useCallback4((index) => {
-    if (index >= 0 && index < tabPanels.length && !tabPanels[index].disabled) {
-      dispatch({ type: "SET_SELECTED_INDEX", payload: index });
-      onTabChange == null ? void 0 : onTabChange(index);
-    }
-  }, [tabPanels, onTabChange]);
+  const handleTabSelect = useCallback4(
+    (index) => {
+      if (index >= 0 && index < tabPanels.length && !tabPanels[index].disabled) {
+        dispatch({ type: "SET_SELECTED_INDEX", payload: index });
+        onTabChange == null ? void 0 : onTabChange(index);
+      }
+    },
+    [tabPanels, onTabChange]
+  );
   const handleCardSelect = useCallback4((data) => {
     console.log("Card selected:", data);
     dispatch({
@@ -3023,14 +3250,18 @@ var ResponsiveDataGrid = ({
       ".healthcare-card__action:not([disabled])",
       ".tag:not([disabled])"
     ].join(", ");
-    const elements = cardElement.querySelectorAll(focusableSelectors);
+    const elements = cardElement.querySelectorAll(
+      focusableSelectors
+    );
     return Array.from(elements).map((element, index) => {
       var _a;
       return {
         id: element.id || `card-${cardIndex}-element-${index}`,
         element,
         label: element.getAttribute("aria-label") || ((_a = element.textContent) == null ? void 0 : _a.trim()) || element.getAttribute("title") || `Element ${index + 1}`,
-        type: element.tagName.toLowerCase() === "button" ? "button" : element.tagName.toLowerCase() === "a" ? "link" : ["input", "select", "textarea"].includes(element.tagName.toLowerCase()) ? "input" : "generic"
+        type: element.tagName.toLowerCase() === "button" ? "button" : element.tagName.toLowerCase() === "a" ? "link" : ["input", "select", "textarea"].includes(
+          element.tagName.toLowerCase()
+        ) ? "input" : "generic"
       };
     });
   }, []);
@@ -3069,8 +3300,14 @@ var ResponsiveDataGrid = ({
         );
       } else if (column.key === "age" || column.key.includes("date") || column.key.includes("time")) {
         options.push(
-          { value: `${column.key}-desc`, label: `${baseLabel} (Oldest-Youngest)` },
-          { value: `${column.key}-asc`, label: `${baseLabel} (Youngest-Oldest)` }
+          {
+            value: `${column.key}-desc`,
+            label: `${baseLabel} (Oldest-Youngest)`
+          },
+          {
+            value: `${column.key}-asc`,
+            label: `${baseLabel} (Youngest-Oldest)`
+          }
         );
       } else {
         options.push(
@@ -3081,94 +3318,125 @@ var ResponsiveDataGrid = ({
     });
     return options;
   }, []);
-  const sortCardData = useCallback4((data, sortConfig) => {
-    if (!sortConfig) return data;
-    return [...data].sort((a, b) => {
-      const aValue = a[sortConfig.key];
-      const bValue = b[sortConfig.key];
-      if (aValue == null && bValue == null) return 0;
-      if (aValue == null) return 1;
-      if (bValue == null) return -1;
-      const aNum = Number(aValue);
-      const bNum = Number(bValue);
-      if (!isNaN(aNum) && !isNaN(bNum)) {
-        return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum;
-      }
-      const aStr = String(aValue).toLowerCase();
-      const bStr = String(bValue).toLowerCase();
-      const result = aStr.localeCompare(bStr);
-      return sortConfig.direction === "asc" ? result : -result;
-    });
-  }, []);
-  const handleCardSort = useCallback4((sortValue) => {
-    if (!sortValue) {
-      setCardNavState((prev) => ({ ...prev, cardSortConfig: null }));
-      announceToScreenReader("Card sorting cleared");
-      return;
-    }
-    const [key, direction] = sortValue.split("-");
-    const newSortConfig = { key, direction };
-    setCardNavState((prev) => ({ ...prev, cardSortConfig: newSortConfig }));
-    const currentPanel = tabPanels[state.selectedIndex];
-    const column = currentPanel == null ? void 0 : currentPanel.columns.find((col) => col.key === key);
-    const columnLabel = (column == null ? void 0 : column.label) || key;
-    const directionLabel = direction === "asc" ? "ascending" : "descending";
-    announceToScreenReader(`Cards sorted by ${columnLabel} in ${directionLabel} order`);
-  }, [tabPanels, state.selectedIndex, announceToScreenReader]);
-  const getSortLabel = useCallback4((sortConfig) => {
-    const currentPanel = tabPanels[state.selectedIndex];
-    const column = currentPanel == null ? void 0 : currentPanel.columns.find((col) => col.key === sortConfig.key);
-    const columnLabel = (column == null ? void 0 : column.label) || sortConfig.key;
-    const directionLabel = sortConfig.direction === "asc" ? "ascending" : "descending";
-    return `${columnLabel} (${directionLabel})`;
-  }, [tabPanels, state.selectedIndex]);
-  const sortCardDataCombined = useCallback4((data) => {
-    const currentPanel = tabPanels[state.selectedIndex];
-    if (enableAdvancedSorting) {
-      const sortConfig = state.sortConfig;
-      if (!sortConfig || sortConfig.length === 0) return data;
+  const sortCardData = useCallback4(
+    (data, sortConfig) => {
+      if (!sortConfig) return data;
       return [...data].sort((a, b) => {
-        for (const { key, direction } of sortConfig) {
-          let aValue = a[key];
-          let bValue = b[key];
-          const column = currentPanel == null ? void 0 : currentPanel.columns.find((col) => col.key === key);
-          if (column == null ? void 0 : column.cardRenderer) {
-            aValue = column.cardRenderer(a);
-            bValue = column.cardRenderer(b);
-          } else if (column == null ? void 0 : column.render) {
-            aValue = column.render(a);
-            bValue = column.render(b);
-          }
-          if (aValue == null && bValue == null) continue;
-          if (aValue == null) return direction === "asc" ? -1 : 1;
-          if (bValue == null) return direction === "asc" ? 1 : -1;
-          const aNum = Number(aValue);
-          const bNum = Number(bValue);
-          if (!isNaN(aNum) && !isNaN(bNum)) {
-            const result2 = aNum - bNum;
-            if (result2 !== 0) return direction === "asc" ? result2 : -result2;
-            continue;
-          }
-          const aStr = String(aValue).toLowerCase();
-          const bStr = String(bValue).toLowerCase();
-          const result = aStr.localeCompare(bStr);
-          if (result !== 0) return direction === "asc" ? result : -result;
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+        if (aValue == null && bValue == null) return 0;
+        if (aValue == null) return 1;
+        if (bValue == null) return -1;
+        const aNum = Number(aValue);
+        const bNum = Number(bValue);
+        if (!isNaN(aNum) && !isNaN(bNum)) {
+          return sortConfig.direction === "asc" ? aNum - bNum : bNum - aNum;
         }
-        return 0;
+        const aStr = String(aValue).toLowerCase();
+        const bStr = String(bValue).toLowerCase();
+        const result = aStr.localeCompare(bStr);
+        return sortConfig.direction === "asc" ? result : -result;
       });
-    } else {
-      return sortCardData(data, cardNavState.cardSortConfig);
-    }
-  }, [enableAdvancedSorting, state.sortConfig, cardNavState.cardSortConfig, sortCardData, tabPanels, state.selectedIndex]);
-  const focusCardElement = useCallback4((cardIndex, elementIndex) => {
-    const cardElements = scanCardElements(cardIndex);
-    const element = cardElements[elementIndex];
-    if (element) {
-      element.element.scrollIntoView({ block: "nearest", behavior: "smooth" });
-      const announcement = `Focused on ${element.label}, ${element.type} ${elementIndex + 1} of ${cardElements.length} within card`;
-      announceToScreenReader(announcement);
-    }
-  }, [scanCardElements, announceToScreenReader]);
+    },
+    []
+  );
+  const handleCardSort = useCallback4(
+    (sortValue) => {
+      if (!sortValue) {
+        setCardNavState((prev) => ({ ...prev, cardSortConfig: null }));
+        announceToScreenReader("Card sorting cleared");
+        return;
+      }
+      const [key, direction] = sortValue.split("-");
+      const newSortConfig = { key, direction };
+      setCardNavState((prev) => ({ ...prev, cardSortConfig: newSortConfig }));
+      const currentPanel = tabPanels[state.selectedIndex];
+      const column = currentPanel == null ? void 0 : currentPanel.columns.find((col) => col.key === key);
+      const columnLabel = (column == null ? void 0 : column.label) || key;
+      const directionLabel = direction === "asc" ? "ascending" : "descending";
+      announceToScreenReader(
+        `Cards sorted by ${columnLabel} in ${directionLabel} order`
+      );
+    },
+    [tabPanels, state.selectedIndex, announceToScreenReader]
+  );
+  const getSortLabel = useCallback4(
+    (sortConfig) => {
+      const currentPanel = tabPanels[state.selectedIndex];
+      const column = currentPanel == null ? void 0 : currentPanel.columns.find(
+        (col) => col.key === sortConfig.key
+      );
+      const columnLabel = (column == null ? void 0 : column.label) || sortConfig.key;
+      const directionLabel = sortConfig.direction === "asc" ? "ascending" : "descending";
+      return `${columnLabel} (${directionLabel})`;
+    },
+    [tabPanels, state.selectedIndex]
+  );
+  const sortCardDataCombined = useCallback4(
+    (data) => {
+      const currentPanel = tabPanels[state.selectedIndex];
+      if (enableAdvancedSorting) {
+        const sortConfig = state.sortConfig;
+        if (!sortConfig || sortConfig.length === 0) return data;
+        return [...data].sort((a, b) => {
+          for (const { key, direction } of sortConfig) {
+            let aValue = a[key];
+            let bValue = b[key];
+            const column = currentPanel == null ? void 0 : currentPanel.columns.find(
+              (col) => col.key === key
+            );
+            if (column == null ? void 0 : column.cardRenderer) {
+              aValue = column.cardRenderer(a);
+              bValue = column.cardRenderer(b);
+            } else if (column == null ? void 0 : column.render) {
+              aValue = column.render(a);
+              bValue = column.render(b);
+            }
+            if (aValue == null && bValue == null) continue;
+            if (aValue == null) return direction === "asc" ? -1 : 1;
+            if (bValue == null) return direction === "asc" ? 1 : -1;
+            const aNum = Number(aValue);
+            const bNum = Number(bValue);
+            if (!isNaN(aNum) && !isNaN(bNum)) {
+              const result2 = aNum - bNum;
+              if (result2 !== 0) return direction === "asc" ? result2 : -result2;
+              continue;
+            }
+            const aStr = String(aValue).toLowerCase();
+            const bStr = String(bValue).toLowerCase();
+            const result = aStr.localeCompare(bStr);
+            if (result !== 0) return direction === "asc" ? result : -result;
+          }
+          return 0;
+        });
+      } else {
+        return sortCardData(data, cardNavState.cardSortConfig);
+      }
+    },
+    [
+      enableAdvancedSorting,
+      state.sortConfig,
+      cardNavState.cardSortConfig,
+      sortCardData,
+      tabPanels,
+      state.selectedIndex
+    ]
+  );
+  const focusCardElement = useCallback4(
+    (cardIndex, elementIndex) => {
+      const cardElements = scanCardElements(cardIndex);
+      const element = cardElements[elementIndex];
+      if (element) {
+        element.element.scrollIntoView({
+          block: "nearest",
+          behavior: "smooth"
+        });
+        const announcement = `Focused on ${element.label}, ${element.type} ${elementIndex + 1} of ${cardElements.length} within card`;
+        announceToScreenReader(announcement);
+      }
+    },
+    [scanCardElements, announceToScreenReader]
+  );
   const focusTab = useCallback4((tabIndex) => {
     var _a;
     (_a = tabRefs.current[tabIndex]) == null ? void 0 : _a.focus();
@@ -3182,205 +3450,303 @@ var ResponsiveDataGrid = ({
       'input:not([disabled]):not([aria-hidden="true"])',
       '[tabindex]:not([tabindex="-1"]):not([disabled]):not([aria-hidden="true"])'
     ].join(", ");
-    const focusableElements = container.querySelectorAll(focusableSelectors);
+    const focusableElements = container.querySelectorAll(
+      focusableSelectors
+    );
     return Array.from(focusableElements);
   }, []);
-  const focusSortControl = useCallback4((controlIndex) => {
-    if (controlIndex === 0) {
-      const outer = sortControlRefs.current[0];
-      const innerRow = outer == null ? void 0 : outer.querySelector(".sort-controls-row");
-      if (innerRow) {
-        innerRow.setAttribute("tabindex", "-1");
-        innerRow.focus();
+  const focusSortControl = useCallback4(
+    (controlIndex) => {
+      if (controlIndex === 0) {
+        const outer = sortControlRefs.current[0];
+        const innerRow = outer == null ? void 0 : outer.querySelector(
+          ".sort-controls-row"
+        );
+        if (innerRow) {
+          innerRow.setAttribute("tabindex", "-1");
+          innerRow.focus();
+          const availableControls = getAvailableSortControls();
+          const announcement = `Sort controls group with ${availableControls.length} interactive elements. Press Enter or Space to begin navigating controls.`;
+          announceToScreenReader(announcement);
+        } else if (outer) {
+          outer.focus();
+        }
+      } else {
         const availableControls = getAvailableSortControls();
-        const announcement = `Sort controls group with ${availableControls.length} interactive elements. Press Enter or Space to begin navigating controls.`;
-        announceToScreenReader(announcement);
-      } else if (outer) {
-        outer.focus();
+        const adjustedIndex = controlIndex - 1;
+        const formControl = availableControls[adjustedIndex];
+        if (formControl) {
+          formControl.focus();
+          const isSelect = formControl.tagName.toLowerCase() === "select";
+          const isButton = formControl.tagName.toLowerCase() === "button";
+          const elementType = isSelect ? "dropdown" : isButton ? "button" : "control";
+          const keyboardHint = isSelect ? ". Use Space key to open dropdown" : "";
+          const announcement = `${elementType} ${adjustedIndex + 1} of ${availableControls.length}${keyboardHint}`;
+          announceToScreenReader(announcement);
+        }
       }
-    } else {
-      const availableControls = getAvailableSortControls();
-      const adjustedIndex = controlIndex - 1;
-      const formControl = availableControls[adjustedIndex];
-      if (formControl) {
-        formControl.focus();
-        const isSelect = formControl.tagName.toLowerCase() === "select";
-        const isButton = formControl.tagName.toLowerCase() === "button";
-        const elementType = isSelect ? "dropdown" : isButton ? "button" : "control";
-        const keyboardHint = isSelect ? ". Use Space key to open dropdown" : "";
-        const announcement = `${elementType} ${adjustedIndex + 1} of ${availableControls.length}${keyboardHint}`;
-        announceToScreenReader(announcement);
+    },
+    [getAvailableSortControls, announceToScreenReader]
+  );
+  const handleCardKeyDown = useCallback4(
+    (event, cardIndex) => {
+      const { key } = event;
+      const currentPanel = tabPanels[state.selectedIndex];
+      const cardCount = (currentPanel == null ? void 0 : currentPanel.data.length) || 0;
+      if (key === "ArrowLeft" && event.shiftKey) {
+        event.preventDefault();
+        event.currentTarget.scrollBy({ left: -30, behavior: "smooth" });
+        return;
+      } else if (key === "ArrowRight" && event.shiftKey) {
+        event.preventDefault();
+        event.currentTarget.scrollBy({ left: 30, behavior: "smooth" });
+        return;
       }
-    }
-  }, [getAvailableSortControls, announceToScreenReader]);
-  const handleCardKeyDown = useCallback4((event, cardIndex) => {
-    const { key } = event;
-    const currentPanel = tabPanels[state.selectedIndex];
-    const cardCount = (currentPanel == null ? void 0 : currentPanel.data.length) || 0;
-    if (key === "ArrowLeft" && event.shiftKey) {
-      event.preventDefault();
-      event.currentTarget.scrollBy({ left: -30, behavior: "smooth" });
-      return;
-    } else if (key === "ArrowRight" && event.shiftKey) {
-      event.preventDefault();
-      event.currentTarget.scrollBy({ left: 30, behavior: "smooth" });
-      return;
-    }
-    if (!cardNavState.isCardNavigationActive) {
-      switch (key) {
-        case "ArrowUp":
-          event.preventDefault();
-          if (cardIndex === 0) {
-            setCardNavState((prev) => ({ ...prev, focusArea: "sort-controls", focusedSortControlIndex: 0, isSortControlsActive: false }));
-            focusSortControl(0);
-          } else {
-            const newCardIndex = navigate2D(cardIndex, "up", cardCount, cardNavState.gridColumns);
-            if (newCardIndex !== cardIndex) {
-              setCardNavState((prev) => ({ ...prev, focusedCardIndex: newCardIndex }));
-              focusCard(newCardIndex);
-              announceToScreenReader(`Moved to card ${newCardIndex + 1} of ${cardCount}`);
-            }
-          }
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          const newDownCardIndex = navigate2D(cardIndex, "down", cardCount, cardNavState.gridColumns);
-          if (newDownCardIndex !== cardIndex) {
-            setCardNavState((prev) => ({ ...prev, focusedCardIndex: newDownCardIndex }));
-            focusCard(newDownCardIndex);
-            announceToScreenReader(`Moved to card ${newDownCardIndex + 1} of ${cardCount}`);
-          }
-          break;
-        case "ArrowLeft":
-          event.preventDefault();
-          const newLeftCardIndex = navigate2D(cardIndex, "left", cardCount, cardNavState.gridColumns);
-          if (newLeftCardIndex !== cardIndex) {
-            setCardNavState((prev) => ({ ...prev, focusedCardIndex: newLeftCardIndex }));
-            focusCard(newLeftCardIndex);
-            announceToScreenReader(`Moved to card ${newLeftCardIndex + 1} of ${cardCount}`);
-          } else {
-            if (state.selectedIndex > 0) {
-              dispatch({ type: "SET_SELECTED_INDEX", payload: state.selectedIndex - 1 });
-              setCardNavState((prev) => ({ ...prev, focusArea: "tabs" }));
-              setTimeout(() => focusTab(state.selectedIndex - 1), 0);
-            }
-          }
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          const newRightCardIndex = navigate2D(cardIndex, "right", cardCount, cardNavState.gridColumns);
-          if (newRightCardIndex !== cardIndex) {
-            setCardNavState((prev) => ({ ...prev, focusedCardIndex: newRightCardIndex }));
-            focusCard(newRightCardIndex);
-            announceToScreenReader(`Moved to card ${newRightCardIndex + 1} of ${cardCount}`);
-          } else {
-            if (state.selectedIndex < tabPanels.length - 1) {
-              dispatch({ type: "SET_SELECTED_INDEX", payload: state.selectedIndex + 1 });
-              setCardNavState((prev) => ({ ...prev, focusArea: "tabs" }));
-              setTimeout(() => focusTab(state.selectedIndex + 1), 0);
-            }
-          }
-          break;
-          break;
-        case "Enter":
-          if (currentPanel == null ? void 0 : currentPanel.data[cardIndex]) {
+      if (!cardNavState.isCardNavigationActive) {
+        switch (key) {
+          case "ArrowUp":
             event.preventDefault();
-            setCardNavState((prev) => ({
-              ...prev,
-              selectedCardIndex: cardIndex
-            }));
-            const cardElements = scanCardElements(cardIndex);
-            if (cardElements.length > 0) {
+            if (cardIndex === 0) {
               setCardNavState((prev) => ({
                 ...prev,
-                focusArea: "card",
-                isCardNavigationActive: true,
-                focusedCardElementIndex: 0,
-                cardElements,
-                selectedCardIndex: cardIndex
-                // Ensure selection is maintained
+                focusArea: "sort-controls",
+                focusedSortControlIndex: 0,
+                isSortControlsActive: false
               }));
-              announceToScreenReader(`Card ${cardIndex + 1} selected and navigation activated. ${cardElements.length} interactive elements available. Use arrow keys to navigate, Enter to activate, Escape to exit.`);
+              focusSortControl(0);
             } else {
-              announceToScreenReader(`Card ${cardIndex + 1} selected.`);
+              const newCardIndex = navigate2D(
+                cardIndex,
+                "up",
+                cardCount,
+                cardNavState.gridColumns
+              );
+              if (newCardIndex !== cardIndex) {
+                setCardNavState((prev) => ({
+                  ...prev,
+                  focusedCardIndex: newCardIndex
+                }));
+                focusCard(newCardIndex);
+                announceToScreenReader(
+                  `Moved to card ${newCardIndex + 1} of ${cardCount}`
+                );
+              }
             }
+            break;
+          case "ArrowDown":
+            event.preventDefault();
+            const newDownCardIndex = navigate2D(
+              cardIndex,
+              "down",
+              cardCount,
+              cardNavState.gridColumns
+            );
+            if (newDownCardIndex !== cardIndex) {
+              setCardNavState((prev) => ({
+                ...prev,
+                focusedCardIndex: newDownCardIndex
+              }));
+              focusCard(newDownCardIndex);
+              announceToScreenReader(
+                `Moved to card ${newDownCardIndex + 1} of ${cardCount}`
+              );
+            }
+            break;
+          case "ArrowLeft":
+            event.preventDefault();
+            const newLeftCardIndex = navigate2D(
+              cardIndex,
+              "left",
+              cardCount,
+              cardNavState.gridColumns
+            );
+            if (newLeftCardIndex !== cardIndex) {
+              setCardNavState((prev) => ({
+                ...prev,
+                focusedCardIndex: newLeftCardIndex
+              }));
+              focusCard(newLeftCardIndex);
+              announceToScreenReader(
+                `Moved to card ${newLeftCardIndex + 1} of ${cardCount}`
+              );
+            } else {
+              if (state.selectedIndex > 0) {
+                dispatch({
+                  type: "SET_SELECTED_INDEX",
+                  payload: state.selectedIndex - 1
+                });
+                setCardNavState((prev) => ({ ...prev, focusArea: "tabs" }));
+                setTimeout(() => focusTab(state.selectedIndex - 1), 0);
+              }
+            }
+            break;
+          case "ArrowRight":
+            event.preventDefault();
+            const newRightCardIndex = navigate2D(
+              cardIndex,
+              "right",
+              cardCount,
+              cardNavState.gridColumns
+            );
+            if (newRightCardIndex !== cardIndex) {
+              setCardNavState((prev) => ({
+                ...prev,
+                focusedCardIndex: newRightCardIndex
+              }));
+              focusCard(newRightCardIndex);
+              announceToScreenReader(
+                `Moved to card ${newRightCardIndex + 1} of ${cardCount}`
+              );
+            } else {
+              if (state.selectedIndex < tabPanels.length - 1) {
+                dispatch({
+                  type: "SET_SELECTED_INDEX",
+                  payload: state.selectedIndex + 1
+                });
+                setCardNavState((prev) => ({ ...prev, focusArea: "tabs" }));
+                setTimeout(() => focusTab(state.selectedIndex + 1), 0);
+              }
+            }
+            break;
+            break;
+          case "Enter":
+            if (currentPanel == null ? void 0 : currentPanel.data[cardIndex]) {
+              event.preventDefault();
+              setCardNavState((prev) => ({
+                ...prev,
+                selectedCardIndex: cardIndex
+              }));
+              const cardElements = scanCardElements(cardIndex);
+              if (cardElements.length > 0) {
+                setCardNavState((prev) => ({
+                  ...prev,
+                  focusArea: "card",
+                  isCardNavigationActive: true,
+                  focusedCardElementIndex: 0,
+                  cardElements,
+                  selectedCardIndex: cardIndex
+                  // Ensure selection is maintained
+                }));
+                announceToScreenReader(
+                  `Card ${cardIndex + 1} selected and navigation activated. ${cardElements.length} interactive elements available. Use arrow keys to navigate, Enter to activate, Escape to exit.`
+                );
+              } else {
+                announceToScreenReader(`Card ${cardIndex + 1} selected.`);
+              }
+            }
+            break;
+          case " ":
+            if (currentPanel == null ? void 0 : currentPanel.data[cardIndex]) {
+              event.preventDefault();
+              setCardNavState((prev) => ({
+                ...prev,
+                selectedCardIndex: prev.selectedCardIndex === cardIndex ? -1 : cardIndex
+              }));
+              const isSelected = cardNavState.selectedCardIndex === cardIndex;
+              announceToScreenReader(
+                `Card ${cardIndex + 1} ${isSelected ? "deselected" : "selected"}.`
+              );
+            }
+            break;
+        }
+        return;
+      }
+      switch (key) {
+        case "ArrowUp":
+        case "ArrowLeft":
+          event.preventDefault();
+          const newLeftIndex = Math.max(
+            0,
+            cardNavState.focusedCardElementIndex - 1
+          );
+          setCardNavState((prev) => ({
+            ...prev,
+            focusedCardElementIndex: newLeftIndex
+          }));
+          focusCardElement(cardIndex, newLeftIndex);
+          break;
+        case "ArrowDown":
+        case "ArrowRight":
+          event.preventDefault();
+          const newRightIndex = Math.min(
+            cardNavState.cardElements.length - 1,
+            cardNavState.focusedCardElementIndex + 1
+          );
+          setCardNavState((prev) => ({
+            ...prev,
+            focusedCardElementIndex: newRightIndex
+          }));
+          focusCardElement(cardIndex, newRightIndex);
+          break;
+        case "Enter":
+          event.preventDefault();
+          const currentElement = cardNavState.cardElements[cardNavState.focusedCardElementIndex];
+          if (currentElement) {
+            currentElement.element.click();
+            announceToScreenReader(`Activated ${currentElement.label}`);
           }
           break;
         case " ":
-          if (currentPanel == null ? void 0 : currentPanel.data[cardIndex]) {
-            event.preventDefault();
+          event.preventDefault();
+          const currentSpaceElement = cardNavState.cardElements[cardNavState.focusedCardElementIndex];
+          if (currentSpaceElement) {
+            const event2 = new MouseEvent("dblclick", { bubbles: true });
+            currentSpaceElement.element.dispatchEvent(event2);
+            announceToScreenReader(
+              `Double-clicked ${currentSpaceElement.label}`
+            );
+          }
+          break;
+        case "Escape":
+          event.preventDefault();
+          setCardNavState((prev) => ({
+            ...prev,
+            focusArea: "cards",
+            isCardNavigationActive: false,
+            focusedCardElementIndex: 0,
+            cardElements: []
+          }));
+          setTimeout(() => focusCard(cardIndex), 0);
+          announceToScreenReader(
+            "Exited card navigation, returned to card level"
+          );
+          break;
+        case "Home":
+          event.preventDefault();
+          if (cardNavState.cardElements.length > 0) {
             setCardNavState((prev) => ({
               ...prev,
-              selectedCardIndex: prev.selectedCardIndex === cardIndex ? -1 : cardIndex
+              focusedCardElementIndex: 0
             }));
-            const isSelected = cardNavState.selectedCardIndex === cardIndex;
-            announceToScreenReader(`Card ${cardIndex + 1} ${isSelected ? "deselected" : "selected"}.`);
+            focusCardElement(cardIndex, 0);
+          }
+          break;
+        case "End":
+          event.preventDefault();
+          if (cardNavState.cardElements.length > 0) {
+            const lastIndex = cardNavState.cardElements.length - 1;
+            setCardNavState((prev) => ({
+              ...prev,
+              focusedCardElementIndex: lastIndex
+            }));
+            focusCardElement(cardIndex, lastIndex);
           }
           break;
       }
-      return;
-    }
-    switch (key) {
-      case "ArrowUp":
-      case "ArrowLeft":
-        event.preventDefault();
-        const newLeftIndex = Math.max(0, cardNavState.focusedCardElementIndex - 1);
-        setCardNavState((prev) => ({ ...prev, focusedCardElementIndex: newLeftIndex }));
-        focusCardElement(cardIndex, newLeftIndex);
-        break;
-      case "ArrowDown":
-      case "ArrowRight":
-        event.preventDefault();
-        const newRightIndex = Math.min(cardNavState.cardElements.length - 1, cardNavState.focusedCardElementIndex + 1);
-        setCardNavState((prev) => ({ ...prev, focusedCardElementIndex: newRightIndex }));
-        focusCardElement(cardIndex, newRightIndex);
-        break;
-      case "Enter":
-        event.preventDefault();
-        const currentElement = cardNavState.cardElements[cardNavState.focusedCardElementIndex];
-        if (currentElement) {
-          currentElement.element.click();
-          announceToScreenReader(`Activated ${currentElement.label}`);
-        }
-        break;
-      case " ":
-        event.preventDefault();
-        const currentSpaceElement = cardNavState.cardElements[cardNavState.focusedCardElementIndex];
-        if (currentSpaceElement) {
-          const event2 = new MouseEvent("dblclick", { bubbles: true });
-          currentSpaceElement.element.dispatchEvent(event2);
-          announceToScreenReader(`Double-clicked ${currentSpaceElement.label}`);
-        }
-        break;
-      case "Escape":
-        event.preventDefault();
-        setCardNavState((prev) => ({
-          ...prev,
-          focusArea: "cards",
-          isCardNavigationActive: false,
-          focusedCardElementIndex: 0,
-          cardElements: []
-        }));
-        setTimeout(() => focusCard(cardIndex), 0);
-        announceToScreenReader("Exited card navigation, returned to card level");
-        break;
-      case "Home":
-        event.preventDefault();
-        if (cardNavState.cardElements.length > 0) {
-          setCardNavState((prev) => ({ ...prev, focusedCardElementIndex: 0 }));
-          focusCardElement(cardIndex, 0);
-        }
-        break;
-      case "End":
-        event.preventDefault();
-        if (cardNavState.cardElements.length > 0) {
-          const lastIndex = cardNavState.cardElements.length - 1;
-          setCardNavState((prev) => ({ ...prev, focusedCardElementIndex: lastIndex }));
-          focusCardElement(cardIndex, lastIndex);
-        }
-        break;
-    }
-  }, [cardNavState, state.selectedIndex, tabPanels, handleCardSelect, focusCard, focusTab, setCardNavState, scanCardElements, focusCardElement, announceToScreenReader]);
+    },
+    [
+      cardNavState,
+      state.selectedIndex,
+      tabPanels,
+      handleCardSelect,
+      focusCard,
+      focusTab,
+      setCardNavState,
+      scanCardElements,
+      focusCardElement,
+      announceToScreenReader
+    ]
+  );
   const scrollTabIntoViewMobile = useCallback4((index) => {
     const tab = tabRefs.current[index];
     const tabsContainer = tab == null ? void 0 : tab.parentElement;
@@ -3400,150 +3766,100 @@ var ResponsiveDataGrid = ({
       });
     }
   }, []);
-  const handleTabKeyDownWithCards = useCallback4((event, index) => {
-    var _a, _b, _c, _d;
-    if (layout !== "cards") {
-      return;
-    }
-    const { key } = event;
-    switch (key) {
-      case "ArrowLeft":
-        event.preventDefault();
-        const prevIndex = index > 0 ? index - 1 : tabPanels.length - 1;
-        handleTabSelect(prevIndex);
-        setCardNavState((prev) => ({ ...prev, focusedTabIndex: prevIndex }));
-        (_a = tabRefs.current[prevIndex]) == null ? void 0 : _a.focus();
-        scrollTabIntoViewMobile(prevIndex);
-        break;
-      case "ArrowRight":
-        event.preventDefault();
-        const nextIndex = index < tabPanels.length - 1 ? index + 1 : 0;
-        handleTabSelect(nextIndex);
-        setCardNavState((prev) => ({ ...prev, focusedTabIndex: nextIndex }));
-        (_b = tabRefs.current[nextIndex]) == null ? void 0 : _b.focus();
-        scrollTabIntoViewMobile(nextIndex);
-        break;
-      case "ArrowDown":
-        event.preventDefault();
-        const currentPanel = tabPanels[state.selectedIndex];
-        if (currentPanel && currentPanel.columns && currentPanel.columns.length > 0) {
-          setCardNavState((prev) => ({
-            ...prev,
-            focusArea: "sort-controls",
-            focusedSortControlIndex: 0
-          }));
-          focusSortControl(0);
-        } else {
-          setCardNavState((prev) => ({
-            ...prev,
-            focusArea: "cards",
-            focusedCardIndex: 0
-          }));
-          focusCard(0);
-        }
-        break;
-      case "Home":
-        event.preventDefault();
-        handleTabSelect(0);
-        setCardNavState((prev) => ({ ...prev, focusedTabIndex: 0 }));
-        (_c = tabRefs.current[0]) == null ? void 0 : _c.focus();
-        scrollTabIntoViewMobile(0);
-        break;
-      case "End":
-        event.preventDefault();
-        const lastIndex = tabPanels.length - 1;
-        handleTabSelect(lastIndex);
-        setCardNavState((prev) => ({ ...prev, focusedTabIndex: lastIndex }));
-        (_d = tabRefs.current[lastIndex]) == null ? void 0 : _d.focus();
-        scrollTabIntoViewMobile(lastIndex);
-        break;
-      case "Enter":
-      case " ":
-        event.preventDefault();
-        handleTabSelect(index);
-        break;
-    }
-  }, [tabPanels.length, handleTabSelect, layout, focusCard, setCardNavState, scrollTabIntoViewMobile]);
-  const handleSortControlKeyDown = useCallback4((event, controlIndex) => {
-    if (layout !== "cards") {
-      return;
-    }
-    const { key } = event;
-    const currentPanel = tabPanels[state.selectedIndex];
-    if (controlIndex === 0 && !cardNavState.isSortControlsActive) {
+  const handleTabKeyDownWithCards = useCallback4(
+    (event, index) => {
+      var _a, _b, _c, _d;
+      if (layout !== "cards") {
+        return;
+      }
+      const { key } = event;
       switch (key) {
-        case "ArrowUp":
+        case "ArrowLeft":
           event.preventDefault();
-          setCardNavState((prev) => ({
-            ...prev,
-            focusArea: "tabs",
-            isSortControlsActive: false
-          }));
-          focusTab(state.selectedIndex);
+          const prevIndex = index > 0 ? index - 1 : tabPanels.length - 1;
+          handleTabSelect(prevIndex);
+          setCardNavState((prev) => ({ ...prev, focusedTabIndex: prevIndex }));
+          (_a = tabRefs.current[prevIndex]) == null ? void 0 : _a.focus();
+          scrollTabIntoViewMobile(prevIndex);
+          break;
+        case "ArrowRight":
+          event.preventDefault();
+          const nextIndex = index < tabPanels.length - 1 ? index + 1 : 0;
+          handleTabSelect(nextIndex);
+          setCardNavState((prev) => ({ ...prev, focusedTabIndex: nextIndex }));
+          (_b = tabRefs.current[nextIndex]) == null ? void 0 : _b.focus();
+          scrollTabIntoViewMobile(nextIndex);
           break;
         case "ArrowDown":
           event.preventDefault();
-          if ((currentPanel == null ? void 0 : currentPanel.data) && currentPanel.data.length > 0) {
+          const currentPanel = tabPanels[state.selectedIndex];
+          if (currentPanel && currentPanel.columns && currentPanel.columns.length > 0) {
+            setCardNavState((prev) => ({
+              ...prev,
+              focusArea: "sort-controls",
+              focusedSortControlIndex: 0
+            }));
+            focusSortControl(0);
+          } else {
             setCardNavState((prev) => ({
               ...prev,
               focusArea: "cards",
-              focusedCardIndex: 0,
-              isSortControlsActive: false
+              focusedCardIndex: 0
             }));
             focusCard(0);
           }
           break;
+        case "Home":
+          event.preventDefault();
+          handleTabSelect(0);
+          setCardNavState((prev) => ({ ...prev, focusedTabIndex: 0 }));
+          (_c = tabRefs.current[0]) == null ? void 0 : _c.focus();
+          scrollTabIntoViewMobile(0);
+          break;
+        case "End":
+          event.preventDefault();
+          const lastIndex = tabPanels.length - 1;
+          handleTabSelect(lastIndex);
+          setCardNavState((prev) => ({ ...prev, focusedTabIndex: lastIndex }));
+          (_d = tabRefs.current[lastIndex]) == null ? void 0 : _d.focus();
+          scrollTabIntoViewMobile(lastIndex);
+          break;
         case "Enter":
         case " ":
           event.preventDefault();
-          const availableControls = getAvailableSortControls();
-          if (availableControls.length > 0) {
-            setCardNavState((prev) => ({
-              ...prev,
-              isSortControlsActive: true,
-              focusedSortControlIndex: 1
-              // Start with the first actual control (skip container)
-            }));
-            focusSortControl(1);
-            const announcement = `Entered sort controls navigation mode. ${availableControls.length} controls available. Use arrow keys to navigate between controls.`;
-            announceToScreenReader(announcement);
-          }
-          break;
-        case "Escape":
-          event.preventDefault();
-          setCardNavState((prev) => ({
-            ...prev,
-            isSortControlsActive: false,
-            focusArea: "tabs"
-          }));
-          focusTab(state.selectedIndex);
+          handleTabSelect(index);
           break;
       }
-      return;
-    }
-    if (cardNavState.isSortControlsActive) {
-      const availableControls = getAvailableSortControls();
-      const controlCount = availableControls.length;
-      switch (key) {
-        case "ArrowLeft":
-          event.preventDefault();
-          const prevControlIndex = cardNavState.focusedSortControlIndex > 1 ? cardNavState.focusedSortControlIndex - 1 : controlCount;
-          setCardNavState((prev) => ({ ...prev, focusedSortControlIndex: prevControlIndex }));
-          focusSortControl(prevControlIndex);
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          const nextControlIndex = cardNavState.focusedSortControlIndex < controlCount ? cardNavState.focusedSortControlIndex + 1 : 1;
-          setCardNavState((prev) => ({ ...prev, focusedSortControlIndex: nextControlIndex }));
-          focusSortControl(nextControlIndex);
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          if (cardNavState.isSortControlsActive) {
-            const nextControlIndexDown = cardNavState.focusedSortControlIndex < controlCount ? cardNavState.focusedSortControlIndex + 1 : 1;
-            setCardNavState((prev) => ({ ...prev, focusedSortControlIndex: nextControlIndexDown }));
-            focusSortControl(nextControlIndexDown);
-          } else {
+    },
+    [
+      tabPanels.length,
+      handleTabSelect,
+      layout,
+      focusCard,
+      setCardNavState,
+      scrollTabIntoViewMobile
+    ]
+  );
+  const handleSortControlKeyDown = useCallback4(
+    (event, controlIndex) => {
+      if (layout !== "cards") {
+        return;
+      }
+      const { key } = event;
+      const currentPanel = tabPanels[state.selectedIndex];
+      if (controlIndex === 0 && !cardNavState.isSortControlsActive) {
+        switch (key) {
+          case "ArrowUp":
+            event.preventDefault();
+            setCardNavState((prev) => ({
+              ...prev,
+              focusArea: "tabs",
+              isSortControlsActive: false
+            }));
+            focusTab(state.selectedIndex);
+            break;
+          case "ArrowDown":
+            event.preventDefault();
             if ((currentPanel == null ? void 0 : currentPanel.data) && currentPanel.data.length > 0) {
               setCardNavState((prev) => ({
                 ...prev,
@@ -3553,365 +3869,517 @@ var ResponsiveDataGrid = ({
               }));
               focusCard(0);
             }
-          }
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          setCardNavState((prev) => ({
-            ...prev,
-            isSortControlsActive: false,
-            focusArea: "sort-controls"
-          }));
-          focusSortControl(0);
-          break;
-        case "Escape":
-          event.preventDefault();
-          setCardNavState((prev) => ({
-            ...prev,
-            isSortControlsActive: false,
-            focusArea: "sort-controls",
-            focusedSortControlIndex: 0
-          }));
-          focusSortControl(0);
-          break;
+            break;
+          case "Enter":
+          case " ":
+            event.preventDefault();
+            const availableControls = getAvailableSortControls();
+            if (availableControls.length > 0) {
+              setCardNavState((prev) => ({
+                ...prev,
+                isSortControlsActive: true,
+                focusedSortControlIndex: 1
+                // Start with the first actual control (skip container)
+              }));
+              focusSortControl(1);
+              const announcement = `Entered sort controls navigation mode. ${availableControls.length} controls available. Use arrow keys to navigate between controls.`;
+              announceToScreenReader(announcement);
+            }
+            break;
+          case "Escape":
+            event.preventDefault();
+            setCardNavState((prev) => ({
+              ...prev,
+              isSortControlsActive: false,
+              focusArea: "tabs"
+            }));
+            focusTab(state.selectedIndex);
+            break;
+        }
+        return;
       }
-    }
-  }, [layout, tabPanels, state.selectedIndex, cardNavState.isSortControlsActive, cardNavState.focusedSortControlIndex, focusSortControl, focusTab, focusCard, setCardNavState, announceToScreenReader]);
+      if (cardNavState.isSortControlsActive) {
+        const availableControls = getAvailableSortControls();
+        const controlCount = availableControls.length;
+        switch (key) {
+          case "ArrowLeft":
+            event.preventDefault();
+            const prevControlIndex = cardNavState.focusedSortControlIndex > 1 ? cardNavState.focusedSortControlIndex - 1 : controlCount;
+            setCardNavState((prev) => ({
+              ...prev,
+              focusedSortControlIndex: prevControlIndex
+            }));
+            focusSortControl(prevControlIndex);
+            break;
+          case "ArrowRight":
+            event.preventDefault();
+            const nextControlIndex = cardNavState.focusedSortControlIndex < controlCount ? cardNavState.focusedSortControlIndex + 1 : 1;
+            setCardNavState((prev) => ({
+              ...prev,
+              focusedSortControlIndex: nextControlIndex
+            }));
+            focusSortControl(nextControlIndex);
+            break;
+          case "ArrowDown":
+            event.preventDefault();
+            if (cardNavState.isSortControlsActive) {
+              const nextControlIndexDown = cardNavState.focusedSortControlIndex < controlCount ? cardNavState.focusedSortControlIndex + 1 : 1;
+              setCardNavState((prev) => ({
+                ...prev,
+                focusedSortControlIndex: nextControlIndexDown
+              }));
+              focusSortControl(nextControlIndexDown);
+            } else {
+              if ((currentPanel == null ? void 0 : currentPanel.data) && currentPanel.data.length > 0) {
+                setCardNavState((prev) => ({
+                  ...prev,
+                  focusArea: "cards",
+                  focusedCardIndex: 0,
+                  isSortControlsActive: false
+                }));
+                focusCard(0);
+              }
+            }
+            break;
+          case "ArrowUp":
+            event.preventDefault();
+            setCardNavState((prev) => ({
+              ...prev,
+              isSortControlsActive: false,
+              focusArea: "sort-controls"
+            }));
+            focusSortControl(0);
+            break;
+          case "Escape":
+            event.preventDefault();
+            setCardNavState((prev) => ({
+              ...prev,
+              isSortControlsActive: false,
+              focusArea: "sort-controls",
+              focusedSortControlIndex: 0
+            }));
+            focusSortControl(0);
+            break;
+        }
+      }
+    },
+    [
+      layout,
+      tabPanels,
+      state.selectedIndex,
+      cardNavState.isSortControlsActive,
+      cardNavState.focusedSortControlIndex,
+      focusSortControl,
+      focusTab,
+      focusCard,
+      setCardNavState,
+      announceToScreenReader
+    ]
+  );
   if (layout === "cards") {
     const tabsHidden = !!hideTabsIfSingle && tabPanels.length === 1;
     const currentPanel = tabsHidden ? tabPanels[0] : tabPanels[state.selectedIndex];
-    return /* @__PURE__ */ jsxs6("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--cards ${className || ""}`, children: [
-      /* @__PURE__ */ jsxs6("div", { className: "aria-tabs-datagrid-adaptive__header", children: [
-        !tabsHidden && /* @__PURE__ */ jsx10(
-          "div",
-          {
-            role: "tablist",
-            "aria-label": ariaLabel,
-            "aria-describedby": `${ariaDescription || ""} ${id ? `${id}-navigation-help` : ""}`.trim(),
-            "aria-orientation": orientation,
-            className: "aria-tabs-datagrid__tabs",
-            children: tabPanels.map((panel, index) => {
-              const isSelected = index === state.selectedIndex;
-              const isDisabled = panel.disabled || disabled;
-              return /* @__PURE__ */ jsxs6(
-                "button",
-                {
-                  role: "tab",
-                  id: `tab-${panel.id}`,
-                  "aria-controls": `panel-${panel.id}`,
-                  "aria-selected": isSelected,
-                  "aria-disabled": isDisabled,
-                  tabIndex: isSelected ? 0 : -1,
-                  ref: (el) => {
-                    tabRefs.current[index] = el;
-                  },
-                  onClick: () => handleTabSelect(index),
-                  onKeyDown: (event) => handleTabKeyDownWithCards(event, index),
-                  disabled: isDisabled,
-                  className: [
-                    "aria-tabs-datagrid__tab",
-                    isSelected ? "aria-tabs-datagrid__tab--selected" : "",
-                    isDisabled ? "aria-tabs-datagrid__tab--disabled" : ""
-                  ].filter(Boolean).join(" "),
-                  children: [
-                    /* @__PURE__ */ jsx10("span", { className: "aria-tabs-datagrid__tab-label", children: panel.label }),
-                    state.tabLoadingStates[index] && /* @__PURE__ */ jsx10("span", { className: "aria-tabs-datagrid__tab-loading", "aria-hidden": "true", children: "\u23F3" }),
-                    state.tabErrors[index] && /* @__PURE__ */ jsx10("span", { className: "aria-tabs-datagrid__tab-error", "aria-hidden": "true", children: "\u26A0\uFE0F" })
-                  ]
-                },
-                panel.id
-              );
-            })
-          }
-        ),
-        topActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__top-actions", children: topActions })
-      ] }),
-      currentPanel && currentPanel.columns && /* @__PURE__ */ jsx10(Fragment2, { children: enableAdvancedSorting ? (
-        /* Advanced sorting with SortStatusControl */
-        /* @__PURE__ */ jsx10(
-          SortStatusControl,
-          {
-            sortConfig: state.sortConfig || [],
-            columns: currentPanel.columns.map((col) => ({ key: col.key, label: col.label })),
-            onSortChange: (newSortConfig) => {
-              dispatch({ type: "SET_SORT", payload: newSortConfig });
-            },
-            ariaLabel: "Card view sort configuration",
-            className: "aria-tabs-datagrid-adaptive__advanced-sort-controls"
-          }
-        )
-      ) : (
-        /* Simple card sorting */
-        /* @__PURE__ */ jsx10(
-          "div",
-          {
-            className: "aria-tabs-datagrid-adaptive__sort-controls",
-            role: "region",
-            "aria-label": "Sort controls",
-            tabIndex: cardNavState.focusArea === "sort-controls" ? 0 : -1,
-            ref: (el) => {
-              sortControlRefs.current[0] = el;
-            },
-            onKeyDown: (event) => handleSortControlKeyDown(event, 0),
-            children: /* @__PURE__ */ jsxs6("div", { className: "sort-controls-row", children: [
-              /* @__PURE__ */ jsxs6("div", { className: "sort-select-container", children: [
-                /* @__PURE__ */ jsx10("label", { htmlFor: `card-sort-${currentPanel.id}`, className: "sort-label", children: "Sort cards by" }),
-                /* @__PURE__ */ jsx10(
-                  Select,
-                  {
-                    id: `card-sort-${currentPanel.id}`,
-                    name: `card-sort-${currentPanel.id}`,
-                    value: cardNavState.cardSortConfig ? `${cardNavState.cardSortConfig.key}-${cardNavState.cardSortConfig.direction}` : "",
-                    onChange: (e) => handleCardSort(e.target.value),
-                    className: "sort-select",
-                    children: generateSortOptions(currentPanel.columns).map((option) => /* @__PURE__ */ jsx10("option", { value: option.value, children: option.label }, option.value))
-                  }
-                )
-              ] }),
-              cardNavState.cardSortConfig && /* @__PURE__ */ jsxs6("div", { className: "sort-indicator", role: "status", "aria-live": "polite", children: [
-                /* @__PURE__ */ jsxs6("span", { className: "sort-indicator-text", children: [
-                  "Sorted by ",
-                  getSortLabel(cardNavState.cardSortConfig)
-                ] }),
-                /* @__PURE__ */ jsx10(
-                  Button_default,
-                  {
-                    variant: "secondary",
-                    size: "small",
-                    onClick: () => handleCardSort(""),
-                    "aria-label": "Clear card sorting",
-                    className: "sort-clear-button",
-                    children: "Clear"
-                  }
-                )
-              ] })
-            ] })
-          }
-        )
-      ) }),
-      /* @__PURE__ */ jsx10(
-        "div",
-        {
-          ref: cardsContainerRef,
-          className: "aria-tabs-datagrid-adaptive__cards",
-          role: "grid",
-          "aria-label": `${(currentPanel == null ? void 0 : currentPanel.label) || "Data"} cards in ${cardNavState.gridRows} rows and ${cardNavState.gridColumns} columns`,
-          "aria-rowcount": cardNavState.gridRows,
-          "aria-colcount": cardNavState.gridColumns,
-          id: `panel-${currentPanel == null ? void 0 : currentPanel.id}`,
-          "aria-labelledby": `tab-${currentPanel == null ? void 0 : currentPanel.id}`,
-          children: sortCardDataCombined((currentPanel == null ? void 0 : currentPanel.data) || []).map((row, index) => {
-            const isSelected = cardNavState.selectedCardIndex === index;
-            const isFocused = cardNavState.focusedCardIndex === index && cardNavState.focusArea === "cards";
-            const isInCardNavigation = cardNavState.focusedCardIndex === index && cardNavState.focusArea === "card" && cardNavState.isCardNavigationActive;
-            const isFirstCardFocusable = index === 0 && cardNavState.focusArea !== "cards";
-            const shouldBeFocusable = isFocused || isFirstCardFocusable;
-            const gridPosition = indexToGrid(index, cardNavState.gridColumns);
-            if (cardConfig.cardTemplate) {
-              const customCard = cardConfig.cardTemplate(row, currentPanel.columns);
-              return /* @__PURE__ */ jsx10(
-                "div",
-                {
-                  role: "row",
-                  "aria-rowindex": gridPosition.row + 1,
-                  className: "aria-tabs-datagrid-adaptive__row",
-                  children: /* @__PURE__ */ jsx10(
-                    "div",
-                    {
-                      ref: (el) => {
-                        cardRefs.current[index] = el;
-                      },
-                      className: [
-                        "aria-tabs-datagrid-adaptive__card-wrapper",
-                        isSelected ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
-                        isFocused ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
-                        isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
-                      ].filter(Boolean).join(" "),
-                      role: "gridcell",
-                      "aria-colindex": gridPosition.col + 1,
-                      "aria-selected": isSelected,
-                      "aria-expanded": isInCardNavigation,
-                      "aria-description": isInCardNavigation ? `Card navigation active. ${cardNavState.cardElements.length} interactive elements available.` : void 0,
-                      tabIndex: shouldBeFocusable ? 0 : -1,
-                      onClick: () => {
-                        setCardNavState((prev) => ({
-                          ...prev,
-                          selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
-                        }));
-                        handleCardSelect(row);
-                      },
-                      onKeyDown: (event) => handleCardKeyDown(event, index),
-                      onFocus: () => {
-                        setCardNavState((prev) => {
-                          if (prev.isCardNavigationActive) return prev;
-                          if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
-                            return {
-                              ...prev,
-                              focusedCardIndex: index,
-                              focusArea: "cards"
-                            };
-                          }
-                          return prev;
-                        });
-                      },
-                      children: customCard
-                    }
-                  )
-                },
-                `card-${index}`
-              );
-            }
-            const cardProps = createCard(row, currentPanel.columns, genericCardConfig, domainPlugin);
-            const cardClassName = [
-              cardProps.className || "",
-              isSelected ? "aria-tabs-datagrid-adaptive__card--selected" : "",
-              isFocused ? "aria-tabs-datagrid-adaptive__card--focused" : "",
-              isInCardNavigation ? "aria-tabs-datagrid-adaptive__card--card-navigation" : ""
-            ].filter(Boolean).join(" ");
-            return /* @__PURE__ */ jsx10(
+    return /* @__PURE__ */ jsxs6(
+      "div",
+      {
+        className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--cards ${className || ""}`,
+        children: [
+          /* @__PURE__ */ jsxs6("div", { className: "aria-tabs-datagrid-adaptive__header", children: [
+            !tabsHidden && /* @__PURE__ */ jsx10(
               "div",
               {
-                role: "row",
-                "aria-rowindex": gridPosition.row + 1,
-                className: "aria-tabs-datagrid-adaptive__row",
-                children: /* @__PURE__ */ jsx10(
-                  "div",
-                  {
-                    className: [
-                      "aria-tabs-datagrid-adaptive__card-wrapper",
-                      isSelected ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
-                      isFocused ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
-                      isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
-                    ].filter(Boolean).join(" "),
-                    role: "gridcell",
-                    "aria-colindex": gridPosition.col + 1,
-                    "aria-selected": isSelected,
-                    "aria-expanded": isInCardNavigation,
-                    onKeyDown: (event) => {
-                      if (event.key === "Enter") {
-                        event.preventDefault();
-                        setCardNavState((prev) => ({
-                          ...prev,
-                          selectedCardIndex: index
-                        }));
-                      }
-                      handleCardKeyDown(event, index);
+                role: "tablist",
+                "aria-label": ariaLabel,
+                "aria-describedby": `${ariaDescription || ""} ${id ? `${id}-navigation-help` : ""}`.trim(),
+                "aria-orientation": orientation,
+                className: "aria-tabs-datagrid__tabs",
+                children: tabPanels.map((panel, index) => {
+                  const isSelected = index === state.selectedIndex;
+                  const isDisabled = panel.disabled || disabled;
+                  return /* @__PURE__ */ jsxs6(
+                    "button",
+                    {
+                      role: "tab",
+                      id: `tab-${panel.id}`,
+                      "aria-controls": `panel-${panel.id}`,
+                      "aria-selected": isSelected,
+                      "aria-disabled": isDisabled,
+                      tabIndex: isSelected ? 0 : -1,
+                      ref: (el) => {
+                        tabRefs.current[index] = el;
+                      },
+                      onClick: () => handleTabSelect(index),
+                      onKeyDown: (event) => handleTabKeyDownWithCards(event, index),
+                      disabled: isDisabled,
+                      className: [
+                        "aria-tabs-datagrid__tab",
+                        isSelected ? "aria-tabs-datagrid__tab--selected" : "",
+                        isDisabled ? "aria-tabs-datagrid__tab--disabled" : ""
+                      ].filter(Boolean).join(" "),
+                      children: [
+                        /* @__PURE__ */ jsx10("span", { className: "aria-tabs-datagrid__tab-label", children: panel.label }),
+                        state.tabLoadingStates[index] && /* @__PURE__ */ jsx10(
+                          "span",
+                          {
+                            className: "aria-tabs-datagrid__tab-loading",
+                            "aria-hidden": "true",
+                            children: "\u23F3"
+                          }
+                        ),
+                        state.tabErrors[index] && /* @__PURE__ */ jsx10(
+                          "span",
+                          {
+                            className: "aria-tabs-datagrid__tab-error",
+                            "aria-hidden": "true",
+                            children: "\u26A0\uFE0F"
+                          }
+                        )
+                      ]
                     },
-                    children: /* @__PURE__ */ jsx10(
-                      Card,
+                    panel.id
+                  );
+                })
+              }
+            ),
+            topActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__top-actions", children: topActions })
+          ] }),
+          currentPanel && currentPanel.columns && /* @__PURE__ */ jsx10(Fragment2, { children: enableAdvancedSorting ? (
+            /* Advanced sorting with SortStatusControl: place above cards for 'header'/'above' (default), hide when 'none' */
+            /* @__PURE__ */ jsx10(Fragment2, { children: (!sortStatusPlacement || sortStatusPlacement === "header" || sortStatusPlacement === "above") && /* @__PURE__ */ jsx10(
+              SortStatusControl,
+              {
+                sortConfig: state.sortConfig || [],
+                columns: currentPanel.columns.map((col) => ({ key: col.key, label: col.label })),
+                onSortChange: (newSortConfig) => {
+                  dispatch({ type: "SET_SORT", payload: newSortConfig });
+                },
+                ariaLabel: "Card view sort configuration",
+                className: "aria-tabs-datagrid-adaptive__advanced-sort-controls"
+              }
+            ) })
+          ) : (
+            /* Simple card sorting (unaffected by sortStatusPlacement) */
+            /* @__PURE__ */ jsx10(
+              "div",
+              {
+                className: "aria-tabs-datagrid-adaptive__sort-controls",
+                role: "region",
+                "aria-label": "Sort controls",
+                tabIndex: cardNavState.focusArea === "sort-controls" ? 0 : -1,
+                ref: (el) => {
+                  sortControlRefs.current[0] = el;
+                },
+                onKeyDown: (event) => handleSortControlKeyDown(event, 0),
+                children: /* @__PURE__ */ jsxs6("div", { className: "sort-controls-row", children: [
+                  /* @__PURE__ */ jsxs6("div", { className: "sort-select-container", children: [
+                    /* @__PURE__ */ jsx10(
+                      "label",
                       {
-                        ...cardProps,
-                        ref: (el) => {
-                          cardRefs.current[index] = el;
-                        },
-                        className: cardClassName,
-                        "aria-label": `${cardProps["aria-label"] || cardProps.heading}. ${isInCardNavigation ? `Card navigation active with ${cardNavState.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : "Press Enter to navigate within card elements."}`,
-                        tabIndex: shouldBeFocusable ? 0 : -1,
-                        onClick: () => {
-                          setCardNavState((prev) => ({
-                            ...prev,
-                            selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
-                          }));
-                          handleCardSelect(row);
-                        },
-                        onKeyDown: (event) => handleCardKeyDown(event, index),
-                        onFocus: () => {
-                          if (!cardNavState.isCardNavigationActive) {
+                        htmlFor: `card-sort-${currentPanel.id}`,
+                        className: "sort-label",
+                        children: "Sort cards by"
+                      }
+                    ),
+                    /* @__PURE__ */ jsx10(
+                      Select,
+                      {
+                        id: `card-sort-${currentPanel.id}`,
+                        name: `card-sort-${currentPanel.id}`,
+                        value: cardNavState.cardSortConfig ? `${cardNavState.cardSortConfig.key}-${cardNavState.cardSortConfig.direction}` : "",
+                        onChange: (e) => handleCardSort(e.target.value),
+                        className: "sort-select",
+                        children: generateSortOptions(currentPanel.columns).map((option) => /* @__PURE__ */ jsx10("option", { value: option.value, children: option.label }, option.value))
+                      }
+                    )
+                  ] }),
+                  cardNavState.cardSortConfig && /* @__PURE__ */ jsxs6("div", { className: "sort-indicator", role: "status", "aria-live": "polite", children: [
+                    /* @__PURE__ */ jsxs6("span", { className: "sort-indicator-text", children: [
+                      "Sorted by ",
+                      getSortLabel(cardNavState.cardSortConfig)
+                    ] }),
+                    /* @__PURE__ */ jsx10(
+                      Button_default,
+                      {
+                        variant: "secondary",
+                        size: "small",
+                        onClick: () => handleCardSort(""),
+                        "aria-label": "Clear card sorting",
+                        className: "sort-clear-button",
+                        children: "Clear"
+                      }
+                    )
+                  ] })
+                ] })
+              }
+            )
+          ) }),
+          /* @__PURE__ */ jsx10(
+            "div",
+            {
+              ref: cardsContainerRef,
+              className: "aria-tabs-datagrid-adaptive__cards",
+              role: "grid",
+              "aria-label": `${(currentPanel == null ? void 0 : currentPanel.label) || "Data"} cards in ${cardNavState.gridRows} rows and ${cardNavState.gridColumns} columns`,
+              "aria-rowcount": cardNavState.gridRows,
+              "aria-colcount": cardNavState.gridColumns,
+              id: `panel-${currentPanel == null ? void 0 : currentPanel.id}`,
+              "aria-labelledby": `tab-${currentPanel == null ? void 0 : currentPanel.id}`,
+              children: sortCardDataCombined((currentPanel == null ? void 0 : currentPanel.data) || []).map((row, index) => {
+                const isSelected = cardNavState.selectedCardIndex === index;
+                const isFocused = cardNavState.focusedCardIndex === index && cardNavState.focusArea === "cards";
+                const isInCardNavigation = cardNavState.focusedCardIndex === index && cardNavState.focusArea === "card" && cardNavState.isCardNavigationActive;
+                const isFirstCardFocusable = index === 0 && cardNavState.focusArea !== "cards";
+                const shouldBeFocusable = isFocused || isFirstCardFocusable;
+                const gridPosition = indexToGrid(index, cardNavState.gridColumns);
+                if (cardConfig.cardTemplate) {
+                  const customCard = cardConfig.cardTemplate(
+                    row,
+                    currentPanel.columns
+                  );
+                  return /* @__PURE__ */ jsx10(
+                    "div",
+                    {
+                      role: "row",
+                      "aria-rowindex": gridPosition.row + 1,
+                      className: "aria-tabs-datagrid-adaptive__row",
+                      children: /* @__PURE__ */ jsx10(
+                        "div",
+                        {
+                          ref: (el) => {
+                            cardRefs.current[index] = el;
+                          },
+                          className: [
+                            "aria-tabs-datagrid-adaptive__card-wrapper",
+                            isSelected ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
+                            isFocused ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
+                            isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
+                          ].filter(Boolean).join(" "),
+                          role: "gridcell",
+                          "aria-colindex": gridPosition.col + 1,
+                          "aria-selected": isSelected,
+                          "aria-expanded": isInCardNavigation,
+                          "aria-description": isInCardNavigation ? `Card navigation active. ${cardNavState.cardElements.length} interactive elements available.` : void 0,
+                          tabIndex: shouldBeFocusable ? 0 : -1,
+                          onClick: () => {
+                            setCardNavState((prev) => ({
+                              ...prev,
+                              selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
+                            }));
+                            handleCardSelect(row);
+                          },
+                          onKeyDown: (event) => handleCardKeyDown(event, index),
+                          onFocus: () => {
                             setCardNavState((prev) => {
+                              if (prev.isCardNavigationActive) return prev;
                               if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
                                 return {
                                   ...prev,
                                   focusedCardIndex: index,
-                                  focusArea: "cards",
-                                  focusedCardElementIndex: 0,
-                                  cardElements: []
+                                  focusArea: "cards"
                                 };
                               }
                               return prev;
                             });
-                          }
+                          },
+                          children: customCard
                         }
+                      )
+                    },
+                    `card-${index}`
+                  );
+                }
+                const cardProps = createCard(
+                  row,
+                  currentPanel.columns,
+                  genericCardConfig,
+                  domainPlugin
+                );
+                const cardClassName = [
+                  cardProps.className || "",
+                  isSelected ? "aria-tabs-datagrid-adaptive__card--selected" : "",
+                  isFocused ? "aria-tabs-datagrid-adaptive__card--focused" : "",
+                  isInCardNavigation ? "aria-tabs-datagrid-adaptive__card--card-navigation" : ""
+                ].filter(Boolean).join(" ");
+                return /* @__PURE__ */ jsx10(
+                  "div",
+                  {
+                    role: "row",
+                    "aria-rowindex": gridPosition.row + 1,
+                    className: "aria-tabs-datagrid-adaptive__row",
+                    children: /* @__PURE__ */ jsx10(
+                      "div",
+                      {
+                        className: [
+                          "aria-tabs-datagrid-adaptive__card-wrapper",
+                          isSelected ? "aria-tabs-datagrid-adaptive__card-wrapper--selected" : "",
+                          isFocused ? "aria-tabs-datagrid-adaptive__card-wrapper--focused" : "",
+                          isInCardNavigation ? "aria-tabs-datagrid-adaptive__card-wrapper--card-navigation" : ""
+                        ].filter(Boolean).join(" "),
+                        role: "gridcell",
+                        "aria-colindex": gridPosition.col + 1,
+                        "aria-selected": isSelected,
+                        "aria-expanded": isInCardNavigation,
+                        onKeyDown: (event) => {
+                          if (event.key === "Enter") {
+                            event.preventDefault();
+                            setCardNavState((prev) => ({
+                              ...prev,
+                              selectedCardIndex: index
+                            }));
+                          }
+                          handleCardKeyDown(event, index);
+                        },
+                        children: /* @__PURE__ */ jsx10(
+                          Card,
+                          {
+                            ...cardProps,
+                            ref: (el) => {
+                              cardRefs.current[index] = el;
+                            },
+                            className: cardClassName,
+                            "aria-label": `${cardProps["aria-label"] || cardProps.heading}. ${isInCardNavigation ? `Card navigation active with ${cardNavState.cardElements.length} interactive elements. Use arrow keys to navigate, Enter to activate, Escape to exit.` : "Press Enter to navigate within card elements."}`,
+                            tabIndex: shouldBeFocusable ? 0 : -1,
+                            onClick: () => {
+                              setCardNavState((prev) => ({
+                                ...prev,
+                                selectedCardIndex: prev.selectedCardIndex === index ? -1 : index
+                              }));
+                              handleCardSelect(row);
+                            },
+                            onKeyDown: (event) => handleCardKeyDown(event, index),
+                            onFocus: () => {
+                              if (!cardNavState.isCardNavigationActive) {
+                                setCardNavState((prev) => {
+                                  if (prev.focusedCardIndex !== index || prev.focusArea !== "cards") {
+                                    return {
+                                      ...prev,
+                                      focusedCardIndex: index,
+                                      focusArea: "cards",
+                                      focusedCardElementIndex: 0,
+                                      cardElements: []
+                                    };
+                                  }
+                                  return prev;
+                                });
+                              }
+                            }
+                          }
+                        )
                       }
                     )
-                  }
-                )
+                  },
+                  `card-${index}`
+                );
+              })
+            }
+          ),
+          enableAdvancedSorting && sortStatusPlacement === "below" && currentPanel && currentPanel.columns && /* @__PURE__ */ jsx10(
+            SortStatusControl,
+            {
+              sortConfig: state.sortConfig || [],
+              columns: currentPanel.columns.map((col) => ({ key: col.key, label: col.label })),
+              onSortChange: (newSortConfig) => {
+                dispatch({ type: "SET_SORT", payload: newSortConfig });
               },
-              `card-${index}`
-            );
-          })
-        }
-      ),
-      bottomActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: bottomActions }),
-      /* @__PURE__ */ jsx10(
-        "div",
-        {
-          ref: announcementsRef,
-          className: "aria-tabs-datagrid-adaptive__announcements",
-          "aria-hidden": "true",
-          style: {
-            position: "fixed",
-            top: "-1px",
-            left: "-1px",
-            width: "1px",
-            height: "1px",
-            overflow: "hidden",
-            clip: "rect(0, 0, 0, 0)",
-            whiteSpace: "nowrap",
-            border: 0,
-            padding: 0,
-            margin: 0
-          }
-        }
-      )
-    ] });
+              ariaLabel: "Card view sort configuration",
+              className: "aria-tabs-datagrid-adaptive__advanced-sort-controls aria-tabs-datagrid-adaptive__advanced-sort-controls--below"
+            }
+          ),
+          bottomActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: bottomActions }),
+          /* @__PURE__ */ jsx10(
+            "div",
+            {
+              ref: announcementsRef,
+              className: "aria-tabs-datagrid-adaptive__announcements",
+              "aria-hidden": "true",
+              style: {
+                position: "fixed",
+                top: "-1px",
+                left: "-1px",
+                width: "1px",
+                height: "1px",
+                overflow: "hidden",
+                clip: "rect(0, 0, 0, 0)",
+                whiteSpace: "nowrap",
+                border: 0,
+                padding: 0,
+                margin: 0
+              }
+            }
+          )
+        ]
+      }
+    );
   }
   if (layout === "hybrid") {
-    return /* @__PURE__ */ jsxs6("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--hybrid ${className || ""}`, children: [
-      topActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: topActions }),
-      /* @__PURE__ */ jsx10(
-        AriaTabsDataGrid,
-        {
-          tabPanels,
-          dataConfig,
-          ariaLabel,
-          ariaDescription,
-          orientation,
-          id,
-          disabled,
-          selectedIndex: selectedIndexProp,
-          onTabChange,
-          className: "aria-tabs-datagrid-adaptive__table--hybrid",
-          actions: gridActions,
-          forceActionsAbove: forceGridActionsAbove,
-          hideTabsIfSingle,
-          ...props
-        }
-      ),
-      bottomActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: bottomActions })
-    ] });
-  }
-  return /* @__PURE__ */ jsxs6("div", { className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--table ${className || ""}`, children: [
-    topActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: topActions }),
-    /* @__PURE__ */ jsx10(
-      AriaTabsDataGrid,
+    return /* @__PURE__ */ jsxs6(
+      "div",
       {
-        tabPanels,
-        dataConfig,
-        ariaLabel,
-        ariaDescription,
-        orientation,
-        id,
-        disabled,
-        selectedIndex: selectedIndexProp,
-        onTabChange,
-        actions: gridActions,
-        forceActionsAbove: forceGridActionsAbove,
-        hideTabsIfSingle,
-        ...props
+        className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--hybrid ${className || ""}`,
+        children: [
+          topActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: topActions }),
+          /* @__PURE__ */ jsx10(
+            AriaTabsDataGrid,
+            {
+              tabPanels,
+              dataConfig,
+              ariaLabel,
+              ariaDescription,
+              orientation,
+              id,
+              disabled,
+              selectedIndex: selectedIndexProp,
+              onTabChange,
+              className: "aria-tabs-datagrid-adaptive__table--hybrid",
+              actions: gridActions,
+              forceActionsAbove: forceGridActionsAbove,
+              hideTabsIfSingle,
+              minColumnWidth,
+              enableColumnCollapse,
+              minVisibleColumns,
+              showCollapsedColumnsIndicator,
+              sortStatusPlacement,
+              ...props
+            }
+          ),
+          bottomActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: bottomActions })
+        ]
       }
-    ),
-    bottomActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: bottomActions })
-  ] });
+    );
+  }
+  return /* @__PURE__ */ jsxs6(
+    "div",
+    {
+      className: `aria-tabs-datagrid-adaptive aria-tabs-datagrid-adaptive--table ${className || ""}`,
+      children: [
+        topActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__top-actions aria-tabs-datagrid-adaptive__top-actions--above-table", children: topActions }),
+        /* @__PURE__ */ jsx10(
+          AriaTabsDataGrid,
+          {
+            tabPanels,
+            dataConfig,
+            ariaLabel,
+            ariaDescription,
+            orientation,
+            id,
+            disabled,
+            selectedIndex: selectedIndexProp,
+            onTabChange,
+            actions: gridActions,
+            forceActionsAbove: forceGridActionsAbove,
+            hideTabsIfSingle,
+            minColumnWidth,
+            enableColumnCollapse,
+            minVisibleColumns,
+            showCollapsedColumnsIndicator,
+            sortStatusPlacement,
+            ...props
+          }
+        ),
+        bottomActions && /* @__PURE__ */ jsx10("div", { className: "aria-tabs-datagrid-adaptive__bottom-actions", children: bottomActions })
+      ]
+    }
+  );
 };
 
 // src/components/ResponsiveDataGrid/ResponsiveDataGridDemo.tsx

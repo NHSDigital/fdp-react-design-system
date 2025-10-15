@@ -808,7 +808,8 @@ $atd-breakpoints: (
 			
 			.header-label {
 			  flex: 1;
-			  text-align: center; // Explicitly left-align the text
+			  text-align: left; // Explicitly left-align the text
+			  padding-left: nhs.$nhs-fdp-spacing-2;
 			  font-size: 14px; // Fixed size to prevent inheritance of 16px from parent th
 			  word-break: break-word;
 			  overflow-wrap: anywhere;
@@ -818,7 +819,8 @@ $atd-breakpoints: (
 			  // Consistent mobile-friendly typography for constrained layouts
 			  @include atd-max(tabletMax) {
 				font-size: 12px; // Keep consistent 14px across all breakpoints
-				width: 100%; // Full width when stacked vertically
+				//width: 100%; // Full width when stacked vertically
+				padding-left: 0;
 				margin-bottom: nhs.$nhs-fdp-spacing-1;
 				line-height: 1.2;
 				word-break: break-word;

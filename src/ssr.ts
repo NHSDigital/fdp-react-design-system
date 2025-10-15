@@ -9,3 +9,6 @@
  */
 
 export * from './components/ssr';
+
+// Brand assets and helpers are SSR-safe (static imports only)
+export { BrandKey, LogoVariant, getBrandLogo, brandLogos } from './assets/brand';

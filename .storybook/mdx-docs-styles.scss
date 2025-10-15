@@ -127,12 +127,15 @@ $heading-sizes: (
 	.sbdocs-content ol,
 	.sbdocs-content table,
 	.sbdocs-content pre,
-	.sbdocs-content code,
 	.sbdocs-content blockquote {
 		margin-top: 0;
 		margin-bottom: tokens.$nhs-fdp-spacing-4;
 		font-size: tokens.$nhs-fdp-font-size-19-desktop;
 		line-height: tokens.$nhs-fdp-font-line-height-19-desktop;
+	}
+
+	.sbdocs-content code {
+		margin: 0;
 	}
 
 	.sbdocs-content li {
@@ -142,6 +145,11 @@ $heading-sizes: (
 		margin-bottom: tokens.$nhs-fdp-spacing-3;
 		p {
 			margin-bottom: 0;
+
+			code {
+				margin: 0;
+			}
+
 		}
 	}
 
@@ -195,6 +203,7 @@ $heading-sizes: (
 
 		code {
 			font-size: 1rem;
+			margin: 0;
 		}
 	}
 

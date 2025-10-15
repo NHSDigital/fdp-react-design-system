@@ -25,3 +25,6 @@ export { BrandThemeProvider, useBrand } from './themes/BrandThemeProvider';
 
 // Font loading utilities
 export * from './styles/font-config';
+
+// Brand assets and helpers (logos, enums, and utilities)
+export { BrandKey, LogoVariant, getBrandLogo, brandLogos } from './assets/brand';

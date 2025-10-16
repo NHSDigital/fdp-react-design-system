@@ -32,6 +32,9 @@ $header-max-width: tokens.$nhs-fdp-breakpoint-xlarge; // single source of truth 
 	&[aria-current="true"]::before { border-bottom-width: $header-item-active-size; }
 }
 
+
+
+
 // Shared navigation item (link + button) structural styles
 // $padding param allows the button variant to supply its asymmetric 20px bottom padding hack
 @mixin header-nav-item-base($padding) {
@@ -795,6 +798,16 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		}
 	}
 
+	// Increase service name size for FDP brand only (not logo)
+	&__service-name {
+		font-size: 24px;
+	}
+
+	// Evenly distribute primary nav items under FDP brand
+	&__navigation-list {
+		justify-content: space-evenly;
+	}
+
 	// Navigation separator on light background
 	&__navigation-container {
 		box-shadow: inset 0 1px 0 0 var(--brand-fdp-semantic-surface-border-default, #d8dde0);
@@ -802,6 +815,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		a {
 			text-decoration: none;
 		}
+
 	}
 
 	// Navigation background on light background
@@ -876,6 +890,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	display: inline-block !important;
 	visibility: hidden; // retains width; prevents flicker
 }
+
+
 
 
 

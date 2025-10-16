@@ -1281,11 +1281,8 @@ function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBra
 // src/components/Header/Header.server.tsx
 var HeaderServer = (props) => {
   var _a;
-  let brand;
-  try {
-    brand = (_a = useBrand()) == null ? void 0 : _a.brand;
-  } catch {
-  }
+  const attrBrand = (_a = props.attributes) == null ? void 0 : _a["data-brand"];
+  const brand = attrBrand === "fdp" || attrBrand === "nhs" ? attrBrand : void 0;
   return renderHeaderMarkupServer(props, {
     variant: "server",
     isClient: false,

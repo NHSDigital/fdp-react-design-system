@@ -103,7 +103,8 @@ import React3, {
   useImperativeHandle,
   forwardRef as forwardRef2,
   useEffect,
-  useState as useState2
+  useState as useState2,
+  useId
 } from "react";
 
 // src/components/SortableDataTable/SortStatusControl/SortStatusControl.tsx
@@ -824,10 +825,8 @@ var AriaTabsDataGrid = forwardRef2(function AriaTabsDataGrid2(props, ref) {
     sortStatusPlacement = "header"
   } = props;
   const tabsHidden = hideTabsIfSingle && tabPanels.length === 1;
-  const baseIdRef = useRef2(
-    id || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
-  );
-  const baseId = baseIdRef.current;
+  const reactId = useId();
+  const baseId = id != null ? id : `aria-tabs-datagrid-${reactId}`;
   const descriptionLooksLikeId = typeof ariaDescription === "string" && ariaDescription.trim() !== "" && !/\s/.test(ariaDescription);
   const generatedDescriptionId = `${baseId}-description`;
   const navigationHelpId = `${baseId}-navigation-help`;

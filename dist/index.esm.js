@@ -1,10 +1,10 @@
 import * as V from "react";
-import rt, { useState as Ve, useEffect as nt, useCallback as _e, useRef as Ze, createElement as $i, useMemo as ze, useContext as Ai, createContext as Ei, forwardRef as Hn, useImperativeHandle as Pi, useReducer as Fi, memo as ad, useId as jr } from "react";
-import { createPortal as sd } from "react-dom";
-function id(e) {
+import rt, { useState as Ve, useEffect as nt, useCallback as _e, useRef as qe, createElement as $i, useMemo as ze, useContext as Ai, createContext as Ei, forwardRef as Hn, useImperativeHandle as Pi, useId as Xn, useReducer as Fi, memo as od } from "react";
+import { createPortal as ad } from "react-dom";
+function sd(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-var gr = { exports: {} }, zn = {};
+var xr = { exports: {} }, zn = {};
 /**
  * @license React
  * react-jsx-runtime.production.js
@@ -15,7 +15,7 @@ var gr = { exports: {} }, zn = {};
  * LICENSE file in the root directory of this source tree.
  */
 var xs;
-function ld() {
+function id() {
   if (xs) return zn;
   xs = 1;
   var e = Symbol.for("react.transitional.element"), t = Symbol.for("react.fragment");
@@ -47,7 +47,7 @@ var On = {};
  * LICENSE file in the root directory of this source tree.
  */
 var bs;
-function cd() {
+function ld() {
   return bs || (bs = 1, process.env.NODE_ENV !== "production" && (function() {
     function e(H) {
       if (H == null) return null;
@@ -280,17 +280,17 @@ React keys must be passed directly to JSX without using spread:
   })()), On;
 }
 var ys;
-function dd() {
-  return ys || (ys = 1, process.env.NODE_ENV === "production" ? gr.exports = ld() : gr.exports = cd()), gr.exports;
+function cd() {
+  return ys || (ys = 1, process.env.NODE_ENV === "production" ? xr.exports = id() : xr.exports = ld()), xr.exports;
 }
-var n = dd(), Po = { exports: {} };
+var n = cd(), Po = { exports: {} };
 /*!
 	Copyright (c) 2018 Jed Watson.
 	Licensed under the MIT License (MIT), see
 	http://jedwatson.github.io/classnames
 */
 var vs;
-function ud() {
+function dd() {
   return vs || (vs = 1, (function(e) {
     (function() {
       var t = {}.hasOwnProperty;
@@ -322,8 +322,8 @@ function ud() {
     })();
   })(Po)), Po.exports;
 }
-var fd = ud();
-const De = /* @__PURE__ */ id(fd), My = ({
+var ud = dd();
+const De = /* @__PURE__ */ sd(ud), My = ({
   text: e,
   href: t,
   openInNewWindow: r = !1,
@@ -432,7 +432,7 @@ const De = /* @__PURE__ */ id(fd), My = ({
   );
 };
 var Bi = /* @__PURE__ */ ((e) => (e.Primary = "primary", e.Secondary = "secondary", e.Reverse = "reverse", e.Warning = "warning", e.Login = "login", e.Metric = "metric", e))(Bi || {}), Hi = /* @__PURE__ */ ((e) => (e.Small = "small", e.Default = "default", e.Large = "large", e))(Hi || {});
-function hd(e) {
+function fd(e) {
   const t = e.variant || "primary", r = e.size || "default", o = !!e.fullWidth, a = [
     "nhs-aria-button",
     `nhs-aria-button--${t}`,
@@ -448,8 +448,8 @@ function hd(e) {
     preventDoubleClick: !!e.preventDoubleClick
   };
 }
-const { forwardRef: pd, useCallback: rn, useState: Fo } = V;
-function md(e, t) {
+const { forwardRef: hd, useCallback: rn, useState: Fo } = V;
+function pd(e, t) {
   const {
     children: r,
     variant: o = Bi.Primary,
@@ -458,7 +458,7 @@ function md(e, t) {
     className: i = "",
     preventDoubleClick: l = !1,
     ...c
-  } = e, [d, u] = Fo(!1), [f, h] = Fo(!1), [p, x] = Fo(!1), m = hd({
+  } = e, [d, u] = Fo(!1), [f, h] = Fo(!1), [p, x] = Fo(!1), m = fd({
     variant: o,
     size: a,
     fullWidth: s,
@@ -635,9 +635,9 @@ function md(e, t) {
     }
   );
 }
-const wt = pd(md);
+const wt = hd(pd);
 wt.displayName = "Button";
-const Xn = ({
+const Kn = ({
   text: e = "Back",
   html: t,
   href: r = "#",
@@ -685,7 +685,7 @@ const Xn = ({
     }
   ) });
 };
-function gd(e) {
+function md(e) {
   const { color: t = "default", noBorder: r, closable: o, disabled: a, className: s } = e;
   return { classes: [
     "nhsuk-tag",
@@ -708,7 +708,7 @@ const st = ({
   className: c,
   ...d
 }) => {
-  const u = gd({ color: o, noBorder: a, closable: s, disabled: l, className: c }), f = (h) => {
+  const u = md({ color: o, noBorder: a, closable: s, disabled: l, className: c }), f = (h) => {
     h.preventDefault(), h.stopPropagation(), !l && i && i();
   };
   return /* @__PURE__ */ n.jsxs("strong", { className: u.classes, ...d, children: [
@@ -726,7 +726,7 @@ const st = ({
       }
     )
   ] });
-}, xd = ({
+}, gd = ({
   id: e,
   name: t,
   checked: r,
@@ -784,7 +784,7 @@ const st = ({
     ] })
   ] }) }) });
 };
-xd.displayName = "Checkbox";
+gd.displayName = "Checkbox";
 function zi(e) {
   const r = (e.type || "text") === "range";
   return { classes: [
@@ -913,7 +913,7 @@ const Ua = ({
     }
   );
 };
-function bd(e) {
+function xd(e) {
   const t = e.size || "m", r = [
     "nhsuk-label",
     t !== "m" ? `nhsuk-label--${t}` : "",
@@ -935,10 +935,10 @@ const Wa = ({
   children: a,
   ...s
 }) => {
-  const i = bd({ size: o, isPageHeading: r, className: t, htmlFor: e }), l = i.tag;
+  const i = xd({ size: o, isPageHeading: r, className: t, htmlFor: e }), l = i.tag;
   return /* @__PURE__ */ n.jsx(l, { className: i.classes, htmlFor: i.htmlFor, ...s, children: r ? /* @__PURE__ */ n.jsx("label", { className: "nhsuk-label-wrapper", htmlFor: e, children: a }) : a });
 };
-function yd(e) {
+function bd(e) {
   const t = ["nhsuk-fieldset", e.className || ""].filter(Boolean).join(" "), r = e.legend ? [
     "nhsuk-fieldset__legend",
     e.legend.size ? `nhsuk-fieldset__legend--${e.legend.size}` : "",
@@ -958,7 +958,7 @@ const Ga = ({
   describedBy: o,
   ...a
 }) => {
-  const s = yd({
+  const s = bd({
     className: r,
     describedBy: o,
     legend: t ? {
@@ -983,7 +983,7 @@ const Ga = ({
     }
   );
 };
-function vd(e) {
+function yd(e) {
   const t = [
     "nhsuk-checkboxes",
     e.small ? "nhsuk-checkboxes--small" : "",
@@ -994,7 +994,7 @@ function vd(e) {
   ].filter(Boolean).join(" ");
   return { classes: t, formGroupClasses: r };
 }
-const wd = ({
+const vd = ({
   items: e,
   name: t,
   idPrefix: r,
@@ -1053,7 +1053,7 @@ const wd = ({
         }
       )
     ] }, w.value);
-  }), { classes: S, formGroupClasses: j } = vd({ small: d, className: c, hasError: !!l });
+  }), { classes: S, formGroupClasses: j } = yd({ small: d, className: c, hasError: !!l });
   return /* @__PURE__ */ n.jsx("div", { className: j, ...h, ...p, children: /* @__PURE__ */ n.jsxs(
     Ga,
     {
@@ -1076,8 +1076,8 @@ const wd = ({
     }
   ) });
 };
-wd.displayName = "Checkboxes";
-function Sd(e) {
+vd.displayName = "Checkboxes";
+function wd(e) {
   const t = e.resize ?? "vertical";
   return { classes: [
     "nhsuk-textarea",
@@ -1086,7 +1086,7 @@ function Sd(e) {
     e.className || ""
   ].filter(Boolean).join(" "), describedBy: e.describedBy };
 }
-const _d = ({
+const Sd = ({
   id: e,
   name: t,
   value: r,
@@ -1112,7 +1112,7 @@ const _d = ({
   onKeyDown: S,
   ...j
 }) => {
-  const { classes: w, describedBy: y } = Sd({ hasError: c, resize: g, className: u, describedBy: d });
+  const { classes: w, describedBy: y } = wd({ hasError: c, resize: g, className: u, describedBy: d });
   return /* @__PURE__ */ n.jsx(
     "textarea",
     {
@@ -1141,7 +1141,7 @@ const _d = ({
     }
   );
 };
-function kd(e) {
+function _d(e) {
   return { classes: [
     "nhsuk-hint",
     e.className || ""
@@ -1153,7 +1153,7 @@ const Oi = ({
   children: r,
   ...o
 }) => {
-  const a = kd({ id: e, className: t });
+  const a = _d({ id: e, className: t });
   return /* @__PURE__ */ n.jsx("div", { className: a.classes, id: a.id, ...o, children: r });
 }, Iy = ({
   id: e,
@@ -1214,7 +1214,7 @@ const Oi = ({
       "data-testid": "character-count",
       children: [
         /* @__PURE__ */ n.jsx(
-          _d,
+          Sd,
           {
             id: e,
             name: a,
@@ -1242,14 +1242,14 @@ const Oi = ({
     }
   );
 };
-function Cd(e) {
+function kd(e) {
   return { classes: [
     "nhsuk-select",
     e.hasError ? "nhsuk-select--error" : "",
     e.className || ""
   ].filter(Boolean).join(" ") };
 }
-const Nd = ({
+const Cd = ({
   value: e,
   disabled: t = !1,
   selected: r = !1,
@@ -1272,7 +1272,7 @@ const Nd = ({
       children: a
     }
   );
-}, jd = ({
+}, Nd = ({
   id: e,
   name: t,
   ariaLabel: r,
@@ -1293,7 +1293,7 @@ const Nd = ({
   onFocus: D,
   ...I
 }) => {
-  const { classes: T } = Cd({ hasError: l, className: d }), k = () => p ? p.map((S, j) => /* @__PURE__ */ n.jsx(
+  const { classes: T } = kd({ hasError: l, className: d }), k = () => p ? p.map((S, j) => /* @__PURE__ */ n.jsx(
     "option",
     {
       value: S.value,
@@ -1325,9 +1325,9 @@ const Nd = ({
       children: x || k()
     }
   );
-}, Mr = jd;
-Mr.Option = Nd;
-function Md(e) {
+}, Mr = Nd;
+Mr.Option = Cd;
+function jd(e) {
   return { classes: [
     "nhsuk-radios",
     e.hasError ? "nhsuk-radios--error" : "",
@@ -1361,7 +1361,7 @@ function Ui(e, {
     inline: T = !1,
     options: k,
     ...b
-  } = p, { classes: S, describedBy: j } = Md({ hasError: m, size: I, inline: T, className: D, describedBy: g });
+  } = p, { classes: S, describedBy: j } = jd({ hasError: m, size: I, inline: T, className: D, describedBy: g });
   return /* @__PURE__ */ n.jsx(Ga, { children: /* @__PURE__ */ n.jsx(
     "div",
     {
@@ -1429,7 +1429,7 @@ function Ui(e, {
   ) });
 }
 const Dy = ({ value: e, defaultValue: t, onChange: r, onBlur: o, onFocus: a, ...s }) => {
-  const [i, l] = Ve(e || t || ""), c = Ze([]), d = Ze(i), u = (p) => {
+  const [i, l] = Ve(e || t || ""), c = qe([]), d = qe(i), u = (p) => {
     const x = p.target.value;
     x !== d.current && (d.current = x, l(x), r?.(p));
   }, f = (p) => {
@@ -1461,7 +1461,7 @@ const Dy = ({ value: e, defaultValue: t, onChange: r, onBlur: o, onFocus: a, ...
     }
   );
 };
-function Id(e) {
+function Md(e) {
   const {
     id: t,
     name: r,
@@ -1559,11 +1559,11 @@ const Ty = ({ value: e, defaultValue: t, ...r }) => {
       variant: "server",
       selectedValue: o,
       enableBehaviourAttr: !0,
-      InputComponent: Id
+      InputComponent: Md
     }
   );
 };
-var bn = /* @__PURE__ */ ((e) => (e.OneQuarter = "one-quarter", e.OneThird = "one-third", e.OneHalf = "one-half", e.TwoThirds = "two-thirds", e.ThreeQuarters = "three-quarters", e.Full = "full", e))(bn || {}), Dd = /* @__PURE__ */ ((e) => (e.Mobile = "mobile", e.Tablet = "tablet", e.Desktop = "desktop", e.LargeDesktop = "large-desktop", e))(Dd || {}), Td = /* @__PURE__ */ ((e) => (e.Left = "left", e.Right = "right", e))(Td || {}), Ld = /* @__PURE__ */ ((e) => (e.Left = "left", e.Center = "center", e.Right = "right", e))(Ld || {});
+var bn = /* @__PURE__ */ ((e) => (e.OneQuarter = "one-quarter", e.OneThird = "one-third", e.OneHalf = "one-half", e.TwoThirds = "two-thirds", e.ThreeQuarters = "three-quarters", e.Full = "full", e))(bn || {}), Id = /* @__PURE__ */ ((e) => (e.Mobile = "mobile", e.Tablet = "tablet", e.Desktop = "desktop", e.LargeDesktop = "large-desktop", e))(Id || {}), Dd = /* @__PURE__ */ ((e) => (e.Left = "left", e.Right = "right", e))(Dd || {}), Td = /* @__PURE__ */ ((e) => (e.Left = "left", e.Center = "center", e.Right = "right", e))(Td || {});
 const Wi = ({
   children: e,
   className: t,
@@ -1595,7 +1595,7 @@ const Wi = ({
     t
   );
   return /* @__PURE__ */ n.jsx("div", { className: i, style: r, ...s, children: e });
-}, Kn = ({
+}, Qn = ({
   children: e,
   width: t = bn.Full,
   mobileWidth: r,
@@ -1650,7 +1650,7 @@ const Wi = ({
     d = /* @__PURE__ */ n.jsx(sn, { style: u, children: e });
   }
   return /* @__PURE__ */ n.jsx(Wi, { className: t, style: r, ...a, children: d });
-}, $d = ({
+}, Ld = ({
   children: e,
   type: t = "bullet",
   size: r = "medium",
@@ -1672,15 +1672,15 @@ const Wi = ({
     a
   );
   return /* @__PURE__ */ n.jsx(c, { className: d, role: s, ...l, children: e });
-}, Ad = ({
+}, $d = ({
   children: e,
   className: t,
   ...r
 }) => {
   const o = De("nhsuk-list__item", t);
   return /* @__PURE__ */ n.jsx("li", { className: o, ...r, children: e });
-}, Ed = $d;
-Ed.Item = Ad;
+}, Ad = Ld;
+Ad.Item = $d;
 const Ly = ({
   debug: e = !1,
   className: t,
@@ -1756,7 +1756,7 @@ const Ly = ({
   ].filter(Boolean).join(" ");
   return /* @__PURE__ */ n.jsx(e, { className: s, ...a, children: o });
 };
-function Pd(e) {
+function Ed(e) {
   switch (e) {
     case "xxl":
     case "xl":
@@ -1773,8 +1773,8 @@ function Pd(e) {
       return 2;
   }
 }
-function Fd(e) {
-  const t = e.level ?? Pd(e.size), r = [
+function Pd(e) {
+  const t = e.level ?? Ed(e.size), r = [
     "nhsuk-heading",
     e.size ? `nhsuk-heading--${e.size}` : "",
     e.className || ""
@@ -1782,10 +1782,10 @@ function Fd(e) {
   return { tag: `h${t}`, classes: r, style: o };
 }
 const Kt = ({ level: e, className: t, text: r, html: o, children: a, size: s, marginBottom: i, ...l }) => {
-  const c = Fd({ level: e, size: s, className: t, marginBottom: i }), d = a || (o ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: o } }) : r);
+  const c = Pd({ level: e, size: s, className: t, marginBottom: i }), d = a || (o ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: o } }) : r);
   return $i(c.tag, { className: c.classes, style: c.style, ...l }, d);
 };
-function Rd(e) {
+function Fd(e) {
   return {
     classes: ["nhsuk-error-message", e.className || ""].filter(Boolean).join(" "),
     id: e.id,
@@ -1793,7 +1793,7 @@ function Rd(e) {
   };
 }
 const ws = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: o, ...a }) => {
-  const s = Rd({ id: e, className: t, visuallyHiddenText: r });
+  const s = Fd({ id: e, className: t, visuallyHiddenText: r });
   return /* @__PURE__ */ n.jsxs("span", { className: s.classes, id: s.id, ...a, children: [
     /* @__PURE__ */ n.jsxs("span", { className: "nhsuk-u-visually-hidden", children: [
       s.visuallyHiddenText,
@@ -1811,7 +1811,7 @@ const ws = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: o
   children: i,
   ...l
 }) => {
-  const c = Ze(null);
+  const c = qe(null);
   nt(() => {
     c.current && c.current.focus();
   }, []);
@@ -2480,7 +2480,7 @@ const ws = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: o
       marginBottom: { mobile: "24px", tablet: "32px" }
     }
   }
-}, Vi = Ei(Yi), Bd = ({
+}, Vi = Ei(Yi), Rd = ({
   children: e,
   theme: t = {}
 }) => {
@@ -2492,7 +2492,7 @@ const ws = ({ id: e, className: t, visuallyHiddenText: r = "Error:", children: o
     throw new Error("useNHSTheme must be used within an NHSThemeProvider");
   return e;
 };
-function Hd() {
+function Bd() {
   return `
 	@font-face {
 	  font-display: swap;
@@ -2517,66 +2517,66 @@ function Hd() {
 	}
   `;
 }
-function zd() {
+function Hd() {
   if (typeof document > "u" || document.getElementById("nhs-fonts")) return;
   const e = document.createElement("style");
-  e.id = "nhs-fonts", e.textContent = Hd(), document.head.appendChild(e);
+  e.id = "nhs-fonts", e.textContent = Bd(), document.head.appendChild(e);
 }
 const Hy = ({ children: e, theme: t }) => (nt(() => {
-  zd();
-}, []), /* @__PURE__ */ n.jsx(Bd, { theme: t, children: e })), Od = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iMTEzIiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcGxvZ28iPgogICAgPHJlY3QgaWQ9ImZkcGxvZ28tcmVjdGFuZ2xlIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigzMiwgOTUsIDE3MikiIHg9IjIuNyIgeT0iLTAuMDMiIHdpZHRoPSIxNDQuMSIgaGVpZ2h0PSI1OC4wNSIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllciIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGQ9Ik0gNjAuNjEsNS42IEwgNTAuNjYsNTIuMzEgMzUuMDYsNTIuMzEgMjUuMjQsMTkuOTkgMjUuMTEsMTkuOTkgMTguNTgsNTIuMzEgNi43NCw1Mi4zMSAxNi43Nyw1LjYgMzIuNDMsNS42IDQyLjA1LDM3Ljk5IDQyLjE4LDM3Ljk5IDQ4Ljc3LDUuNiA2MC42MSw1LjYgWiBNIDYwLjYxLDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllcjMiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDE0MS4zOCw2Ljg3IEwgMTM4LjM1LDE2LjE3IEMgMTM1LjkyLDE1LjA0IDEzMi42MywxNC4wNCAxMjcuOTksMTQuMDQgMTIzLjAyLDE0LjA0IDExOC45OCwxNC43NyAxMTguOTgsMTguNTIgMTE4Ljk4LDI1LjE0IDEzNy4yLDIyLjY3IDEzNy4yLDM2Ljg1IDEzNy4yLDQ5Ljc3IDEyNS4xNyw1My4xMiAxMTQuMjcsNTMuMTIgMTA5LjQzLDUzLjEyIDEwMy44NSw1MS45NyA5OS43NSw1MC43IEwgMTAyLjcxLDQxLjIgQyAxMDUuMTksNDIuOCAxMTAuMTcsNDMuODggMTE0LjI3LDQzLjg4IDExOC4xOCw0My44OCAxMjQuMjksNDMuMTQgMTI0LjI5LDM4LjMyIDEyNC4yOSwzMC44MyAxMDYuMDYsMzMuNjQgMTA2LjA2LDIwLjQ2IDEwNi4wNiw4LjQyIDExNi42OSw0LjggMTI2Ljk4LDQuOCAxMzIuNzcsNC44IDEzOC4yMSw1LjQxIDE0MS4zOCw2Ljg3IFogTSAxNDEuMzgsNi44NyIgLz4KICAgIAogICAgPHRleHQgIGZpbGw9InJnYigzNSwgMzEsIDMyKSIgZm9udC1mYW1pbHk9IkZydXRpZ2VyTFRQcm8tQm9sZCwgJ0ZydXRpZ2VyIExUIFBybycsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjQwIiB4PSIwIiB5PSI2NC44OSI+PHRzcGFuIHg9IjAiIHk9IjEwMi44OSI+RmVkZXJhdGVkIERhdGEgUGxhdGZvcm08L3RzcGFuPjwvdGV4dD4KPC9zdmc+Cg==", Ud = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTU1IiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcHR3b2xpbmUiPgogICAgPHJlY3QgaWQ9ImZkcHR3b2xpbmUtcmVjdGFuZ2xlIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigzMiwgOTUsIDE3MikiIHg9IjIuNyIgeT0iLTAuMDMiIHdpZHRoPSIxNDQuMSIgaGVpZ2h0PSI1OC4wNSIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllciIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGQ9Ik0gNjAuNjEsNS42IEwgNTAuNjYsNTIuMzEgMzUuMDYsNTIuMzEgMjUuMjQsMTkuOTkgMjUuMTEsMTkuOTkgMTguNTgsNTIuMzEgNi43NCw1Mi4zMSAxNi43Nyw1LjYgMzIuNDMsNS42IDQyLjA1LDM3Ljk5IDQyLjE4LDM3Ljk5IDQ4Ljc3LDUuNiA2MC42MSw1LjYgWiBNIDYwLjYxLDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllcjMiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDE0MS4zOCw2Ljg3IEwgMTM4LjM1LDE2LjE3IEMgMTM1LjkyLDE1LjA0IDEzMi42MywxNC4wNCAxMjcuOTksMTQuMDQgMTIzLjAyLDE0LjA0IDExOC45OCwxNC43NyAxMTguOTgsMTguNTIgMTE4Ljk4LDI1LjE0IDEzNy4yLDIyLjY3IDEzNy4yLDM2Ljg1IDEzNy4yLDQ5Ljc3IDEyNS4xNyw1My4xMiAxMTQuMjcsNTMuMTIgMTA5LjQzLDUzLjEyIDEwMy44NSw1MS45NyA5OS43NSw1MC43IEwgMTAyLjcxLDQxLjIgQyAxMDUuMTksNDIuOCAxMTAuMTcsNDMuODggMTE0LjI3LDQzLjg4IDExOC4xOCw0My44OCAxMjQuMjksNDMuMTQgMTI0LjI5LDM4LjMyIDEyNC4yOSwzMC44MyAxMDYuMDYsMzMuNjQgMTA2LjA2LDIwLjQ2IDEwNi4wNiw4LjQyIDExNi42OSw0LjggMTI2Ljk4LDQuOCAxMzIuNzcsNC44IDEzOC4yMSw1LjQxIDE0MS4zOCw2Ljg3IFogTSAxNDEuMzgsNi44NyIgLz4KICAgIDx0ZXh0ICBmaWxsPSJyZ2IoMzUsIDMxLCAzMikiIGZvbnQtZmFtaWx5PSJGcnV0aWdlckxUUHJvLUJvbGQsICdGcnV0aWdlciBMVCBQcm8nLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSI0MCIgeD0iMCIgeT0iNjQuODkiPjx0c3BhbiB4PSIwIiB5PSIxMDIuODkiPkZlZGVyYXRlZCBEYXRhIAo8L3RzcGFuPjx0c3BhbiB4PSIwIiB5PSIxNTAuODkiPlBsYXRmb3JtPC90c3Bhbj48L3RleHQ+Cjwvc3ZnPgo=", Wd = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTU1IiB4bWw6c3BhY2U9InByZXNlcnZlIiBpZD0iZmRwdHdvbGluZWludmVyc2UiPgoJPHJlY3QgaWQ9ImZkcHR3b2xpbmVpbnZlcnNlLXJlY3RhbmdsZSIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMzIsIDk1LCAxNzIpIiB4PSIyLjciIHk9Ii0wLjAzIiB3aWR0aD0iMTQ0LjEiIGhlaWdodD0iNTguMDUiIC8+Cgk8cGF0aCBpZD0iZmRwdHdvbGluZWludmVyc2UtYmV6aWVyIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigyNTQsIDI1NCwgMjU0KSIgZD0iTSA2MC42MSw1LjYgTCA1MC42Niw1Mi4zMSAzNS4wNiw1Mi4zMSAyNS4yNCwxOS45OSAyNS4xMSwxOS45OSAxOC41OCw1Mi4zMSA2Ljc0LDUyLjMxIDE2Ljc3LDUuNiAzMi40Myw1LjYgNDIuMDUsMzcuOTkgNDIuMTgsMzcuOTkgNDguNzcsNS42IDYwLjYxLDUuNiBaIE0gNjAuNjEsNS42IiAvPgoJPHBhdGggaWQ9ImZkcHR3b2xpbmVpbnZlcnNlLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KCTxwYXRoIGlkPSJmZHB0d29saW5laW52ZXJzZS1iZXppZXIzIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigyNTQsIDI1NCwgMjU0KSIgZD0iTSAxNDEuMzgsNi44NyBMIDEzOC4zNSwxNi4xNyBDIDEzNS45MiwxNS4wNCAxMzIuNjMsMTQuMDQgMTI3Ljk5LDE0LjA0IDEyMy4wMiwxNC4wNCAxMTguOTgsMTQuNzcgMTE4Ljk4LDE4LjUyIDExOC45OCwyNS4xNCAxMzcuMiwyMi42NyAxMzcuMiwzNi44NSAxMzcuMiw0OS43NyAxMjUuMTcsNTMuMTIgMTE0LjI3LDUzLjEyIDEwOS40Myw1My4xMiAxMDMuODUsNTEuOTcgOTkuNzUsNTAuNyBMIDEwMi43MSw0MS4yIEMgMTA1LjE5LDQyLjggMTEwLjE3LDQzLjg4IDExNC4yNyw0My44OCAxMTguMTgsNDMuODggMTI0LjI5LDQzLjE0IDEyNC4yOSwzOC4zMiAxMjQuMjksMzAuODMgMTA2LjA2LDMzLjY0IDEwNi4wNiwyMC40NiAxMDYuMDYsOC40MiAxMTYuNjksNC44IDEyNi45OCw0LjggMTMyLjc3LDQuOCAxMzguMjEsNS40MSAxNDEuMzgsNi44NyBaIE0gMTQxLjM4LDYuODciIC8+Cgk8dGV4dCBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGZvbnQtZmFtaWx5PSJGcnV0aWdlckxUUHJvLUJvbGQsICdGcnV0aWdlciBMVCBQcm8nLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSI0MCIgeD0iMCIgeT0iNjQuODkiPgoJCTx0c3BhbiB4PSIwIiB5PSIxMDIuODkiPgoJCQlGZWRlcmF0ZWQgRGF0YQoJCTwvdHNwYW4+CgkJPHRzcGFuIHg9IjAiIHk9IjE1MC44OSI+CgkJCVBsYXRmb3JtCgkJPC90c3Bhbj4KCTwvdGV4dD4KPC9zdmc+Cg==", Gd = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iMTEzIiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcGxvZ29pbnZlcnNlIj4KICAgIDxyZWN0IGlkPSJmZHBsb2dvaW52ZXJzZS1yZWN0YW5nbGUiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiB4PSIyLjciIHk9Ii0wLjAzIiB3aWR0aD0iMTQ0LjEiIGhlaWdodD0iNTguMDUiIC8+CiAgICA8ZyBpZD0iZmRwbG9nb2ludmVyc2UtZ3JvdXAiPgogICAgICAgIDxwYXRoIGlkPSJmZHBsb2dvaW52ZXJzZS1iZXppZXIzIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigwLCA5NCwgMTg0KSIgZD0iTSAxNDEuMzgsNi44NyBMIDEzOC4zNSwxNi4xNyBDIDEzNS45MiwxNS4wNCAxMzIuNjMsMTQuMDQgMTI3Ljk5LDE0LjA0IDEyMy4wMiwxNC4wNCAxMTguOTgsMTQuNzcgMTE4Ljk4LDE4LjUyIDExOC45OCwyNS4xNCAxMzcuMiwyMi42NyAxMzcuMiwzNi44NSAxMzcuMiw0OS43NyAxMjUuMTcsNTMuMTIgMTE0LjI3LDUzLjEyIDEwOS40Myw1My4xMiAxMDMuODUsNTEuOTcgOTkuNzUsNTAuNyBMIDEwMi43MSw0MS4yIEMgMTA1LjE5LDQyLjggMTEwLjE3LDQzLjg4IDExNC4yNyw0My44OCAxMTguMTgsNDMuODggMTI0LjI5LDQzLjE0IDEyNC4yOSwzOC4zMiAxMjQuMjksMzAuODMgMTA2LjA2LDMzLjY0IDEwNi4wNiwyMC40NiAxMDYuMDYsOC40MiAxMTYuNjksNC44IDEyNi45OCw0LjggMTMyLjc3LDQuOCAxMzguMjEsNS40MSAxNDEuMzgsNi44NyBaIE0gMTQxLjM4LDYuODciIC8+CiAgICAgICAgPHBhdGggaWQ9ImZkcGxvZ29pbnZlcnNlLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDAsIDk0LCAxODQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgICAgICA8cGF0aCBpZD0iZmRwbG9nb2ludmVyc2UtYmV6aWVyIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigwLCA5NCwgMTg0KSIgZD0iTSA2MC42MSw1LjYgTCA1MC42Niw1Mi4zMSAzNS4wNiw1Mi4zMSAyNS4yNCwxOS45OSAyNS4xMSwxOS45OSAxOC41OCw1Mi4zMSA2Ljc0LDUyLjMxIDE2Ljc3LDUuNiAzMi40Myw1LjYgNDIuMDUsMzcuOTkgNDIuMTgsMzcuOTkgNDguNzcsNS42IDYwLjYxLDUuNiBaIE0gNjAuNjEsNS42IiAvPgogICAgPC9nPgogICAgCiAgICA8dGV4dCAgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBmb250LWZhbWlseT0iRnJ1dGlnZXJMVFByby1Cb2xkLCAnRnJ1dGlnZXIgTFQgUHJvJywgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iNDAiIHg9IjAiIHk9IjY0Ljg5Ij48dHNwYW4geD0iMCIgeT0iMTAyLjg5Ij5GZWRlcmF0ZWQgRGF0YSBQbGF0Zm9ybTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K", Yd = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='357'%20height='114'%20xml:space='preserve'%20id='fdpgraphic'%3e%3cdefs%3e%3clinearGradient%20id='fdpgraphic-gradient-rectangle2'%20x1='113.66'%20y1='27.99'%20x2='0.02'%20y2='27.99'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdpgraphic-gradient2-clip'%20x1='243.8'%20y1='28.5'%20x2='113.64'%20y2='28.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdpgraphic-gradient4-bezier4'%20x1='357.05'%20y1='85.21'%20x2='243.44'%20y2='85.21'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cg%20id='fdpgraphic-group3'%3e%3cg%20id='fdpgraphic-squareGroup'%3e%3crect%20id='fdpgraphic-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='113.6'%20height='113.6'%20/%3e%3crect%20id='fdpgraphic-rectangle2'%20stroke='none'%20fill='url(%23fdpgraphic-gradient-rectangle2)'%20x='0'%20y='0'%20width='113.65'%20height='56'%20/%3e%3c/g%3e%3cg%20id='fdpgraphic-hexagonGroup'%3e%3cpath%20id='fdpgraphic-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%20146.15,-0%20L%20211.25,0%20243.8,57.03%20211.25,114.06%20146.15,114.06%20113.6,57.03%20146.15,-0%20Z%20M%20146.15,-0'%20/%3e%3cg%20id='fdpgraphic-hexagon'%3e%3cpath%20id='fdpgraphic-clip'%20stroke='none'%20fill='url(%23fdpgraphic-gradient2-clip)'%20d='M%20146.18,-0%20L%20113.64,57%20243.8,57%20211.26,-0%20146.18,-0%20Z%20M%20146.18,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdpgraphic-circleGroup'%3e%3ccircle%20id='fdpgraphic-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='300.25'%20cy='56.8'%20r='56.8'%20/%3e%3cpath%20id='fdpgraphic-bezier4'%20stroke='none'%20fill='url(%23fdpgraphic-gradient4-bezier4)'%20d='M%20300.25,56.8%20L%20243.45,56.8%20C%20243.45,88.18%20268.88,113.61%20300.25,113.61%20L%20300.25,113.61%20C%20331.62,113.61%20357.05,88.18%20357.05,56.8%20L%20357.05,56.8%20300.25,56.8%20Z%20M%20300.25,56.8'%20/%3e%3c/g%3e%3cpath%20id='fdpgraphic-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='2.49'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2054.9,56.9%20L%20301.64,56.9'%20/%3e%3c/g%3e%3c/svg%3e", Vd = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='393'%20height='47'%20xml:space='preserve'%20id='fdplockuplogo'%3e%3cdefs%3e%3clinearGradient%20id='fdplockuplogo-gradient-rectangle2'%20x1='45.65'%20y1='11.5'%20x2='0.01'%20y2='11.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogo-gradient2-clip'%20x1='98.8'%20y1='12'%20x2='45.64'%20y2='12'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogo-gradient4-bezier4'%20x1='145.05'%20y1='34.96'%20x2='98.45'%20y2='34.96'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20id='fdplockuplogo-bezier7'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20157.2,1.11%20L%20168.06,1.11%20184.85,34.06%20184.97,34.06%20184.97,1.11%20193.43,1.11%20193.43,45.17%20182.64,45.17%20165.78,12.22%20165.66,12.22%20165.66,45.17%20157.2,45.17%20157.2,1.11%20Z%20M%20157.2,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier8'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20200.37,1.11%20L%20209.21,1.11%20209.21,18.91%20226.88,18.91%20226.88,1.11%20235.72,1.11%20235.72,45.17%20226.88,45.17%20226.88,25.85%20209.21,25.85%20209.21,45.17%20200.37,45.17%20200.37,1.11%20Z%20M%20200.37,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier9'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20267.78,9.19%20C%20265,7.99%20261.91,7.29%20258.81,7.29%20255.78,7.29%20251.87,8.62%20251.87,13.42%20251.87,21.05%20271.19,17.84%20271.19,32.61%20271.19,42.27%20263.55,45.93%20254.65,45.93%20249.85,45.93%20247.7,45.3%20243.35,44.22%20L%20244.17,36.27%20C%20247.2,37.91%20250.67,38.98%20254.14,38.98%20257.49,38.98%20261.97,37.28%20261.97,33.3%20261.97,24.91%20242.65,28.38%20242.65,13.79%20242.65,3.95%20250.29,0.35%20258.06,0.35%20261.84,0.35%20265.38,0.85%20268.6,1.93%20L%20267.78,9.19%20Z%20M%20267.78,9.19'%20/%3e%3cpath%20id='fdplockuplogo-bezier10'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20287.4,1.11%20L%20311.89,1.11%20311.89,8.05%20296.23,8.05%20296.23,18.91%20311.13,18.91%20311.13,25.85%20296.23,25.85%20296.23,45.17%20287.4,45.17%20287.4,1.11%20Z%20M%20287.4,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier11'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20327.66,38.23%20L%20332.59,38.23%20C%20339.97,38.23%20347.11,32.73%20347.11,23.14%20347.11,13.54%20339.97,8.05%20332.59,8.05%20L%20327.66,8.05%20327.66,38.23%20Z%20M%20318.82,1.1%20L%20330.88,1.1%20C%20344.39,1.1%20356.32,5.65%20356.32,23.14%20356.32,40.63%20344.39,45.17%20330.88,45.17%20L%20318.82,45.17%20318.82,1.1%20Z%20M%20318.82,1.1'%20/%3e%3cpath%20id='fdplockuplogo-bezier12'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20372.09,21.5%20L%20375.19,21.5%20C%20379.61,21.5%20383.58,20.04%20383.58,14.93%20383.58,9.82%20379.73,8.05%20375.19,8.05%20L%20372.09,8.05%20372.09,21.5%20Z%20M%20363.26,1.11%20L%20374.43,1.11%20C%20384.03,1.11%20392.8,3.88%20392.8,14.43%20392.8,24.72%20385.29,28.44%20375.82,28.44%20L%20372.09,28.44%20372.09,45.17%20363.26,45.17%20363.26,1.11%20Z%20M%20363.26,1.11'%20/%3e%3cg%20id='fdplockuplogo-group3'%3e%3cg%20id='fdplockuplogo-squareGroup'%3e%3crect%20id='fdplockuplogo-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='45.6'%20height='46.6'%20/%3e%3crect%20id='fdplockuplogo-rectangle2'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient-rectangle2)'%20x='0'%20y='0'%20width='45.65'%20height='23'%20/%3e%3c/g%3e%3cg%20id='fdplockuplogo-hexagonGroup'%3e%3cpath%20id='fdplockuplogo-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%2058.9,-0%20L%2085.5,-0%2098.8,23.53%2085.5,47.06%2058.9,47.06%2045.6,23.53%2058.9,-0%20Z%20M%2058.9,-0'%20/%3e%3cg%20id='fdplockuplogo-hexagon'%3e%3cpath%20id='fdplockuplogo-clip'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient2-clip)'%20d='M%2058.93,-0%20L%2045.64,24%2098.8,24%2085.51,-0%2058.93,-0%20Z%20M%2058.93,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdplockuplogo-circleGroup'%3e%3cg%20id='fdplockuplogo-group'%3e%3ccircle%20id='fdplockuplogo-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='121.75'%20cy='23.3'%20r='23.3'%20/%3e%3cpath%20id='fdplockuplogo-bezier4'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient4-bezier4)'%20d='M%20121.75,23.3%20L%2098.45,23.3%20C%2098.45,36.17%20108.88,46.61%20121.75,46.61%20L%20121.75,46.61%20C%20134.62,46.61%20145.05,36.17%20145.05,23.3%20L%20145.05,23.3%20121.75,23.3%20Z%20M%20121.75,23.3'%20/%3e%3c/g%3e%3c/g%3e%3cpath%20id='fdplockuplogo-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='1'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2022.3,23.48%20L%20122.54,23.48'%20/%3e%3c/g%3e%3c/svg%3e", Zd = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='393'%20height='47'%20xml:space='preserve'%20id='fdplockuplogoinverted'%3e%3cdefs%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient-rectangle2'%20x1='45.65'%20y1='11.5'%20x2='0.01'%20y2='11.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient2-clip'%20x1='98.8'%20y1='12'%20x2='45.64'%20y2='12'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient4-bezier4'%20x1='145.05'%20y1='34.96'%20x2='98.45'%20y2='34.96'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20id='fdplockuplogoinverted-bezier7'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20157.2,1.11%20L%20168.06,1.11%20184.85,34.06%20184.97,34.06%20184.97,1.11%20193.43,1.11%20193.43,45.17%20182.64,45.17%20165.78,12.22%20165.66,12.22%20165.66,45.17%20157.2,45.17%20157.2,1.11%20Z%20M%20157.2,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier8'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20200.37,1.11%20L%20209.21,1.11%20209.21,18.91%20226.88,18.91%20226.88,1.11%20235.72,1.11%20235.72,45.17%20226.88,45.17%20226.88,25.85%20209.21,25.85%20209.21,45.17%20200.37,45.17%20200.37,1.11%20Z%20M%20200.37,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier9'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20267.78,9.19%20C%20265,7.99%20261.91,7.29%20258.81,7.29%20255.78,7.29%20251.87,8.62%20251.87,13.42%20251.87,21.05%20271.19,17.84%20271.19,32.61%20271.19,42.27%20263.55,45.93%20254.65,45.93%20249.85,45.93%20247.7,45.3%20243.35,44.22%20L%20244.17,36.27%20C%20247.2,37.91%20250.67,38.98%20254.14,38.98%20257.49,38.98%20261.97,37.28%20261.97,33.3%20261.97,24.91%20242.65,28.38%20242.65,13.79%20242.65,3.95%20250.29,0.35%20258.06,0.35%20261.84,0.35%20265.38,0.85%20268.6,1.93%20L%20267.78,9.19%20Z%20M%20267.78,9.19'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier10'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20287.4,1.11%20L%20311.89,1.11%20311.89,8.05%20296.23,8.05%20296.23,18.91%20311.13,18.91%20311.13,25.85%20296.23,25.85%20296.23,45.17%20287.4,45.17%20287.4,1.11%20Z%20M%20287.4,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier11'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20327.66,38.23%20L%20332.59,38.23%20C%20339.97,38.23%20347.11,32.73%20347.11,23.14%20347.11,13.54%20339.97,8.05%20332.59,8.05%20L%20327.66,8.05%20327.66,38.23%20Z%20M%20318.82,1.1%20L%20330.88,1.1%20C%20344.39,1.1%20356.32,5.65%20356.32,23.14%20356.32,40.63%20344.39,45.17%20330.88,45.17%20L%20318.82,45.17%20318.82,1.1%20Z%20M%20318.82,1.1'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier12'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20372.09,21.5%20L%20375.19,21.5%20C%20379.61,21.5%20383.58,20.04%20383.58,14.93%20383.58,9.82%20379.73,8.05%20375.19,8.05%20L%20372.09,8.05%20372.09,21.5%20Z%20M%20363.26,1.11%20L%20374.43,1.11%20C%20384.03,1.11%20392.8,3.88%20392.8,14.43%20392.8,24.72%20385.29,28.44%20375.82,28.44%20L%20372.09,28.44%20372.09,45.17%20363.26,45.17%20363.26,1.11%20Z%20M%20363.26,1.11'%20/%3e%3cg%20id='fdplockuplogoinverted-group3'%3e%3cg%20id='fdplockuplogoinverted-squareGroup'%3e%3crect%20id='fdplockuplogoinverted-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='45.6'%20height='46.6'%20/%3e%3crect%20id='fdplockuplogoinverted-rectangle2'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient-rectangle2)'%20x='0'%20y='0'%20width='45.65'%20height='23'%20/%3e%3c/g%3e%3cg%20id='fdplockuplogoinverted-hexagonGroup'%3e%3cpath%20id='fdplockuplogoinverted-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%2058.9,-0%20L%2085.5,-0%2098.8,23.53%2085.5,47.06%2058.9,47.06%2045.6,23.53%2058.9,-0%20Z%20M%2058.9,-0'%20/%3e%3cg%20id='fdplockuplogoinverted-hexagon'%3e%3cpath%20id='fdplockuplogoinverted-clip'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient2-clip)'%20d='M%2058.93,-0%20L%2045.64,24%2098.8,24%2085.51,-0%2058.93,-0%20Z%20M%2058.93,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdplockuplogoinverted-circleGroup'%3e%3cg%20id='fdplockuplogoinverted-group'%3e%3ccircle%20id='fdplockuplogoinverted-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='121.75'%20cy='23.3'%20r='23.3'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier4'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient4-bezier4)'%20d='M%20121.75,23.3%20L%2098.45,23.3%20C%2098.45,36.17%20108.88,46.61%20121.75,46.61%20L%20121.75,46.61%20C%20134.62,46.61%20145.05,36.17%20145.05,23.3%20L%20145.05,23.3%20121.75,23.3%20Z%20M%20121.75,23.3'%20/%3e%3c/g%3e%3c/g%3e%3cpath%20id='fdplockuplogoinverted-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='1'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2022.3,23.48%20L%20122.54,23.48'%20/%3e%3c/g%3e%3c/svg%3e";
+  Hd();
+}, []), /* @__PURE__ */ n.jsx(Rd, { theme: t, children: e })), zd = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iMTEzIiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcGxvZ28iPgogICAgPHJlY3QgaWQ9ImZkcGxvZ28tcmVjdGFuZ2xlIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigzMiwgOTUsIDE3MikiIHg9IjIuNyIgeT0iLTAuMDMiIHdpZHRoPSIxNDQuMSIgaGVpZ2h0PSI1OC4wNSIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllciIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGQ9Ik0gNjAuNjEsNS42IEwgNTAuNjYsNTIuMzEgMzUuMDYsNTIuMzEgMjUuMjQsMTkuOTkgMjUuMTEsMTkuOTkgMTguNTgsNTIuMzEgNi43NCw1Mi4zMSAxNi43Nyw1LjYgMzIuNDMsNS42IDQyLjA1LDM3Ljk5IDQyLjE4LDM3Ljk5IDQ4Ljc3LDUuNiA2MC42MSw1LjYgWiBNIDYwLjYxLDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllcjMiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDE0MS4zOCw2Ljg3IEwgMTM4LjM1LDE2LjE3IEMgMTM1LjkyLDE1LjA0IDEzMi42MywxNC4wNCAxMjcuOTksMTQuMDQgMTIzLjAyLDE0LjA0IDExOC45OCwxNC43NyAxMTguOTgsMTguNTIgMTE4Ljk4LDI1LjE0IDEzNy4yLDIyLjY3IDEzNy4yLDM2Ljg1IDEzNy4yLDQ5Ljc3IDEyNS4xNyw1My4xMiAxMTQuMjcsNTMuMTIgMTA5LjQzLDUzLjEyIDEwMy44NSw1MS45NyA5OS43NSw1MC43IEwgMTAyLjcxLDQxLjIgQyAxMDUuMTksNDIuOCAxMTAuMTcsNDMuODggMTE0LjI3LDQzLjg4IDExOC4xOCw0My44OCAxMjQuMjksNDMuMTQgMTI0LjI5LDM4LjMyIDEyNC4yOSwzMC44MyAxMDYuMDYsMzMuNjQgMTA2LjA2LDIwLjQ2IDEwNi4wNiw4LjQyIDExNi42OSw0LjggMTI2Ljk4LDQuOCAxMzIuNzcsNC44IDEzOC4yMSw1LjQxIDE0MS4zOCw2Ljg3IFogTSAxNDEuMzgsNi44NyIgLz4KICAgIAogICAgPHRleHQgIGZpbGw9InJnYigzNSwgMzEsIDMyKSIgZm9udC1mYW1pbHk9IkZydXRpZ2VyTFRQcm8tQm9sZCwgJ0ZydXRpZ2VyIExUIFBybycsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjQwIiB4PSIwIiB5PSI2NC44OSI+PHRzcGFuIHg9IjAiIHk9IjEwMi44OSI+RmVkZXJhdGVkIERhdGEgUGxhdGZvcm08L3RzcGFuPjwvdGV4dD4KPC9zdmc+Cg==", Od = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTU1IiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcHR3b2xpbmUiPgogICAgPHJlY3QgaWQ9ImZkcHR3b2xpbmUtcmVjdGFuZ2xlIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigzMiwgOTUsIDE3MikiIHg9IjIuNyIgeT0iLTAuMDMiIHdpZHRoPSIxNDQuMSIgaGVpZ2h0PSI1OC4wNSIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllciIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGQ9Ik0gNjAuNjEsNS42IEwgNTAuNjYsNTIuMzEgMzUuMDYsNTIuMzEgMjUuMjQsMTkuOTkgMjUuMTEsMTkuOTkgMTguNTgsNTIuMzEgNi43NCw1Mi4zMSAxNi43Nyw1LjYgMzIuNDMsNS42IDQyLjA1LDM3Ljk5IDQyLjE4LDM3Ljk5IDQ4Ljc3LDUuNiA2MC42MSw1LjYgWiBNIDYwLjYxLDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllcjMiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDE0MS4zOCw2Ljg3IEwgMTM4LjM1LDE2LjE3IEMgMTM1LjkyLDE1LjA0IDEzMi42MywxNC4wNCAxMjcuOTksMTQuMDQgMTIzLjAyLDE0LjA0IDExOC45OCwxNC43NyAxMTguOTgsMTguNTIgMTE4Ljk4LDI1LjE0IDEzNy4yLDIyLjY3IDEzNy4yLDM2Ljg1IDEzNy4yLDQ5Ljc3IDEyNS4xNyw1My4xMiAxMTQuMjcsNTMuMTIgMTA5LjQzLDUzLjEyIDEwMy44NSw1MS45NyA5OS43NSw1MC43IEwgMTAyLjcxLDQxLjIgQyAxMDUuMTksNDIuOCAxMTAuMTcsNDMuODggMTE0LjI3LDQzLjg4IDExOC4xOCw0My44OCAxMjQuMjksNDMuMTQgMTI0LjI5LDM4LjMyIDEyNC4yOSwzMC44MyAxMDYuMDYsMzMuNjQgMTA2LjA2LDIwLjQ2IDEwNi4wNiw4LjQyIDExNi42OSw0LjggMTI2Ljk4LDQuOCAxMzIuNzcsNC44IDEzOC4yMSw1LjQxIDE0MS4zOCw2Ljg3IFogTSAxNDEuMzgsNi44NyIgLz4KICAgIDx0ZXh0ICBmaWxsPSJyZ2IoMzUsIDMxLCAzMikiIGZvbnQtZmFtaWx5PSJGcnV0aWdlckxUUHJvLUJvbGQsICdGcnV0aWdlciBMVCBQcm8nLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSI0MCIgeD0iMCIgeT0iNjQuODkiPjx0c3BhbiB4PSIwIiB5PSIxMDIuODkiPkZlZGVyYXRlZCBEYXRhIAo8L3RzcGFuPjx0c3BhbiB4PSIwIiB5PSIxNTAuODkiPlBsYXRmb3JtPC90c3Bhbj48L3RleHQ+Cjwvc3ZnPgo=", Ud = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTU1IiB4bWw6c3BhY2U9InByZXNlcnZlIiBpZD0iZmRwdHdvbGluZWludmVyc2UiPgoJPHJlY3QgaWQ9ImZkcHR3b2xpbmVpbnZlcnNlLXJlY3RhbmdsZSIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMzIsIDk1LCAxNzIpIiB4PSIyLjciIHk9Ii0wLjAzIiB3aWR0aD0iMTQ0LjEiIGhlaWdodD0iNTguMDUiIC8+Cgk8cGF0aCBpZD0iZmRwdHdvbGluZWludmVyc2UtYmV6aWVyIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigyNTQsIDI1NCwgMjU0KSIgZD0iTSA2MC42MSw1LjYgTCA1MC42Niw1Mi4zMSAzNS4wNiw1Mi4zMSAyNS4yNCwxOS45OSAyNS4xMSwxOS45OSAxOC41OCw1Mi4zMSA2Ljc0LDUyLjMxIDE2Ljc3LDUuNiAzMi40Myw1LjYgNDIuMDUsMzcuOTkgNDIuMTgsMzcuOTkgNDguNzcsNS42IDYwLjYxLDUuNiBaIE0gNjAuNjEsNS42IiAvPgoJPHBhdGggaWQ9ImZkcHR3b2xpbmVpbnZlcnNlLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KCTxwYXRoIGlkPSJmZHB0d29saW5laW52ZXJzZS1iZXppZXIzIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigyNTQsIDI1NCwgMjU0KSIgZD0iTSAxNDEuMzgsNi44NyBMIDEzOC4zNSwxNi4xNyBDIDEzNS45MiwxNS4wNCAxMzIuNjMsMTQuMDQgMTI3Ljk5LDE0LjA0IDEyMy4wMiwxNC4wNCAxMTguOTgsMTQuNzcgMTE4Ljk4LDE4LjUyIDExOC45OCwyNS4xNCAxMzcuMiwyMi42NyAxMzcuMiwzNi44NSAxMzcuMiw0OS43NyAxMjUuMTcsNTMuMTIgMTE0LjI3LDUzLjEyIDEwOS40Myw1My4xMiAxMDMuODUsNTEuOTcgOTkuNzUsNTAuNyBMIDEwMi43MSw0MS4yIEMgMTA1LjE5LDQyLjggMTEwLjE3LDQzLjg4IDExNC4yNyw0My44OCAxMTguMTgsNDMuODggMTI0LjI5LDQzLjE0IDEyNC4yOSwzOC4zMiAxMjQuMjksMzAuODMgMTA2LjA2LDMzLjY0IDEwNi4wNiwyMC40NiAxMDYuMDYsOC40MiAxMTYuNjksNC44IDEyNi45OCw0LjggMTMyLjc3LDQuOCAxMzguMjEsNS40MSAxNDEuMzgsNi44NyBaIE0gMTQxLjM4LDYuODciIC8+Cgk8dGV4dCBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGZvbnQtZmFtaWx5PSJGcnV0aWdlckxUUHJvLUJvbGQsICdGcnV0aWdlciBMVCBQcm8nLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSI0MCIgeD0iMCIgeT0iNjQuODkiPgoJCTx0c3BhbiB4PSIwIiB5PSIxMDIuODkiPgoJCQlGZWRlcmF0ZWQgRGF0YQoJCTwvdHNwYW4+CgkJPHRzcGFuIHg9IjAiIHk9IjE1MC44OSI+CgkJCVBsYXRmb3JtCgkJPC90c3Bhbj4KCTwvdGV4dD4KPC9zdmc+Cg==", Wd = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iMTEzIiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcGxvZ29pbnZlcnNlIj4KICAgIDxyZWN0IGlkPSJmZHBsb2dvaW52ZXJzZS1yZWN0YW5nbGUiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiB4PSIyLjciIHk9Ii0wLjAzIiB3aWR0aD0iMTQ0LjEiIGhlaWdodD0iNTguMDUiIC8+CiAgICA8ZyBpZD0iZmRwbG9nb2ludmVyc2UtZ3JvdXAiPgogICAgICAgIDxwYXRoIGlkPSJmZHBsb2dvaW52ZXJzZS1iZXppZXIzIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigwLCA5NCwgMTg0KSIgZD0iTSAxNDEuMzgsNi44NyBMIDEzOC4zNSwxNi4xNyBDIDEzNS45MiwxNS4wNCAxMzIuNjMsMTQuMDQgMTI3Ljk5LDE0LjA0IDEyMy4wMiwxNC4wNCAxMTguOTgsMTQuNzcgMTE4Ljk4LDE4LjUyIDExOC45OCwyNS4xNCAxMzcuMiwyMi42NyAxMzcuMiwzNi44NSAxMzcuMiw0OS43NyAxMjUuMTcsNTMuMTIgMTE0LjI3LDUzLjEyIDEwOS40Myw1My4xMiAxMDMuODUsNTEuOTcgOTkuNzUsNTAuNyBMIDEwMi43MSw0MS4yIEMgMTA1LjE5LDQyLjggMTEwLjE3LDQzLjg4IDExNC4yNyw0My44OCAxMTguMTgsNDMuODggMTI0LjI5LDQzLjE0IDEyNC4yOSwzOC4zMiAxMjQuMjksMzAuODMgMTA2LjA2LDMzLjY0IDEwNi4wNiwyMC40NiAxMDYuMDYsOC40MiAxMTYuNjksNC44IDEyNi45OCw0LjggMTMyLjc3LDQuOCAxMzguMjEsNS40MSAxNDEuMzgsNi44NyBaIE0gMTQxLjM4LDYuODciIC8+CiAgICAgICAgPHBhdGggaWQ9ImZkcGxvZ29pbnZlcnNlLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDAsIDk0LCAxODQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgICAgICA8cGF0aCBpZD0iZmRwbG9nb2ludmVyc2UtYmV6aWVyIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigwLCA5NCwgMTg0KSIgZD0iTSA2MC42MSw1LjYgTCA1MC42Niw1Mi4zMSAzNS4wNiw1Mi4zMSAyNS4yNCwxOS45OSAyNS4xMSwxOS45OSAxOC41OCw1Mi4zMSA2Ljc0LDUyLjMxIDE2Ljc3LDUuNiAzMi40Myw1LjYgNDIuMDUsMzcuOTkgNDIuMTgsMzcuOTkgNDguNzcsNS42IDYwLjYxLDUuNiBaIE0gNjAuNjEsNS42IiAvPgogICAgPC9nPgogICAgCiAgICA8dGV4dCAgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBmb250LWZhbWlseT0iRnJ1dGlnZXJMVFByby1Cb2xkLCAnRnJ1dGlnZXIgTFQgUHJvJywgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iNDAiIHg9IjAiIHk9IjY0Ljg5Ij48dHNwYW4geD0iMCIgeT0iMTAyLjg5Ij5GZWRlcmF0ZWQgRGF0YSBQbGF0Zm9ybTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K", Gd = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='357'%20height='114'%20xml:space='preserve'%20id='fdpgraphic'%3e%3cdefs%3e%3clinearGradient%20id='fdpgraphic-gradient-rectangle2'%20x1='113.66'%20y1='27.99'%20x2='0.02'%20y2='27.99'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdpgraphic-gradient2-clip'%20x1='243.8'%20y1='28.5'%20x2='113.64'%20y2='28.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdpgraphic-gradient4-bezier4'%20x1='357.05'%20y1='85.21'%20x2='243.44'%20y2='85.21'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cg%20id='fdpgraphic-group3'%3e%3cg%20id='fdpgraphic-squareGroup'%3e%3crect%20id='fdpgraphic-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='113.6'%20height='113.6'%20/%3e%3crect%20id='fdpgraphic-rectangle2'%20stroke='none'%20fill='url(%23fdpgraphic-gradient-rectangle2)'%20x='0'%20y='0'%20width='113.65'%20height='56'%20/%3e%3c/g%3e%3cg%20id='fdpgraphic-hexagonGroup'%3e%3cpath%20id='fdpgraphic-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%20146.15,-0%20L%20211.25,0%20243.8,57.03%20211.25,114.06%20146.15,114.06%20113.6,57.03%20146.15,-0%20Z%20M%20146.15,-0'%20/%3e%3cg%20id='fdpgraphic-hexagon'%3e%3cpath%20id='fdpgraphic-clip'%20stroke='none'%20fill='url(%23fdpgraphic-gradient2-clip)'%20d='M%20146.18,-0%20L%20113.64,57%20243.8,57%20211.26,-0%20146.18,-0%20Z%20M%20146.18,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdpgraphic-circleGroup'%3e%3ccircle%20id='fdpgraphic-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='300.25'%20cy='56.8'%20r='56.8'%20/%3e%3cpath%20id='fdpgraphic-bezier4'%20stroke='none'%20fill='url(%23fdpgraphic-gradient4-bezier4)'%20d='M%20300.25,56.8%20L%20243.45,56.8%20C%20243.45,88.18%20268.88,113.61%20300.25,113.61%20L%20300.25,113.61%20C%20331.62,113.61%20357.05,88.18%20357.05,56.8%20L%20357.05,56.8%20300.25,56.8%20Z%20M%20300.25,56.8'%20/%3e%3c/g%3e%3cpath%20id='fdpgraphic-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='2.49'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2054.9,56.9%20L%20301.64,56.9'%20/%3e%3c/g%3e%3c/svg%3e", Yd = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='393'%20height='47'%20xml:space='preserve'%20id='fdplockuplogo'%3e%3cdefs%3e%3clinearGradient%20id='fdplockuplogo-gradient-rectangle2'%20x1='45.65'%20y1='11.5'%20x2='0.01'%20y2='11.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogo-gradient2-clip'%20x1='98.8'%20y1='12'%20x2='45.64'%20y2='12'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogo-gradient4-bezier4'%20x1='145.05'%20y1='34.96'%20x2='98.45'%20y2='34.96'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20id='fdplockuplogo-bezier7'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20157.2,1.11%20L%20168.06,1.11%20184.85,34.06%20184.97,34.06%20184.97,1.11%20193.43,1.11%20193.43,45.17%20182.64,45.17%20165.78,12.22%20165.66,12.22%20165.66,45.17%20157.2,45.17%20157.2,1.11%20Z%20M%20157.2,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier8'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20200.37,1.11%20L%20209.21,1.11%20209.21,18.91%20226.88,18.91%20226.88,1.11%20235.72,1.11%20235.72,45.17%20226.88,45.17%20226.88,25.85%20209.21,25.85%20209.21,45.17%20200.37,45.17%20200.37,1.11%20Z%20M%20200.37,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier9'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20267.78,9.19%20C%20265,7.99%20261.91,7.29%20258.81,7.29%20255.78,7.29%20251.87,8.62%20251.87,13.42%20251.87,21.05%20271.19,17.84%20271.19,32.61%20271.19,42.27%20263.55,45.93%20254.65,45.93%20249.85,45.93%20247.7,45.3%20243.35,44.22%20L%20244.17,36.27%20C%20247.2,37.91%20250.67,38.98%20254.14,38.98%20257.49,38.98%20261.97,37.28%20261.97,33.3%20261.97,24.91%20242.65,28.38%20242.65,13.79%20242.65,3.95%20250.29,0.35%20258.06,0.35%20261.84,0.35%20265.38,0.85%20268.6,1.93%20L%20267.78,9.19%20Z%20M%20267.78,9.19'%20/%3e%3cpath%20id='fdplockuplogo-bezier10'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20287.4,1.11%20L%20311.89,1.11%20311.89,8.05%20296.23,8.05%20296.23,18.91%20311.13,18.91%20311.13,25.85%20296.23,25.85%20296.23,45.17%20287.4,45.17%20287.4,1.11%20Z%20M%20287.4,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier11'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20327.66,38.23%20L%20332.59,38.23%20C%20339.97,38.23%20347.11,32.73%20347.11,23.14%20347.11,13.54%20339.97,8.05%20332.59,8.05%20L%20327.66,8.05%20327.66,38.23%20Z%20M%20318.82,1.1%20L%20330.88,1.1%20C%20344.39,1.1%20356.32,5.65%20356.32,23.14%20356.32,40.63%20344.39,45.17%20330.88,45.17%20L%20318.82,45.17%20318.82,1.1%20Z%20M%20318.82,1.1'%20/%3e%3cpath%20id='fdplockuplogo-bezier12'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20372.09,21.5%20L%20375.19,21.5%20C%20379.61,21.5%20383.58,20.04%20383.58,14.93%20383.58,9.82%20379.73,8.05%20375.19,8.05%20L%20372.09,8.05%20372.09,21.5%20Z%20M%20363.26,1.11%20L%20374.43,1.11%20C%20384.03,1.11%20392.8,3.88%20392.8,14.43%20392.8,24.72%20385.29,28.44%20375.82,28.44%20L%20372.09,28.44%20372.09,45.17%20363.26,45.17%20363.26,1.11%20Z%20M%20363.26,1.11'%20/%3e%3cg%20id='fdplockuplogo-group3'%3e%3cg%20id='fdplockuplogo-squareGroup'%3e%3crect%20id='fdplockuplogo-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='45.6'%20height='46.6'%20/%3e%3crect%20id='fdplockuplogo-rectangle2'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient-rectangle2)'%20x='0'%20y='0'%20width='45.65'%20height='23'%20/%3e%3c/g%3e%3cg%20id='fdplockuplogo-hexagonGroup'%3e%3cpath%20id='fdplockuplogo-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%2058.9,-0%20L%2085.5,-0%2098.8,23.53%2085.5,47.06%2058.9,47.06%2045.6,23.53%2058.9,-0%20Z%20M%2058.9,-0'%20/%3e%3cg%20id='fdplockuplogo-hexagon'%3e%3cpath%20id='fdplockuplogo-clip'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient2-clip)'%20d='M%2058.93,-0%20L%2045.64,24%2098.8,24%2085.51,-0%2058.93,-0%20Z%20M%2058.93,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdplockuplogo-circleGroup'%3e%3cg%20id='fdplockuplogo-group'%3e%3ccircle%20id='fdplockuplogo-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='121.75'%20cy='23.3'%20r='23.3'%20/%3e%3cpath%20id='fdplockuplogo-bezier4'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient4-bezier4)'%20d='M%20121.75,23.3%20L%2098.45,23.3%20C%2098.45,36.17%20108.88,46.61%20121.75,46.61%20L%20121.75,46.61%20C%20134.62,46.61%20145.05,36.17%20145.05,23.3%20L%20145.05,23.3%20121.75,23.3%20Z%20M%20121.75,23.3'%20/%3e%3c/g%3e%3c/g%3e%3cpath%20id='fdplockuplogo-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='1'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2022.3,23.48%20L%20122.54,23.48'%20/%3e%3c/g%3e%3c/svg%3e", Vd = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='393'%20height='47'%20xml:space='preserve'%20id='fdplockuplogoinverted'%3e%3cdefs%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient-rectangle2'%20x1='45.65'%20y1='11.5'%20x2='0.01'%20y2='11.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient2-clip'%20x1='98.8'%20y1='12'%20x2='45.64'%20y2='12'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient4-bezier4'%20x1='145.05'%20y1='34.96'%20x2='98.45'%20y2='34.96'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20id='fdplockuplogoinverted-bezier7'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20157.2,1.11%20L%20168.06,1.11%20184.85,34.06%20184.97,34.06%20184.97,1.11%20193.43,1.11%20193.43,45.17%20182.64,45.17%20165.78,12.22%20165.66,12.22%20165.66,45.17%20157.2,45.17%20157.2,1.11%20Z%20M%20157.2,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier8'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20200.37,1.11%20L%20209.21,1.11%20209.21,18.91%20226.88,18.91%20226.88,1.11%20235.72,1.11%20235.72,45.17%20226.88,45.17%20226.88,25.85%20209.21,25.85%20209.21,45.17%20200.37,45.17%20200.37,1.11%20Z%20M%20200.37,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier9'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20267.78,9.19%20C%20265,7.99%20261.91,7.29%20258.81,7.29%20255.78,7.29%20251.87,8.62%20251.87,13.42%20251.87,21.05%20271.19,17.84%20271.19,32.61%20271.19,42.27%20263.55,45.93%20254.65,45.93%20249.85,45.93%20247.7,45.3%20243.35,44.22%20L%20244.17,36.27%20C%20247.2,37.91%20250.67,38.98%20254.14,38.98%20257.49,38.98%20261.97,37.28%20261.97,33.3%20261.97,24.91%20242.65,28.38%20242.65,13.79%20242.65,3.95%20250.29,0.35%20258.06,0.35%20261.84,0.35%20265.38,0.85%20268.6,1.93%20L%20267.78,9.19%20Z%20M%20267.78,9.19'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier10'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20287.4,1.11%20L%20311.89,1.11%20311.89,8.05%20296.23,8.05%20296.23,18.91%20311.13,18.91%20311.13,25.85%20296.23,25.85%20296.23,45.17%20287.4,45.17%20287.4,1.11%20Z%20M%20287.4,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier11'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20327.66,38.23%20L%20332.59,38.23%20C%20339.97,38.23%20347.11,32.73%20347.11,23.14%20347.11,13.54%20339.97,8.05%20332.59,8.05%20L%20327.66,8.05%20327.66,38.23%20Z%20M%20318.82,1.1%20L%20330.88,1.1%20C%20344.39,1.1%20356.32,5.65%20356.32,23.14%20356.32,40.63%20344.39,45.17%20330.88,45.17%20L%20318.82,45.17%20318.82,1.1%20Z%20M%20318.82,1.1'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier12'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20372.09,21.5%20L%20375.19,21.5%20C%20379.61,21.5%20383.58,20.04%20383.58,14.93%20383.58,9.82%20379.73,8.05%20375.19,8.05%20L%20372.09,8.05%20372.09,21.5%20Z%20M%20363.26,1.11%20L%20374.43,1.11%20C%20384.03,1.11%20392.8,3.88%20392.8,14.43%20392.8,24.72%20385.29,28.44%20375.82,28.44%20L%20372.09,28.44%20372.09,45.17%20363.26,45.17%20363.26,1.11%20Z%20M%20363.26,1.11'%20/%3e%3cg%20id='fdplockuplogoinverted-group3'%3e%3cg%20id='fdplockuplogoinverted-squareGroup'%3e%3crect%20id='fdplockuplogoinverted-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='45.6'%20height='46.6'%20/%3e%3crect%20id='fdplockuplogoinverted-rectangle2'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient-rectangle2)'%20x='0'%20y='0'%20width='45.65'%20height='23'%20/%3e%3c/g%3e%3cg%20id='fdplockuplogoinverted-hexagonGroup'%3e%3cpath%20id='fdplockuplogoinverted-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%2058.9,-0%20L%2085.5,-0%2098.8,23.53%2085.5,47.06%2058.9,47.06%2045.6,23.53%2058.9,-0%20Z%20M%2058.9,-0'%20/%3e%3cg%20id='fdplockuplogoinverted-hexagon'%3e%3cpath%20id='fdplockuplogoinverted-clip'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient2-clip)'%20d='M%2058.93,-0%20L%2045.64,24%2098.8,24%2085.51,-0%2058.93,-0%20Z%20M%2058.93,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdplockuplogoinverted-circleGroup'%3e%3cg%20id='fdplockuplogoinverted-group'%3e%3ccircle%20id='fdplockuplogoinverted-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='121.75'%20cy='23.3'%20r='23.3'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier4'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient4-bezier4)'%20d='M%20121.75,23.3%20L%2098.45,23.3%20C%2098.45,36.17%20108.88,46.61%20121.75,46.61%20L%20121.75,46.61%20C%20134.62,46.61%20145.05,36.17%20145.05,23.3%20L%20145.05,23.3%20121.75,23.3%20Z%20M%20121.75,23.3'%20/%3e%3c/g%3e%3c/g%3e%3cpath%20id='fdplockuplogoinverted-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='1'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2022.3,23.48%20L%20122.54,23.48'%20/%3e%3c/g%3e%3c/svg%3e";
 var Ya = /* @__PURE__ */ ((e) => (e.NHS = "nhs", e.FDP = "fdp", e))(Ya || {}), Va = /* @__PURE__ */ ((e) => (e.Full = "full", e.Graphic = "graphic", e.Inverse = "inverse", e.TwoLine = "twoLine", e.TwoLineInverse = "twoLineInverse", e.Compact = "compact", e.CompactInverted = "compactInverted", e))(Va || {});
-const qd = {
+const Zd = {
   nhs: {},
   fdp: {
     full: {
       brand: "fdp",
       variant: "full",
-      src: Od,
+      src: zd,
       ariaLabel: "FDP"
     },
     graphic: {
       brand: "fdp",
       variant: "graphic",
-      src: Yd,
+      src: Gd,
       ariaLabel: "FDP"
     },
     inverse: {
       brand: "fdp",
       variant: "inverse",
-      src: Gd,
+      src: Wd,
       ariaLabel: "FDP"
     },
     twoLine: {
       brand: "fdp",
       variant: "twoLine",
-      src: Ud,
+      src: Od,
       ariaLabel: "FDP"
     },
     twoLineInverse: {
       brand: "fdp",
       variant: "twoLineInverse",
-      src: Wd,
+      src: Ud,
       ariaLabel: "FDP"
     },
     compact: {
       brand: "fdp",
       variant: "compact",
-      src: Vd,
+      src: Yd,
       ariaLabel: "FDP"
     },
     compactInverted: {
       brand: "fdp",
       variant: "compactInverted",
-      src: Zd,
+      src: Vd,
       ariaLabel: "FDP"
     }
   }
 };
 function Zi(e, t = "full") {
-  return qd[e]?.[t];
+  return Zd[e]?.[t];
 }
-function Jd(e, {
+function qd(e, {
   variant: t,
   isClient: r,
   menuOpen: o = !1,
@@ -2847,7 +2847,7 @@ function zy({ brand: e = "nhs", scope: t = "document", children: r }) {
   const s = ze(() => ({ brand: o, setBrand: a }), [o]);
   return t === "local" ? /* @__PURE__ */ n.jsx(na.Provider, { value: s, children: /* @__PURE__ */ n.jsx("div", { "data-brand": o, children: r }) }) : /* @__PURE__ */ n.jsx(na.Provider, { value: s, children: r });
 }
-function qi() {
+function Jd() {
   const e = Ai(na);
   if (!e) throw new Error("useBrand must be used within BrandThemeProvider");
   return e;
@@ -2874,7 +2874,7 @@ const Xd = ({
   debounceMs: I = 300,
   minQueryLength: T = 1
 }) => {
-  const [k, b] = Ve(""), [S, j] = Ve(!1), w = Ze(void 0), y = Ze(null), v = Ze(null), $ = e === "controlled" && a !== void 0, N = $ ? a : k, P = _e(
+  const [k, b] = Ve(""), [S, j] = Ve(!1), w = qe(void 0), y = qe(null), v = qe(null), $ = e === "controlled" && a !== void 0, N = $ ? a : k, P = _e(
     (L) => {
       w.current && clearTimeout(w.current), w.current = setTimeout(() => {
         u.onChange && L.length >= T && u.onChange(L);
@@ -3086,7 +3086,7 @@ const Xd = ({
       ]
     }
   );
-}, Ji = ({
+}, qi = ({
   className: e,
   logo: t = {},
   service: r = {},
@@ -3099,7 +3099,7 @@ const Xd = ({
   attributes: d = {},
   ...u
 }) => {
-  const [f, h] = Ve(!1), [p, x] = Ve(!1), [m, g] = Ve(i?.items?.length || 0), [D, I] = Ve(!1), [T, k] = Ve(!1), b = Ze(null), S = Ze(null), j = Ze(!1);
+  const [f, h] = Ve(!1), [p, x] = Ve(!1), [m, g] = Ve(i?.items?.length || 0), [D, I] = Ve(!1), [T, k] = Ve(!1), b = qe(null), S = qe(null), j = qe(!1);
   nt(() => {
     typeof window > "u" || k(!0);
   }, []), nt(() => {
@@ -3110,7 +3110,7 @@ const Xd = ({
     if (f)
       return document.addEventListener("keydown", N), () => document.removeEventListener("keydown", N);
   }, [f]);
-  const w = Ze(null), y = _e(() => {
+  const w = qe(null), y = _e(() => {
     if (!T || !i?.items || i.items.length === 0 || j.current) return;
     const N = b.current, P = S.current;
     if (!N || !P) return;
@@ -3160,12 +3160,12 @@ const Xd = ({
     h(P), I(P);
   }, $ = (() => {
     try {
-      return qi();
+      return Jd();
     } catch {
       return;
     }
   })();
-  return Jd(
+  return qd(
     {
       className: e,
       logo: t,
@@ -3391,15 +3391,11 @@ function Kd(e, { variant: t, isClient: r, brand: o }) {
   );
 }
 const Oy = (e) => {
-  let t;
-  try {
-    t = qi()?.brand;
-  } catch {
-  }
+  const t = e.attributes?.["data-brand"];
   return Kd(e, {
     variant: "server",
     isClient: !1,
-    brand: t
+    brand: t === "fdp" || t === "nhs" ? t : void 0
   });
 }, Qd = ({
   heading: e,
@@ -3468,7 +3464,7 @@ const Oy = (e) => {
   );
 };
 Qd.displayName = "Hero";
-const Xi = ({
+const Ji = ({
   className: e,
   links: t = [],
   linksColumn2: r,
@@ -3532,7 +3528,7 @@ const Xi = ({
     h && /* @__PURE__ */ n.jsx("div", { className: "nhsuk-width-container", children: /* @__PURE__ */ n.jsx("div", { children: /* @__PURE__ */ n.jsx("p", { className: "nhsuk-footer__copyright", children: s }) }) })
   ] }) });
 };
-function _r(e, t) {
+function kr(e, t) {
   return e == null || t == null ? NaN : e < t ? -1 : e > t ? 1 : e >= t ? 0 : NaN;
 }
 function eu(e, t) {
@@ -3540,7 +3536,7 @@ function eu(e, t) {
 }
 function Za(e) {
   let t, r, o;
-  e.length !== 2 ? (t = _r, r = (l, c) => _r(e(l), c), o = (l, c) => e(l) - c) : (t = e === _r || e === eu ? e : tu, r = e, o = e);
+  e.length !== 2 ? (t = kr, r = (l, c) => kr(e(l), c), o = (l, c) => e(l) - c) : (t = e === kr || e === eu ? e : tu, r = e, o = e);
   function a(l, c, d = 0, u = l.length) {
     if (d < u) {
       if (t(c, c) !== 0) return u;
@@ -3573,9 +3569,9 @@ function tu() {
 function nu(e) {
   return e === null ? NaN : +e;
 }
-const ru = Za(_r), ou = ru.right;
+const ru = Za(kr), ou = ru.right;
 Za(nu).center;
-function Ki(e, t) {
+function Xi(e, t) {
   let r, o;
   if (t === void 0)
     for (const a of e)
@@ -3666,7 +3662,7 @@ function So(e, t) {
   return this;
 }
 const ks = Symbol("implicit");
-function Qi() {
+function Ki() {
   var e = new Ss(), t = [], r = [], o = ks;
   function a(s) {
     let i = e.get(s);
@@ -3687,11 +3683,11 @@ function Qi() {
   }, a.unknown = function(s) {
     return arguments.length ? (o = s, a) : o;
   }, a.copy = function() {
-    return Qi(t, r).unknown(o);
+    return Ki(t, r).unknown(o);
   }, So.apply(a, arguments), a;
 }
-function el() {
-  var e = Qi().unknown(void 0), t = e.domain, r = e.range, o = 0, a = 1, s, i, l = !1, c = 0, d = 0, u = 0.5;
+function Qi() {
+  var e = Ki().unknown(void 0), t = e.domain, r = e.range, o = 0, a = 1, s, i, l = !1, c = 0, d = 0, u = 0.5;
   delete e.unknown;
   function f() {
     var h = t().length, p = a < o, x = p ? a : o, m = p ? o : a;
@@ -3722,20 +3718,20 @@ function el() {
   }, e.align = function(h) {
     return arguments.length ? (u = Math.max(0, Math.min(1, h)), f()) : u;
   }, e.copy = function() {
-    return el(t(), [o, a]).round(l).paddingInner(c).paddingOuter(d).align(u);
+    return Qi(t(), [o, a]).round(l).paddingInner(c).paddingOuter(d).align(u);
   }, So.apply(f(), arguments);
 }
 function qa(e, t, r) {
   e.prototype = t.prototype = r, r.constructor = e;
 }
-function tl(e, t) {
+function el(e, t) {
   var r = Object.create(e.prototype);
   for (var o in t) r[o] = t[o];
   return r;
 }
-function lr() {
+function cr() {
 }
-var Qn = 0.7, Dr = 1 / Qn, Dn = "\\s*([+-]?\\d+)\\s*", er = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*", Ft = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*", hu = /^#([0-9a-f]{3,8})$/, pu = new RegExp(`^rgb\\(${Dn},${Dn},${Dn}\\)$`), mu = new RegExp(`^rgb\\(${Ft},${Ft},${Ft}\\)$`), gu = new RegExp(`^rgba\\(${Dn},${Dn},${Dn},${er}\\)$`), xu = new RegExp(`^rgba\\(${Ft},${Ft},${Ft},${er}\\)$`), bu = new RegExp(`^hsl\\(${er},${Ft},${Ft}\\)$`), yu = new RegExp(`^hsla\\(${er},${Ft},${Ft},${er}\\)$`), Cs = {
+var er = 0.7, Dr = 1 / er, Dn = "\\s*([+-]?\\d+)\\s*", tr = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)\\s*", Ft = "\\s*([+-]?(?:\\d*\\.)?\\d+(?:[eE][+-]?\\d+)?)%\\s*", hu = /^#([0-9a-f]{3,8})$/, pu = new RegExp(`^rgb\\(${Dn},${Dn},${Dn}\\)$`), mu = new RegExp(`^rgb\\(${Ft},${Ft},${Ft}\\)$`), gu = new RegExp(`^rgba\\(${Dn},${Dn},${Dn},${tr}\\)$`), xu = new RegExp(`^rgba\\(${Ft},${Ft},${Ft},${tr}\\)$`), bu = new RegExp(`^hsl\\(${tr},${Ft},${Ft}\\)$`), yu = new RegExp(`^hsla\\(${tr},${Ft},${Ft},${tr}\\)$`), Cs = {
   aliceblue: 15792383,
   antiquewhite: 16444375,
   aqua: 65535,
@@ -3885,7 +3881,7 @@ var Qn = 0.7, Dr = 1 / Qn, Dn = "\\s*([+-]?\\d+)\\s*", er = "\\s*([+-]?(?:\\d*\\
   yellow: 16776960,
   yellowgreen: 10145074
 };
-qa(lr, tr, {
+qa(cr, nr, {
   copy(e) {
     return Object.assign(new this.constructor(), this, e);
   },
@@ -3907,23 +3903,23 @@ function vu() {
   return this.rgb().formatHex8();
 }
 function wu() {
-  return nl(this).formatHsl();
+  return tl(this).formatHsl();
 }
 function js() {
   return this.rgb().formatRgb();
 }
-function tr(e) {
+function nr(e) {
   var t, r;
-  return e = (e + "").trim().toLowerCase(), (t = hu.exec(e)) ? (r = t[1].length, t = parseInt(t[1], 16), r === 6 ? Ms(t) : r === 3 ? new Nt(t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, (t & 15) << 4 | t & 15, 1) : r === 8 ? xr(t >> 24 & 255, t >> 16 & 255, t >> 8 & 255, (t & 255) / 255) : r === 4 ? xr(t >> 12 & 15 | t >> 8 & 240, t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, ((t & 15) << 4 | t & 15) / 255) : null) : (t = pu.exec(e)) ? new Nt(t[1], t[2], t[3], 1) : (t = mu.exec(e)) ? new Nt(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, 1) : (t = gu.exec(e)) ? xr(t[1], t[2], t[3], t[4]) : (t = xu.exec(e)) ? xr(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, t[4]) : (t = bu.exec(e)) ? Ts(t[1], t[2] / 100, t[3] / 100, 1) : (t = yu.exec(e)) ? Ts(t[1], t[2] / 100, t[3] / 100, t[4]) : Cs.hasOwnProperty(e) ? Ms(Cs[e]) : e === "transparent" ? new Nt(NaN, NaN, NaN, 0) : null;
+  return e = (e + "").trim().toLowerCase(), (t = hu.exec(e)) ? (r = t[1].length, t = parseInt(t[1], 16), r === 6 ? Ms(t) : r === 3 ? new Nt(t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, (t & 15) << 4 | t & 15, 1) : r === 8 ? br(t >> 24 & 255, t >> 16 & 255, t >> 8 & 255, (t & 255) / 255) : r === 4 ? br(t >> 12 & 15 | t >> 8 & 240, t >> 8 & 15 | t >> 4 & 240, t >> 4 & 15 | t & 240, ((t & 15) << 4 | t & 15) / 255) : null) : (t = pu.exec(e)) ? new Nt(t[1], t[2], t[3], 1) : (t = mu.exec(e)) ? new Nt(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, 1) : (t = gu.exec(e)) ? br(t[1], t[2], t[3], t[4]) : (t = xu.exec(e)) ? br(t[1] * 255 / 100, t[2] * 255 / 100, t[3] * 255 / 100, t[4]) : (t = bu.exec(e)) ? Ts(t[1], t[2] / 100, t[3] / 100, 1) : (t = yu.exec(e)) ? Ts(t[1], t[2] / 100, t[3] / 100, t[4]) : Cs.hasOwnProperty(e) ? Ms(Cs[e]) : e === "transparent" ? new Nt(NaN, NaN, NaN, 0) : null;
 }
 function Ms(e) {
   return new Nt(e >> 16 & 255, e >> 8 & 255, e & 255, 1);
 }
-function xr(e, t, r, o) {
+function br(e, t, r, o) {
   return o <= 0 && (e = t = r = NaN), new Nt(e, t, r, o);
 }
 function Su(e) {
-  return e instanceof lr || (e = tr(e)), e ? (e = e.rgb(), new Nt(e.r, e.g, e.b, e.opacity)) : new Nt();
+  return e instanceof cr || (e = nr(e)), e ? (e = e.rgb(), new Nt(e.r, e.g, e.b, e.opacity)) : new Nt();
 }
 function aa(e, t, r, o) {
   return arguments.length === 1 ? Su(e) : new Nt(e, t, r, o ?? 1);
@@ -3931,12 +3927,12 @@ function aa(e, t, r, o) {
 function Nt(e, t, r, o) {
   this.r = +e, this.g = +t, this.b = +r, this.opacity = +o;
 }
-qa(Nt, aa, tl(lr, {
+qa(Nt, aa, el(cr, {
   brighter(e) {
     return e = e == null ? Dr : Math.pow(Dr, e), new Nt(this.r * e, this.g * e, this.b * e, this.opacity);
   },
   darker(e) {
-    return e = e == null ? Qn : Math.pow(Qn, e), new Nt(this.r * e, this.g * e, this.b * e, this.opacity);
+    return e = e == null ? er : Math.pow(er, e), new Nt(this.r * e, this.g * e, this.b * e, this.opacity);
   },
   rgb() {
     return this;
@@ -3976,26 +3972,26 @@ function hn(e) {
 function Ts(e, t, r, o) {
   return o <= 0 ? e = t = r = NaN : r <= 0 || r >= 1 ? e = t = NaN : t <= 0 && (e = NaN), new Dt(e, t, r, o);
 }
-function nl(e) {
+function tl(e) {
   if (e instanceof Dt) return new Dt(e.h, e.s, e.l, e.opacity);
-  if (e instanceof lr || (e = tr(e)), !e) return new Dt();
+  if (e instanceof cr || (e = nr(e)), !e) return new Dt();
   if (e instanceof Dt) return e;
   e = e.rgb();
   var t = e.r / 255, r = e.g / 255, o = e.b / 255, a = Math.min(t, r, o), s = Math.max(t, r, o), i = NaN, l = s - a, c = (s + a) / 2;
   return l ? (t === s ? i = (r - o) / l + (r < o) * 6 : r === s ? i = (o - t) / l + 2 : i = (t - r) / l + 4, l /= c < 0.5 ? s + a : 2 - s - a, i *= 60) : l = c > 0 && c < 1 ? 0 : i, new Dt(i, l, c, e.opacity);
 }
 function ku(e, t, r, o) {
-  return arguments.length === 1 ? nl(e) : new Dt(e, t, r, o ?? 1);
+  return arguments.length === 1 ? tl(e) : new Dt(e, t, r, o ?? 1);
 }
 function Dt(e, t, r, o) {
   this.h = +e, this.s = +t, this.l = +r, this.opacity = +o;
 }
-qa(Dt, ku, tl(lr, {
+qa(Dt, ku, el(cr, {
   brighter(e) {
     return e = e == null ? Dr : Math.pow(Dr, e), new Dt(this.h, this.s, this.l * e, this.opacity);
   },
   darker(e) {
-    return e = e == null ? Qn : Math.pow(Qn, e), new Dt(this.h, this.s, this.l * e, this.opacity);
+    return e = e == null ? er : Math.pow(er, e), new Dt(this.h, this.s, this.l * e, this.opacity);
   },
   rgb() {
     var e = this.h % 360 + (this.h < 0) * 360, t = isNaN(e) || isNaN(this.s) ? 0 : this.s, r = this.l, o = r + (r < 0.5 ? r : 1 - r) * t, a = 2 * r - o;
@@ -4007,20 +4003,20 @@ qa(Dt, ku, tl(lr, {
     );
   },
   clamp() {
-    return new Dt(Ls(this.h), br(this.s), br(this.l), Tr(this.opacity));
+    return new Dt(Ls(this.h), yr(this.s), yr(this.l), Tr(this.opacity));
   },
   displayable() {
     return (0 <= this.s && this.s <= 1 || isNaN(this.s)) && 0 <= this.l && this.l <= 1 && 0 <= this.opacity && this.opacity <= 1;
   },
   formatHsl() {
     const e = Tr(this.opacity);
-    return `${e === 1 ? "hsl(" : "hsla("}${Ls(this.h)}, ${br(this.s) * 100}%, ${br(this.l) * 100}%${e === 1 ? ")" : `, ${e})`}`;
+    return `${e === 1 ? "hsl(" : "hsla("}${Ls(this.h)}, ${yr(this.s) * 100}%, ${yr(this.l) * 100}%${e === 1 ? ")" : `, ${e})`}`;
   }
 }));
 function Ls(e) {
   return e = (e || 0) % 360, e < 0 ? e + 360 : e;
 }
-function br(e) {
+function yr(e) {
   return Math.max(0, Math.min(1, e || 0));
 }
 function Ro(e, t, r) {
@@ -4038,18 +4034,18 @@ function Nu(e, t, r) {
   };
 }
 function ju(e) {
-  return (e = +e) == 1 ? rl : function(t, r) {
+  return (e = +e) == 1 ? nl : function(t, r) {
     return r - t ? Nu(t, r, e) : Ja(isNaN(t) ? r : t);
   };
 }
-function rl(e, t) {
+function nl(e, t) {
   var r = t - e;
   return r ? Cu(e, r) : Ja(isNaN(e) ? t : e);
 }
 const $s = (function e(t) {
   var r = ju(t);
   function o(a, s) {
-    var i = r((a = aa(a)).r, (s = aa(s)).r), l = r(a.g, s.g), c = r(a.b, s.b), d = rl(a.opacity, s.opacity);
+    var i = r((a = aa(a)).r, (s = aa(s)).r), l = r(a.g, s.g), c = r(a.b, s.b), d = nl(a.opacity, s.opacity);
     return function(u) {
       return a.r = i(u), a.g = l(u), a.b = c(u), a.opacity = d(u), a + "";
     };
@@ -4119,7 +4115,7 @@ function Eu(e, t) {
 }
 function Xa(e, t) {
   var r = typeof t, o;
-  return t == null || r === "boolean" ? Ja(t) : (r === "number" ? Lr : r === "string" ? (o = tr(t)) ? (t = o, $s) : Eu : t instanceof tr ? $s : t instanceof Date ? Tu : Iu(t) ? Mu : Array.isArray(t) ? Du : typeof t.valueOf != "function" && typeof t.toString != "function" || isNaN(t) ? Lu : Lr)(e, t);
+  return t == null || r === "boolean" ? Ja(t) : (r === "number" ? Lr : r === "string" ? (o = nr(t)) ? (t = o, $s) : Eu : t instanceof nr ? $s : t instanceof Date ? Tu : Iu(t) ? Mu : Array.isArray(t) ? Du : typeof t.valueOf != "function" && typeof t.toString != "function" || isNaN(t) ? Lu : Lr)(e, t);
 }
 function Pu(e, t) {
   return e = +e, t = +t, function(r) {
@@ -4164,7 +4160,7 @@ function zu(e, t, r) {
     return s[c](a[c](l));
   };
 }
-function ol(e, t) {
+function rl(e, t) {
   return t.domain(e.domain()).range(e.range()).interpolate(e.interpolate()).clamp(e.clamp()).unknown(e.unknown());
 }
 function Ou() {
@@ -4194,7 +4190,7 @@ function Ou() {
     return o = h, a = p, u();
   };
 }
-function al() {
+function ol() {
   return Ou()(Nn, Nn);
 }
 function Uu(e) {
@@ -4265,11 +4261,11 @@ function Vu(e) {
     }
   return o > 0 ? e.slice(0, o) + e.slice(a + 1) : e;
 }
-var sl;
+var al;
 function Zu(e, t) {
   var r = $r(e, t);
   if (!r) return e + "";
-  var o = r[0], a = r[1], s = a - (sl = Math.max(-8, Math.min(8, Math.floor(a / 3))) * 3) + 1, i = o.length;
+  var o = r[0], a = r[1], s = a - (al = Math.max(-8, Math.min(8, Math.floor(a / 3))) * 3) + 1, i = o.length;
   return s === i ? o : s > i ? o + new Array(s - i + 1).join("0") : s > 0 ? o.slice(0, s) + "." + o.slice(s) : "0." + new Array(1 - s).join("0") + $r(e, Math.max(0, t + s - 1))[0];
 }
 function Es(e, t) {
@@ -4312,7 +4308,7 @@ function qu(e) {
       else {
         $ = +$;
         var A = $ < 0 || 1 / $ < 0;
-        if ($ = isNaN($) ? c : w(Math.abs($), T), k && ($ = Vu($)), A && +$ == 0 && x !== "+" && (A = !1), N = (A ? x === "(" ? x : l : x === "-" || x === "(" ? "" : x) + N, P = (b === "s" ? Bs[8 + sl / 3] : "") + P + (A && x === "(" ? ")" : ""), y) {
+        if ($ = isNaN($) ? c : w(Math.abs($), T), k && ($ = Vu($)), A && +$ == 0 && x !== "+" && (A = !1), N = (A ? x === "(" ? x : l : x === "-" || x === "(" ? "" : x) + N, P = (b === "s" ? Bs[8 + al / 3] : "") + P + (A && x === "(" ? ")" : ""), y) {
           for (M = -1, _ = $.length; ++M < _; )
             if (C = $.charCodeAt(M), 48 > C || C > 57) {
               P = (C === 46 ? a + $.slice(M + 1) : $.slice(M)) + P, $ = $.slice(0, M);
@@ -4353,14 +4349,14 @@ function qu(e) {
     formatPrefix: u
   };
 }
-var yr, il, ll;
+var vr, sl, il;
 Ju({
   thousands: ",",
   grouping: [3],
   currency: ["$", ""]
 });
 function Ju(e) {
-  return yr = qu(e), il = yr.format, ll = yr.formatPrefix, yr;
+  return vr = qu(e), sl = vr.format, il = vr.formatPrefix, vr;
 }
 function Xu(e) {
   return Math.max(0, -En(Math.abs(e)));
@@ -4376,7 +4372,7 @@ function ef(e, t, r, o) {
   switch (o = Ar(o ?? ",f"), o.type) {
     case "s": {
       var i = Math.max(Math.abs(e), Math.abs(t));
-      return o.precision == null && !isNaN(s = Ku(a, i)) && (o.precision = s), ll(o, i);
+      return o.precision == null && !isNaN(s = Ku(a, i)) && (o.precision = s), il(o, i);
     }
     case "":
     case "e":
@@ -4392,7 +4388,7 @@ function ef(e, t, r, o) {
       break;
     }
   }
-  return il(o);
+  return sl(o);
 }
 function tf(e) {
   var t = e.domain;
@@ -4420,9 +4416,9 @@ function tf(e) {
   }, e;
 }
 function Er() {
-  var e = al();
+  var e = ol();
   return e.copy = function() {
-    return ol(e, Er());
+    return rl(e, Er());
   }, So.apply(e, arguments), tf(e);
 }
 function nf(e, t) {
@@ -4498,13 +4494,13 @@ const of = xt((e) => {
   e.setTime(+e + t * Xt);
 }, (e, t) => (t - e) / Xt, (e) => e.getUTCHours());
 of.range;
-const cr = xt(
+const dr = xt(
   (e) => e.setHours(0, 0, 0, 0),
   (e, t) => e.setDate(e.getDate() + t),
   (e, t) => (t - e - (t.getTimezoneOffset() - e.getTimezoneOffset()) * Mt) / Qt,
   (e) => e.getDate() - 1
 );
-cr.range;
+dr.range;
 const ns = xt((e) => {
   e.setUTCHours(0, 0, 0, 0);
 }, (e, t) => {
@@ -4539,20 +4535,20 @@ function Sn(e) {
     t.setUTCDate(t.getUTCDate() + r * 7);
   }, (t, r) => (r - t) / Qa);
 }
-const cl = Sn(0), Rr = Sn(1), uf = Sn(2), ff = Sn(3), Fn = Sn(4), hf = Sn(5), pf = Sn(6);
-cl.range;
+const ll = Sn(0), Rr = Sn(1), uf = Sn(2), ff = Sn(3), Fn = Sn(4), hf = Sn(5), pf = Sn(6);
+ll.range;
 Rr.range;
 uf.range;
 ff.range;
 Fn.range;
 hf.range;
 pf.range;
-const nr = xt((e) => {
+const rr = xt((e) => {
   e.setDate(1), e.setHours(0, 0, 0, 0);
 }, (e, t) => {
   e.setMonth(e.getMonth() + t);
 }, (e, t) => t.getMonth() - e.getMonth() + (t.getFullYear() - e.getFullYear()) * 12, (e) => e.getMonth());
-nr.range;
+rr.range;
 const mf = xt((e) => {
   e.setUTCDate(1), e.setUTCHours(0, 0, 0, 0);
 }, (e, t) => {
@@ -4617,7 +4613,7 @@ function gf(e, t, r, o, a, s) {
   }
   return [l, c];
 }
-const [xf, bf] = gf(en, nr, _o, cr, ts, es);
+const [xf, bf] = gf(en, rr, _o, dr, ts, es);
 function Uo(e) {
   if (0 <= e.y && e.y < 100) {
     var t = new Date(-1, e.m, e.d, e.H, e.M, e.S, e.L);
@@ -4650,7 +4646,7 @@ function yf(e) {
     H: Bf,
     I: Hf,
     j: zf,
-    L: dl,
+    L: cl,
     m: Uf,
     M: Wf,
     p: X,
@@ -4683,7 +4679,7 @@ function yf(e) {
     H: nh,
     I: rh,
     j: oh,
-    L: fl,
+    L: ul,
     m: sh,
     M: ih,
     p: q,
@@ -4753,7 +4749,7 @@ function yf(e) {
       if ("s" in W) return new Date(W.s * 1e3 + ("L" in W ? W.L : 0));
       if (ne && !("Z" in W) && (W.Z = 0), "p" in W && (W.H = W.H % 12 + W.p * 12), W.m === void 0 && (W.m = "q" in W ? W.q : 0), "V" in W) {
         if (W.V < 1 || W.V > 53) return null;
-        "w" in W || (W.w = 1), "Z" in W ? (ce = Wo(Un(W.y, 0, 1)), be = ce.getUTCDay(), ce = be > 4 || be === 0 ? Rr.ceil(ce) : Rr(ce), ce = ns.offset(ce, (W.V - 1) * 7), W.y = ce.getUTCFullYear(), W.m = ce.getUTCMonth(), W.d = ce.getUTCDate() + (W.w + 6) % 7) : (ce = Uo(Un(W.y, 0, 1)), be = ce.getDay(), ce = be > 4 || be === 0 ? Fr.ceil(ce) : Fr(ce), ce = cr.offset(ce, (W.V - 1) * 7), W.y = ce.getFullYear(), W.m = ce.getMonth(), W.d = ce.getDate() + (W.w + 6) % 7);
+        "w" in W || (W.w = 1), "Z" in W ? (ce = Wo(Un(W.y, 0, 1)), be = ce.getUTCDay(), ce = be > 4 || be === 0 ? Rr.ceil(ce) : Rr(ce), ce = ns.offset(ce, (W.V - 1) * 7), W.y = ce.getUTCFullYear(), W.m = ce.getUTCMonth(), W.d = ce.getUTCDate() + (W.w + 6) % 7) : (ce = Uo(Un(W.y, 0, 1)), be = ce.getDay(), ce = be > 4 || be === 0 ? Fr.ceil(ce) : Fr(ce), ce = dr.offset(ce, (W.V - 1) * 7), W.y = ce.getFullYear(), W.m = ce.getMonth(), W.d = ce.getDate() + (W.w + 6) % 7);
       } else ("W" in W || "U" in W) && ("w" in W || (W.w = "u" in W ? W.u % 7 : "W" in W ? 1 : 0), be = "Z" in W ? Wo(Un(W.y, 0, 1)).getUTCDay() : Uo(Un(W.y, 0, 1)).getDay(), W.m = 0, W.d = "W" in W ? (W.w + 6) % 7 + W.W * 7 - (be + 5) % 7 : W.w + W.U * 7 - (be + 6) % 7);
       return "Z" in W ? (W.H += W.Z / 100 | 0, W.M += W.Z % 100, Wo(W)) : Uo(W);
     };
@@ -4964,13 +4960,13 @@ function Hf(e, t) {
   return ot(e.getHours() % 12 || 12, t, 2);
 }
 function zf(e, t) {
-  return ot(1 + cr.count(en(e), e), t, 3);
+  return ot(1 + dr.count(en(e), e), t, 3);
 }
-function dl(e, t) {
+function cl(e, t) {
   return ot(e.getMilliseconds(), t, 3);
 }
 function Of(e, t) {
-  return dl(e, t) + "000";
+  return cl(e, t) + "000";
 }
 function Uf(e, t) {
   return ot(e.getMonth() + 1, t, 2);
@@ -4988,12 +4984,12 @@ function Yf(e) {
 function Vf(e, t) {
   return ot(_o.count(en(e) - 1, e), t, 2);
 }
-function ul(e) {
+function dl(e) {
   var t = e.getDay();
   return t >= 4 || t === 0 ? Pn(e) : Pn.ceil(e);
 }
 function Zf(e, t) {
-  return e = ul(e), ot(Pn.count(en(e), e) + (en(e).getDay() === 4), t, 2);
+  return e = dl(e), ot(Pn.count(en(e), e) + (en(e).getDay() === 4), t, 2);
 }
 function qf(e) {
   return e.getDay();
@@ -5005,7 +5001,7 @@ function Xf(e, t) {
   return ot(e.getFullYear() % 100, t, 2);
 }
 function Kf(e, t) {
-  return e = ul(e), ot(e.getFullYear() % 100, t, 2);
+  return e = dl(e), ot(e.getFullYear() % 100, t, 2);
 }
 function Qf(e, t) {
   return ot(e.getFullYear() % 1e4, t, 4);
@@ -5030,11 +5026,11 @@ function rh(e, t) {
 function oh(e, t) {
   return ot(1 + ns.count(yn(e), e), t, 3);
 }
-function fl(e, t) {
+function ul(e, t) {
   return ot(e.getUTCMilliseconds(), t, 3);
 }
 function ah(e, t) {
-  return fl(e, t) + "000";
+  return ul(e, t) + "000";
 }
 function sh(e, t) {
   return ot(e.getUTCMonth() + 1, t, 2);
@@ -5050,14 +5046,14 @@ function ch(e) {
   return t === 0 ? 7 : t;
 }
 function dh(e, t) {
-  return ot(cl.count(yn(e) - 1, e), t, 2);
+  return ot(ll.count(yn(e) - 1, e), t, 2);
 }
-function hl(e) {
+function fl(e) {
   var t = e.getUTCDay();
   return t >= 4 || t === 0 ? Fn(e) : Fn.ceil(e);
 }
 function uh(e, t) {
-  return e = hl(e), ot(Fn.count(yn(e), e) + (yn(e).getUTCDay() === 4), t, 2);
+  return e = fl(e), ot(Fn.count(yn(e), e) + (yn(e).getUTCDay() === 4), t, 2);
 }
 function fh(e) {
   return e.getUTCDay();
@@ -5069,7 +5065,7 @@ function ph(e, t) {
   return ot(e.getUTCFullYear() % 100, t, 2);
 }
 function mh(e, t) {
-  return e = hl(e), ot(e.getUTCFullYear() % 100, t, 2);
+  return e = fl(e), ot(e.getUTCFullYear() % 100, t, 2);
 }
 function gh(e, t) {
   return ot(e.getUTCFullYear() % 1e4, t, 4);
@@ -5090,7 +5086,7 @@ function qs(e) {
 function Js(e) {
   return Math.floor(+e / 1e3);
 }
-var kn, pl;
+var kn, hl;
 yh({
   dateTime: "%x, %X",
   date: "%-m/%-d/%Y",
@@ -5102,7 +5098,7 @@ yh({
   shortMonths: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 });
 function yh(e) {
-  return kn = yf(e), pl = kn.format, kn.parse, kn.utcFormat, kn.utcParse, kn;
+  return kn = yf(e), hl = kn.format, kn.parse, kn.utcFormat, kn.utcParse, kn;
 }
 function vh(e) {
   return new Date(e);
@@ -5110,8 +5106,8 @@ function vh(e) {
 function wh(e) {
   return e instanceof Date ? +e : +/* @__PURE__ */ new Date(+e);
 }
-function ml(e, t, r, o, a, s, i, l, c, d) {
-  var u = al(), f = u.invert, h = u.domain, p = d(".%L"), x = d(":%S"), m = d("%I:%M"), g = d("%I %p"), D = d("%a %d"), I = d("%b %d"), T = d("%B"), k = d("%Y");
+function pl(e, t, r, o, a, s, i, l, c, d) {
+  var u = ol(), f = u.invert, h = u.domain, p = d(".%L"), x = d(":%S"), m = d("%I:%M"), g = d("%I %p"), D = d("%a %d"), I = d("%b %d"), T = d("%B"), k = d("%Y");
   function b(S) {
     return (c(S) < S ? p : l(S) < S ? x : i(S) < S ? m : s(S) < S ? g : o(S) < S ? a(S) < S ? D : I : r(S) < S ? T : k)(S);
   }
@@ -5128,11 +5124,11 @@ function ml(e, t, r, o, a, s, i, l, c, d) {
     var j = h();
     return (!S || typeof S.range != "function") && (S = t(j[0], j[j.length - 1], S ?? 10)), S ? h(nf(j, S)) : u;
   }, u.copy = function() {
-    return ol(u, ml(e, t, r, o, a, s, i, l, c, d));
+    return rl(u, pl(e, t, r, o, a, s, i, l, c, d));
   }, u;
 }
 function rs() {
-  return So.apply(ml(xf, bf, en, nr, _o, cr, ts, es, jn, pl).domain([new Date(2e3, 0, 1), new Date(2e3, 0, 2)]), arguments);
+  return So.apply(pl(xf, bf, en, rr, _o, dr, ts, es, jn, hl).domain([new Date(2e3, 0, 1), new Date(2e3, 0, 2)]), arguments);
 }
 function Sh({
   task: e,
@@ -5145,7 +5141,7 @@ function Sh({
   onFocus: l,
   "aria-label": c
 }) {
-  const d = Ze(null), [u, f] = Ve(!1), [h, p] = Ve(!1), x = t(e.start), m = t(e.end), g = Math.max(m - x, 20), D = () => {
+  const d = qe(null), [u, f] = Ve(!1), [h, p] = Ve(!1), x = t(e.start), m = t(e.end), g = Math.max(m - x, 20), D = () => {
     if (e.color) return e.color;
     switch (e.priority) {
       case "high":
@@ -5228,7 +5224,7 @@ function _h({ viewStart: e, viewEnd: t, dateCount: r }) {
     o.push(new Date(p));
   const s = /* @__PURE__ */ new Date();
   s.setHours(0, 0, 0, 0);
-  const [i, l] = Ve(-1), c = Ze(null), d = (p) => {
+  const [i, l] = Ve(-1), c = qe(null), d = (p) => {
     if (p.key === "ArrowLeft") {
       p.preventDefault();
       const x = Math.max(0, i === -1 ? 0 : i - 1);
@@ -5323,7 +5319,7 @@ function _h({ viewStart: e, viewEnd: t, dateCount: r }) {
   );
 }
 function kh({ resource: e, tasks: t, scale: r, onTaskClick: o, onTaskDoubleClick: a, rowIndex: s, dateCount: i }) {
-  const [l, c] = Ve(!1), [d, u] = Ve(-1), f = Ze(null);
+  const [l, c] = Ve(!1), [d, u] = Ve(-1), f = qe(null);
   nt(() => {
     l && d >= 0 && t.length > 0 && setTimeout(() => {
       f.current?.querySelector(`[data-task-index="${d}"]`)?.focus();
@@ -5451,7 +5447,7 @@ function Uy({
   onTaskClick: a,
   onTaskDoubleClick: s
 }) {
-  const i = Ze(null), [l, c] = Ve(800), d = ze(() => {
+  const i = qe(null), [l, c] = Ve(800), d = ze(() => {
     if (r instanceof Date)
       return isNaN(r.getTime()) ? (console.warn("GanttChart: Invalid viewStart date provided, using current date"), /* @__PURE__ */ new Date()) : r;
     const m = new Date(r);
@@ -5638,10 +5634,10 @@ const Br = ({
       ]
     }
   );
-}, gl = Ch;
-gl.Item = Br;
+}, ml = Ch;
+ml.Item = Br;
 Br.displayName = "BreadcrumbItem";
-const xl = ({
+const gl = ({
   text: e = "Skip to main content",
   href: t = "#maincontent",
   classes: r,
@@ -5756,7 +5752,7 @@ const xl = ({
       ]
     }
   );
-}, bl = rt.forwardRef(({
+}, xl = rt.forwardRef(({
   variant: e = "default",
   heading: t,
   headingHtml: r,
@@ -5839,7 +5835,7 @@ const xl = ({
     }
   );
 });
-bl.displayName = "Card";
+xl.displayName = "Card";
 const Yy = ({
   className: e,
   children: t,
@@ -6257,7 +6253,7 @@ const Yy = ({
     r
   );
   return /* @__PURE__ */ n.jsx("caption", { className: o, children: e });
-}, yl = ({
+}, bl = ({
   responsive: e,
   className: t,
   children: r,
@@ -6265,7 +6261,7 @@ const Yy = ({
 }) => {
   const a = e ? { role: "row" } : {};
   return /* @__PURE__ */ n.jsx("tr", { className: t, ...a, ...o, children: r });
-}, vl = ({
+}, yl = ({
   text: e,
   html: t,
   node: r,
@@ -6364,22 +6360,22 @@ const Yy = ({
   return /* @__PURE__ */ n.jsx(m, { className: g, ...D, children: I });
 }, tn = Ih;
 tn.Caption = Dh;
-tn.BodyRow = yl;
-tn.HeaderCell = vl;
+tn.BodyRow = bl;
+tn.HeaderCell = yl;
 tn.Cell = Th;
 let Xs = !1, Ks = !1;
 Object.defineProperty(tn, "Row", {
   configurable: !0,
   enumerable: !1,
   get() {
-    return process.env.NODE_ENV !== "production" && !Xs && (console.warn("Table.Row is deprecated. Use Table.BodyRow instead."), Xs = !0), yl;
+    return process.env.NODE_ENV !== "production" && !Xs && (console.warn("Table.Row is deprecated. Use Table.BodyRow instead."), Xs = !0), bl;
   }
 });
 Object.defineProperty(tn, "TH", {
   configurable: !0,
   enumerable: !1,
   get() {
-    return process.env.NODE_ENV !== "production" && !Ks && (console.warn("Table.TH is deprecated. Use Table.HeaderCell instead."), Ks = !0), vl;
+    return process.env.NODE_ENV !== "production" && !Ks && (console.warn("Table.TH is deprecated. Use Table.HeaderCell instead."), Ks = !0), yl;
   }
 });
 const Xy = Hn(({
@@ -6396,7 +6392,7 @@ const Xy = Hn(({
   "data-testid": u,
   ...f
 }, h) => {
-  const p = r !== void 0, [x, m] = Ve(() => t || e[0]?.id || ""), g = p ? r : x, D = Ze(null), I = Ze(/* @__PURE__ */ new Map()), T = _e((v) => {
+  const p = r !== void 0, [x, m] = Ve(() => t || e[0]?.id || ""), g = p ? r : x, D = qe(null), I = qe(/* @__PURE__ */ new Map()), T = _e((v) => {
     p || m(v), o?.(v);
   }, [p, o]), k = _e((v) => {
     a?.(v), l && T(v);
@@ -6957,7 +6953,7 @@ const ev = ({
       a11yMode: I,
       onA11yModeChange: $
     }
-  ) : null), P = /* @__PURE__ */ n.jsx("div", { style: c, className: De(l), children: /* @__PURE__ */ n.jsx(ta, { className: De("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsx(Kn, { width: bn.Full, children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
+  ) : null), P = /* @__PURE__ */ n.jsx("div", { style: c, className: De(l), children: /* @__PURE__ */ n.jsx(ta, { className: De("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsx(Qn, { width: bn.Full, children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
     N,
     x === "top" && v,
     /* @__PURE__ */ n.jsx("ul", { "aria-label": "Appointment slots list", children: e.map((M) => /* @__PURE__ */ n.jsx("li", { children: /* @__PURE__ */ n.jsxs("button", { type: "button", onClick: () => w(M), "aria-pressed": b.includes(M.id), children: [
@@ -6970,7 +6966,7 @@ const ev = ({
     ] }) }, M.id)) }),
     x === "bottom" && v
   ] }) }) }) }) });
-  return I === "list" ? P : /* @__PURE__ */ n.jsx("div", { style: c, className: De(l), children: /* @__PURE__ */ n.jsx(ta, { className: De("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsx(Kn, { width: bn.Full, children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
+  return I === "list" ? P : /* @__PURE__ */ n.jsx("div", { style: c, className: De(l), children: /* @__PURE__ */ n.jsx(ta, { className: De("nhs-slot-matrix-grid-wrapper"), children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsx(Qn, { width: bn.Full, children: /* @__PURE__ */ n.jsxs("div", { className: "nhs-slot-matrix", children: [
     N,
     x === "top" && v,
     /* @__PURE__ */ n.jsxs("div", { role: "grid", "aria-rowcount": S.length + 1, "aria-colcount": t.length + 1, children: [
@@ -7011,24 +7007,24 @@ function Qs(e) {
 function Vn(e) {
   return `${Qs(e.getHours())}:${Qs(e.getMinutes())}`;
 }
-function wl(e) {
+function vl(e) {
   var t, r, o = "";
   if (typeof e == "string" || typeof e == "number") o += e;
   else if (typeof e == "object") if (Array.isArray(e)) {
     var a = e.length;
-    for (t = 0; t < a; t++) e[t] && (r = wl(e[t])) && (o && (o += " "), o += r);
+    for (t = 0; t < a; t++) e[t] && (r = vl(e[t])) && (o && (o += " "), o += r);
   } else for (r in e) e[r] && (o && (o += " "), o += r);
   return o;
 }
 function Pt() {
-  for (var e, t, r = 0, o = "", a = arguments.length; r < a; r++) (e = arguments[r]) && (t = wl(e)) && (o && (o += " "), o += t);
+  for (var e, t, r = 0, o = "", a = arguments.length; r < a; r++) (e = arguments[r]) && (t = vl(e)) && (o && (o += " "), o += t);
   return o;
 }
 const Hh = ({ level: e, children: t, className: r }) => {
   const o = `h${e}`;
   return rt.createElement(o, { className: r }, t);
 }, zh = ({ href: e, children: t, className: r, ...o }) => /* @__PURE__ */ n.jsx("a", { href: e, className: r, ...o, children: t });
-function vr(e, t) {
+function wr(e, t) {
   return /* @__PURE__ */ n.jsx("span", { className: Pt("nhs-step-nav__title", { "nhs-step-nav__title--current": t }), children: e.title });
 }
 const tv = ({
@@ -7093,7 +7089,7 @@ const tv = ({
           "nhs-step-nav__item",
           C && "nhs-step-nav__item--current",
           M.status && `nhs-step-nav__item--${M.status}`
-        ), Z = M.href ? /* @__PURE__ */ n.jsx(I, { href: M.href, className: "nhs-step-nav__link", "aria-current": C ? "step" : void 0, children: vr(M, C) }) : vr(M, C), ee = !!(M.description || M.items && M.items.length > 0), H = f && ee ? v(M.id) : !0, X = `sbs-${M.id}-header`, E = `sbs-${M.id}-panel`;
+        ), Z = M.href ? /* @__PURE__ */ n.jsx(I, { href: M.href, className: "nhs-step-nav__link", "aria-current": C ? "step" : void 0, children: wr(M, C) }) : wr(M, C), ee = !!(M.description || M.items && M.items.length > 0), H = f && ee ? v(M.id) : !0, X = `sbs-${M.id}-header`, E = `sbs-${M.id}-panel`;
         return /* @__PURE__ */ n.jsxs("li", { className: A, children: [
           /* @__PURE__ */ n.jsxs("div", { className: "nhs-step-nav__header", children: [
             Z,
@@ -7126,7 +7122,7 @@ const tv = ({
               children: [
                 M.description && /* @__PURE__ */ n.jsx("p", { className: "nhs-step-nav__description", children: M.description }),
                 M.items && M.items.length > 0 && /* @__PURE__ */ n.jsx("ol", { className: "nhs-step-nav__sublist", children: M.items.map((L) => {
-                  const G = d === L.id, U = L.href ? /* @__PURE__ */ n.jsx(I, { href: L.href, className: "nhs-step-nav__sublink", "aria-current": G ? "step" : void 0, children: vr(L, G) }) : vr(L, G);
+                  const G = d === L.id, U = L.href ? /* @__PURE__ */ n.jsx(I, { href: L.href, className: "nhs-step-nav__sublink", "aria-current": G ? "step" : void 0, children: wr(L, G) }) : wr(L, G);
                   return /* @__PURE__ */ n.jsx("li", { className: Pt("nhs-step-nav__subitem", L.status && `nhs-step-nav__subitem--${L.status}`), children: U }, L.id);
                 }) })
               ]
@@ -7180,7 +7176,7 @@ const tv = ({
 }) => {
   const o = ["nhs-fdp-dashboard-summary-grid", t].filter(Boolean).join(" ");
   return /* @__PURE__ */ n.jsx("div", { className: o, ...r, children: /* @__PURE__ */ n.jsx(ta, { children: /* @__PURE__ */ n.jsx(sn, { children: e.map((a, s) => /* @__PURE__ */ n.jsx(
-    Kn,
+    Qn,
     {
       width: bn.OneQuarter,
       className: "nhs-fdp-dashboard-summary-grid__column",
@@ -7190,7 +7186,7 @@ const tv = ({
     s
   )) }) }) });
 };
-var kr = /* @__PURE__ */ ((e) => (e.String = "string", e.Number = "number", e.Boolean = "boolean", e.Date = "date", e.Custom = "custom", e))(kr || {}), Rn = /* @__PURE__ */ ((e) => (e.First = "first", e.Last = "last", e))(Rn || {}), Zn = /* @__PURE__ */ ((e) => (e.TrueFirst = "trueFirst", e.FalseFirst = "falseFirst", e))(Zn || {});
+var Cr = /* @__PURE__ */ ((e) => (e.String = "string", e.Number = "number", e.Boolean = "boolean", e.Date = "date", e.Custom = "custom", e))(Cr || {}), Rn = /* @__PURE__ */ ((e) => (e.First = "first", e.Last = "last", e))(Rn || {}), Zn = /* @__PURE__ */ ((e) => (e.TrueFirst = "trueFirst", e.FalseFirst = "falseFirst", e))(Zn || {});
 function ei(e) {
   if (e == null) return null;
   const r = (e instanceof Date ? e : new Date(e)).getTime();
@@ -7212,15 +7208,15 @@ function Gh(e, t, r, o) {
   if (r?.sortComparator)
     return r.sortComparator(e, t);
   const a = r?.sortType;
-  if (a === kr.Number) {
+  if (a === Cr.Number) {
     const s = Number(e), i = Number(t), l = Number.isNaN(s), c = Number.isNaN(i);
     return l && c ? 0 : l ? 1 : c ? -1 : s - i;
   }
-  if (a === kr.Boolean) {
+  if (a === Cr.Boolean) {
     const s = !!e, i = !!t, l = r?.booleanOrder ?? o?.booleanOrder ?? Zn.FalseFirst;
     return s === i ? 0 : l === Zn.TrueFirst ? s ? -1 : 1 : s ? 1 : -1;
   }
-  if (a === kr.Date) {
+  if (a === Cr.Date) {
     const s = ei(e), i = ei(t);
     return s == null && i == null ? 0 : s == null ? 1 : i == null ? -1 : s - i;
   }
@@ -7276,7 +7272,7 @@ const Yh = rt.forwardRef(
     responsive: g = !1,
     tableType: D = "default"
   }, I) => {
-    const T = Ze(null), k = Ze(null), b = Ze(null);
+    const T = qe(null), k = qe(null), b = qe(null);
     rt.useImperativeHandle(I, () => T.current, []);
     const [S, j] = Ve(0), [w, y] = Ve(0), [v, $] = Ve("headers"), [N, P] = Ve("browse"), M = t.length, _ = e.length, C = ze(() => {
       if (!r || r.length === 0) return e;
@@ -7523,7 +7519,7 @@ const Jn = ({
   ariaLabel: d = "Sort configuration",
   ariaDescribedBy: u
 }) => {
-  const f = Ze(null), h = Ze(null), p = Ze(null), x = _e((y, v) => {
+  const f = qe(null), h = qe(null), p = qe(null), x = _e((y, v) => {
     c || (h.current = v, y.dataTransfer.effectAllowed = "move", y.dataTransfer.setData("text/plain", v));
   }, [c]), m = _e((y, v) => {
     c || h.current === v || (y.preventDefault(), y.dataTransfer.dropEffect = "move", p.current = v);
@@ -7749,9 +7745,7 @@ const ca = Hn(function(t, r) {
     minVisibleColumns: y = 2,
     showCollapsedColumnsIndicator: v = !0,
     sortStatusPlacement: $ = "header"
-  } = t, N = S && a.length === 1, M = Ze(
-    p || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
-  ).current, _ = typeof d == "string" && d.trim() !== "" && !/\s/.test(d), C = `${M}-description`, A = `${M}-navigation-help`, {
+  } = t, N = S && a.length === 1, P = Xn(), M = p ?? `aria-tabs-datagrid-${P}`, _ = typeof d == "string" && d.trim() !== "" && !/\s/.test(d), C = `${M}-description`, A = `${M}-navigation-help`, {
     dataComparator: Z = (z, te) => JSON.stringify(z) === JSON.stringify(te),
     filterFunction: ee = (z) => z,
     booleanRenderer: H = (z) => z ? "✓" : "✗"
@@ -7790,9 +7784,9 @@ const ca = Hn(function(t, r) {
       isGridActive: !1
     }));
   }, [F.selectedIndex, N]);
-  const K = Ze(null), J = _e((z) => {
+  const K = qe(null), J = _e((z) => {
     z.shiftKey && (z.key === "ArrowLeft" ? (z.preventDefault(), K.current?.scrollBy({ left: -64, behavior: "smooth" })) : z.key === "ArrowRight" && (z.preventDefault(), K.current?.scrollBy({ left: 64, behavior: "smooth" })));
-  }, []), [ne, ue] = Ve({}), [W, ae] = Ve(!1), ce = Ze(null), be = Ze(null), he = _e((z) => {
+  }, []), [ne, ue] = Ve({}), [W, ae] = Ve(!1), ce = qe(null), be = qe(null), he = _e((z) => {
     const te = a[z];
     if (!te) return [];
     const ge = ne[z] || /* @__PURE__ */ new Set();
@@ -7871,7 +7865,7 @@ const ca = Hn(function(t, r) {
       })), i?.(z));
     },
     [a, i]
-  ), Le = Ze(!1), we = _e(
+  ), Le = qe(!1), we = _e(
     (z, te) => {
       if (!te?.force && !Le.current && z === 0) {
         Le.current = !0;
@@ -7900,7 +7894,7 @@ const ca = Hn(function(t, r) {
       }, 50);
     },
     []
-  ), R = Ze([]), Y = Ze([]), se = _e(
+  ), R = qe([]), Y = qe([]), se = _e(
     (z, te) => {
       const ge = F.sortConfig || [], me = ge.find(
         (Re) => Re.key === te
@@ -8191,7 +8185,7 @@ const ca = Hn(function(t, r) {
         ] })
       }
     );
-  const re = Ze(null), le = Ze(null), de = Ze(null), [ye, ke] = Ve(!0);
+  const re = qe(null), le = qe(null), de = qe(null), [ye, ke] = Ve(!0);
   nt(() => {
     if (!T) {
       ke(!1);
@@ -8635,7 +8629,7 @@ const ca = Hn(function(t, r) {
       ]
     }
   );
-}), wr = {
+}), Sr = {
   asc: "↑",
   desc: "↓"
 }, Zh = (e) => [...e].sort((t, r) => t.priority - r.priority);
@@ -8795,7 +8789,7 @@ const rv = ({
                         disabled: l,
                         "aria-label": `Toggle sort direction for ${I.label}. Currently ${I.direction === "asc" ? "ascending" : "descending"}`,
                         title: "Click to toggle between ascending and descending",
-                        children: I.direction === "asc" ? wr.asc : wr.desc
+                        children: I.direction === "asc" ? Sr.asc : Sr.desc
                       }
                     ),
                     /* @__PURE__ */ n.jsxs("div", { className: "sort-status-control__tag-actions", children: [
@@ -8846,9 +8840,9 @@ const rv = ({
     ) }),
     i && /* @__PURE__ */ n.jsx("div", { className: "sort-status-control__help", id: "sort-help", children: /* @__PURE__ */ n.jsxs("small", { children: [
       "Click ",
-      wr.asc,
+      Sr.asc,
       "/",
-      wr.desc,
+      Sr.desc,
       " ",
       "to toggle ascending/descending. Use ▲/▼ to change sort priority. Click × to remove a sort."
     ] }) })
@@ -9065,7 +9059,7 @@ const ap = {
   getVariant: (e) => e.priority === "high" ? "primary" : "default",
   fieldRenderers: {},
   classPrefix: "adaptive-card--generic"
-}, Sl = ({
+}, wl = ({
   data: e,
   columns: t,
   onSelect: r,
@@ -9094,7 +9088,7 @@ const ap = {
           /* @__PURE__ */ n.jsx("div", { className: "healthcare-card__badges", children: u !== void 0 && /* @__PURE__ */ n.jsxs(
             st,
             {
-              color: ip(Nl(u)),
+              color: ip(Cl(u)),
               className: "healthcare-card__alert",
               children: [
                 "EWS: ",
@@ -9159,7 +9153,7 @@ const ap = {
       ]
     }
   );
-}, _l = ({ data: e, onAction: t }) => /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card healthcare-card--appointment healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
+}, Sl = ({ data: e, onAction: t }) => /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card healthcare-card--appointment healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
   /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__header", children: [
     /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card__time-info", children: [
       /* @__PURE__ */ n.jsx("h3", { className: "healthcare-card__time", children: new Date(e.appointment_time).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) }),
@@ -9221,7 +9215,7 @@ const ap = {
       }
     )
   ] })
-] }), kl = ({
+] }), _l = ({
   data: e,
   onAction: t
 }) => /* @__PURE__ */ n.jsxs("div", { className: "healthcare-card healthcare-card--medication healthcare-card--medium healthcare-card--active", role: "article", tabIndex: 0, children: [
@@ -9290,7 +9284,7 @@ const ap = {
       }
     )
   ] })
-] }), Cl = ({
+] }), kl = ({
   data: e,
   onSelect: t,
   onAction: r,
@@ -9388,12 +9382,12 @@ const ap = {
     }
   );
 };
-function Nl(e) {
+function Cl(e) {
   const t = typeof e == "string" ? parseInt(e, 10) : e;
   return t >= 7 ? "critical" : t >= 5 ? "high" : t >= 3 ? "medium" : "low";
 }
 function sp(e) {
-  return Nl(e);
+  return Cl(e);
 }
 function ip(e) {
   switch (e) {
@@ -9441,14 +9435,14 @@ const cp = [
     render: (e) => e.charAt(0).toUpperCase() + e.slice(1),
     className: "adaptive-card__status-badge"
   }
-], jl = (e) => e.ews_score && Number(e.ews_score) >= 7 ? "high" : e.ews_score && Number(e.ews_score) >= 3 ? "medium" : e.priority === "high" || e.status === "urgent" ? "high" : e.priority === "low" ? "low" : "medium", dp = (e) => {
+], Nl = (e) => e.ews_score && Number(e.ews_score) >= 7 ? "high" : e.ews_score && Number(e.ews_score) >= 3 ? "medium" : e.priority === "high" || e.status === "urgent" ? "high" : e.priority === "low" ? "low" : "medium", dp = (e) => {
   if (e.status) {
     const t = e.status.toLowerCase();
     if (["active", "pending", "completed", "cancelled", "urgent"].includes(t))
       return t;
   }
   return "active";
-}, up = (e) => jl(e) === "high" || e.status === "urgent" ? "primary" : "default", fp = {
+}, up = (e) => Nl(e) === "high" || e.status === "urgent" ? "primary" : "default", fp = {
   nhs_number: (e) => e ? `NHS: ${e}` : "",
   ews_score: (e) => {
     const t = Number(e), r = t >= 7 ? "HIGH" : t >= 3 ? "MEDIUM" : "LOW";
@@ -9460,7 +9454,7 @@ const cp = [
   secondaryFields: ["nhs_number", "ward", "condition", "consultant"],
   badges: cp,
   hiddenFields: [],
-  getPriority: jl,
+  getPriority: Nl,
   getStatus: dp,
   getVariant: up,
   fieldRenderers: fp,
@@ -9469,7 +9463,7 @@ const cp = [
   patient: (e, t, r) => {
     const o = r.getPriority?.(e) || "medium", a = r.getStatus?.(e) || "active", s = a === "urgent" ? "active" : a;
     return /* @__PURE__ */ n.jsx(
-      Sl,
+      wl,
       {
         data: e,
         columns: t,
@@ -9483,7 +9477,7 @@ const cp = [
   appointment: (e, t, r) => {
     const o = r.getStatus?.(e) || "pending", a = o === "urgent" ? "pending" : o;
     return /* @__PURE__ */ n.jsx(
-      _l,
+      Sl,
       {
         data: e,
         columns: t,
@@ -9496,7 +9490,7 @@ const cp = [
   medication: (e, t, r) => {
     const o = r.getPriority?.(e) || "medium";
     return /* @__PURE__ */ n.jsx(
-      kl,
+      _l,
       {
         data: e,
         columns: t,
@@ -9509,7 +9503,7 @@ const cp = [
   vitals: (e, t, r) => {
     const o = r.getPriority?.(e) || "medium";
     return /* @__PURE__ */ n.jsx(
-      Cl,
+      kl,
       {
         data: e,
         columns: t,
@@ -9684,7 +9678,7 @@ const av = ({
     selectedRows: new Array(m.length).fill([]),
     globalSelectedRowData: null,
     filters: void 0
-  }), [N, m.length]), [C, A] = Fi(gp, _), Z = Ze([]), ee = Ze([]), H = Ze([]), X = Ze(null), [E, L] = Ve({
+  }), [N, m.length]), [C, A] = Fi(gp, _), Z = qe([]), ee = qe([]), H = qe([]), X = qe(null), [E, L] = Ve({
     // If tabs are hidden (single panel), default focus to sort-controls; otherwise start at tabs
     focusArea: d && m.length === 1 ? "sort-controls" : "tabs",
     focusedTabIndex: 0,
@@ -9812,7 +9806,7 @@ const av = ({
         re.tagName.toLowerCase()
       ) ? "input" : "generic"
     }));
-  }, []), W = Ze(null), ae = _e((B) => {
+  }, []), W = qe(null), ae = _e((B) => {
     const O = W.current;
     if (!O) return;
     const oe = document.createElement("div");
@@ -10575,7 +10569,7 @@ const av = ({
                           }))), Y(Qe, Q);
                         },
                         children: /* @__PURE__ */ n.jsx(
-                          bl,
+                          xl,
                           {
                             ...Ye,
                             ref: (Qe) => {
@@ -10714,7 +10708,7 @@ const av = ({
       ]
     }
   );
-}, Ml = (e) => {
+}, jl = (e) => {
   const t = da.find((r) => r.value === e);
   return t ? t.icon : null;
 }, vp = {
@@ -10726,7 +10720,7 @@ const av = ({
     }
     return !(t.categories && t.categories.length > 0 && !t.categories.includes(r.category) || t.inStock !== void 0 && r.inStock !== t.inStock || t.minRating !== void 0 && r.rating < t.minRating || t.tags && t.tags.length > 0 && !t.tags.some((o) => r.tags.includes(o)));
   }) : e,
-  booleanRenderer: (e) => Ml(e),
+  booleanRenderer: (e) => jl(e),
   getDataId: (e) => `ecommerce-${e.id}`
 }, wp = (e) => os(e, [
   {
@@ -10802,7 +10796,7 @@ const av = ({
     }
     return !(t.types && t.types.length > 0 && !t.types.includes(r.type) || t.categories && t.categories.length > 0 && !t.categories.includes(r.category) || t.pending !== void 0 && r.pending !== t.pending);
   }) : e,
-  booleanRenderer: (e) => Ml(e),
+  booleanRenderer: (e) => jl(e),
   getDataId: (e) => `financial-${e.id}`
 }, _p = (e) => os(e, [
   {
@@ -10909,7 +10903,7 @@ const av = ({
     dataConfig: r.dataConfig,
     tabPanels: r.createTabs(t)
   };
-}, Il = [
+}, Ml = [
   {
     name: "Sarah Johnson",
     age: 34,
@@ -11272,7 +11266,7 @@ const av = ({
   {
     id: "patients",
     label: "Patients",
-    data: Il,
+    data: Ml,
     columns: [
       { key: "name", label: "Patient Name" },
       { key: "age", label: "Age" },
@@ -11282,7 +11276,7 @@ const av = ({
     ariaLabel: "Patient Records",
     ariaDescription: "Healthcare patient management with EWS monitoring",
     cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-      Sl,
+      wl,
       {
         data: e,
         columns: t,
@@ -11305,7 +11299,7 @@ const av = ({
     ariaLabel: "Patient Appointments",
     ariaDescription: "Scheduled appointments and consultations",
     cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-      _l,
+      Sl,
       {
         data: e,
         columns: t,
@@ -11328,7 +11322,7 @@ const av = ({
     ariaLabel: "Patient Medications",
     ariaDescription: "Medication administration and scheduling",
     cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-      kl,
+      _l,
       {
         data: e,
         columns: t,
@@ -11351,7 +11345,7 @@ const av = ({
     ariaLabel: "Patient Vital Signs",
     ariaDescription: "Patient vital signs monitoring and EWS scores",
     cardTemplate: (e, t) => /* @__PURE__ */ n.jsx(
-      Cl,
+      kl,
       {
         data: e,
         columns: t,
@@ -11368,7 +11362,7 @@ const av = ({
       description: "Comprehensive healthcare workflow with patient cards, appointments, medications, and vitals",
       dataConfig: rp,
       tabPanels: Ip(),
-      data: Il
+      data: Ml
     },
     ecommerce: {
       title: "E-commerce Product Catalog",
@@ -11575,7 +11569,7 @@ const av = ({
       ] })
     ] })
   ] });
-}, sv = Dp, Dl = (e) => /* @__PURE__ */ n.jsx(Wi, { ...e }), iv = ({
+}, sv = Dp, Il = (e) => /* @__PURE__ */ n.jsx(Wi, { ...e }), iv = ({
   children: e,
   pageTitle: t,
   pageHeadingProps: r,
@@ -11603,13 +11597,13 @@ const av = ({
     ...i
   };
   return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsx(xl, { ...s }),
-    /* @__PURE__ */ n.jsx(Ji, { ...g }),
-    /* @__PURE__ */ n.jsx(Dl, { className: x, ...m, children: /* @__PURE__ */ n.jsx(Gi, { size: a, children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsxs(Kn, { width: o, children: [
+    /* @__PURE__ */ n.jsx(gl, { ...s }),
+    /* @__PURE__ */ n.jsx(qi, { ...g }),
+    /* @__PURE__ */ n.jsx(Il, { className: x, ...m, children: /* @__PURE__ */ n.jsx(Gi, { size: a, children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsxs(Qn, { width: o, children: [
       t && /* @__PURE__ */ n.jsx(Kt, { size: "l", ...r, children: t }),
       e
     ] }) }) }) }),
-    /* @__PURE__ */ n.jsx(Xi, { ...l })
+    /* @__PURE__ */ n.jsx(Ji, { ...l })
   ] });
 }, lv = ({
   children: e,
@@ -11641,16 +11635,16 @@ const av = ({
     ...i
   };
   return /* @__PURE__ */ n.jsxs(n.Fragment, { children: [
-    /* @__PURE__ */ n.jsx(xl, { ...s }),
-    /* @__PURE__ */ n.jsx(Ji, { ...x }),
-    /* @__PURE__ */ n.jsxs(Dl, { className: h, ...p, children: [
-      c && /* @__PURE__ */ n.jsx(Xn, { ...c }),
-      /* @__PURE__ */ n.jsx(Gi, { size: a, children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsxs(Kn, { width: o, children: [
+    /* @__PURE__ */ n.jsx(gl, { ...s }),
+    /* @__PURE__ */ n.jsx(qi, { ...x }),
+    /* @__PURE__ */ n.jsxs(Il, { className: h, ...p, children: [
+      c && /* @__PURE__ */ n.jsx(Kn, { ...c }),
+      /* @__PURE__ */ n.jsx(Gi, { size: a, children: /* @__PURE__ */ n.jsx(sn, { children: /* @__PURE__ */ n.jsxs(Qn, { width: o, children: [
         t && /* @__PURE__ */ n.jsx(Kt, { style: { marginTop: "3rem" }, size: "l", ...r, children: t }),
         e
       ] }) }) })
     ] }),
-    /* @__PURE__ */ n.jsx(Xi, { ...l })
+    /* @__PURE__ */ n.jsx(Ji, { ...l })
   ] });
 };
 function Tp(e = {}) {
@@ -11754,7 +11748,7 @@ const Ap = ({
     },
     t
   ) : null, m = o ? /* @__PURE__ */ n.jsx(
-    Xn,
+    Kn,
     {
       element: "button",
       text: s,
@@ -12220,8 +12214,8 @@ function Rp(e) {
     [le]
   ), Be = (Ie) => {
     if (Ie.defaultPrevented) return;
-    const He = Ie.key, Je = Ie.target, tt = !!ve.current && ve.current.contains(Je), _t = !!we.current && we.current.contains(Je), dt = !!R.current && R.current.contains(Je), ht = !!R.current, pr = Je === Y.current || Je === we.current || Je === R.current, $o = Ye && (ne === "list" || ne === "cards"), mr = _t && !!Je.closest(".nhs-navigation-split-view__header");
-    if (pe === "containers" && pr) {
+    const He = Ie.key, Je = Ie.target, tt = !!ve.current && ve.current.contains(Je), _t = !!we.current && we.current.contains(Je), dt = !!R.current && R.current.contains(Je), ht = !!R.current, mr = Je === Y.current || Je === we.current || Je === R.current, $o = Ye && (ne === "list" || ne === "cards"), gr = _t && !!Je.closest(".nhs-navigation-split-view__header");
+    if (pe === "containers" && mr) {
       if (He === "ArrowRight") {
         Ie.preventDefault();
         const et = Q(), ut = Math.min(et.length - 1, O + 1);
@@ -12293,7 +12287,7 @@ function Rp(e) {
         return;
       }
     }
-    if ($o && mr && !pr && (He === "ArrowRight" || He === "ArrowLeft")) {
+    if ($o && gr && !mr && (He === "ArrowRight" || He === "ArrowLeft")) {
       const et = le(we.current).filter(
         (ut) => ut.closest(".nhs-navigation-split-view__header")
       );
@@ -12472,21 +12466,21 @@ function Rp(e) {
       const tt = Date.now(), _t = 700, dt = Ie.key.toLowerCase();
       tt - Ce.current.last > _t ? Ce.current.buffer = dt : Ce.current.buffer += dt, Ce.current.last = tt;
       let ht = Ce.current.buffer;
-      const pr = ht.split("").every(($t) => $t === ht[0]), $o = t.map(
+      const mr = ht.split("").every(($t) => $t === ht[0]), $o = t.map(
         ($t) => String($t.label || "").toLowerCase()
       );
-      let mr = 0;
-      Ne >= 0 && (mr = (Ne + 1) % t.length);
+      let gr = 0;
+      Ne >= 0 && (gr = (Ne + 1) % t.length);
       let et;
       const ut = ($t, ms) => {
         const gs = t.length;
         for (let Ao = 0; Ao < gs; Ao++) {
-          const Eo = (mr + Ao) % gs;
+          const Eo = (gr + Ao) % gs;
           if (!t[Eo].disabled && $o[Eo].startsWith($t))
             return Eo;
         }
       };
-      pr && ht.length > 1 ? et = ut(ht[0]) : (et = ut(ht), et === void 0 && ht.length > 1 && (et = ut(ht[ht.length - 1]), et !== void 0 && Ce.current && (Ce.current.buffer = ht[ht.length - 1]))), et !== void 0 && Ke(et);
+      mr && ht.length > 1 ? et = ut(ht[0]) : (et = ut(ht), et === void 0 && ht.length > 1 && (et = ut(ht[ht.length - 1]), et !== void 0 && Ce.current && (Ce.current.buffer = ht[ht.length - 1]))), et !== void 0 && Ke(et);
     }
   }, { collapsed: $e, toggle: Pe } = Fp({
     enabled: _,
@@ -12515,9 +12509,9 @@ function Rp(e) {
       de(He);
     }
   }, [Ye, he]);
-  const It = ne === "three-column", [Lo, od] = V.useState(!1);
+  const It = ne === "three-column", [Lo, rd] = V.useState(!1);
   V.useEffect(() => {
-    It && !Lo && od(!0);
+    It && !Lo && rd(!0);
   }, [It, Lo]);
   const ps = V.useRef(It);
   return V.useEffect(() => {
@@ -12674,7 +12668,7 @@ function Rp(e) {
                                 },
                                 children: [
                                   /* @__PURE__ */ n.jsx(
-                                    Xn,
+                                    Kn,
                                     {
                                       element: "button",
                                       text: u,
@@ -12847,7 +12841,7 @@ function Hp({
       Number.isNaN(p) || r?.(p);
     }
   };
-  return /* @__PURE__ */ n.jsx("div", { style: i, onClick: c, children: /* @__PURE__ */ n.jsx(gl, { labelText: a, classes: s, items: l }) });
+  return /* @__PURE__ */ n.jsx("div", { style: i, onClick: c, children: /* @__PURE__ */ n.jsx(ml, { labelText: a, classes: s, items: l }) });
 }
 function zp(e) {
   const { up: t } = as(), [r, o] = V.useState(!1);
@@ -12932,7 +12926,7 @@ function dv(e) {
     step: v,
     index: y,
     layoutForStep: s
-  }), G = r !== void 0 || o !== void 0 && t.length > 0 && t[0] && o !== h(t[0]), U = Ze(null), F = Ze(null), q = Ze(null), K = Ze(null), J = Ze(null), ne = Ze(0), ue = Ze(!1), W = Ze(!1), ae = Ze(null), [ce, be] = Ve("nav"), he = Ze("nav");
+  }), G = r !== void 0 || o !== void 0 && t.length > 0 && t[0] && o !== h(t[0]), U = qe(null), F = qe(null), q = qe(null), K = qe(null), J = qe(null), ne = qe(0), ue = qe(!1), W = qe(!1), ae = qe(null), [ce, be] = Ve("nav"), he = qe("nav");
   nt(() => {
     he.current = ce, ce !== "nav" && R(!1), ce !== "content" && se(!1), ce !== "secondary" && pe(!1);
   }, [ce]);
@@ -13229,7 +13223,7 @@ function dv(e) {
       E === "tablet" ? H : null,
       te && /* @__PURE__ */ n.jsxs("div", { className: "nhsfdp-mobile-controls", "aria-label": "Step navigation", children: [
         Ae ? /* @__PURE__ */ n.jsx(
-          Xn,
+          Kn,
           {
             element: "button",
             text: "Back",
@@ -13240,7 +13234,7 @@ function dv(e) {
           }
         ) : (
           // Keep space to avoid layout shift when back is not available
-          /* @__PURE__ */ n.jsx(Xn, { element: "button", text: "Back", "aria-hidden": "true", style: { visibility: "hidden" } })
+          /* @__PURE__ */ n.jsx(Kn, { element: "button", text: "Back", "aria-hidden": "true", style: { visibility: "hidden" } })
         ),
         z ? /* @__PURE__ */ n.jsx(
           zr,
@@ -13393,7 +13387,7 @@ const Op = typeof window < "u" && window.document ? V.useLayoutEffect : V.useEff
       ]
     }
   );
-}, Wp = ad(({
+}, Wp = od(({
   dateHeadings: e,
   categories: t,
   columnWidthPx: r = 400,
@@ -13405,7 +13399,7 @@ const Op = typeof window < "u" && window.document ? V.useLayoutEffect : V.useEff
   drilldownMode: c = "overlay",
   ...d
 }) => {
-  const [u, f] = Ve(() => /* @__PURE__ */ new Set()), [h, p] = Ve(() => /* @__PURE__ */ new Set()), x = Ze(/* @__PURE__ */ new Set()), m = _e((N) => u.has(N), [u]), g = _e((N) => {
+  const [u, f] = Ve(() => /* @__PURE__ */ new Set()), [h, p] = Ve(() => /* @__PURE__ */ new Set()), x = qe(/* @__PURE__ */ new Set()), m = _e((N) => u.has(N), [u]), g = _e((N) => {
     f((P) => {
       const M = new Set(P);
       return M.has(N.id) ? (M.delete(N.id), p((_) => {
@@ -13447,13 +13441,13 @@ const Op = typeof window < "u" && window.document ? V.useLayoutEffect : V.useEff
       const M = /* @__PURE__ */ new Date();
       return [M, M];
     }
-    const N = new Date(b[0]), P = nr.offset(new Date(b[b.length - 1]), 1);
+    const N = new Date(b[0]), P = rr.offset(new Date(b[b.length - 1]), 1);
     return [N, P];
   }, [b]), j = ze(() => rs().domain(S).range([0, b.length * T]), [S, b.length, T]), w = _e((N) => {
     if (N.startDate) {
       const ee = new Date(N.startDate), H = new Date(N.endDate ?? N.startDate);
       H < ee && H.setTime(ee.getTime());
-      const X = j(ee), E = nr.offset(new Date(H), 1);
+      const X = j(ee), E = rr.offset(new Date(H), 1);
       let L = j(E);
       Number.isFinite(L) || (L = X + T);
       const G = Math.max(T * 0.25, L - X), U = X / T, F = G / T;
@@ -13562,7 +13556,7 @@ function bt(e) {
   };
 }
 const ua = Math.PI, fa = 2 * ua, un = 1e-6, Gp = fa - un;
-function Tl(e) {
+function Dl(e) {
   this._ += e[0];
   for (let t = 1, r = e.length; t < r; ++t)
     this._ += arguments[t] + e[t];
@@ -13570,7 +13564,7 @@ function Tl(e) {
 function Yp(e) {
   let t = Math.floor(e);
   if (!(t >= 0)) throw new Error(`invalid digits: ${e}`);
-  if (t > 15) return Tl;
+  if (t > 15) return Dl;
   const r = 10 ** t;
   return function(o) {
     this._ += o[0];
@@ -13581,7 +13575,7 @@ function Yp(e) {
 class Vp {
   constructor(t) {
     this._x0 = this._y0 = // start of current subpath
-    this._x1 = this._y1 = null, this._ = "", this._append = t == null ? Tl : Yp(t);
+    this._x1 = this._y1 = null, this._ = "", this._append = t == null ? Dl : Yp(t);
   }
   moveTo(t, r) {
     this._append`M${this._x0 = this._x1 = +t},${this._y0 = this._y1 = +r}`;
@@ -13622,7 +13616,7 @@ class Vp {
     return this._;
   }
 }
-function Ll(e) {
+function Tl(e) {
   let t = 3;
   return e.digits = function(r) {
     if (!arguments.length) return t;
@@ -13636,13 +13630,13 @@ function Ll(e) {
     return e;
   }, () => new Vp(t);
 }
-function $l(e) {
+function Ll(e) {
   return typeof e == "object" && "length" in e ? e : Array.from(e);
 }
-function Al(e) {
+function $l(e) {
   this._context = e;
 }
-Al.prototype = {
+$l.prototype = {
   areaStart: function() {
     this._line = 0;
   },
@@ -13669,20 +13663,20 @@ Al.prototype = {
     }
   }
 };
-function El(e) {
-  return new Al(e);
+function Al(e) {
+  return new $l(e);
 }
-function Pl(e) {
+function El(e) {
   return e[0];
 }
-function Fl(e) {
+function Pl(e) {
   return e[1];
 }
-function Rl(e, t) {
-  var r = bt(!0), o = null, a = El, s = null, i = Ll(l);
-  e = typeof e == "function" ? e : e === void 0 ? Pl : bt(e), t = typeof t == "function" ? t : t === void 0 ? Fl : bt(t);
+function Fl(e, t) {
+  var r = bt(!0), o = null, a = Al, s = null, i = Tl(l);
+  e = typeof e == "function" ? e : e === void 0 ? El : bt(e), t = typeof t == "function" ? t : t === void 0 ? Pl : bt(t);
   function l(c) {
-    var d, u = (c = $l(c)).length, f, h = !1, p;
+    var d, u = (c = Ll(c)).length, f, h = !1, p;
     for (o == null && (s = a(p = i())), d = 0; d <= u; ++d)
       !(d < u && r(f = c[d], d, c)) === h && ((h = !h) ? s.lineStart() : s.lineEnd()), h && s.point(+e(f, d, c), +t(f, d, c));
     if (p) return s = null, p + "" || null;
@@ -13700,10 +13694,10 @@ function Rl(e, t) {
   }, l;
 }
 function ha(e, t, r) {
-  var o = null, a = bt(!0), s = null, i = El, l = null, c = Ll(d);
-  e = typeof e == "function" ? e : e === void 0 ? Pl : bt(+e), t = typeof t == "function" ? t : bt(t === void 0 ? 0 : +t), r = typeof r == "function" ? r : r === void 0 ? Fl : bt(+r);
+  var o = null, a = bt(!0), s = null, i = Al, l = null, c = Tl(d);
+  e = typeof e == "function" ? e : e === void 0 ? El : bt(+e), t = typeof t == "function" ? t : bt(t === void 0 ? 0 : +t), r = typeof r == "function" ? r : r === void 0 ? Pl : bt(+r);
   function d(f) {
-    var h, p, x, m = (f = $l(f)).length, g, D = !1, I, T = new Array(m), k = new Array(m);
+    var h, p, x, m = (f = Ll(f)).length, g, D = !1, I, T = new Array(m), k = new Array(m);
     for (s == null && (l = i(I = c())), h = 0; h <= m; ++h) {
       if (!(h < m && a(g = f[h], h, f)) === D)
         if (D = !D)
@@ -13718,7 +13712,7 @@ function ha(e, t, r) {
     if (I) return l = null, I + "" || null;
   }
   function u() {
-    return Rl().defined(a).curve(i).context(s);
+    return Fl().defined(a).curve(i).context(s);
   }
   return d.x = function(f) {
     return arguments.length ? (e = typeof f == "function" ? f : bt(+f), o = null, d) : e;
@@ -13813,11 +13807,11 @@ function Ur(e) {
   return new Or(e);
 }
 function Zp(e, t, r) {
-  const o = Ki(e, t);
+  const o = Xi(e, t);
   return rs().domain(o).range(r);
 }
 function mi(e, t, r) {
-  const [o, a] = Ki(e, t);
+  const [o, a] = Xi(e, t);
   if (!(Number.isFinite(o) && Number.isFinite(a)))
     return Er().domain([0, 0]).range(r);
   let i;
@@ -13831,7 +13825,7 @@ function mi(e, t, r) {
   return Er().domain([i, l]).nice().range(r);
 }
 function pa(e, t, r, o) {
-  const a = Rl().x(t).y(r);
+  const a = Fl().x(t).y(r);
   return o?.smooth !== !1 && a.curve(Ur), a(e) ?? "";
 }
 function qp(e = {}) {
@@ -13854,9 +13848,9 @@ function qp(e = {}) {
   const s = Math.max(0, o.width - r.left - r.right), i = Math.max(0, o.height - r.top - r.bottom);
   return { width: o.width, height: o.height, innerWidth: s, innerHeight: i, margin: r, ref: t };
 }
-const Bl = V.createContext(null);
+const Rl = V.createContext(null);
 function dn() {
-  return V.useContext(Bl);
+  return V.useContext(Rl);
 }
 const Jp = ({
   height: e = 240,
@@ -13869,7 +13863,7 @@ const Jp = ({
   ariaLabel: i
 }) => {
   const l = qp(t), c = { height: e, position: "relative" };
-  return r !== void 0 && (c.width = typeof r == "number" ? `${r}px` : r), /* @__PURE__ */ n.jsx("div", { ref: l.ref, className: o, style: c, role: s, "aria-label": i, children: /* @__PURE__ */ n.jsx(Bl.Provider, { value: l, children: a }) });
+  return r !== void 0 && (c.width = typeof r == "number" ? `${r}px` : r), /* @__PURE__ */ n.jsx("div", { ref: l.ref, className: o, style: c, role: s, "aria-label": i, children: /* @__PURE__ */ n.jsx(Rl.Provider, { value: l, children: a }) });
 }, ss = V.createContext(null), _n = () => V.useContext(ss), Xp = ({
   series: e,
   innerWidth: t,
@@ -13916,7 +13910,7 @@ const Jp = ({
     [I, T, s, i]
   );
   return /* @__PURE__ */ n.jsx(ss.Provider, { value: k, children: a });
-}, Cr = 16, Nr = 6, Kp = 16, Qp = 4, em = 6, tm = 3, nm = void 0, gi = ({
+}, Nr = 16, jr = 6, Kp = 16, Qp = 4, em = 6, tm = 3, nm = void 0, gi = ({
   type: e,
   scale: t,
   tickCount: r,
@@ -14071,7 +14065,7 @@ ${j({ month: "short" }).format(y)} ${y.getFullYear()}`;
       fontFamily: "var(--nhs-fdp-font-family-base, var(--fdp-chart-font-family))",
       children: [
         (() => {
-          const j = !!x?.enabled, w = Math.max(Nr, x?.gapPx ?? Cr);
+          const j = !!x?.enabled, w = Math.max(jr, x?.gapPx ?? Nr);
           if (!j)
             return /* @__PURE__ */ n.jsx("line", { x1: 0, x2: 0, y1: 0, y2: g.innerHeight, stroke: "currentColor" });
           const y = Math.max(0, g.innerHeight - w);
@@ -14080,7 +14074,7 @@ ${j({ month: "short" }).format(y)} ${y.getFullYear()}`;
         S.map((j, w) => {
           const y = b(j), v = d && y.length > d ? y.slice(0, Math.max(1, d - 1)) + "…" : y, $ = h ? v.split(/\n/) : [v.replace(/\n/g, " ")];
           if (!!x?.enabled) {
-            const P = Math.max(Nr, x?.gapPx ?? Cr), M = Math.max(0, g.innerHeight - P);
+            const P = Math.max(jr, x?.gapPx ?? Nr), M = Math.max(0, g.innerHeight - P);
             if (D(j) > M - 1) return null;
           }
           return /* @__PURE__ */ n.jsxs(
@@ -14109,7 +14103,7 @@ ${j({ month: "short" }).format(y)} ${y.getFullYear()}`;
           );
         }),
         !!x?.enabled && (() => {
-          const j = Math.max(Nr, x?.gapPx ?? Cr), w = g.innerHeight, v = Math.max(0, w - j), $ = v, P = Math.max(4, w - $), M = Qp, _ = em, C = Math.max(1, Math.round(x?.zigZag?.amplitudePx ?? M)), A = Math.max(1, Math.round(x?.zigZag?.stepXPx ?? tm)), Z = x?.zigZag?.heightPx ?? nm, ee = Math.max(4, Math.round(Z ?? 0));
+          const j = Math.max(jr, x?.gapPx ?? Nr), w = g.innerHeight, v = Math.max(0, w - j), $ = v, P = Math.max(4, w - $), M = Qp, _ = em, C = Math.max(1, Math.round(x?.zigZag?.amplitudePx ?? M)), A = Math.max(1, Math.round(x?.zigZag?.stepXPx ?? tm)), Z = x?.zigZag?.heightPx ?? nm, ee = Math.max(4, Math.round(Z ?? 0));
           let H, X;
           if (x?.zigZag?.heightPx && x.zigZag.heightPx > 0) {
             const K = Math.max(4, Math.min(P - 2, ee));
@@ -14179,7 +14173,7 @@ ${j({ month: "short" }).format(y)} ${y.getFullYear()}`;
       d
     ))
   ] });
-}, om = { "data-viz": { $type: "color", categorical: { 1: { $value: "{color.primary.blue}", $description: "Series 1 – NHS Blue (brand core)" }, 2: { $value: "#41B6E6", $description: "Series 2 – NHS Light Blue (new)" }, 3: { $value: "{color.secondary.aqua-green}", $description: "Series 3 – NHS Aqua Green (existing)" }, 4: { $value: "#78BE20", $description: "Series 4 – NHS Light Green (new)" }, 5: { $value: "{color.primary.green}", $description: "Series 5 – NHS Green (existing)" }, 6: { $value: "{color.secondary.warm-yellow}", $description: "Series 6 – NHS Warm Yellow (existing; distinct from focus yellow)" }, 7: { $value: "#ED4F00", $description: "Series 7 – NHS Tangerine (new; warmer/deeper than existing orange)" }, 8: { $value: "{color.secondary.pink}", $description: "Series 8 – NHS Pink (existing)" }, 9: { $value: "#E317AA", $description: "Series 9 – NHS Bright Pink (new vivid accent)" }, 10: { $value: "#880FB8", $description: "Series 10 – NHS Light Purple (new mid purple)" }, 11: { $value: "{color.primary.purple}", $description: "Series 11 – NHS Purple (existing dark purple)" }, 12: { $value: "#9A6324", $description: "Series 12 – NHS Brown (new; earth neutral)" } }, neutral: { comparison: { $value: "{color.grey.1}", $description: "Neutral comparison series (optional)" } }, region: { $comment: "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 – light green).", "north-east": { $value: "{color.primary.blue}", $description: "North East – NHS Blue" }, "north-west": { $value: "#41B6E6", $description: "North West – NHS Light Blue" }, "east-of-england": { $value: "{color.primary.purple}", $description: "East of England – NHS Purple" }, midlands: { $value: "{color.secondary.pink}", $description: "Midlands – NHS Pink" }, london: { $value: "#78BE21", $description: "London – NHS Light Green (new)" }, "south-west": { $value: "#FAE100", $description: "South West – NHS Yellow variant (new)" }, "south-east": { $value: "#ed8b00", $description: "South East – NHS Orange (existing base orange)" } }, severity: { $comment: "Semantic severity / alert colours (light background ramp → critical).", low: { $value: "{color.secondary.pale-yellow}", $description: "Low severity – pale yellow background" }, moderate: { $value: "{color.secondary.warm-yellow}", $description: "Moderate severity – warm yellow" }, high: { $value: "{color.secondary.orange}", $description: "High severity – orange" }, critical: { $value: "{color.primary.red}", $description: "Critical severity – red" } }, "org-level": { $comment: "Organisational level semantic colours (stable NHS brand mappings).", trust: { $value: "{color.primary.blue}", $description: "Trust – NHS Blue" }, ambulance: { $value: "{color.primary.green}", $description: "Ambulance – NHS Green" }, icb: { $value: "{color.primary.dark-pink}", $description: "ICB – NHS Dark Pink" }, region: { $value: "{color.primary.purple}", $description: "Region – NHS Purple" } }, stroke: { $comment: "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.", categorical: { 1: { $value: "#ffffff", $description: "Stroke for series 1 (blue)" }, 2: { $value: "#212b32", $description: "Stroke for series 2 (light blue)" }, 3: { $value: "#212b32", $description: "Stroke for series 3 (aqua green)" }, 4: { $value: "#212b32", $description: "Stroke for series 4 (light green)" }, 5: { $value: "#ffffff", $description: "Stroke for series 5 (green)" }, 6: { $value: "#212b32", $description: "Stroke for series 6 (warm yellow)" }, 7: { $value: "#ffffff", $description: "Stroke for series 7 (tangerine)" }, 8: { $value: "#ffffff", $description: "Stroke for series 8 (pink)" }, 9: { $value: "#ffffff", $description: "Stroke for series 9 (bright pink)" }, 10: { $value: "#ffffff", $description: "Stroke for series 10 (light purple)" }, 11: { $value: "#ffffff", $description: "Stroke for series 11 (purple)" }, 12: { $value: "#ffffff", $description: "Stroke for series 12 (brown)" } }, region: { $comment: "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.", "north-east": { $value: "#5996D1", $description: "Stroke for North East (blue lightened 35%)" }, "north-west": { $value: "#3189AD", $description: "Stroke for North West (light blue darkened 25%)" }, "east-of-england": { $value: "#7A59A3", $description: "Stroke for East of England (purple lightened 35%)" }, midlands: { $value: "#CA71A4", $description: "Stroke for Midlands (pink lightened 35%)" }, london: { $value: "#5A8F19", $description: "Stroke for London (light green darkened 25%)" }, "south-west": { $value: "#BCA900", $description: "Stroke for South West (yellow darkened 25%)" }, "south-east": { $value: "#B26800", $description: "Stroke for South East (orange darkened 25%)" } }, severity: { $comment: "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).", low: { $value: "#212b32", $description: "Stroke for low severity (pale yellow fill)" }, moderate: { $value: "#212b32", $description: "Stroke for moderate severity (warm yellow fill)" }, high: { $value: "#212b32", $description: "Stroke for high severity (orange fill)" }, critical: { $value: "#ffffff", $description: "Stroke for critical severity (red fill)" } }, "org-level": { $comment: "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).", trust: { $value: "#ffffff", $description: "Stroke for trust (blue fill)" }, ambulance: { $value: "#ffffff", $description: "Stroke for ambulance (green fill)" }, icb: { $value: "#ffffff", $description: "Stroke for ICB (dark pink fill)" }, region: { $value: "#ffffff", $description: "Stroke for region (purple fill)" } } }, spc: { $comment: "SPC (Statistical Process Control) semantic variation colours aligned to SPCChart.scss and SPCIcons.", improvement: { $value: "#00B0F0", $description: "SPC special cause improvement (favourable)" }, concern: { $value: "#E46C0A", $description: "SPC special cause concern (deteriorating)" }, "no-judgement": { $value: "#490092", $description: "SPC special cause (no directional judgement)" }, "common-cause": { $value: "#A6A6A6", $description: "SPC common cause (baseline variation)" }, "assurance-pass": { $value: "#00823B", $description: "SPC assurance pass indicator (process capable)" }, "assurance-fail": { $value: "#DA291C", $description: "SPC assurance fail indicator (process not capable)" }, gradient: { $comment: "Opacity stops for SPC icon gradient wash (applied top-left -> bottom-right). Consumers build gradients using these opacities + base colour.", stop: { "start-opacity": { $value: "0.18", $description: "Start stop opacity (0%) for classic variant wash" }, "mid-opacity": { $value: "0.06", $description: "Mid stop opacity (~65-75%)" }, "end-opacity": { $value: "0", $description: "End stop opacity (100%)" }, "triangle-start-opacity": { $value: "0.18", $description: "Start opacity for triangle variants (kept aligned)" }, "triangle-mid-opacity": { $value: "0.06", $description: "Mid opacity for triangle variants" }, "triangle-end-opacity": { $value: "0", $description: "End opacity for triangle variants" } } }, stroke: { $comment: "Contrast stroke colours for SPC variation fills.", improvement: { $value: "#000000", $description: "Stroke for improvement points" }, concern: { $value: "#000000", $description: "Stroke for concern points" }, "no-judgement": { $value: "#000000", $description: "Stroke for no-judgement points" }, "common-cause": { $value: "#ffffff", $description: "Stroke for common cause points" }, "assurance-pass": { $value: "#000000", $description: "Stroke for assurance pass points" }, "assurance-fail": { $value: "#000000", $description: "Stroke for assurance fail points" } } } } }, dr = {
+}, om = { "data-viz": { $type: "color", categorical: { 1: { $value: "{color.primary.blue}", $description: "Series 1 – NHS Blue (brand core)" }, 2: { $value: "#41B6E6", $description: "Series 2 – NHS Light Blue (new)" }, 3: { $value: "{color.secondary.aqua-green}", $description: "Series 3 – NHS Aqua Green (existing)" }, 4: { $value: "#78BE20", $description: "Series 4 – NHS Light Green (new)" }, 5: { $value: "{color.primary.green}", $description: "Series 5 – NHS Green (existing)" }, 6: { $value: "{color.secondary.warm-yellow}", $description: "Series 6 – NHS Warm Yellow (existing; distinct from focus yellow)" }, 7: { $value: "#ED4F00", $description: "Series 7 – NHS Tangerine (new; warmer/deeper than existing orange)" }, 8: { $value: "{color.secondary.pink}", $description: "Series 8 – NHS Pink (existing)" }, 9: { $value: "#E317AA", $description: "Series 9 – NHS Bright Pink (new vivid accent)" }, 10: { $value: "#880FB8", $description: "Series 10 – NHS Light Purple (new mid purple)" }, 11: { $value: "{color.primary.purple}", $description: "Series 11 – NHS Purple (existing dark purple)" }, 12: { $value: "#9A6324", $description: "Series 12 – NHS Brown (new; earth neutral)" } }, neutral: { comparison: { $value: "{color.grey.1}", $description: "Neutral comparison series (optional)" } }, region: { $comment: "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 – light green).", "north-east": { $value: "{color.primary.blue}", $description: "North East – NHS Blue" }, "north-west": { $value: "#41B6E6", $description: "North West – NHS Light Blue" }, "east-of-england": { $value: "{color.primary.purple}", $description: "East of England – NHS Purple" }, midlands: { $value: "{color.secondary.pink}", $description: "Midlands – NHS Pink" }, london: { $value: "#78BE21", $description: "London – NHS Light Green (new)" }, "south-west": { $value: "#FAE100", $description: "South West – NHS Yellow variant (new)" }, "south-east": { $value: "#ed8b00", $description: "South East – NHS Orange (existing base orange)" } }, severity: { $comment: "Semantic severity / alert colours (light background ramp → critical).", low: { $value: "{color.secondary.pale-yellow}", $description: "Low severity – pale yellow background" }, moderate: { $value: "{color.secondary.warm-yellow}", $description: "Moderate severity – warm yellow" }, high: { $value: "{color.secondary.orange}", $description: "High severity – orange" }, critical: { $value: "{color.primary.red}", $description: "Critical severity – red" } }, "org-level": { $comment: "Organisational level semantic colours (stable NHS brand mappings).", trust: { $value: "{color.primary.blue}", $description: "Trust – NHS Blue" }, ambulance: { $value: "{color.primary.green}", $description: "Ambulance – NHS Green" }, icb: { $value: "{color.primary.dark-pink}", $description: "ICB – NHS Dark Pink" }, region: { $value: "{color.primary.purple}", $description: "Region – NHS Purple" } }, stroke: { $comment: "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.", categorical: { 1: { $value: "#ffffff", $description: "Stroke for series 1 (blue)" }, 2: { $value: "#212b32", $description: "Stroke for series 2 (light blue)" }, 3: { $value: "#212b32", $description: "Stroke for series 3 (aqua green)" }, 4: { $value: "#212b32", $description: "Stroke for series 4 (light green)" }, 5: { $value: "#ffffff", $description: "Stroke for series 5 (green)" }, 6: { $value: "#212b32", $description: "Stroke for series 6 (warm yellow)" }, 7: { $value: "#ffffff", $description: "Stroke for series 7 (tangerine)" }, 8: { $value: "#ffffff", $description: "Stroke for series 8 (pink)" }, 9: { $value: "#ffffff", $description: "Stroke for series 9 (bright pink)" }, 10: { $value: "#ffffff", $description: "Stroke for series 10 (light purple)" }, 11: { $value: "#ffffff", $description: "Stroke for series 11 (purple)" }, 12: { $value: "#ffffff", $description: "Stroke for series 12 (brown)" } }, region: { $comment: "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.", "north-east": { $value: "#5996D1", $description: "Stroke for North East (blue lightened 35%)" }, "north-west": { $value: "#3189AD", $description: "Stroke for North West (light blue darkened 25%)" }, "east-of-england": { $value: "#7A59A3", $description: "Stroke for East of England (purple lightened 35%)" }, midlands: { $value: "#CA71A4", $description: "Stroke for Midlands (pink lightened 35%)" }, london: { $value: "#5A8F19", $description: "Stroke for London (light green darkened 25%)" }, "south-west": { $value: "#BCA900", $description: "Stroke for South West (yellow darkened 25%)" }, "south-east": { $value: "#B26800", $description: "Stroke for South East (orange darkened 25%)" } }, severity: { $comment: "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).", low: { $value: "#212b32", $description: "Stroke for low severity (pale yellow fill)" }, moderate: { $value: "#212b32", $description: "Stroke for moderate severity (warm yellow fill)" }, high: { $value: "#212b32", $description: "Stroke for high severity (orange fill)" }, critical: { $value: "#ffffff", $description: "Stroke for critical severity (red fill)" } }, "org-level": { $comment: "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).", trust: { $value: "#ffffff", $description: "Stroke for trust (blue fill)" }, ambulance: { $value: "#ffffff", $description: "Stroke for ambulance (green fill)" }, icb: { $value: "#ffffff", $description: "Stroke for ICB (dark pink fill)" }, region: { $value: "#ffffff", $description: "Stroke for region (purple fill)" } } }, spc: { $comment: "SPC (Statistical Process Control) semantic variation colours aligned to SPCChart.scss and SPCIcons.", improvement: { $value: "#00B0F0", $description: "SPC special cause improvement (favourable)" }, concern: { $value: "#E46C0A", $description: "SPC special cause concern (deteriorating)" }, "no-judgement": { $value: "#490092", $description: "SPC special cause (no directional judgement)" }, "common-cause": { $value: "#A6A6A6", $description: "SPC common cause (baseline variation)" }, "assurance-pass": { $value: "#00823B", $description: "SPC assurance pass indicator (process capable)" }, "assurance-fail": { $value: "#DA291C", $description: "SPC assurance fail indicator (process not capable)" }, gradient: { $comment: "Opacity stops for SPC icon gradient wash (applied top-left -> bottom-right). Consumers build gradients using these opacities + base colour.", stop: { "start-opacity": { $value: "0.18", $description: "Start stop opacity (0%) for classic variant wash" }, "mid-opacity": { $value: "0.06", $description: "Mid stop opacity (~65-75%)" }, "end-opacity": { $value: "0", $description: "End stop opacity (100%)" }, "triangle-start-opacity": { $value: "0.18", $description: "Start opacity for triangle variants (kept aligned)" }, "triangle-mid-opacity": { $value: "0.06", $description: "Mid opacity for triangle variants" }, "triangle-end-opacity": { $value: "0", $description: "End opacity for triangle variants" } } }, stroke: { $comment: "Contrast stroke colours for SPC variation fills.", improvement: { $value: "#000000", $description: "Stroke for improvement points" }, concern: { $value: "#000000", $description: "Stroke for concern points" }, "no-judgement": { $value: "#000000", $description: "Stroke for no-judgement points" }, "common-cause": { $value: "#ffffff", $description: "Stroke for common cause points" }, "assurance-pass": { $value: "#000000", $description: "Stroke for assurance pass points" }, "assurance-fail": { $value: "#000000", $description: "Stroke for assurance fail points" } } } } }, ur = {
   color: om
 }, am = { primary: { $type: "color", blue: { $value: "#005eb8", $description: "NHS Blue - Primary brand color" }, "blue-active": { $value: "#002f5c", $description: "NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse" }, white: { $value: "#ffffff", $description: "NHS White" }, black: { $value: "#212b32", $description: "NHS Black" }, green: { $value: "#007f3b", $description: "NHS Green" }, purple: { $value: "#330072", $description: "NHS Purple" }, "dark-pink": { $value: "#7c2855", $description: "NHS Dark Pink" }, red: { $value: "#d5281b", $description: "NHS Red" }, "light-purple": { $value: "#880FB8", $description: "NHS Light Purple (data viz promoted)" }, yellow: { $value: "#ffeb3b", $description: "NHS Yellow" } }, secondary: { $type: "color", "pale-yellow": { $value: "#fff9c4", $description: "NHS Pale Yellow" }, "warm-yellow": { $value: "#ffb81c", $description: "NHS Warm Yellow" }, "region-yellow": { $value: "#FAE100", $description: "NHS Region Yellow (maps)" }, orange: { $value: "#ed8b00", $description: "NHS Orange" }, tangerine: { $value: "#ED4F00", $description: "NHS Tangerine (data viz promoted)" }, "aqua-green": { $value: "#00a499", $description: "NHS Aqua Green" }, "light-blue": { $value: "#41B6E6", $description: "NHS Light Blue (data viz promoted)" }, pink: { $value: "#ae2573", $description: "NHS Pink" }, "bright-pink": { $value: "#E317AA", $description: "NHS Bright Pink (data viz promoted)" }, "light-green": { $value: "#78BE20", $description: "NHS Light Green (data viz promoted)" }, brown: { $value: "#9A6324", $description: "NHS Brown (data viz promoted neutral)" } }, grey: { 1: { $value: "#4c6272", $description: "NHS Grey 1 - Darkest grey" }, 2: { $value: "#768692", $description: "NHS Grey 2 - Darker grey" }, 3: { $value: "#aeb7bd", $description: "NHS Grey 3 - Medium grey" }, 4: { $value: "#d8dde0", $description: "NHS Grey 4 - Light grey" }, 5: { $value: "#f0f4f5", $description: "NHS Grey 5 - Lightest grey" }, $type: "color" }, accessibility: { $type: "color", $comment: "Accessibility-oriented color tokens. Includes CVD-safe pairs and Okabe–Ito colors. Use these for positive/negative semantics and colour-blind–friendly defaults.", "okabe-ito": { green: { $value: "#009E73", $description: "Okabe–Ito green (CVD-safe) – recommended positive" }, vermillion: { $value: "#D55E00", $description: "Okabe–Ito vermillion / red–orange (CVD-safe) – recommended negative" } }, "cvd-safe": { blue: { $value: "#1f77b4", $description: "CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets" }, orange: { $value: "#ff7f0e", $description: "CVD-safe orange (pairs with blue)" } }, positive: { $value: "{color.accessibility.okabe-ito.green}", $description: "Accessibility semantic alias – positive" }, negative: { $value: "{color.accessibility.okabe-ito.vermillion}", $description: "Accessibility semantic alias – negative" } } }, ko = {
   color: am
@@ -14197,9 +14191,9 @@ ${j({ month: "short" }).format(y)} ${y.getFullYear()}`;
   "#768692",
   "#aeb7bd"
 ];
-let Vo = null, Zo = null, qo = null, Hl = "optimized";
+let Vo = null, Zo = null, qo = null, Bl = "optimized";
 function im() {
-  const e = { color: { ...ko.color, ...dr.color } }, t = (o, a = /* @__PURE__ */ new Set()) => {
+  const e = { color: { ...ko.color, ...ur.color } }, t = (o, a = /* @__PURE__ */ new Set()) => {
     if (a.has(o)) return;
     a.add(o);
     const s = o.split(".").reduce((l, c) => l ? l[c] : void 0, e);
@@ -14239,7 +14233,7 @@ function um(e, t, r) {
   const d = (u) => u > 8856e-6 ? Math.cbrt(u) : 7.787 * u + 16 / 116;
   return i = d(i), l = d(l), c = d(c), { L: 116 * l - 16, a: 500 * (i - l), b: 200 * (l - c) };
 }
-function zl(e) {
+function Hl(e) {
   const t = cm(e);
   if (!t) return null;
   const r = dm(t.r, t.g, t.b);
@@ -14252,7 +14246,7 @@ function xi(e, t) {
 function fm() {
   const e = lm();
   if (e.length <= 2) return e.slice();
-  const t = e.map((i) => zl(i));
+  const t = e.map((i) => Hl(i));
   let r = 0, o = -1;
   for (let i = 0; i < e.length; i++) {
     const l = t[i];
@@ -14302,7 +14296,7 @@ function gm(e, t, r) {
   return `#${[e, t, r].map((o) => o.toString(16).padStart(2, "0")).join("")}`;
 }
 function xm(e, t) {
-  const r = zl(e);
+  const r = Hl(e);
   if (!r) return e;
   const o = Math.min(100, Math.max(0, r.L + t)), { X: a, Y: s, Z: i } = pm(o, r.a, r.b), l = mm(a, s, i);
   return gm(l.r, l.g, l.b);
@@ -14312,19 +14306,19 @@ function bm() {
   return r.forEach((a) => o.push(...a)), o;
 }
 function ym() {
-  return (!qo || vm()) && (qo = bm(), Ol = Hl), qo;
+  return (!qo || vm()) && (qo = bm(), zl = Bl), qo;
 }
-let Ol = null;
+let zl = null;
 function vm() {
-  return Ol !== Hl;
+  return zl !== Bl;
 }
 function Rt(e) {
   const t = ym();
   return t[e % t.length];
 }
-let Tn = null, rr = null, or = null, ar = null;
+let Tn = null, or = null, ar = null, sr = null;
 function wm() {
-  const e = dr?.color?.["data-viz"]?.stroke;
+  const e = ur?.color?.["data-viz"]?.stroke;
   if (e) {
     const t = e.categorical || {};
     Tn = [];
@@ -14333,28 +14327,28 @@ function wm() {
       Tn.push(typeof i == "string" ? i : "#212b32");
     }
     const r = e.region || {};
-    rr = {}, Object.keys(r).forEach((s) => {
+    or = {}, Object.keys(r).forEach((s) => {
       const i = r[s]?.$value || r[s]?.value;
-      typeof i == "string" && (rr[s] = i);
+      typeof i == "string" && (or[s] = i);
     });
     const o = e.severity || {}, a = e["org-level"] || {};
-    ar = {}, Object.keys(a).forEach((s) => {
+    sr = {}, Object.keys(a).forEach((s) => {
       const i = a[s]?.$value || a[s]?.value;
-      typeof i == "string" && (ar[s] = i);
-    }), or = {}, Object.keys(o).forEach((s) => {
+      typeof i == "string" && (sr[s] = i);
+    }), ar = {}, Object.keys(o).forEach((s) => {
       const i = o[s]?.$value || o[s]?.value;
-      typeof i == "string" && (or[s] = i);
+      typeof i == "string" && (ar[s] = i);
     });
   }
 }
 function Co() {
-  (!Tn || !rr || !or || !ar) && wm();
+  (!Tn || !or || !ar || !sr) && wm();
 }
 function vn(e) {
   return Co(), Tn ? Tn[e % Tn.length] : "#212b32";
 }
 function Sm(e) {
-  return Co(), rr ? rr[e] : void 0;
+  return Co(), or ? or[e] : void 0;
 }
 function Wr(e, t) {
   return Sm(e) || vn(t);
@@ -14362,7 +14356,7 @@ function Wr(e, t) {
 const ma = ["low", "moderate", "high", "critical"];
 let Xo = null;
 function _m() {
-  const e = { color: { ...ko.color, ...dr.color } }, t = (o, a = /* @__PURE__ */ new Set()) => {
+  const e = { color: { ...ko.color, ...ur.color } }, t = (o, a = /* @__PURE__ */ new Set()) => {
     if (a.has(o)) return;
     a.add(o);
     const s = o.split(".").reduce((l, c) => l ? l[c] : void 0, e);
@@ -14375,17 +14369,17 @@ function _m() {
     a && (r[o] = a);
   }), r;
 }
-function Ul() {
+function Ol() {
   return Xo || (Xo = _m()), Xo;
 }
 function km(e) {
-  return Ul()[e.toLowerCase()];
+  return Ol()[e.toLowerCase()];
 }
 function Cm(e, t) {
-  return km(e) || Ul()[ma[t % ma.length]] || Rt(t);
+  return km(e) || Ol()[ma[t % ma.length]] || Rt(t);
 }
 function Nm(e) {
-  return Co(), or ? or[e] : void 0;
+  return Co(), ar ? ar[e] : void 0;
 }
 function jm(e, t) {
   return Nm(e) || vn(t);
@@ -14393,7 +14387,7 @@ function jm(e, t) {
 const ga = ["trust", "ambulance", "icb", "region"];
 let Ko = null;
 function Mm() {
-  const e = { color: { ...ko.color, ...dr.color } }, t = (o, a = /* @__PURE__ */ new Set()) => {
+  const e = { color: { ...ko.color, ...ur.color } }, t = (o, a = /* @__PURE__ */ new Set()) => {
     if (a.has(o)) return;
     a.add(o);
     const s = o.split(".").reduce((l, c) => l ? l[c] : void 0, e);
@@ -14406,17 +14400,17 @@ function Mm() {
     a && (r[o] = a);
   }), r;
 }
-function Wl() {
+function Ul() {
   return Ko || (Ko = Mm()), Ko;
 }
 function Im(e) {
-  return Wl()[e.toLowerCase()];
+  return Ul()[e.toLowerCase()];
 }
 function Dm(e, t) {
-  return Im(e) || Wl()[ga[t % ga.length]] || Rt(t);
+  return Im(e) || Ul()[ga[t % ga.length]] || Rt(t);
 }
 function Tm(e) {
-  return Co(), ar ? ar[e] : void 0;
+  return Co(), sr ? sr[e] : void 0;
 }
 function Lm(e, t) {
   return Tm(e) || vn(t);
@@ -14435,7 +14429,7 @@ function Am(e) {
   return e.trim().toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 function Em() {
-  const e = { color: { ...ko.color, ...dr.color } }, t = (a, s = /* @__PURE__ */ new Set()) => {
+  const e = { color: { ...ko.color, ...ur.color } }, t = (a, s = /* @__PURE__ */ new Set()) => {
     if (s.has(a)) return;
     s.add(a);
     const i = a.split(".").reduce((c, d) => c ? c[d] : void 0, e);
@@ -14457,7 +14451,7 @@ function Fm(e) {
 function Ln(e, t) {
   return Fm(e) || Rt(t);
 }
-const Gl = V.createContext(null), ur = () => V.useContext(Gl), uv = ({
+const Wl = V.createContext(null), fr = () => V.useContext(Wl), uv = ({
   initialHiddenIds: e = [],
   children: t,
   hiddenIds: r,
@@ -14478,13 +14472,13 @@ const Gl = V.createContext(null), ur = () => V.useContext(Gl), uv = ({
     showAll: () => c(/* @__PURE__ */ new Set()),
     setHidden: (u) => c(new Set(Array.isArray(u) ? u : Array.from(u)))
   }), [l, c]);
-  return /* @__PURE__ */ n.jsx(Gl.Provider, { value: d, children: t });
-}, Yl = V.createContext(null), nn = () => V.useContext(Yl), Rm = ({
+  return /* @__PURE__ */ n.jsx(Wl.Provider, { value: d, children: t });
+}, Gl = V.createContext(null), nn = () => V.useContext(Gl), Rm = ({
   children: e,
   maxDistance: t = 40,
   wrapAround: r = !1
 }) => {
-  const o = _n(), a = ur(), [s, i] = V.useState(null), l = V.useRef(/* @__PURE__ */ new Map()), [c, d] = V.useState([]), u = V.useCallback(
+  const o = _n(), a = fr(), [s, i] = V.useState(null), l = V.useRef(/* @__PURE__ */ new Map()), [c, d] = V.useState([]), u = V.useCallback(
     (j, w) => {
       l.current.set(j, w);
     },
@@ -14664,7 +14658,7 @@ const Gl = V.createContext(null), ur = () => V.useContext(Gl), uv = ({
       D
     ]
   );
-  return /* @__PURE__ */ n.jsx(Yl.Provider, { value: S, children: e });
+  return /* @__PURE__ */ n.jsx(Gl.Provider, { value: S, children: e });
 }, Bm = ({
   series: e,
   seriesIndex: t,
@@ -14681,7 +14675,7 @@ const Gl = V.createContext(null), ur = () => V.useContext(Gl), uv = ({
 }) => {
   const h = _n();
   if (!h) return null;
-  const { xScale: p, yScale: x } = h, g = ur()?.isHidden(e.id) ?? !1, D = g && l === "fade";
+  const { xScale: p, yScale: x } = h, g = fr()?.isHidden(e.id) ?? !1, D = g && l === "fade";
   if (g && l === "remove")
     return null;
   const I = nn();
@@ -14829,7 +14823,7 @@ const fv = () => {
   onVisibilityChange: l,
   formatAnnouncement: c
 }) => {
-  const d = ur(), u = !!(d && !o && !l && s === void 0), f = o || u, h = e || [], p = s !== void 0, [x, m] = V.useState(new Set(i)), g = p ? new Set(s) : x, [D, I] = V.useState(""), T = (k) => {
+  const d = fr(), u = !!(d && !o && !l && s === void 0), f = o || u, h = e || [], p = s !== void 0, [x, m] = V.useState(new Set(i)), g = p ? new Set(s) : x, [D, I] = V.useState(""), T = (k) => {
     if (u && d) {
       const N = d.isHidden(k);
       d.toggle(k);
@@ -14893,7 +14887,7 @@ const fv = () => {
 }) => {
   const f = _n();
   if (!f) return null;
-  const { xScale: h, yScale: p } = f, m = ur()?.isHidden(e.id) ?? !1, g = m && s === "fade";
+  const { xScale: h, yScale: p } = f, m = fr()?.isHidden(e.id) ?? !1, g = m && s === "fade";
   if (m && s === "remove") return null;
   const D = nn();
   V.useEffect(() => {
@@ -14978,7 +14972,7 @@ const fv = () => {
 }) => {
   const j = Math.max(0, m), w = _n(), y = dn();
   if (!w || !y) return null;
-  const { xScale: v, yScale: $ } = w, P = ur()?.isHidden(e.id) ?? !1, M = P && f === "fade";
+  const { xScale: v, yScale: $ } = w, P = fr()?.isHidden(e.id) ?? !1, M = P && f === "fade";
   if (P && f === "remove") return null;
   const _ = nn();
   V.useEffect(() => {
@@ -15376,7 +15370,7 @@ const fv = () => {
     () => Math.max(0, ...u.map((g) => g.y)),
     [u]
   ), p = V.useMemo(
-    () => el().domain(f).range([0, c]).paddingInner(o).paddingOuter(a),
+    () => Qi().domain(f).range([0, c]).paddingInner(o).paddingOuter(a),
     [f, c, o, a]
   ), x = V.useMemo(
     () => Er().domain([0, h]).nice().range([d, 0]),
@@ -15527,7 +15521,7 @@ const fv = () => {
     }
   );
 };
-var pt = /* @__PURE__ */ ((e) => (e.Xs = "xs", e.Sm = "sm", e.Md = "md", e.Lg = "lg", e.Xl = "xl", e.Full = "full", e))(pt || {}), Vl = /* @__PURE__ */ ((e) => (e.XmR = "XmR", e.T = "T", e.G = "G", e))(Vl || {}), ln = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e.Neither = "Neither", e))(ln || {}), qe = /* @__PURE__ */ ((e) => (e.Improvement = "improvement", e.Concern = "concern", e.Neither = "neither", e.Suppressed = "suppressed", e))(qe || {});
+var pt = /* @__PURE__ */ ((e) => (e.Xs = "xs", e.Sm = "sm", e.Md = "md", e.Lg = "lg", e.Xl = "xl", e.Full = "full", e))(pt || {}), Yl = /* @__PURE__ */ ((e) => (e.XmR = "XmR", e.T = "T", e.G = "G", e))(Yl || {}), ln = /* @__PURE__ */ ((e) => (e.Up = "Up", e.Down = "Down", e.Neither = "Neither", e))(ln || {}), Ze = /* @__PURE__ */ ((e) => (e.Improvement = "improvement", e.Concern = "concern", e.Neither = "neither", e.Suppressed = "suppressed", e))(Ze || {});
 const is = [
   "single_point",
   "two_sigma",
@@ -15550,7 +15544,7 @@ const Um = {
   shift: "sustained",
   trend: "sustained"
   /* Sustained */
-}, Zl = is.reduce(
+}, Vl = is.reduce(
   (e, t, r) => (e[t] = {
     id: t,
     rank: r + 1,
@@ -15561,9 +15555,9 @@ const Um = {
   {}
 );
 is.map(
-  (e) => Zl[e]
+  (e) => Vl[e]
 );
-var sr = /* @__PURE__ */ ((e) => (e.SinglePointAbove = "single_above", e.SinglePointBelow = "single_below", e.TwoOfThreeAbove = "two_of_three_above", e.TwoOfThreeBelow = "two_of_three_below", e.FourOfFiveAbove = "four_of_five_above", e.FourOfFiveBelow = "four_of_five_below", e.ShiftHigh = "shift_high", e.ShiftLow = "shift_low", e.TrendIncreasing = "trend_inc", e.TrendDecreasing = "trend_dec", e.FifteenInnerThird = "fifteen_inner_third", e))(sr || {}), cn = /* @__PURE__ */ ((e) => (e.Pass = "pass", e.Fail = "fail", e.None = "none", e))(cn || {}), ql = /* @__PURE__ */ ((e) => (e.Shift = "shift", e.Trend = "trend", e.Point = "point", e))(ql || {});
+var ir = /* @__PURE__ */ ((e) => (e.SinglePointAbove = "single_above", e.SinglePointBelow = "single_below", e.TwoOfThreeAbove = "two_of_three_above", e.TwoOfThreeBelow = "two_of_three_below", e.FourOfFiveAbove = "four_of_five_above", e.FourOfFiveBelow = "four_of_five_below", e.ShiftHigh = "shift_high", e.ShiftLow = "shift_low", e.TrendIncreasing = "trend_inc", e.TrendDecreasing = "trend_dec", e.FifteenInnerThird = "fifteen_inner_third", e))(ir || {}), cn = /* @__PURE__ */ ((e) => (e.Pass = "pass", e.Fail = "fail", e.None = "none", e))(cn || {}), Zl = /* @__PURE__ */ ((e) => (e.Shift = "shift", e.Trend = "trend", e.Point = "point", e))(Zl || {});
 const $n = {
   singlePointUp: {
     tooltip: "Single point above upper control limit",
@@ -15643,20 +15637,20 @@ function No(e) {
 }
 function jo(e) {
   switch (e) {
-    case qe.Improvement:
+    case Ze.Improvement:
       return "Improvement signal";
-    case qe.Concern:
+    case Ze.Concern:
       return "Concern signal";
-    case qe.Neither:
+    case Ze.Neither:
       return "Common cause variation";
-    case qe.Suppressed:
+    case Ze.Suppressed:
       return null;
     // suppressed / not enough data
     default:
       return null;
   }
 }
-function Jl(e) {
+function ql(e) {
   switch (e) {
     case cn.Pass:
       return "Target met";
@@ -15689,7 +15683,7 @@ const Tt = {
     hex: "#490092"
   }
 };
-function Xl(e) {
+function Jl(e) {
   return e ? Tt[e]?.token ?? Tt.neither.token : Tt.neither.token;
 }
 function Ym(e) {
@@ -15743,7 +15737,7 @@ const qm = (e) => {
 Object.values(Mo).forEach((e) => {
   e.text || (e.text = qm(e.hex));
 });
-const Kl = (e) => Mo[e], ls = (e) => Mo[e].judgement || "none", bi = {
+const Xl = (e) => Mo[e], ls = (e) => Mo[e].judgement || "none", bi = {
   special: {
     higher: [
       { cx: 77.5, cy: 158.5 },
@@ -15814,25 +15808,25 @@ const St = (e, t) => {
   concern: "#E46C0A",
   noJudgement: "#490092",
   common: "#A6A6A6"
-}, Ql = () => St(Do.improvement, To.improvement), ec = () => St(Do.concern, To.concern), Xm = () => St(Do.noJudgement, To.noJudgement), fn = () => St(Do.common, To.common);
-function Sr(e) {
+}, Kl = () => St(Do.improvement, To.improvement), Ql = () => St(Do.concern, To.concern), Xm = () => St(Do.noJudgement, To.noJudgement), fn = () => St(Do.common, To.common);
+function _r(e) {
   switch (e) {
-    case qe.Improvement:
+    case Ze.Improvement:
+      return Kl();
+    case Ze.Concern:
       return Ql();
-    case qe.Concern:
-      return ec();
-    case qe.Neither:
-    case qe.Suppressed:
+    case Ze.Neither:
+    case Ze.Suppressed:
     default:
       return fn();
   }
 }
-function tc(e) {
+function ec(e) {
   switch (e) {
     case Fe.SpecialCauseImproving:
-      return Ql();
+      return Kl();
     case Fe.SpecialCauseDeteriorating:
-      return ec();
+      return Ql();
     case Fe.SpecialCauseNoJudgement:
       return Xm();
     case Fe.CommonCause:
@@ -16009,7 +16003,7 @@ function eg(e, t) {
     f && d.forEach((p) => o(p).trendUp = !0), h && d.forEach((p) => o(p).trendDown = !0);
   }
 }
-function nc(e) {
+function tc(e) {
   const t = [], r = [];
   e.singlePointUp && t.push({
     id: ct.SinglePoint,
@@ -16032,7 +16026,7 @@ function ki(e, t) {
   return { aligned: r, opposite: o };
 }
 function Ci(e, t, r, o = !1, a, s, i = !1) {
-  const { up: l, dn: c, upMax: d, dnMax: u, primeDirection: f } = nc(e);
+  const { up: l, dn: c, upMax: d, dnMax: u, primeDirection: f } = tc(e);
   e.primeDirection = f;
   const h = e.specialCauseImprovementValue, p = e.specialCauseConcernValue;
   e.specialCauseImprovementValue !== null && e.specialCauseConcernValue !== null && tg({ row: e, metric: t, metricConflictRule: r, preferImprovementWhenConflict: o, preferTrendWhenConflict: i, primeDirection: f, conflictStrategy: a, ruleHierarchy: s }), t === Xe.Up ? e.variationIcon = e.specialCauseImprovementValue !== null ? Ee.ImprovementHigh : e.specialCauseConcernValue !== null ? Ee.ConcernLow : Ee.CommonCause : t === Xe.Down ? e.variationIcon = e.specialCauseImprovementValue !== null ? Ee.ImprovementLow : e.specialCauseConcernValue !== null ? Ee.ConcernHigh : Ee.CommonCause : e.variationIcon = Ee.CommonCause;
@@ -16080,7 +16074,7 @@ function tg(e) {
     return;
   }
   if (d === Mn.RuleHierarchy) {
-    const u = c ?? [ct.Trend, ct.Shift, ct.TwoSigma, ct.SinglePoint], { up: f, dn: h } = nc(t);
+    const u = c ?? [ct.Trend, ct.Shift, ct.TwoSigma, ct.SinglePoint], { up: f, dn: h } = tc(t);
     for (const p of u) {
       const x = f.some((g) => g.id === p), m = h.some((g) => g.id === p);
       if (x && !m) {
@@ -16317,7 +16311,7 @@ function sg(e) {
   const t = !!(e.singlePointUp || e.twoSigmaUp || e.shiftUp || e.trendUp), r = !!(e.singlePointDown || e.twoSigmaDown || e.shiftDown || e.trendDown);
   return { upAny: t, downAny: r };
 }
-function fr(e, t) {
+function hr(e, t) {
   const r = t.metricImprovement, o = t.trendVisualMode ?? "Ungated", a = t.enableNeutralNoJudgement ?? !0;
   return e.map((s) => {
     if (!s || s.value == null || s.ghost) return "Common";
@@ -16348,7 +16342,7 @@ function fr(e, t) {
 function ig(e, t, r) {
   const o = r?.mode ?? "Disabled";
   if (!e.length) return [];
-  let a = fr(e, {
+  let a = hr(e, {
     metricImprovement: t,
     trendVisualMode: Bn.Ungated,
     enableNeutralNoJudgement: !0
@@ -16411,7 +16405,7 @@ function ig(e, t, r) {
   }
   return a;
 }
-function rc(e) {
+function nc(e) {
   if (!e) return {};
   if (typeof e == "object" && ("minimumPoints" in e || "shiftPoints" in e || "trendPoints" in e))
     return e;
@@ -16426,8 +16420,8 @@ function rc(e) {
   }
   return r;
 }
-function hr(e) {
-  const { chartType: t, metricImprovement: r, data: o } = e, a = rc(e.settings), s = {
+function pr(e) {
+  const { chartType: t, metricImprovement: r, data: o } = e, a = nc(e.settings), s = {
     minimumPoints: 13,
     shiftPoints: 6,
     trendPoints: 6,
@@ -16576,7 +16570,7 @@ function hr(e) {
   return { rows: u };
 }
 function cs(e, t) {
-  const r = hr(e), o = fr(r.rows, {
+  const r = pr(e), o = hr(r.rows, {
     metricImprovement: e.metricImprovement,
     trendVisualMode: t?.trendVisualMode ?? Bn.Ungated,
     enableNeutralNoJudgement: t?.enableNeutralNoJudgement ?? !0
@@ -16592,7 +16586,7 @@ function cs(e, t) {
   });
   return { rows: r.rows, visuals: l };
 }
-var oc = /* @__PURE__ */ ((e) => (e.None = "none", e.RecalcCrossingShift = "recalc-crossing-shift", e.RecalcCrossingTrend = "recalc-crossing-trend", e.RecalcCrossingTwoSigma = "recalc-crossing-two-sigma", e.RecalculationsRecalculated = "recalculations-recalculated", e.BaselinesRecalculated = "baselines-recalculated", e))(oc || {});
+var rc = /* @__PURE__ */ ((e) => (e.None = "none", e.RecalcCrossingShift = "recalc-crossing-shift", e.RecalcCrossingTrend = "recalc-crossing-trend", e.RecalcCrossingTwoSigma = "recalc-crossing-two-sigma", e.RecalculationsRecalculated = "recalculations-recalculated", e.BaselinesRecalculated = "baselines-recalculated", e))(rc || {});
 function lg(e, t, r) {
   const o = r?.trendVisualMode ?? Bn.Ungated, a = r?.enableNeutralNoJudgement ?? !0, s = Array.isArray(e.data) ? e.data.map((f, h) => f?.baseline ? h : -1).filter((f) => f >= 0) : [];
   let i;
@@ -16657,7 +16651,7 @@ function lg(e, t, r) {
   }
   return (t === "recalculations-recalculated" || t === "baselines-recalculated") && u > 0 && (d[u - 1] = it.Common), { rows: l, visuals: d };
 }
-const ac = Object.freeze({
+const oc = Object.freeze({
   minimumPoints: 13,
   shiftPoints: 6,
   trendPoints: 6,
@@ -16668,9 +16662,9 @@ const ac = Object.freeze({
   chartLevelEligibility: !0
 });
 function cg(e) {
-  return { ...ac, ...e ?? {} };
+  return { ...oc, ...e ?? {} };
 }
-var gt = /* @__PURE__ */ ((e) => (e.Concern = "concern", e.Improvement = "improvement", e.NoJudgement = "noJudgement", e.Common = "common", e))(gt || {}), xn = /* @__PURE__ */ ((e) => (e.Classic = "classic", e.Triangle = "triangle", e.TriangleWithRun = "triangleWithRun", e))(xn || {}), ir = /* @__PURE__ */ ((e) => (e.Direction = "direction", e.Polarity = "polarity", e))(ir || {});
+var gt = /* @__PURE__ */ ((e) => (e.Concern = "concern", e.Improvement = "improvement", e.NoJudgement = "noJudgement", e.Common = "common", e))(gt || {}), xn = /* @__PURE__ */ ((e) => (e.Classic = "classic", e.Triangle = "triangle", e.TriangleWithRun = "triangleWithRun", e))(xn || {}), lr = /* @__PURE__ */ ((e) => (e.Direction = "direction", e.Polarity = "polarity", e))(lr || {});
 const ya = (e) => {
   const t = () => {
     globalThis.__spcIconDeprecationEmitted || (console.warn(
@@ -16683,8 +16677,8 @@ const ya = (e) => {
     i.improvementDirection !== void 0 ? l = i.improvementDirection === Xe.Up ? mt.HigherIsBetter : i.improvementDirection === Xe.Down ? mt.LowerIsBetter : mt.ContextDependent : i.polarity && (l = i.polarity);
     let c;
     const d = i.variationIcon;
-    if (d === qe.Improvement || d === qe.Concern || d === qe.Neither || d === qe.Suppressed)
-      d === qe.Improvement ? c = Fe.SpecialCauseImproving : d === qe.Concern ? c = Fe.SpecialCauseDeteriorating : d === qe.Neither ? c = Fe.CommonCause : c = Fe.SpecialCauseNoJudgement;
+    if (d === Ze.Improvement || d === Ze.Concern || d === Ze.Neither || d === Ze.Suppressed)
+      d === Ze.Improvement ? c = Fe.SpecialCauseImproving : d === Ze.Concern ? c = Fe.SpecialCauseDeteriorating : d === Ze.Neither ? c = Fe.CommonCause : c = Fe.SpecialCauseNoJudgement;
     else
       switch (i.variationIcon) {
         case Ee.ImprovementHigh:
@@ -16730,7 +16724,7 @@ const ya = (e) => {
   let s;
   return r.judgement === Ct.Improving ? s = r.polarity === mt.LowerIsBetter ? We.Lower : We.Higher : r.judgement === Ct.Deteriorating ? s = r.polarity === mt.LowerIsBetter ? We.Higher : We.Lower : s = r.trend ?? We.Higher, { state: a, direction: s, polarity: r.polarity };
 };
-function sc(e, t) {
+function ac(e, t) {
   const { state: r, direction: o, polarity: a } = ya(e), s = ls(r), i = o === We.Higher ? "above" : "below", l = o === We.Higher ? "upwards" : "downwards", c = (() => {
     switch (a) {
       case mt.HigherIsBetter:
@@ -16792,11 +16786,11 @@ const ea = (e, t, r, o, a, s) => /* @__PURE__ */ n.jsxs("defs", { children: [
   variant: c = xn.Classic,
   runLength: d = 0,
   // Default changed to 'polarity' so letters reflect desirable direction (H = Higher is better, L = Lower is better)
-  letterMode: u = ir.Polarity,
+  letterMode: u = lr.Polarity,
   letterOverride: f,
   ...h
 }) => {
-  const p = jr(), x = jr(), {
+  const p = Xn(), x = Xn(), {
     start: m,
     mid: g,
     end: D,
@@ -16816,13 +16810,13 @@ const ea = (e, t, r, o, a, s) => /* @__PURE__ */ n.jsxs("defs", { children: [
     }
     const { state: X, direction: E, polarity: L } = ya(e);
     return { state: X, direction: E, polarity: L, ariaInput: e };
-  }, [e, t, r]), y = ze(() => Kl(b), [b]), v = ze(() => ls(b), [b]), $ = v === Ct.Improving || v === Ct.Deteriorating;
+  }, [e, t, r]), y = ze(() => Xl(b), [b]), v = ze(() => ls(b), [b]), $ = v === Ct.Improving || v === Ct.Deteriorating;
   let N = "";
-  s && $ && (u === ir.Polarity ? j === mt.HigherIsBetter ? N = "H" : j === mt.LowerIsBetter ? N = "L" : N = "" : N = S === We.Higher ? "H" : "L"), f !== void 0 && (N = f);
+  s && $ && (u === lr.Polarity ? j === mt.HigherIsBetter ? N = "H" : j === mt.LowerIsBetter ? N = "L" : N = "" : N = S === We.Higher ? "H" : "L"), f !== void 0 && (N = f);
   const P = b !== Fe.CommonCause, M = b === Fe.SpecialCauseNoJudgement, _ = St("common-cause", "#A6A6A6"), C = P ? y.hex : _, A = ze(
     () => Jm(b, S),
     [b, S]
-  ), Z = a || `${y.label}${N ? S === We.Higher ? " – Higher" : " – Lower" : ""}`, ee = sc(w);
+  ), Z = a || `${y.label}${N ? S === We.Higher ? " – Higher" : " – Lower" : ""}`, ee = ac(w);
   if (c === xn.TriangleWithRun) {
     const G = [
       [150, 90],
@@ -16853,7 +16847,7 @@ const ea = (e, t, r, o, a, s) => /* @__PURE__ */ n.jsxs("defs", { children: [
         transform: S === We.Higher ? "translate(0,-7)" : "translate(0,14)"
       }
     ));
-    const q = Math.max(0, Math.min(5, Math.floor(d || 0))), K = b === Fe.CommonCause ? 160 : S === We.Higher ? 220 : 70, J = 10, ne = 26, ue = 150 - 2 * ne, W = b === Fe.CommonCause ? _ : tc(b), ae = Array.from({ length: 5 }).map((he, Me) => {
+    const q = Math.max(0, Math.min(5, Math.floor(d || 0))), K = b === Fe.CommonCause ? 160 : S === We.Higher ? 220 : 70, J = 10, ne = 26, ue = 150 - 2 * ne, W = b === Fe.CommonCause ? _ : ec(b), ae = Array.from({ length: 5 }).map((he, Me) => {
       const Te = (b === Fe.SpecialCauseImproving || b === Fe.SpecialCauseDeteriorating) && Me >= 5 - q ? W : _;
       return /* @__PURE__ */ n.jsx(
         "circle",
@@ -17171,7 +17165,7 @@ function fg(e) {
   const r = t.reduce((i, l) => i + l.value, 0) / t.length, o = [...e].reverse().findIndex((i) => i.value != null), a = o >= 0 ? e.length - 1 - o : null, s = a != null ? e[a].value : null;
   return { mean: r, latestValue: s, latestIndex: a };
 }
-const hg = (e) => tc(e), ic = ({
+const hg = (e) => ec(e), sc = ({
   data: e,
   windowSize: t,
   minPointsForSignals: r = 13,
@@ -17299,12 +17293,12 @@ const hg = (e) => tc(e), ic = ({
   ), Me = v.length >= (r || 0), Ge = p || "SPC sparkline", Te = (() => {
     if (!U) return;
     const we = y === Xe.Up ? mt.HigherIsBetter : y === Xe.Down ? mt.LowerIsBetter : mt.ContextDependent, R = {
-      variationIcon: U === Fe.SpecialCauseImproving ? qe.Improvement : U === Fe.SpecialCauseDeteriorating ? qe.Concern : U === Fe.SpecialCauseNoJudgement ? qe.Suppressed : qe.Neither,
+      variationIcon: U === Fe.SpecialCauseImproving ? Ze.Improvement : U === Fe.SpecialCauseDeteriorating ? Ze.Concern : U === Fe.SpecialCauseNoJudgement ? Ze.Suppressed : Ze.Neither,
       trend: y === Xe.Up ? We.Higher : We.Lower,
       polarity: we
     };
     try {
-      return sc(R);
+      return ac(R);
     } catch {
       return;
     }
@@ -17491,10 +17485,10 @@ const hg = (e) => tc(e), ic = ({
           if (I) {
             const oe = w?.[X + we];
             if (oe != null)
-              oe === it.Improvement ? O = Sr(qe.Improvement) : oe === it.Concern ? O = Sr(qe.Concern) : oe === it.NoJudgement ? O = St("no-judgement", "#490092") : O = fn();
+              oe === it.Improvement ? O = _r(Ze.Improvement) : oe === it.Concern ? O = _r(Ze.Concern) : oe === it.NoJudgement ? O = St("no-judgement", "#490092") : O = fn();
             else {
               const Q = S?.[X + we];
-              Q === qe.Improvement || Q === qe.Concern ? O = Sr(Q) : O = j?.[X + we] ? St("no-judgement", "#490092") : fn();
+              Q === Ze.Improvement || Q === Ze.Concern ? O = _r(Q) : O = j?.[X + we] ? St("no-judgement", "#490092") : fn();
             }
           }
           return /* @__PURE__ */ n.jsx(
@@ -17531,7 +17525,7 @@ const hg = (e) => tc(e), ic = ({
     }
   );
 };
-ic.displayName = "SPCSpark";
+sc.displayName = "SPCSpark";
 function Vr(e) {
   switch (e) {
     case Ee.ImprovementHigh:
@@ -17549,7 +17543,7 @@ function Vr(e) {
       return null;
   }
 }
-function lc(e) {
+function ic(e) {
   return e === Ee.ImprovementHigh || e === Ee.ImprovementLow || e === Ee.ConcernHigh || e === Ee.ConcernLow || e === Ee.NeitherHigh || e === Ee.NeitherLow;
 }
 function pg({
@@ -17662,7 +17656,7 @@ const us = ({
   showTrendLines: l = !0,
   ...c
 }) => {
-  const d = jr(), u = jr(), { start: f, mid: h, end: p } = Io(), x = a || Vm[e], m = (i || Zm[e]).slice(0, 2), g = r || `Assurance ${e}`;
+  const d = Xn(), u = Xn(), { start: f, mid: h, end: p } = Io(), x = a || Vm[e], m = (i || Zm[e]).slice(0, 2), g = r || `Assurance ${e}`;
   return /* @__PURE__ */ n.jsxs(
     "svg",
     {
@@ -17788,7 +17782,7 @@ const gg = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   SPCVariationIcon: ds,
   VariationJudgement: Ct,
   VariationState: Fe,
-  getVariationColour: Kl,
+  getVariationColour: Xl,
   getVariationTrend: ls
 }, Symbol.toStringTag, { value: "Module" }));
 function xg(e) {
@@ -17807,18 +17801,18 @@ function xg(e) {
     }
   }
   if (u === -1) return null;
-  const f = l[u], h = f.classification?.variation, p = f.classification?.assurance, x = h === qe.Neither && !!f.classification?.neutralSpecialCauseValue, m = p === cn.Pass ? mn.Pass : p === cn.Fail ? mn.Fail : mn.Uncertain;
+  const f = l[u], h = f.classification?.variation, p = f.classification?.assurance, x = h === Ze.Neither && !!f.classification?.neutralSpecialCauseValue, m = p === cn.Pass ? mn.Pass : p === cn.Fail ? mn.Fail : mn.Uncertain;
   let g;
-  if (h === qe.Suppressed) {
+  if (h === Ze.Suppressed) {
     const b = !!f.rules.singlePoint.up, S = !!f.rules.singlePoint.down;
     a === ln.Up ? b ? g = We.Higher : S && (g = We.Lower) : a === ln.Down ? S ? g = We.Lower : b && (g = We.Higher) : g = We.Higher;
-  } else if (h === qe.Neither && x) {
+  } else if (h === Ze.Neither && x) {
     const b = f.rules.singlePoint.up || f.rules.twoOfThree.up || f.rules.fourOfFive.up || f.rules.shift.up || f.rules.trend.up, S = f.rules.singlePoint.down || f.rules.twoOfThree.down || f.rules.fourOfFive.down || f.rules.shift.down || f.rules.trend.down;
     b && !S ? g = We.Higher : S && !b ? g = We.Lower : g = We.Higher;
   }
   const D = 80, I = f.rules.singlePoint.up || f.rules.twoOfThree.up || f.rules.fourOfFive.up || f.rules.shift.up || f.rules.trend.up, T = f.rules.singlePoint.down || f.rules.twoOfThree.down || f.rules.fourOfFive.down || f.rules.shift.down || f.rules.trend.down;
   let k = Ee.CommonCause;
-  return h === qe.Improvement ? k = Ee.ImprovementHigh : h === qe.Concern ? k = Ee.ConcernHigh : h === qe.Neither && (x ? g === We.Lower || T && !I ? k = Ee.NeitherLow : k = Ee.NeitherHigh : k = Ee.CommonCause), /* @__PURE__ */ n.jsxs(
+  return h === Ze.Improvement ? k = Ee.ImprovementHigh : h === Ze.Concern ? k = Ee.ConcernHigh : h === Ze.Neither && (x ? g === We.Lower || T && !I ? k = Ee.NeitherLow : k = Ee.NeitherHigh : k = Ee.CommonCause), /* @__PURE__ */ n.jsxs(
     "div",
     {
       style: { display: "flex", gap: 12, marginRight: 16 },
@@ -17842,7 +17836,7 @@ function xg(e) {
                   lowSideSignal: T,
                   ...g ? { trend: g } : {}
                 },
-                letterMode: a === ln.Neither ? ir.Direction : ir.Polarity,
+                letterMode: a === ln.Neither ? lr.Direction : lr.Polarity,
                 size: D,
                 variant: s,
                 runLength: s === xn.TriangleWithRun ? i : void 0
@@ -17871,7 +17865,7 @@ function xg(e) {
     `embedded-icon-${u}`
   );
 }
-const cc = ({
+const lc = ({
   engineRows: e,
   limits: t,
   pointDescriber: r,
@@ -17916,11 +17910,11 @@ const cc = ({
       specialCauseTrendUp: !!j.rules.trend.up,
       specialCauseTrendDown: !!j.rules.trend.down
     } : null
-  ).map((Le) => ({ id: Le, label: $n[Le].tooltip })), v = m.x instanceof Date ? m.x : new Date(m.x), $ = s ? s(v) : v.toDateString(), N = a ? `${a}` : "", P = o || N ? `${m.y}${N ? "" + N : " "}${o ? " " + o : ""}` : `${m.y}`, M = jo(j?.classification?.variation), _ = Jl(j?.classification?.assurance), C = Gm(
+  ).map((Le) => ({ id: Le, label: $n[Le].tooltip })), v = m.x instanceof Date ? m.x : new Date(m.x), $ = s ? s(v) : v.toDateString(), N = a ? `${a}` : "", P = o || N ? `${m.y}${N ? "" + N : " "}${o ? " " + o : ""}` : `${m.y}`, M = jo(j?.classification?.variation), _ = ql(j?.classification?.assurance), C = Gm(
     t.mean ?? null,
     t.sigma,
     m.y
-  ), A = r ? r(m.index, { x: m.x, y: m.y }) : void 0, Z = M || _ || C, ee = j?.rules.trend.up || j?.rules.trend.down, H = j?.classification?.variation === qe.Neither && ee, X = l && H ? "Trend detected (monotonic run) – held neutral until values cross onto the favourable side of the mean." : null, E = y.length > 0, L = j && "primeDirection" in j ? j.primeDirection : void 0, G = j && "primeRuleId" in j ? j.primeRuleId : void 0, U = i && j?.classification?.variation === qe.Neither && E, F = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)", q = Xl(j?.classification?.variation), K = 6.2, ne = [
+  ), A = r ? r(m.index, { x: m.x, y: m.y }) : void 0, Z = M || _ || C, ee = j?.rules.trend.up || j?.rules.trend.down, H = j?.classification?.variation === Ze.Neither && ee, X = l && H ? "Trend detected (monotonic run) – held neutral until values cross onto the favourable side of the mean." : null, E = y.length > 0, L = j && "primeDirection" in j ? j.primeDirection : void 0, G = j && "primeRuleId" in j ? j.primeRuleId : void 0, U = i && j?.classification?.variation === Ze.Neither && E, F = "var(--nhs-fdp-color-primary-yellow, #ffeb3b)", q = Jl(j?.classification?.variation), K = 6.2, ne = [
     A || "",
     `${$} • ${P}`
   ].filter(Boolean).reduce(
@@ -17929,7 +17923,7 @@ const cc = ({
   ), ue = 200, W = 440, ae = Math.min(W, Math.max(ue, ne));
   let ce = k + 12, he = (d.margin?.top ?? 0) + b + 16;
   ce + ae > I && (ce = k - -60 - ae), ce < 0 && (ce = Math.max(0, I - ae));
-  const Me = m ? `spc-tooltip-${m.index}` : "spc-tooltip", Ge = typeof m.index == "number" ? m.index : NaN, Te = S ? sd(
+  const Me = m ? `spc-tooltip-${m.index}` : "spc-tooltip", Ge = typeof m.index == "number" ? m.index : NaN, Te = S ? ad(
     /* @__PURE__ */ n.jsx(
       "div",
       {
@@ -18052,7 +18046,7 @@ const cc = ({
                 className: "fdp-spc-tooltip__rule-tags",
                 "aria-label": "Special cause rules",
                 children: y.map(({ id: Le, label: we }) => {
-                  const R = String(Le), se = R === sr.TrendIncreasing || R === sr.TrendDecreasing ? "fdp-spc-tag--trend" : U ? "fdp-spc-tag--no-judgement" : M ? M.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : M.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
+                  const R = String(Le), se = R === ir.TrendIncreasing || R === ir.TrendDecreasing ? "fdp-spc-tag--trend" : U ? "fdp-spc-tag--no-judgement" : M ? M.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : M.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common";
                   return /* @__PURE__ */ n.jsx(
                     st,
                     {
@@ -18156,7 +18150,7 @@ const cc = ({
       new Set(c.map((m) => $n[m]?.narration).filter(Boolean))
     ),
     [c]
-  ), u = l ? jo(l.classification?.variation) : null, f = l ? Jl(l.classification?.assurance) : null, h = c.length > 0, p = l ? l.classification?.variation === qe.Neither && h : !1, x = V.useRef(null);
+  ), u = l ? jo(l.classification?.variation) : null, f = l ? ql(l.classification?.assurance) : null, h = c.length > 0, p = l ? l.classification?.variation === Ze.Neither && h : !1, x = V.useRef(null);
   return V.useEffect(() => {
     if (!o || !s || l == null) return;
     const m = `${s.seriesId}:${s.index}`;
@@ -18319,7 +18313,7 @@ const cc = ({
                   marginTop: 4
                 },
                 children: c.length === 0 ? /* @__PURE__ */ n.jsx("span", { children: " None" }) : c.map((m) => {
-                  const g = String(m), I = g === sr.TrendIncreasing || g === sr.TrendDecreasing ? "fdp-spc-tag--trend" : p ? "fdp-spc-tag--no-judgement" : u ? u.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : u.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common", T = $n[m]?.tooltip || g;
+                  const g = String(m), I = g === ir.TrendIncreasing || g === ir.TrendDecreasing ? "fdp-spc-tag--trend" : p ? "fdp-spc-tag--no-judgement" : u ? u.toLowerCase().includes("concern") ? "fdp-spc-tag--concern" : u.toLowerCase().includes("improvement") ? "fdp-spc-tag--improvement" : "fdp-spc-tag--common" : "fdp-spc-tag--common", T = $n[m]?.tooltip || g;
                   return /* @__PURE__ */ n.jsx(
                     st,
                     {
@@ -18377,7 +18371,7 @@ function yg(e, t = !0) {
   }
   return o;
 }
-var qn = /* @__PURE__ */ ((e) => (e.Slope = "slope", e.Neutral = "neutral", e.Extend = "extend", e))(qn || {}), dc = /* @__PURE__ */ ((e) => (e.Ungated = "ungated", e.Gated = "gated", e))(dc || {});
+var qn = /* @__PURE__ */ ((e) => (e.Slope = "slope", e.Neutral = "neutral", e.Extend = "extend", e))(qn || {}), cc = /* @__PURE__ */ ((e) => (e.Ungated = "ungated", e.Gated = "gated", e))(cc || {});
 function vg(e) {
   const {
     ui: t,
@@ -18447,7 +18441,7 @@ function vg(e) {
   ), !l && ne !== void 0 && console.warn(
     "SPCChart: Consider grouped meta. Use meta={{ source }}."
   ));
-  const ce = r?.data ?? c ?? [], be = r?.targets ?? g, he = r?.baselines ?? D, Me = r?.ghosts ?? I, Ge = o?.chartType ?? k ?? Vl.XmR, Te = o?.metricImprovement ?? b ?? ln.Neither, Le = o?.settings ?? T, we = o?.autoRecalc, R = t?.axes?.alwaysShowZeroY ?? _ ?? !1, Y = t?.axes?.alwaysShowHundredY ?? C ?? !1, se = t?.axes?.percentScale ?? A ?? !1, fe = t?.visuals?.gradientSequences ?? S ?? !0, pe = t?.visuals?.sequenceTransition ?? j ?? "slope", B = t?.visuals?.processLineWidth ?? w ?? 2, O = t?.visuals?.trend?.visualMode ?? M ?? "ungated", oe = t?.visuals?.trend?.showGatingExplanation ?? P ?? !0, Q = t?.visuals?.rules?.enableNeutralNoJudgement ?? N ?? !0, re = t?.visuals?.rules?.enableRules ?? e.enableRules ?? !0, le = t?.visuals?.showZones, de = t?.visuals?.showPoints, ye = t?.visuals?.rules?.highlightOutOfControl, ke = a?.height, Be = a?.className, Ye = s?.label, lt = s?.unit, Qe = s?.narrationContext, ie = i?.scenario, Ae = i?.settings, z = l?.source, te = t?.overlays?.partitionMarkers ?? y ?? !1, ge = t?.overlays?.trendStartMarkers ?? Z ?? !1, me = t?.overlays?.firstFavourableCrossMarkers ?? ee ?? !1, xe = t?.overlays?.trendBridge ?? H ?? !1, Se = t?.inspector?.show ?? X ?? !1, Re = t?.inspector?.onFocus ?? E, Ce = t?.warnings?.show ?? v ?? !1, je = t?.warnings?.filter ?? $, ve = t?.icons?.show ?? L ?? !1, Ne = t?.icons?.embedded?.show ?? G ?? !0, Ke = t?.icons?.embedded?.variant ?? U ?? xn.Classic, at = t?.icons?.embedded?.runLength ?? F, $e = t?.overlays?.focusIndicator ?? q ?? !0;
+  const ce = r?.data ?? c ?? [], be = r?.targets ?? g, he = r?.baselines ?? D, Me = r?.ghosts ?? I, Ge = o?.chartType ?? k ?? Yl.XmR, Te = o?.metricImprovement ?? b ?? ln.Neither, Le = o?.settings ?? T, we = o?.autoRecalc, R = t?.axes?.alwaysShowZeroY ?? _ ?? !1, Y = t?.axes?.alwaysShowHundredY ?? C ?? !1, se = t?.axes?.percentScale ?? A ?? !1, fe = t?.visuals?.gradientSequences ?? S ?? !0, pe = t?.visuals?.sequenceTransition ?? j ?? "slope", B = t?.visuals?.processLineWidth ?? w ?? 2, O = t?.visuals?.trend?.visualMode ?? M ?? "ungated", oe = t?.visuals?.trend?.showGatingExplanation ?? P ?? !0, Q = t?.visuals?.rules?.enableNeutralNoJudgement ?? N ?? !0, re = t?.visuals?.rules?.enableRules ?? e.enableRules ?? !0, le = t?.visuals?.showZones, de = t?.visuals?.showPoints, ye = t?.visuals?.rules?.highlightOutOfControl, ke = a?.height, Be = a?.className, Ye = s?.label, lt = s?.unit, Qe = s?.narrationContext, ie = i?.scenario, Ae = i?.settings, z = l?.source, te = t?.overlays?.partitionMarkers ?? y ?? !1, ge = t?.overlays?.trendStartMarkers ?? Z ?? !1, me = t?.overlays?.firstFavourableCrossMarkers ?? ee ?? !1, xe = t?.overlays?.trendBridge ?? H ?? !1, Se = t?.inspector?.show ?? X ?? !1, Re = t?.inspector?.onFocus ?? E, Ce = t?.warnings?.show ?? v ?? !1, je = t?.warnings?.filter ?? $, ve = t?.icons?.show ?? L ?? !1, Ne = t?.icons?.embedded?.show ?? G ?? !0, Ke = t?.icons?.embedded?.variant ?? U ?? xn.Classic, at = t?.icons?.embedded?.runLength ?? F, $e = t?.overlays?.focusIndicator ?? q ?? !0;
   return {
     effData: ce,
     effTargets: be,
@@ -18535,13 +18529,13 @@ const Sg = ({ data: e, targets: t, visuals: r, a11y: o, axis: a, compute: s }) =
     if (!l || !l.length) return null;
     const R = [];
     return l.forEach((Y, se) => {
-      const fe = Y.classification.variation === qe.Concern || Y.classification.variation === qe.Improvement || !!Y.classification.neutralSpecialCauseValue, pe = !!Y.rules.singlePoint.up || !!Y.rules.twoOfThree.up || !!Y.rules.fourOfFive.up || !!Y.rules.shift.up || !!Y.rules.trend.up, B = !!Y.rules.singlePoint.down || !!Y.rules.twoOfThree.down || !!Y.rules.fourOfFive.down || !!Y.rules.shift.down || !!Y.rules.trend.down;
+      const fe = Y.classification.variation === Ze.Concern || Y.classification.variation === Ze.Improvement || !!Y.classification.neutralSpecialCauseValue, pe = !!Y.rules.singlePoint.up || !!Y.rules.twoOfThree.up || !!Y.rules.fourOfFive.up || !!Y.rules.shift.up || !!Y.rules.trend.up, B = !!Y.rules.singlePoint.down || !!Y.rules.twoOfThree.down || !!Y.rules.fourOfFive.down || !!Y.rules.shift.down || !!Y.rules.trend.down;
       R[se] = {
         variation: Y.classification.variation,
         assurance: Y.classification.assurance,
         special: fe,
-        concern: Y.classification.variation === qe.Concern,
-        improvement: Y.classification.variation === qe.Improvement,
+        concern: Y.classification.variation === Ze.Concern,
+        improvement: Y.classification.variation === Ze.Improvement,
         trendUp: !!Y.rules.trend.up,
         trendDown: !!Y.rules.trend.down,
         upAny: pe,
@@ -19186,7 +19180,7 @@ const Sg = ({ data: e, targets: t, visuals: r, a11y: o, axis: a, compute: s }) =
                 }
               ),
               !$ && /* @__PURE__ */ n.jsx(
-                cc,
+                lc,
                 {
                   engineRows: l,
                   limits: { mean: u.mean, sigma: u.sigma },
@@ -19371,7 +19365,7 @@ function jg(e, t, r = 1) {
       return "previous";
   }
 }
-function uc(e) {
+function dc(e) {
   const {
     values: t,
     dates: r,
@@ -19444,7 +19438,7 @@ function uc(e) {
   return { value: D, unit: g, delta: S, metadata: w, latestDate: j, frequency: m };
 }
 function Mg(e) {
-  const { rows: t } = hr(e), r = cs(e);
+  const { rows: t } = pr(e), r = cs(e);
   return { rows: t, visuals: r.visuals };
 }
 const fs = 13;
@@ -19453,17 +19447,17 @@ function hs(e) {
     return e.map((t) => {
       switch (t) {
         case it.Improvement:
-          return qe.Improvement;
+          return Ze.Improvement;
         case it.Concern:
-          return qe.Concern;
+          return Ze.Concern;
         case it.NoJudgement:
-          return qe.Neither;
+          return Ze.Neither;
         default:
           return null;
       }
     });
 }
-function fc(e) {
+function uc(e) {
   if (!(!e || e.length === 0))
     return e.map((t) => t === it.NoJudgement);
 }
@@ -19484,8 +19478,8 @@ function Ig(e, t, r) {
     return !(0 >= i && 0 <= l);
   }, [e]), { slotPx: a, totalReservedPx: s } = V.useMemo(() => {
     if (!o) return { slotPx: 0, totalReservedPx: 0 };
-    const l = (t ?? 260) - 60, c = Cr, u = c + Kp, f = r?.maxFraction, h = Math.max(
-      Nr,
+    const l = (t ?? 260) - 60, c = Nr, u = c + Kp, f = r?.maxFraction, h = Math.max(
+      jr,
       Math.floor(l * f)
     ), p = Math.min(u, h);
     return { slotPx: Math.min(c, p), totalReservedPx: p };
@@ -19627,7 +19621,7 @@ const $g = (e) => {
     effSource: F,
     effPrecomputedVisuals: q,
     effEngineAutoRecalc: K
-  } = vg(e), J = Z ?? e.ariaLabel, ne = C ?? e.height ?? 260, ue = A ?? e.className, W = ee ?? e.unit, ae = H ?? e.narrationContext, ce = X ?? e.showZones, be = E ?? e.showPoints, he = L ?? e.highlightOutOfControl, Me = G ?? e.visualsScenario ?? oc.None, Ge = U ?? e.visualsEngineSettings, Te = F ?? e.source, Le = e.a11y?.announceFocus ?? e.announceFocus ?? !1, we = V.useMemo(() => o.map((Ce, je) => ({
+  } = vg(e), J = Z ?? e.ariaLabel, ne = C ?? e.height ?? 260, ue = A ?? e.className, W = ee ?? e.unit, ae = H ?? e.narrationContext, ce = X ?? e.showZones, be = E ?? e.showPoints, he = L ?? e.highlightOutOfControl, Me = G ?? e.visualsScenario ?? rc.None, Ge = U ?? e.visualsEngineSettings, Te = F ?? e.source, Le = e.a11y?.announceFocus ?? e.announceFocus ?? !1, we = V.useMemo(() => o.map((Ce, je) => ({
     x: Ce.x,
     value: Ce.y,
     target: a?.[je] ?? void 0,
@@ -19663,7 +19657,7 @@ const $g = (e) => {
         data: R,
         settings: Ce
       }, { visuals: Ke } = lg(Ne, Me, {
-        trendVisualMode: g === dc.Ungated ? Bn.Ungated : Bn.Gated,
+        trendVisualMode: g === cc.Ungated ? Bn.Ungated : Bn.Gated,
         enableNeutralNoJudgement: I
       });
       return Ke || [];
@@ -19687,16 +19681,16 @@ const $g = (e) => {
           switch (ve) {
             case Ee.ImprovementHigh:
             case Ee.ImprovementLow:
-              return qe.Improvement;
+              return Ze.Improvement;
             case Ee.ConcernHigh:
             case Ee.ConcernLow:
-              return qe.Concern;
+              return Ze.Concern;
             case Ee.NeitherHigh:
             case Ee.NeitherLow:
-              return qe.Neither;
+              return Ze.Neither;
             case Ee.CommonCause:
             default:
-              return qe.Neither;
+              return Ze.Neither;
           }
         };
         return Ce.map(
@@ -19748,16 +19742,16 @@ const $g = (e) => {
         switch ($e) {
           case Ee.ImprovementHigh:
           case Ee.ImprovementLow:
-            return qe.Improvement;
+            return Ze.Improvement;
           case Ee.ConcernHigh:
           case Ee.ConcernLow:
-            return qe.Concern;
+            return Ze.Concern;
           case Ee.NeitherHigh:
           case Ee.NeitherLow:
-            return qe.Neither;
+            return Ze.Neither;
           case Ee.CommonCause:
           default:
-            return qe.Neither;
+            return Ze.Neither;
         }
       };
       return Ke.map(
@@ -19883,7 +19877,7 @@ const $g = (e) => {
     { maxFraction: 0.35 }
   ), te = ie ? z : 0, ge = V.useMemo(() => {
     const Ce = o.map((je) => je.x);
-    return uc({
+    return dc({
       values: o.map((je) => je.y),
       dates: Ce,
       providedUnit: W || ae?.measureUnit,
@@ -20006,7 +20000,7 @@ function Ag(e, t) {
     const T = l.filter(
       (b) => typeof b.value == "number"
     ).length, k = { minimumPoints: a };
-    T >= a && (k.chartLevelEligibility = !0), c = hr({ chartType: r, metricImprovement: o, data: l, settings: k });
+    T >= a && (k.chartLevelEligibility = !0), c = pr({ chartType: r, metricImprovement: o, data: l, settings: k });
   } catch {
     c = null;
   }
@@ -20021,7 +20015,7 @@ function Ag(e, t) {
   }
   let f = [];
   try {
-    f = fr(d, {
+    f = hr(d, {
       metricImprovement: o,
       enableNeutralNoJudgement: s
     });
@@ -20040,7 +20034,7 @@ function Ag(e, t) {
     lowerTwo: u?.lowerTwoSigma ?? null
   } : null;
   let D, I;
-  return i && (D = hs(f), I = fc(f)), {
+  return i && (D = hs(f), I = uc(f)), {
     rows: d,
     visuals: f,
     latestState: h,
@@ -20055,15 +20049,15 @@ function Ag(e, t) {
 const yv = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   AssuranceIcon: cn,
-  BaselineSuggestionReason: ql,
+  BaselineSuggestionReason: Zl,
   ChartType: jt,
   DEFAULT_MIN_POINTS: fs,
   Icons: gg,
   ImprovementDirection: Xe,
-  PARITY_V26: ac,
-  RULE_METADATA: Zl,
+  PARITY_V26: oc,
+  RULE_METADATA: Vl,
   SPCChart: $g,
-  SPCTooltipOverlay: cc,
+  SPCTooltipOverlay: lc,
   SpcEmbeddedIconVariant: xn,
   SpcVisualCategory: it,
   SpcWarningCategory: Gr,
@@ -20071,19 +20065,19 @@ const yv = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   SpcWarningSeverity: Et,
   VARIATION_COLOR_TOKENS: Tt,
   VariationIcon: Ee,
-  buildSpcV26a: hr,
+  buildSpcV26a: pr,
   buildSpcV26aWithVisuals: cs,
   computeSpcPrecomputed: Ag,
-  computeSpcVisualCategories: fr,
+  computeSpcVisualCategories: hr,
   extractRuleIds: No,
   getVariationColorHex: Ym,
-  getVariationColorToken: Xl,
-  isSpecialCauseIcon: lc,
+  getVariationColorToken: Jl,
+  isSpecialCauseIcon: ic,
   mapIconToVariation: Vr,
-  normaliseSpcSettingsV2: rc,
+  normaliseSpcSettingsV2: nc,
   ruleGlossary: $n,
   variationLabel: jo,
-  visualsToNeutralFlags: fc,
+  visualsToNeutralFlags: uc,
   visualsToPointSignals: hs,
   withParityV26: cg
 }, Symbol.toStringTag, { value: "Module" }));
@@ -20114,7 +20108,7 @@ function Pg(e) {
   }, [t, r]), u = V.useMemo(() => {
     try {
       const b = d.map((y, v) => ({ x: y.x ?? v, value: y.value })), S = 13, j = b.filter((y) => typeof y.value == "number").length, w = { minimumPoints: S };
-      return j >= S && (w.chartLevelEligibility = !0), hr({ chartType: o, metricImprovement: a, data: b, settings: w });
+      return j >= S && (w.chartLevelEligibility = !0), pr({ chartType: o, metricImprovement: a, data: b, settings: w });
     } catch {
       return null;
     }
@@ -20151,7 +20145,7 @@ function Pg(e) {
     const b = u?.rows;
     if (!(!b || b.length === 0))
       try {
-        return fr(b, {
+        return hr(b, {
           metricImprovement: a,
           enableNeutralNoJudgement: !0
         });
@@ -20165,7 +20159,7 @@ function Pg(e) {
     let b = null;
     if (f && f.value != null && !f.ghost) {
       const P = f.variationIcon;
-      h === Fe.SpecialCauseNoJudgement ? b = lc(P) ? Fe.SpecialCauseNoJudgement : Fe.CommonCause : b = Vr(P) ?? Fe.CommonCause;
+      h === Fe.SpecialCauseNoJudgement ? b = ic(P) ? Fe.SpecialCauseNoJudgement : Fe.CommonCause : b = Vr(P) ?? Fe.CommonCause;
     }
     const S = b ?? Fe.CommonCause, j = Mo[S].hex, [w, y, v] = Eg(j), $ = Io();
     return {
@@ -20230,7 +20224,7 @@ const vv = ({
     showLimitBand: a,
     showInnerBands: s,
     showMean: r
-  }), g = /* @__PURE__ */ n.jsx(ic, { ...m.sparkProps, maxPoints: i }), D = V.useMemo(() => uc({
+  }), g = /* @__PURE__ */ n.jsx(sc, { ...m.sparkProps, maxPoints: i }), D = V.useMemo(() => dc({
     values: e.map((S) => typeof S.value == "number" ? S.value : null),
     dates: e.map((S) => S.date),
     intervalHint: f,
@@ -21072,7 +21066,7 @@ const Sv = ({
       ]
     }
   );
-}, Og = "150ms", Ug = "300ms", Wg = "500ms", Gg = "cubic-bezier(0.4, 0, 1, 1)", Yg = "cubic-bezier(0, 0, 0.2, 1)", Vg = "cubic-bezier(0.4, 0, 0.2, 1)", Zg = "cubic-bezier(0.68, -0.55, 0.265, 1.55)", qg = "background-color 300ms cubic-bezier(0, 0, 0.2, 1)", Jg = "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", Xg = "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", Kg = "border-color 300ms cubic-bezier(0, 0, 0.2, 1)", Qg = "1px", e0 = "2px", t0 = "4px", n0 = "4px", r0 = "4px", o0 = "2px", a0 = "1px", s0 = "0px", i0 = "4px", l0 = "8px", c0 = "12px", hc = "#d8dde0", pc = "#4c6272", mc = "#d8dde0", gc = "#aeb7bd", xc = "#d5281b", bc = "#005eb8", yc = "#ffffff", vc = "#212b32", wc = "#007f3b", Sc = "#330072", _c = "#7c2855", kc = "#d5281b", Cc = "#ffeb3b", Nc = "#fff9c4", jc = "#ffb81c", Mc = "#ed8b00", Ic = "#00a499", Dc = "#ae2573", Tc = "#4c6272", Lc = "#768692", $c = "#aeb7bd", Ac = "#d8dde0", Ec = "#f0f4f5", d0 = "#212b32", u0 = "#4c6272", f0 = "#ffffff", h0 = "#212b32", p0 = "#005eb8", m0 = "#7c2855", g0 = "#003087", x0 = "#330072", b0 = "#ffeb3b", y0 = "#212b32", v0 = "#d8dde0", w0 = "#ffffff33", S0 = "#d5281b", _0 = "#4c6272", k0 = "#ffffff", C0 = "#007f3b", N0 = "#ffffff", j0 = "#006530", M0 = "#004021", I0 = "#004021", D0 = "#00000000", T0 = "#ffffff", L0 = "#005eb8", $0 = "#005eb8", A0 = "#d9e5f2", E0 = "#c7daf0", P0 = "#005eb8", F0 = "#ffffff", R0 = "#212b32", B0 = "#d9dde0", H0 = "#b3bcc2", z0 = "#b3bcc2", O0 = "#d5281b", U0 = "#aa2016", W0 = "#6a140e", G0 = "#6a140e", Y0 = "#005eb8", V0 = "#004b93", Z0 = "#002f5c", q0 = "#002f5c", J0 = "8px", X0 = "16px", K0 = "12px", Q0 = "16px", ex = "4px", tx = "40px", nx = "4px", rx = "40px", ox = "12px", ax = "16px", sx = "32px", ix = "16px", lx = "20px", cx = "28px", dx = "9px", ux = "2px", fx = "16px", hx = "24px", px = "8px", mx = "24px", gx = "16px", xx = "4px", bx = "4px", yx = "4px", vx = "8px", wx = "4px", Sx = "16px", _x = "#007f3b", kx = "#006530", Cx = "#004021", Nx = "#d8dde0", jx = "#ffffff", Mx = "#768692", Ix = "#00000000", Dx = "#ffeb3b", Tx = "#00000000", Lx = "#ffffff", $x = "#d9e5f2", Ax = "#c7daf0", Ex = "#005eb8", Px = "#005eb8", Pc = "8px", Fc = "16px", Rc = "12px", Bc = "16px", Fx = "2px", Rx = "4px", Bx = "4px", Hx = "600", zx = "#ffffff", Ox = "#d8dde0", Ux = "#aeb7bd", Wx = "#f0f4f5", Gx = "#212b32", Yx = "#212b32", Vx = "#005eb8", Hc = "16px", zc = "32px", Oc = "16px", Zx = "1px", qx = "4px", Jx = "none", Xx = "0 2px 4px rgba(0, 0, 0, 0.1)", Kx = "#ffffff", Qx = "#ffffff", eb = "#d8dde0", tb = "#ffffff", nb = "#4c6272", rb = "#ffeb3b", ob = "#d5281b", ab = "#aeb7bd", sb = "#212b32", ib = "#4c6272", lb = "#768692", cb = "#212b32", db = "#ffffff", ub = "600", fb = "#d5281b", hb = "600", pb = "#4c6272", Uc = "4px", Wc = "40px", Gc = "40px", Yc = "12px", mb = "2px", gb = "4px", xb = "0px", bb = "16px", yb = "18px", vb = "24px", wb = "32px", Sb = "34px", _b = "32px", kb = "40px", Cb = "48px", Nb = "5.4ex", jb = "7.2ex", Mb = "9ex", Ib = "10.8ex", Db = "20ex", Tb = "38ex", Lb = "56ex", $b = "44px", Ab = "40px", Eb = "1020px", Pb = "100%", Fb = "50%", Rb = "33.333%", Bb = "25%", Hb = "20%", zb = "320px", Ob = "641px", Ub = "1025px", Wb = "1280px", Gb = "960px", Yb = "32px", Vb = "16px", Zb = "#d5281b", qb = "#d5281b", Jb = "#ffffff", Xb = "#007f3b", Kb = "#007f3b", Qb = "#ffffff", ey = "#ffeb3b", ty = "#ffeb3b", ny = "#212b32", ry = "#005eb8", oy = "#005eb8", ay = "#ffffff", sy = "#d8dde0", iy = "#aeb7bd", ly = "#768692", cy = "0 4px 0 #004021", dy = "0 4px 0 #005eb8", uy = "0 4px 0 #6a140e", fy = "0 4px 0 #ffeb3b", hy = "none", py = "0 2px 4px rgba(0, 0, 0, 0.1)", my = "4px", gy = "0px", xy = "solid", by = "0 0 0 3px #ffeb3b", yy = "0 0 0 3px #ffeb3b", vy = "none", wy = "0 1px 3px rgba(0, 0, 0, 0.12)", Sy = "0 2px 6px rgba(0, 0, 0, 0.16)", _y = "0 4px 12px rgba(0, 0, 0, 0.20)", Vc = "0", Zc = "4px", qc = "8px", Jc = "16px", Xc = "24px", Kc = "32px", Qc = "40px", ed = "48px", td = "56px", nd = "64px", wa = "0", Sa = "0", _a = "4px", ka = "4px", Ca = "8px", Na = "8px", ja = "8px", Ma = "16px", Ia = "16px", Da = "24px", Ta = "24px", La = "32px", $a = "32px", Aa = "40px", Ea = "40px", Pa = "48px", Fa = "48px", Ra = "56px", Ba = "56px", Ha = "64px", Zr = "Frutiger W01", qr = "Arial, Helvetica, sans-serif", Jr = "sans-serif", Xr = "400", Kr = "600", Qr = "400", eo = "12px", to = "14px", no = "12pt", ro = "14px", oo = "16px", ao = "12pt", so = "16px", io = "19px", lo = "13pt", co = "19px", uo = "22px", fo = "15pt", ho = "22px", po = "26px", mo = "17pt", go = "27px", xo = "36px", bo = "20pt", yo = "33px", vo = "48px", wo = "24pt", za = "16px", Oa = "24px", Ht = {
+}, Og = "150ms", Ug = "300ms", Wg = "500ms", Gg = "cubic-bezier(0.4, 0, 1, 1)", Yg = "cubic-bezier(0, 0, 0.2, 1)", Vg = "cubic-bezier(0.4, 0, 0.2, 1)", Zg = "cubic-bezier(0.68, -0.55, 0.265, 1.55)", qg = "background-color 300ms cubic-bezier(0, 0, 0.2, 1)", Jg = "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", Xg = "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)", Kg = "border-color 300ms cubic-bezier(0, 0, 0.2, 1)", Qg = "1px", e0 = "2px", t0 = "4px", n0 = "4px", r0 = "4px", o0 = "2px", a0 = "1px", s0 = "0px", i0 = "4px", l0 = "8px", c0 = "12px", fc = "#d8dde0", hc = "#4c6272", pc = "#d8dde0", mc = "#aeb7bd", gc = "#d5281b", xc = "#005eb8", bc = "#ffffff", yc = "#212b32", vc = "#007f3b", wc = "#330072", Sc = "#7c2855", _c = "#d5281b", kc = "#ffeb3b", Cc = "#fff9c4", Nc = "#ffb81c", jc = "#ed8b00", Mc = "#00a499", Ic = "#ae2573", Dc = "#4c6272", Tc = "#768692", Lc = "#aeb7bd", $c = "#d8dde0", Ac = "#f0f4f5", d0 = "#212b32", u0 = "#4c6272", f0 = "#ffffff", h0 = "#212b32", p0 = "#005eb8", m0 = "#7c2855", g0 = "#003087", x0 = "#330072", b0 = "#ffeb3b", y0 = "#212b32", v0 = "#d8dde0", w0 = "#ffffff33", S0 = "#d5281b", _0 = "#4c6272", k0 = "#ffffff", C0 = "#007f3b", N0 = "#ffffff", j0 = "#006530", M0 = "#004021", I0 = "#004021", D0 = "#00000000", T0 = "#ffffff", L0 = "#005eb8", $0 = "#005eb8", A0 = "#d9e5f2", E0 = "#c7daf0", P0 = "#005eb8", F0 = "#ffffff", R0 = "#212b32", B0 = "#d9dde0", H0 = "#b3bcc2", z0 = "#b3bcc2", O0 = "#d5281b", U0 = "#aa2016", W0 = "#6a140e", G0 = "#6a140e", Y0 = "#005eb8", V0 = "#004b93", Z0 = "#002f5c", q0 = "#002f5c", J0 = "8px", X0 = "16px", K0 = "12px", Q0 = "16px", ex = "4px", tx = "40px", nx = "4px", rx = "40px", ox = "12px", ax = "16px", sx = "32px", ix = "16px", lx = "20px", cx = "28px", dx = "9px", ux = "2px", fx = "16px", hx = "24px", px = "8px", mx = "24px", gx = "16px", xx = "4px", bx = "4px", yx = "4px", vx = "8px", wx = "4px", Sx = "16px", _x = "#007f3b", kx = "#006530", Cx = "#004021", Nx = "#d8dde0", jx = "#ffffff", Mx = "#768692", Ix = "#00000000", Dx = "#ffeb3b", Tx = "#00000000", Lx = "#ffffff", $x = "#d9e5f2", Ax = "#c7daf0", Ex = "#005eb8", Px = "#005eb8", Ec = "8px", Pc = "16px", Fc = "12px", Rc = "16px", Fx = "2px", Rx = "4px", Bx = "4px", Hx = "600", zx = "#ffffff", Ox = "#d8dde0", Ux = "#aeb7bd", Wx = "#f0f4f5", Gx = "#212b32", Yx = "#212b32", Vx = "#005eb8", Bc = "16px", Hc = "32px", zc = "16px", Zx = "1px", qx = "4px", Jx = "none", Xx = "0 2px 4px rgba(0, 0, 0, 0.1)", Kx = "#ffffff", Qx = "#ffffff", eb = "#d8dde0", tb = "#ffffff", nb = "#4c6272", rb = "#ffeb3b", ob = "#d5281b", ab = "#aeb7bd", sb = "#212b32", ib = "#4c6272", lb = "#768692", cb = "#212b32", db = "#ffffff", ub = "600", fb = "#d5281b", hb = "600", pb = "#4c6272", Oc = "4px", Uc = "40px", Wc = "40px", Gc = "12px", mb = "2px", gb = "4px", xb = "0px", bb = "16px", yb = "18px", vb = "24px", wb = "32px", Sb = "34px", _b = "32px", kb = "40px", Cb = "48px", Nb = "5.4ex", jb = "7.2ex", Mb = "9ex", Ib = "10.8ex", Db = "20ex", Tb = "38ex", Lb = "56ex", $b = "44px", Ab = "40px", Eb = "1020px", Pb = "100%", Fb = "50%", Rb = "33.333%", Bb = "25%", Hb = "20%", zb = "320px", Ob = "641px", Ub = "1025px", Wb = "1280px", Gb = "960px", Yb = "32px", Vb = "16px", Zb = "#d5281b", qb = "#d5281b", Jb = "#ffffff", Xb = "#007f3b", Kb = "#007f3b", Qb = "#ffffff", ey = "#ffeb3b", ty = "#ffeb3b", ny = "#212b32", ry = "#005eb8", oy = "#005eb8", ay = "#ffffff", sy = "#d8dde0", iy = "#aeb7bd", ly = "#768692", cy = "0 4px 0 #004021", dy = "0 4px 0 #005eb8", uy = "0 4px 0 #6a140e", fy = "0 4px 0 #ffeb3b", hy = "none", py = "0 2px 4px rgba(0, 0, 0, 0.1)", my = "4px", gy = "0px", xy = "solid", by = "0 0 0 3px #ffeb3b", yy = "0 0 0 3px #ffeb3b", vy = "none", wy = "0 1px 3px rgba(0, 0, 0, 0.12)", Sy = "0 2px 6px rgba(0, 0, 0, 0.16)", _y = "0 4px 12px rgba(0, 0, 0, 0.20)", Yc = "0", Vc = "4px", Zc = "8px", qc = "16px", Jc = "24px", Xc = "32px", Kc = "40px", Qc = "48px", ed = "56px", td = "64px", wa = "0", Sa = "0", _a = "4px", ka = "4px", Ca = "8px", Na = "8px", ja = "8px", Ma = "16px", Ia = "16px", Da = "24px", Ta = "24px", La = "32px", $a = "32px", Aa = "40px", Ea = "40px", Pa = "48px", Fa = "48px", Ra = "56px", Ba = "56px", Ha = "64px", Zr = "Frutiger W01", qr = "Arial, Helvetica, sans-serif", Jr = "sans-serif", Xr = "400", Kr = "600", Qr = "400", eo = "12px", to = "14px", no = "12pt", ro = "14px", oo = "16px", ao = "12pt", so = "16px", io = "19px", lo = "13pt", co = "19px", uo = "22px", fo = "15pt", ho = "22px", po = "26px", mo = "17pt", go = "27px", xo = "36px", bo = "20pt", yo = "33px", vo = "48px", wo = "24pt", za = "16px", Oa = "24px", Ht = {
   fontFamily: "Frutiger W01",
   fontWeight: "600",
   fontSize: { mobile: "33px", tablet: "48px", print: "24pt" },
@@ -21151,11 +21145,11 @@ const Sv = ({
   AnimationEasingEaseIn: Gg,
   AnimationEasingEaseInOut: Vg,
   AnimationEasingEaseOut: Yg,
-  BorderColorCard: mc,
-  BorderColorCardHover: gc,
-  BorderColorDefault: hc,
-  BorderColorError: xc,
-  BorderColorForm: pc,
+  BorderColorCard: pc,
+  BorderColorCardHover: mc,
+  BorderColorDefault: fc,
+  BorderColorError: gc,
+  BorderColorForm: hc,
   BorderRadiusLarge: c0,
   BorderRadiusMedium: l0,
   BorderRadiusNone: s0,
@@ -21188,10 +21182,10 @@ const Sv = ({
   ButtonSecondaryBorderDefault: Px,
   ButtonSecondaryTextDefault: Ex,
   ButtonShadowSize: Bx,
-  ButtonSpacingPaddingHorizontalDesktop: Bc,
-  ButtonSpacingPaddingHorizontalMobile: Fc,
-  ButtonSpacingPaddingVerticalDesktop: Rc,
-  ButtonSpacingPaddingVerticalMobile: Pc,
+  ButtonSpacingPaddingHorizontalDesktop: Rc,
+  ButtonSpacingPaddingHorizontalMobile: Pc,
+  ButtonSpacingPaddingVerticalDesktop: Fc,
+  ButtonSpacingPaddingVerticalMobile: Ec,
   ButtonTypographyWeight: Hx,
   CardBackgroundDefault: zx,
   CardBorderBottom: Wx,
@@ -21201,9 +21195,9 @@ const Sv = ({
   CardBorderWidthDefault: Zx,
   CardShadowDefault: Jx,
   CardShadowHover: Xx,
-  CardSpacingHeadingMargin: Oc,
-  CardSpacingPaddingDesktop: zc,
-  CardSpacingPaddingMobile: Hc,
+  CardSpacingHeadingMargin: zc,
+  CardSpacingPaddingDesktop: Hc,
+  CardSpacingPaddingMobile: Bc,
   CardTextDescription: Yx,
   CardTextHeading: Gx,
   CardTextLink: Vx,
@@ -21239,28 +21233,28 @@ const Sv = ({
   ColorFocusText: y0,
   ColorFormBackground: k0,
   ColorFormBorder: _0,
-  ColorGrey1: Tc,
-  ColorGrey2: Lc,
-  ColorGrey3: $c,
-  ColorGrey4: Ac,
-  ColorGrey5: Ec,
+  ColorGrey1: Dc,
+  ColorGrey2: Tc,
+  ColorGrey3: Lc,
+  ColorGrey4: $c,
+  ColorGrey5: Ac,
   ColorLinkActive: g0,
   ColorLinkDefault: p0,
   ColorLinkHover: m0,
   ColorLinkVisited: x0,
-  ColorPrimaryBlack: vc,
-  ColorPrimaryBlue: bc,
-  ColorPrimaryDarkPink: _c,
-  ColorPrimaryGreen: wc,
-  ColorPrimaryPurple: Sc,
-  ColorPrimaryRed: kc,
-  ColorPrimaryWhite: yc,
-  ColorPrimaryYellow: Cc,
-  ColorSecondaryAquaGreen: Ic,
-  ColorSecondaryOrange: Mc,
-  ColorSecondaryPaleYellow: Nc,
-  ColorSecondaryPink: Dc,
-  ColorSecondaryWarmYellow: jc,
+  ColorPrimaryBlack: yc,
+  ColorPrimaryBlue: xc,
+  ColorPrimaryDarkPink: Sc,
+  ColorPrimaryGreen: vc,
+  ColorPrimaryPurple: wc,
+  ColorPrimaryRed: _c,
+  ColorPrimaryWhite: bc,
+  ColorPrimaryYellow: kc,
+  ColorSecondaryAquaGreen: Mc,
+  ColorSecondaryOrange: jc,
+  ColorSecondaryPaleYellow: Cc,
+  ColorSecondaryPink: Ic,
+  ColorSecondaryWarmYellow: Nc,
   ColorTextPrimary: d0,
   ColorTextPrint: h0,
   ColorTextReverse: f0,
@@ -21350,10 +21344,10 @@ const Sv = ({
   FormLabelTextDefault: cb,
   FormLabelTextRequired: db,
   FormLabelTypographyWeight: ub,
-  FormSpacingCheckboxLabelPadding: Yc,
-  FormSpacingCheckboxSize: Gc,
-  FormSpacingInputMinHeight: Wc,
-  FormSpacingInputPadding: Uc,
+  FormSpacingCheckboxLabelPadding: Gc,
+  FormSpacingCheckboxSize: Wc,
+  FormSpacingInputMinHeight: Uc,
+  FormSpacingInputPadding: Oc,
   GridGutter: Yb,
   GridGutterHalf: Vb,
   GridPageWidth: Gb,
@@ -21396,16 +21390,16 @@ const Sv = ({
   SizeIconMedium: yb,
   SizeIconNhsDefault: Sb,
   SizeIconSmall: bb,
-  Spacing0: Vc,
-  Spacing1: Zc,
-  Spacing2: qc,
-  Spacing3: Jc,
-  Spacing4: Xc,
-  Spacing5: Kc,
-  Spacing6: Qc,
-  Spacing7: ed,
-  Spacing8: td,
-  Spacing9: nd,
+  Spacing0: Yc,
+  Spacing1: Vc,
+  Spacing2: Zc,
+  Spacing3: qc,
+  Spacing4: Jc,
+  Spacing5: Xc,
+  Spacing6: Kc,
+  Spacing7: Qc,
+  Spacing8: ed,
+  Spacing9: td,
   SpacingResponsive0Mobile: wa,
   SpacingResponsive0Tablet: Sa,
   SpacingResponsive1Mobile: _a,
@@ -21647,43 +21641,43 @@ const Sv = ({
   }
 ), Av = () => ze(() => ky, []), Ev = () => ze(() => ({
   // Border colors
-  BorderColorDefault: hc,
-  BorderColorForm: pc,
-  BorderColorCard: mc,
-  BorderColorCardHover: gc,
-  BorderColorError: xc,
+  BorderColorDefault: fc,
+  BorderColorForm: hc,
+  BorderColorCard: pc,
+  BorderColorCardHover: mc,
+  BorderColorError: gc,
   // Primary colors
-  ColorPrimaryBlue: bc,
-  ColorPrimaryWhite: yc,
-  ColorPrimaryBlack: vc,
-  ColorPrimaryGreen: wc,
-  ColorPrimaryPurple: Sc,
-  ColorPrimaryDarkPink: _c,
-  ColorPrimaryRed: kc,
-  ColorPrimaryYellow: Cc,
+  ColorPrimaryBlue: xc,
+  ColorPrimaryWhite: bc,
+  ColorPrimaryBlack: yc,
+  ColorPrimaryGreen: vc,
+  ColorPrimaryPurple: wc,
+  ColorPrimaryDarkPink: Sc,
+  ColorPrimaryRed: _c,
+  ColorPrimaryYellow: kc,
   // Secondary colors
-  ColorSecondaryPaleYellow: Nc,
-  ColorSecondaryWarmYellow: jc,
-  ColorSecondaryOrange: Mc,
-  ColorSecondaryAquaGreen: Ic,
-  ColorSecondaryPink: Dc,
+  ColorSecondaryPaleYellow: Cc,
+  ColorSecondaryWarmYellow: Nc,
+  ColorSecondaryOrange: jc,
+  ColorSecondaryAquaGreen: Mc,
+  ColorSecondaryPink: Ic,
   // Grey scale
-  ColorGrey1: Tc,
-  ColorGrey2: Lc,
-  ColorGrey3: $c,
-  ColorGrey4: Ac,
-  ColorGrey5: Ec
+  ColorGrey1: Dc,
+  ColorGrey2: Tc,
+  ColorGrey3: Lc,
+  ColorGrey4: $c,
+  ColorGrey5: Ac
 }), []), Pv = () => ze(() => ({
-  Spacing0: Vc,
-  Spacing1: Zc,
-  Spacing2: qc,
-  Spacing3: Jc,
-  Spacing4: Xc,
-  Spacing5: Kc,
-  Spacing6: Qc,
-  Spacing7: ed,
-  Spacing8: td,
-  Spacing9: nd
+  Spacing0: Yc,
+  Spacing1: Vc,
+  Spacing2: Zc,
+  Spacing3: qc,
+  Spacing4: Jc,
+  Spacing5: Xc,
+  Spacing6: Kc,
+  Spacing7: Qc,
+  Spacing8: ed,
+  Spacing9: td
 }), []), Fv = () => ze(() => ({
   // Semantic device-grouped typography
   Mobile: {
@@ -21806,19 +21800,19 @@ const Sv = ({
   SpacingResponsive9Tablet: Ha
 }), []), Bv = () => ze(() => ({
   // Button spacing
-  ButtonSpacingPaddingVerticalMobile: Pc,
-  ButtonSpacingPaddingHorizontalMobile: Fc,
-  ButtonSpacingPaddingVerticalDesktop: Rc,
-  ButtonSpacingPaddingHorizontalDesktop: Bc,
+  ButtonSpacingPaddingVerticalMobile: Ec,
+  ButtonSpacingPaddingHorizontalMobile: Pc,
+  ButtonSpacingPaddingVerticalDesktop: Fc,
+  ButtonSpacingPaddingHorizontalDesktop: Rc,
   // Card spacing	
-  CardSpacingPaddingMobile: Hc,
-  CardSpacingPaddingDesktop: zc,
-  CardSpacingHeadingMargin: Oc,
+  CardSpacingPaddingMobile: Bc,
+  CardSpacingPaddingDesktop: Hc,
+  CardSpacingHeadingMargin: zc,
   // Form spacing
-  FormSpacingInputPadding: Uc,
-  FormSpacingInputMinHeight: Wc,
-  FormSpacingCheckboxSize: Gc,
-  FormSpacingCheckboxLabelPadding: Yc
+  FormSpacingInputPadding: Oc,
+  FormSpacingInputMinHeight: Uc,
+  FormSpacingCheckboxSize: Wc,
+  FormSpacingCheckboxLabelPadding: Gc
 }), []), Hv = () => ze(() => ({
   xl: Ht,
   l: zt,
@@ -21899,7 +21893,7 @@ function Uv(e = {}) {
     isDrilledIn: o === "three-column"
   };
 }
-const rd = {
+const nd = {
   fontPath: "https://assets.nhs.uk/fonts/",
   includeFontFace: !0,
   useFallbacks: !0,
@@ -21919,7 +21913,7 @@ const rd = {
   }
 };
 function Wv(e = {}) {
-  const { fontPath: t, fontWeights: r } = { ...rd, ...e }, o = [];
+  const { fontPath: t, fontWeights: r } = { ...nd, ...e }, o = [];
   return r?.includes(400) && o.push(`
 @font-face {
   font-display: swap;
@@ -21947,7 +21941,7 @@ function Wv(e = {}) {
 }
 function Gv(e = {}) {
   if (typeof document > "u") return;
-  const { fontPath: t, fontWeights: r } = { ...rd, ...e };
+  const { fontPath: t, fontWeights: r } = { ...nd, ...e };
   [
     // Preload the most important formats (woff2 first, then woff)
     ...r?.includes(400) ? [
@@ -21974,8 +21968,8 @@ async function Zv() {
 }
 export {
   Kp as AXIS_Y_ZERO_BREAK_DEFAULT_EXTRA_CLEARANCE_PX,
-  Cr as AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX,
-  Nr as AXIS_Y_ZERO_BREAK_MIN_GAP_PX,
+  Nr as AXIS_Y_ZERO_BREAK_DEFAULT_GAP_PX,
+  jr as AXIS_Y_ZERO_BREAK_MIN_GAP_PX,
   Qp as AXIS_ZIGZAG_DEFAULT_AMPLITUDE_PX,
   em as AXIS_ZIGZAG_DEFAULT_CYCLES,
   nm as AXIS_ZIGZAG_DEFAULT_HEIGHT_PX,
@@ -21990,20 +21984,20 @@ export {
   Gg as AnimationEasingEaseIn,
   Vg as AnimationEasingEaseInOut,
   Yg as AnimationEasingEaseOut,
-  _l as AppointmentCard,
+  Sl as AppointmentCard,
   pv as AreaSeriesPrimitive,
   Yh as AriaDataGrid,
   ca as AriaTabsDataGrid,
   av as AriaTabsDataGridAdaptive,
   gi as Axis,
-  Xn as BackLink,
+  Kn as BackLink,
   gv as BandScalesProvider,
   mv as BarSeriesPrimitive,
-  mc as BorderColorCard,
-  gc as BorderColorCardHover,
-  hc as BorderColorDefault,
-  xc as BorderColorError,
-  pc as BorderColorForm,
+  pc as BorderColorCard,
+  mc as BorderColorCardHover,
+  fc as BorderColorDefault,
+  gc as BorderColorError,
+  hc as BorderColorForm,
   c0 as BorderRadiusLarge,
   l0 as BorderRadiusMedium,
   s0 as BorderRadiusNone,
@@ -22017,8 +22011,8 @@ export {
   o0 as BorderWidthTableHeader,
   Ya as BrandKey,
   zy as BrandThemeProvider,
-  gl as Breadcrumb,
-  Dd as Breakpoint,
+  ml as Breadcrumb,
+  Id as Breakpoint,
   Ub as BreakpointDesktop,
   Wb as BreakpointLargeDesktop,
   zb as BreakpointMobile,
@@ -22042,13 +22036,13 @@ export {
   Ex as ButtonSecondaryTextDefault,
   Bx as ButtonShadowSize,
   Hi as ButtonSize,
-  Bc as ButtonSpacingPaddingHorizontalDesktop,
-  Fc as ButtonSpacingPaddingHorizontalMobile,
-  Rc as ButtonSpacingPaddingVerticalDesktop,
-  Pc as ButtonSpacingPaddingVerticalMobile,
+  Rc as ButtonSpacingPaddingHorizontalDesktop,
+  Pc as ButtonSpacingPaddingHorizontalMobile,
+  Fc as ButtonSpacingPaddingVerticalDesktop,
+  Ec as ButtonSpacingPaddingVerticalMobile,
   Hx as ButtonTypographyWeight,
   Bi as ButtonVariant,
-  bl as Card,
+  xl as Card,
   zx as CardBackgroundDefault,
   Wx as CardBorderBottom,
   Ox as CardBorderDefault,
@@ -22059,9 +22053,9 @@ export {
   Vy as CardGroupItem,
   Jx as CardShadowDefault,
   Xx as CardShadowHover,
-  Oc as CardSpacingHeadingMargin,
-  zc as CardSpacingPaddingDesktop,
-  Hc as CardSpacingPaddingMobile,
+  zc as CardSpacingHeadingMargin,
+  Hc as CardSpacingPaddingDesktop,
+  Bc as CardSpacingPaddingMobile,
   Yx as CardTextDescription,
   Gx as CardTextHeading,
   Vx as CardTextLink,
@@ -22070,8 +22064,8 @@ export {
   bv as ChartEnhancer,
   xv as ChartNoScript,
   Jp as ChartRoot,
-  xd as Checkbox,
-  wd as Checkboxes,
+  gd as Checkbox,
+  vd as Checkboxes,
   v0 as ColorBorderDefault,
   w0 as ColorBorderSecondary,
   Z0 as ColorButtonLoginActive,
@@ -22104,34 +22098,34 @@ export {
   y0 as ColorFocusText,
   k0 as ColorFormBackground,
   _0 as ColorFormBorder,
-  Tc as ColorGrey1,
-  Lc as ColorGrey2,
-  $c as ColorGrey3,
-  Ac as ColorGrey4,
-  Ec as ColorGrey5,
+  Dc as ColorGrey1,
+  Tc as ColorGrey2,
+  Lc as ColorGrey3,
+  $c as ColorGrey4,
+  Ac as ColorGrey5,
   g0 as ColorLinkActive,
   p0 as ColorLinkDefault,
   m0 as ColorLinkHover,
   x0 as ColorLinkVisited,
-  vc as ColorPrimaryBlack,
-  bc as ColorPrimaryBlue,
-  _c as ColorPrimaryDarkPink,
-  wc as ColorPrimaryGreen,
-  Sc as ColorPrimaryPurple,
-  kc as ColorPrimaryRed,
-  yc as ColorPrimaryWhite,
-  Cc as ColorPrimaryYellow,
-  Ic as ColorSecondaryAquaGreen,
-  Mc as ColorSecondaryOrange,
-  Nc as ColorSecondaryPaleYellow,
-  Dc as ColorSecondaryPink,
-  jc as ColorSecondaryWarmYellow,
+  yc as ColorPrimaryBlack,
+  xc as ColorPrimaryBlue,
+  Sc as ColorPrimaryDarkPink,
+  vc as ColorPrimaryGreen,
+  wc as ColorPrimaryPurple,
+  _c as ColorPrimaryRed,
+  bc as ColorPrimaryWhite,
+  kc as ColorPrimaryYellow,
+  Mc as ColorSecondaryAquaGreen,
+  jc as ColorSecondaryOrange,
+  Cc as ColorSecondaryPaleYellow,
+  Ic as ColorSecondaryPink,
+  Nc as ColorSecondaryWarmYellow,
   d0 as ColorTextPrimary,
   h0 as ColorTextPrint,
   f0 as ColorTextReverse,
   u0 as ColorTextSecondary,
-  Kn as Column,
-  Ld as ColumnAlign,
+  Qn as Column,
+  Td as ColumnAlign,
   bx as ComponentBlur,
   dx as ComponentBreadcrumbChevronMarginLeft,
   ux as ComponentBreadcrumbChevronMarginRight,
@@ -22161,7 +22155,7 @@ export {
   gx as ComponentSummaryListRowMargin,
   Wi as Container,
   Gy as ContentsList,
-  rd as DEFAULT_FONT_CONFIG,
+  nd as DEFAULT_FONT_CONFIG,
   nv as DashboardSummaryGrid,
   Ry as DateInput,
   Lh as Details,
@@ -22175,7 +22169,7 @@ export {
   Ah as Expander,
   kt as FRUTIGER_FONT_FILES,
   Ga as Fieldset,
-  Td as Float,
+  Dd as Float,
   gy as FocusOutlineOffset,
   xy as FocusOutlineStyle,
   my as FocusOutlineWidth,
@@ -22210,7 +22204,7 @@ export {
   Kr as FontWeightBold,
   Qr as FontWeightLight,
   Xr as FontWeightNormal,
-  Xi as Footer,
+  Ji as Footer,
   xb as FormBorderRadius,
   mb as FormBorderWidthDefault,
   gb as FormBorderWidthError,
@@ -22231,10 +22225,10 @@ export {
   cb as FormLabelTextDefault,
   db as FormLabelTextRequired,
   ub as FormLabelTypographyWeight,
-  Yc as FormSpacingCheckboxLabelPadding,
-  Gc as FormSpacingCheckboxSize,
-  Wc as FormSpacingInputMinHeight,
-  Uc as FormSpacingInputPadding,
+  Gc as FormSpacingCheckboxLabelPadding,
+  Wc as FormSpacingCheckboxSize,
+  Uc as FormSpacingInputMinHeight,
+  Oc as FormSpacingInputPadding,
   Uy as GanttChart,
   ta as Grid,
   Yb as GridGutter,
@@ -22242,10 +22236,10 @@ export {
   rm as GridLines,
   Gb as GridPageWidth,
   bn as GridWidth,
-  Ji as Header,
+  qi as Header,
   Oy as HeaderSSR,
   Xd as HeaderSearch,
-  Ji as HeaderStatic,
+  qi as HeaderStatic,
   Kt as Heading,
   zt as HeadingsNhsukHeadingL,
   Ot as HeadingsNhsukHeadingM,
@@ -22267,10 +22261,10 @@ export {
   hv as Legend,
   Xp as LineScalesProvider,
   Bm as LineSeriesPrimitive,
-  Ed as List,
+  Ad as List,
   Va as LogoVariant,
   Gi as MainWrapper,
-  kl as MedicationCard,
+  _l as MedicationCard,
   Om as MetricCard,
   Iv as NHSBodyText,
   Dv as NHSBodyTextLarge,
@@ -22295,7 +22289,7 @@ export {
   Zt as ParagraphsLedeText,
   qt as ParagraphsLedeTextSmall,
   wv as ParallaxScene,
-  Sl as PatientCard,
+  wl as PatientCard,
   Sv as PatternBanner,
   Wp as ProductRoadmap,
   Dy as Radios,
@@ -22307,7 +22301,7 @@ export {
   $g as SPCChart,
   vv as SPCMetricCard,
   Mr as Select,
-  Nd as SelectOption,
+  Cd as SelectOption,
   cy as ShadowButtonDefault,
   fy as ShadowButtonFocus,
   dy as ShadowButtonSecondary,
@@ -22331,19 +22325,19 @@ export {
   yb as SizeIconMedium,
   Sb as SizeIconNhsDefault,
   bb as SizeIconSmall,
-  xl as SkipLink,
+  gl as SkipLink,
   ev as SlotMatrix,
   rv as SortStatusControl,
-  Vc as Spacing0,
-  Zc as Spacing1,
-  qc as Spacing2,
-  Jc as Spacing3,
-  Xc as Spacing4,
-  Kc as Spacing5,
-  Qc as Spacing6,
-  ed as Spacing7,
-  td as Spacing8,
-  nd as Spacing9,
+  Yc as Spacing0,
+  Vc as Spacing1,
+  Zc as Spacing2,
+  qc as Spacing3,
+  Jc as Spacing4,
+  Xc as Spacing5,
+  Kc as Spacing6,
+  Qc as Spacing7,
+  ed as Spacing8,
+  td as Spacing9,
   wa as SpacingResponsive0Mobile,
   Sa as SpacingResponsive0Tablet,
   _a as SpacingResponsive1Mobile,
@@ -22387,7 +22381,7 @@ export {
   Xy as Tabs,
   st as Tag,
   Eh as TaskList,
-  _d as Textarea,
+  Sd as Textarea,
   fv as TooltipOverlay,
   Rm as TooltipProvider,
   lv as TransactionalPageTemplate,
@@ -22396,13 +22390,13 @@ export {
   Kg as TransitionCardHover,
   Xg as TransitionInputFocus,
   uv as VisibilityProvider,
-  Cl as VitalsCard,
+  kl as VitalsCard,
   Py as WIDTH_FRACTIONS,
   Ky as WarningCallout,
-  Dl as WidthContainer,
+  Il as WidthContainer,
   Ay as WidthUtilities,
   dv as WorkflowSplitView,
-  qd as brandLogos,
+  Zd as brandLogos,
   Zv as checkFrutigerLoaded,
   os as createGenericTabsConfig,
   ov as createTCHTabsConfig,
@@ -22413,7 +22407,7 @@ export {
   Ey as getWidthClass,
   Gv as preloadFrutigerFonts,
   rp as tchDataConfig,
-  qi as useBrand,
+  Jd as useBrand,
   Ev as useColors,
   Bv as useComponentSpacing,
   Hv as useNHSHeadings,

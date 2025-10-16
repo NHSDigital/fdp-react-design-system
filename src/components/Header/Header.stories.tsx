@@ -37,6 +37,44 @@ The Header component provides navigation and branding for NHS services. It inclu
 - Keyboard accessible menu toggle
 - Screen reader friendly hidden labels
 - Focus indicators for all interactive elements
+
+## SSR usage (Next.js App Router / RSC)
+If you're rendering on the server using the SSR entry, import from the server barrel to avoid pulling client hooks:
+
+\`\`\`ts
+import { Header, Footer, LogoVariant } from '@fergusbisset/nhs-fdp-design-system/ssr';
+\`\`\`
+
+The SSR Header does not read React context. To render FDP logos server-side (so that \`logoVariant\` takes effect), pass the brand via an attribute:
+
+\`\`\`tsx
+<Header
+	attributes={{ 'data-brand': 'fdp' }}
+	logoVariant={LogoVariant.Compact}
+	service={{ text: 'Service', href: '/' }}
+	navigation={{ items: [{ href: '#', text: 'Home', current: true }] }}
+/>
+\`\`\`
+
+Notes:
+- \`logoVariant\` affects the auto-selected FDP logo only when no explicit \`logo.src\` is provided.
+- If you provide \`logo.src\`, that always overrides the brand-based selection.
+- Choose an inverse variant (e.g. \`LogoVariant.Inverse\`) for dark backgrounds and pair with \`variant="white"\`.
+
+If you prefer to control the exact asset, you can override with a specific logo source:
+
+\`\`\`tsx
+import { BrandKey, getBrandLogo, LogoVariant } from '@fergusbisset/nhs-fdp-design-system/ssr';
+
+const logo = getBrandLogo(BrandKey.FDP, LogoVariant.Compact);
+
+<Header
+	logo={{ src: logo.src, ariaLabel: 'FDP' }}
+	service={{ text: 'Service', href: '/' }}
+/>;
+\`\`\`
+
+Client usage can still use \`BrandThemeProvider\` to style via CSS and for client-only behaviors, but SSR image selection relies on either \`attributes={{ 'data-brand': 'fdp' }}\` or an explicit \`logo.src\`.
         `,
 			},
 		},

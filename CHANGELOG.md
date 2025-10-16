@@ -6,6 +6,13 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+## 0.0.40 - 2025-10-16
+
+### Changed (FDP brand header)
+
+- Header (FDP brand): Increase `.nhsuk-header__service-name` to 24px under `[data-brand="fdp"]`.
+- Header (FDP brand): Distribute primary nav items evenly by setting `.nhsuk-header__navigation-list { justify-content: space-evenly; }` under `[data-brand="fdp"]`.
+
 ### Added (Unreleased – SPC Docs & Demos)
 
 - Auto‑recalc (XmR UI pre‑processor) documentation and demos
@@ -18,6 +25,12 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
   - Replaced native buttons with design‑system `Button` components; added a `Select` control to switch `ImprovementDirection` (Up/Down/Neither).
   - Migrated layout to design‑system `Grid` / `Row` / `Column` with a labelled `Select` for accessibility.
   - Partition markers enabled and warnings/diagnostics panel shown by default to make baseline insertions and reasoning visible.
+
+## 0.0.39 - 2025-10-16
+
+### Fixes (SSR/Hydration)
+
+- SortableDataTable/AriaTabsDataGrid: Eliminated SSR hydration mismatches by replacing Math.random-based internal IDs with React's `useId`. IDs are now stable between server and client while preserving accessibility links (aria-describedby). No breaking changes. Consumers can still pass an explicit `id` to control the base id.
 
 ## 0.0.34-alpha.9 - 2025-09-17
 

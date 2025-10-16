@@ -7,6 +7,7 @@ import React, {
 	forwardRef,
 	useEffect,
 	useState,
+	useId,
 } from "react";
 import {
 	AriaTabsDataGridProps,
@@ -156,11 +157,10 @@ export const AriaTabsDataGrid = forwardRef<
 	// Allow developer to hide the tab list when only a single tab/panel is provided
 	const tabsHidden = hideTabsIfSingle && tabPanels.length === 1;
 
-	// Generate a stable base id for internal helper elements when no `id` prop is provided.
-	const baseIdRef = useRef<string>(
-		id || `aria-tabs-datagrid-${Math.random().toString(36).slice(2, 9)}`
-	);
-	const baseId = baseIdRef.current;
+	// Generate a stable base ID for internal helper elements. Prefer explicit `id` prop,
+	// otherwise use React's SSR-safe useId to avoid hydration mismatches.
+	const reactId = useId();
+	const baseId = id ?? `aria-tabs-datagrid-${reactId}`;
 
 	// ariaDescription can be either a reference id (when consumers pass an existing element id)
 	// or plain descriptive text. Detect simple ids (no whitespace) and handle accordingly.
@@ -1155,7 +1155,7 @@ export const AriaTabsDataGrid = forwardRef<
 				headers moves to table cells. Use Arrow keys to navigate between cells.
 			</div>
 
-			{sortStatusPlacement === 'header' && (
+			{ sortStatusPlacement === 'header' && (
 				<SortStatusControl
 					sortConfig={state.sortConfig || []}
 					columns={tabPanels
@@ -1171,7 +1171,7 @@ export const AriaTabsDataGrid = forwardRef<
 
 			{/* Tab List with Manual ARIA Implementation */}
 			{/* Actions above when not inline, or when tabs are hidden */}
-			{actions && (!placeActionsInline || tabsHidden) && (
+			{ actions && (!placeActionsInline || tabsHidden) && (
 				<div
 					className="aria-tabs-datagrid__actions aria-tabs-datagrid__actions--above"
 					ref={actionsRef}
@@ -1183,7 +1183,7 @@ export const AriaTabsDataGrid = forwardRef<
 				</div>
 			)}
 
-			{!tabsHidden && (
+			{ !tabsHidden && (
 				<div className={`aria-tabs-datagrid__tabs-wrapper ${placeActionsInline ? 'aria-tabs-datagrid__tabs-wrapper--inline-actions' : ''}`}> 
 					<div
 						role="tablist"

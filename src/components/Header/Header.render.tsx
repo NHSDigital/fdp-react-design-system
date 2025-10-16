@@ -56,6 +56,8 @@ export function renderHeaderMarkup(
 		maxVisibleItems, // deprecated (ignored)
 			responsiveNavigation = true,
 			logoVariant = LogoVariantEnum.Full,
+			// Prevent leaking to DOM when ...rest is spread
+			logoVariant: _logoVariant,
 		...rest
 	} = props;
 

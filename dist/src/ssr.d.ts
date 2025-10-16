@@ -8,3 +8,4 @@
  * import { HeaderSSR, HeaderStatic } from '@fergusbisset/nhs-fdp-design-system/ssr';
  */
 export * from './components/ssr';
+export { BrandKey, LogoVariant, getBrandLogo, brandLogos } from './assets/brand';

@@ -300,6 +300,8 @@ function renderHeaderMarkup(props, {
     // deprecated (ignored)
     responsiveNavigation = true,
     logoVariant = "full" /* Full */,
+    // Prevent leaking to DOM when ...rest is spread
+    logoVariant: _logoVariant,
     ...rest
   } = props;
   const effectiveService = {

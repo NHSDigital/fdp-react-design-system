@@ -85,27 +85,32 @@ function pe(a, { variant: t, isClient: s }) {
     maxVisibleItems: m,
     // deprecated (ignored)
     responsiveNavigation: I = !0,
-    ...p
+    // Ensure internal props are not forwarded to DOM
+    logoVariant: p,
+    ...N
   } = a;
-  "maxVisibleItems" in p && delete p.maxVisibleItems;
-  const N = {
+  "maxVisibleItems" in N && delete N.maxVisibleItems;
+  const _ = {
     ...l,
     text: l?.text ?? i
-  }, _ = N.href && !r.href || N.href && N.href === r.href, b = _ ? N.href : r.href, L = E(
+  }, f = _.href && !r.href || _.href && _.href === r.href, L = f ? _.href : r.href, w = E(
     "nhsuk-header",
     {
       "nhsuk-header--organisation": k === "organisation" || c,
       "nhsuk-header--white": k === "white"
     },
     n
-  ), w = E("nhsuk-header__container", g), y = E(
+  ), M = E(
+    "nhsuk-header__container",
+    g
+  ), v = E(
     "nhsuk-header__navigation",
     {
       "nhsuk-header__navigation--white": d?.white,
       "nhsuk-header__navigation--justified": d?.justified
     },
     d?.className
-  ), v = () => /* @__PURE__ */ e.createElement(
+  ), x = () => /* @__PURE__ */ e.createElement(
     "svg",
     {
       className: "nhsuk-header__logo",
@@ -125,7 +130,7 @@ function pe(a, { variant: t, isClient: s }) {
         d: "M200 0v80H0V0h200Zm-27.5 5.5c-14.5 0-29 5-29 22 0 10.2 7.7 13.5 14.7 16.3l.7.3c5.4 2 10.1 3.9 10.1 8.4 0 6.5-8.5 7.5-14 7.5s-12.5-1.5-16-3.5L135 70c5.5 2 13.5 3.5 20 3.5 15.5 0 32-4.5 32-22.5 0-19.5-25.5-16.5-25.5-25.5 0-5.5 5.5-6.5 12.5-6.5a35 35 0 0 1 14.5 3l4-13.5c-4.5-2-12-3-20-3Zm-131 2h-22l-14 65H22l9-45h.5l13.5 45h21.5l14-65H64l-9 45h-.5l-13-45Zm63 0h-18l-13 65h17l6-28H117l-5.5 28H129l13.5-65H125L119.5 32h-20l5-24.5Z"
       }
     )
-  ), D = () => r.src ? /* @__PURE__ */ e.createElement(
+  ), b = () => r.src ? /* @__PURE__ */ e.createElement(
     "img",
     {
       className: "nhsuk-header__organisation-logo",
@@ -133,56 +138,85 @@ function pe(a, { variant: t, isClient: s }) {
       width: "280",
       alt: r.ariaLabel || "NHS"
     }
-  ) : v(), M = () => c ? /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name" }, c.name, c.split && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-split" }, " ", c.split)), c.descriptor && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-descriptor" }, c.descriptor)) : null, u = (f, A) => f ? A ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-name", href: A }, f) : /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__service-name" }, f) : null, x = (f) => f.active || f.current ? /* @__PURE__ */ e.createElement("strong", { className: "nhsuk-header__navigation-item-current-fallback" }, f.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: f.html } }) : f.text) : f.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: f.html } }) : f.text, C = d?.items && !I, T = C ? [] : d?.items, j = C ? d.items : [];
-  return /* @__PURE__ */ e.createElement("header", { className: L, role: "banner", "data-module": "nhsuk-header", ...h, ...p }, /* @__PURE__ */ e.createElement("div", { className: w }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__service" }, b ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-logo", href: b }, D(), M(), _ && u(N.text)) : /* @__PURE__ */ e.createElement(e.Fragment, null, D(), M(), _ && u(N.text)), N.text && !_ && u(N.text, N.href)), /* @__PURE__ */ e.createElement(he, { ...o, variant: k === "white" ? "white" : "default" })), d && d.items && d.items.length > 0 && /* @__PURE__ */ e.createElement("nav", { className: y, "aria-label": d.ariaLabel || "Menu" }, /* @__PURE__ */ e.createElement(
-    "div",
+  ) : x(), u = () => c ? /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name" }, c.name, c.split && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-split" }, " ", c.split)), c.descriptor && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-descriptor" }, c.descriptor)) : null, C = (y, z) => y ? z ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-name", href: z }, y) : /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__service-name" }, y) : null, D = (y) => y.active || y.current ? /* @__PURE__ */ e.createElement("strong", { className: "nhsuk-header__navigation-item-current-fallback" }, y.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: y.html } }) : y.text) : y.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: y.html } }) : y.text, T = d?.items && !I, j = T ? [] : d?.items, A = T ? d.items : [];
+  return /* @__PURE__ */ e.createElement(
+    "header",
     {
-      className: E(
-        "nhsuk-header_navigation-container",
-        "nhsuk-width-container",
-        {
-          "nhsuk-header__navigation-container--ssr": !s
-        },
-        g
-      )
+      className: w,
+      role: "banner",
+      "data-module": "nhsuk-header",
+      ...h,
+      ...N
     },
-    /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-header__navigation-list" }, (T || []).map((f, A) => /* @__PURE__ */ e.createElement(
+    /* @__PURE__ */ e.createElement("div", { className: M }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__service" }, L ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-logo", href: L }, b(), u(), f && C(_.text)) : /* @__PURE__ */ e.createElement(e.Fragment, null, b(), u(), f && C(_.text)), _.text && !f && C(_.text, _.href)), /* @__PURE__ */ e.createElement(
+      he,
+      {
+        ...o,
+        variant: k === "white" ? "white" : "default"
+      }
+    )),
+    d && d.items && d.items.length > 0 && /* @__PURE__ */ e.createElement(
+      "nav",
+      {
+        className: v,
+        "aria-label": d.ariaLabel || "Menu"
+      },
+      /* @__PURE__ */ e.createElement(
+        "div",
+        {
+          className: E(
+            "nhsuk-header_navigation-container",
+            "nhsuk-width-container",
+            {
+              "nhsuk-header__navigation-container--ssr": !s
+            },
+            g
+          )
+        },
+        /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-header__navigation-list" }, (j || []).map((y, z) => /* @__PURE__ */ e.createElement(
+          "li",
+          {
+            key: z,
+            className: E(
+              "nhsuk-header__navigation-item",
+              {
+                "nhsuk-header__navigation-item--current": y.active || y.current
+              },
+              y.className
+            ),
+            ...y.attributes || {}
+          },
+          /* @__PURE__ */ e.createElement(
+            "a",
+            {
+              className: "nhsuk-header__navigation-link",
+              href: y.href,
+              ...y.active || y.current ? { "aria-current": y.current ? "page" : "true" } : {}
+            },
+            D(y)
+          )
+        )))
+      )
+    ),
+    T && A.length > 0 && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__dropdown-menu", "data-ssr-overflow": "true" }, /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-header__dropdown-list" }, A.map((y, z) => /* @__PURE__ */ e.createElement(
       "li",
       {
-        key: A,
-        className: E("nhsuk-header__navigation-item", {
-          "nhsuk-header__navigation-item--current": f.active || f.current
-        }, f.className),
-        ...f.attributes || {}
+        key: `overflow-server-${z}`,
+        className: E("nhsuk-header__dropdown-item", {
+          "nhsuk-header__dropdown-item--current": y.active || y.current
+        })
       },
       /* @__PURE__ */ e.createElement(
         "a",
         {
-          className: "nhsuk-header__navigation-link",
-          href: f.href,
-          ...f.active || f.current ? { "aria-current": f.current ? "page" : "true" } : {}
+          className: "nhsuk-header__dropdown-link",
+          href: y.href,
+          ...y.active || y.current ? { "aria-current": y.current ? "page" : "true" } : {}
         },
-        x(f)
+        D(y)
       )
-    )))
-  )), C && j.length > 0 && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__dropdown-menu", "data-ssr-overflow": "true" }, /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-header__dropdown-list" }, j.map((f, A) => /* @__PURE__ */ e.createElement(
-    "li",
-    {
-      key: `overflow-server-${A}`,
-      className: E("nhsuk-header__dropdown-item", {
-        "nhsuk-header__dropdown-item--current": f.active || f.current
-      })
-    },
-    /* @__PURE__ */ e.createElement(
-      "a",
-      {
-        className: "nhsuk-header__dropdown-link",
-        href: f.href,
-        ...f.active || f.current ? { "aria-current": f.current ? "page" : "true" } : {}
-      },
-      x(f)
-    )
-  )))));
+    ))))
+  );
 }
 const ia = (a) => pe(a, {
   variant: "server",
@@ -258,7 +292,7 @@ const X = S.forwardRef(function(t, s) {
     preventDoubleClick: o
   });
   if ("href" in d && d.href) {
-    const A = d, {
+    const y = d, {
       id: z,
       style: B,
       title: Z,
@@ -267,14 +301,14 @@ const X = S.forwardRef(function(t, s) {
       ["aria-labelledby"]: Q,
       tabIndex: R,
       ...ue
-    } = A;
+    } = y;
     return /* @__PURE__ */ S.createElement(
       "a",
       {
         ref: s,
-        href: A.href,
-        target: A.target,
-        rel: A.rel,
+        href: y.href,
+        target: y.target,
+        rel: y.rel,
         className: g.classes,
         role: "button",
         draggable: "false",
@@ -299,19 +333,19 @@ const X = S.forwardRef(function(t, s) {
     ["aria-label"]: p,
     ["aria-describedby"]: N,
     ["aria-labelledby"]: _,
-    tabIndex: b,
+    tabIndex: f,
     name: L,
     value: w,
-    form: y,
+    form: M,
     formAction: v,
-    formEncType: D,
-    formMethod: M,
+    formEncType: x,
+    formMethod: b,
     formNoValidate: u,
-    formTarget: x,
-    autoFocus: C,
+    formTarget: C,
+    autoFocus: D,
     type: T,
     disabled: j,
-    ...f
+    ...A
   } = k;
   return /* @__PURE__ */ S.createElement(
     "button",
@@ -328,17 +362,17 @@ const X = S.forwardRef(function(t, s) {
       "aria-label": p,
       "aria-describedby": N,
       "aria-labelledby": _,
-      tabIndex: b,
+      tabIndex: f,
       name: L,
       value: w,
-      form: y,
+      form: M,
       formAction: v,
-      formEncType: D,
-      formMethod: M,
+      formEncType: x,
+      formMethod: b,
       formNoValidate: u,
-      formTarget: x,
-      autoFocus: C,
-      ...f
+      formTarget: C,
+      autoFocus: D,
+      ...A
     },
     n
   );
@@ -1155,16 +1189,16 @@ const ya = ({
   announceDelta: p = !0,
   visual: N
 }) => {
-  const _ = S.useId(), b = I || _, L = `${b}-label`, w = `${b}-value`, y = `${b}-delta`, v = typeof t == "number" && !Number.isNaN(t), D = d ? "—" : g ? "" : v ? k ? k(t) : t.toLocaleString() : t;
-  let M, u = "", x = "";
+  const _ = S.useId(), f = I || _, L = `${f}-label`, w = `${f}-value`, M = `${f}-delta`, v = typeof t == "number" && !Number.isNaN(t), x = d ? "—" : g ? "" : v ? k ? k(t) : t.toLocaleString() : t;
+  let b, u = "", C = "";
   if (n && !d && !g) {
-    M = n.direction || (n.value > 0 ? "up" : n.value < 0 ? "down" : "neutral");
-    const C = Math.abs(n.value), T = M === "up" ? `+${C}` : M === "down" ? `-${C}` : "0", j = n.isPercent ? "%" : "";
+    b = n.direction || (n.value > 0 ? "up" : n.value < 0 ? "down" : "neutral");
+    const D = Math.abs(n.value), T = b === "up" ? `+${D}` : b === "down" ? `-${D}` : "0", j = n.isPercent ? "%" : "";
     if (u = `${T}${j}`, n.ariaLabel)
-      x = n.ariaLabel;
+      C = n.ariaLabel;
     else {
-      const f = n.invert ? M === "down" : M === "up";
-      x = `${M === "neutral" ? "no change" : M === "up" ? "up" : "down"} ${C}${j}${M === "neutral" ? "" : f ? " (improvement)" : " (worse)"}`;
+      const A = n.invert ? b === "down" : b === "up";
+      C = `${b === "neutral" ? "no change" : b === "up" ? "up" : "down"} ${D}${j}${b === "neutral" ? "" : A ? " (improvement)" : " (worse)"}`;
     }
   }
   return /* @__PURE__ */ S.createElement(
@@ -1183,19 +1217,19 @@ const ya = ({
       "aria-labelledby": L,
       "data-component": "MetricCard"
     },
-    /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__inner" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__header" }, /* @__PURE__ */ S.createElement("h3", { id: L, className: "fdp-metric-card__label" }, a), c && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__metadata" }, c)), /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__content" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__value-section" }, /* @__PURE__ */ S.createElement("div", { id: w, className: "fdp-metric-card__value" }, d ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" })) : g ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__error", role: "alert" }, g) : /* @__PURE__ */ S.createElement(S.Fragment, null, /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__number" }, D), s && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__unit" }, s))), i && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__subtitle" }, i)), n && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__delta-section" }, /* @__PURE__ */ S.createElement(
+    /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__inner" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__header" }, /* @__PURE__ */ S.createElement("h3", { id: L, className: "fdp-metric-card__label" }, a), c && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__metadata" }, c)), /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__content" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__value-section" }, /* @__PURE__ */ S.createElement("div", { id: w, className: "fdp-metric-card__value" }, d ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" })) : g ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__error", role: "alert" }, g) : /* @__PURE__ */ S.createElement(S.Fragment, null, /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__number" }, x), s && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__unit" }, s))), i && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__subtitle" }, i)), n && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__delta-section" }, /* @__PURE__ */ S.createElement(
       "div",
       {
-        id: y,
-        "aria-label": x,
+        id: M,
+        "aria-label": C,
         className: ae(
           "fdp-metric-card__delta",
-          M && `fdp-metric-card__delta--${M}`
+          b && `fdp-metric-card__delta--${b}`
         )
       },
       /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__delta-value" }, u),
       n.period && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__delta-period" }, n.period)
-    )), o && o.length > 0 && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })), N && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__visual", "aria-hidden": "true" }, N), p && n && !n.ariaLabel && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-visually-hidden", "aria-live": "polite" }, x))
+    )), o && o.length > 0 && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })), N && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__visual", "aria-hidden": "true" }, N), p && n && !n.ariaLabel && !d && !g && /* @__PURE__ */ S.createElement("div", { className: "fdp-visually-hidden", "aria-live": "polite" }, C))
   );
 }, G = { current: null }, Ae = () => {
   if (G.current) return G.current;
@@ -1259,14 +1293,14 @@ const ya = ({
   data: p,
   visuallyHiddenCaption: N = !1
 }) => {
-  const _ = `nhsuk-table__caption ${n ? `nhsuk-table__caption--${n}` : ""}`.trim(), b = E(
+  const _ = `nhsuk-table__caption ${n ? `nhsuk-table__caption--${n}` : ""}`.trim(), f = E(
     "nhsuk-table",
     {
       "nhsuk-table-responsive": l
     },
     g
-  ), L = E(k), w = (u, x) => {
-    const C = E(
+  ), L = E(k), w = (u, C) => {
+    const D = E(
       "nhsuk-table__header",
       {
         [`nhsuk-table__header--${u.format}`]: u.format
@@ -1285,15 +1319,15 @@ const ya = ({
     else if (u.html)
       j = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: u.html } });
     else if (u.code != null) {
-      const f = Array.isArray(u.code), A = f ? u.code.join(`
-`) : u.code, z = f || A.includes(`
+      const A = Array.isArray(u.code), y = A ? u.code.join(`
+`) : u.code, z = A || y.includes(`
 `), B = {
         className: E("nhsuk-table__code", u.codeClassName, {
           "nhsuk-table__code--block": z,
           "nhsuk-table__code--inline": !z
         }),
         ...u.codeLanguage ? { "data-language": u.codeLanguage } : {}
-      }, Z = W(A, u.codeLanguage);
+      }, Z = W(y, u.codeLanguage);
       j = z ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
         "code",
         {
@@ -1309,15 +1343,15 @@ const ya = ({
       );
     } else
       j = u.text;
-    return /* @__PURE__ */ e.createElement("th", { key: x, className: C, ...T }, j);
-  }, y = (u, x, C) => {
-    const T = r && C || u.rowHeader, j = E(
+    return /* @__PURE__ */ e.createElement("th", { key: C, className: D, ...T }, j);
+  }, M = (u, C, D) => {
+    const T = r && D || u.rowHeader, j = E(
       T ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
         [`nhsuk-table__${T ? "header" : "cell"}--${u.format}`]: u.format
       },
       u.classes
-    ), f = {
+    ), A = {
       ...T && { scope: "row" },
       ...u.colspan && { colSpan: u.colspan },
       ...u.rowspan && { rowSpan: u.rowspan },
@@ -1327,11 +1361,11 @@ const ya = ({
       },
       ...u.attributes
     };
-    let A;
+    let y;
     if (u.node != null)
-      A = /* @__PURE__ */ e.createElement(e.Fragment, null, u.node);
+      y = /* @__PURE__ */ e.createElement(e.Fragment, null, u.node);
     else if (u.html)
-      A = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: u.html } });
+      y = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: u.html } });
     else if (u.code != null) {
       const Z = Array.isArray(u.code), U = Z ? u.code.join(`
 `) : u.code, O = Z || U.includes(`
@@ -1346,7 +1380,7 @@ const ya = ({
         u.codeLanguage,
         u.disableHighlight
       );
-      A = O ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
+      y = O ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
         "code",
         {
           ...Q,
@@ -1360,29 +1394,29 @@ const ya = ({
         }
       );
     } else
-      A = u.text;
-    const z = /* @__PURE__ */ e.createElement(e.Fragment, null, l && u.header && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true" }, u.header, " "), A), B = T ? "th" : "td";
-    return /* @__PURE__ */ e.createElement(B, { key: x, className: j, ...f }, z);
+      y = u.text;
+    const z = /* @__PURE__ */ e.createElement(e.Fragment, null, l && u.header && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true" }, u.header, " "), y), B = T ? "th" : "td";
+    return /* @__PURE__ */ e.createElement(B, { key: C, className: j, ...A }, z);
   };
-  let v = t, D = a;
+  let v = t, x = a;
   !v && I && I.length && (v = I.map((u) => ({
     text: u.title,
     format: u.format,
     classes: u.headerClasses,
     attributes: u.headerAttributes
-  }))), !D && I && p && p.length && (D = p.map((u, x) => I.map((C) => {
-    const T = C.accessor ? C.accessor(u, x) : u[C.key];
-    let j = { format: C.format, classes: C.cellClasses, attributes: C.cellAttributes };
-    if (C.rowHeader && (j.rowHeader = !0), C.render) {
-      const f = C.render(T, u, x, C);
-      return f == null || typeof f == "boolean" ? { ...j, text: "" } : typeof f == "string" || typeof f == "number" ? { ...j, text: String(f) } : { ...j, ...f };
+  }))), !x && I && p && p.length && (x = p.map((u, C) => I.map((D) => {
+    const T = D.accessor ? D.accessor(u, C) : u[D.key];
+    let j = { format: D.format, classes: D.cellClasses, attributes: D.cellAttributes };
+    if (D.rowHeader && (j.rowHeader = !0), D.render) {
+      const A = D.render(T, u, C, D);
+      return A == null || typeof A == "boolean" ? { ...j, text: "" } : typeof A == "string" || typeof A == "number" ? { ...j, text: String(A) } : { ...j, ...A };
     }
     return { ...j, text: T != null ? String(T) : "" };
   })));
-  const M = () => /* @__PURE__ */ e.createElement(
+  const b = () => /* @__PURE__ */ e.createElement(
     "table",
     {
-      className: b,
+      className: f,
       ...l && { role: "table" },
       ...h,
       ...m && { "data-testid": m }
@@ -1395,22 +1429,22 @@ const ya = ({
         ...l && { role: "rowgroup" }
       },
       /* @__PURE__ */ e.createElement("tr", { ...l && { role: "row" } }, v.map(
-        (u, x) => w(u, x)
+        (u, C) => w(u, C)
       ))
     ),
-    /* @__PURE__ */ e.createElement("tbody", { className: "nhsuk-table__body" }, D && D.map((u, x) => /* @__PURE__ */ e.createElement(
+    /* @__PURE__ */ e.createElement("tbody", { className: "nhsuk-table__body" }, x && x.map((u, C) => /* @__PURE__ */ e.createElement(
       "tr",
       {
-        key: x,
+        key: C,
         className: "nhsuk-table__row",
         ...l && { role: "row" }
       },
       u.map(
-        (C, T) => y(C, T, T === 0)
+        (D, T) => M(D, T, T === 0)
       )
     )))
   );
-  return o ? /* @__PURE__ */ e.createElement(we, { className: d }, i && /* @__PURE__ */ e.createElement(H, { level: c, className: "nhsuk-table__heading-tab" }, i), M()) : L ? /* @__PURE__ */ e.createElement("div", { className: L }, M()) : M();
+  return o ? /* @__PURE__ */ e.createElement(we, { className: d }, i && /* @__PURE__ */ e.createElement(H, { level: c, className: "nhsuk-table__heading-tab" }, i), b()) : L ? /* @__PURE__ */ e.createElement("div", { className: L }, b()) : b();
 }, Be = ({
   children: a,
   size: t,
@@ -1461,9 +1495,9 @@ const ya = ({
   if (s != null) N = /* @__PURE__ */ e.createElement(e.Fragment, null, s);
   else if (t) N = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: t } });
   else if (n != null) {
-    const b = Array.isArray(n), L = b ? n.join(`
-`) : n, w = b || L.includes(`
-`), y = {
+    const f = Array.isArray(n), L = f ? n.join(`
+`) : n, w = f || L.includes(`
+`), M = {
       className: E("nhsuk-table__code", l, {
         "nhsuk-table__code--block": w,
         "nhsuk-table__code--inline": !w
@@ -1477,10 +1511,10 @@ const ya = ({
     N = w ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
       "code",
       {
-        ...y,
+        ...M,
         dangerouslySetInnerHTML: { __html: v }
       }
-    )) : /* @__PURE__ */ e.createElement("code", { ...y, dangerouslySetInnerHTML: { __html: v } });
+    )) : /* @__PURE__ */ e.createElement("code", { ...M, dangerouslySetInnerHTML: { __html: v } });
   } else N = a;
   const _ = m;
   return /* @__PURE__ */ e.createElement(_, { className: I, ...p }, N);
@@ -1511,22 +1545,22 @@ const ya = ({
     ...h && { role: I ? "rowheader" : "cell" },
     ...k
   };
-  let b;
-  if (s != null) b = /* @__PURE__ */ e.createElement(e.Fragment, null, s);
-  else if (t) b = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: t } });
+  let f;
+  if (s != null) f = /* @__PURE__ */ e.createElement(e.Fragment, null, s);
+  else if (t) f = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: t } });
   else if (n != null) {
     const L = Array.isArray(n), w = L ? n.join(`
-`) : n, y = L || w.includes(`
+`) : n, M = L || w.includes(`
 `), v = {
       className: E("nhsuk-table__code", l, {
-        "nhsuk-table__code--block": y,
-        "nhsuk-table__code--inline": !y
+        "nhsuk-table__code--block": M,
+        "nhsuk-table__code--inline": !M
       }),
       ...r ? { "data-language": r } : {}
-    }, D = W(w, r, i);
-    b = y ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement("code", { ...v, dangerouslySetInnerHTML: { __html: D } })) : /* @__PURE__ */ e.createElement("code", { ...v, dangerouslySetInnerHTML: { __html: D } });
-  } else b = a;
-  return /* @__PURE__ */ e.createElement(p, { className: N, ..._ }, b);
+    }, x = W(w, r, i);
+    f = M ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement("code", { ...v, dangerouslySetInnerHTML: { __html: x } })) : /* @__PURE__ */ e.createElement("code", { ...v, dangerouslySetInnerHTML: { __html: x } });
+  } else f = a;
+  return /* @__PURE__ */ e.createElement(p, { className: N, ..._ }, f);
 }, P = Ze;
 P.Caption = Be;
 P.BodyRow = oe;
@@ -1637,14 +1671,14 @@ const Oe = e.forwardRef(({
     if (s)
       return /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: s } });
     if (!t) return null;
-    const b = () => c && a !== "feature" ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-card__link", href: c }, t) : t;
+    const f = () => c && a !== "feature" ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-card__link", href: c }, t) : t;
     return /* @__PURE__ */ e.createElement(
       H,
       {
         level: n,
         className: I
       },
-      b()
+      f()
     );
   }, N = () => g.children ? g.children : i ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: i } }) : l ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-card__description" }, l) : null, _ = () => a !== "primary" ? null : /* @__PURE__ */ e.createElement(
     "svg",
@@ -1735,11 +1769,11 @@ const Ea = ({
     if (s)
       return /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: s } });
     if (!t) return null;
-    const b = {
+    const f = {
       "non-urgent": "Non-urgent advice:",
       urgent: "Urgent advice:",
       emergency: "Immediate action required:"
-    }[a], L = /* @__PURE__ */ e.createElement("span", { role: "text" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, b, " "), t);
+    }[a], L = /* @__PURE__ */ e.createElement("span", { role: "text" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, f, " "), t);
     return /* @__PURE__ */ e.createElement(
       H,
       {
@@ -1792,20 +1826,20 @@ function ee(a) {
     autoComplete: p,
     maxLength: N,
     minLength: _,
-    pattern: b,
+    pattern: f,
     step: L,
     min: w,
-    max: y,
+    max: M,
     showValueLabels: v = !1,
-    showCurrentValue: D = !1,
-    valueLabels: M,
+    showCurrentValue: x = !1,
+    valueLabels: b,
     // Strip interactive handlers in server variant
     onChange: u,
-    onBlur: x,
-    onFocus: C,
+    onBlur: C,
+    onFocus: D,
     onKeyDown: T,
     ...j
-  } = a, { classes: f, isRange: A } = Ge({
+  } = a, { classes: A, isRange: y } = Ge({
     type: n,
     hasError: g,
     width: m,
@@ -1823,29 +1857,29 @@ function ee(a) {
     autoComplete: p,
     maxLength: N,
     minLength: _,
-    pattern: b,
+    pattern: f,
     step: L,
     min: w,
-    max: y,
+    max: M,
     ...j
   };
-  if (A) {
+  if (y) {
     const B = r ?? l ?? (typeof w < "u" ? String(w) : "0"), Z = /* @__PURE__ */ e.createElement(
       "input",
       {
-        className: f,
+        className: A,
         ...r !== void 0 ? { value: r } : {},
         ...r === void 0 && l !== void 0 ? { defaultValue: l } : {},
         "data-current-value": B,
         ...z
       }
     );
-    return /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-wrapper" }, v ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-labels" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min" }, M?.min || w || "0"), Z, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max" }, M?.max || y || "100")) : Z, D && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-current-value" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-current-label" }, M?.current || "Current value:", " ", /* @__PURE__ */ e.createElement("strong", null, B))));
+    return /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-wrapper" }, v ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-labels" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min" }, b?.min || w || "0"), Z, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max" }, b?.max || M || "100")) : Z, x && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-current-value" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-current-label" }, b?.current || "Current value:", " ", /* @__PURE__ */ e.createElement("strong", null, B))));
   }
   return /* @__PURE__ */ e.createElement(
     "input",
     {
-      className: f,
+      className: A,
       ...r !== void 0 ? { value: r } : {},
       ...r === void 0 && l !== void 0 ? { defaultValue: l } : {},
       ...z
@@ -1880,18 +1914,18 @@ const La = ({
   wrap: p = "soft",
   resize: N = "vertical",
   autoComplete: _,
-  spellCheck: b,
+  spellCheck: f,
   onChange: L,
   onBlur: w,
-  onFocus: y,
+  onFocus: M,
   onKeyDown: v,
-  ...D
+  ...x
 }) => {
-  const { classes: M, describedBy: u } = Ue({ hasError: o, resize: N, className: g, describedBy: d });
+  const { classes: b, describedBy: u } = Ue({ hasError: o, resize: N, className: g, describedBy: d });
   return /* @__PURE__ */ e.createElement(
     "textarea",
     {
-      className: M,
+      className: b,
       id: a,
       name: t,
       value: s,
@@ -1907,12 +1941,12 @@ const La = ({
       minLength: I,
       wrap: p,
       autoComplete: _,
-      spellCheck: b,
+      spellCheck: f,
       onChange: L,
       onBlur: w,
-      onFocus: y,
+      onFocus: M,
       onKeyDown: v,
-      ...D
+      ...x
     }
   );
 };
@@ -1965,18 +1999,18 @@ const Re = ({
   onChange: p,
   onBlur: N,
   onFocus: _,
-  ...b
+  ...f
 }) => {
-  const { classes: L } = Qe({ hasError: c, className: d }), w = () => m ? m.map((v, D) => /* @__PURE__ */ e.createElement(
+  const { classes: L } = Qe({ hasError: c, className: d }), w = () => m ? m.map((v, x) => /* @__PURE__ */ e.createElement(
     "option",
     {
-      key: `${v.value}-${D}`,
+      key: `${v.value}-${x}`,
       value: v.value,
       disabled: v.disabled,
       "data-initial-selected": v.selected || void 0
     },
     v.text
-  )) : null, y = r === void 0 && n === void 0 && m ? m.find((v) => v.selected)?.value : void 0;
+  )) : null, M = r === void 0 && n === void 0 && m ? m.find((v) => v.selected)?.value : void 0;
   return /* @__PURE__ */ e.createElement(
     "select",
     {
@@ -1985,7 +2019,7 @@ const Re = ({
       name: t,
       "aria-label": s,
       value: n,
-      defaultValue: r !== void 0 ? r : y,
+      defaultValue: r !== void 0 ? r : M,
       disabled: l,
       required: i,
       "aria-describedby": o,
@@ -1995,7 +2029,7 @@ const Re = ({
       onChange: p,
       onBlur: N,
       onFocus: _,
-      ...b
+      ...f
     },
     I || w()
   );
@@ -2047,18 +2081,18 @@ function wa({
       "data-testid": "date-input",
       ...d
     },
-    k.map((b) => {
-      const L = b.id || `${a}-${b.name}`, w = n ? `${n}[${b.name}]` : b.name, y = b.label || b.name.charAt(0).toUpperCase() + b.name.slice(1), v = r[b.name];
-      return /* @__PURE__ */ e.createElement("div", { key: b.name, className: "nhsuk-date-input__item" }, /* @__PURE__ */ e.createElement(K, { htmlFor: L, className: "nhsuk-date-input__label" }, y), /* @__PURE__ */ e.createElement(
+    k.map((f) => {
+      const L = f.id || `${a}-${f.name}`, w = n ? `${n}[${f.name}]` : f.name, M = f.label || f.name.charAt(0).toUpperCase() + f.name.slice(1), v = r[f.name];
+      return /* @__PURE__ */ e.createElement("div", { key: f.name, className: "nhsuk-date-input__item" }, /* @__PURE__ */ e.createElement(K, { htmlFor: L, className: "nhsuk-date-input__label" }, M), /* @__PURE__ */ e.createElement(
         ee,
         {
           id: L,
           name: w,
           defaultValue: v,
-          className: E("nhsuk-date-input__input", b.classes),
-          inputMode: b.inputmode,
-          autoComplete: b.autocomplete,
-          pattern: b.pattern,
+          className: E("nhsuk-date-input__input", f.classes),
+          inputMode: f.inputmode,
+          autoComplete: f.autocomplete,
+          pattern: f.pattern,
           "aria-describedby": h || void 0
         }
       ));
@@ -2132,54 +2166,54 @@ function Ye(a, {
     hasError: p = !1,
     describedBy: N,
     className: _,
-    size: b = "normal",
+    size: f = "normal",
     inline: L = !1,
     options: w,
-    ...y
-  } = m, { classes: v, describedBy: D } = Fe({ hasError: p, size: b, inline: L, className: _, describedBy: N });
+    ...M
+  } = m, { classes: v, describedBy: x } = Fe({ hasError: p, size: f, inline: L, className: _, describedBy: N });
   return /* @__PURE__ */ e.createElement(q, null, /* @__PURE__ */ e.createElement(
     "div",
     {
       className: v,
-      ...y,
+      ...M,
       "data-nhs-behaviour": "radios"
     },
-    w.map((M, u) => {
-      const x = `${I}-${u}`, C = M.conditional ? `${x}-conditional` : void 0, T = s === M.value;
-      return /* @__PURE__ */ e.createElement("div", { key: M.value, className: "nhsuk-radios__item" }, /* @__PURE__ */ e.createElement(
+    w.map((b, u) => {
+      const C = `${I}-${u}`, D = b.conditional ? `${C}-conditional` : void 0, T = s === b.value;
+      return /* @__PURE__ */ e.createElement("div", { key: b.value, className: "nhsuk-radios__item" }, /* @__PURE__ */ e.createElement(
         "input",
         {
           className: "nhsuk-radios__input",
-          id: x,
+          id: C,
           name: I,
           type: "radio",
-          value: M.value,
-          disabled: M.disabled,
+          value: b.value,
+          disabled: b.disabled,
           defaultChecked: T,
           "data-nhs-radios-input": !0,
-          "aria-describedby": D
+          "aria-describedby": x
         }
-      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-radios__label", htmlFor: x }, M.text), M.hint && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-radios__hint" }, M.hint), M.conditional && /* @__PURE__ */ e.createElement(
+      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-radios__label", htmlFor: C }, b.text), b.hint && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-radios__hint" }, b.hint), b.conditional && /* @__PURE__ */ e.createElement(
         "div",
         {
           className: E("nhsuk-radios__conditional", {
             "nhsuk-radios__conditional--hidden": !T
           }),
-          id: C,
+          id: D,
           "data-nhs-radios-conditional": !0
         },
-        typeof M.conditional == "object" && M.conditional !== null && "label" in M.conditional && "id" in M.conditional && "name" in M.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, M.conditional.label && /* @__PURE__ */ e.createElement(
+        typeof b.conditional == "object" && b.conditional !== null && "label" in b.conditional && "id" in b.conditional && "name" in b.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, b.conditional.label && /* @__PURE__ */ e.createElement(
           K,
           {
-            htmlFor: M.conditional.id
+            htmlFor: b.conditional.id
           },
-          M.conditional.label
+          b.conditional.label
         ), /* @__PURE__ */ e.createElement(
           d,
           {
-            ...M.conditional
+            ...b.conditional
           }
-        )) : M.conditional
+        )) : b.conditional
       ));
     })
   ));
@@ -2224,45 +2258,45 @@ function xa(a) {
     fieldsetAttributes: h,
     attributes: m,
     ...I
-  } = a, p = n || s, N = c ? `${p}-hint` : void 0, _ = o ? `${p}-error` : void 0, b = [N, _].filter(Boolean).join(" ") || void 0, { classes: L, formGroupClasses: w } = Ve({ small: g, className: d, hasError: !!o });
+  } = a, p = n || s, N = c ? `${p}-hint` : void 0, _ = o ? `${p}-error` : void 0, f = [N, _].filter(Boolean).join(" ") || void 0, { classes: L, formGroupClasses: w } = Ve({ small: g, className: d, hasError: !!o });
   return /* @__PURE__ */ e.createElement("div", { className: w, ...m, ...I }, /* @__PURE__ */ e.createElement(
     q,
     {
       legend: r ? { text: r, isPageHeading: l, size: i } : void 0,
-      describedBy: b,
+      describedBy: f,
       ...h
     },
     c && /* @__PURE__ */ e.createElement("div", { id: N, className: "nhsuk-hint" }, c),
     o && /* @__PURE__ */ e.createElement("div", { id: _, className: "nhsuk-error-message" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, "Error:"), " ", o),
-    /* @__PURE__ */ e.createElement("div", { className: L, "data-nhs-behaviour": "checkboxes" }, t.map((y, v) => {
-      const D = `${p}-${v + 1}`, M = `${D}-conditional`, u = !!y.checked, x = !!y.disabled;
-      return /* @__PURE__ */ e.createElement("div", { key: y.value, className: "nhsuk-checkboxes__item" }, /* @__PURE__ */ e.createElement(
+    /* @__PURE__ */ e.createElement("div", { className: L, "data-nhs-behaviour": "checkboxes" }, t.map((M, v) => {
+      const x = `${p}-${v + 1}`, b = `${x}-conditional`, u = !!M.checked, C = !!M.disabled;
+      return /* @__PURE__ */ e.createElement("div", { key: M.value, className: "nhsuk-checkboxes__item" }, /* @__PURE__ */ e.createElement(
         "input",
         {
           className: "nhsuk-checkboxes__input",
-          id: D,
+          id: x,
           name: s,
           type: "checkbox",
-          value: y.value,
+          value: M.value,
           ...u ? { defaultChecked: !0 } : {},
-          disabled: x,
-          "aria-describedby": y.hint ? `${D}-hint` : b,
-          ...y.conditional && {
-            "aria-controls": M,
+          disabled: C,
+          "aria-describedby": M.hint ? `${x}-hint` : f,
+          ...M.conditional && {
+            "aria-controls": b,
             "aria-expanded": u ? "true" : "false"
           },
-          ...y.attributes
+          ...M.attributes
         }
-      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-checkboxes__label", htmlFor: D }, y.text), y.hint && /* @__PURE__ */ e.createElement("div", { id: `${D}-hint`, className: "nhsuk-checkboxes__hint" }, y.hint), y.conditional && /* @__PURE__ */ e.createElement(
+      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-checkboxes__label", htmlFor: x }, M.text), M.hint && /* @__PURE__ */ e.createElement("div", { id: `${x}-hint`, className: "nhsuk-checkboxes__hint" }, M.hint), M.conditional && /* @__PURE__ */ e.createElement(
         "div",
         {
           className: E("nhsuk-checkboxes__conditional", {
             "nhsuk-checkboxes__conditional--hidden": !u
           }),
-          id: M,
+          id: b,
           "data-nhs-checkboxes-conditional": !0
         },
-        typeof y.conditional == "object" && y.conditional !== null && "label" in y.conditional && "id" in y.conditional && "name" in y.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, y.conditional.label && /* @__PURE__ */ e.createElement(K, { htmlFor: y.conditional.id }, y.conditional.label), /* @__PURE__ */ e.createElement(ee, { ...y.conditional })) : y.conditional
+        typeof M.conditional == "object" && M.conditional !== null && "label" in M.conditional && "id" in M.conditional && "name" in M.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, M.conditional.label && /* @__PURE__ */ e.createElement(K, { htmlFor: M.conditional.id }, M.conditional.label), /* @__PURE__ */ e.createElement(ee, { ...M.conditional })) : M.conditional
       ));
     }))
   ));

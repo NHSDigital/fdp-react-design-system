@@ -4,17 +4,20 @@ void React;
 import classNames from "classnames";
 import { HeaderProps, NavigationItem } from "./Header.types";
 import { Account } from "../Account";
+import { getBrandLogo, BrandKey, LogoVariant as LogoVariantEnum } from "../../assets/brand";
 import "./Header.scss";
 import "./Header.ssr.scss";
 
 export interface RenderHeaderServerOptions {
 	variant: "server";
 	isClient: false;
+	/** Optional brand provided by the caller (supports SSR BrandThemeProvider context). */
+	brand?: 'nhs' | 'fdp';
 }
 
 export function renderHeaderMarkupServer(
 	props: HeaderProps,
-	{ variant, isClient }: RenderHeaderServerOptions
+	{ variant, isClient, brand: providedBrand }: RenderHeaderServerOptions
 ) {
 	const {
 		className,
@@ -31,8 +34,8 @@ export function renderHeaderMarkupServer(
 		attributes = {},
 		maxVisibleItems: _maxVisibleItems, // deprecated (ignored)
 		responsiveNavigation = true,
-		// Ensure internal props are not forwarded to DOM
-		logoVariant: _logoVariant,
+		// Consume logoVariant for server-side logo selection while preventing DOM leakage via ...rest
+		logoVariant: logoVariantProp = LogoVariantEnum.Full,
 		...rest
 	} = props;
 
@@ -76,6 +79,9 @@ export function renderHeaderMarkupServer(
 		navigation?.className
 	);
 
+		// Resolve brand for SSR: prefer explicit option provided by HeaderServer via BrandThemeProvider; default to NHS
+		const brand: 'nhs' | 'fdp' = providedBrand === 'fdp' ? 'fdp' : 'nhs';
+
 	const renderNHSLogo = () => (
 		<svg
 			className="nhsuk-header__logo"
@@ -95,17 +101,37 @@ export function renderHeaderMarkupServer(
 		</svg>
 	);
 
-	const renderServiceLogo = () =>
-		logo.src ? (
-			<img
-				className="nhsuk-header__organisation-logo"
-				src={logo.src}
-				width="280"
-				alt={logo.ariaLabel || "NHS"}
-			/>
-		) : (
-			renderNHSLogo()
-		);
+		const renderServiceLogo = () => {
+			// Prefer explicit logo.src when provided
+			if (logo.src) {
+				return (
+					<img
+						className="nhsuk-header__organisation-logo"
+						src={logo.src}
+						width="280"
+						alt={logo.ariaLabel || (brand === 'fdp' ? 'FDP' : 'NHS')}
+					/>
+				);
+			}
+
+			// Brand-aware default: show FDP logo when brand scope is FDP; otherwise NHS logo SVG
+			if (brand === 'fdp') {
+				const fdpLogo = getBrandLogo(BrandKey.FDP, logoVariantProp);
+				if (fdpLogo?.src) {
+					return (
+						<img
+							className="nhsuk-header__organisation-logo"
+							src={fdpLogo.src}
+							data-logo-variant={logoVariantProp}
+							width="280"
+							alt={fdpLogo.ariaLabel || 'FDP'}
+						/>
+					);
+				}
+			}
+
+			return renderNHSLogo();
+		};
 	const renderOrganisationName = () =>
 		organisation ? (
 			<>

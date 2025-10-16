@@ -1063,7 +1063,7 @@ var Header = ({
 var import_classnames4 = __toESM(require_classnames(), 1);
 import React4 from "react";
 import { Fragment as Fragment3, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
-function renderHeaderMarkupServer(props, { variant, isClient }) {
+function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBrand }) {
   var _a;
   const {
     className,
@@ -1081,8 +1081,8 @@ function renderHeaderMarkupServer(props, { variant, isClient }) {
     maxVisibleItems: _maxVisibleItems,
     // deprecated (ignored)
     responsiveNavigation = true,
-    // Ensure internal props are not forwarded to DOM
-    logoVariant: _logoVariant,
+    // Consume logoVariant for server-side logo selection while preventing DOM leakage via ...rest
+    logoVariant: logoVariantProp = "full" /* Full */,
     ...rest
   } = props;
   if ("maxVisibleItems" in rest) {
@@ -1114,6 +1114,7 @@ function renderHeaderMarkupServer(props, { variant, isClient }) {
     },
     navigation == null ? void 0 : navigation.className
   );
+  const brand = providedBrand === "fdp" ? "fdp" : "nhs";
   const renderNHSLogo = () => /* @__PURE__ */ jsxs4(
     "svg",
     {
@@ -1137,15 +1138,35 @@ function renderHeaderMarkupServer(props, { variant, isClient }) {
       ]
     }
   );
-  const renderServiceLogo = () => logo.src ? /* @__PURE__ */ jsx6(
-    "img",
-    {
-      className: "nhsuk-header__organisation-logo",
-      src: logo.src,
-      width: "280",
-      alt: logo.ariaLabel || "NHS"
+  const renderServiceLogo = () => {
+    if (logo.src) {
+      return /* @__PURE__ */ jsx6(
+        "img",
+        {
+          className: "nhsuk-header__organisation-logo",
+          src: logo.src,
+          width: "280",
+          alt: logo.ariaLabel || (brand === "fdp" ? "FDP" : "NHS")
+        }
+      );
     }
-  ) : renderNHSLogo();
+    if (brand === "fdp") {
+      const fdpLogo = getBrandLogo("fdp" /* FDP */, logoVariantProp);
+      if (fdpLogo == null ? void 0 : fdpLogo.src) {
+        return /* @__PURE__ */ jsx6(
+          "img",
+          {
+            className: "nhsuk-header__organisation-logo",
+            src: fdpLogo.src,
+            "data-logo-variant": logoVariantProp,
+            width: "280",
+            alt: fdpLogo.ariaLabel || "FDP"
+          }
+        );
+      }
+    }
+    return renderNHSLogo();
+  };
   const renderOrganisationName = () => organisation ? /* @__PURE__ */ jsxs4(Fragment3, { children: [
     /* @__PURE__ */ jsxs4("span", { className: "nhsuk-header__organisation-name", children: [
       organisation.name,
@@ -1259,9 +1280,16 @@ function renderHeaderMarkupServer(props, { variant, isClient }) {
 
 // src/components/Header/Header.server.tsx
 var HeaderServer = (props) => {
+  var _a;
+  let brand;
+  try {
+    brand = (_a = useBrand()) == null ? void 0 : _a.brand;
+  } catch {
+  }
   return renderHeaderMarkupServer(props, {
     variant: "server",
-    isClient: false
+    isClient: false,
+    brand
   });
 };
 export {

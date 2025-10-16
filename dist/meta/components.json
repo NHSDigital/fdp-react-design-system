@@ -1,6 +1,6 @@
 {
-  "version": "0.0.36",
-  "generatedAt": "2025-10-16T07:25:46.790Z",
+  "version": "0.0.37",
+  "generatedAt": "2025-10-16T07:40:45.366Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -426,29 +426,6 @@
       ],
       "source": "src/components/Label/Label.schema.ts"
     },
-    "InsetText": {
-      "name": "InsetText",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content (ignored if html is provided)"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content (overrides text)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/InsetText/InsetText.schema.ts"
-    },
     "Input": {
       "name": "Input",
       "category": "form",
@@ -591,32 +568,28 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
+    "InsetText": {
+      "name": "InsetText",
+      "category": "content",
       "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
       "props": [
         {
-          "name": "id",
+          "name": "text",
           "type": "string",
-          "description": "HTML id attribute"
+          "description": "Plain text content (ignored if html is provided)"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content (overrides text)"
         },
         {
           "name": "className",
           "type": "string",
           "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
         }
       ],
-      "source": "src/components/Hint/Hint.schema.ts"
+      "source": "src/components/InsetText/InsetText.schema.ts"
     },
     "Heading": {
       "name": "Heading",
@@ -663,6 +636,33 @@
         }
       ],
       "source": "src/components/Heading/Heading.schema.ts"
+    },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Fieldset": {
       "name": "Fieldset",
@@ -746,6 +746,39 @@
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
     },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
+    },
     "Details": {
       "name": "Details",
       "category": "content",
@@ -793,39 +826,6 @@
         }
       ],
       "source": "src/components/Details/Details.schema.ts"
-    },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "DateInput": {
       "name": "DateInput",
@@ -1135,8 +1135,8 @@
       "Details"
     ],
     "typography": [
-      "Hint",
-      "Heading"
+      "Heading",
+      "Hint"
     ],
     "uncategorised": [
       "Checkboxes",

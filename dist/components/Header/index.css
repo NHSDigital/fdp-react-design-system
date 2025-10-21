@@ -1201,7 +1201,7 @@ span .nhsuk-u-visually-hidden {
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation {
-  background: inherit;
+  background: transparent;
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__service-logo,

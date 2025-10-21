@@ -1,6 +1,6 @@
-import React from 'react';
-import { AriaDataGridProps } from './AriaDataGridTypes';
-import './AriaTabsDataGrid.scss';
+import React from "react";
+import { AriaDataGridProps } from "./AriaDataGridTypes";
+import "./AriaTabsDataGrid.scss";
 /**
  * ARIA-compliant Data Grid Component
  * Provides comprehensive keyboard navigation and ARIA compliance for data tables

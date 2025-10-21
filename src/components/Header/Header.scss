@@ -891,11 +891,6 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	visibility: hidden; // retains width; prevents flicker
 }
 
-
-
-
-
-
 [data-brand="fdp"] .nhsuk-header.nhsuk-header--pale-grey {
 	// Use brand grey-5 (pale grey). Semantic equivalent: $nhs-fdp-brand-fdp-semantic-surface-background-secondary
 	background-color: tokens.$nhs-fdp-brand-fdp-grey-5;
@@ -1021,7 +1016,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 	// Ensure the navigation itself renders the same gradient to avoid any white override leakage
 	// Ensure the navigation itself renders the same gradient to avoid any white override leakage
-	.nhsuk-header__navigation { background: inherit; }
+	.nhsuk-header__navigation { background: transparent; }
 	// Reset link/button colors back to white for dark background
 	.nhsuk-header__service-logo,
 	.nhsuk-header__service-name,

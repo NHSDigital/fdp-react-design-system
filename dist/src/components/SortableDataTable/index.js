@@ -86,7 +86,13 @@ var require_classnames = __commonJS({
 
 // src/components/SortableDataTable/AriaDataGrid.tsx
 var import_classnames = __toESM(require_classnames(), 1);
-import React, { useRef, useState, useCallback, useEffect, useMemo } from "react";
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo
+} from "react";
 
 // src/components/SortableDataTable/sortUtils.ts
 function toComparableDate(value) {
@@ -222,7 +228,12 @@ var AriaDataGrid = React.forwardRef(
     const rowCount = data.length;
     const sortedData = useMemo(() => {
       if (!sortConfig || sortConfig.length === 0) return data;
-      const comparator = buildMultiComparator(columns, sortConfig, "last" /* Last */, sortingOptions);
+      const comparator = buildMultiComparator(
+        columns,
+        sortConfig,
+        "last" /* Last */,
+        sortingOptions
+      );
       return [...data].sort(comparator);
     }, [data, sortConfig, columns, sortingOptions]);
     const focusCell = useCallback((rowIndex, colIndex) => {
@@ -246,7 +257,9 @@ var AriaDataGrid = React.forwardRef(
     const focusHeader = useCallback((colIndex) => {
       setTimeout(() => {
         var _a;
-        const headerCell = (_a = tableRef.current) == null ? void 0 : _a.querySelector(`th:nth-child(${colIndex + 1})`);
+        const headerCell = (_a = tableRef.current) == null ? void 0 : _a.querySelector(
+          `th:nth-child(${colIndex + 1})`
+        );
         if (headerCell) {
           headerCell.focus();
           if (typeof headerCell.scrollIntoView === "function") {
@@ -259,173 +272,188 @@ var AriaDataGrid = React.forwardRef(
         }
       }, 0);
     }, []);
-    const handleSort = useCallback((columnKey) => {
-      onSort == null ? void 0 : onSort(columnKey);
-    }, [onSort]);
-    const handleRowSelect = useCallback((rowIndex) => {
-      onRowSelect == null ? void 0 : onRowSelect(rowIndex);
-    }, [onRowSelect]);
-    const handleKeyDown = useCallback((event) => {
-      const { key } = event;
-      switch (key) {
-        case "Enter":
-          event.preventDefault();
-          if (focusArea === "headers" && navigationMode === "browse") {
-            setNavigationMode("navigate");
-            focusHeader(focusedColumnIndex);
-          } else if (focusArea === "headers" && navigationMode === "navigate") {
-            const currentColumn = columns[focusedColumnIndex];
-            if (currentColumn) {
-              handleSort(currentColumn.key);
+    const handleSort = useCallback(
+      (columnKey) => {
+        onSort == null ? void 0 : onSort(columnKey);
+      },
+      [onSort]
+    );
+    const handleRowSelect = useCallback(
+      (rowIndex) => {
+        onRowSelect == null ? void 0 : onRowSelect(rowIndex);
+      },
+      [onRowSelect]
+    );
+    const handleKeyDown = useCallback(
+      (event) => {
+        const { key } = event;
+        switch (key) {
+          case "Enter":
+            event.preventDefault();
+            if (focusArea === "headers" && navigationMode === "browse") {
+              setNavigationMode("navigate");
+              focusHeader(focusedColumnIndex);
+            } else if (focusArea === "headers" && navigationMode === "navigate") {
+              const currentColumn = columns[focusedColumnIndex];
+              if (currentColumn) {
+                handleSort(currentColumn.key);
+              }
+            } else if (focusArea === "cells" && navigationMode === "browse") {
+              setNavigationMode("navigate");
+              focusCell(focusedRowIndex, focusedColumnIndex);
+            } else if (focusArea === "cells" && navigationMode === "navigate") {
+              handleRowSelect(focusedRowIndex);
             }
-          } else if (focusArea === "cells" && navigationMode === "browse") {
-            setNavigationMode("navigate");
-            focusCell(focusedRowIndex, focusedColumnIndex);
-          } else if (focusArea === "cells" && navigationMode === "navigate") {
-            handleRowSelect(focusedRowIndex);
-          }
-          break;
-        case "Escape":
-          event.preventDefault();
-          if (focusArea === "headers" && navigationMode === "navigate") {
-            setNavigationMode("browse");
-          } else if (focusArea === "cells" && navigationMode === "navigate") {
-            setNavigationMode("browse");
-          }
-          break;
-        case "ArrowLeft":
-          event.preventDefault();
-          if (navigationMode === "navigate" || navigationMode === "browse" && focusArea === "headers") {
-            if (focusArea === "headers") {
-              const newIndex = Math.max(0, focusedColumnIndex - 1);
-              setFocusedColumnIndex(newIndex);
-              focusHeader(newIndex);
-            } else if (focusArea === "cells") {
-              const newIndex = Math.max(0, focusedColumnIndex - 1);
-              setFocusedColumnIndex(newIndex);
-              focusCell(focusedRowIndex, newIndex);
+            break;
+          case "Escape":
+            event.preventDefault();
+            if (focusArea === "headers" && navigationMode === "navigate") {
+              setNavigationMode("browse");
+            } else if (focusArea === "cells" && navigationMode === "navigate") {
+              setNavigationMode("browse");
             }
-          }
-          break;
-        case "ArrowRight":
-          event.preventDefault();
-          if (navigationMode === "navigate" || navigationMode === "browse" && focusArea === "headers") {
-            if (focusArea === "headers") {
-              const newIndex = Math.min(columnCount - 1, focusedColumnIndex + 1);
-              setFocusedColumnIndex(newIndex);
-              focusHeader(newIndex);
-            } else if (focusArea === "cells") {
-              const newIndex = Math.min(columnCount - 1, focusedColumnIndex + 1);
-              setFocusedColumnIndex(newIndex);
-              focusCell(focusedRowIndex, newIndex);
-            }
-          }
-          break;
-        case "ArrowUp":
-          event.preventDefault();
-          if (focusArea === "cells") {
-            if (navigationMode === "browse") {
-              const newIndex = Math.max(0, focusedRowIndex - 1);
-              setFocusedRowIndex(newIndex);
-              focusCell(newIndex, 0);
-              setFocusedColumnIndex(0);
-            } else if (navigationMode === "navigate") {
-              if (focusedRowIndex > 0) {
-                const newIndex = focusedRowIndex - 1;
-                setFocusedRowIndex(newIndex);
-                focusCell(newIndex, focusedColumnIndex);
-              } else {
-                setFocusArea("headers");
-                setNavigationMode("browse");
-                focusHeader(focusedColumnIndex);
+            break;
+          case "ArrowLeft":
+            event.preventDefault();
+            if (navigationMode === "navigate" || navigationMode === "browse" && focusArea === "headers") {
+              if (focusArea === "headers") {
+                const newIndex = Math.max(0, focusedColumnIndex - 1);
+                setFocusedColumnIndex(newIndex);
+                focusHeader(newIndex);
+              } else if (focusArea === "cells") {
+                const newIndex = Math.max(0, focusedColumnIndex - 1);
+                setFocusedColumnIndex(newIndex);
+                focusCell(focusedRowIndex, newIndex);
               }
             }
-          }
-          break;
-        case "ArrowDown":
-          event.preventDefault();
-          if (focusArea === "headers" && navigationMode === "browse") {
-            setFocusArea("cells");
-            setFocusedRowIndex(0);
-            setFocusedColumnIndex(0);
-            focusCell(0, 0);
-          } else if (focusArea === "cells") {
-            const maxRowIndex = rowCount - 1;
-            if (navigationMode === "browse") {
-              const newIndex = Math.min(maxRowIndex, focusedRowIndex + 1);
-              setFocusedRowIndex(newIndex);
-              focusCell(newIndex, 0);
-              setFocusedColumnIndex(0);
-            } else if (navigationMode === "navigate") {
-              if (focusedRowIndex < maxRowIndex) {
-                const newIndex = focusedRowIndex + 1;
-                setFocusedRowIndex(newIndex);
-                focusCell(newIndex, focusedColumnIndex);
+            break;
+          case "ArrowRight":
+            event.preventDefault();
+            if (navigationMode === "navigate" || navigationMode === "browse" && focusArea === "headers") {
+              if (focusArea === "headers") {
+                const newIndex = Math.min(
+                  columnCount - 1,
+                  focusedColumnIndex + 1
+                );
+                setFocusedColumnIndex(newIndex);
+                focusHeader(newIndex);
+              } else if (focusArea === "cells") {
+                const newIndex = Math.min(
+                  columnCount - 1,
+                  focusedColumnIndex + 1
+                );
+                setFocusedColumnIndex(newIndex);
+                focusCell(focusedRowIndex, newIndex);
               }
             }
-          }
-          break;
-        case "Home":
-          event.preventDefault();
-          if (focusArea === "headers") {
-            setFocusedColumnIndex(0);
-            focusHeader(0);
-          } else if (focusArea === "cells") {
-            if (event.ctrlKey) {
+            break;
+          case "ArrowUp":
+            event.preventDefault();
+            if (focusArea === "cells") {
+              if (navigationMode === "browse") {
+                const newIndex = Math.max(0, focusedRowIndex - 1);
+                setFocusedRowIndex(newIndex);
+                focusCell(newIndex, 0);
+                setFocusedColumnIndex(0);
+              } else if (navigationMode === "navigate") {
+                if (focusedRowIndex > 0) {
+                  const newIndex = focusedRowIndex - 1;
+                  setFocusedRowIndex(newIndex);
+                  focusCell(newIndex, focusedColumnIndex);
+                } else {
+                  setFocusArea("headers");
+                  setNavigationMode("browse");
+                  focusHeader(focusedColumnIndex);
+                }
+              }
+            }
+            break;
+          case "ArrowDown":
+            event.preventDefault();
+            if (focusArea === "headers" && navigationMode === "browse") {
+              setFocusArea("cells");
               setFocusedRowIndex(0);
               setFocusedColumnIndex(0);
               focusCell(0, 0);
-            } else {
+            } else if (focusArea === "cells") {
+              const maxRowIndex = rowCount - 1;
+              if (navigationMode === "browse") {
+                const newIndex = Math.min(maxRowIndex, focusedRowIndex + 1);
+                setFocusedRowIndex(newIndex);
+                focusCell(newIndex, 0);
+                setFocusedColumnIndex(0);
+              } else if (navigationMode === "navigate") {
+                if (focusedRowIndex < maxRowIndex) {
+                  const newIndex = focusedRowIndex + 1;
+                  setFocusedRowIndex(newIndex);
+                  focusCell(newIndex, focusedColumnIndex);
+                }
+              }
+            }
+            break;
+          case "Home":
+            event.preventDefault();
+            if (focusArea === "headers") {
               setFocusedColumnIndex(0);
-              focusCell(focusedRowIndex, 0);
+              focusHeader(0);
+            } else if (focusArea === "cells") {
+              if (event.ctrlKey) {
+                setFocusedRowIndex(0);
+                setFocusedColumnIndex(0);
+                focusCell(0, 0);
+              } else {
+                setFocusedColumnIndex(0);
+                focusCell(focusedRowIndex, 0);
+              }
             }
-          }
-          break;
-        case "End":
-          event.preventDefault();
-          if (focusArea === "headers") {
-            const lastIndex = columnCount - 1;
-            setFocusedColumnIndex(lastIndex);
-            focusHeader(lastIndex);
-          } else if (focusArea === "cells") {
-            if (event.ctrlKey) {
-              const lastRow = rowCount - 1;
-              const lastCol = columnCount - 1;
-              setFocusedRowIndex(lastRow);
-              setFocusedColumnIndex(lastCol);
-              focusCell(lastRow, lastCol);
-            } else {
-              const lastCol = columnCount - 1;
-              setFocusedColumnIndex(lastCol);
-              focusCell(focusedRowIndex, lastCol);
+            break;
+          case "End":
+            event.preventDefault();
+            if (focusArea === "headers") {
+              const lastIndex = columnCount - 1;
+              setFocusedColumnIndex(lastIndex);
+              focusHeader(lastIndex);
+            } else if (focusArea === "cells") {
+              if (event.ctrlKey) {
+                const lastRow = rowCount - 1;
+                const lastCol = columnCount - 1;
+                setFocusedRowIndex(lastRow);
+                setFocusedColumnIndex(lastCol);
+                focusCell(lastRow, lastCol);
+              } else {
+                const lastCol = columnCount - 1;
+                setFocusedColumnIndex(lastCol);
+                focusCell(focusedRowIndex, lastCol);
+              }
             }
-          }
-          break;
-        case " ":
-          event.preventDefault();
-          if (focusArea === "headers" && navigationMode === "navigate") {
-            const currentColumn = columns[focusedColumnIndex];
-            if (currentColumn) {
-              handleSort(currentColumn.key);
+            break;
+          case " ":
+            event.preventDefault();
+            if (focusArea === "headers" && navigationMode === "navigate") {
+              const currentColumn = columns[focusedColumnIndex];
+              if (currentColumn) {
+                handleSort(currentColumn.key);
+              }
+            } else if (focusArea === "cells" && navigationMode === "navigate") {
+              handleRowSelect(focusedRowIndex);
             }
-          } else if (focusArea === "cells" && navigationMode === "navigate") {
-            handleRowSelect(focusedRowIndex);
-          }
-          break;
-      }
-    }, [
-      focusArea,
-      navigationMode,
-      focusedColumnIndex,
-      focusedRowIndex,
-      columnCount,
-      rowCount,
-      columns,
-      focusCell,
-      focusHeader,
-      handleSort,
-      handleRowSelect
-    ]);
+            break;
+        }
+      },
+      [
+        focusArea,
+        navigationMode,
+        focusedColumnIndex,
+        focusedRowIndex,
+        columnCount,
+        rowCount,
+        columns,
+        focusCell,
+        focusHeader,
+        handleSort,
+        handleRowSelect
+      ]
+    );
     useEffect(() => {
       const table = tableRef.current;
       if (table) {
@@ -458,7 +486,9 @@ var AriaDataGrid = React.forwardRef(
         tabIndex: 0,
         children: [
           /* @__PURE__ */ jsx("thead", { className: "nhsuk-table__head", role: "rowgroup", children: /* @__PURE__ */ jsx("tr", { ref: headerRowRef, role: "row", children: columns.map((column, colIndex) => {
-            const sortInfo = sortConfig == null ? void 0 : sortConfig.find((config) => config.key === column.key);
+            const sortInfo = sortConfig == null ? void 0 : sortConfig.find(
+              (config) => config.key === column.key
+            );
             const isSorted = !!sortInfo;
             const isFocused = focusArea === "headers" && focusedColumnIndex === colIndex;
             return /* @__PURE__ */ jsx(
@@ -469,7 +499,13 @@ var AriaDataGrid = React.forwardRef(
                 }),
                 role: "columnheader",
                 tabIndex: isFocused ? 0 : -1,
-                onClick: () => handleSort(column.key),
+                onClick: () => {
+                  setFocusArea("headers");
+                  setFocusedColumnIndex(colIndex);
+                  setNavigationMode("navigate");
+                  focusHeader(colIndex);
+                  handleSort(column.key);
+                },
                 onKeyDown: (e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
@@ -480,7 +516,9 @@ var AriaDataGrid = React.forwardRef(
                 children: /* @__PURE__ */ jsxs("div", { className: "header-content", children: [
                   /* @__PURE__ */ jsx("span", { className: "header-label", children: column.label }),
                   isSorted && /* @__PURE__ */ jsxs("span", { className: "sort-indicator", "aria-hidden": "true", children: [
-                    sortConfig && sortConfig.length > 1 && /* @__PURE__ */ jsx("span", { className: "sort-priority", children: sortConfig.findIndex((config) => config.key === column.key) + 1 }),
+                    sortConfig && sortConfig.length > 1 && /* @__PURE__ */ jsx("span", { className: "sort-priority", children: sortConfig.findIndex(
+                      (config) => config.key === column.key
+                    ) + 1 }),
                     /* @__PURE__ */ jsx(
                       "svg",
                       {
@@ -530,7 +568,14 @@ var AriaDataGrid = React.forwardRef(
                         "data-cell--focused": isCellFocused
                       }),
                       tabIndex: isCellFocused ? 0 : -1,
-                      onClick: () => handleRowSelect(rowIndex),
+                      onClick: () => {
+                        setFocusArea("cells");
+                        setFocusedRowIndex(rowIndex);
+                        setFocusedColumnIndex(colIndex);
+                        setNavigationMode("navigate");
+                        focusCell(rowIndex, colIndex);
+                        handleRowSelect(rowIndex);
+                      },
                       children: renderValue()
                     },
                     column.key

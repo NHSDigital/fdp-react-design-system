@@ -1,0 +1,404 @@
+// ProductCard Styles - FDP Brand
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.nhs-product-card {
+  position: relative;
+  display: flex;
+  background: nhs.$nhs-fdp-card-background-default;
+  border-radius: nhs.$nhs-fdp-border-radius-medium;
+  overflow: hidden;
+  transition: transform nhs.$nhs-fdp-animation-duration-normal nhs.$nhs-fdp-animation-easing-ease-out,
+              box-shadow nhs.$nhs-fdp-animation-duration-normal nhs.$nhs-fdp-animation-easing-ease-out;
+
+  &--elevated {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  &--clickable {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    &:focus-visible {
+      outline: 3px solid nhs.$nhs-fdp-semantic-color-focus-background;
+      outline-offset: 0;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Vertical layout (default)
+  &--vertical {
+    flex-direction: column;
+    max-width: 400px;
+  }
+
+  // Horizontal layout
+  &--horizontal {
+    flex-direction: row;
+
+    .nhs-product-card__image {
+      flex: 0 0 40%;
+      min-width: 240px;
+    }
+
+    .nhs-product-card__content {
+      flex: 1;
+    }
+  }
+
+  // Responsive: stack horizontal cards on small screens
+  @media (max-width: nhs.$nhs-fdp-breakpoint-small-max) {
+    &--horizontal {
+      flex-direction: column;
+
+      .nhs-product-card__image {
+        flex: 0 0 auto;
+        min-width: 100%;
+      }
+    }
+  }
+}
+
+// Badge/tag
+.nhs-product-card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  padding: 4px 12px;
+  background: rgba(0, 0, 0, 0.75);
+  color: nhs.$nhs-fdp-semantic-color-text-reverse;
+  font-size: nhs.$nhs-fdp-font-size-14-desktop;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  border-radius: nhs.$nhs-fdp-border-radius-small;
+  text-transform: uppercase;
+  letter-spacing: nhs.$nhs-fdp-font-letter-spacing-wide;
+}
+
+// Image area
+.nhs-product-card__image {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: nhs.$nhs-fdp-theme-light-semantic-surface-background-secondary;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  &--graphic {
+    background: linear-gradient(135deg, nhs.$nhs-fdp-theme-light-semantic-surface-background-secondary 0%, nhs.$nhs-fdp-card-background-default 100%);
+  }
+}
+
+// Vector graphic SVG
+.nhs-product-card__graphic {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+// Gradient fills (matching PatternBanner)
+.pc-grad-aqua-green {
+  fill: url(#pc-grad-aqua-green);
+}
+
+.pc-grad-purple {
+  fill: url(#pc-grad-purple);
+}
+
+.pc-grad-blue {
+  fill: url(#pc-grad-blue);
+}
+
+.pc-grad-grey {
+  fill: url(#pc-grad-grey);
+}
+
+.pc-grad-azure {
+  fill: url(#pc-grad-azure);
+}
+
+// Content area
+.nhs-product-card__content {
+  padding: nhs.$nhs-fdp-component-card-padding-mobile;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+    padding: nhs.$nhs-fdp-component-card-padding-desktop;
+  }
+}
+
+// Title
+.nhs-product-card__title {
+  margin: 0;
+  font-size: nhs.$nhs-fdp-font-size-22-desktop;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  line-height: nhs.$nhs-fdp-font-line-height-unitless-display;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+
+  @media (max-width: nhs.$nhs-fdp-breakpoint-small-max) {
+    font-size: nhs.$nhs-fdp-font-size-22-mobile;
+  }
+
+  .nhs-product-card--theme-aqua-green & {
+    color: rgb(0, 163, 151);
+  }
+
+  .nhs-product-card--theme-purple & {
+    color: rgb(120, 99, 153);
+  }
+
+  .nhs-product-card--theme-blue & {
+    color: nhs.$nhs-fdp-brand-fdp-primary-blue;
+  }
+
+  .nhs-product-card--theme-grey & {
+    color: nhs.$nhs-fdp-brand-fdp-grey-1;
+  }
+
+  .nhs-product-card--theme-azure & {
+    color: rgb(0, 122, 204);
+  }
+}
+
+// Description
+.nhs-product-card__description {
+  margin: 0;
+  font-size: nhs.$nhs-fdp-font-size-16-desktop;
+  line-height: nhs.$nhs-fdp-font-line-height-unitless-body;
+  color: nhs.$nhs-fdp-semantic-color-text-secondary;
+  flex-grow: 1;
+
+  @media (max-width: nhs.$nhs-fdp-breakpoint-small-max) {
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  }
+}
+
+// Actions/buttons
+.nhs-product-card__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.nhs-product-card__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: nhs.$nhs-fdp-component-button-padding-desktop-vertical nhs.$nhs-fdp-component-button-padding-desktop-horizontal;
+  font-size: nhs.$nhs-fdp-font-size-16-desktop;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  line-height: nhs.$nhs-fdp-font-line-height-unitless-body;
+  text-decoration: none;
+  border-radius: nhs.$nhs-fdp-button-border-radius;
+  border: nhs.$nhs-fdp-button-border-width solid transparent;
+  cursor: pointer;
+  transition: nhs.$nhs-fdp-transition-button-default;
+  white-space: nowrap;
+
+  @media (max-width: nhs.$nhs-fdp-breakpoint-small-max) {
+    padding: nhs.$nhs-fdp-component-button-padding-mobile-vertical nhs.$nhs-fdp-component-button-padding-mobile-horizontal;
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  }
+
+  &:focus-visible {
+    outline: 3px solid nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 2px;
+  }
+
+  // Primary button
+  &--primary {
+    background: nhs.$nhs-fdp-button-primary-background-default;
+    color: nhs.$nhs-fdp-button-primary-text-default;
+    border-color: nhs.$nhs-fdp-button-primary-background-default;
+
+    &:hover:not(&--disabled) {
+      background: nhs.$nhs-fdp-button-primary-background-hover;
+      border-color: nhs.$nhs-fdp-button-primary-background-hover;
+    }
+
+    &:active:not(&--disabled) {
+      background: nhs.$nhs-fdp-button-primary-background-active;
+      border-color: nhs.$nhs-fdp-button-primary-background-active;
+    }
+  }
+
+  // Secondary button
+  &--secondary {
+    background: nhs.$nhs-fdp-button-secondary-background-default;
+    color: nhs.$nhs-fdp-button-secondary-text-default;
+    border-color: nhs.$nhs-fdp-button-secondary-border-default;
+
+    &:hover:not(&--disabled) {
+      background: nhs.$nhs-fdp-button-secondary-background-hover;
+    }
+
+    &:active:not(&--disabled) {
+      background: nhs.$nhs-fdp-button-secondary-background-active;
+    }
+  }
+
+  // Tertiary button (text only)
+  &--tertiary {
+    background: transparent;
+    color: nhs.$nhs-fdp-semantic-color-link-default;
+    border-color: transparent;
+    padding: nhs.$nhs-fdp-component-button-padding-desktop-vertical 12px;
+
+    @media (max-width: nhs.$nhs-fdp-breakpoint-small-max) {
+      padding: nhs.$nhs-fdp-component-button-padding-mobile-vertical 12px;
+    }
+
+    &:hover:not(&--disabled) {
+      text-decoration: underline;
+      background: rgba(0, 94, 184, 0.05);
+    }
+  }
+
+  // Disabled state
+  &--disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+// Footer area
+.nhs-product-card__footer {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-semantic-color-border-default;
+  font-size: nhs.$nhs-fdp-font-size-14-desktop;
+  color: nhs.$nhs-fdp-semantic-color-text-secondary;
+
+  @media (max-width: nhs.$nhs-fdp-breakpoint-small-max) {
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+  }
+}
+
+// Theme accent variations
+.nhs-product-card--theme-aqua-green {
+  .nhs-product-card__button--primary {
+    background: rgb(0, 163, 151);
+    border-color: rgb(0, 163, 151);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgb(0, 140, 128);
+      border-color: rgb(0, 140, 128);
+    }
+
+    &:active:not(.nhs-product-card__button--disabled) {
+      background: rgb(0, 110, 100);
+      border-color: rgb(0, 110, 100);
+    }
+  }
+
+  .nhs-product-card__button--secondary {
+    color: rgb(0, 163, 151);
+    border-color: rgb(0, 163, 151);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgba(0, 163, 151, 0.1);
+    }
+
+    &:active:not(.nhs-product-card__button--disabled) {
+      background: rgba(0, 163, 151, 0.15);
+    }
+  }
+
+  .nhs-product-card__button--tertiary {
+    color: rgb(0, 163, 151);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgba(0, 163, 151, 0.05);
+    }
+  }
+}
+
+.nhs-product-card--theme-purple {
+  .nhs-product-card__button--primary {
+    background: rgb(120, 99, 153);
+    border-color: rgb(120, 99, 153);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgb(100, 79, 133);
+      border-color: rgb(100, 79, 133);
+    }
+
+    &:active:not(.nhs-product-card__button--disabled) {
+      background: rgb(80, 60, 110);
+      border-color: rgb(80, 60, 110);
+    }
+  }
+
+  .nhs-product-card__button--secondary {
+    color: rgb(120, 99, 153);
+    border-color: rgb(120, 99, 153);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgba(120, 99, 153, 0.1);
+    }
+
+    &:active:not(.nhs-product-card__button--disabled) {
+      background: rgba(120, 99, 153, 0.15);
+    }
+  }
+
+  .nhs-product-card__button--tertiary {
+    color: rgb(120, 99, 153);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgba(120, 99, 153, 0.05);
+    }
+  }
+}
+
+.nhs-product-card--theme-azure {
+  .nhs-product-card__button--primary {
+    background: rgb(0, 122, 204);
+    border-color: rgb(0, 122, 204);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgb(0, 100, 170);
+      border-color: rgb(0, 100, 170);
+    }
+
+    &:active:not(.nhs-product-card__button--disabled) {
+      background: rgb(0, 80, 140);
+      border-color: rgb(0, 80, 140);
+    }
+  }
+
+  .nhs-product-card__button--secondary {
+    color: rgb(0, 122, 204);
+    border-color: rgb(0, 122, 204);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgba(0, 122, 204, 0.1);
+    }
+
+    &:active:not(.nhs-product-card__button--disabled) {
+      background: rgba(0, 122, 204, 0.15);
+    }
+  }
+
+  .nhs-product-card__button--tertiary {
+    color: rgb(0, 122, 204);
+
+    &:hover:not(.nhs-product-card__button--disabled) {
+      background: rgba(0, 122, 204, 0.05);
+    }
+  }
+}

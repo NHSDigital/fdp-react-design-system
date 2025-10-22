@@ -128,30 +128,30 @@ function Ce(t, { variant: a, isClient: s, brand: n }) {
     organisation: o,
     // NOTE: search component intentionally omitted in server render to avoid importing client hooks
     // search,
-    account: g,
+    account: m,
     navigation: d,
     containerClasses: f,
     variant: h = "default",
     attributes: u = {},
     maxVisibleItems: p,
     // deprecated (ignored)
-    responsiveNavigation: N = !0,
+    responsiveNavigation: k = !0,
     // Consume logoVariant for server-side logo selection while preventing DOM leakage via ...rest
-    logoVariant: y = de.Full,
+    logoVariant: E = de.Full,
     ...M
   } = t;
   "maxVisibleItems" in M && delete M.maxVisibleItems;
-  const k = {
+  const b = {
     ...c,
     text: c?.text ?? i
-  }, _ = k.href && !r.href || k.href && k.href === r.href, x = _ ? k.href : r.href, I = w(
+  }, _ = b.href && !r.href || b.href && b.href === r.href, x = _ ? b.href : r.href, N = w(
     "nhsuk-header",
     {
       "nhsuk-header--organisation": h === "organisation" || o,
       "nhsuk-header--white": h === "white"
     },
     l
-  ), b = w(
+  ), I = w(
     "nhsuk-header__container",
     f
   ), v = w(
@@ -161,7 +161,7 @@ function Ce(t, { variant: a, isClient: s, brand: n }) {
       "nhsuk-header__navigation--justified": d?.justified
     },
     d?.className
-  ), E = n === "fdp" ? "fdp" : "nhs", m = () => /* @__PURE__ */ e.createElement(
+  ), y = n === "fdp" ? "fdp" : "nhs", g = () => /* @__PURE__ */ e.createElement(
     "svg",
     {
       className: "nhsuk-header__logo",
@@ -189,38 +189,38 @@ function Ce(t, { variant: a, isClient: s, brand: n }) {
           className: "nhsuk-header__organisation-logo",
           src: r.src,
           width: "280",
-          alt: r.ariaLabel || (E === "fdp" ? "FDP" : "NHS")
+          alt: r.ariaLabel || (y === "fdp" ? "FDP" : "NHS")
         }
       );
-    if (E === "fdp") {
-      const L = xe(oe.FDP, y);
+    if (y === "fdp") {
+      const L = xe(oe.FDP, E);
       if (L?.src)
         return /* @__PURE__ */ e.createElement(
           "img",
           {
             className: "nhsuk-header__organisation-logo",
             src: L.src,
-            "data-logo-variant": y,
+            "data-logo-variant": E,
             width: "280",
             alt: L.ariaLabel || "FDP"
           }
         );
     }
-    return m();
-  }, D = () => o ? /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name" }, o.name, o.split && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-split" }, " ", o.split)), o.descriptor && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-descriptor" }, o.descriptor)) : null, j = (L, B) => L ? B ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-name", href: B }, L) : /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__service-name" }, L) : null, T = (L) => L.active || L.current ? /* @__PURE__ */ e.createElement("strong", { className: "nhsuk-header__navigation-item-current-fallback" }, L.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: L.html } }) : L.text) : L.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: L.html } }) : L.text, A = d?.items && !N, z = A ? [] : d?.items, Z = A ? d.items : [];
+    return g();
+  }, D = () => o ? /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name" }, o.name, o.split && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-split" }, " ", o.split)), o.descriptor && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-descriptor" }, o.descriptor)) : null, j = (L, B) => L ? B ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-name", href: B }, L) : /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__service-name" }, L) : null, T = (L) => L.active || L.current ? /* @__PURE__ */ e.createElement("strong", { className: "nhsuk-header__navigation-item-current-fallback" }, L.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: L.html } }) : L.text) : L.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: L.html } }) : L.text, A = d?.items && !k, z = A ? [] : d?.items, Z = A ? d.items : [];
   return /* @__PURE__ */ e.createElement(
     "header",
     {
-      className: I,
+      className: N,
       role: "banner",
       "data-module": "nhsuk-header",
       ...u,
       ...M
     },
-    /* @__PURE__ */ e.createElement("div", { className: b }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__service" }, x ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-logo", href: x }, C(), D(), _ && j(k.text)) : /* @__PURE__ */ e.createElement(e.Fragment, null, C(), D(), _ && j(k.text)), k.text && !_ && j(k.text, k.href)), /* @__PURE__ */ e.createElement(
+    /* @__PURE__ */ e.createElement("div", { className: I }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__service" }, x ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-logo", href: x }, C(), D(), _ && j(b.text)) : /* @__PURE__ */ e.createElement(e.Fragment, null, C(), D(), _ && j(b.text)), b.text && !_ && j(b.text, b.href)), /* @__PURE__ */ e.createElement(
       be,
       {
-        ...g,
+        ...m,
         variant: h === "white" ? "white" : "default"
       }
     )),
@@ -355,17 +355,17 @@ const ee = S.forwardRef(function(a, s) {
     fullWidth: c = !1,
     className: i = "",
     preventDoubleClick: o = !1,
-    ...g
+    ...m
   } = a, d = De({
     variant: l,
     size: r,
     fullWidth: c,
     className: i,
-    href: "href" in g ? g.href : void 0,
+    href: "href" in m ? m.href : void 0,
     preventDoubleClick: o
   });
-  if ("href" in g && g.href) {
-    const z = g, {
+  if ("href" in m && m.href) {
+    const z = m, {
       id: Z,
       style: L,
       title: B,
@@ -399,21 +399,21 @@ const ee = S.forwardRef(function(a, s) {
       n
     );
   }
-  const f = g, {
+  const f = m, {
     id: h,
     style: u,
     title: p,
-    ["aria-label"]: N,
-    ["aria-describedby"]: y,
+    ["aria-label"]: k,
+    ["aria-describedby"]: E,
     ["aria-labelledby"]: M,
-    tabIndex: k,
+    tabIndex: b,
     name: _,
     value: x,
-    form: I,
-    formAction: b,
+    form: N,
+    formAction: I,
     formEncType: v,
-    formMethod: E,
-    formNoValidate: m,
+    formMethod: y,
+    formNoValidate: g,
     formTarget: C,
     autoFocus: D,
     type: j,
@@ -432,17 +432,17 @@ const ee = S.forwardRef(function(a, s) {
       id: h,
       style: u,
       title: p,
-      "aria-label": N,
-      "aria-describedby": y,
+      "aria-label": k,
+      "aria-describedby": E,
       "aria-labelledby": M,
-      tabIndex: k,
+      tabIndex: b,
       name: _,
       value: x,
-      form: I,
-      formAction: b,
+      form: N,
+      formAction: I,
       formEncType: v,
-      formMethod: E,
-      formNoValidate: m,
+      formMethod: y,
+      formNoValidate: g,
       formTarget: C,
       autoFocus: D,
       ...A
@@ -465,7 +465,7 @@ const Nt = ({
     n
   ), o = w(
     "nhsuk-back-link__link"
-  ), g = () => /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement(
+  ), m = () => /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement(
     "svg",
     {
       className: "nhsuk-icon nhsuk-icon__chevron-left",
@@ -485,7 +485,7 @@ const Nt = ({
       type: "button",
       ...c
     },
-    g()
+    m()
   ) : /* @__PURE__ */ e.createElement(
     "a",
     {
@@ -493,7 +493,7 @@ const Nt = ({
       href: s,
       ...c
     },
-    g()
+    m()
   ));
 };
 function Se(t) {
@@ -517,12 +517,12 @@ const kt = ({
   onClose: c,
   disabled: i = !1,
   className: o,
-  ...g
+  ...m
 }) => {
   const d = Se({ color: n, noBorder: l, closable: r, disabled: i, className: o }), f = (h) => {
     h.preventDefault(), h.stopPropagation(), !i && c && c();
   };
-  return /* @__PURE__ */ e.createElement("strong", { className: d.classes, ...g }, s || (a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t), r && /* @__PURE__ */ e.createElement(
+  return /* @__PURE__ */ e.createElement("strong", { className: d.classes, ...m }, s || (a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t), r && /* @__PURE__ */ e.createElement(
     "button",
     {
       type: "button",
@@ -595,11 +595,11 @@ const H = ({
   marginBottom: c,
   ...i
 }) => {
-  const o = Ae({ level: t, size: r, className: a, marginBottom: c }), g = l || (n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : s);
+  const o = Ae({ level: t, size: r, className: a, marginBottom: c }), m = l || (n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : s);
   return ce(
     o.tag,
     { className: o.classes, style: o.style, ...i },
-    g
+    m
   );
 };
 function ze(t) {
@@ -699,7 +699,7 @@ const ae = ({
     id: c,
     children: i,
     ...o
-  }, g) => {
+  }, m) => {
     const d = [
       "nhsuk-details",
       r
@@ -714,7 +714,7 @@ const ae = ({
     return i ? h = i : n ? h = /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: n } }) : s && (h = s), /* @__PURE__ */ e.createElement(
       "details",
       {
-        ref: g,
+        ref: m,
         id: c,
         className: d,
         open: l,
@@ -746,7 +746,7 @@ const yt = ({
   children: i,
   ...o
 }) => {
-  const g = w(
+  const m = w(
     "nhsuk-panel",
     a
   ), d = () => !s && !n && !i ? null : n ? /* @__PURE__ */ e.createElement(
@@ -772,7 +772,7 @@ const yt = ({
       dangerouslySetInnerHTML: { __html: c }
     }
   ) : r ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-panel__body" }, /* @__PURE__ */ e.createElement("p", null, r)) : null;
-  return /* @__PURE__ */ e.createElement("div", { className: g, id: t, ...o }, d(), f());
+  return /* @__PURE__ */ e.createElement("div", { className: m, id: t, ...o }, d(), f());
 }, J = ({
   children: t,
   href: a,
@@ -805,21 +805,21 @@ const yt = ({
   attributes: i = {}
 }) => {
   const o = () => a ? e.Children.toArray(a).filter(
-    (y) => e.isValidElement(y) && (y.type === J || y.type?.displayName === "BreadcrumbItem")
-  ).map((y) => ({
-    text: typeof y.props.children == "string" ? y.props.children : String(y.props.children),
-    href: y.props.href,
-    active: y.props.active,
-    attributes: y.props.attributes
-  })) : [], g = () => a ? o() : l && r ? [{ href: l, text: r }] : t, d = () => {
-    const N = g();
-    if (N && N.length > 0) {
-      const y = N.slice().reverse().find((M) => M.href && !M.active);
-      if (y)
-        return { href: y.href, text: y.text };
+    (E) => e.isValidElement(E) && (E.type === J || E.type?.displayName === "BreadcrumbItem")
+  ).map((E) => ({
+    text: typeof E.props.children == "string" ? E.props.children : String(E.props.children),
+    href: E.props.href,
+    active: E.props.active,
+    attributes: E.props.attributes
+  })) : [], m = () => a ? o() : l && r ? [{ href: l, text: r }] : t, d = () => {
+    const k = m();
+    if (k && k.length > 0) {
+      const E = k.slice().reverse().find((M) => M.href && !M.active);
+      if (E)
+        return { href: E.href, text: E.text };
     }
     return { text: "Home" };
-  }, f = g(), h = d(), u = w(
+  }, f = m(), h = d(), u = w(
     "nhsuk-breadcrumb",
     {
       "nhsuk-breadcrumb--reverse": c
@@ -836,27 +836,27 @@ const yt = ({
     },
     /* @__PURE__ */ e.createElement("ol", { className: "nhsuk-breadcrumb__list", role: "list" }, a ? (
       // Render children directly if using compound component pattern
-      e.Children.map(a, (N, y) => e.isValidElement(N) && (N.type === J || N.type?.displayName === "BreadcrumbItem") ? e.cloneElement(N, { key: y }) : null)
+      e.Children.map(a, (k, E) => e.isValidElement(k) && (k.type === J || k.type?.displayName === "BreadcrumbItem") ? e.cloneElement(k, { key: E }) : null)
     ) : (
       // Render from items array
-      f?.filter((N) => N.active || !!N.href).map((N, y) => /* @__PURE__ */ e.createElement("li", { key: y, className: "nhsuk-breadcrumb__item", role: "listitem" }, N.active ? /* @__PURE__ */ e.createElement(
+      f?.filter((k) => k.active || !!k.href).map((k, E) => /* @__PURE__ */ e.createElement("li", { key: E, className: "nhsuk-breadcrumb__item", role: "listitem" }, k.active ? /* @__PURE__ */ e.createElement(
         "span",
         {
           className: "nhsuk-breadcrumb__link nhsuk-breadcrumb__link--current",
           "aria-current": "page",
           role: "text",
-          ...N.attributes || {}
+          ...k.attributes || {}
         },
-        N.text
+        k.text
       ) : /* @__PURE__ */ e.createElement(
         "a",
         {
           className: "nhsuk-breadcrumb__link",
-          href: N.href,
+          href: k.href,
           role: "link",
-          ...N.attributes || {}
+          ...k.attributes || {}
         },
-        N.text
+        k.text
       )))
     )),
     h.href && /* @__PURE__ */ e.createElement("p", { className: "nhsuk-breadcrumb__back" }, /* @__PURE__ */ e.createElement(
@@ -885,7 +885,7 @@ const Re = ({
   as: c,
   ...i
 }) => {
-  const o = c || (a === "number" ? "ol" : "ul"), g = w(
+  const o = c || (a === "number" ? "ol" : "ul"), m = w(
     "nhsuk-list",
     {
       "nhsuk-list--bullet": a === "bullet",
@@ -896,7 +896,7 @@ const Re = ({
     },
     l
   );
-  return /* @__PURE__ */ e.createElement(o, { className: g, role: r, ...i }, t);
+  return /* @__PURE__ */ e.createElement(o, { className: m, role: r, ...i }, t);
 }, We = ({
   children: t,
   className: a,
@@ -916,7 +916,7 @@ const Et = ({
   containerClasses: c,
   attributes: i = {},
   style: o,
-  footerStyle: g,
+  footerStyle: m,
   containerStyle: d
 }) => {
   const f = (u, p = !1) => /* @__PURE__ */ e.createElement(
@@ -945,7 +945,7 @@ const Et = ({
       style: d
     },
     /* @__PURE__ */ e.createElement("h2", { className: "nhsuk-u-visually-hidden" }, "Support links"),
-    /* @__PURE__ */ e.createElement("div", { className: w("nhsuk-footer", t), style: g }, h ? (
+    /* @__PURE__ */ e.createElement("div", { className: w("nhsuk-footer", t), style: m }, h ? (
       // Multi-column layout
       /* @__PURE__ */ e.createElement(e.Fragment, null, a.length > 0 && /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-footer__list" }, a.map((u) => f(u))), s && s.length > 0 && /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-footer__list" }, s.map((u) => f(u))), n && n.length > 0 && /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-footer__list" }, n.map((u) => f(u))), l && l.length > 0 && /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-footer__list nhsuk-footer__meta" }, l.map((u) => f(u))))
     ) : (
@@ -963,14 +963,14 @@ const Et = ({
   className: r,
   ...c
 }) => {
-  const i = /important/i.test(t), o = () => l || (n ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: n } }) : s ? /* @__PURE__ */ e.createElement("p", null, s) : null), g = [
+  const i = /important/i.test(t), o = () => l || (n ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: n } }) : s ? /* @__PURE__ */ e.createElement("p", null, s) : null), m = [
     "nhsuk-warning-callout",
     r
   ].filter(Boolean).join(" "), d = `h${a}`;
   return /* @__PURE__ */ e.createElement(
     "div",
     {
-      className: g,
+      className: m,
       ...c
     },
     ce(
@@ -1034,7 +1034,7 @@ const Et = ({
   }, i) => {
     const o = ["nhsuk-do-dont-list"];
     r && o.push(r);
-    const g = [
+    const m = [
       "nhsuk-list",
       a === "tick" ? "nhsuk-list--tick" : "nhsuk-list--cross"
     ], d = () => a === "cross" ? /* @__PURE__ */ e.createElement(
@@ -1097,7 +1097,7 @@ const Et = ({
         ...c
       },
       h(),
-      /* @__PURE__ */ e.createElement("div", { className: "nhsuk-do-dont-list__content--feature" }, /* @__PURE__ */ e.createElement("ul", { className: g.join(" "), role: "list" }, s.map((u, p) => /* @__PURE__ */ e.createElement("li", { key: p }, d(), f(u.item)))))
+      /* @__PURE__ */ e.createElement("div", { className: "nhsuk-do-dont-list__content--feature" }, /* @__PURE__ */ e.createElement("ul", { className: m.join(" "), role: "list" }, s.map((u, p) => /* @__PURE__ */ e.createElement("li", { key: p }, d(), f(u.item)))))
     );
   }
 );
@@ -1191,10 +1191,10 @@ const vt = ({
       "nhsuk-summary-list--no-border": a
     },
     s
-  ), r = (i) => i.children ? i.children : i.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text ? i.text : null, c = (i) => !i || !i.items.length ? null : /* @__PURE__ */ e.createElement("dd", { className: "nhsuk-summary-list__actions" }, /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-summary-list__actions-list" }, i.items.map((o, g) => /* @__PURE__ */ e.createElement(
+  ), r = (i) => i.children ? i.children : i.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text ? i.text : null, c = (i) => !i || !i.items.length ? null : /* @__PURE__ */ e.createElement("dd", { className: "nhsuk-summary-list__actions" }, /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-summary-list__actions-list" }, i.items.map((o, m) => /* @__PURE__ */ e.createElement(
     "li",
     {
-      key: g,
+      key: m,
       className: "nhsuk-summary-list__actions-list-item"
     },
     /* @__PURE__ */ e.createElement(
@@ -1223,7 +1223,7 @@ const vt = ({
     "nhs-fdp-summary-card",
     `nhs-fdp-summary-card--${n}`,
     r
-  ].filter(Boolean).join(" "), g = /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement(H, { level: 3, className: "nhs-fdp-summary-card__title" }, t), /* @__PURE__ */ e.createElement("p", { className: "nhs-fdp-summary-card__value" }, a), s && /* @__PURE__ */ e.createElement("p", { className: "nhs-fdp-summary-card__subtitle" }, s));
+  ].filter(Boolean).join(" "), m = /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement(H, { level: 3, className: "nhs-fdp-summary-card__title" }, t), /* @__PURE__ */ e.createElement("p", { className: "nhs-fdp-summary-card__value" }, a), s && /* @__PURE__ */ e.createElement("p", { className: "nhs-fdp-summary-card__subtitle" }, s));
   return l ? /* @__PURE__ */ e.createElement(
     "a",
     {
@@ -1232,7 +1232,7 @@ const vt = ({
       "aria-label": c || `${t}: ${a}`,
       ...i
     },
-    g
+    m
   ) : /* @__PURE__ */ e.createElement(
     "div",
     {
@@ -1240,7 +1240,7 @@ const vt = ({
       "aria-label": c,
       ...i
     },
-    g
+    m
   );
 };
 function ge(t) {
@@ -1266,25 +1266,25 @@ const Ct = ({
   subtitle: c,
   metadata: i,
   trendData: o,
-  loading: g = !1,
+  loading: m = !1,
   error: d,
   valueFormatter: f,
   className: h,
   style: u,
   id: p,
-  announceDelta: N = !0,
-  visual: y
+  announceDelta: k = !0,
+  visual: E
 }) => {
-  const M = S.useId(), k = p || M, _ = `${k}-label`, x = `${k}-value`, I = `${k}-delta`, b = typeof a == "number" && !Number.isNaN(a), v = g ? "—" : d ? "" : b ? f ? f(a) : a.toLocaleString() : a;
-  let E, m = "", C = "";
-  if (n && !g && !d) {
-    E = n.direction || (n.value > 0 ? "up" : n.value < 0 ? "down" : "neutral");
-    const D = Math.abs(n.value), j = E === "up" ? `+${D}` : E === "down" ? `-${D}` : "0", T = n.isPercent ? "%" : "";
-    if (m = `${j}${T}`, n.ariaLabel)
+  const M = S.useId(), b = p || M, _ = `${b}-label`, x = `${b}-value`, N = `${b}-delta`, I = typeof a == "number" && !Number.isNaN(a), v = m ? "—" : d ? "" : I ? f ? f(a) : a.toLocaleString() : a;
+  let y, g = "", C = "";
+  if (n && !m && !d) {
+    y = n.direction || (n.value > 0 ? "up" : n.value < 0 ? "down" : "neutral");
+    const D = Math.abs(n.value), j = y === "up" ? `+${D}` : y === "down" ? `-${D}` : "0", T = n.isPercent ? "%" : "";
+    if (g = `${j}${T}`, n.ariaLabel)
       C = n.ariaLabel;
     else {
-      const A = n.invert ? E === "down" : E === "up";
-      C = `${E === "neutral" ? "no change" : E === "up" ? "up" : "down"} ${D}${T}${E === "neutral" ? "" : A ? " (improvement)" : " (worse)"}`;
+      const A = n.invert ? y === "down" : y === "up";
+      C = `${y === "neutral" ? "no change" : y === "up" ? "up" : "down"} ${D}${T}${y === "neutral" ? "" : A ? " (improvement)" : " (worse)"}`;
     }
   }
   return /* @__PURE__ */ S.createElement(
@@ -1294,7 +1294,7 @@ const Ct = ({
         "fdp-metric-card",
         r && `fdp-metric-card--${r}`,
         l && `fdp-metric-card--status-${l}`,
-        g && "fdp-metric-card--loading",
+        m && "fdp-metric-card--loading",
         d && "fdp-metric-card--error",
         h
       ),
@@ -1303,19 +1303,19 @@ const Ct = ({
       "aria-labelledby": _,
       "data-component": "MetricCard"
     },
-    /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__inner" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__header" }, /* @__PURE__ */ S.createElement("h3", { id: _, className: "fdp-metric-card__label" }, t), i && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__metadata" }, i)), /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__content" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__value-section" }, /* @__PURE__ */ S.createElement("div", { id: x, className: "fdp-metric-card__value" }, g ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" })) : d ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__error", role: "alert" }, d) : /* @__PURE__ */ S.createElement(S.Fragment, null, /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__number" }, v), s && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__unit" }, s))), c && !g && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__subtitle" }, c)), n && !g && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__delta-section" }, /* @__PURE__ */ S.createElement(
+    /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__inner" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__header" }, /* @__PURE__ */ S.createElement("h3", { id: _, className: "fdp-metric-card__label" }, t), i && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__metadata" }, i)), /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__content" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__value-section" }, /* @__PURE__ */ S.createElement("div", { id: x, className: "fdp-metric-card__value" }, m ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" })) : d ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__error", role: "alert" }, d) : /* @__PURE__ */ S.createElement(S.Fragment, null, /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__number" }, v), s && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__unit" }, s))), c && !m && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__subtitle" }, c)), n && !m && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__delta-section" }, /* @__PURE__ */ S.createElement(
       "div",
       {
-        id: I,
+        id: N,
         "aria-label": C,
         className: se(
           "fdp-metric-card__delta",
-          E && `fdp-metric-card__delta--${E}`
+          y && `fdp-metric-card__delta--${y}`
         )
       },
-      /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__delta-value" }, m),
+      /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__delta-value" }, g),
       n.period && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__delta-period" }, n.period)
-    )), o && o.length > 0 && !g && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })), y && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__visual", "aria-hidden": "true" }, y), N && n && !n.ariaLabel && !g && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-visually-hidden", "aria-live": "polite" }, C))
+    )), o && o.length > 0 && !m && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })), E && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__visual", "aria-hidden": "true" }, E), k && n && !n.ariaLabel && !m && !d && /* @__PURE__ */ S.createElement("div", { className: "fdp-visually-hidden", "aria-live": "polite" }, C))
   );
 }, U = { current: null }, Ye = () => {
   if (U.current) return U.current;
@@ -1370,50 +1370,50 @@ const Ct = ({
   heading: c,
   headingLevel: i = 3,
   panel: o = !1,
-  panelClasses: g,
+  panelClasses: m,
   tableClasses: d,
   classes: f,
   attributes: h,
   "data-testid": u,
   columns: p,
-  data: N,
-  visuallyHiddenCaption: y = !1
+  data: k,
+  visuallyHiddenCaption: E = !1
 }) => {
-  const M = `nhsuk-table__caption ${n ? `nhsuk-table__caption--${n}` : ""}`.trim(), k = w(
+  const M = `nhsuk-table__caption ${n ? `nhsuk-table__caption--${n}` : ""}`.trim(), b = w(
     "nhsuk-table",
     {
       "nhsuk-table-responsive": r
     },
     d
-  ), _ = w(f), x = (m, C) => {
+  ), _ = w(f), x = (g, C) => {
     const D = w(
       "nhsuk-table__header",
       {
-        [`nhsuk-table__header--${m.format}`]: m.format
+        [`nhsuk-table__header--${g.format}`]: g.format
       },
-      m.classes
+      g.classes
     ), j = {
       scope: "col",
-      ...m.colspan && { colSpan: m.colspan },
-      ...m.rowspan && { rowSpan: m.rowspan },
+      ...g.colspan && { colSpan: g.colspan },
+      ...g.rowspan && { rowSpan: g.rowspan },
       ...r && { role: "columnheader" },
-      ...m.attributes
+      ...g.attributes
     };
     let T;
-    if (m.node != null)
-      T = /* @__PURE__ */ e.createElement(e.Fragment, null, m.node);
-    else if (m.html)
-      T = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: m.html } });
-    else if (m.code != null) {
-      const A = Array.isArray(m.code), z = A ? m.code.join(`
-`) : m.code, Z = A || z.includes(`
+    if (g.node != null)
+      T = /* @__PURE__ */ e.createElement(e.Fragment, null, g.node);
+    else if (g.html)
+      T = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: g.html } });
+    else if (g.code != null) {
+      const A = Array.isArray(g.code), z = A ? g.code.join(`
+`) : g.code, Z = A || z.includes(`
 `), L = {
-        className: w("nhsuk-table__code", m.codeClassName, {
+        className: w("nhsuk-table__code", g.codeClassName, {
           "nhsuk-table__code--block": Z,
           "nhsuk-table__code--inline": !Z
         }),
-        ...m.codeLanguage ? { "data-language": m.codeLanguage } : {}
-      }, B = Y(z, m.codeLanguage);
+        ...g.codeLanguage ? { "data-language": g.codeLanguage } : {}
+      }, B = Y(z, g.codeLanguage);
       T = Z ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
         "code",
         {
@@ -1428,43 +1428,43 @@ const Ct = ({
         }
       );
     } else
-      T = m.text;
+      T = g.text;
     return /* @__PURE__ */ e.createElement("th", { key: C, className: D, ...j }, T);
-  }, I = (m, C, D) => {
-    const j = l && D || m.rowHeader, T = w(
+  }, N = (g, C, D) => {
+    const j = l && D || g.rowHeader, T = w(
       j ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
-        [`nhsuk-table__${j ? "header" : "cell"}--${m.format}`]: m.format
+        [`nhsuk-table__${j ? "header" : "cell"}--${g.format}`]: g.format
       },
-      m.classes
+      g.classes
     ), A = {
       ...j && { scope: "row" },
-      ...m.colspan && { colSpan: m.colspan },
-      ...m.rowspan && { rowSpan: m.rowspan },
+      ...g.colspan && { colSpan: g.colspan },
+      ...g.rowspan && { rowSpan: g.rowspan },
       ...r && {
         role: j ? "rowheader" : "cell",
-        ...m.header && { "data-label": m.header }
+        ...g.header && { "data-label": g.header }
       },
-      ...m.attributes
+      ...g.attributes
     };
     let z;
-    if (m.node != null)
-      z = /* @__PURE__ */ e.createElement(e.Fragment, null, m.node);
-    else if (m.html)
-      z = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: m.html } });
-    else if (m.code != null) {
-      const B = Array.isArray(m.code), R = B ? m.code.join(`
-`) : m.code, O = B || R.includes(`
+    if (g.node != null)
+      z = /* @__PURE__ */ e.createElement(e.Fragment, null, g.node);
+    else if (g.html)
+      z = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: g.html } });
+    else if (g.code != null) {
+      const B = Array.isArray(g.code), R = B ? g.code.join(`
+`) : g.code, O = B || R.includes(`
 `), W = {
-        className: w("nhsuk-table__code", m.codeClassName, {
+        className: w("nhsuk-table__code", g.codeClassName, {
           "nhsuk-table__code--block": O,
           "nhsuk-table__code--inline": !O
         }),
-        ...m.codeLanguage ? { "data-language": m.codeLanguage } : {}
+        ...g.codeLanguage ? { "data-language": g.codeLanguage } : {}
       }, F = Y(
         R,
-        m.codeLanguage,
-        m.disableHighlight
+        g.codeLanguage,
+        g.disableHighlight
       );
       z = O ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
         "code",
@@ -1480,57 +1480,57 @@ const Ct = ({
         }
       );
     } else
-      z = m.text;
-    const Z = /* @__PURE__ */ e.createElement(e.Fragment, null, r && m.header && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true" }, m.header, " "), z), L = j ? "th" : "td";
+      z = g.text;
+    const Z = /* @__PURE__ */ e.createElement(e.Fragment, null, r && g.header && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true" }, g.header, " "), z), L = j ? "th" : "td";
     return /* @__PURE__ */ e.createElement(L, { key: C, className: T, ...A }, Z);
   };
-  let b = a, v = t;
-  !b && p && p.length && (b = p.map((m) => ({
-    text: m.title,
-    format: m.format,
-    classes: m.headerClasses,
-    attributes: m.headerAttributes
-  }))), !v && p && N && N.length && (v = N.map((m, C) => p.map((D) => {
-    const j = D.accessor ? D.accessor(m, C) : m[D.key];
+  let I = a, v = t;
+  !I && p && p.length && (I = p.map((g) => ({
+    text: g.title,
+    format: g.format,
+    classes: g.headerClasses,
+    attributes: g.headerAttributes
+  }))), !v && p && k && k.length && (v = k.map((g, C) => p.map((D) => {
+    const j = D.accessor ? D.accessor(g, C) : g[D.key];
     let T = { format: D.format, classes: D.cellClasses, attributes: D.cellAttributes };
     if (D.rowHeader && (T.rowHeader = !0), D.render) {
-      const A = D.render(j, m, C, D);
+      const A = D.render(j, g, C, D);
       return A == null || typeof A == "boolean" ? { ...T, text: "" } : typeof A == "string" || typeof A == "number" ? { ...T, text: String(A) } : { ...T, ...A };
     }
     return { ...T, text: j != null ? String(j) : "" };
   })));
-  const E = () => /* @__PURE__ */ e.createElement(
+  const y = () => /* @__PURE__ */ e.createElement(
     "table",
     {
-      className: k,
+      className: b,
       ...r && { role: "table" },
       ...h,
       ...u && { "data-testid": u }
     },
-    s && /* @__PURE__ */ e.createElement("caption", { className: w(M, y && "nhsuk-u-visually-hidden") }, s),
-    b && b.length > 0 && /* @__PURE__ */ e.createElement(
+    s && /* @__PURE__ */ e.createElement("caption", { className: w(M, E && "nhsuk-u-visually-hidden") }, s),
+    I && I.length > 0 && /* @__PURE__ */ e.createElement(
       "thead",
       {
         className: "nhsuk-table__head",
         ...r && { role: "rowgroup" }
       },
-      /* @__PURE__ */ e.createElement("tr", { ...r && { role: "row" } }, b.map(
-        (m, C) => x(m, C)
+      /* @__PURE__ */ e.createElement("tr", { ...r && { role: "row" } }, I.map(
+        (g, C) => x(g, C)
       ))
     ),
-    /* @__PURE__ */ e.createElement("tbody", { className: "nhsuk-table__body" }, v && v.map((m, C) => /* @__PURE__ */ e.createElement(
+    /* @__PURE__ */ e.createElement("tbody", { className: "nhsuk-table__body" }, v && v.map((g, C) => /* @__PURE__ */ e.createElement(
       "tr",
       {
         key: C,
         className: "nhsuk-table__row",
         ...r && { role: "row" }
       },
-      m.map(
-        (D, j) => I(D, j, j === 0)
+      g.map(
+        (D, j) => N(D, j, j === 0)
       )
     )))
   );
-  return o ? /* @__PURE__ */ e.createElement(Oe, { className: g }, c && /* @__PURE__ */ e.createElement(H, { level: i, className: "nhsuk-table__heading-tab" }, c), E()) : _ ? /* @__PURE__ */ e.createElement("div", { className: _ }, E()) : E();
+  return o ? /* @__PURE__ */ e.createElement(Oe, { className: m }, c && /* @__PURE__ */ e.createElement(H, { level: i, className: "nhsuk-table__heading-tab" }, c), y()) : _ ? /* @__PURE__ */ e.createElement("div", { className: _ }, y()) : y();
 }, Xe = ({
   children: t,
   size: a,
@@ -1560,7 +1560,7 @@ const Ct = ({
   disableHighlight: c,
   format: i,
   classes: o,
-  colspan: g,
+  colspan: m,
   rowspan: d,
   attributes: f,
   responsive: h,
@@ -1570,40 +1570,40 @@ const Ct = ({
     "nhsuk-table__header",
     { [`nhsuk-table__header--${i}`]: i },
     o
-  ), N = {
+  ), k = {
     scope: "col",
-    ...g && { colSpan: g },
+    ...m && { colSpan: m },
     ...d && { rowSpan: d },
     ...h && { role: "columnheader" },
     ...f
   };
-  let y;
-  if (s != null) y = /* @__PURE__ */ e.createElement(e.Fragment, null, s);
-  else if (a) y = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } });
+  let E;
+  if (s != null) E = /* @__PURE__ */ e.createElement(e.Fragment, null, s);
+  else if (a) E = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } });
   else if (n != null) {
-    const k = Array.isArray(n), _ = k ? n.join(`
-`) : n, x = k || _.includes(`
-`), I = {
+    const b = Array.isArray(n), _ = b ? n.join(`
+`) : n, x = b || _.includes(`
+`), N = {
       className: w("nhsuk-table__code", r, {
         "nhsuk-table__code--block": x,
         "nhsuk-table__code--inline": !x
       }),
       ...l ? { "data-language": l } : {}
-    }, b = Y(
+    }, I = Y(
       _,
       l,
       c
     );
-    y = x ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
+    E = x ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
       "code",
       {
-        ...I,
-        dangerouslySetInnerHTML: { __html: b }
+        ...N,
+        dangerouslySetInnerHTML: { __html: I }
       }
-    )) : /* @__PURE__ */ e.createElement("code", { ...I, dangerouslySetInnerHTML: { __html: b } });
-  } else y = t;
+    )) : /* @__PURE__ */ e.createElement("code", { ...N, dangerouslySetInnerHTML: { __html: I } });
+  } else E = t;
   const M = u;
-  return /* @__PURE__ */ e.createElement(M, { className: p, ...N }, y);
+  return /* @__PURE__ */ e.createElement(M, { className: p, ...k }, E);
 }, Ke = ({
   text: t,
   html: a,
@@ -1614,39 +1614,39 @@ const Ct = ({
   disableHighlight: c,
   format: i,
   classes: o,
-  colspan: g,
+  colspan: m,
   rowspan: d,
   attributes: f,
   responsive: h,
   rowHeader: u
 }) => {
-  const p = !!u, N = p ? "th" : "td", y = w(
+  const p = !!u, k = p ? "th" : "td", E = w(
     p ? "nhsuk-table__header" : "nhsuk-table__cell",
     i && `nhsuk-table__${p ? "header" : "cell"}--${i}`,
     o
   ), M = {
-    ...g && { colSpan: g },
+    ...m && { colSpan: m },
     ...d && { rowSpan: d },
     ...p && { scope: "row" },
     ...h && { role: p ? "rowheader" : "cell" },
     ...f
   };
-  let k;
-  if (s != null) k = /* @__PURE__ */ e.createElement(e.Fragment, null, s);
-  else if (a) k = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } });
+  let b;
+  if (s != null) b = /* @__PURE__ */ e.createElement(e.Fragment, null, s);
+  else if (a) b = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } });
   else if (n != null) {
     const _ = Array.isArray(n), x = _ ? n.join(`
-`) : n, I = _ || x.includes(`
-`), b = {
+`) : n, N = _ || x.includes(`
+`), I = {
       className: w("nhsuk-table__code", r, {
-        "nhsuk-table__code--block": I,
-        "nhsuk-table__code--inline": !I
+        "nhsuk-table__code--block": N,
+        "nhsuk-table__code--inline": !N
       }),
       ...l ? { "data-language": l } : {}
     }, v = Y(x, l, c);
-    k = I ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement("code", { ...b, dangerouslySetInnerHTML: { __html: v } })) : /* @__PURE__ */ e.createElement("code", { ...b, dangerouslySetInnerHTML: { __html: v } });
-  } else k = t;
-  return /* @__PURE__ */ e.createElement(N, { className: y, ...M }, k);
+    b = N ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement("code", { ...I, dangerouslySetInnerHTML: { __html: v } })) : /* @__PURE__ */ e.createElement("code", { ...I, dangerouslySetInnerHTML: { __html: v } });
+  } else b = t;
+  return /* @__PURE__ */ e.createElement(k, { className: E, ...M }, b);
 }, G = Ve;
 G.Caption = Xe;
 G.BodyRow = he;
@@ -1677,7 +1677,7 @@ const qe = ({
   containerClasses: c = "",
   classes: i = "",
   children: o,
-  ...g
+  ...m
 }) => {
   const d = [
     "nhsuk-hero",
@@ -1694,22 +1694,22 @@ const qe = ({
     !o && !n && !l ? "nhsuk-u-margin-bottom-0" : ""
   ].filter(Boolean).join(" "), u = o || t || n || l, p = () => {
     if (!t) return null;
-    const N = { className: h };
+    const k = { className: h };
     switch (a) {
       case 1:
-        return /* @__PURE__ */ e.createElement("h1", { ...N }, t);
+        return /* @__PURE__ */ e.createElement("h1", { ...k }, t);
       case 2:
-        return /* @__PURE__ */ e.createElement("h2", { ...N }, t);
+        return /* @__PURE__ */ e.createElement("h2", { ...k }, t);
       case 3:
-        return /* @__PURE__ */ e.createElement("h3", { ...N }, t);
+        return /* @__PURE__ */ e.createElement("h3", { ...k }, t);
       case 4:
-        return /* @__PURE__ */ e.createElement("h4", { ...N }, t);
+        return /* @__PURE__ */ e.createElement("h4", { ...k }, t);
       case 5:
-        return /* @__PURE__ */ e.createElement("h5", { ...N }, t);
+        return /* @__PURE__ */ e.createElement("h5", { ...k }, t);
       case 6:
-        return /* @__PURE__ */ e.createElement("h6", { ...N }, t);
+        return /* @__PURE__ */ e.createElement("h6", { ...k }, t);
       default:
-        return /* @__PURE__ */ e.createElement("h1", { ...N }, t);
+        return /* @__PURE__ */ e.createElement("h1", { ...k }, t);
     }
   };
   return /* @__PURE__ */ e.createElement(
@@ -1718,7 +1718,7 @@ const qe = ({
       className: d,
       style: r ? { backgroundImage: `url('${r}')` } : void 0,
       role: "banner",
-      ...g
+      ...m
     },
     r && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero__overlay" }, u && /* @__PURE__ */ e.createElement("div", { className: f }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-row" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-column-two-thirds" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero-content" }, p(), o || (l ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: l } }) : n ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0" }, n) : null), /* @__PURE__ */ e.createElement("span", { className: "nhsuk-hero__arrow", "aria-hidden": "true" })))))),
     !r && u && /* @__PURE__ */ e.createElement("div", { className: f }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-row" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-column-two-thirds" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero__wrapper" }, p(), o || (l ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: l } }) : n ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0" }, n) : null)))))
@@ -1735,7 +1735,7 @@ const et = e.forwardRef(({
   descriptionHtml: c,
   href: i,
   imgURL: o,
-  imgAlt: g,
+  imgAlt: m,
   ...d
 }, f) => {
   const h = [
@@ -1753,20 +1753,20 @@ const et = e.forwardRef(({
     "nhsuk-card__heading",
     t === "feature" && "nhsuk-card__heading--feature",
     l
-  ].filter(Boolean).join(" "), N = () => {
+  ].filter(Boolean).join(" "), k = () => {
     if (s)
       return /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: s } });
     if (!a) return null;
-    const k = () => i && t !== "feature" ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-card__link", href: i }, a) : a;
+    const b = () => i && t !== "feature" ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-card__link", href: i }, a) : a;
     return /* @__PURE__ */ e.createElement(
       H,
       {
         level: n,
         className: p
       },
-      k()
+      b()
     );
-  }, y = () => d.children ? d.children : c ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: c } }) : r ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-card__description" }, r) : null, M = () => t !== "primary" ? null : /* @__PURE__ */ e.createElement(
+  }, E = () => d.children ? d.children : c ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: c } }) : r ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-card__description" }, r) : null, M = () => t !== "primary" ? null : /* @__PURE__ */ e.createElement(
     "svg",
     {
       className: "nhsuk-icon",
@@ -1791,10 +1791,10 @@ const et = e.forwardRef(({
       {
         className: "nhsuk-card__img",
         src: o,
-        alt: g || ""
+        alt: m || ""
       }
     ),
-    /* @__PURE__ */ e.createElement("div", { className: u }, N(), y(), M())
+    /* @__PURE__ */ e.createElement("div", { className: u }, k(), E(), M())
   );
 });
 et.displayName = "Card";
@@ -1838,7 +1838,7 @@ const Dt = ({
   descriptionHtml: c,
   className: i,
   children: o,
-  "data-testid": g,
+  "data-testid": m,
   id: d,
   "aria-label": f,
   "aria-labelledby": h,
@@ -1848,23 +1848,23 @@ const Dt = ({
     "nhsuk-care-card",
     `nhsuk-care-card--${t}`,
     i
-  ].filter(Boolean).join(" "), N = [
+  ].filter(Boolean).join(" "), k = [
     "nhsuk-care-card__heading",
     l
-  ].filter(Boolean).join(" "), y = () => {
+  ].filter(Boolean).join(" "), E = () => {
     if (s)
       return /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: s } });
     if (!a) return null;
-    const k = {
+    const b = {
       "non-urgent": "Non-urgent advice:",
       urgent: "Urgent advice:",
       emergency: "Immediate action required:"
-    }[t], _ = /* @__PURE__ */ e.createElement("span", { role: "text" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, k, " "), a);
+    }[t], _ = /* @__PURE__ */ e.createElement("span", { role: "text" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, b, " "), a);
     return /* @__PURE__ */ e.createElement(
       H,
       {
         level: n,
-        className: N
+        className: k
       },
       _
     );
@@ -1873,13 +1873,13 @@ const Dt = ({
     "div",
     {
       className: p,
-      "data-testid": g,
+      "data-testid": m,
       id: d,
       "aria-label": f,
       "aria-labelledby": h,
       "aria-describedby": u
     },
-    /* @__PURE__ */ e.createElement("div", { className: "nhsuk-care-card__heading-container" }, y(), /* @__PURE__ */ e.createElement("span", { className: "nhsuk-care-card__arrow", "aria-hidden": "true" })),
+    /* @__PURE__ */ e.createElement("div", { className: "nhsuk-care-card__heading-container" }, E(), /* @__PURE__ */ e.createElement("span", { className: "nhsuk-care-card__arrow", "aria-hidden": "true" })),
     /* @__PURE__ */ e.createElement("div", { className: "nhsuk-care-card__content" }, M())
   );
 };
@@ -1905,72 +1905,72 @@ function at(t, a, s = 4) {
     a,
     Q[(c + 2) % Q.length],
     Q[(c + 3) % Q.length]
-  ], o = [], g = 1200, d = 400, f = 1.2, h = (M, k) => !(M.right < k.left || M.left > k.right || M.bottom < k.top || M.top > k.bottom), u = (M) => M.left >= 0 && M.top >= 0 && M.right <= 100 && M.bottom <= 100, p = (M, k, _, x, I, b) => {
-    let v = 0, E = 0;
+  ], o = [], m = 1200, d = 400, f = 1.2, h = (M, b) => !(M.right < b.left || M.left > b.right || M.bottom < b.top || M.top > b.bottom), u = (M) => M.left >= 0 && M.top >= 0 && M.right <= 100 && M.bottom <= 100, p = (M, b, _, x, N, I) => {
+    let v = 0, y = 0;
     if (M === "rect") {
-      const m = x ?? 48, C = I ?? 36;
-      v = m / g * 100, E = C / d * 100;
+      const g = x ?? 48, C = N ?? 36;
+      v = g / m * 100, y = C / d * 100;
     } else if (M === "circle") {
-      const m = b ?? 40;
-      v = m / g * 100, E = m / d * 100;
+      const g = I ?? 40;
+      v = g / m * 100, y = g / d * 100;
     } else {
-      const m = b ?? 40;
-      v = m / g * 100, E = m * (Math.sqrt(3) / 2) / d * 100;
+      const g = I ?? 40;
+      v = g / m * 100, y = g * (Math.sqrt(3) / 2) / d * 100;
     }
     return {
-      left: k - v / 2 - f,
-      right: k + v / 2 + f,
-      top: _ - E / 2 - f,
-      bottom: _ + E / 2 + f
+      left: b - v / 2 - f,
+      right: b + v / 2 + f,
+      top: _ - y / 2 - f,
+      bottom: _ + y / 2 + f
     };
   };
-  let N = 0;
-  const y = K(Math.round(s), 4, 12);
-  for (; l.length < y && N < y * 120; ) {
-    N++;
-    const M = r[Math.floor(n() * r.length)], k = K(20 + n() * 60, 10, 90), _ = K(20 + n() * 60, 10, 90), x = i[Math.floor(n() * i.length)], I = l.length < 2 ? "soft" : "none";
+  let k = 0;
+  const E = K(Math.round(s), 4, 12);
+  for (; l.length < E && k < E * 120; ) {
+    k++;
+    const M = r[Math.floor(n() * r.length)], b = K(20 + n() * 60, 10, 90), _ = K(20 + n() * 60, 10, 90), x = i[Math.floor(n() * i.length)], N = l.length < 2 ? "soft" : "none";
     if (M === "rect") {
-      const b = 40 + n() * 80, v = 28 + n() * 64, E = p(M, k, _, b, v);
-      if (!u(E)) continue;
-      let m = !1;
+      const I = 40 + n() * 80, v = 28 + n() * 64, y = p(M, b, _, I, v);
+      if (!u(y)) continue;
+      let g = !1;
       for (let C = 0; C < o.length; C++)
-        if (h(E, o[C])) {
-          m = !0;
+        if (h(y, o[C])) {
+          g = !0;
           break;
         }
-      if (m) continue;
-      o.push(E), l.push({ kind: M, x: k, y: _, width: b, height: v, gradient: x, rotate: 0, shadow: I });
+      if (g) continue;
+      o.push(y), l.push({ kind: M, x: b, y: _, width: I, height: v, gradient: x, rotate: 0, shadow: N });
     } else if (M === "circle") {
-      const b = 24 + n() * 80, v = p(M, k, _, void 0, void 0, b);
+      const I = 24 + n() * 80, v = p(M, b, _, void 0, void 0, I);
       if (!u(v)) continue;
-      let E = !1;
-      for (let m = 0; m < o.length; m++)
-        if (h(v, o[m])) {
-          E = !0;
+      let y = !1;
+      for (let g = 0; g < o.length; g++)
+        if (h(v, o[g])) {
+          y = !0;
           break;
         }
-      if (E) continue;
-      o.push(v), l.push({ kind: M, x: k, y: _, size: b, gradient: x, rotate: 0, shadow: I });
+      if (y) continue;
+      o.push(v), l.push({ kind: M, x: b, y: _, size: I, gradient: x, rotate: 0, shadow: N });
     } else {
-      const b = 28 + n() * 72, v = n() * 360, E = p(M, k, _, void 0, void 0, b);
-      if (!u(E)) continue;
-      let m = !1;
+      const I = 28 + n() * 72, v = n() * 360, y = p(M, b, _, void 0, void 0, I);
+      if (!u(y)) continue;
+      let g = !1;
       for (let C = 0; C < o.length; C++)
-        if (h(E, o[C])) {
-          m = !0;
+        if (h(y, o[C])) {
+          g = !0;
           break;
         }
-      if (m) continue;
-      o.push(E), l.push({ kind: M, x: k, y: _, size: b, gradient: x, rotate: v, shadow: I });
+      if (g) continue;
+      o.push(y), l.push({ kind: M, x: b, y: _, size: I, gradient: x, rotate: v, shadow: N });
     }
   }
   return l;
 }
 const nt = ({ shapes: t, aspectRatio: a }) => {
   const n = 600 * a, l = 600, r = (c, i, o) => {
-    const g = o / 2;
+    const m = o / 2;
     return [0, 60, 120, 180, 240, 300].map((f) => {
-      const h = f * Math.PI / 180, u = c + g * Math.cos(h), p = i + g * Math.sin(h);
+      const h = f * Math.PI / 180, u = c + m * Math.cos(h), p = i + m * Math.sin(h);
       return `${u},${p}`;
     }).join(" ");
   };
@@ -2075,9 +2075,9 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
         const f = d.x / 100 * n, h = d.y / 100 * l;
         if (d.kind === "circle") {
           const u = (d.size ?? 40) / 2;
-          return [0, 45, 90, 135, 180, 225, 270, 315].map((N) => {
-            const y = N * Math.PI / 180;
-            return [f + u * Math.cos(y), h + u * Math.sin(y)];
+          return [0, 45, 90, 135, 180, 225, 270, 315].map((k) => {
+            const E = k * Math.PI / 180;
+            return [f + u * Math.cos(E), h + u * Math.sin(E)];
           });
         } else if (d.kind === "rect") {
           const u = d.width ?? 60, p = d.height ?? 40;
@@ -2089,33 +2089,33 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
           ];
         } else {
           const p = (d.size ?? 40) / 2;
-          return [0, 60, 120, 180, 240, 300].map((y) => {
-            const M = y * Math.PI / 180;
+          return [0, 60, 120, 180, 240, 300].map((E) => {
+            const M = E * Math.PI / 180;
             return [f + p * Math.cos(M), h + p * Math.sin(M)];
           });
         }
-      }), i = 1, o = /* @__PURE__ */ new Set(), g = [];
+      }), i = 1, o = /* @__PURE__ */ new Set(), m = [];
       for (let d = 0; d < t.length; d++) {
         const f = [];
         for (let u = 0; u < t.length; u++) {
           if (d === u) continue;
-          const p = t[d].x - t[u].x, N = t[d].y - t[u].y;
-          f.push({ j: u, d2: p * p + N * N });
+          const p = t[d].x - t[u].x, k = t[d].y - t[u].y;
+          f.push({ j: u, d2: p * p + k * k });
         }
         f.sort((u, p) => u.d2 - p.d2);
         const h = Math.min(i, f.length);
         for (let u = 0; u < h; u++) {
-          const p = f[u].j, N = Math.min(d, p), y = Math.max(d, p), M = `${N}-${y}`;
-          o.has(M) || (o.add(M), g.push([N, y]));
+          const p = f[u].j, k = Math.min(d, p), E = Math.max(d, p), M = `${k}-${E}`;
+          o.has(M) || (o.add(M), m.push([k, E]));
         }
       }
-      return g.map(([d, f]) => {
+      return m.map(([d, f]) => {
         const h = c[d], u = c[f];
         let p = null;
-        for (const N of h)
-          for (const y of u) {
-            const M = N[0] - y[0], k = N[1] - y[1], _ = M * M + k * k;
-            (!p || _ < p.d2) && (p = { p: N, q: y, d2: _ });
+        for (const k of h)
+          for (const E of u) {
+            const M = k[0] - E[0], b = k[1] - E[1], _ = M * M + b * b;
+            (!p || _ < p.d2) && (p = { p: k, q: E, d2: _ });
           }
         return p ? /* @__PURE__ */ e.createElement(
           "line",
@@ -2133,7 +2133,7 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
       });
     })()),
     t.map((c, i) => {
-      const o = `pc-grad-${c.gradient}`, g = c.shadow === "soft" ? "url(#pc-shadow-soft)" : c.shadow === "strong" ? "url(#pc-shadow-strong)" : void 0, d = c.x / 100 * n, f = c.y / 100 * l;
+      const o = `pc-grad-${c.gradient}`, m = c.shadow === "soft" ? "url(#pc-shadow-soft)" : c.shadow === "strong" ? "url(#pc-shadow-strong)" : void 0, d = c.x / 100 * n, f = c.y / 100 * l;
       if (c.kind === "rect") {
         const h = c.width || 60, u = c.height || 40;
         return /* @__PURE__ */ e.createElement(
@@ -2146,7 +2146,7 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
             width: h,
             height: u,
             transform: `rotate(${c.rotate || 0} ${d} ${f})`,
-            filter: g
+            filter: m
           }
         );
       } else if (c.kind === "circle") {
@@ -2159,7 +2159,7 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
             cx: d,
             cy: f,
             r: h,
-            filter: g
+            filter: m
           }
         );
       } else if (c.kind === "hex") {
@@ -2171,7 +2171,7 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
             className: o,
             points: r(d, f, h),
             transform: `rotate(${c.rotate || 0} ${d} ${f})`,
-            filter: g
+            filter: m
           }
         );
       }
@@ -2188,96 +2188,95 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
   theme: c = "blue",
   className: i,
   style: o,
-  onClick: g,
+  onClick: m,
   href: d,
   headingLevel: f = 3,
   footer: h,
   elevated: u = !0,
   imageAspectRatio: p = 1.5
 }) => {
-  const N = e.useRef(null), y = e.useMemo(() => {
+  const k = e.useMemo(() => {
     if (s?.type === "graphic") {
       if (s.shapes) return s.shapes;
-      const b = s.seed ?? Date.now(), v = s.theme ?? c;
-      return at(b, v);
+      const N = s.seed ?? 0, I = s.theme ?? c;
+      return at(N, I);
     }
     return [];
-  }, [s, c]), M = [
+  }, [s, c]), E = [
     "nhs-product-card",
     `nhs-product-card--${n}`,
     `nhs-product-card--theme-${c}`,
     u && "nhs-product-card--elevated",
-    (g || d) && "nhs-product-card--clickable",
+    (m || d) && "nhs-product-card--clickable",
     i
-  ].filter(Boolean).join(" "), k = (b) => {
-    g ? g(b) : d && !b.defaultPrevented && (window.location.href = d);
-  }, _ = (b) => {
-    (g || d) && (b.key === "Enter" || b.key === " ") && (b.preventDefault(), g ? g(b) : d && (window.location.href = d));
-  }, x = () => {
+  ].filter(Boolean).join(" "), M = (N) => {
+    m ? m(N) : d && !N.defaultPrevented && (window.location.href = d);
+  }, b = (N) => {
+    (m || d) && (N.key === "Enter" || N.key === " ") && (N.preventDefault(), m ? m(N) : d && (window.location.href = d));
+  }, _ = () => {
     if (!s) return null;
-    const b = [
+    const N = [
       "nhs-product-card__image",
       s.type === "graphic" && "nhs-product-card__image--graphic"
     ].filter(Boolean).join(" ");
     return /* @__PURE__ */ e.createElement(
       "div",
       {
-        className: b,
+        className: N,
         style: { aspectRatio: p.toString() }
       },
-      s.type === "photo" && s.src ? /* @__PURE__ */ e.createElement("img", { src: s.src, alt: s.alt || "" }) : s.type === "graphic" ? /* @__PURE__ */ e.createElement(nt, { shapes: y, aspectRatio: p }) : null
+      s.type === "photo" && s.src ? /* @__PURE__ */ e.createElement("img", { src: s.src, alt: s.alt || "" }) : s.type === "graphic" ? /* @__PURE__ */ e.createElement(nt, { shapes: k, aspectRatio: p }) : null
     );
-  }, I = () => l.length ? /* @__PURE__ */ e.createElement("div", { className: "nhs-product-card__actions" }, l.map((b, v) => {
-    const E = [
+  }, x = () => l.length ? /* @__PURE__ */ e.createElement("div", { className: "nhs-product-card__actions" }, l.map((N, I) => {
+    const v = [
       "nhs-product-card__button",
-      `nhs-product-card__button--${b.variant || "primary"}`,
-      b.disabled && "nhs-product-card__button--disabled"
+      `nhs-product-card__button--${N.variant || "primary"}`,
+      N.disabled && "nhs-product-card__button--disabled"
     ].filter(Boolean).join(" ");
-    return b.href ? /* @__PURE__ */ e.createElement(
+    return N.href ? /* @__PURE__ */ e.createElement(
       "a",
       {
-        key: v,
-        href: b.href,
-        className: E,
-        "aria-label": b.ariaLabel,
-        onClick: (m) => {
-          if (b.disabled) {
-            m.preventDefault();
+        key: I,
+        href: N.href,
+        className: v,
+        "aria-label": N.ariaLabel,
+        onClick: (y) => {
+          if (N.disabled) {
+            y.preventDefault();
             return;
           }
-          b.onClick && (m.stopPropagation(), b.onClick(m));
+          N.onClick && (y.stopPropagation(), N.onClick(y));
         }
       },
-      b.label
+      N.label
     ) : /* @__PURE__ */ e.createElement(
       "button",
       {
-        key: v,
+        key: I,
         type: "button",
-        className: E,
-        disabled: b.disabled,
-        "aria-label": b.ariaLabel,
-        onClick: (m) => {
-          b.onClick && (m.stopPropagation(), b.onClick(m));
+        className: v,
+        disabled: N.disabled,
+        "aria-label": N.ariaLabel,
+        onClick: (y) => {
+          N.onClick && (y.stopPropagation(), N.onClick(y));
         }
       },
-      b.label
+      N.label
     );
   })) : null;
   return /* @__PURE__ */ e.createElement(
     "div",
     {
-      ref: N,
-      className: M,
+      className: E,
       style: o,
-      onClick: g || d ? k : void 0,
-      onKeyDown: g || d ? _ : void 0,
-      role: g || d ? "button" : void 0,
-      tabIndex: g || d ? 0 : void 0
+      onClick: m || d ? M : void 0,
+      onKeyDown: m || d ? b : void 0,
+      role: m || d ? "button" : void 0,
+      tabIndex: m || d ? 0 : void 0
     },
     r && /* @__PURE__ */ e.createElement("div", { className: "nhs-product-card__badge" }, r),
-    x(),
-    /* @__PURE__ */ e.createElement("div", { className: "nhs-product-card__content" }, /* @__PURE__ */ e.createElement(H, { level: f, className: "nhs-product-card__title" }, t), /* @__PURE__ */ e.createElement("p", { className: "nhs-product-card__description" }, a), I(), h && /* @__PURE__ */ e.createElement("div", { className: "nhs-product-card__footer" }, h))
+    _(),
+    /* @__PURE__ */ e.createElement("div", { className: "nhs-product-card__content" }, /* @__PURE__ */ e.createElement(H, { level: f, className: "nhs-product-card__title" }, t), /* @__PURE__ */ e.createElement("p", { className: "nhs-product-card__description" }, a), x(), h && /* @__PURE__ */ e.createElement("div", { className: "nhs-product-card__footer" }, h))
   );
 };
 function st(t) {
@@ -2300,24 +2299,24 @@ function ne(t) {
     placeholder: c,
     disabled: i = !1,
     readOnly: o = !1,
-    required: g = !1,
+    required: m = !1,
     hasError: d = !1,
     describedBy: f,
     className: h,
     width: u = "full",
     inputMode: p,
-    autoComplete: N,
-    maxLength: y,
+    autoComplete: k,
+    maxLength: E,
     minLength: M,
-    pattern: k,
+    pattern: b,
     step: _,
     min: x,
-    max: I,
-    showValueLabels: b = !1,
+    max: N,
+    showValueLabels: I = !1,
     showCurrentValue: v = !1,
-    valueLabels: E,
+    valueLabels: y,
     // Strip interactive handlers in server variant
-    onChange: m,
+    onChange: g,
     onBlur: C,
     onFocus: D,
     onKeyDown: j,
@@ -2334,16 +2333,16 @@ function ne(t) {
     placeholder: c,
     disabled: i,
     readOnly: o,
-    required: g,
+    required: m,
     "aria-describedby": f,
     inputMode: p,
-    autoComplete: N,
-    maxLength: y,
+    autoComplete: k,
+    maxLength: E,
     minLength: M,
-    pattern: k,
+    pattern: b,
     step: _,
     min: x,
-    max: I,
+    max: N,
     ...T
   };
   if (z) {
@@ -2357,7 +2356,7 @@ function ne(t) {
         ...Z
       }
     );
-    return /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-wrapper" }, b ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-labels" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min" }, E?.min || x || "0"), B, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max" }, E?.max || I || "100")) : B, v && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-current-value" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-current-label" }, E?.current || "Current value:", " ", /* @__PURE__ */ e.createElement("strong", null, L))));
+    return /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-wrapper" }, I ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-labels" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--min" }, y?.min || x || "0"), B, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-label nhsuk-input-range-label--max" }, y?.max || N || "100")) : B, v && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-input-range-current-value" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-input-range-current-label" }, y?.current || "Current value:", " ", /* @__PURE__ */ e.createElement("strong", null, L))));
   }
   return /* @__PURE__ */ e.createElement(
     "input",
@@ -2388,27 +2387,27 @@ const At = ({
   readOnly: c = !1,
   required: i = !1,
   hasError: o = !1,
-  describedBy: g,
+  describedBy: m,
   className: d,
   rows: f = 5,
   cols: h,
   maxLength: u,
   minLength: p,
-  wrap: N = "soft",
-  resize: y = "vertical",
+  wrap: k = "soft",
+  resize: E = "vertical",
   autoComplete: M,
-  spellCheck: k,
+  spellCheck: b,
   onChange: _,
   onBlur: x,
-  onFocus: I,
-  onKeyDown: b,
+  onFocus: N,
+  onKeyDown: I,
   ...v
 }) => {
-  const { classes: E, describedBy: m } = rt({ hasError: o, resize: y, className: d, describedBy: g });
+  const { classes: y, describedBy: g } = rt({ hasError: o, resize: E, className: d, describedBy: m });
   return /* @__PURE__ */ e.createElement(
     "textarea",
     {
-      className: E,
+      className: y,
       id: t,
       name: a,
       value: s,
@@ -2417,18 +2416,18 @@ const At = ({
       disabled: r,
       readOnly: c,
       required: i,
-      "aria-describedby": m,
+      "aria-describedby": g,
       rows: f,
       cols: h,
       maxLength: u,
       minLength: p,
-      wrap: N,
+      wrap: k,
       autoComplete: M,
-      spellCheck: k,
+      spellCheck: b,
       onChange: _,
       onBlur: x,
-      onFocus: I,
-      onKeyDown: b,
+      onFocus: N,
+      onKeyDown: I,
       ...v
     }
   );
@@ -2473,27 +2472,27 @@ const ct = ({
   required: c = !1,
   hasError: i = !1,
   describedBy: o,
-  className: g,
+  className: m,
   multiple: d = !1,
   size: f,
   autoComplete: h,
   options: u,
   children: p,
-  onChange: N,
-  onBlur: y,
+  onChange: k,
+  onBlur: E,
   onFocus: M,
-  ...k
+  ...b
 }) => {
-  const { classes: _ } = lt({ hasError: i, className: g }), x = () => u ? u.map((b, v) => /* @__PURE__ */ e.createElement(
+  const { classes: _ } = lt({ hasError: i, className: m }), x = () => u ? u.map((I, v) => /* @__PURE__ */ e.createElement(
     "option",
     {
-      key: `${b.value}-${v}`,
-      value: b.value,
-      disabled: b.disabled,
-      "data-initial-selected": b.selected || void 0
+      key: `${I.value}-${v}`,
+      value: I.value,
+      disabled: I.disabled,
+      "data-initial-selected": I.selected || void 0
     },
-    b.text
-  )) : null, I = l === void 0 && n === void 0 && u ? u.find((b) => b.selected)?.value : void 0;
+    I.text
+  )) : null, N = l === void 0 && n === void 0 && u ? u.find((I) => I.selected)?.value : void 0;
   return /* @__PURE__ */ e.createElement(
     "select",
     {
@@ -2502,17 +2501,17 @@ const ct = ({
       name: a,
       "aria-label": s,
       value: n,
-      defaultValue: l !== void 0 ? l : I,
+      defaultValue: l !== void 0 ? l : N,
       disabled: r,
       required: c,
       "aria-describedby": o,
       multiple: d,
       size: f,
       autoComplete: h,
-      onChange: N,
-      onBlur: y,
+      onChange: k,
+      onBlur: E,
       onFocus: M,
-      ...k
+      ...b
     },
     p || x()
   );
@@ -2529,7 +2528,7 @@ function zt({
   errorMessage: i,
   // strip interactive props
   onChange: o,
-  ...g
+  ...m
 }) {
   const f = s || [
     {
@@ -2554,34 +2553,34 @@ function zt({
   let h = r?.describedBy || "";
   const u = c ? `${t}-hint` : "", p = i ? `${t}-error` : "";
   u && (h = h ? `${h} ${u}` : u), p && (h = h ? `${h} ${p}` : p);
-  const N = w("nhsuk-form-group", {
+  const k = w("nhsuk-form-group", {
     "nhsuk-form-group--error": !!i
-  }), y = w("nhsuk-date-input", a), M = () => /* @__PURE__ */ e.createElement(e.Fragment, null, c && /* @__PURE__ */ e.createElement(Be, { id: u, className: c.classes }, c.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: c.html } }) : c.text), i && /* @__PURE__ */ e.createElement(He, { id: p, className: i.classes }, i.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text), /* @__PURE__ */ e.createElement(
+  }), E = w("nhsuk-date-input", a), M = () => /* @__PURE__ */ e.createElement(e.Fragment, null, c && /* @__PURE__ */ e.createElement(Be, { id: u, className: c.classes }, c.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: c.html } }) : c.text), i && /* @__PURE__ */ e.createElement(He, { id: p, className: i.classes }, i.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text), /* @__PURE__ */ e.createElement(
     "div",
     {
-      className: y,
+      className: E,
       id: t,
       "data-testid": "date-input",
-      ...g
+      ...m
     },
-    f.map((k) => {
-      const _ = k.id || `${t}-${k.name}`, x = n ? `${n}[${k.name}]` : k.name, I = k.label || k.name.charAt(0).toUpperCase() + k.name.slice(1), b = l[k.name];
-      return /* @__PURE__ */ e.createElement("div", { key: k.name, className: "nhsuk-date-input__item" }, /* @__PURE__ */ e.createElement(te, { htmlFor: _, className: "nhsuk-date-input__label" }, I), /* @__PURE__ */ e.createElement(
+    f.map((b) => {
+      const _ = b.id || `${t}-${b.name}`, x = n ? `${n}[${b.name}]` : b.name, N = b.label || b.name.charAt(0).toUpperCase() + b.name.slice(1), I = l[b.name];
+      return /* @__PURE__ */ e.createElement("div", { key: b.name, className: "nhsuk-date-input__item" }, /* @__PURE__ */ e.createElement(te, { htmlFor: _, className: "nhsuk-date-input__label" }, N), /* @__PURE__ */ e.createElement(
         ne,
         {
           id: _,
           name: x,
-          defaultValue: b,
-          className: w("nhsuk-date-input__input", k.classes),
-          inputMode: k.inputmode,
-          autoComplete: k.autocomplete,
-          pattern: k.pattern,
+          defaultValue: I,
+          className: w("nhsuk-date-input__input", b.classes),
+          inputMode: b.inputmode,
+          autoComplete: b.autocomplete,
+          pattern: b.pattern,
           "aria-describedby": h || void 0
         }
       ));
     })
   ));
-  return /* @__PURE__ */ e.createElement("div", { className: N }, r ? /* @__PURE__ */ e.createElement(
+  return /* @__PURE__ */ e.createElement("div", { className: k }, r ? /* @__PURE__ */ e.createElement(
     ae,
     {
       className: r.classes,
@@ -2601,7 +2600,7 @@ function Bt({
   children: c,
   ...i
 }) {
-  const o = w("nhsuk-error-summary", r), g = () => a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t, d = () => n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : s, f = (h) => {
+  const o = w("nhsuk-error-summary", r), m = () => a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t, d = () => n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : s, f = (h) => {
     const u = h.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: h.html } }) : h.text;
     return h.href ? /* @__PURE__ */ e.createElement("a", { href: h.href, ...h.attributes }, u) : u;
   };
@@ -2615,7 +2614,7 @@ function Bt({
       "data-module": "nhsuk-error-summary",
       ...i
     },
-    /* @__PURE__ */ e.createElement("h2", { className: "nhsuk-error-summary__title", id: "error-summary-title" }, g()),
+    /* @__PURE__ */ e.createElement("h2", { className: "nhsuk-error-summary__title", id: "error-summary-title" }, m()),
     /* @__PURE__ */ e.createElement("div", { className: "nhsuk-error-summary__body" }, c && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-error-summary__description", "data-role": "description" }, c), !c && (s || n) && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-error-summary__description", "data-role": "description" }, d()), /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-list nhsuk-error-summary__list", role: "list" }, l.map((h, u) => /* @__PURE__ */ e.createElement("li", { key: u }, f(h)))))
   );
 }
@@ -2637,7 +2636,7 @@ function ut(t, {
   handleFocus: c,
   handleKeyDown: i,
   itemsRef: o,
-  InputComponent: g
+  InputComponent: m
 }) {
   const {
     onChange: d,
@@ -2646,37 +2645,37 @@ function ut(t, {
     ...u
   } = t, {
     name: p,
-    hasError: N = !1,
-    describedBy: y,
+    hasError: k = !1,
+    describedBy: E,
     className: M,
-    size: k = "normal",
+    size: b = "normal",
     inline: _ = !1,
     options: x,
-    ...I
-  } = u, { classes: b, describedBy: v } = dt({ hasError: N, size: k, inline: _, className: M, describedBy: y });
+    ...N
+  } = u, { classes: I, describedBy: v } = dt({ hasError: k, size: b, inline: _, className: M, describedBy: E });
   return /* @__PURE__ */ e.createElement(ae, null, /* @__PURE__ */ e.createElement(
     "div",
     {
-      className: b,
-      ...I,
+      className: I,
+      ...N,
       "data-nhs-behaviour": "radios"
     },
-    x.map((E, m) => {
-      const C = `${p}-${m}`, D = E.conditional ? `${C}-conditional` : void 0, j = s === E.value;
-      return /* @__PURE__ */ e.createElement("div", { key: E.value, className: "nhsuk-radios__item" }, /* @__PURE__ */ e.createElement(
+    x.map((y, g) => {
+      const C = `${p}-${g}`, D = y.conditional ? `${C}-conditional` : void 0, j = s === y.value;
+      return /* @__PURE__ */ e.createElement("div", { key: y.value, className: "nhsuk-radios__item" }, /* @__PURE__ */ e.createElement(
         "input",
         {
           className: "nhsuk-radios__input",
           id: C,
           name: p,
           type: "radio",
-          value: E.value,
-          disabled: E.disabled,
+          value: y.value,
+          disabled: y.disabled,
           defaultChecked: j,
           "data-nhs-radios-input": !0,
           "aria-describedby": v
         }
-      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-radios__label", htmlFor: C }, E.text), E.hint && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-radios__hint" }, E.hint), E.conditional && /* @__PURE__ */ e.createElement(
+      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-radios__label", htmlFor: C }, y.text), y.hint && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-radios__hint" }, y.hint), y.conditional && /* @__PURE__ */ e.createElement(
         "div",
         {
           className: w("nhsuk-radios__conditional", {
@@ -2685,18 +2684,18 @@ function ut(t, {
           id: D,
           "data-nhs-radios-conditional": !0
         },
-        typeof E.conditional == "object" && E.conditional !== null && "label" in E.conditional && "id" in E.conditional && "name" in E.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, E.conditional.label && /* @__PURE__ */ e.createElement(
+        typeof y.conditional == "object" && y.conditional !== null && "label" in y.conditional && "id" in y.conditional && "name" in y.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, y.conditional.label && /* @__PURE__ */ e.createElement(
           te,
           {
-            htmlFor: E.conditional.id
+            htmlFor: y.conditional.id
           },
-          E.conditional.label
+          y.conditional.label
         ), /* @__PURE__ */ e.createElement(
-          g,
+          m,
           {
-            ...E.conditional
+            ...y.conditional
           }
-        )) : E.conditional
+        )) : y.conditional
       ));
     })
   ));
@@ -2734,52 +2733,52 @@ function Ht(t) {
     legendSize: c = "l",
     hint: i,
     errorMessage: o,
-    className: g = "",
+    className: m = "",
     small: d = !1,
     // Strip interactive handler in server variant
     onChange: f,
     fieldsetAttributes: h,
     attributes: u,
     ...p
-  } = t, N = n || s, y = i ? `${N}-hint` : void 0, M = o ? `${N}-error` : void 0, k = [y, M].filter(Boolean).join(" ") || void 0, { classes: _, formGroupClasses: x } = mt({ small: d, className: g, hasError: !!o });
+  } = t, k = n || s, E = i ? `${k}-hint` : void 0, M = o ? `${k}-error` : void 0, b = [E, M].filter(Boolean).join(" ") || void 0, { classes: _, formGroupClasses: x } = mt({ small: d, className: m, hasError: !!o });
   return /* @__PURE__ */ e.createElement("div", { className: x, ...u, ...p }, /* @__PURE__ */ e.createElement(
     ae,
     {
       legend: l ? { text: l, isPageHeading: r, size: c } : void 0,
-      describedBy: k,
+      describedBy: b,
       ...h
     },
-    i && /* @__PURE__ */ e.createElement("div", { id: y, className: "nhsuk-hint" }, i),
+    i && /* @__PURE__ */ e.createElement("div", { id: E, className: "nhsuk-hint" }, i),
     o && /* @__PURE__ */ e.createElement("div", { id: M, className: "nhsuk-error-message" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, "Error:"), " ", o),
-    /* @__PURE__ */ e.createElement("div", { className: _, "data-nhs-behaviour": "checkboxes" }, a.map((I, b) => {
-      const v = `${N}-${b + 1}`, E = `${v}-conditional`, m = !!I.checked, C = !!I.disabled;
-      return /* @__PURE__ */ e.createElement("div", { key: I.value, className: "nhsuk-checkboxes__item" }, /* @__PURE__ */ e.createElement(
+    /* @__PURE__ */ e.createElement("div", { className: _, "data-nhs-behaviour": "checkboxes" }, a.map((N, I) => {
+      const v = `${k}-${I + 1}`, y = `${v}-conditional`, g = !!N.checked, C = !!N.disabled;
+      return /* @__PURE__ */ e.createElement("div", { key: N.value, className: "nhsuk-checkboxes__item" }, /* @__PURE__ */ e.createElement(
         "input",
         {
           className: "nhsuk-checkboxes__input",
           id: v,
           name: s,
           type: "checkbox",
-          value: I.value,
-          ...m ? { defaultChecked: !0 } : {},
+          value: N.value,
+          ...g ? { defaultChecked: !0 } : {},
           disabled: C,
-          "aria-describedby": I.hint ? `${v}-hint` : k,
-          ...I.conditional && {
-            "aria-controls": E,
-            "aria-expanded": m ? "true" : "false"
+          "aria-describedby": N.hint ? `${v}-hint` : b,
+          ...N.conditional && {
+            "aria-controls": y,
+            "aria-expanded": g ? "true" : "false"
           },
-          ...I.attributes
+          ...N.attributes
         }
-      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-checkboxes__label", htmlFor: v }, I.text), I.hint && /* @__PURE__ */ e.createElement("div", { id: `${v}-hint`, className: "nhsuk-checkboxes__hint" }, I.hint), I.conditional && /* @__PURE__ */ e.createElement(
+      ), /* @__PURE__ */ e.createElement("label", { className: "nhsuk-checkboxes__label", htmlFor: v }, N.text), N.hint && /* @__PURE__ */ e.createElement("div", { id: `${v}-hint`, className: "nhsuk-checkboxes__hint" }, N.hint), N.conditional && /* @__PURE__ */ e.createElement(
         "div",
         {
           className: w("nhsuk-checkboxes__conditional", {
-            "nhsuk-checkboxes__conditional--hidden": !m
+            "nhsuk-checkboxes__conditional--hidden": !g
           }),
-          id: E,
+          id: y,
           "data-nhs-checkboxes-conditional": !0
         },
-        typeof I.conditional == "object" && I.conditional !== null && "label" in I.conditional && "id" in I.conditional && "name" in I.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, I.conditional.label && /* @__PURE__ */ e.createElement(te, { htmlFor: I.conditional.id }, I.conditional.label), /* @__PURE__ */ e.createElement(ne, { ...I.conditional })) : I.conditional
+        typeof N.conditional == "object" && N.conditional !== null && "label" in N.conditional && "id" in N.conditional && "name" in N.conditional ? /* @__PURE__ */ e.createElement("div", { style: { marginTop: "16px" } }, N.conditional.label && /* @__PURE__ */ e.createElement(te, { htmlFor: N.conditional.id }, N.conditional.label), /* @__PURE__ */ e.createElement(ne, { ...N.conditional })) : N.conditional
       ));
     }))
   ));
@@ -2796,7 +2795,7 @@ const Pt = ({
   flipOrderOnMobile: n = !0,
   className: l
 }) => {
-  const r = !!t && !t.hidden, c = !!a && !a.hidden, i = !!s && !s.hidden, o = [r, c, i].filter(Boolean).length, g = $.OneHalf, d = $.OneThird;
+  const r = !!t && !t.hidden, c = !!a && !a.hidden, i = !!s && !s.hidden, o = [r, c, i].filter(Boolean).length, m = $.OneHalf, d = $.OneThird;
   return /* @__PURE__ */ e.createElement(
     ke,
     {
@@ -2804,11 +2803,11 @@ const Pt = ({
         "nhs-form-nav--flip-mobile": n
       })
     },
-    r && /* @__PURE__ */ e.createElement(V, { width: o === 2 ? g : d, className: "nhs-form-nav__back" }, q(t, "Back")),
+    r && /* @__PURE__ */ e.createElement(V, { width: o === 2 ? m : d, className: "nhs-form-nav__back" }, q(t, "Back")),
     c && /* @__PURE__ */ e.createElement(
       V,
       {
-        width: o === 2 ? g : d,
+        width: o === 2 ? m : d,
         align: o === 2 ? X.Right : X.Center,
         className: "nhs-form-nav__start-again"
       },
@@ -2817,7 +2816,7 @@ const Pt = ({
     i && /* @__PURE__ */ e.createElement(
       V,
       {
-        width: !r && !c ? $.Full : o === 2 ? g : d,
+        width: !r && !c ? $.Full : o === 2 ? m : d,
         align: X.Right,
         className: "nhs-form-nav__next"
       },

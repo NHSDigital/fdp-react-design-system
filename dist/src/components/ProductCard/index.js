@@ -475,12 +475,11 @@ var ProductCard = ({
   elevated = true,
   imageAspectRatio = 1.5
 }) => {
-  const cardRef = React2.useRef(null);
   const shapes = React2.useMemo(() => {
     var _a, _b;
     if ((image == null ? void 0 : image.type) === "graphic") {
       if (image.shapes) return image.shapes;
-      const seed = (_a = image.seed) != null ? _a : Date.now();
+      const seed = (_a = image.seed) != null ? _a : 0;
       const imgTheme = (_b = image.theme) != null ? _b : theme;
       return generateVectorShapes(seed, imgTheme);
     }
@@ -578,7 +577,6 @@ var ProductCard = ({
   return /* @__PURE__ */ jsxs(
     "div",
     {
-      ref: cardRef,
       className: cardClasses,
       style,
       onClick: onClick || href ? handleCardClick : void 0,

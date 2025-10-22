@@ -114,6 +114,17 @@ export type { CardProps, CardGroupProps, CardGroupItemProps, CardVariant, Headin
 export { CareCard } from './CareCard';
 export type { CareCardProps, CareCardType, HeadingLevel as CareCardHeadingLevel } from './CareCard';
 
+// FDP Brand Components
+export { ProductCard, ProductCardThemeEnum } from './ProductCard';
+export type { 
+	ProductCardProps, 
+	ProductCardImageType, 
+	ProductCardLayout, 
+	ProductCardTheme, 
+	VectorGraphicShape, 
+	ProductCardButton 
+} from './ProductCard';
+
 // Server-first form controls
 export { InputServer as Input } from './Input/Input.server';
 export type { InputProps } from './Input/Input.types';

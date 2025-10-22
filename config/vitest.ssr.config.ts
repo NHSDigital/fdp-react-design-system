@@ -6,7 +6,11 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [tsconfigPaths(), react()],
   test: {
-    include: ['src/**/*.ssr.test.{ts,tsx}', 'src/**/*.env-safe.test.{ts,tsx}'],
+    include: [
+      'src/**/*.ssr.test.{ts,tsx}',
+      'src/**/*.env-safe.test.{ts,tsx}',
+      'tests/ssr-validation/**/*.test.{ts,tsx}'
+    ],
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts', 'src/ssr-test-setup.ts'],
     globals: true,

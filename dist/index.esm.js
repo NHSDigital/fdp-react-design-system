@@ -1781,9 +1781,22 @@ function Bd(e) {
   ].filter(Boolean).join(" "), o = e.marginBottom ? { marginBottom: e.marginBottom } : void 0;
   return { tag: `h${t}`, classes: r, style: o };
 }
-const Bt = ({ level: e, className: t, text: r, html: o, children: s, size: a, marginBottom: i, ...l }) => {
+const Bt = ({
+  level: e,
+  className: t,
+  text: r,
+  html: o,
+  children: s,
+  size: a,
+  marginBottom: i,
+  ...l
+}) => {
   const c = Bd({ level: e, size: a, className: t, marginBottom: i }), d = s || (o ? /* @__PURE__ */ n.jsx("span", { dangerouslySetInnerHTML: { __html: o } }) : r);
-  return Pi(c.tag, { className: c.classes, style: c.style, ...l }, d);
+  return Pi(
+    c.tag,
+    { className: c.classes, style: c.style, ...l },
+    d
+  );
 };
 function Hd(e) {
   return {

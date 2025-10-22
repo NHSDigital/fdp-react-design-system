@@ -1,6 +1,6 @@
-import React from 'react';
-import './Heading.scss';
-import { HeadingProps } from './Heading.types';
+import React from "react";
+import "./Heading.scss";
+import { HeadingProps } from "./Heading.types";
 /**
  * A reusable Heading component that abstracts heading level logic and provides consistent styling.
  * Separates semantic meaning (level) from visual appearance (size).

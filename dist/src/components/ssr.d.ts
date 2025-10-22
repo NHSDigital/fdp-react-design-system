@@ -79,6 +79,8 @@ export { Card, CardGroup, CardGroupItem } from './Card';
 export type { CardProps, CardGroupProps, CardGroupItemProps, CardVariant, HeadingLevel as CardHeadingLevel } from './Card';
 export { CareCard } from './CareCard';
 export type { CareCardProps, CareCardType, HeadingLevel as CareCardHeadingLevel } from './CareCard';
+export { ProductCard, ProductCardThemeEnum } from './ProductCard';
+export type { ProductCardProps, ProductCardImageType, ProductCardLayout, ProductCardTheme, VectorGraphicShape, ProductCardButton } from './ProductCard';
 export { InputServer as Input } from './Input/Input.server';
 export type { InputProps } from './Input/Input.types';
 export { Textarea } from './Textarea';

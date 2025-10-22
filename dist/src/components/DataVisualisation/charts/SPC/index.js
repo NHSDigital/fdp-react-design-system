@@ -5581,10 +5581,23 @@ function mapHeadingProps(input) {
 
 // src/components/Heading/Heading.tsx
 import { jsx as jsx3 } from "react/jsx-runtime";
-var Heading = ({ level, className, text, html, children, size, marginBottom, ...rest }) => {
+var Heading = ({
+  level,
+  className,
+  text,
+  html,
+  children,
+  size,
+  marginBottom,
+  ...rest
+}) => {
   const model = mapHeadingProps({ level, size, className, marginBottom });
   const content = children || (html ? /* @__PURE__ */ jsx3("span", { dangerouslySetInnerHTML: { __html: html } }) : text);
-  return createElement(model.tag, { className: model.classes, style: model.style, ...rest }, content);
+  return createElement(
+    model.tag,
+    { className: model.classes, style: model.style, ...rest },
+    content
+  );
 };
 
 // src/components/Panel/Panel.tsx

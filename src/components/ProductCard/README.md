@@ -388,6 +388,43 @@ Themes must be one of the predefined values. To use custom colors, apply them vi
 />
 ```
 
+## Server-Side Rendering (SSR)
+
+ProductCard is fully SSR-compatible and can be imported from the `/ssr` barrel:
+
+```tsx
+import { ProductCard, ProductCardThemeEnum } from '@fergusbisset/nhs-fdp-design-system/ssr';
+```
+
+### Important SSR Considerations
+
+When using vector graphics with SSR (Next.js, Remix, etc.), **always provide a seed value** to ensure consistent rendering between server and client:
+
+```tsx
+// ✅ Good - Consistent SSR
+<ProductCard
+  image={{
+    type: 'graphic',
+    seed: 12345,  // Same shapes on server and client
+    theme: 'blue'
+  }}
+  title="My Product"
+  description="Description"
+/>
+
+// ❌ Avoid - Hydration mismatch
+<ProductCard
+  image={{
+    type: 'graphic',
+    // No seed = defaults to 0, but shapes change if seed is added later
+  }}
+  title="My Product"
+  description="Description"
+/>
+```
+
+**Why this matters**: Without a seed, the shape generation defaults to `0` for SSR consistency. If you later rely on dynamic seeds or change the implementation, it could cause hydration mismatches. Always be explicit with your seed values.
+
 ## Contributing
 
 When contributing to ProductCard:
@@ -396,7 +433,7 @@ When contributing to ProductCard:
 2. Maintain accessibility standards
 3. Update documentation for new props
 4. Test across major browsers
-5. Ensure SSR compatibility
+5. Ensure SSR compatibility (no client-only hooks like useRef)
 
 ## License
 

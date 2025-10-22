@@ -525,13 +525,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 	elevated = true,
 	imageAspectRatio = 1.5,
 }) => {
-	const cardRef = React.useRef<HTMLDivElement>(null);
-
 	// Generate or use provided shapes
+	// Note: For SSR compatibility, always provide a seed if using graphic images
+	// to avoid hydration mismatches from Date.now()
 	const shapes = React.useMemo(() => {
 		if (image?.type === "graphic") {
 			if (image.shapes) return image.shapes;
-			const seed = image.seed ?? Date.now();
+			const seed = image.seed ?? 0; // Default to 0 for SSR consistency
 			const imgTheme = image.theme ?? theme;
 			return generateVectorShapes(seed, imgTheme);
 		}
@@ -653,7 +653,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
 	return (
 		<div
-			ref={cardRef}
 			className={cardClasses}
 			style={style}
 			onClick={onClick || href ? handleCardClick : undefined}

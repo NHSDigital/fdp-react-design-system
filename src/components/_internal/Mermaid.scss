@@ -1,5 +1,5 @@
-@use "../../../packages/nhs-fdp/dist/scss/tokens" as nhs;
-@use "../../../packages/nhs-fdp/dist/scss/components/diagram" as diagram;
+@use "../../../packages/nhs-fdp/scss" as nhs;
+@use "./diagram-tokens" as diagram;
 
 // Mermaid diagram base wrapper
 .mermaid-diagram {

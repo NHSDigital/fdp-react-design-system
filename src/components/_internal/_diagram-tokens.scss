@@ -1,0 +1,23 @@
+// Diagram tokens for Mermaid component
+// These are statically defined to avoid circular build dependencies
+// Source: packages/nhs-fdp/tokens/diagram.json
+
+// Decision node colors
+$nhs-fdp-diagram-flowchart-decision-fill: #fff3e0;
+$nhs-fdp-diagram-flowchart-decision-stroke: #f57c00;
+$nhs-fdp-diagram-flowchart-decision-text: #4e342e;
+
+// Automation node colors
+$nhs-fdp-diagram-flowchart-auto-fill: #e3f2fd;
+$nhs-fdp-diagram-flowchart-auto-stroke: #1976d2;
+$nhs-fdp-diagram-flowchart-auto-text: #0d47a1;
+
+// Action/outcome node colors
+$nhs-fdp-diagram-flowchart-action-fill: #e8f5e9;
+$nhs-fdp-diagram-flowchart-action-stroke: #388e3c;
+$nhs-fdp-diagram-flowchart-action-text: #1b5e20;
+
+// Warning node colors
+$nhs-fdp-diagram-flowchart-warning-fill: #ffebee;
+$nhs-fdp-diagram-flowchart-warning-stroke: #d32f2f;
+$nhs-fdp-diagram-flowchart-warning-text: #b71c1c;

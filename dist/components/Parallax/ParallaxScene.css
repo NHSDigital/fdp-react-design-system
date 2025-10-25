@@ -1,0 +1,194 @@
+@charset "UTF-8";
+.nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.nhsuk-u-hidden {
+  display: none !important;
+}
+.nhsuk-u-show {
+  display: block !important;
+}
+.nhsuk-u-text-left {
+  text-align: left !important;
+}
+.nhsuk-u-text-center {
+  text-align: center !important;
+}
+.nhsuk-u-text-right {
+  text-align: right !important;
+}
+.nhsuk-u-margin-0 {
+  margin: 0 !important;
+}
+.nhsuk-u-margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+.nhsuk-u-margin-top-0 {
+  margin-top: 0 !important;
+}
+.nhsuk-u-padding-0 {
+  padding: 0 !important;
+}
+.nhsuk-u-padding-bottom-0 {
+  padding-bottom: 0 !important;
+}
+.nhsuk-u-padding-top-0 {
+  padding-top: 0 !important;
+}
+.nhsuk-u-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.nhsuk-header .nhsuk-u-visually-hidden,
+.nhsuk-header__search .nhsuk-u-visually-hidden,
+label .nhsuk-u-visually-hidden,
+span .nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.nhsuk-width-container {
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: 1200px;
+}
+@media (min-width: 768px) {
+  .nhsuk-width-container {
+    padding: 0 32px;
+  }
+}
+@media (min-width: 1020px) {
+  .nhsuk-width-container {
+    padding: 0 40px;
+  }
+}
+
+.nhsuk-icon {
+  width: auto !important;
+  height: 2em;
+  vertical-align: text-bottom;
+  flex-shrink: 0;
+}
+
+.nhs-parallax-scene {
+  position: relative;
+}
+
+/* When pinned, ensure the callout remains centered by default */
+.nhs-parallax-scene .nhs-parallax-callout {
+  inset: 0;
+}
+
+/* Connector lines */
+.nhs-parallax-connector {
+  stroke: #4c6272;
+  stroke-opacity: 0.6;
+  stroke-width: 0.2; /* in viewBox units */
+}
+
+/* Shape base */
+.nhs-parallax-shape {
+  vector-effect: non-scaling-stroke;
+}
+
+/* Shadows hooks (can be replaced by token values later) */
+.nhs-parallax-shadow--soft {
+  filter: drop-shadow(0 0.8px 4px rgba(0, 0, 0, 0.18));
+}
+
+.nhs-parallax-shadow--strong {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.28));
+}
+
+/* FDP gradient utility hooks – these should map to real tokenized gradients.
+   Replace these with generated classes once tokens expose gradient utilities. */
+.nhs-fdp-gradient-blue {
+  fill: url("#fdpgradient-blue");
+}
+
+.nhs-fdp-gradient-aqua {
+  fill: url("#fdpgradient-aqua");
+}
+
+.nhs-fdp-gradient-green {
+  fill: url("#fdpgradient-green");
+}
+
+.nhs-fdp-gradient-dark-blue {
+  fill: url("#fdpgradient-dark-blue");
+}
+
+.nhs-fdp-gradient-light-blue {
+  fill: url("#fdpgradient-light-blue");
+}
+
+.nhs-fdp-gradient-purple {
+  fill: url("#fdpgradient-purple");
+}
+
+.nhs-fdp-gradient-green-palette {
+  fill: url("#fdpgradient-green-palette");
+}
+
+.nhs-fdp-gradient-grey {
+  fill: url("#fdpgradient-grey");
+}
+
+/* Fallback if paint servers are absent – use solid brand colours */
+.nhs-fdp-gradient-blue:not([fill]) {
+  fill: #2E61A5;
+}
+
+.nhs-fdp-gradient-aqua:not([fill]) {
+  fill: #1DC6D2;
+}
+
+.nhs-fdp-gradient-green:not([fill]) {
+  fill: #2BC06A;
+}
+
+.nhs-fdp-gradient-dark-blue:not([fill]) {
+  fill: #005eb8;
+}
+
+.nhs-fdp-gradient-light-blue:not([fill]) {
+  fill: #60b2e2;
+}
+
+.nhs-fdp-gradient-purple:not([fill]) {
+  fill: #ac98cb;
+}
+
+.nhs-fdp-gradient-green-palette:not([fill]) {
+  fill: #007f3b;
+}
+
+.nhs-fdp-gradient-grey:not([fill]) {
+  fill: #4c6272;
+}
+
+.nhs-parallax-callout-inner {
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  padding: 32px;
+}

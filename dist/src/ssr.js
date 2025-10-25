@@ -1,7 +1,7 @@
 import * as S from "react";
-import e, { createElement as ce, forwardRef as oe } from "react";
+import e, { createElement as ce, forwardRef as ie } from "react";
 import { c as L, C as Ne, b as $, R as ke, a as V, e as X } from "../SkipLink-ByzSQC80.js";
-import { B as Ut, F as Qt, G as Rt, S as Wt, g as Ft } from "../SkipLink-ByzSQC80.js";
+import { B as Ut, F as Qt, G as Rt, S as Ft, g as Wt } from "../SkipLink-ByzSQC80.js";
 const be = ({
   ariaLabel: t = "Account",
   items: a = [],
@@ -23,14 +23,14 @@ const be = ({
         "aria-label": s.icon === !0 ? "User" : void 0
       },
       /* @__PURE__ */ e.createElement("path", { d: "M12 1a11 11 0 1 1 0 22 11 11 0 0 1 0-22Zm0 2a9 9 0 0 0-5 16.5V18a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v1.5A9 9 0 0 0 12 3Zm0 3a3.5 3.5 0 1 1-3.5 3.5A3.4 3.4 0 0 1 12 6Z" })
-    ) : null, o = s.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: s.html } }) : s.text, i = /* @__PURE__ */ e.createElement(e.Fragment, null, c, o);
+    ) : null, i = s.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: s.html } }) : s.text, o = /* @__PURE__ */ e.createElement(e.Fragment, null, c, i);
     return s.href ? /* @__PURE__ */ e.createElement(
       "a",
       {
         className: "nhsuk-account__link nhsuk-header__account-link",
         href: s.href
       },
-      i
+      o
     ) : s.action ? /* @__PURE__ */ e.createElement(
       "form",
       {
@@ -38,8 +38,8 @@ const be = ({
         action: s.action,
         method: s.method || "post"
       },
-      /* @__PURE__ */ e.createElement("button", { className: "nhsuk-account__button", type: "submit", role: "button" }, i)
-    ) : /* @__PURE__ */ e.createElement("span", null, i);
+      /* @__PURE__ */ e.createElement("button", { className: "nhsuk-account__button", type: "submit", role: "button" }, o)
+    ) : /* @__PURE__ */ e.createElement("span", null, o);
   };
   return /* @__PURE__ */ e.createElement(
     "nav",
@@ -68,7 +68,7 @@ const be = ({
     ))
   );
 }, ye = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iMTEzIiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcGxvZ28iPgogICAgPHJlY3QgaWQ9ImZkcGxvZ28tcmVjdGFuZ2xlIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigzMiwgOTUsIDE3MikiIHg9IjIuNyIgeT0iLTAuMDMiIHdpZHRoPSIxNDQuMSIgaGVpZ2h0PSI1OC4wNSIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllciIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGQ9Ik0gNjAuNjEsNS42IEwgNTAuNjYsNTIuMzEgMzUuMDYsNTIuMzEgMjUuMjQsMTkuOTkgMjUuMTEsMTkuOTkgMTguNTgsNTIuMzEgNi43NCw1Mi4zMSAxNi43Nyw1LjYgMzIuNDMsNS42IDQyLjA1LDM3Ljk5IDQyLjE4LDM3Ljk5IDQ4Ljc3LDUuNiA2MC42MSw1LjYgWiBNIDYwLjYxLDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHBsb2dvLWJlemllcjMiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDE0MS4zOCw2Ljg3IEwgMTM4LjM1LDE2LjE3IEMgMTM1LjkyLDE1LjA0IDEzMi42MywxNC4wNCAxMjcuOTksMTQuMDQgMTIzLjAyLDE0LjA0IDExOC45OCwxNC43NyAxMTguOTgsMTguNTIgMTE4Ljk4LDI1LjE0IDEzNy4yLDIyLjY3IDEzNy4yLDM2Ljg1IDEzNy4yLDQ5Ljc3IDEyNS4xNyw1My4xMiAxMTQuMjcsNTMuMTIgMTA5LjQzLDUzLjEyIDEwMy44NSw1MS45NyA5OS43NSw1MC43IEwgMTAyLjcxLDQxLjIgQyAxMDUuMTksNDIuOCAxMTAuMTcsNDMuODggMTE0LjI3LDQzLjg4IDExOC4xOCw0My44OCAxMjQuMjksNDMuMTQgMTI0LjI5LDM4LjMyIDEyNC4yOSwzMC44MyAxMDYuMDYsMzMuNjQgMTA2LjA2LDIwLjQ2IDEwNi4wNiw4LjQyIDExNi42OSw0LjggMTI2Ljk4LDQuOCAxMzIuNzcsNC44IDEzOC4yMSw1LjQxIDE0MS4zOCw2Ljg3IFogTSAxNDEuMzgsNi44NyIgLz4KICAgIAogICAgPHRleHQgIGZpbGw9InJnYigzNSwgMzEsIDMyKSIgZm9udC1mYW1pbHk9IkZydXRpZ2VyTFRQcm8tQm9sZCwgJ0ZydXRpZ2VyIExUIFBybycsIHNhbnMtc2VyaWYiIGZvbnQtd2VpZ2h0PSJib2xkIiBmb250LXNpemU9IjQwIiB4PSIwIiB5PSI2NC44OSI+PHRzcGFuIHg9IjAiIHk9IjEwMi44OSI+RmVkZXJhdGVkIERhdGEgUGxhdGZvcm08L3RzcGFuPjwvdGV4dD4KPC9zdmc+Cg==", Ee = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTU1IiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcHR3b2xpbmUiPgogICAgPHJlY3QgaWQ9ImZkcHR3b2xpbmUtcmVjdGFuZ2xlIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigzMiwgOTUsIDE3MikiIHg9IjIuNyIgeT0iLTAuMDMiIHdpZHRoPSIxNDQuMSIgaGVpZ2h0PSI1OC4wNSIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllciIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGQ9Ik0gNjAuNjEsNS42IEwgNTAuNjYsNTIuMzEgMzUuMDYsNTIuMzEgMjUuMjQsMTkuOTkgMjUuMTEsMTkuOTkgMTguNTgsNTIuMzEgNi43NCw1Mi4zMSAxNi43Nyw1LjYgMzIuNDMsNS42IDQyLjA1LDM3Ljk5IDQyLjE4LDM3Ljk5IDQ4Ljc3LDUuNiA2MC42MSw1LjYgWiBNIDYwLjYxLDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgIDxwYXRoIGlkPSJmZHB0d29saW5lLWJlemllcjMiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDE0MS4zOCw2Ljg3IEwgMTM4LjM1LDE2LjE3IEMgMTM1LjkyLDE1LjA0IDEzMi42MywxNC4wNCAxMjcuOTksMTQuMDQgMTIzLjAyLDE0LjA0IDExOC45OCwxNC43NyAxMTguOTgsMTguNTIgMTE4Ljk4LDI1LjE0IDEzNy4yLDIyLjY3IDEzNy4yLDM2Ljg1IDEzNy4yLDQ5Ljc3IDEyNS4xNyw1My4xMiAxMTQuMjcsNTMuMTIgMTA5LjQzLDUzLjEyIDEwMy44NSw1MS45NyA5OS43NSw1MC43IEwgMTAyLjcxLDQxLjIgQyAxMDUuMTksNDIuOCAxMTAuMTcsNDMuODggMTE0LjI3LDQzLjg4IDExOC4xOCw0My44OCAxMjQuMjksNDMuMTQgMTI0LjI5LDM4LjMyIDEyNC4yOSwzMC44MyAxMDYuMDYsMzMuNjQgMTA2LjA2LDIwLjQ2IDEwNi4wNiw4LjQyIDExNi42OSw0LjggMTI2Ljk4LDQuOCAxMzIuNzcsNC44IDEzOC4yMSw1LjQxIDE0MS4zOCw2Ljg3IFogTSAxNDEuMzgsNi44NyIgLz4KICAgIDx0ZXh0ICBmaWxsPSJyZ2IoMzUsIDMxLCAzMikiIGZvbnQtZmFtaWx5PSJGcnV0aWdlckxUUHJvLUJvbGQsICdGcnV0aWdlciBMVCBQcm8nLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSI0MCIgeD0iMCIgeT0iNjQuODkiPjx0c3BhbiB4PSIwIiB5PSIxMDIuODkiPkZlZGVyYXRlZCBEYXRhIAo8L3RzcGFuPjx0c3BhbiB4PSIwIiB5PSIxNTAuODkiPlBsYXRmb3JtPC90c3Bhbj48L3RleHQ+Cjwvc3ZnPgo=", Me = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSIyOTAiIGhlaWdodD0iMTU1IiB4bWw6c3BhY2U9InByZXNlcnZlIiBpZD0iZmRwdHdvbGluZWludmVyc2UiPgoJPHJlY3QgaWQ9ImZkcHR3b2xpbmVpbnZlcnNlLXJlY3RhbmdsZSIgc3Ryb2tlPSJub25lIiBmaWxsPSJyZ2IoMzIsIDk1LCAxNzIpIiB4PSIyLjciIHk9Ii0wLjAzIiB3aWR0aD0iMTQ0LjEiIGhlaWdodD0iNTguMDUiIC8+Cgk8cGF0aCBpZD0iZmRwdHdvbGluZWludmVyc2UtYmV6aWVyIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigyNTQsIDI1NCwgMjU0KSIgZD0iTSA2MC42MSw1LjYgTCA1MC42Niw1Mi4zMSAzNS4wNiw1Mi4zMSAyNS4yNCwxOS45OSAyNS4xMSwxOS45OSAxOC41OCw1Mi4zMSA2Ljc0LDUyLjMxIDE2Ljc3LDUuNiAzMi40Myw1LjYgNDIuMDUsMzcuOTkgNDIuMTgsMzcuOTkgNDguNzcsNS42IDYwLjYxLDUuNiBaIE0gNjAuNjEsNS42IiAvPgoJPHBhdGggaWQ9ImZkcHR3b2xpbmVpbnZlcnNlLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KCTxwYXRoIGlkPSJmZHB0d29saW5laW52ZXJzZS1iZXppZXIzIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigyNTQsIDI1NCwgMjU0KSIgZD0iTSAxNDEuMzgsNi44NyBMIDEzOC4zNSwxNi4xNyBDIDEzNS45MiwxNS4wNCAxMzIuNjMsMTQuMDQgMTI3Ljk5LDE0LjA0IDEyMy4wMiwxNC4wNCAxMTguOTgsMTQuNzcgMTE4Ljk4LDE4LjUyIDExOC45OCwyNS4xNCAxMzcuMiwyMi42NyAxMzcuMiwzNi44NSAxMzcuMiw0OS43NyAxMjUuMTcsNTMuMTIgMTE0LjI3LDUzLjEyIDEwOS40Myw1My4xMiAxMDMuODUsNTEuOTcgOTkuNzUsNTAuNyBMIDEwMi43MSw0MS4yIEMgMTA1LjE5LDQyLjggMTEwLjE3LDQzLjg4IDExNC4yNyw0My44OCAxMTguMTgsNDMuODggMTI0LjI5LDQzLjE0IDEyNC4yOSwzOC4zMiAxMjQuMjksMzAuODMgMTA2LjA2LDMzLjY0IDEwNi4wNiwyMC40NiAxMDYuMDYsOC40MiAxMTYuNjksNC44IDEyNi45OCw0LjggMTMyLjc3LDQuOCAxMzguMjEsNS40MSAxNDEuMzgsNi44NyBaIE0gMTQxLjM4LDYuODciIC8+Cgk8dGV4dCBmaWxsPSJyZ2IoMjU0LCAyNTQsIDI1NCkiIGZvbnQtZmFtaWx5PSJGcnV0aWdlckxUUHJvLUJvbGQsICdGcnV0aWdlciBMVCBQcm8nLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iYm9sZCIgZm9udC1zaXplPSI0MCIgeD0iMCIgeT0iNjQuODkiPgoJCTx0c3BhbiB4PSIwIiB5PSIxMDIuODkiPgoJCQlGZWRlcmF0ZWQgRGF0YQoJCTwvdHNwYW4+CgkJPHRzcGFuIHg9IjAiIHk9IjE1MC44OSI+CgkJCVBsYXRmb3JtCgkJPC90c3Bhbj4KCTwvdGV4dD4KPC9zdmc+Cg==", Ie = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iMTEzIiAgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgaWQ9ImZkcGxvZ29pbnZlcnNlIj4KICAgIDxyZWN0IGlkPSJmZHBsb2dvaW52ZXJzZS1yZWN0YW5nbGUiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiB4PSIyLjciIHk9Ii0wLjAzIiB3aWR0aD0iMTQ0LjEiIGhlaWdodD0iNTguMDUiIC8+CiAgICA8ZyBpZD0iZmRwbG9nb2ludmVyc2UtZ3JvdXAiPgogICAgICAgIDxwYXRoIGlkPSJmZHBsb2dvaW52ZXJzZS1iZXppZXIzIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigwLCA5NCwgMTg0KSIgZD0iTSAxNDEuMzgsNi44NyBMIDEzOC4zNSwxNi4xNyBDIDEzNS45MiwxNS4wNCAxMzIuNjMsMTQuMDQgMTI3Ljk5LDE0LjA0IDEyMy4wMiwxNC4wNCAxMTguOTgsMTQuNzcgMTE4Ljk4LDE4LjUyIDExOC45OCwyNS4xNCAxMzcuMiwyMi42NyAxMzcuMiwzNi44NSAxMzcuMiw0OS43NyAxMjUuMTcsNTMuMTIgMTE0LjI3LDUzLjEyIDEwOS40Myw1My4xMiAxMDMuODUsNTEuOTcgOTkuNzUsNTAuNyBMIDEwMi43MSw0MS4yIEMgMTA1LjE5LDQyLjggMTEwLjE3LDQzLjg4IDExNC4yNyw0My44OCAxMTguMTgsNDMuODggMTI0LjI5LDQzLjE0IDEyNC4yOSwzOC4zMiAxMjQuMjksMzAuODMgMTA2LjA2LDMzLjY0IDEwNi4wNiwyMC40NiAxMDYuMDYsOC40MiAxMTYuNjksNC44IDEyNi45OCw0LjggMTMyLjc3LDQuOCAxMzguMjEsNS40MSAxNDEuMzgsNi44NyBaIE0gMTQxLjM4LDYuODciIC8+CiAgICAgICAgPHBhdGggaWQ9ImZkcGxvZ29pbnZlcnNlLWJlemllcjIiIHN0cm9rZT0ibm9uZSIgZmlsbD0icmdiKDAsIDk0LCAxODQpIiBkPSJNIDEwNS4yNiw1LjYgTCA5NS41MSw1Mi4zMSA4Mi45NCw1Mi4zMSA4Ny4xMSwzMi4zIDcyLjI0LDMyLjMgNjguMDcsNTIuMzEgNTUuNDksNTIuMzEgNjUuMjUsNS42IDc3LjgyLDUuNiA3NC4xMywyMy40NyA4OC45OSwyMy40NyA5Mi42OSw1LjYgMTA1LjI2LDUuNiBaIE0gMTA1LjI2LDUuNiIgLz4KICAgICAgICA8cGF0aCBpZD0iZmRwbG9nb2ludmVyc2UtYmV6aWVyIiBzdHJva2U9Im5vbmUiIGZpbGw9InJnYigwLCA5NCwgMTg0KSIgZD0iTSA2MC42MSw1LjYgTCA1MC42Niw1Mi4zMSAzNS4wNiw1Mi4zMSAyNS4yNCwxOS45OSAyNS4xMSwxOS45OSAxOC41OCw1Mi4zMSA2Ljc0LDUyLjMxIDE2Ljc3LDUuNiAzMi40Myw1LjYgNDIuMDUsMzcuOTkgNDIuMTgsMzcuOTkgNDguNzcsNS42IDYwLjYxLDUuNiBaIE0gNjAuNjEsNS42IiAvPgogICAgPC9nPgogICAgCiAgICA8dGV4dCAgZmlsbD0icmdiKDI1NCwgMjU0LCAyNTQpIiBmb250LWZhbWlseT0iRnJ1dGlnZXJMVFByby1Cb2xkLCAnRnJ1dGlnZXIgTFQgUHJvJywgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZvbnQtc2l6ZT0iNDAiIHg9IjAiIHk9IjY0Ljg5Ij48dHNwYW4geD0iMCIgeT0iMTAyLjg5Ij5GZWRlcmF0ZWQgRGF0YSBQbGF0Zm9ybTwvdHNwYW4+PC90ZXh0Pgo8L3N2Zz4K", _e = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='357'%20height='114'%20xml:space='preserve'%20id='fdpgraphic'%3e%3cdefs%3e%3clinearGradient%20id='fdpgraphic-gradient-rectangle2'%20x1='113.66'%20y1='27.99'%20x2='0.02'%20y2='27.99'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdpgraphic-gradient2-clip'%20x1='243.8'%20y1='28.5'%20x2='113.64'%20y2='28.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdpgraphic-gradient4-bezier4'%20x1='357.05'%20y1='85.21'%20x2='243.44'%20y2='85.21'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cg%20id='fdpgraphic-group3'%3e%3cg%20id='fdpgraphic-squareGroup'%3e%3crect%20id='fdpgraphic-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='113.6'%20height='113.6'%20/%3e%3crect%20id='fdpgraphic-rectangle2'%20stroke='none'%20fill='url(%23fdpgraphic-gradient-rectangle2)'%20x='0'%20y='0'%20width='113.65'%20height='56'%20/%3e%3c/g%3e%3cg%20id='fdpgraphic-hexagonGroup'%3e%3cpath%20id='fdpgraphic-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%20146.15,-0%20L%20211.25,0%20243.8,57.03%20211.25,114.06%20146.15,114.06%20113.6,57.03%20146.15,-0%20Z%20M%20146.15,-0'%20/%3e%3cg%20id='fdpgraphic-hexagon'%3e%3cpath%20id='fdpgraphic-clip'%20stroke='none'%20fill='url(%23fdpgraphic-gradient2-clip)'%20d='M%20146.18,-0%20L%20113.64,57%20243.8,57%20211.26,-0%20146.18,-0%20Z%20M%20146.18,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdpgraphic-circleGroup'%3e%3ccircle%20id='fdpgraphic-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='300.25'%20cy='56.8'%20r='56.8'%20/%3e%3cpath%20id='fdpgraphic-bezier4'%20stroke='none'%20fill='url(%23fdpgraphic-gradient4-bezier4)'%20d='M%20300.25,56.8%20L%20243.45,56.8%20C%20243.45,88.18%20268.88,113.61%20300.25,113.61%20L%20300.25,113.61%20C%20331.62,113.61%20357.05,88.18%20357.05,56.8%20L%20357.05,56.8%20300.25,56.8%20Z%20M%20300.25,56.8'%20/%3e%3c/g%3e%3cpath%20id='fdpgraphic-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='2.49'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2054.9,56.9%20L%20301.64,56.9'%20/%3e%3c/g%3e%3c/svg%3e", ve = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='393'%20height='47'%20xml:space='preserve'%20id='fdplockuplogo'%3e%3cdefs%3e%3clinearGradient%20id='fdplockuplogo-gradient-rectangle2'%20x1='45.65'%20y1='11.5'%20x2='0.01'%20y2='11.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogo-gradient2-clip'%20x1='98.8'%20y1='12'%20x2='45.64'%20y2='12'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogo-gradient4-bezier4'%20x1='145.05'%20y1='34.96'%20x2='98.45'%20y2='34.96'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20id='fdplockuplogo-bezier7'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20157.2,1.11%20L%20168.06,1.11%20184.85,34.06%20184.97,34.06%20184.97,1.11%20193.43,1.11%20193.43,45.17%20182.64,45.17%20165.78,12.22%20165.66,12.22%20165.66,45.17%20157.2,45.17%20157.2,1.11%20Z%20M%20157.2,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier8'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20200.37,1.11%20L%20209.21,1.11%20209.21,18.91%20226.88,18.91%20226.88,1.11%20235.72,1.11%20235.72,45.17%20226.88,45.17%20226.88,25.85%20209.21,25.85%20209.21,45.17%20200.37,45.17%20200.37,1.11%20Z%20M%20200.37,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier9'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20267.78,9.19%20C%20265,7.99%20261.91,7.29%20258.81,7.29%20255.78,7.29%20251.87,8.62%20251.87,13.42%20251.87,21.05%20271.19,17.84%20271.19,32.61%20271.19,42.27%20263.55,45.93%20254.65,45.93%20249.85,45.93%20247.7,45.3%20243.35,44.22%20L%20244.17,36.27%20C%20247.2,37.91%20250.67,38.98%20254.14,38.98%20257.49,38.98%20261.97,37.28%20261.97,33.3%20261.97,24.91%20242.65,28.38%20242.65,13.79%20242.65,3.95%20250.29,0.35%20258.06,0.35%20261.84,0.35%20265.38,0.85%20268.6,1.93%20L%20267.78,9.19%20Z%20M%20267.78,9.19'%20/%3e%3cpath%20id='fdplockuplogo-bezier10'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20287.4,1.11%20L%20311.89,1.11%20311.89,8.05%20296.23,8.05%20296.23,18.91%20311.13,18.91%20311.13,25.85%20296.23,25.85%20296.23,45.17%20287.4,45.17%20287.4,1.11%20Z%20M%20287.4,1.11'%20/%3e%3cpath%20id='fdplockuplogo-bezier11'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20327.66,38.23%20L%20332.59,38.23%20C%20339.97,38.23%20347.11,32.73%20347.11,23.14%20347.11,13.54%20339.97,8.05%20332.59,8.05%20L%20327.66,8.05%20327.66,38.23%20Z%20M%20318.82,1.1%20L%20330.88,1.1%20C%20344.39,1.1%20356.32,5.65%20356.32,23.14%20356.32,40.63%20344.39,45.17%20330.88,45.17%20L%20318.82,45.17%20318.82,1.1%20Z%20M%20318.82,1.1'%20/%3e%3cpath%20id='fdplockuplogo-bezier12'%20stroke='none'%20fill='rgb(33,%2094,%20171)'%20d='M%20372.09,21.5%20L%20375.19,21.5%20C%20379.61,21.5%20383.58,20.04%20383.58,14.93%20383.58,9.82%20379.73,8.05%20375.19,8.05%20L%20372.09,8.05%20372.09,21.5%20Z%20M%20363.26,1.11%20L%20374.43,1.11%20C%20384.03,1.11%20392.8,3.88%20392.8,14.43%20392.8,24.72%20385.29,28.44%20375.82,28.44%20L%20372.09,28.44%20372.09,45.17%20363.26,45.17%20363.26,1.11%20Z%20M%20363.26,1.11'%20/%3e%3cg%20id='fdplockuplogo-group3'%3e%3cg%20id='fdplockuplogo-squareGroup'%3e%3crect%20id='fdplockuplogo-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='45.6'%20height='46.6'%20/%3e%3crect%20id='fdplockuplogo-rectangle2'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient-rectangle2)'%20x='0'%20y='0'%20width='45.65'%20height='23'%20/%3e%3c/g%3e%3cg%20id='fdplockuplogo-hexagonGroup'%3e%3cpath%20id='fdplockuplogo-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%2058.9,-0%20L%2085.5,-0%2098.8,23.53%2085.5,47.06%2058.9,47.06%2045.6,23.53%2058.9,-0%20Z%20M%2058.9,-0'%20/%3e%3cg%20id='fdplockuplogo-hexagon'%3e%3cpath%20id='fdplockuplogo-clip'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient2-clip)'%20d='M%2058.93,-0%20L%2045.64,24%2098.8,24%2085.51,-0%2058.93,-0%20Z%20M%2058.93,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdplockuplogo-circleGroup'%3e%3cg%20id='fdplockuplogo-group'%3e%3ccircle%20id='fdplockuplogo-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='121.75'%20cy='23.3'%20r='23.3'%20/%3e%3cpath%20id='fdplockuplogo-bezier4'%20stroke='none'%20fill='url(%23fdplockuplogo-gradient4-bezier4)'%20d='M%20121.75,23.3%20L%2098.45,23.3%20C%2098.45,36.17%20108.88,46.61%20121.75,46.61%20L%20121.75,46.61%20C%20134.62,46.61%20145.05,36.17%20145.05,23.3%20L%20145.05,23.3%20121.75,23.3%20Z%20M%20121.75,23.3'%20/%3e%3c/g%3e%3c/g%3e%3cpath%20id='fdplockuplogo-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='1'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2022.3,23.48%20L%20122.54,23.48'%20/%3e%3c/g%3e%3c/svg%3e", Le = "data:image/svg+xml,%3c?xml%20version='1.0'%20encoding='UTF-8'?%3e%3c!DOCTYPE%20svg%20PUBLIC%20'-//W3C//DTD%20SVG%201.1//EN'%20'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'%3e%3csvg%20version='1.1'%20xmlns='http://www.w3.org/2000/svg'%20xmlns:xlink='http://www.w3.org/1999/xlink'%20width='393'%20height='47'%20xml:space='preserve'%20id='fdplockuplogoinverted'%3e%3cdefs%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient-rectangle2'%20x1='45.65'%20y1='11.5'%20x2='0.01'%20y2='11.5'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0'%20stop-color='rgb(96,%20178,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.51'%20stop-color='rgb(34,%2094,%20172)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient2-clip'%20x1='98.8'%20y1='12'%20x2='45.64'%20y2='12'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(4,%20150,%2071)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.64'%20stop-color='rgb(51,%20159,%20112)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(98,%20167,%20153)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3clinearGradient%20id='fdplockuplogoinverted-gradient4-bezier4'%20x1='145.05'%20y1='34.96'%20x2='98.45'%20y2='34.96'%20gradientUnits='userSpaceOnUse'%20%3e%3cstop%20offset='0.5'%20stop-color='rgb(214,%20203,%20226)'%20stop-opacity='1'%20/%3e%3cstop%20offset='0.86'%20stop-color='rgb(234,%20229,%20240)'%20stop-opacity='1'%20/%3e%3cstop%20offset='1'%20stop-color='rgb(255,%20255,%20255)'%20stop-opacity='1'%20/%3e%3c/linearGradient%3e%3c/defs%3e%3cpath%20id='fdplockuplogoinverted-bezier7'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20157.2,1.11%20L%20168.06,1.11%20184.85,34.06%20184.97,34.06%20184.97,1.11%20193.43,1.11%20193.43,45.17%20182.64,45.17%20165.78,12.22%20165.66,12.22%20165.66,45.17%20157.2,45.17%20157.2,1.11%20Z%20M%20157.2,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier8'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20200.37,1.11%20L%20209.21,1.11%20209.21,18.91%20226.88,18.91%20226.88,1.11%20235.72,1.11%20235.72,45.17%20226.88,45.17%20226.88,25.85%20209.21,25.85%20209.21,45.17%20200.37,45.17%20200.37,1.11%20Z%20M%20200.37,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier9'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20267.78,9.19%20C%20265,7.99%20261.91,7.29%20258.81,7.29%20255.78,7.29%20251.87,8.62%20251.87,13.42%20251.87,21.05%20271.19,17.84%20271.19,32.61%20271.19,42.27%20263.55,45.93%20254.65,45.93%20249.85,45.93%20247.7,45.3%20243.35,44.22%20L%20244.17,36.27%20C%20247.2,37.91%20250.67,38.98%20254.14,38.98%20257.49,38.98%20261.97,37.28%20261.97,33.3%20261.97,24.91%20242.65,28.38%20242.65,13.79%20242.65,3.95%20250.29,0.35%20258.06,0.35%20261.84,0.35%20265.38,0.85%20268.6,1.93%20L%20267.78,9.19%20Z%20M%20267.78,9.19'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier10'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20287.4,1.11%20L%20311.89,1.11%20311.89,8.05%20296.23,8.05%20296.23,18.91%20311.13,18.91%20311.13,25.85%20296.23,25.85%20296.23,45.17%20287.4,45.17%20287.4,1.11%20Z%20M%20287.4,1.11'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier11'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20327.66,38.23%20L%20332.59,38.23%20C%20339.97,38.23%20347.11,32.73%20347.11,23.14%20347.11,13.54%20339.97,8.05%20332.59,8.05%20L%20327.66,8.05%20327.66,38.23%20Z%20M%20318.82,1.1%20L%20330.88,1.1%20C%20344.39,1.1%20356.32,5.65%20356.32,23.14%20356.32,40.63%20344.39,45.17%20330.88,45.17%20L%20318.82,45.17%20318.82,1.1%20Z%20M%20318.82,1.1'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier12'%20stroke='none'%20fill='rgb(254,%20254,%20254)'%20d='M%20372.09,21.5%20L%20375.19,21.5%20C%20379.61,21.5%20383.58,20.04%20383.58,14.93%20383.58,9.82%20379.73,8.05%20375.19,8.05%20L%20372.09,8.05%20372.09,21.5%20Z%20M%20363.26,1.11%20L%20374.43,1.11%20C%20384.03,1.11%20392.8,3.88%20392.8,14.43%20392.8,24.72%20385.29,28.44%20375.82,28.44%20L%20372.09,28.44%20372.09,45.17%20363.26,45.17%20363.26,1.11%20Z%20M%20363.26,1.11'%20/%3e%3cg%20id='fdplockuplogoinverted-group3'%3e%3cg%20id='fdplockuplogoinverted-squareGroup'%3e%3crect%20id='fdplockuplogoinverted-rectangle'%20stroke='none'%20fill='rgb(34,%2094,%20172)'%20x='0.02'%20y='0.49'%20width='45.6'%20height='46.6'%20/%3e%3crect%20id='fdplockuplogoinverted-rectangle2'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient-rectangle2)'%20x='0'%20y='0'%20width='45.65'%20height='23'%20/%3e%3c/g%3e%3cg%20id='fdplockuplogoinverted-hexagonGroup'%3e%3cpath%20id='fdplockuplogoinverted-polygon'%20stroke='none'%20fill='rgb(73,%20160,%20152)'%20d='M%2058.9,-0%20L%2085.5,-0%2098.8,23.53%2085.5,47.06%2058.9,47.06%2045.6,23.53%2058.9,-0%20Z%20M%2058.9,-0'%20/%3e%3cg%20id='fdplockuplogoinverted-hexagon'%3e%3cpath%20id='fdplockuplogoinverted-clip'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient2-clip)'%20d='M%2058.93,-0%20L%2045.64,24%2098.8,24%2085.51,-0%2058.93,-0%20Z%20M%2058.93,-0'%20/%3e%3c/g%3e%3c/g%3e%3cg%20id='fdplockuplogoinverted-circleGroup'%3e%3cg%20id='fdplockuplogoinverted-group'%3e%3ccircle%20id='fdplockuplogoinverted-oval'%20stroke='none'%20fill='rgb(214,%20203,%20226)'%20cx='121.75'%20cy='23.3'%20r='23.3'%20/%3e%3cpath%20id='fdplockuplogoinverted-bezier4'%20stroke='none'%20fill='url(%23fdplockuplogoinverted-gradient4-bezier4)'%20d='M%20121.75,23.3%20L%2098.45,23.3%20C%2098.45,36.17%20108.88,46.61%20121.75,46.61%20L%20121.75,46.61%20C%20134.62,46.61%20145.05,36.17%20145.05,23.3%20L%20145.05,23.3%20121.75,23.3%20Z%20M%20121.75,23.3'%20/%3e%3c/g%3e%3c/g%3e%3cpath%20id='fdplockuplogoinverted-bezier5'%20stroke='rgb(217,%20216,%20216)'%20stroke-width='1'%20stroke-miterlimit='2.49'%20fill='none'%20d='M%2022.3,23.48%20L%20122.54,23.48'%20/%3e%3c/g%3e%3c/svg%3e";
-var ie = /* @__PURE__ */ ((t) => (t.NHS = "nhs", t.FDP = "fdp", t))(ie || {}), de = /* @__PURE__ */ ((t) => (t.Full = "full", t.Graphic = "graphic", t.Inverse = "inverse", t.TwoLine = "twoLine", t.TwoLineInverse = "twoLineInverse", t.Compact = "compact", t.CompactInverted = "compactInverted", t))(de || {});
+var oe = /* @__PURE__ */ ((t) => (t.NHS = "nhs", t.FDP = "fdp", t))(oe || {}), de = /* @__PURE__ */ ((t) => (t.Full = "full", t.Graphic = "graphic", t.Inverse = "inverse", t.TwoLine = "twoLine", t.TwoLineInverse = "twoLineInverse", t.Compact = "compact", t.CompactInverted = "compactInverted", t))(de || {});
 const we = {
   nhs: {},
   fdp: {
@@ -124,8 +124,8 @@ function Ce(t, { variant: a, isClient: r, brand: n }) {
     className: l,
     logo: s = {},
     service: c = {},
-    serviceName: o,
-    organisation: i,
+    serviceName: i,
+    organisation: o,
     // NOTE: search component intentionally omitted in server render to avoid importing client hooks
     // search,
     account: d,
@@ -143,11 +143,11 @@ function Ce(t, { variant: a, isClient: r, brand: n }) {
   "maxVisibleItems" in E && delete E.maxVisibleItems;
   const f = {
     ...c,
-    text: c?.text ?? o
+    text: c?.text ?? i
   }, M = f.href && !s.href || f.href && f.href === s.href, x = M ? f.href : s.href, I = L(
     "nhsuk-header",
     {
-      "nhsuk-header--organisation": h === "organisation" || i,
+      "nhsuk-header--organisation": h === "organisation" || o,
       "nhsuk-header--white": h === "white"
     },
     l
@@ -193,7 +193,7 @@ function Ce(t, { variant: a, isClient: r, brand: n }) {
         }
       );
     if (y === "fdp") {
-      const v = xe(ie.FDP, b);
+      const v = xe(oe.FDP, b);
       if (v?.src)
         return /* @__PURE__ */ e.createElement(
           "img",
@@ -207,8 +207,8 @@ function Ce(t, { variant: a, isClient: r, brand: n }) {
         );
     }
     return g();
-  }, D = () => i ? /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name" }, i.name, i.split && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-split" }, " ", i.split)), i.descriptor && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-descriptor" }, i.descriptor)) : null, j = (v, B) => v ? B ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-name", href: B }, v) : /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__service-name" }, v) : null, T = (v) => v.active || v.current ? /* @__PURE__ */ e.createElement("strong", { className: "nhsuk-header__navigation-item-current-fallback" }, v.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: v.html } }) : v.text) : v.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: v.html } }) : v.text, A = m?.items && !p, z = A ? [] : m?.items, Z = A ? m.items : [];
-  return /* @__PURE__ */ e.createElement(
+  }, D = () => o ? /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name" }, o.name, o.split && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-split" }, " ", o.split)), o.descriptor && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__organisation-name-descriptor" }, o.descriptor)) : null, T = (v, B) => v ? B ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-name", href: B }, v) : /* @__PURE__ */ e.createElement("span", { className: "nhsuk-header__service-name" }, v) : null, j = (v) => v.active || v.current ? /* @__PURE__ */ e.createElement("strong", { className: "nhsuk-header__navigation-item-current-fallback" }, v.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: v.html } }) : v.text) : v.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: v.html } }) : v.text, A = m?.items && !p, z = A ? [] : m?.items, Z = A ? m.items : [];
+  return /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement(
     "header",
     {
       className: I,
@@ -217,7 +217,7 @@ function Ce(t, { variant: a, isClient: r, brand: n }) {
       ...u,
       ...E
     },
-    /* @__PURE__ */ e.createElement("div", { className: _ }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__service" }, x ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-logo", href: x }, C(), D(), M && j(f.text)) : /* @__PURE__ */ e.createElement(e.Fragment, null, C(), D(), M && j(f.text)), f.text && !M && j(f.text, f.href)), /* @__PURE__ */ e.createElement(
+    /* @__PURE__ */ e.createElement("div", { className: _ }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-header__service" }, x ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-header__service-logo", href: x }, C(), D(), M && T(f.text)) : /* @__PURE__ */ e.createElement(e.Fragment, null, C(), D(), M && T(f.text)), f.text && !M && T(f.text, f.href)), /* @__PURE__ */ e.createElement(
       be,
       {
         ...d,
@@ -262,7 +262,7 @@ function Ce(t, { variant: a, isClient: r, brand: n }) {
               href: v.href,
               ...v.active || v.current ? { "aria-current": v.current ? "page" : "true" } : {}
             },
-            T(v)
+            j(v)
           )
         )))
       )
@@ -282,10 +282,51 @@ function Ce(t, { variant: a, isClient: r, brand: n }) {
           href: v.href,
           ...v.active || v.current ? { "aria-current": v.current ? "page" : "true" } : {}
         },
-        T(v)
+        j(v)
       )
     ))))
-  );
+  ), /* @__PURE__ */ e.createElement(
+    "script",
+    {
+      dangerouslySetInnerHTML: {
+        __html: `
+(function() {
+	if (typeof window === 'undefined') return;
+	
+	// Find the header element (previous sibling of this script)
+	var script = document.currentScript;
+	var header = script && script.previousElementSibling;
+	
+	if (!header || !header.classList.contains('nhsuk-header')) return;
+	
+	// Wait for DOM ready and behaviour module to be available
+	function initHeader() {
+		// Dynamic import for behaviour module
+		if (typeof import !== 'undefined') {
+			import('/dist/behaviours/headerBehaviour.js')
+				.then(function(mod) {
+					if (mod && mod.initHeaders) {
+						mod.initHeaders(header);
+					}
+				})
+				.catch(function(err) {
+					console.warn('Failed to initialize header behaviour:', err);
+				});
+		}
+	}
+	
+	// Initialize after DOM is ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initHeader);
+	} else {
+		// DOM already loaded (e.g., dynamic insertion)
+		setTimeout(initHeader, 0);
+	}
+})();
+					`.trim()
+      }
+    }
+  ));
 }
 const pt = (t) => {
   const a = t.attributes?.["data-brand"];
@@ -353,16 +394,16 @@ const ee = S.forwardRef(function(a, r) {
     variant: l = ue.Primary,
     size: s = me.Default,
     fullWidth: c = !1,
-    className: o = "",
-    preventDoubleClick: i = !1,
+    className: i = "",
+    preventDoubleClick: o = !1,
     ...d
   } = a, m = De({
     variant: l,
     size: s,
     fullWidth: c,
-    className: o,
+    className: i,
     href: "href" in d ? d.href : void 0,
-    preventDoubleClick: i
+    preventDoubleClick: o
   });
   if ("href" in d && d.href) {
     const z = d, {
@@ -371,8 +412,8 @@ const ee = S.forwardRef(function(a, r) {
       title: B,
       ["aria-label"]: R,
       ["aria-describedby"]: O,
-      ["aria-labelledby"]: W,
-      tabIndex: F,
+      ["aria-labelledby"]: F,
+      tabIndex: W,
       ...fe
     } = z;
     return /* @__PURE__ */ S.createElement(
@@ -386,14 +427,14 @@ const ee = S.forwardRef(function(a, r) {
         role: "button",
         draggable: "false",
         "data-module": "nhs-button",
-        ...i && { "data-prevent-double-click": "true" },
+        ...o && { "data-prevent-double-click": "true" },
         id: Z,
         style: v,
         title: B,
         "aria-label": R,
         "aria-describedby": O,
-        "aria-labelledby": W,
-        tabIndex: F,
+        "aria-labelledby": F,
+        tabIndex: W,
         ...fe
       },
       n
@@ -416,19 +457,19 @@ const ee = S.forwardRef(function(a, r) {
     formNoValidate: g,
     formTarget: C,
     autoFocus: D,
-    type: j,
-    disabled: T,
+    type: T,
+    disabled: j,
     ...A
   } = N;
   return /* @__PURE__ */ S.createElement(
     "button",
     {
       ref: r,
-      type: j || "button",
-      disabled: T,
+      type: T || "button",
+      disabled: j,
       className: m.classes,
       "data-module": "nhs-button",
-      ...i && { "data-prevent-double-click": "true" },
+      ...o && { "data-prevent-double-click": "true" },
       id: h,
       style: u,
       title: k,
@@ -460,10 +501,10 @@ const Nt = ({
   onClick: s,
   ...c
 }) => {
-  const o = L(
+  const i = L(
     "nhsuk-back-link",
     n
-  ), i = L(
+  ), o = L(
     "nhsuk-back-link__link"
   ), d = () => /* @__PURE__ */ e.createElement(e.Fragment, null, /* @__PURE__ */ e.createElement(
     "svg",
@@ -477,10 +518,10 @@ const Nt = ({
     },
     /* @__PURE__ */ e.createElement("path", { d: "M8.5 12c0-.3.1-.5.3-.7l5-5c.4-.4 1-.4 1.4 0s.4 1 0 1.4L10.9 12l4.3 4.3c.4.4.4 1 0 1.4s-1 .4-1.4 0l-5-5c-.2-.2-.3-.4-.3-.7z" })
   ), a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t);
-  return /* @__PURE__ */ e.createElement("div", { className: o }, l === "button" ? /* @__PURE__ */ e.createElement(
+  return /* @__PURE__ */ e.createElement("div", { className: i }, l === "button" ? /* @__PURE__ */ e.createElement(
     "button",
     {
-      className: i,
+      className: o,
       onClick: s,
       type: "button",
       ...c
@@ -489,7 +530,7 @@ const Nt = ({
   ) : /* @__PURE__ */ e.createElement(
     "a",
     {
-      className: i,
+      className: o,
       href: r,
       ...c
     },
@@ -515,12 +556,12 @@ const kt = ({
   noBorder: l = !1,
   closable: s = !1,
   onClose: c,
-  disabled: o = !1,
-  className: i,
+  disabled: i = !1,
+  className: o,
   ...d
 }) => {
-  const m = Se({ color: n, noBorder: l, closable: s, disabled: o, className: i }), N = (h) => {
-    h.preventDefault(), h.stopPropagation(), !o && c && c();
+  const m = Se({ color: n, noBorder: l, closable: s, disabled: i, className: o }), N = (h) => {
+    h.preventDefault(), h.stopPropagation(), !i && c && c();
   };
   return /* @__PURE__ */ e.createElement("strong", { className: m.classes, ...d }, r || (a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t), s && /* @__PURE__ */ e.createElement(
     "button",
@@ -528,14 +569,14 @@ const kt = ({
       type: "button",
       className: "nhsuk-tag__close",
       onClick: N,
-      disabled: o,
+      disabled: i,
       "aria-label": "Remove",
       title: "Remove"
     },
     "×"
   ));
 };
-function je(t) {
+function Te(t) {
   const a = t.size || "m", r = [
     "nhsuk-label",
     a !== "m" ? `nhsuk-label--${a}` : "",
@@ -557,10 +598,10 @@ const te = ({
   children: l,
   ...s
 }) => {
-  const c = je({ size: n, isPageHeading: r, className: a, htmlFor: t }), o = c.tag;
-  return /* @__PURE__ */ e.createElement(o, { className: c.classes, htmlFor: c.htmlFor, ...s }, r ? /* @__PURE__ */ e.createElement("label", { className: "nhsuk-label-wrapper", htmlFor: t }, l) : l);
+  const c = Te({ size: n, isPageHeading: r, className: a, htmlFor: t }), i = c.tag;
+  return /* @__PURE__ */ e.createElement(i, { className: c.classes, htmlFor: c.htmlFor, ...s }, r ? /* @__PURE__ */ e.createElement("label", { className: "nhsuk-label-wrapper", htmlFor: t }, l) : l);
 };
-function Te(t) {
+function je(t) {
   switch (t) {
     case "xxl":
     case "xl":
@@ -578,7 +619,7 @@ function Te(t) {
   }
 }
 function Ae(t) {
-  const a = t.level ?? Te(t.size), r = [
+  const a = t.level ?? je(t.size), r = [
     "nhsuk-heading",
     t.size ? `nhsuk-heading--${t.size}` : "",
     t.className || ""
@@ -593,12 +634,12 @@ const H = ({
   children: l,
   size: s,
   marginBottom: c,
-  ...o
+  ...i
 }) => {
-  const i = Ae({ level: t, size: s, className: a, marginBottom: c }), d = l || (n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : r);
+  const o = Ae({ level: t, size: s, className: a, marginBottom: c }), d = l || (n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : r);
   return ce(
-    i.tag,
-    { className: i.classes, style: i.style, ...o },
+    o.tag,
+    { className: o.classes, style: o.style, ...i },
     d
   );
 };
@@ -657,8 +698,8 @@ const ae = ({
       isPageHeading: a.isPageHeading
     } : void 0
   }), c = () => {
-    const o = a?.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a.html } }) : a?.text;
-    return s.legendIsPageHeading ? /* @__PURE__ */ e.createElement("h1", { className: "nhsuk-fieldset__heading" }, o) : o;
+    const i = a?.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a.html } }) : a?.text;
+    return s.legendIsPageHeading ? /* @__PURE__ */ e.createElement("h1", { className: "nhsuk-fieldset__heading" }, i) : i;
   };
   return /* @__PURE__ */ e.createElement(
     "fieldset",
@@ -688,7 +729,7 @@ const ae = ({
     },
     t
   );
-}, Ge = oe(
+}, Ge = ie(
   ({
     summaryText: t,
     summaryHtml: a,
@@ -697,8 +738,8 @@ const ae = ({
     open: l = !1,
     className: s = "",
     id: c,
-    children: o,
-    ...i
+    children: i,
+    ...o
   }, d) => {
     const m = [
       "nhsuk-details",
@@ -711,14 +752,14 @@ const ae = ({
       }
     ) : /* @__PURE__ */ e.createElement("span", { className: "nhsuk-details__summary-text" }, t);
     let h;
-    return o ? h = o : n ? h = /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: n } }) : r && (h = r), /* @__PURE__ */ e.createElement(
+    return i ? h = i : n ? h = /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: n } }) : r && (h = r), /* @__PURE__ */ e.createElement(
       "details",
       {
         ref: d,
         id: c,
         className: m,
         open: l,
-        ...i
+        ...o
       },
       /* @__PURE__ */ e.createElement("summary", { className: "nhsuk-details__summary", tabIndex: 0 }, N),
       /* @__PURE__ */ e.createElement("div", { className: "nhsuk-details__text" }, h)
@@ -743,13 +784,13 @@ const yt = ({
   headingLevel: l = 2,
   bodyText: s,
   bodyHtml: c,
-  children: o,
-  ...i
+  children: i,
+  ...o
 }) => {
   const d = L(
     "nhsuk-panel",
     a
-  ), m = () => !r && !n && !o ? null : n ? /* @__PURE__ */ e.createElement(
+  ), m = () => !r && !n && !i ? null : n ? /* @__PURE__ */ e.createElement(
     H,
     {
       level: l,
@@ -765,14 +806,14 @@ const yt = ({
       text: r,
       marginBottom: "var(--panel-heading-margin, 24px)"
     }
-  ) : null, N = () => o ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-panel__body" }, o) : c ? /* @__PURE__ */ e.createElement(
+  ) : null, N = () => i ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-panel__body" }, i) : c ? /* @__PURE__ */ e.createElement(
     "div",
     {
       className: "nhsuk-panel__body",
       dangerouslySetInnerHTML: { __html: c }
     }
   ) : s ? /* @__PURE__ */ e.createElement("div", { className: "nhsuk-panel__body" }, /* @__PURE__ */ e.createElement("p", null, s)) : null;
-  return /* @__PURE__ */ e.createElement("div", { className: d, id: t, ...i }, m(), N());
+  return /* @__PURE__ */ e.createElement("div", { className: d, id: t, ...o }, m(), N());
 }, J = ({
   children: t,
   href: a,
@@ -802,16 +843,16 @@ const yt = ({
   href: l,
   text: s,
   reverse: c = !1,
-  attributes: o = {}
+  attributes: i = {}
 }) => {
-  const i = () => a ? e.Children.toArray(a).filter(
+  const o = () => a ? e.Children.toArray(a).filter(
     (b) => e.isValidElement(b) && (b.type === J || b.type?.displayName === "BreadcrumbItem")
   ).map((b) => ({
     text: typeof b.props.children == "string" ? b.props.children : String(b.props.children),
     href: b.props.href,
     active: b.props.active,
     attributes: b.props.attributes
-  })) : [], d = () => a ? i() : l && s ? [{ href: l, text: s }] : t, m = () => {
+  })) : [], d = () => a ? o() : l && s ? [{ href: l, text: s }] : t, m = () => {
     const p = d();
     if (p && p.length > 0) {
       const b = p.slice().reverse().find((E) => E.href && !E.active);
@@ -832,7 +873,7 @@ const yt = ({
       className: u,
       "aria-label": k,
       role: "navigation",
-      ...o
+      ...i
     },
     /* @__PURE__ */ e.createElement("ol", { className: "nhsuk-breadcrumb__list", role: "list" }, a ? (
       // Render children directly if using compound component pattern
@@ -883,9 +924,9 @@ const Re = ({
   className: l,
   role: s,
   as: c,
-  ...o
+  ...i
 }) => {
-  const i = c || (a === "number" ? "ol" : "ul"), d = L(
+  const o = c || (a === "number" ? "ol" : "ul"), d = L(
     "nhsuk-list",
     {
       "nhsuk-list--bullet": a === "bullet",
@@ -896,16 +937,16 @@ const Re = ({
     },
     l
   );
-  return /* @__PURE__ */ e.createElement(i, { className: d, role: s, ...o }, t);
-}, We = ({
+  return /* @__PURE__ */ e.createElement(o, { className: d, role: s, ...i }, t);
+}, Fe = ({
   children: t,
   className: a,
   ...r
 }) => {
   const n = L("nhsuk-list__item", a);
   return /* @__PURE__ */ e.createElement("li", { className: n, ...r }, t);
-}, Fe = Re;
-Fe.Item = We;
+}, We = Re;
+We.Item = Fe;
 const Et = ({
   className: t,
   links: a = [],
@@ -914,8 +955,8 @@ const Et = ({
   metaLinks: l,
   copyright: s = "© NHS England",
   containerClasses: c,
-  attributes: o = {},
-  style: i,
+  attributes: i = {},
+  style: o,
   footerStyle: d,
   containerStyle: m
 }) => {
@@ -938,7 +979,7 @@ const Et = ({
       u.label
     )
   ), h = !!(r || n);
-  return /* @__PURE__ */ e.createElement("footer", { role: "contentinfo", ...o, style: { ...o?.style, ...i } }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-footer-container" }, /* @__PURE__ */ e.createElement(
+  return /* @__PURE__ */ e.createElement("footer", { role: "contentinfo", ...i, style: { ...i?.style, ...o } }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-footer-container" }, /* @__PURE__ */ e.createElement(
     "div",
     {
       className: L("nhsuk-width-container", c),
@@ -963,7 +1004,7 @@ const Et = ({
   className: s,
   ...c
 }) => {
-  const o = /important/i.test(t), i = () => l || (n ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: n } }) : r ? /* @__PURE__ */ e.createElement("p", null, r) : null), d = [
+  const i = /important/i.test(t), o = () => l || (n ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: n } }) : r ? /* @__PURE__ */ e.createElement("p", null, r) : null), d = [
     "nhsuk-warning-callout",
     s
   ].filter(Boolean).join(" "), m = `h${a}`;
@@ -976,9 +1017,9 @@ const Et = ({
     ce(
       m,
       { className: "nhsuk-warning-callout__label" },
-      o ? /* @__PURE__ */ e.createElement(e.Fragment, null, t, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, ":")) : /* @__PURE__ */ e.createElement("span", { role: "text" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, "Important: "), t)
+      i ? /* @__PURE__ */ e.createElement(e.Fragment, null, t, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, ":")) : /* @__PURE__ */ e.createElement("span", { role: "text" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, "Important: "), t)
     ),
-    i()
+    o()
   );
 }, It = (t) => /* @__PURE__ */ e.createElement(Ne, { ...t }), _t = ({
   items: t,
@@ -986,10 +1027,10 @@ const Et = ({
   ariaLabel: r = "Pages in this guide",
   attributes: n = {}
 }) => {
-  const l = L("nhsuk-contents-list", a), s = (c, o) => c.current ? /* @__PURE__ */ e.createElement(
+  const l = L("nhsuk-contents-list", a), s = (c, i) => c.current ? /* @__PURE__ */ e.createElement(
     "li",
     {
-      key: o,
+      key: i,
       className: "nhsuk-contents-list__item",
       "aria-current": "page",
       ...c.attributes || {}
@@ -998,7 +1039,7 @@ const Et = ({
   ) : /* @__PURE__ */ e.createElement(
     "li",
     {
-      key: o,
+      key: i,
       className: "nhsuk-contents-list__item"
     },
     /* @__PURE__ */ e.createElement(
@@ -1020,9 +1061,9 @@ const Et = ({
       ...n
     },
     /* @__PURE__ */ e.createElement("h2", { className: "nhsuk-u-visually-hidden" }, "Contents"),
-    /* @__PURE__ */ e.createElement("ol", { className: "nhsuk-contents-list__list" }, t.map((c, o) => s(c, o)))
+    /* @__PURE__ */ e.createElement("ol", { className: "nhsuk-contents-list__list" }, t.map((c, i) => s(c, i)))
   );
-}, Je = oe(
+}, Je = ie(
   ({
     title: t,
     type: a,
@@ -1031,9 +1072,9 @@ const Et = ({
     headingLevel: l = 3,
     className: s,
     ...c
-  }, o) => {
-    const i = ["nhsuk-do-dont-list"];
-    s && i.push(s);
+  }, i) => {
+    const o = ["nhsuk-do-dont-list"];
+    s && o.push(s);
     const d = [
       "nhsuk-list",
       a === "tick" ? "nhsuk-list--tick" : "nhsuk-list--cross"
@@ -1092,8 +1133,8 @@ const Et = ({
     return /* @__PURE__ */ e.createElement(
       "div",
       {
-        ref: o,
-        className: i.join(" "),
+        ref: i,
+        className: o.join(" "),
         ...c
       },
       h(),
@@ -1111,14 +1152,14 @@ const vt = ({
   className: s,
   ...c
 }) => {
-  const o = [
+  const i = [
     "nhsuk-image",
     s
   ].filter(Boolean).join(" ");
   return /* @__PURE__ */ e.createElement(
     "figure",
     {
-      className: o,
+      className: i,
       ...c
     },
     /* @__PURE__ */ e.createElement(
@@ -1191,7 +1232,7 @@ const vt = ({
       "nhsuk-summary-list--no-border": a
     },
     r
-  ), s = (o) => o.children ? o.children : o.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: o.html } }) : o.text ? o.text : null, c = (o) => !o || !o.items.length ? null : /* @__PURE__ */ e.createElement("dd", { className: "nhsuk-summary-list__actions" }, /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-summary-list__actions-list" }, o.items.map((i, d) => /* @__PURE__ */ e.createElement(
+  ), s = (i) => i.children ? i.children : i.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text ? i.text : null, c = (i) => !i || !i.items.length ? null : /* @__PURE__ */ e.createElement("dd", { className: "nhsuk-summary-list__actions" }, /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-summary-list__actions-list" }, i.items.map((o, d) => /* @__PURE__ */ e.createElement(
     "li",
     {
       key: d,
@@ -1200,15 +1241,15 @@ const vt = ({
     /* @__PURE__ */ e.createElement(
       "a",
       {
-        href: i.href,
+        href: o.href,
         className: "nhsuk-link",
-        ...i.attributes
+        ...o.attributes
       },
-      s(i),
-      i.visuallyHiddenText && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, i.visuallyHiddenText)
+      s(o),
+      o.visuallyHiddenText && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, o.visuallyHiddenText)
     )
   ))));
-  return /* @__PURE__ */ e.createElement("div", { className: "nhsuk-summary-list-container" }, /* @__PURE__ */ e.createElement("dl", { className: l, ...n }, t.map((o, i) => /* @__PURE__ */ e.createElement("div", { key: i, className: "nhsuk-summary-list__row" }, /* @__PURE__ */ e.createElement("dt", { className: "nhsuk-summary-list__key" }, s(o.key)), /* @__PURE__ */ e.createElement("dd", { className: "nhsuk-summary-list__value" }, s(o.value)), c(o.actions)))));
+  return /* @__PURE__ */ e.createElement("div", { className: "nhsuk-summary-list-container" }, /* @__PURE__ */ e.createElement("dl", { className: l, ...n }, t.map((i, o) => /* @__PURE__ */ e.createElement("div", { key: o, className: "nhsuk-summary-list__row" }, /* @__PURE__ */ e.createElement("dt", { className: "nhsuk-summary-list__key" }, s(i.key)), /* @__PURE__ */ e.createElement("dd", { className: "nhsuk-summary-list__value" }, s(i.value)), c(i.actions)))));
 }, xt = ({
   title: t,
   value: a,
@@ -1217,9 +1258,9 @@ const vt = ({
   href: l,
   className: s = "",
   ariaLabel: c,
-  ...o
+  ...i
 }) => {
-  const i = [
+  const o = [
     "nhs-fdp-summary-card",
     `nhs-fdp-summary-card--${n}`,
     s
@@ -1227,18 +1268,18 @@ const vt = ({
   return l ? /* @__PURE__ */ e.createElement(
     "a",
     {
-      className: `${i} nhs-fdp-summary-card--clickable`,
+      className: `${o} nhs-fdp-summary-card--clickable`,
       href: l,
       "aria-label": c || `${t}: ${a}`,
-      ...o
+      ...i
     },
     d
   ) : /* @__PURE__ */ e.createElement(
     "div",
     {
-      className: i,
+      className: o,
       "aria-label": c,
-      ...o
+      ...i
     },
     d
   );
@@ -1264,8 +1305,8 @@ const Ct = ({
   status: l = "neutral",
   variant: s = "default",
   subtitle: c,
-  metadata: o,
-  trendData: i,
+  metadata: i,
+  trendData: o,
   loading: d = !1,
   error: m,
   valueFormatter: N,
@@ -1279,12 +1320,12 @@ const Ct = ({
   let y, g = "", C = "";
   if (n && !d && !m) {
     y = n.direction || (n.value > 0 ? "up" : n.value < 0 ? "down" : "neutral");
-    const D = Math.abs(n.value), j = y === "up" ? `+${D}` : y === "down" ? `-${D}` : "0", T = n.isPercent ? "%" : "";
-    if (g = `${j}${T}`, n.ariaLabel)
+    const D = Math.abs(n.value), T = y === "up" ? `+${D}` : y === "down" ? `-${D}` : "0", j = n.isPercent ? "%" : "";
+    if (g = `${T}${j}`, n.ariaLabel)
       C = n.ariaLabel;
     else {
       const A = n.invert ? y === "down" : y === "up";
-      C = `${y === "neutral" ? "no change" : y === "up" ? "up" : "down"} ${D}${T}${y === "neutral" ? "" : A ? " (improvement)" : " (worse)"}`;
+      C = `${y === "neutral" ? "no change" : y === "up" ? "up" : "down"} ${D}${j}${y === "neutral" ? "" : A ? " (improvement)" : " (worse)"}`;
     }
   }
   return /* @__PURE__ */ S.createElement(
@@ -1303,7 +1344,7 @@ const Ct = ({
       "aria-labelledby": M,
       "data-component": "MetricCard"
     },
-    /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__inner" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__header" }, /* @__PURE__ */ S.createElement("h3", { id: M, className: "fdp-metric-card__label" }, t), o && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__metadata" }, o)), /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__content" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__value-section" }, /* @__PURE__ */ S.createElement("div", { id: x, className: "fdp-metric-card__value" }, d ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" })) : m ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__error", role: "alert" }, m) : /* @__PURE__ */ S.createElement(S.Fragment, null, /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__number" }, w), r && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__unit" }, r))), c && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__subtitle" }, c)), n && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__delta-section" }, /* @__PURE__ */ S.createElement(
+    /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__inner" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__header" }, /* @__PURE__ */ S.createElement("h3", { id: M, className: "fdp-metric-card__label" }, t), i && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__metadata" }, i)), /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__content" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__value-section" }, /* @__PURE__ */ S.createElement("div", { id: x, className: "fdp-metric-card__value" }, d ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton", "aria-hidden": "true" }, /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__skeleton-line fdp-metric-card__skeleton-line--value" })) : m ? /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__error", role: "alert" }, m) : /* @__PURE__ */ S.createElement(S.Fragment, null, /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__number" }, w), r && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__unit" }, r))), c && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__subtitle" }, c)), n && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__delta-section" }, /* @__PURE__ */ S.createElement(
       "div",
       {
         id: I,
@@ -1315,7 +1356,7 @@ const Ct = ({
       },
       /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__delta-value" }, g),
       n.period && /* @__PURE__ */ S.createElement("span", { className: "fdp-metric-card__delta-period" }, n.period)
-    )), i && i.length > 0 && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })), b && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__visual", "aria-hidden": "true" }, b), p && n && !n.ariaLabel && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-visually-hidden", "aria-live": "polite" }, C))
+    )), o && o.length > 0 && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__trend", "aria-hidden": "true" })), b && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-metric-card__visual", "aria-hidden": "true" }, b), p && n && !n.ariaLabel && !d && !m && /* @__PURE__ */ S.createElement("div", { className: "fdp-visually-hidden", "aria-live": "polite" }, C))
   );
 }, U = { current: null }, Ye = () => {
   if (U.current) return U.current;
@@ -1368,8 +1409,8 @@ const Ct = ({
   firstCellIsHeader: l = !1,
   responsive: s = !1,
   heading: c,
-  headingLevel: o = 3,
-  panel: i = !1,
+  headingLevel: i = 3,
+  panel: o = !1,
   panelClasses: d,
   tableClasses: m,
   classes: N,
@@ -1392,18 +1433,18 @@ const Ct = ({
         [`nhsuk-table__header--${g.format}`]: g.format
       },
       g.classes
-    ), j = {
+    ), T = {
       scope: "col",
       ...g.colspan && { colSpan: g.colspan },
       ...g.rowspan && { rowSpan: g.rowspan },
       ...s && { role: "columnheader" },
       ...g.attributes
     };
-    let T;
+    let j;
     if (g.node != null)
-      T = /* @__PURE__ */ e.createElement(e.Fragment, null, g.node);
+      j = /* @__PURE__ */ e.createElement(e.Fragment, null, g.node);
     else if (g.html)
-      T = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: g.html } });
+      j = /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: g.html } });
     else if (g.code != null) {
       const A = Array.isArray(g.code), z = A ? g.code.join(`
 `) : g.code, Z = A || z.includes(`
@@ -1414,7 +1455,7 @@ const Ct = ({
         }),
         ...g.codeLanguage ? { "data-language": g.codeLanguage } : {}
       }, B = Y(z, g.codeLanguage);
-      T = Z ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
+      j = Z ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
         "code",
         {
           ...v,
@@ -1428,21 +1469,21 @@ const Ct = ({
         }
       );
     } else
-      T = g.text;
-    return /* @__PURE__ */ e.createElement("th", { key: C, className: D, ...j }, T);
+      j = g.text;
+    return /* @__PURE__ */ e.createElement("th", { key: C, className: D, ...T }, j);
   }, I = (g, C, D) => {
-    const j = l && D || g.rowHeader, T = L(
-      j ? "nhsuk-table__header" : "nhsuk-table__cell",
+    const T = l && D || g.rowHeader, j = L(
+      T ? "nhsuk-table__header" : "nhsuk-table__cell",
       {
-        [`nhsuk-table__${j ? "header" : "cell"}--${g.format}`]: g.format
+        [`nhsuk-table__${T ? "header" : "cell"}--${g.format}`]: g.format
       },
       g.classes
     ), A = {
-      ...j && { scope: "row" },
+      ...T && { scope: "row" },
       ...g.colspan && { colSpan: g.colspan },
       ...g.rowspan && { rowSpan: g.rowspan },
       ...s && {
-        role: j ? "rowheader" : "cell",
+        role: T ? "rowheader" : "cell",
         ...g.header && { "data-label": g.header }
       },
       ...g.attributes
@@ -1455,13 +1496,13 @@ const Ct = ({
     else if (g.code != null) {
       const B = Array.isArray(g.code), R = B ? g.code.join(`
 `) : g.code, O = B || R.includes(`
-`), W = {
+`), F = {
         className: L("nhsuk-table__code", g.codeClassName, {
           "nhsuk-table__code--block": O,
           "nhsuk-table__code--inline": !O
         }),
         ...g.codeLanguage ? { "data-language": g.codeLanguage } : {}
-      }, F = Y(
+      }, W = Y(
         R,
         g.codeLanguage,
         g.disableHighlight
@@ -1469,20 +1510,20 @@ const Ct = ({
       z = O ? /* @__PURE__ */ e.createElement("pre", { className: "nhsuk-table__pre" }, /* @__PURE__ */ e.createElement(
         "code",
         {
-          ...W,
-          dangerouslySetInnerHTML: { __html: F }
+          ...F,
+          dangerouslySetInnerHTML: { __html: W }
         }
       )) : /* @__PURE__ */ e.createElement(
         "code",
         {
-          ...W,
-          dangerouslySetInnerHTML: { __html: F }
+          ...F,
+          dangerouslySetInnerHTML: { __html: W }
         }
       );
     } else
       z = g.text;
-    const Z = /* @__PURE__ */ e.createElement(e.Fragment, null, s && g.header && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true" }, g.header, " "), z), v = j ? "th" : "td";
-    return /* @__PURE__ */ e.createElement(v, { key: C, className: T, ...A }, Z);
+    const Z = /* @__PURE__ */ e.createElement(e.Fragment, null, s && g.header && /* @__PURE__ */ e.createElement("span", { className: "nhsuk-table-responsive__heading", "aria-hidden": "true" }, g.header, " "), z), v = T ? "th" : "td";
+    return /* @__PURE__ */ e.createElement(v, { key: C, className: j, ...A }, Z);
   };
   let _ = a, w = t;
   !_ && k && k.length && (_ = k.map((g) => ({
@@ -1491,13 +1532,13 @@ const Ct = ({
     classes: g.headerClasses,
     attributes: g.headerAttributes
   }))), !w && k && p && p.length && (w = p.map((g, C) => k.map((D) => {
-    const j = D.accessor ? D.accessor(g, C) : g[D.key];
-    let T = { format: D.format, classes: D.cellClasses, attributes: D.cellAttributes };
-    if (D.rowHeader && (T.rowHeader = !0), D.render) {
-      const A = D.render(j, g, C, D);
-      return A == null || typeof A == "boolean" ? { ...T, text: "" } : typeof A == "string" || typeof A == "number" ? { ...T, text: String(A) } : { ...T, ...A };
+    const T = D.accessor ? D.accessor(g, C) : g[D.key];
+    let j = { format: D.format, classes: D.cellClasses, attributes: D.cellAttributes };
+    if (D.rowHeader && (j.rowHeader = !0), D.render) {
+      const A = D.render(T, g, C, D);
+      return A == null || typeof A == "boolean" ? { ...j, text: "" } : typeof A == "string" || typeof A == "number" ? { ...j, text: String(A) } : { ...j, ...A };
     }
-    return { ...T, text: j != null ? String(j) : "" };
+    return { ...j, text: T != null ? String(T) : "" };
   })));
   const y = () => /* @__PURE__ */ e.createElement(
     "table",
@@ -1526,11 +1567,11 @@ const Ct = ({
         ...s && { role: "row" }
       },
       g.map(
-        (D, j) => I(D, j, j === 0)
+        (D, T) => I(D, T, T === 0)
       )
     )))
   );
-  return i ? /* @__PURE__ */ e.createElement(Oe, { className: d }, c && /* @__PURE__ */ e.createElement(H, { level: o, className: "nhsuk-table__heading-tab" }, c), y()) : M ? /* @__PURE__ */ e.createElement("div", { className: M }, y()) : y();
+  return o ? /* @__PURE__ */ e.createElement(Oe, { className: d }, c && /* @__PURE__ */ e.createElement(H, { level: i, className: "nhsuk-table__heading-tab" }, c), y()) : M ? /* @__PURE__ */ e.createElement("div", { className: M }, y()) : y();
 }, Xe = ({
   children: t,
   size: a,
@@ -1558,8 +1599,8 @@ const Ct = ({
   codeLanguage: l,
   codeClassName: s,
   disableHighlight: c,
-  format: o,
-  classes: i,
+  format: i,
+  classes: o,
   colspan: d,
   rowspan: m,
   attributes: N,
@@ -1568,8 +1609,8 @@ const Ct = ({
 }) => {
   const k = L(
     "nhsuk-table__header",
-    { [`nhsuk-table__header--${o}`]: o },
-    i
+    { [`nhsuk-table__header--${i}`]: i },
+    o
   ), p = {
     scope: "col",
     ...d && { colSpan: d },
@@ -1612,8 +1653,8 @@ const Ct = ({
   codeLanguage: l,
   codeClassName: s,
   disableHighlight: c,
-  format: o,
-  classes: i,
+  format: i,
+  classes: o,
   colspan: d,
   rowspan: m,
   attributes: N,
@@ -1622,8 +1663,8 @@ const Ct = ({
 }) => {
   const k = !!u, p = k ? "th" : "td", b = L(
     k ? "nhsuk-table__header" : "nhsuk-table__cell",
-    o && `nhsuk-table__${k ? "header" : "cell"}--${o}`,
-    i
+    i && `nhsuk-table__${k ? "header" : "cell"}--${i}`,
+    o
   ), E = {
     ...d && { colSpan: d },
     ...m && { rowSpan: m },
@@ -1675,15 +1716,15 @@ const qe = ({
   html: l,
   imageURL: s,
   containerClasses: c = "",
-  classes: o = "",
-  children: i,
+  classes: i = "",
+  children: o,
   ...d
 }) => {
   const m = [
     "nhsuk-hero",
     s && t ? "nhsuk-hero--image nhsuk-hero--image-description" : "",
     s && !t ? "nhsuk-hero--image" : "",
-    o
+    i
   ].filter(Boolean).join(" "), N = [
     "nhsuk-width-container",
     c,
@@ -1691,8 +1732,8 @@ const qe = ({
   ].filter(Boolean).join(" "), h = [
     "nhsuk-hero__heading",
     r,
-    !i && !n && !l ? "nhsuk-u-margin-bottom-0" : ""
-  ].filter(Boolean).join(" "), u = i || t || n || l, k = () => {
+    !o && !n && !l ? "nhsuk-u-margin-bottom-0" : ""
+  ].filter(Boolean).join(" "), u = o || t || n || l, k = () => {
     if (!t) return null;
     const p = { className: h };
     switch (a) {
@@ -1720,8 +1761,8 @@ const qe = ({
       role: "banner",
       ...d
     },
-    s && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero__overlay" }, u && /* @__PURE__ */ e.createElement("div", { className: N }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-row" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-column-two-thirds" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero-content" }, k(), i || (l ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: l } }) : n ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0" }, n) : null), /* @__PURE__ */ e.createElement("span", { className: "nhsuk-hero__arrow", "aria-hidden": "true" })))))),
-    !s && u && /* @__PURE__ */ e.createElement("div", { className: N }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-row" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-column-two-thirds" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero__wrapper" }, k(), i || (l ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: l } }) : n ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0" }, n) : null)))))
+    s && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero__overlay" }, u && /* @__PURE__ */ e.createElement("div", { className: N }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-row" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-column-two-thirds" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero-content" }, k(), o || (l ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: l } }) : n ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0" }, n) : null), /* @__PURE__ */ e.createElement("span", { className: "nhsuk-hero__arrow", "aria-hidden": "true" })))))),
+    !s && u && /* @__PURE__ */ e.createElement("div", { className: N }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-row" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-grid-column-two-thirds" }, /* @__PURE__ */ e.createElement("div", { className: "nhsuk-hero__wrapper" }, k(), o || (l ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: l } }) : n ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-body-l nhsuk-u-margin-bottom-0" }, n) : null)))))
   );
 };
 qe.displayName = "Hero";
@@ -1733,8 +1774,8 @@ const et = e.forwardRef(({
   headingClasses: l,
   description: s,
   descriptionHtml: c,
-  href: o,
-  imgURL: i,
+  href: i,
+  imgURL: o,
   imgAlt: d,
   ...m
 }, N) => {
@@ -1757,7 +1798,7 @@ const et = e.forwardRef(({
     if (r)
       return /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: r } });
     if (!a) return null;
-    const f = () => o && t !== "feature" ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-card__link", href: o }, a) : a;
+    const f = () => i && t !== "feature" ? /* @__PURE__ */ e.createElement("a", { className: "nhsuk-card__link", href: i }, a) : a;
     return /* @__PURE__ */ e.createElement(
       H,
       {
@@ -1786,11 +1827,11 @@ const et = e.forwardRef(({
       className: h,
       ref: N
     },
-    i && /* @__PURE__ */ e.createElement(
+    o && /* @__PURE__ */ e.createElement(
       "img",
       {
         className: "nhsuk-card__img",
-        src: i,
+        src: o,
         alt: d || ""
       }
     ),
@@ -1828,7 +1869,7 @@ const Dt = ({
     },
     a
   );
-}, jt = ({
+}, Tt = ({
   type: t,
   heading: a,
   headingHtml: r,
@@ -1836,8 +1877,8 @@ const Dt = ({
   headingClasses: l,
   description: s,
   descriptionHtml: c,
-  className: o,
-  children: i,
+  className: i,
+  children: o,
   "data-testid": d,
   id: m,
   "aria-label": N,
@@ -1847,7 +1888,7 @@ const Dt = ({
   const k = [
     "nhsuk-care-card",
     `nhsuk-care-card--${t}`,
-    o
+    i
   ].filter(Boolean).join(" "), p = [
     "nhsuk-care-card__heading",
     l
@@ -1868,7 +1909,7 @@ const Dt = ({
       },
       M
     );
-  }, E = () => i || (c ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: c } }) : s ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-care-card__text" }, s) : null);
+  }, E = () => o || (c ? /* @__PURE__ */ e.createElement("div", { dangerouslySetInnerHTML: { __html: c } }) : s ? /* @__PURE__ */ e.createElement("p", { className: "nhsuk-care-card__text" }, s) : null);
   return /* @__PURE__ */ e.createElement(
     "div",
     {
@@ -1901,11 +1942,11 @@ function K(t, a, r) {
   return Math.max(a, Math.min(r, t));
 }
 function at(t, a, r = 4) {
-  const n = tt(t), l = [], s = ["rect", "hex", "circle"], c = Q.indexOf(a), o = [
+  const n = tt(t), l = [], s = ["rect", "hex", "circle"], c = Q.indexOf(a), i = [
     a,
     Q[(c + 2) % Q.length],
     Q[(c + 3) % Q.length]
-  ], i = [], d = 1200, m = 400, N = 1.2, h = (E, f) => !(E.right < f.left || E.left > f.right || E.bottom < f.top || E.top > f.bottom), u = (E) => E.left >= 0 && E.top >= 0 && E.right <= 100 && E.bottom <= 100, k = (E, f, M, x, I, _) => {
+  ], o = [], d = 1200, m = 400, N = 1.2, h = (E, f) => !(E.right < f.left || E.left > f.right || E.bottom < f.top || E.top > f.bottom), u = (E) => E.left >= 0 && E.top >= 0 && E.right <= 100 && E.bottom <= 100, k = (E, f, M, x, I, _) => {
     let w = 0, y = 0;
     if (E === "rect") {
       const g = x ?? 48, C = I ?? 36;
@@ -1928,49 +1969,49 @@ function at(t, a, r = 4) {
   const b = K(Math.round(r), 4, 12);
   for (; l.length < b && p < b * 120; ) {
     p++;
-    const E = s[Math.floor(n() * s.length)], f = K(20 + n() * 60, 10, 90), M = K(20 + n() * 60, 10, 90), x = o[Math.floor(n() * o.length)], I = l.length < 2 ? "soft" : "none";
+    const E = s[Math.floor(n() * s.length)], f = K(20 + n() * 60, 10, 90), M = K(20 + n() * 60, 10, 90), x = i[Math.floor(n() * i.length)], I = l.length < 2 ? "soft" : "none";
     if (E === "rect") {
       const _ = 40 + n() * 80, w = 28 + n() * 64, y = k(E, f, M, _, w);
       if (!u(y)) continue;
       let g = !1;
-      for (let C = 0; C < i.length; C++)
-        if (h(y, i[C])) {
+      for (let C = 0; C < o.length; C++)
+        if (h(y, o[C])) {
           g = !0;
           break;
         }
       if (g) continue;
-      i.push(y), l.push({ kind: E, x: f, y: M, width: _, height: w, gradient: x, rotate: 0, shadow: I });
+      o.push(y), l.push({ kind: E, x: f, y: M, width: _, height: w, gradient: x, rotate: 0, shadow: I });
     } else if (E === "circle") {
       const _ = 24 + n() * 80, w = k(E, f, M, void 0, void 0, _);
       if (!u(w)) continue;
       let y = !1;
-      for (let g = 0; g < i.length; g++)
-        if (h(w, i[g])) {
+      for (let g = 0; g < o.length; g++)
+        if (h(w, o[g])) {
           y = !0;
           break;
         }
       if (y) continue;
-      i.push(w), l.push({ kind: E, x: f, y: M, size: _, gradient: x, rotate: 0, shadow: I });
+      o.push(w), l.push({ kind: E, x: f, y: M, size: _, gradient: x, rotate: 0, shadow: I });
     } else {
       const _ = 28 + n() * 72, w = n() * 360, y = k(E, f, M, void 0, void 0, _);
       if (!u(y)) continue;
       let g = !1;
-      for (let C = 0; C < i.length; C++)
-        if (h(y, i[C])) {
+      for (let C = 0; C < o.length; C++)
+        if (h(y, o[C])) {
           g = !0;
           break;
         }
       if (g) continue;
-      i.push(y), l.push({ kind: E, x: f, y: M, size: _, gradient: x, rotate: w, shadow: I });
+      o.push(y), l.push({ kind: E, x: f, y: M, size: _, gradient: x, rotate: w, shadow: I });
     }
   }
   return l;
 }
 const nt = ({ shapes: t, aspectRatio: a }) => {
-  const n = 600 * a, l = 600, s = (c, o, i) => {
-    const d = i / 2;
+  const n = 600 * a, l = 600, s = (c, i, o) => {
+    const d = o / 2;
     return [0, 60, 120, 180, 240, 300].map((N) => {
-      const h = N * Math.PI / 180, u = c + d * Math.cos(h), k = o + d * Math.sin(h);
+      const h = N * Math.PI / 180, u = c + d * Math.cos(h), k = i + d * Math.sin(h);
       return `${u},${k}`;
     }).join(" ");
   };
@@ -2094,7 +2135,7 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
             return [m + u * Math.cos(b), N + u * Math.sin(b)];
           });
         }
-      }), o = 1, i = /* @__PURE__ */ new Set();
+      }), i = 1, o = /* @__PURE__ */ new Set();
       for (let d = 0; d < t.length; d++) {
         const m = [], N = t[d].x / 100 * n, h = t[d].y / 100 * l;
         for (let u = 0; u < t.length; u++) {
@@ -2103,12 +2144,12 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
           m.push({ index: u, dist: b });
         }
         m.sort((u, k) => u.dist - k.dist);
-        for (let u = 0; u < o && u < m.length; u++) {
+        for (let u = 0; u < i && u < m.length; u++) {
           const k = m[u].index, p = d < k ? `${d}-${k}` : `${k}-${d}`;
-          i.add(p);
+          o.add(p);
         }
       }
-      return Array.from(i).map((d) => {
+      return Array.from(o).map((d) => {
         const [m, N] = d.split("-").map(Number), h = c[m], u = c[N];
         let k = 1 / 0, p = [0, 0], b = [0, 0];
         for (const E of h)
@@ -2130,15 +2171,15 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
         );
       });
     })()),
-    t.map((c, o) => {
-      const i = c.x / 100 * n, d = c.y / 100 * l, m = `url(#pc-grad-${c.gradient})`, N = c.shadow === "soft" ? "url(#pc-shadow-soft)" : c.shadow === "strong" ? "url(#pc-shadow-strong)" : void 0;
+    t.map((c, i) => {
+      const o = c.x / 100 * n, d = c.y / 100 * l, m = `url(#pc-grad-${c.gradient})`, N = c.shadow === "soft" ? "url(#pc-shadow-soft)" : c.shadow === "strong" ? "url(#pc-shadow-strong)" : void 0;
       if (c.kind === "circle") {
         const h = (c.size ?? 40) / 2;
         return /* @__PURE__ */ e.createElement(
           "circle",
           {
-            key: o,
-            cx: i,
+            key: i,
+            cx: o,
             cy: d,
             r: h,
             fill: m,
@@ -2146,12 +2187,12 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
           }
         );
       } else if (c.kind === "rect") {
-        const h = c.width ?? 60, u = c.height ?? 40, k = c.rotate ? `rotate(${c.rotate} ${i} ${d})` : void 0;
+        const h = c.width ?? 60, u = c.height ?? 40, k = c.rotate ? `rotate(${c.rotate} ${o} ${d})` : void 0;
         return /* @__PURE__ */ e.createElement(
           "rect",
           {
-            key: o,
-            x: i - h / 2,
+            key: i,
+            x: o - h / 2,
             y: d - u / 2,
             width: h,
             height: u,
@@ -2162,12 +2203,12 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
           }
         );
       } else {
-        const h = c.rotate ? `rotate(${c.rotate} ${i} ${d})` : void 0;
+        const h = c.rotate ? `rotate(${c.rotate} ${o} ${d})` : void 0;
         return /* @__PURE__ */ e.createElement(
           "polygon",
           {
-            key: o,
-            points: s(i, d, c.size ?? 40),
+            key: i,
+            points: s(o, d, c.size ?? 40),
             fill: m,
             filter: N,
             transform: h
@@ -2176,7 +2217,7 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
       }
     })
   );
-}, Tt = ({
+}, jt = ({
   title: t,
   description: a,
   image: r,
@@ -2184,8 +2225,8 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
   buttons: l = [],
   badge: s,
   theme: c = "blue",
-  className: o,
-  style: i,
+  className: i,
+  style: o,
   href: d,
   headingLevel: m = 3,
   footer: N,
@@ -2205,7 +2246,7 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
     `nhs-product-card--theme-${c}`,
     h && "nhs-product-card--elevated",
     d && "nhs-product-card--clickable",
-    o
+    i
   ].filter(Boolean).join(" "), b = () => {
     if (!r) return null;
     const M = [
@@ -2243,14 +2284,14 @@ const nt = ({ shapes: t, aspectRatio: a }) => {
     {
       href: d,
       className: p,
-      style: i
+      style: o
     },
     f
   ) : /* @__PURE__ */ e.createElement(
     "div",
     {
       className: p,
-      style: i
+      style: o
     },
     f
   );
@@ -2273,8 +2314,8 @@ function ne(t) {
     value: l,
     defaultValue: s,
     placeholder: c,
-    disabled: o = !1,
-    readOnly: i = !1,
+    disabled: i = !1,
+    readOnly: o = !1,
     required: d = !1,
     hasError: m = !1,
     describedBy: N,
@@ -2295,8 +2336,8 @@ function ne(t) {
     onChange: g,
     onBlur: C,
     onFocus: D,
-    onKeyDown: j,
-    ...T
+    onKeyDown: T,
+    ...j
   } = t, { classes: A, isRange: z } = rt({
     type: n,
     hasError: m,
@@ -2307,8 +2348,8 @@ function ne(t) {
     name: r,
     type: n,
     placeholder: c,
-    disabled: o,
-    readOnly: i,
+    disabled: i,
+    readOnly: o,
     required: d,
     "aria-describedby": N,
     inputMode: k,
@@ -2319,7 +2360,7 @@ function ne(t) {
     step: M,
     min: x,
     max: I,
-    ...T
+    ...j
   };
   if (z) {
     const v = l ?? s ?? (typeof x < "u" ? String(x) : "0"), B = /* @__PURE__ */ e.createElement(
@@ -2361,8 +2402,8 @@ const At = ({
   placeholder: l,
   disabled: s = !1,
   readOnly: c = !1,
-  required: o = !1,
-  hasError: i = !1,
+  required: i = !1,
+  hasError: o = !1,
   describedBy: d,
   className: m,
   rows: N = 5,
@@ -2379,7 +2420,7 @@ const At = ({
   onKeyDown: _,
   ...w
 }) => {
-  const { classes: y, describedBy: g } = st({ hasError: i, resize: b, className: m, describedBy: d });
+  const { classes: y, describedBy: g } = st({ hasError: o, resize: b, className: m, describedBy: d });
   return /* @__PURE__ */ e.createElement(
     "textarea",
     {
@@ -2391,7 +2432,7 @@ const At = ({
       placeholder: l,
       disabled: s,
       readOnly: c,
-      required: o,
+      required: i,
       "aria-describedby": g,
       rows: N,
       cols: h,
@@ -2438,7 +2479,7 @@ const ct = ({
     },
     l
   );
-}, ot = ({
+}, it = ({
   id: t,
   name: a,
   ariaLabel: r,
@@ -2446,8 +2487,8 @@ const ct = ({
   defaultValue: l,
   disabled: s = !1,
   required: c = !1,
-  hasError: o = !1,
-  describedBy: i,
+  hasError: i = !1,
+  describedBy: o,
   className: d,
   multiple: m = !1,
   size: N,
@@ -2459,7 +2500,7 @@ const ct = ({
   onFocus: E,
   ...f
 }) => {
-  const { classes: M } = lt({ hasError: o, className: d }), x = () => u ? u.map((_, w) => /* @__PURE__ */ e.createElement(
+  const { classes: M } = lt({ hasError: i, className: d }), x = () => u ? u.map((_, w) => /* @__PURE__ */ e.createElement(
     "option",
     {
       key: `${_.value}-${w}`,
@@ -2480,7 +2521,7 @@ const ct = ({
       defaultValue: l !== void 0 ? l : I,
       disabled: s,
       required: c,
-      "aria-describedby": i,
+      "aria-describedby": o,
       multiple: m,
       size: N,
       autoComplete: h,
@@ -2491,8 +2532,8 @@ const ct = ({
     },
     k || x()
   );
-}, it = ot;
-it.Option = ct;
+}, ot = it;
+ot.Option = ct;
 function zt({
   id: t,
   className: a,
@@ -2501,9 +2542,9 @@ function zt({
   values: l = {},
   fieldset: s,
   hint: c,
-  errorMessage: o,
+  errorMessage: i,
   // strip interactive props
-  onChange: i,
+  onChange: o,
   ...d
 }) {
   const N = r || [
@@ -2527,11 +2568,11 @@ function zt({
     }
   ];
   let h = s?.describedBy || "";
-  const u = c ? `${t}-hint` : "", k = o ? `${t}-error` : "";
+  const u = c ? `${t}-hint` : "", k = i ? `${t}-error` : "";
   u && (h = h ? `${h} ${u}` : u), k && (h = h ? `${h} ${k}` : k);
   const p = L("nhsuk-form-group", {
-    "nhsuk-form-group--error": !!o
-  }), b = L("nhsuk-date-input", a), E = () => /* @__PURE__ */ e.createElement(e.Fragment, null, c && /* @__PURE__ */ e.createElement(Be, { id: u, className: c.classes }, c.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: c.html } }) : c.text), o && /* @__PURE__ */ e.createElement(He, { id: k, className: o.classes }, o.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: o.html } }) : o.text), /* @__PURE__ */ e.createElement(
+    "nhsuk-form-group--error": !!i
+  }), b = L("nhsuk-date-input", a), E = () => /* @__PURE__ */ e.createElement(e.Fragment, null, c && /* @__PURE__ */ e.createElement(Be, { id: u, className: c.classes }, c.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: c.html } }) : c.text), i && /* @__PURE__ */ e.createElement(He, { id: k, className: i.classes }, i.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: i.html } }) : i.text), /* @__PURE__ */ e.createElement(
     "div",
     {
       className: b,
@@ -2574,21 +2615,21 @@ function Bt({
   errorList: l,
   className: s,
   children: c,
-  ...o
+  ...i
 }) {
-  const i = L("nhsuk-error-summary", s), d = () => a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t, m = () => n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : r, N = (h) => {
+  const o = L("nhsuk-error-summary", s), d = () => a ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: a } }) : t, m = () => n ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: n } }) : r, N = (h) => {
     const u = h.html ? /* @__PURE__ */ e.createElement("span", { dangerouslySetInnerHTML: { __html: h.html } }) : h.text;
     return h.href ? /* @__PURE__ */ e.createElement("a", { href: h.href, ...h.attributes }, u) : u;
   };
   return /* @__PURE__ */ e.createElement(
     "div",
     {
-      className: i,
+      className: o,
       "aria-labelledby": "error-summary-title",
       role: "alert",
       tabIndex: -1,
       "data-module": "nhsuk-error-summary",
-      ...o
+      ...i
     },
     /* @__PURE__ */ e.createElement("h2", { className: "nhsuk-error-summary__title", id: "error-summary-title" }, d()),
     /* @__PURE__ */ e.createElement("div", { className: "nhsuk-error-summary__body" }, c && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-error-summary__description", "data-role": "description" }, c), !c && (r || n) && /* @__PURE__ */ e.createElement("div", { className: "nhsuk-error-summary__description", "data-role": "description" }, m()), /* @__PURE__ */ e.createElement("ul", { className: "nhsuk-list nhsuk-error-summary__list", role: "list" }, l.map((h, u) => /* @__PURE__ */ e.createElement("li", { key: u }, N(h)))))
@@ -2610,8 +2651,8 @@ function ut(t, {
   handleChange: l,
   handleBlur: s,
   handleFocus: c,
-  handleKeyDown: o,
-  itemsRef: i,
+  handleKeyDown: i,
+  itemsRef: o,
   InputComponent: d
 }) {
   const {
@@ -2637,7 +2678,7 @@ function ut(t, {
       "data-nhs-behaviour": "radios"
     },
     x.map((y, g) => {
-      const C = `${k}-${g}`, D = y.conditional ? `${C}-conditional` : void 0, j = r === y.value;
+      const C = `${k}-${g}`, D = y.conditional ? `${C}-conditional` : void 0, T = r === y.value;
       return /* @__PURE__ */ e.createElement("div", { key: y.value, className: "nhsuk-radios__item" }, /* @__PURE__ */ e.createElement(
         "input",
         {
@@ -2647,7 +2688,7 @@ function ut(t, {
           type: "radio",
           value: y.value,
           disabled: y.disabled,
-          defaultChecked: j,
+          defaultChecked: T,
           "data-nhs-radios-input": !0,
           "aria-describedby": w
         }
@@ -2655,7 +2696,7 @@ function ut(t, {
         "div",
         {
           className: L("nhsuk-radios__conditional", {
-            "nhsuk-radios__conditional--hidden": !j
+            "nhsuk-radios__conditional--hidden": !T
           }),
           id: D,
           "data-nhs-radios-conditional": !0
@@ -2707,8 +2748,8 @@ function Ht(t) {
     legend: l,
     isPageHeading: s = !1,
     legendSize: c = "l",
-    hint: o,
-    errorMessage: i,
+    hint: i,
+    errorMessage: o,
     className: d = "",
     small: m = !1,
     // Strip interactive handler in server variant
@@ -2716,7 +2757,7 @@ function Ht(t) {
     fieldsetAttributes: h,
     attributes: u,
     ...k
-  } = t, p = n || r, b = o ? `${p}-hint` : void 0, E = i ? `${p}-error` : void 0, f = [b, E].filter(Boolean).join(" ") || void 0, { classes: M, formGroupClasses: x } = mt({ small: m, className: d, hasError: !!i });
+  } = t, p = n || r, b = i ? `${p}-hint` : void 0, E = o ? `${p}-error` : void 0, f = [b, E].filter(Boolean).join(" ") || void 0, { classes: M, formGroupClasses: x } = mt({ small: m, className: d, hasError: !!o });
   return /* @__PURE__ */ e.createElement("div", { className: x, ...u, ...k }, /* @__PURE__ */ e.createElement(
     ae,
     {
@@ -2724,8 +2765,8 @@ function Ht(t) {
       describedBy: f,
       ...h
     },
-    o && /* @__PURE__ */ e.createElement("div", { id: b, className: "nhsuk-hint" }, o),
-    i && /* @__PURE__ */ e.createElement("div", { id: E, className: "nhsuk-error-message" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, "Error:"), " ", i),
+    i && /* @__PURE__ */ e.createElement("div", { id: b, className: "nhsuk-hint" }, i),
+    o && /* @__PURE__ */ e.createElement("div", { id: E, className: "nhsuk-error-message" }, /* @__PURE__ */ e.createElement("span", { className: "nhsuk-u-visually-hidden" }, "Error:"), " ", o),
     /* @__PURE__ */ e.createElement("div", { className: M, "data-nhs-behaviour": "checkboxes" }, a.map((I, _) => {
       const w = `${p}-${_ + 1}`, y = `${w}-conditional`, g = !!I.checked, C = !!I.disabled;
       return /* @__PURE__ */ e.createElement("div", { key: I.value, className: "nhsuk-checkboxes__item" }, /* @__PURE__ */ e.createElement(
@@ -2761,8 +2802,8 @@ function Ht(t) {
 }
 function q(t, a) {
   if (!t || t.hidden) return null;
-  const { href: r, label: n, variant: l, disabled: s, type: c } = t, o = { variant: l, disabled: s };
-  return r ? /* @__PURE__ */ e.createElement(ee, { href: r, ...o }, n || a) : /* @__PURE__ */ e.createElement(ee, { type: c === "button" ? "button" : "submit", ...o }, n || a);
+  const { href: r, label: n, variant: l, disabled: s, type: c } = t, i = { variant: l, disabled: s };
+  return r ? /* @__PURE__ */ e.createElement(ee, { href: r, ...i }, n || a) : /* @__PURE__ */ e.createElement(ee, { type: c === "button" ? "button" : "submit", ...i }, n || a);
 }
 const Pt = ({
   back: t,
@@ -2771,7 +2812,7 @@ const Pt = ({
   flipOrderOnMobile: n = !0,
   className: l
 }) => {
-  const s = !!t && !t.hidden, c = !!a && !a.hidden, o = !!r && !r.hidden, i = [s, c, o].filter(Boolean).length, d = $.OneHalf, m = $.OneThird;
+  const s = !!t && !t.hidden, c = !!a && !a.hidden, i = !!r && !r.hidden, o = [s, c, i].filter(Boolean).length, d = $.OneHalf, m = $.OneThird;
   return /* @__PURE__ */ e.createElement(
     ke,
     {
@@ -2779,20 +2820,20 @@ const Pt = ({
         "nhs-form-nav--flip-mobile": n
       })
     },
-    s && /* @__PURE__ */ e.createElement(V, { width: i === 2 ? d : m, className: "nhs-form-nav__back" }, q(t, "Back")),
+    s && /* @__PURE__ */ e.createElement(V, { width: o === 2 ? d : m, className: "nhs-form-nav__back" }, q(t, "Back")),
     c && /* @__PURE__ */ e.createElement(
       V,
       {
-        width: i === 2 ? d : m,
-        align: i === 2 ? X.Right : X.Center,
+        width: o === 2 ? d : m,
+        align: o === 2 ? X.Right : X.Center,
         className: "nhs-form-nav__start-again"
       },
       q(a, "Start again")
     ),
-    o && /* @__PURE__ */ e.createElement(
+    i && /* @__PURE__ */ e.createElement(
       V,
       {
-        width: !s && !c ? $.Full : i === 2 ? d : m,
+        width: !s && !c ? $.Full : o === 2 ? d : m,
         align: X.Right,
         className: "nhs-form-nav__next"
       },
@@ -2803,7 +2844,7 @@ const Pt = ({
 export {
   ft as ActionLink,
   Nt as BackLink,
-  ie as BrandKey,
+  oe as BrandKey,
   Qe as Breadcrumb,
   Ut as Breakpoint,
   ee as ButtonServer,
@@ -2812,7 +2853,7 @@ export {
   et as Card,
   Dt as CardGroup,
   St as CardGroupItem,
-  jt as CareCard,
+  Tt as CareCard,
   Ht as Checkboxes,
   V as Column,
   X as ColumnAlign,
@@ -2837,19 +2878,19 @@ export {
   ne as Input,
   yt as InsetText,
   te as Label,
-  Fe as List,
+  We as List,
   de as LogoVariant,
   Ct as MetricCard,
   Lt as Pagination,
   Oe as Panel,
-  Tt as ProductCard,
+  jt as ProductCard,
   P as ProductCardThemeEnum,
   Zt as Radios,
   ke as Row,
-  it as Select,
+  ot as Select,
   ct as SelectOption,
   bt as SkipLink,
-  Wt as SpacingUtilities,
+  Ft as SpacingUtilities,
   xt as SummaryCard,
   wt as SummaryList,
   G as Table,
@@ -2863,6 +2904,6 @@ export {
   It as WidthContainer,
   we as brandLogos,
   xe as getBrandLogo,
-  Ft as getSpacingClass
+  Wt as getSpacingClass
 };
 //# sourceMappingURL=ssr.js.map

@@ -1,0 +1,76 @@
+/* src/styles/fonts.css */
+:root {
+  --nhs-font-family-base:
+    "Frutiger W01",
+    Arial,
+    Helvetica,
+    sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+  --nhs-font-family-mono:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+}
+[data-brand=fdp] {
+  --nhs-font-family-base:
+    "Source Sans Pro",
+    "Source Sans 3",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    Helvetica,
+    sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
+[data-brand=nhs] {
+  --nhs-font-family-base:
+    "Frutiger W01",
+    Arial,
+    Helvetica,
+    sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
+@font-face {
+  font-display: swap;
+  font-family: "Frutiger W01";
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot);
+  src:
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot?#iefix) format("embedded-opentype"),
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff2) format("woff2"),
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff) format("woff"),
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.ttf) format("truetype");
+}
+@font-face {
+  font-display: swap;
+  font-family: "Frutiger W01";
+  font-style: normal;
+  font-weight: 600;
+  src: url(https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.eot);
+  src:
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.eot?#iefix) format("embedded-opentype"),
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.woff2) format("woff2"),
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.woff) format("woff"),
+    url(https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.ttf) format("truetype");
+}
+@media print {
+  html,
+  body,
+  .nhs-typography {
+    font-family: sans-serif !important;
+  }
+}
+html,
+body,
+.nhs-typography-root {
+  font-family: var(--nhs-font-family-base);
+}
+/*# sourceMappingURL=index.css.map */

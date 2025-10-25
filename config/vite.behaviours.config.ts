@@ -19,6 +19,8 @@ export default defineConfig({
       external: ['react', 'react/jsx-runtime'],
       output: {
         preserveModules: false,
+        // Preserve "use client" directive for Next.js
+        banner: '"use client";',
       },
     },
   },

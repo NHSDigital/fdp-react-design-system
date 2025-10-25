@@ -1,8 +1,9 @@
-import { useEffect as r } from "react";
+"use client";
+import { useEffect as n } from "react";
 function u({ scope: t, onInit: a, onError: o } = {}) {
-  return r(() => {
+  return n(() => {
     typeof window > "u" || (window.__nhsInitAllBehaviours || (window.__nhsInitAllBehaviours = () => {
-    }), import("./index-CKdN4v41.js").then(({ initAll: e }) => {
+    }), import("./index-DTpWYtV-.js").then(({ initAll: e }) => {
       window.__nhsInitAllBehaviours = e;
       try {
         e(t || document), a?.();

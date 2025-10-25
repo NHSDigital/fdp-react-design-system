@@ -9,7 +9,11 @@ import { glob } from 'glob';
 import path from 'path';
 
 async function run() {
-  const entries = await glob('src/behaviours/**/*.ts');
+  // Only build .ts files, exclude .tsx (React components like BehavioursLoader)
+  // React components are handled by the main TypeScript build
+  const entries = await glob('src/behaviours/**/*.ts', {
+    ignore: ['**/*.tsx', '**/*.test.ts', '**/*.test.tsx']
+  });
   if (!entries.length) {
     console.log('No behaviour files found.');
     return;

@@ -34,7 +34,7 @@ npm install @fergusbisset/nhs-fdp-design-system
 
 ```tsx
 // app/layout.tsx
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export default function RootLayout({ children }) {
   return (
@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
 
 ```tsx
 // app/root.tsx
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export default function App() {
   return (
@@ -82,7 +82,7 @@ Initialize behaviours only within a specific container:
 ```tsx
 'use client';
 import { useRef } from 'react';
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export function FormSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -103,7 +103,7 @@ export function FormSection() {
 Track initialization status and handle errors:
 
 ```tsx
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export default function App({ children }) {
   return (
@@ -131,7 +131,7 @@ For single-page apps with dynamic content:
 ```tsx
 'use client';
 import { useEffect, useRef } from 'react';
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export function DynamicSection({ content }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -193,7 +193,7 @@ interface BehavioursLoaderProps {
 1. **Server Render**: Component is marked `"use client"`, so it's skipped during SSR
 2. **Client Mount**: After React hydration, `useEffect` runs
 3. **Module Guard**: Prevents auto-initialization from the behaviours module
-4. **Dynamic Import**: Loads `@fergusbisset/nhs-fdp-design-system/behaviours` asynchronously
+4. **Dynamic Import**: Loads `@fergusbisset/nhs-fdp-design-system/behaviours/react` asynchronously
 5. **Initialization**: Calls `initAll(scope)` to activate behaviours
 6. **Callback**: Triggers `onInit()` or `onError()` based on result
 
@@ -279,7 +279,7 @@ export function App({ children }) {
 import { BehavioursLoader } from '...'; // Missing 'use client'
 
 // ✅ Works - BehavioursLoader has 'use client' internally
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 ```
 
 ### Hydration warnings
@@ -304,7 +304,7 @@ import { useEffect } from 'react';
 
 export function App({ children }) {
   useEffect(() => {
-    import('@fergusbisset/nhs-fdp-design-system/behaviours')
+    import('@fergusbisset/nhs-fdp-design-system/behaviours/react')
       .then(({ initAll }) => initAll());
   }, []);
   
@@ -315,7 +315,7 @@ export function App({ children }) {
 ### After
 
 ```tsx
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export function App({ children }) {
   return (

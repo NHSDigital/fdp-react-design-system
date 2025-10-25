@@ -5,7 +5,5 @@ export { initCharacterCounts, detachCharacterCounts, } from "./characterCountBeh
 export { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour.js";
 export { initHeaders, detachHeaders } from "./headerBehaviour.js";
 export { initSkipLinks, detachSkipLinks } from "./skipLinkBehaviour.js";
-export { BehavioursLoader } from "./BehavioursLoader.js";
-export type { BehavioursLoaderProps } from "./BehavioursLoader.js";
 export declare function initAll(scope?: ParentNode): void;
 export declare function teardownAll(scope?: ParentNode): void;

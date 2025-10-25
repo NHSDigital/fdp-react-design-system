@@ -15,9 +15,6 @@ export { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour.js";
 export { initHeaders, detachHeaders } from "./headerBehaviour.js";
 export { initSkipLinks, detachSkipLinks } from "./skipLinkBehaviour.js";
 
-// React component for SSR/hydration-safe behaviour loading
-export { BehavioursLoader } from "./BehavioursLoader.js";
-export type { BehavioursLoaderProps } from "./BehavioursLoader.js";
 import { initButtons, detachButtons } from "./buttonBehaviour.js";
 import { initRadios, detachRadios } from "./radiosBehaviour.js";
 import { initRanges, detachRanges } from "./rangeBehaviour.js";

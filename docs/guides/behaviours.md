@@ -7,7 +7,7 @@ The behaviour layer supplies JavaScript enhancements that mirror React interacti
 For React applications (especially Next.js App Router), use the `BehavioursLoader` component to safely initialize behaviours after hydration:
 
 ```tsx
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export default function RootLayout({ children }) {
   return (
@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
 ```tsx
 'use client';
 import { useRef } from 'react';
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 export function FormSection() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -111,7 +111,7 @@ attachConditionalReveals({
   </div>
 </form>
 <script type="module">
-  import { initRadios } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+  import { initRadios } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
   initRadios();
   document.addEventListener('nhs:radios:change', e => {
     // analytics hook
@@ -135,7 +135,7 @@ Each element stores a private handle (e.g. `__nhsRadiosBehaviour`) ensuring call
 ### Teardown Example
 
 ```js
-import { initAll, teardownAll } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+import { initAll, teardownAll } from '@fergusbisset/nhs-fdp-design-system/behaviours/react';
 
 initAll();
 // Later, for single page navigation cleanup

@@ -17,7 +17,7 @@ export interface RenderHeaderServerOptions {
 
 export function renderHeaderMarkupServer(
 	props: HeaderProps,
-	{ variant, isClient, brand: providedBrand }: RenderHeaderServerOptions
+	{ isClient, brand: providedBrand }: RenderHeaderServerOptions
 ) {
 	const {
 		className,
@@ -79,8 +79,8 @@ export function renderHeaderMarkupServer(
 		navigation?.className
 	);
 
-		// Resolve brand for SSR: prefer explicit option provided by HeaderServer via BrandThemeProvider; default to NHS
-		const brand: 'nhs' | 'fdp' = providedBrand === 'fdp' ? 'fdp' : 'nhs';
+	// Resolve brand for SSR: prefer explicit option provided by HeaderServer via BrandThemeProvider; default to NHS
+	const brand: 'nhs' | 'fdp' = providedBrand === 'fdp' ? 'fdp' : 'nhs';
 
 	const renderNHSLogo = () => (
 		<svg
@@ -176,11 +176,8 @@ export function renderHeaderMarkupServer(
 			item.text
 		);
 
-	// Server variant fallback overflow handling (boolean-based)
-	const serverHasOverflow =
-		variant === "server" && navigation?.items && !responsiveNavigation;
-	const serverPrimaryItems = serverHasOverflow ? [] : navigation?.items;
-	const serverOverflowItems = serverHasOverflow ? navigation!.items! : [];
+	// Server variant: render all items in main list, let JS handle overflow
+	// This avoids reflow when hydrating (no need to move items from dropdown to main list)
 
 	return (
 		<>
@@ -222,10 +219,11 @@ export function renderHeaderMarkupServer(
 				<nav
 					className={navigationClasses}
 					aria-label={navigation.ariaLabel || "Menu"}
+					data-ssr-hydrating={!isClient ? "true" : undefined}
 				>
 					<div
 						className={classNames(
-							"nhsuk-header_navigation-container",
+							"nhsuk-header__navigation-container",
 							"nhsuk-width-container",
 							{
 								"nhsuk-header__navigation-container--ssr": !isClient,
@@ -234,7 +232,7 @@ export function renderHeaderMarkupServer(
 						)}
 					>
 						<ul className="nhsuk-header__navigation-list">
-							{(serverPrimaryItems || []).map((item, index) => (
+							{navigation.items.map((item, index) => (
 								<li
 									key={index}
 									className={classNames(
@@ -262,68 +260,44 @@ export function renderHeaderMarkupServer(
 					</div>
 				</nav>
 			)}
-			{serverHasOverflow && serverOverflowItems.length > 0 && (
-				<div className="nhsuk-header__dropdown-menu" data-ssr-overflow="true">
-					<ul className="nhsuk-header__dropdown-list">
-						{serverOverflowItems.map((item, index) => (
-							<li
-								key={`overflow-server-${index}`}
-								className={classNames("nhsuk-header__dropdown-item", {
-									"nhsuk-header__dropdown-item--current":
-										item.active || item.current,
-								})}
-							>
-								<a
-									className="nhsuk-header__dropdown-link"
-									href={item.href}
-									{...(item.active || item.current
-										? { "aria-current": item.current ? "page" : "true" }
-										: {})}
-								>
-									{renderNavigationLinkContent(item)}
-								</a>
-							</li>
-						))}
-					</ul>
-				</div>
-			)}
 			</header>
 			{/* SSR-safe behaviour initialization: inline script runs only in browser */}
 			<script
 				type="module"
 				dangerouslySetInnerHTML={{
 					__html: `
-(function() {
-	if (typeof window === 'undefined') return;
-	
-	// Find the header element (previous sibling of this script)
-	var script = document.currentScript;
-	var header = script && script.previousElementSibling;
-	
-	if (!header || !header.classList.contains('nhsuk-header')) return;
-	
-	// Wait for DOM ready and behaviour module to be available
-	function initHeader() {
-		// Dynamic import for behaviour module
-		import('/dist/behaviours/headerBehaviour.js')
-			.then(function(mod) {
-				if (mod && mod.initHeaders) {
-					mod.initHeaders(header);
-				}
-			})
-			.catch(function(err) {
-				console.warn('Failed to initialize header behaviour:', err);
-			});
-	}
-	
-	// Initialize after DOM is ready
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initHeader);
-	} else {
-		// DOM already loaded (e.g., dynamic insertion)
-		setTimeout(initHeader, 0);
-	}
-})();
+						(function() {
+							if (typeof window === 'undefined') return;
+							
+							// Find the header element (previous sibling of this script)
+							var script = document.currentScript;
+							var header = script && script.previousElementSibling;
+							
+							if (!header || !header.classList.contains('nhsuk-header')) return;
+							
+							// Wait for DOM ready and behaviour module to be available
+							function initHeader() {
+								// Dynamic import for behaviour module
+								import('/dist/behaviours/headerBehaviour.js')
+									.then(function(mod) {
+										if (mod && mod.initHeaders) {
+											mod.initHeaders(header);
+											console.log('NHS Header behaviour initialized (SSR)');
+										}
+									})
+									.catch(function(err) {
+										console.warn('Failed to initialize header behaviour:', err);
+									});
+							}
+							
+							// Initialize after DOM is ready
+							if (document.readyState === 'loading') {
+								document.addEventListener('DOMContentLoaded', initHeader);
+							} else {
+								// DOM already loaded (e.g., dynamic insertion)
+								setTimeout(initHeader, 0);
+							}
+						})();
 					`.trim()
 				}}
 			/>

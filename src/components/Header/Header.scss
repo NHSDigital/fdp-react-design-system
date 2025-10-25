@@ -851,6 +851,12 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	.nhsuk-header__navigation { background: tokens.$nhs-fdp-brand-fdp-primary-dark-blue; }
 
 	// Reset link/button colors back to white for dark background
+	.nhsuk-header__navigation-link,
+	.nhsuk-header__navigation-button {
+		color: tokens.$nhs-fdp-brand-fdp-primary-white;
+	}
+
+	// Reset link/button colors back to white for dark background
 	&__service-logo,
 	&__service-name,
 	&__service-name[href] {
@@ -933,7 +939,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 
 [data-brand="fdp"] .nhsuk-header.nhsuk-header--dark-grey {
 	// Use brand grey-5 (pale grey). Semantic equivalent: $nhs-fdp-brand-fdp-semantic-surface-background-secondary
-	background-color: tokens.$nhs-fdp-gradient-palette-grey-270deg;
+	background-color: tokens.$nhs-fdp-brand-fdp-grey-1;
 	color: tokens.$nhs-fdp-color-primary-white;
 
 	.nhsuk-header__navigation { background: tokens.$nhs-fdp-brand-fdp-primary-white; }

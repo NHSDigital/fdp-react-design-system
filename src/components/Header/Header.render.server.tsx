@@ -290,6 +290,7 @@ export function renderHeaderMarkupServer(
 			</header>
 			{/* SSR-safe behaviour initialization: inline script runs only in browser */}
 			<script
+				type="module"
 				dangerouslySetInnerHTML={{
 					__html: `
 (function() {
@@ -304,17 +305,15 @@ export function renderHeaderMarkupServer(
 	// Wait for DOM ready and behaviour module to be available
 	function initHeader() {
 		// Dynamic import for behaviour module
-		if (typeof import !== 'undefined') {
-			import('/dist/behaviours/headerBehaviour.js')
-				.then(function(mod) {
-					if (mod && mod.initHeaders) {
-						mod.initHeaders(header);
-					}
-				})
-				.catch(function(err) {
-					console.warn('Failed to initialize header behaviour:', err);
-				});
-		}
+		import('/dist/behaviours/headerBehaviour.js')
+			.then(function(mod) {
+				if (mod && mod.initHeaders) {
+					mod.initHeaders(header);
+				}
+			})
+			.catch(function(err) {
+				console.warn('Failed to initialize header behaviour:', err);
+			});
 	}
 	
 	// Initialize after DOM is ready

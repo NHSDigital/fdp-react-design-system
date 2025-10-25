@@ -1,9 +1,6 @@
 name: Publish GitHub Package
 
 on:
-  push:
-    tags:
-      - 'v*'
   workflow_dispatch:
     inputs:
       version:
@@ -11,8 +8,13 @@ on:
         required: false
         type: string
       preid:
-        description: 'Prerelease identifier when version is prerelease'
+        description: 'Prerelease identifier when version is prerelease (e.g., alpha, beta, rc)'
         required: false
+        type: string
+      tag:
+        description: 'NPM dist-tag to publish under (e.g., latest, alpha, beta, next)'
+        required: false
+        default: 'latest'
         type: string
 
 permissions:
@@ -55,10 +57,15 @@ jobs:
       - name: Publish (GitHub Packages)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm publish --access public
+        run: |
+          if [ -n "${{ inputs.tag }}" ] && [ "${{ inputs.tag }}" != "latest" ]; then
+            npm publish --access public --tag ${{ inputs.tag }}
+          else
+            npm publish --access public
+          fi
 
-      - name: Create Git Tag (manual dispatch without tag)
-        if: ${{ github.event_name == 'workflow_dispatch' && startsWith(github.ref, 'refs/heads/') }}
+      - name: Create Git Tag (when version bumped)
+        if: ${{ inputs.version != '' }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
           git config user.name github-actions

@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.2",
-  "generatedAt": "2025-10-25T15:48:07.971Z",
+  "version": "0.0.44-alpha.3",
+  "generatedAt": "2025-10-25T15:48:59.144Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -552,18 +552,18 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
+    "Label": {
+      "name": "Label",
+      "category": "form",
       "since": "0.1.1",
       "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
+        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
       ],
       "props": [
         {
-          "name": "id",
+          "name": "htmlFor",
           "type": "string",
-          "description": "HTML id attribute"
+          "description": "ID of associated form control"
         },
         {
           "name": "className",
@@ -571,13 +571,25 @@
           "description": "Additional CSS classes"
         },
         {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Render as page heading (h1 wrapper)"
+        },
+        {
+          "name": "size",
+          "type": "'xl'|'l'|'m'|'s'",
+          "defaultValue": "m",
+          "description": "Size variant"
+        },
+        {
           "name": "children",
           "type": "ReactNode|string",
           "required": true,
-          "description": "Hint content"
+          "description": "Label content"
         }
       ],
-      "source": "src/components/Hint/Hint.schema.ts"
+      "source": "src/components/Label/Label.schema.ts"
     },
     "Heading": {
       "name": "Heading",
@@ -624,6 +636,33 @@
         }
       ],
       "source": "src/components/Heading/Heading.schema.ts"
+    },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Fieldset": {
       "name": "Fieldset",
@@ -1072,45 +1111,6 @@
         }
       ],
       "source": "src/components/Button/Button.schema.ts"
-    },
-    "Label": {
-      "name": "Label",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
-      ],
-      "props": [
-        {
-          "name": "htmlFor",
-          "type": "string",
-          "description": "ID of associated form control"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Render as page heading (h1 wrapper)"
-        },
-        {
-          "name": "size",
-          "type": "'xl'|'l'|'m'|'s'",
-          "defaultValue": "m",
-          "description": "Size variant"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Label content"
-        }
-      ],
-      "source": "src/components/Label/Label.schema.ts"
     }
   },
   "categories": {
@@ -1119,12 +1119,12 @@
       "Select",
       "Radios",
       "Input",
+      "Label",
       "Fieldset",
       "ErrorSummary",
       "ErrorMessage",
       "DateInput",
-      "Button",
-      "Label"
+      "Button"
     ],
     "meta": [
       "Tag"
@@ -1135,8 +1135,8 @@
       "Details"
     ],
     "typography": [
-      "Hint",
-      "Heading"
+      "Heading",
+      "Hint"
     ],
     "uncategorised": [
       "Checkboxes",

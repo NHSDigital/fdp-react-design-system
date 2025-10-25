@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, within, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, within, waitFor, act } from "@testing-library/react";
 import React, { useState } from "react";
 import { WorkflowSplitView } from "./WorkflowSplitView";
 
@@ -47,7 +47,7 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
     expect(gridcells.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("roves focus across containers with ArrowRight/Left and Home/End", () => {
+  it("roves focus across containers with ArrowRight/Left and Home/End", async () => {
     render(
       <WorkflowSplitView
         steps={steps}
@@ -65,20 +65,30 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
     const grid = document.querySelector(".nhsfdp-workflow-grid.panes-3") as HTMLElement;
     const cells = Array.from(grid.querySelectorAll('[role="gridcell"]')) as HTMLElement[];
     // focus first container
-    cells[0].focus();
+    act(() => {
+      cells[0].focus();
+    });
 
-    fireEvent.keyDown(cells[0], { key: "ArrowRight" });
-    expect(document.activeElement).toBe(cells[1]);
+    act(() => {
+      fireEvent.keyDown(cells[0], { key: "ArrowRight" });
+    });
+    await waitFor(() => expect(document.activeElement).toBe(cells[1]));
 
-    fireEvent.keyDown(document.activeElement as Element, { key: "End" });
-    expect(document.activeElement).toBe(cells[cells.length - 1]);
+    act(() => {
+      fireEvent.keyDown(document.activeElement as Element, { key: "End" });
+    });
+    await waitFor(() => expect(document.activeElement).toBe(cells[cells.length - 1]));
 
-    fireEvent.keyDown(document.activeElement as Element, { key: "Home" });
-    expect(document.activeElement).toBe(cells[0]);
+    act(() => {
+      fireEvent.keyDown(document.activeElement as Element, { key: "Home" });
+    });
+    await waitFor(() => expect(document.activeElement).toBe(cells[0]));
 
-    fireEvent.keyDown(document.activeElement as Element, { key: "ArrowLeft" });
+    act(() => {
+      fireEvent.keyDown(document.activeElement as Element, { key: "ArrowLeft" });
+    });
     // Should remain on first
-    expect(document.activeElement).toBe(cells[0]);
+    await waitFor(() => expect(document.activeElement).toBe(cells[0]));
   });
 
   it("Enter enters nav container and focuses listbox active option; Escape ascends back to container", () => {
@@ -97,9 +107,13 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
 
     const grid = document.querySelector(".nhsfdp-workflow-grid.panes-3") as HTMLElement;
     const navCell = grid.querySelector('[role="gridcell"][aria-label="Primary navigation"]') as HTMLElement;
-    navCell.focus();
+    act(() => {
+      navCell.focus();
+    });
 
-    fireEvent.keyDown(navCell, { key: "Enter" });
+    act(() => {
+      fireEvent.keyDown(navCell, { key: "Enter" });
+    });
 
     const listbox = within(navCell).getByRole("listbox");
     expect(listbox).toBeTruthy();
@@ -112,7 +126,9 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
     }
 
     // Escape should move focus back to the nav container
-    fireEvent.keyDown(listbox, { key: "Escape" });
+    act(() => {
+      fireEvent.keyDown(listbox, { key: "Escape" });
+    });
     expect(document.activeElement).toBe(navCell);
   });
 
@@ -134,16 +150,22 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
     const listbox = within(navCell).getByRole("listbox");
 
   // Focus listbox and move through options (use ArrowDown twice to reach "Three")
-  (listbox as HTMLElement).focus();
-  fireEvent.keyDown(listbox, { key: "End" });
+  act(() => {
+    (listbox as HTMLElement).focus();
+  });
+  act(() => {
+    fireEvent.keyDown(listbox, { key: "End" });
+  });
 
     const options = within(listbox).getAllByRole("option");
     expect(options.length).toBe(steps.length);
 
     // Re-query the listbox to ensure we have a fresh live node, then activate via Enter
     const freshListbox = within(navCell).getByRole("listbox");
-    fireEvent.keyDown(freshListbox, { key: "Enter", code: "Enter", keyCode: 13, charCode: 13 });
-    fireEvent.keyUp(freshListbox, { key: "Enter", code: "Enter", keyCode: 13, charCode: 13 });
+    act(() => {
+      fireEvent.keyDown(freshListbox, { key: "Enter", code: "Enter", keyCode: 13, charCode: 13 });
+      fireEvent.keyUp(freshListbox, { key: "Enter", code: "Enter", keyCode: 13, charCode: 13 });
+    });
   // Re-query listbox post-activation to avoid stale references and assert aria-activedescendant
   await waitFor(() => {
     const freshListbox = within(navCell).getByRole("listbox");
@@ -173,8 +195,12 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
   const contentAside = screen.getByRole("gridcell", { name: /Breadcrumbs|Name|Two|One/ });
     const input = within(contentAside).getByLabelText("Name");
 
-    (input as HTMLElement).focus();
-    fireEvent.keyDown(input, { key: "ArrowLeft" });
+    act(() => {
+      (input as HTMLElement).focus();
+    });
+    act(() => {
+      fireEvent.keyDown(input, { key: "ArrowLeft" });
+    });
 
     // Focus remains in input
     expect(document.activeElement).toBe(input);
@@ -205,9 +231,13 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
     const secondaryCell = cells[2];
 
     // Focus content container and move right
-    contentCell.focus();
+    act(() => {
+      contentCell.focus();
+    });
     expect(document.activeElement).toBe(contentCell);
-    fireEvent.keyDown(contentCell, { key: "ArrowRight" });
+    act(() => {
+      fireEvent.keyDown(contentCell, { key: "ArrowRight" });
+    });
 
     // Focus should now be on the secondary container (content loses focus)
     await waitFor(() => expect(document.activeElement).toBe(secondaryCell));

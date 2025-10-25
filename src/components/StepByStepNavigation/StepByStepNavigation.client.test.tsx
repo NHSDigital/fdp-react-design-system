@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { StepByStepNavigation } from './StepByStepNavigation';
 
 const items = [
@@ -26,12 +26,16 @@ describe('StepByStepNavigation (client)', () => {
     const bBtn = screen.getAllByRole('button').find((b) => b.getAttribute('aria-label')?.includes('B'))!;
 
     // Expand A
-    aBtn.click();
+    act(() => {
+      aBtn.click();
+    });
     expect(await screen.findByText('alpha')).toBeInTheDocument();
     expect(screen.queryByText('beta')).not.toBeInTheDocument();
 
     // Expand B -> A should close
-    bBtn.click();
+    act(() => {
+      bBtn.click();
+    });
     expect(await screen.findByText('beta')).toBeInTheDocument();
     expect(screen.queryByText('alpha')).not.toBeInTheDocument();
   });

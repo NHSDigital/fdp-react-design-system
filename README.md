@@ -302,6 +302,27 @@ We welcome contributions! Please see our contributing guidelines:
 3. **Tests**: Write unit and visual regression tests
 4. **Tokens**: Update design tokens in `packages/nhs-fdp/tokens/`
 
+### Publishing
+
+See [PUBLISHING.md](./docs/PUBLISHING.md) for detailed publishing instructions.
+
+Quick reference:
+
+```bash
+# Alpha prerelease
+npm run release:prerelease
+
+# Beta prerelease
+npm run release:prerelease:beta
+
+# Stable releases
+npm run release:patch    # 0.0.44 → 0.0.45
+npm run release:minor    # 0.0.44 → 0.1.0
+npm run release:major    # 0.0.44 → 1.0.0
+```
+
+**Note:** Publishing is now automated with smart tag detection. No need to manually specify `--tag` for prereleases!
+
 ## Related Projects
 
 - [NHS Design System](https://service-manual.nhs.uk/design-system) - Official NHS design guidance

@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.0",
-  "generatedAt": "2025-10-25T14:48:59.044Z",
+  "version": "0.0.44-alpha.1",
+  "generatedAt": "2025-10-25T14:58:05.111Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -192,6 +192,68 @@
       ],
       "source": "src/components/Tag/Tag.schema.ts"
     },
+    "Radios": {
+      "name": "Radios",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Keyboard arrow navigation cycles through options.",
+        "Conditional content container is hidden with --hidden class when inactive."
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Controlled selected value"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "description": "Uncontrolled initial value"
+        },
+        {
+          "name": "hasError",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Error style"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "description": "aria-describedby id list"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra CSS classes"
+        },
+        {
+          "name": "size",
+          "type": "'normal'|'small'",
+          "defaultValue": "normal",
+          "description": "Size variant"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Inline layout"
+        },
+        {
+          "name": "options",
+          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
+          "required": true,
+          "description": "Radio options"
+        }
+      ],
+      "source": "src/components/Radios/Radios.schema.ts"
+    },
     "Select": {
       "name": "Select",
       "category": "form",
@@ -281,68 +343,6 @@
       ],
       "source": "src/components/Select/Select.schema.ts"
     },
-    "Radios": {
-      "name": "Radios",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Keyboard arrow navigation cycles through options.",
-        "Conditional content container is hidden with --hidden class when inactive."
-      ],
-      "props": [
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Group name"
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "description": "Controlled selected value"
-        },
-        {
-          "name": "defaultValue",
-          "type": "string",
-          "description": "Uncontrolled initial value"
-        },
-        {
-          "name": "hasError",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Error style"
-        },
-        {
-          "name": "describedBy",
-          "type": "string",
-          "description": "aria-describedby id list"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra CSS classes"
-        },
-        {
-          "name": "size",
-          "type": "'normal'|'small'",
-          "defaultValue": "normal",
-          "description": "Size variant"
-        },
-        {
-          "name": "inline",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Inline layout"
-        },
-        {
-          "name": "options",
-          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
-          "required": true,
-          "description": "Radio options"
-        }
-      ],
-      "source": "src/components/Radios/Radios.schema.ts"
-    },
     "Panel": {
       "name": "Panel",
       "category": "content",
@@ -425,56 +425,6 @@
         }
       ],
       "source": "src/components/Label/Label.schema.ts"
-    },
-    "InsetText": {
-      "name": "InsetText",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content (ignored if html is provided)"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content (overrides text)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/InsetText/InsetText.schema.ts"
-    },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Input": {
       "name": "Input",
@@ -618,6 +568,29 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
+    "InsetText": {
+      "name": "InsetText",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content (ignored if html is provided)"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content (overrides text)"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/InsetText/InsetText.schema.ts"
+    },
     "Heading": {
       "name": "Heading",
       "category": "typography",
@@ -664,6 +637,33 @@
       ],
       "source": "src/components/Heading/Heading.schema.ts"
     },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
+    },
     "Fieldset": {
       "name": "Fieldset",
       "category": "form",
@@ -696,6 +696,39 @@
         }
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
+    },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "ErrorSummary": {
       "name": "ErrorSummary",
@@ -746,18 +779,40 @@
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
     },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
+    "Details": {
+      "name": "Details",
+      "category": "content",
       "since": "0.1.1",
       "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+        "Uses native <details> and <summary> elements for disclosure.",
+        "Summary is focusable; body content announced when expanded."
       ],
       "props": [
         {
-          "name": "id",
+          "name": "summaryText",
           "type": "string",
-          "description": "HTML id attribute"
+          "description": "Text for the summary (clickable)"
+        },
+        {
+          "name": "summaryHtml",
+          "type": "string",
+          "description": "HTML for the summary (overrides summaryText)"
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Text content for the details body"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content for the details body (overrides text)"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the details is open by default"
         },
         {
           "name": "className",
@@ -765,19 +820,12 @@
           "description": "Additional CSS classes"
         },
         {
-          "name": "visuallyHiddenText",
+          "name": "id",
           "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
+          "description": "Unique identifier"
         }
       ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
+      "source": "src/components/Details/Details.schema.ts"
     },
     "DateInput": {
       "name": "DateInput",
@@ -831,54 +879,6 @@
         }
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
-    },
-    "Details": {
-      "name": "Details",
-      "category": "content",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Uses native <details> and <summary> elements for disclosure.",
-        "Summary is focusable; body content announced when expanded."
-      ],
-      "props": [
-        {
-          "name": "summaryText",
-          "type": "string",
-          "description": "Text for the summary (clickable)"
-        },
-        {
-          "name": "summaryHtml",
-          "type": "string",
-          "description": "HTML for the summary (overrides summaryText)"
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Text content for the details body"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content for the details body (overrides text)"
-        },
-        {
-          "name": "open",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Whether the details is open by default"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "id",
-          "type": "string",
-          "description": "Unique identifier"
-        }
-      ],
-      "source": "src/components/Details/Details.schema.ts"
     },
     "Checkboxes": {
       "name": "Checkboxes",
@@ -1116,13 +1116,13 @@
   "categories": {
     "form": [
       "Textarea",
-      "Select",
       "Radios",
+      "Select",
       "Label",
       "Input",
       "Fieldset",
-      "ErrorSummary",
       "ErrorMessage",
+      "ErrorSummary",
       "DateInput",
       "Button"
     ],
@@ -1135,8 +1135,8 @@
       "Details"
     ],
     "typography": [
-      "Hint",
-      "Heading"
+      "Heading",
+      "Hint"
     ],
     "uncategorised": [
       "Checkboxes",

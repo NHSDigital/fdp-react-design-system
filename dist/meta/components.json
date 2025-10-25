@@ -1,6 +1,6 @@
 {
   "version": "0.0.43",
-  "generatedAt": "2025-10-25T14:16:58.774Z",
+  "generatedAt": "2025-10-25T14:20:04.116Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -387,29 +387,6 @@
       ],
       "source": "src/components/Panel/Panel.schema.ts"
     },
-    "InsetText": {
-      "name": "InsetText",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content (ignored if html is provided)"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content (overrides text)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/InsetText/InsetText.schema.ts"
-    },
     "Label": {
       "name": "Label",
       "category": "form",
@@ -448,6 +425,29 @@
         }
       ],
       "source": "src/components/Label/Label.schema.ts"
+    },
+    "InsetText": {
+      "name": "InsetText",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content (ignored if html is provided)"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content (overrides text)"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/InsetText/InsetText.schema.ts"
     },
     "Input": {
       "name": "Input",

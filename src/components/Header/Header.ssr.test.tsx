@@ -63,7 +63,7 @@ describe("Header (SSR)", () => {
 		expect(links.length).toBe(1);
 	});
 
-	it("server variant with responsiveNavigation=false renders all items in dropdown and none primary", () => {
+	it("server variant renders all items in primary list (no reflow approach)", () => {
 		const navItems = [
 			{ href: "/", text: "Home", current: true },
 			{ href: "/a", text: "A" },
@@ -79,7 +79,7 @@ describe("Header (SSR)", () => {
 				navigation={{ items: navItems }}
 			/>
 		) as any);
-		// Primary list exists but should have zero items because we push everything to dropdown when responsiveNavigation=false
+		// All items render in primary list to avoid reflow during hydration
 		const primaryList = container.querySelector(
 			".nhsuk-header__navigation-list"
 		);
@@ -87,16 +87,17 @@ describe("Header (SSR)", () => {
 		const primaryItems = primaryList?.querySelectorAll(
 			":scope > li"
 		);
-		expect(primaryItems?.length).toBe(0);
-		// Dropdown present with all items
+		expect(primaryItems?.length).toBe(navItems.length);
+		// No server-side dropdown fallback (items stay in primary list)
 		const dropdown = container.querySelector(
 			'.nhsuk-header__dropdown-menu[data-ssr-overflow="true"]'
 		);
-		expect(dropdown).toBeTruthy();
-		const dropdownItems = dropdown?.querySelectorAll("li");
-		expect(dropdownItems?.length).toBe(navItems.length);
+		expect(dropdown).toBeFalsy();
 		// No interactive More toggle button (SSR server variant)
 		expect(html).not.toContain("nhsuk-header__navigation-button");
+		// Should have data-ssr-hydrating attribute for CSS handling
+		const nav = container.querySelector('nav');
+		expect(nav?.getAttribute('data-ssr-hydrating')).toBe('true');
 	});
 
 	it("server variant with responsiveNavigation=true renders items inline with no dropdown", () => {

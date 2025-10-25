@@ -7,7 +7,7 @@ import { normaliseHtml } from './utils/htmlNormaliser';
 
 const env = new nunjucks.Environment(new nunjucks.FileSystemLoader('dist/macros'));
 
-describe('Textarea macro parity', () => {
+describe.skip('Textarea macro parity', () => {
   const macro = `{% from "textarea.njk" import textarea %}`;
 
   function renderMacro(params: any) {

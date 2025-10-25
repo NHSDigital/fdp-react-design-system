@@ -12,7 +12,6 @@ import {
 import { initCheckboxes, detachCheckboxes } from "./checkboxesBehaviour.js";
 import { initHeaders, detachHeaders } from "./headerBehaviour.js";
 import { initSkipLinks, detachSkipLinks } from "./skipLinkBehaviour.js";
-import { BehavioursLoader } from "./BehavioursLoader.js";
 import { initButtons as initButtons2, detachButtons as detachButtons2 } from "./buttonBehaviour.js";
 import { initRadios as initRadios2, detachRadios as detachRadios2 } from "./radiosBehaviour.js";
 import { initRanges as initRanges2, detachRanges as detachRanges2 } from "./rangeBehaviour.js";
@@ -53,7 +52,6 @@ if (typeof window !== "undefined") {
   }
 }
 export {
-  BehavioursLoader,
   createButtonBehaviour,
   detachButtons,
   detachCharacterCounts,

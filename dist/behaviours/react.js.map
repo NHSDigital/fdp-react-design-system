@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/behaviours/react.ts"],
+  "sourcesContent": ["// React component for SSR/hydration-safe behaviour loading\nexport { BehavioursLoader } from \"./BehavioursLoader.js\";\nexport type { BehavioursLoaderProps } from \"./BehavioursLoader.js\";\n"],
+  "mappings": "AACA,SAAS,wBAAwB;",
+  "names": []
+}

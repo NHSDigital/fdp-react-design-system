@@ -9,4 +9,6 @@ export { useNavigationSplitDrill } from './hooks/useNavigationSplitDrill';
 export { useNavigationSplitUrlSync } from './hooks/useNavigationSplitUrlSync';
 export { BrandThemeProvider, useBrand } from './themes/BrandThemeProvider';
 export * from './styles/font-config';
+export { BehavioursLoader } from './behaviours/react.js';
+export type { BehavioursLoaderProps } from './behaviours/react.js';
 export { BrandKey, LogoVariant, getBrandLogo, brandLogos } from './assets/brand';

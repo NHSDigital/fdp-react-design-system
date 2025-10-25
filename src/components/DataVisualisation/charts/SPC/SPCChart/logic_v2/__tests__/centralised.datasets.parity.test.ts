@@ -197,25 +197,25 @@ describe("logic_v2: centralised datasets parity (healthcare + grouped)", () => {
 
 		// Emit a concise report for visibility in CI logs
 		// Using console.info to avoid failing on formatting issues
-		console.info(
-			"SPC v2 grouped metrics report (count=",
-			perMetric.length,
-			")"
-		);
-		console.table?.(
-			perMetric.map((m) => ({
-				Metric: m.metric,
-				Dir: m.dir,
-				Len: m.length,
-				Eligible: m.eligible,
-				LastIcon: m.lastIcon,
-				Single: m.anySinglePoint,
-				TwoSig: m.anyTwoSigma,
-				Shift: m.anyShift,
-				Trend: m.anyTrend,
-			}))
-		);
-		console.info("Icon totals:", totals);
+		// console.info(
+		// 	"SPC v2 grouped metrics report (count=",
+		// 	perMetric.length,
+		// 	")"
+		// );
+		// console.table?.(
+		// 	perMetric.map((m) => ({
+		// 		Metric: m.metric,
+		// 		Dir: m.dir,
+		// 		Len: m.length,
+		// 		Eligible: m.eligible,
+		// 		LastIcon: m.lastIcon,
+		// 		Single: m.anySinglePoint,
+		// 		TwoSig: m.anyTwoSigma,
+		// 		Shift: m.anyShift,
+		// 		Trend: m.anyTrend,
+		// 	}))
+		// );
+		// console.info("Icon totals:", totals);
 
 		// Basic sanity: at least one metric per category over the full suite (dataset dependent but usually true)
 		// We don't hard-require each bucket to be >0 to avoid brittleness; assert totals sum

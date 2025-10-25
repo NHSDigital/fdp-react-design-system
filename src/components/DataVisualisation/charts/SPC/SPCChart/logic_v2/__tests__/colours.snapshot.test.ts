@@ -82,7 +82,7 @@ describe("Golden colours snapshot", () => {
 		const metric = getMetricOptions()[0];
 		const { names } = buildIconNamesForGrouped(metric);
 		const last12 = names.slice(-12);
-		logArray("EXPECTED_GROUPED_LAST12", last12);
+		// logArray("EXPECTED_GROUPED_LAST12", last12);
 		if (EXPECTED_GROUPED_LAST12.length === 0) {
 			// Scaffold mode: just ensure we produced something deterministic
 			expect(last12.length).toBeGreaterThan(0);
@@ -99,7 +99,7 @@ describe("Golden colours snapshot", () => {
 			toV2HealthcareDir(def.direction)
 		);
 		const last12 = names.slice(-12);
-		logArray("EXPECTED_HEALTHCARE_LAST12", last12);
+		// logArray("EXPECTED_HEALTHCARE_LAST12", last12);
 		if (EXPECTED_HEALTHCARE_LAST12.length === 0) {
 			expect(last12.length).toBeGreaterThan(0);
 		} else {

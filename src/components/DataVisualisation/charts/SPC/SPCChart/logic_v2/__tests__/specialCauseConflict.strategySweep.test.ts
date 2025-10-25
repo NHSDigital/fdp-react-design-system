@@ -65,14 +65,14 @@ describe("logic_v2: strategy sweep for Special cause conflict - High is good", (
 
     const results = strategies.map(computeMatchesForStrategy);
 
-    console.table(results.map(r => ({ strategy: strategyName(r.strategy), matched: `${r.totalMatched}/${r.totalCompared}`, fullMatch: r.totalMatched === r.totalCompared })));
+    //console.table(results.map(r => ({ strategy: strategyName(r.strategy), matched: `${r.totalMatched}/${r.totalCompared}`, fullMatch: r.totalMatched === r.totalCompared })));
 
-    const anyFull = results.some(r => r.totalCompared > 0 && r.totalMatched === r.totalCompared);
-    if (!anyFull) {
-      console.warn("No full matches; first two mismatch sets:",
-        results.slice(0,2).map(r => ({ strategy: strategyName(r.strategy), mismatches: r.mismatches.slice(0,10) }))
-      );
-    }
+    // const anyFull = results.some(r => r.totalCompared > 0 && r.totalMatched === r.totalCompared);
+    // if (!anyFull) {
+    //   console.warn("No full matches; first two mismatch sets:",
+    //     results.slice(0,2).map(r => ({ strategy: strategyName(r.strategy), mismatches: r.mismatches.slice(0,10) }))
+    //   );
+    // }
     // Report-only: ensure the sweep ran comparisons but don't fail the build if no full match exists.
     const totalCompared = results.reduce((a,b)=>a+b.totalCompared,0);
     expect(totalCompared).toBeGreaterThan(0);

@@ -1274,16 +1274,24 @@ function renderHeaderMarkupServer(props, { isClient, brand: providedBrand }) {
 							
 							// Wait for DOM ready and behaviour module to be available
 							function initHeader() {
-								// Dynamic import for behaviour module
-								import('/dist/behaviours/headerBehaviour.js')
+								// Check if behaviours are already loaded globally
+								if (window.__nhsHeaderBehaviours && window.__nhsHeaderBehaviours.initHeaders) {
+									window.__nhsHeaderBehaviours.initHeaders(header);
+									console.log('[HeaderServer] Initialized via global behaviours');
+									return;
+								}
+								
+								// Try dynamic import (works if Next.js has bundled the behaviours module)
+								// This will only work if user has imported '@fergusbisset/nhs-fdp-design-system/behaviours' somewhere
+								import('@fergusbisset/nhs-fdp-design-system/behaviours')
 									.then(function(mod) {
 										if (mod && mod.initHeaders) {
 											mod.initHeaders(header);
-											console.log('NHS Header behaviour initialized (SSR)');
+											console.log('[HeaderServer] Initialized via dynamic import');
 										}
 									})
 									.catch(function(err) {
-										console.warn('Failed to initialize header behaviour:', err);
+										console.warn('[HeaderServer] Could not load behaviours module. Make sure to import "@fergusbisset/nhs-fdp-design-system/behaviours" in your app.', err);
 									});
 							}
 							
@@ -1291,7 +1299,6 @@ function renderHeaderMarkupServer(props, { isClient, brand: providedBrand }) {
 							if (document.readyState === 'loading') {
 								document.addEventListener('DOMContentLoaded', initHeader);
 							} else {
-								// DOM already loaded (e.g., dynamic insertion)
 								setTimeout(initHeader, 0);
 							}
 						})();

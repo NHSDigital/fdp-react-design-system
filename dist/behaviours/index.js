@@ -44,6 +44,22 @@ if (typeof window !== "undefined") {
   if (!window.__nhsInitAllBehaviours) {
     window.__nhsInitAllBehaviours = initAll;
     window.__nhsTeardownAllBehaviours = teardownAll;
+    window.__nhsHeaderBehaviours = {
+      initHeaders: initHeaders2,
+      detachHeaders: detachHeaders2,
+      initButtons: initButtons2,
+      detachButtons: detachButtons2,
+      initRadios: initRadios2,
+      detachRadios: detachRadios2,
+      initRanges: initRanges2,
+      detachRanges: detachRanges2,
+      initCharacterCounts: initCharacterCounts2,
+      detachCharacterCounts: detachCharacterCounts2,
+      initCheckboxes: initCheckboxes2,
+      detachCheckboxes: detachCheckboxes2,
+      initSkipLinks: initSkipLinks2,
+      detachSkipLinks: detachSkipLinks2
+    };
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", () => initAll());
     } else {

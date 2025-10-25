@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.5",
-  "generatedAt": "2025-10-25T16:21:56.701Z",
+  "version": "0.0.44-alpha.7",
+  "generatedAt": "2025-10-25T16:48:35.078Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -426,6 +426,29 @@
       ],
       "source": "src/components/Label/Label.schema.ts"
     },
+    "InsetText": {
+      "name": "InsetText",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content (ignored if html is provided)"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content (overrides text)"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/InsetText/InsetText.schema.ts"
+    },
     "Input": {
       "name": "Input",
       "category": "form",
@@ -595,29 +618,6 @@
       ],
       "source": "src/components/Hint/Hint.schema.ts"
     },
-    "InsetText": {
-      "name": "InsetText",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content (ignored if html is provided)"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content (overrides text)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/InsetText/InsetText.schema.ts"
-    },
     "Heading": {
       "name": "Heading",
       "category": "typography",
@@ -746,6 +746,39 @@
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
     },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
+    },
     "Details": {
       "name": "Details",
       "category": "content",
@@ -846,39 +879,6 @@
         }
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
-    },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "Checkboxes": {
       "name": "Checkboxes",
@@ -1122,8 +1122,8 @@
       "Input",
       "Fieldset",
       "ErrorSummary",
-      "DateInput",
       "ErrorMessage",
+      "DateInput",
       "Button"
     ],
     "meta": [

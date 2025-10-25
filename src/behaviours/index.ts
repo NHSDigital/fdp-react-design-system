@@ -55,6 +55,26 @@ if (typeof window !== "undefined") {
 		window.__nhsInitAllBehaviours = initAll;
 		// @ts-ignore
 		window.__nhsTeardownAllBehaviours = teardownAll;
+		
+		// Expose individual init functions for HeaderServer inline script
+		// @ts-ignore
+		window.__nhsHeaderBehaviours = {
+			initHeaders,
+			detachHeaders,
+			initButtons,
+			detachButtons,
+			initRadios,
+			detachRadios,
+			initRanges,
+			detachRanges,
+			initCharacterCounts,
+			detachCharacterCounts,
+			initCheckboxes,
+			detachCheckboxes,
+			initSkipLinks,
+			detachSkipLinks,
+		};
+		
 		// Auto run after DOM ready
 		if (document.readyState === "loading") {
 			document.addEventListener("DOMContentLoaded", () => initAll());

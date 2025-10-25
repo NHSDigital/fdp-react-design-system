@@ -178,6 +178,12 @@ export function renderHeaderMarkupServer(
 
 	// Server variant: render all items in main list, let JS handle overflow
 	// This avoids reflow when hydrating (no need to move items from dropdown to main list)
+	// Define server overflow hints (kept for backwards compatibility and clarity).
+	// By default, we do NOT attempt to guess overflow on the server.
+	// The behaviours layer (headerBehaviour) measures available width on the client
+	// and moves items into a dropdown as needed after hydration.
+	const serverHasOverflow = false; // no SSR-guessing; client will compute accurately
+	const serverOverflowItems: NavigationItem[] = []; // empty – behaviours will populate client-side when needed
 
 	return (
 		<>
@@ -260,45 +266,70 @@ export function renderHeaderMarkupServer(
 					</div>
 				</nav>
 			)}
+			{serverHasOverflow && serverOverflowItems.length > 0 && (
+				<div className="nhsuk-header__dropdown-menu" data-ssr-overflow="true">
+					<ul className="nhsuk-header__dropdown-list">
+						{serverOverflowItems.map((item, index) => (
+							<li
+								key={`overflow-server-${index}`}
+								className={classNames("nhsuk-header__dropdown-item", {
+									"nhsuk-header__dropdown-item--current":
+										item.active || item.current,
+								})}
+							>
+								<a
+									className="nhsuk-header__dropdown-link"
+									href={item.href}
+									{...(item.active || item.current
+										? { "aria-current": item.current ? "page" : "true" }
+										: {})}
+								>
+									{renderNavigationLinkContent(item)}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
 			</header>
-			{/* SSR-safe behaviour initialization: inline script runs only in browser */}
+			{/* Inline, SSR-safe hydration kick for header behaviour. */}
 			<script
 				type="module"
 				dangerouslySetInnerHTML={{
 					__html: `
-						(function() {
-							if (typeof window === 'undefined') return;
-							
-							// Find the header element (previous sibling of this script)
-							var script = document.currentScript;
-							var header = script && script.previousElementSibling;
-							
-							if (!header || !header.classList.contains('nhsuk-header')) return;
-							
-							// Wait for DOM ready and behaviour module to be available
-							function initHeader() {
-								// Dynamic import for behaviour module
+					(function() {
+						function init() {
+							try {
+								var header = document.querySelector('header.nhsuk-header[data-module="nhsuk-header"]');
+								if (!header) return;
+								// Prefer global behaviours if already present
+								if (window.__nhsHeaderBehaviours && window.__nhsHeaderBehaviours.initHeaders) {
+									window.__nhsHeaderBehaviours.initHeaders(header);
+									console?.log?.('[HeaderServer] Initialized via global behaviours');
+									return;
+								}
+								// Fallback: attempt dynamic import (works if app bundles /behaviours)
 								import('@fergusbisset/nhs-fdp-design-system/behaviours')
-									.then(function(mod) {
+									.then(function(mod){
 										if (mod && mod.initHeaders) {
 											mod.initHeaders(header);
-											console.log('NHS Header behaviour initialized (SSR)');
+											console?.log?.('[HeaderServer] Initialized via dynamic import');
 										}
 									})
-									.catch(function(err) {
-										console.warn('Failed to initialize header behaviour:', err);
+									.catch(function(err){
+										console?.warn?.('[HeaderServer] Could not load behaviours module. Import "@fergusbisset/nhs-fdp-design-system/behaviours" in your app.', err);
 									});
+							} catch (e) {
+								console?.warn?.('[HeaderServer] init error', e);
 							}
-							
-							// Initialize after DOM is ready
-							if (document.readyState === 'loading') {
-								document.addEventListener('DOMContentLoaded', initHeader);
-							} else {
-								// DOM already loaded (e.g., dynamic insertion)
-								setTimeout(initHeader, 0);
-							}
-						})();
-					`.trim()
+						}
+						if (document.readyState === 'loading') {
+							document.addEventListener('DOMContentLoaded', init);
+						} else {
+							setTimeout(init, 0);
+						}
+					})();
+					`.trim(),
 				}}
 			/>
 		</>

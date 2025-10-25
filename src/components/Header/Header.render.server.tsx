@@ -278,7 +278,7 @@ export function renderHeaderMarkupServer(
 							// Wait for DOM ready and behaviour module to be available
 							function initHeader() {
 								// Dynamic import for behaviour module
-								import('/dist/behaviours/headerBehaviour.js')
+								import('@fergusbisset/nhs-fdp-design-system/behaviours')
 									.then(function(mod) {
 										if (mod && mod.initHeaders) {
 											mod.initHeaders(header);

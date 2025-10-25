@@ -101,6 +101,38 @@ function App() {
 }
 ```
 
+## 🚨 Critical: Next.js Setup
+
+**If you're using this design system in Next.js, you MUST load the behaviour script** for progressive enhancement features to work (interactive headers, character counts, conditional reveals, etc.).
+
+### Quick Setup
+
+Add one import at the top of your root layout:
+
+```tsx
+// app/layout.tsx
+import '@fergusbisset/nhs-fdp-design-system/behaviours'  // ← Add this line!
+import { Header } from '@fergusbisset/nhs-fdp-design-system/ssr'
+import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <Header {/* your header props */} />
+        {children}
+      </body>
+    </html>
+  )
+}
+```
+
+**That's it!** The behaviours module has auto-initialization code that runs on import.
+
+**Without this**, components like `HeaderServer` will render but won't be interactive (no overflow menus, no keyboard navigation, no transitions).
+
+📖 **[Complete Next.js Setup Guide](./docs/NEXTJS-QUICK-START.md)** - Detailed setup, verification, and troubleshooting
+
 ## Project Structure
 
 ```

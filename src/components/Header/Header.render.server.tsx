@@ -183,13 +183,14 @@ export function renderHeaderMarkupServer(
 	const serverOverflowItems = serverHasOverflow ? navigation!.items! : [];
 
 	return (
-		<header
-			className={headerClasses}
-			role="banner"
-			data-module="nhsuk-header"
-			{...attributes}
-			{...rest}
-		>
+		<>
+			<header
+				className={headerClasses}
+				role="banner"
+				data-module="nhsuk-header"
+				{...attributes}
+				{...rest}
+			>
 			<div className={containerClass}>
 				<div className="nhsuk-header__service">
 					{logoHref ? (
@@ -286,6 +287,47 @@ export function renderHeaderMarkupServer(
 					</ul>
 				</div>
 			)}
-		</header>
+			</header>
+			{/* SSR-safe behaviour initialization: inline script runs only in browser */}
+			<script
+				dangerouslySetInnerHTML={{
+					__html: `
+(function() {
+	if (typeof window === 'undefined') return;
+	
+	// Find the header element (previous sibling of this script)
+	var script = document.currentScript;
+	var header = script && script.previousElementSibling;
+	
+	if (!header || !header.classList.contains('nhsuk-header')) return;
+	
+	// Wait for DOM ready and behaviour module to be available
+	function initHeader() {
+		// Dynamic import for behaviour module
+		if (typeof import !== 'undefined') {
+			import('/dist/behaviours/headerBehaviour.js')
+				.then(function(mod) {
+					if (mod && mod.initHeaders) {
+						mod.initHeaders(header);
+					}
+				})
+				.catch(function(err) {
+					console.warn('Failed to initialize header behaviour:', err);
+				});
+		}
+	}
+	
+	// Initialize after DOM is ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initHeader);
+	} else {
+		// DOM already loaded (e.g., dynamic insertion)
+		setTimeout(initHeader, 0);
+	}
+})();
+					`.trim()
+				}}
+			/>
+		</>
 	);
 }

@@ -26,9 +26,5 @@ export { BrandThemeProvider, useBrand } from './themes/BrandThemeProvider';
 // Font loading utilities
 export * from './styles/font-config';
 
-// Behaviours - React component for SSR-safe behaviour initialization
-export { BehavioursLoader } from './behaviours/react.js';
-export type { BehavioursLoaderProps } from './behaviours/react.js';
-
 // Brand assets and helpers (logos, enums, and utilities)
 export { BrandKey, LogoVariant, getBrandLogo, brandLogos } from './assets/brand';

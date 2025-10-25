@@ -146,7 +146,7 @@ nhs-fdp-design-system/
 
 Validation gates after SPC changes
 
-- Build: `npm run build:parity`
+- Build: `npm run build:parity` (or `npm run build:quiet` for cleaner output)
 - Tests (components): `npm run test:components` (expect one known non‑SPC failure in AriaTabsDataGrid)
 - SSR tests: `npm run test:ssr-components`
 - Lint & types: `npm run lint` and `npm run typecheck`
@@ -220,6 +220,12 @@ npm run storybook
 ### Available Scripts
 
 ```bash
+# Build
+npm run build                  # Full production build (alias for build:parity)
+npm run build:parity           # Complete build with all verification steps
+npm run build:quiet            # Clean build output (filters npm warnings)
+npm run build:fast             # Quick dev build (skips some verification)
+
 # Design tokens
 npm run build:tokens           # Build design tokens (smart rebuild)
 

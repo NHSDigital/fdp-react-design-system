@@ -11,6 +11,8 @@ import { HeaderSearch } from "../HeaderSearch";
  * 1. Rendering a functional header on the server
  * 2. Progressively enhancing with responsive overflow handling on the client
  * 3. Providing fallback navigation that works without JavaScript
+ * 
+ * The component self-initializes its behaviour on mount via headerBehaviour.
  */
 export const Header: React.FC<HeaderProps> = ({
 	className,

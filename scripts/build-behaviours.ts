@@ -28,6 +28,6 @@ async function run() {
     treeShaking: true,
     logLevel: 'info'
   });
-  console.log('Behaviours built -> dist/behaviours');
+  //console.log('Behaviours built -> dist/behaviours');
 }
 run().catch(e => { console.error(e); process.exit(1); });

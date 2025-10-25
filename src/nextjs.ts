@@ -10,3 +10,6 @@ export * from './core';
 
 // Next.js-specific hooks (sourced from dedicated nextjs folder)
 export { useNavigationSplitNextUrlSync } from './nextjs/useNavigationSplitNextUrlSync';
+
+// Next.js-specific behaviour initialization (no "use client" required)
+export { InitBehaviours, InitBehavioursInline } from './nextjs/InitBehaviours';

@@ -37,11 +37,9 @@ function findCssFiles(dir, basePath = '') {
 // Get all CSS files
 const cssFiles = findCssFiles(componentsDir);
 
-console.log(`Found ${cssFiles.length} CSS files:`);
-cssFiles.forEach(file => console.log(`  - ${file}`));
-
 // Generate exports for CSS files
 const newExports = { ...packageJson.exports };
+let addedCount = 0;
 
 cssFiles.forEach(cssFile => {
   // Convert path to component name and export key
@@ -74,9 +72,7 @@ cssFiles.forEach(cssFile => {
   // Add to exports if not already present
   if (!newExports[exportKey]) {
     newExports[exportKey] = exportPath;
-    console.log(`Added export: "${exportKey}" -> "${exportPath}"`);
-  } else {
-    console.log(`Export already exists: "${exportKey}" -> existing: "${newExports[exportKey]}", skipped: "${exportPath}"`);
+    addedCount++;
   }
 });
 
@@ -85,5 +81,4 @@ packageJson.exports = newExports;
 
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2) + '\n');
 
-console.log(`\nUpdated package.json with ${Object.keys(newExports).length} total exports`);
-console.log(`Added exports for ${cssFiles.length} CSS files`);
+console.log(`[update-css-exports] Found ${cssFiles.length} CSS files, added ${addedCount} new exports (${Object.keys(newExports).length} total)`);

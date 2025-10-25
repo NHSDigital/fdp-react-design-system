@@ -30,36 +30,13 @@ function detachHeaders(scope = document) {
 function enhanceHeader(root) {
   if (root._nhsHeaderInstance) return root._nhsHeaderInstance;
   root.setAttribute("data-enhancing", "header");
+  const nav = root.querySelector("nav[data-ssr-hydrating]");
+  if (nav) {
+    nav.removeAttribute("data-ssr-hydrating");
+  }
   const navContainer = root.querySelector(NAV_CONTAINER_SELECTOR);
   const navList = root.querySelector(NAV_LIST_SELECTOR);
   if (!navContainer || !navList) return null;
-  const serverDropdown = root.querySelector(
-    `.${DROPDOWN_MENU_CLASS}[data-ssr-overflow="true"]`
-  );
-  if (serverDropdown) {
-    const list = serverDropdown.querySelector(`.${DROPDOWN_LIST_CLASS}`);
-    if (list) {
-      const items = Array.from(list.children);
-      navList.innerHTML = "";
-      items.forEach((li) => {
-        li.className = li.className.replace(
-          "nhsuk-header__dropdown-item--current",
-          "nhsuk-header__navigation-item--current"
-        ).replace(
-          "nhsuk-header__dropdown-item",
-          "nhsuk-header__navigation-item"
-        );
-        const link = li.querySelector("a");
-        if (link)
-          link.className = link.className.replace(
-            "nhsuk-header__dropdown-link",
-            "nhsuk-header__navigation-link"
-          );
-        navList.appendChild(li);
-      });
-      serverDropdown.remove();
-    }
-  }
   let originalItemsHTML = Array.from(
     navList.querySelectorAll(NAV_ITEM_SELECTOR)
   ).map((li) => li.outerHTML);

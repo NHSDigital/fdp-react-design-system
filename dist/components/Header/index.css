@@ -1027,6 +1027,11 @@ span .nhsuk-u-visually-hidden {
   background: #003087;
 }
 
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation-link,
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation-button {
+  color: #ffffff;
+}
+
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-logo, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name[href] {
   color: #ffffff;
   text-decoration-color: currentColor;
@@ -1111,7 +1116,7 @@ span .nhsuk-u-visually-hidden {
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey {
-  background-color: linear-gradient(270deg, #4c6272, #768692);
+  background-color: #425563;
   color: #ffffff;
 }
 
@@ -1253,9 +1258,36 @@ span .nhsuk-u-visually-hidden {
  * NHS Header SSR Support Styles
  * 
  * These styles provide progressive enhancement for SSR scenarios:
- * 1. Server-side: Show all navigation items in a simple layout
- * 2. Client-side: Hide overflow items and show responsive behavior
+ * 1. Server-side: Show all navigation items in their natural state
+ * 2. During hydration: Prevent reflow by hiding overflow handling
+ * 3. Client-side: Enable full responsive behavior without visual shifts
  */
+
+/* SSR Hydration State - prevent reflow during JS initialization */
+
+nav[data-ssr-hydrating=true] {
+  /* Suppress any overflow dropdown during initial render */
+}
+
+nav[data-ssr-hydrating=true] .nhsuk-header__navigation-list {
+  /* Keep natural layout during hydration */
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* Hide scrollbar for cleaner appearance */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+nav[data-ssr-hydrating=true] .nhsuk-header__navigation-list::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+nav[data-ssr-hydrating=true] + .nhsuk-header__dropdown-menu {
+  display: none;
+}
 
 /* SSR Fallback Navigation Container */
 

@@ -709,6 +709,10 @@
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation {
   background: #003087;
 }
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation-link,
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation-button {
+  color: #ffffff;
+}
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-logo, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name[href] {
   color: #ffffff;
   text-decoration-color: currentColor;
@@ -780,7 +784,7 @@
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey {
-  background-color: linear-gradient(270deg, #4c6272, #768692);
+  background-color: #425563;
   color: #ffffff;
 }
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation {

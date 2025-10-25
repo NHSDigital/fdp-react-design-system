@@ -1063,7 +1063,7 @@ var Header = ({
 var import_classnames4 = __toESM(require_classnames(), 1);
 import React4 from "react";
 import { Fragment as Fragment3, jsx as jsx6, jsxs as jsxs4 } from "react/jsx-runtime";
-function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBrand }) {
+function renderHeaderMarkupServer(props, { isClient, brand: providedBrand }) {
   var _a;
   const {
     className,
@@ -1179,9 +1179,6 @@ function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBra
   ] }) : null;
   const renderServiceName = (text, href) => text ? href ? /* @__PURE__ */ jsx6("a", { className: "nhsuk-header__service-name", href, children: text }) : /* @__PURE__ */ jsx6("span", { className: "nhsuk-header__service-name", children: text }) : null;
   const renderNavigationLinkContent = (item) => item.active || item.current ? /* @__PURE__ */ jsx6("strong", { className: "nhsuk-header__navigation-item-current-fallback", children: item.html ? /* @__PURE__ */ jsx6("span", { dangerouslySetInnerHTML: { __html: item.html } }) : item.text }) : item.html ? /* @__PURE__ */ jsx6("span", { dangerouslySetInnerHTML: { __html: item.html } }) : item.text;
-  const serverHasOverflow = variant === "server" && (navigation == null ? void 0 : navigation.items) && !responsiveNavigation;
-  const serverPrimaryItems = serverHasOverflow ? [] : navigation == null ? void 0 : navigation.items;
-  const serverOverflowItems = serverHasOverflow ? navigation.items : [];
   return /* @__PURE__ */ jsxs4(Fragment3, { children: [
     /* @__PURE__ */ jsxs4(
       "header",
@@ -1218,18 +1215,19 @@ function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBra
             {
               className: navigationClasses,
               "aria-label": navigation.ariaLabel || "Menu",
+              "data-ssr-hydrating": !isClient ? "true" : void 0,
               children: /* @__PURE__ */ jsx6(
                 "div",
                 {
                   className: (0, import_classnames4.default)(
-                    "nhsuk-header_navigation-container",
+                    "nhsuk-header__navigation-container",
                     "nhsuk-width-container",
                     {
                       "nhsuk-header__navigation-container--ssr": !isClient
                     },
                     containerClasses
                   ),
-                  children: /* @__PURE__ */ jsx6("ul", { className: "nhsuk-header__navigation-list", children: (serverPrimaryItems || []).map((item, index) => /* @__PURE__ */ jsx6(
+                  children: /* @__PURE__ */ jsx6("ul", { className: "nhsuk-header__navigation-list", children: navigation.items.map((item, index) => /* @__PURE__ */ jsx6(
                     "li",
                     {
                       className: (0, import_classnames4.default)(
@@ -1255,25 +1253,7 @@ function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBra
                 }
               )
             }
-          ),
-          serverHasOverflow && serverOverflowItems.length > 0 && /* @__PURE__ */ jsx6("div", { className: "nhsuk-header__dropdown-menu", "data-ssr-overflow": "true", children: /* @__PURE__ */ jsx6("ul", { className: "nhsuk-header__dropdown-list", children: serverOverflowItems.map((item, index) => /* @__PURE__ */ jsx6(
-            "li",
-            {
-              className: (0, import_classnames4.default)("nhsuk-header__dropdown-item", {
-                "nhsuk-header__dropdown-item--current": item.active || item.current
-              }),
-              children: /* @__PURE__ */ jsx6(
-                "a",
-                {
-                  className: "nhsuk-header__dropdown-link",
-                  href: item.href,
-                  ...item.active || item.current ? { "aria-current": item.current ? "page" : "true" } : {},
-                  children: renderNavigationLinkContent(item)
-                }
-              )
-            },
-            `overflow-server-${index}`
-          )) }) })
+          )
         ]
       }
     ),
@@ -1283,37 +1263,38 @@ function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBra
         type: "module",
         dangerouslySetInnerHTML: {
           __html: `
-(function() {
-	if (typeof window === 'undefined') return;
-	
-	// Find the header element (previous sibling of this script)
-	var script = document.currentScript;
-	var header = script && script.previousElementSibling;
-	
-	if (!header || !header.classList.contains('nhsuk-header')) return;
-	
-	// Wait for DOM ready and behaviour module to be available
-	function initHeader() {
-		// Dynamic import for behaviour module
-		import('/dist/behaviours/headerBehaviour.js')
-			.then(function(mod) {
-				if (mod && mod.initHeaders) {
-					mod.initHeaders(header);
-				}
-			})
-			.catch(function(err) {
-				console.warn('Failed to initialize header behaviour:', err);
-			});
-	}
-	
-	// Initialize after DOM is ready
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initHeader);
-	} else {
-		// DOM already loaded (e.g., dynamic insertion)
-		setTimeout(initHeader, 0);
-	}
-})();
+						(function() {
+							if (typeof window === 'undefined') return;
+							
+							// Find the header element (previous sibling of this script)
+							var script = document.currentScript;
+							var header = script && script.previousElementSibling;
+							
+							if (!header || !header.classList.contains('nhsuk-header')) return;
+							
+							// Wait for DOM ready and behaviour module to be available
+							function initHeader() {
+								// Dynamic import for behaviour module
+								import('/dist/behaviours/headerBehaviour.js')
+									.then(function(mod) {
+										if (mod && mod.initHeaders) {
+											mod.initHeaders(header);
+											console.log('NHS Header behaviour initialized (SSR)');
+										}
+									})
+									.catch(function(err) {
+										console.warn('Failed to initialize header behaviour:', err);
+									});
+							}
+							
+							// Initialize after DOM is ready
+							if (document.readyState === 'loading') {
+								document.addEventListener('DOMContentLoaded', initHeader);
+							} else {
+								// DOM already loaded (e.g., dynamic insertion)
+								setTimeout(initHeader, 0);
+							}
+						})();
 					`.trim()
         }
       }

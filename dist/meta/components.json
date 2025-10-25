@@ -1,6 +1,6 @@
 {
   "version": "0.0.44-alpha.3",
-  "generatedAt": "2025-10-25T15:48:59.144Z",
+  "generatedAt": "2025-10-25T15:57:13.320Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -191,95 +191,6 @@
         }
       ],
       "source": "src/components/Tag/Tag.schema.ts"
-    },
-    "Select": {
-      "name": "Select",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Supports aria-describedby for associating hint and error message text.",
-        "Accepts aria-label when external visible label is not present.",
-        "Multiple selection variant sets multiple/size attributes."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true,
-          "description": "Unique id"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Form field name"
-        },
-        {
-          "name": "ariaLabel",
-          "type": "string",
-          "description": "Accessible label when separate label element not used"
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "description": "Controlled value"
-        },
-        {
-          "name": "defaultValue",
-          "type": "string",
-          "description": "Uncontrolled default value"
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Disabled state"
-        },
-        {
-          "name": "required",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Required indicator"
-        },
-        {
-          "name": "hasError",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Error style"
-        },
-        {
-          "name": "describedBy",
-          "type": "string",
-          "description": "Space-separated ids of hint/error elements"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "multiple",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Multiple selection allowed"
-        },
-        {
-          "name": "size",
-          "type": "number",
-          "description": "Visible option count (for multiple)"
-        },
-        {
-          "name": "autoComplete",
-          "type": "string",
-          "description": "Autocomplete attribute"
-        },
-        {
-          "name": "options",
-          "type": "Array<{ value: string; text: string; disabled?: boolean; selected?: boolean }>",
-          "description": "Inline options array (alternative to body content)"
-        }
-      ],
-      "source": "src/components/Select/Select.schema.ts"
     },
     "Radios": {
       "name": "Radios",
@@ -552,18 +463,18 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "Label": {
-      "name": "Label",
-      "category": "form",
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
       "since": "0.1.1",
       "a11yNotes": [
-        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
+        "Provides supporting contextual help text associated with a form field or section."
       ],
       "props": [
         {
-          "name": "htmlFor",
+          "name": "id",
           "type": "string",
-          "description": "ID of associated form control"
+          "description": "HTML id attribute"
         },
         {
           "name": "className",
@@ -571,25 +482,102 @@
           "description": "Additional CSS classes"
         },
         {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Render as page heading (h1 wrapper)"
-        },
-        {
-          "name": "size",
-          "type": "'xl'|'l'|'m'|'s'",
-          "defaultValue": "m",
-          "description": "Size variant"
-        },
-        {
           "name": "children",
           "type": "ReactNode|string",
           "required": true,
-          "description": "Label content"
+          "description": "Hint content"
         }
       ],
-      "source": "src/components/Label/Label.schema.ts"
+      "source": "src/components/Hint/Hint.schema.ts"
+    },
+    "Select": {
+      "name": "Select",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Supports aria-describedby for associating hint and error message text.",
+        "Accepts aria-label when external visible label is not present.",
+        "Multiple selection variant sets multiple/size attributes."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Unique id"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Form field name"
+        },
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "description": "Accessible label when separate label element not used"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Controlled value"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "description": "Uncontrolled default value"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disabled state"
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Required indicator"
+        },
+        {
+          "name": "hasError",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Error style"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "description": "Space-separated ids of hint/error elements"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Multiple selection allowed"
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "description": "Visible option count (for multiple)"
+        },
+        {
+          "name": "autoComplete",
+          "type": "string",
+          "description": "Autocomplete attribute"
+        },
+        {
+          "name": "options",
+          "type": "Array<{ value: string; text: string; disabled?: boolean; selected?: boolean }>",
+          "description": "Inline options array (alternative to body content)"
+        }
+      ],
+      "source": "src/components/Select/Select.schema.ts"
     },
     "Heading": {
       "name": "Heading",
@@ -637,18 +625,18 @@
       ],
       "source": "src/components/Heading/Heading.schema.ts"
     },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
+    "Label": {
+      "name": "Label",
+      "category": "form",
       "since": "0.1.1",
       "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
+        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
       ],
       "props": [
         {
-          "name": "id",
+          "name": "htmlFor",
           "type": "string",
-          "description": "HTML id attribute"
+          "description": "ID of associated form control"
         },
         {
           "name": "className",
@@ -656,13 +644,25 @@
           "description": "Additional CSS classes"
         },
         {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Render as page heading (h1 wrapper)"
+        },
+        {
+          "name": "size",
+          "type": "'xl'|'l'|'m'|'s'",
+          "defaultValue": "m",
+          "description": "Size variant"
+        },
+        {
           "name": "children",
           "type": "ReactNode|string",
           "required": true,
-          "description": "Hint content"
+          "description": "Label content"
         }
       ],
-      "source": "src/components/Hint/Hint.schema.ts"
+      "source": "src/components/Label/Label.schema.ts"
     },
     "Fieldset": {
       "name": "Fieldset",
@@ -880,64 +880,6 @@
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
     },
-    "Checkboxes": {
-      "name": "Checkboxes",
-      "props": [
-        {
-          "name": "items",
-          "type": "CheckboxItem[]",
-          "required": true,
-          "description": "Array of checkbox items"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Shared name attribute"
-        },
-        {
-          "name": "idPrefix",
-          "type": "string",
-          "description": "ID prefix for fieldset and inputs"
-        },
-        {
-          "name": "legend",
-          "type": "string",
-          "description": "Legend text"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "description": "Legend rendered as page heading"
-        },
-        {
-          "name": "legendSize",
-          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
-          "description": "Legend size"
-        },
-        {
-          "name": "hint",
-          "type": "string",
-          "description": "Group hint text"
-        },
-        {
-          "name": "errorMessage",
-          "type": "string",
-          "description": "Group error message"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra wrapper classes"
-        },
-        {
-          "name": "small",
-          "type": "boolean",
-          "description": "Small variant"
-        }
-      ],
-      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
-    },
     "CharacterCount": {
       "name": "CharacterCount",
       "props": [
@@ -1017,6 +959,64 @@
         }
       ],
       "source": "src/components/CharacterCount/CharacterCount.schema.ts"
+    },
+    "Checkboxes": {
+      "name": "Checkboxes",
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxItem[]",
+          "required": true,
+          "description": "Array of checkbox items"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Shared name attribute"
+        },
+        {
+          "name": "idPrefix",
+          "type": "string",
+          "description": "ID prefix for fieldset and inputs"
+        },
+        {
+          "name": "legend",
+          "type": "string",
+          "description": "Legend text"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "description": "Legend rendered as page heading"
+        },
+        {
+          "name": "legendSize",
+          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
+          "description": "Legend size"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Group hint text"
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "description": "Group error message"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra wrapper classes"
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "description": "Small variant"
+        }
+      ],
+      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     },
     "Button": {
       "name": "Button",
@@ -1116,9 +1116,9 @@
   "categories": {
     "form": [
       "Textarea",
-      "Select",
       "Radios",
       "Input",
+      "Select",
       "Label",
       "Fieldset",
       "ErrorSummary",
@@ -1135,12 +1135,12 @@
       "Details"
     ],
     "typography": [
-      "Heading",
-      "Hint"
+      "Hint",
+      "Heading"
     ],
     "uncategorised": [
-      "Checkboxes",
-      "CharacterCount"
+      "CharacterCount",
+      "Checkboxes"
     ]
   }
 }

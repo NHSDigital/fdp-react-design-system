@@ -1280,6 +1280,7 @@ function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBra
     /* @__PURE__ */ jsx6(
       "script",
       {
+        type: "module",
         dangerouslySetInnerHTML: {
           __html: `
 (function() {
@@ -1294,17 +1295,15 @@ function renderHeaderMarkupServer(props, { variant, isClient, brand: providedBra
 	// Wait for DOM ready and behaviour module to be available
 	function initHeader() {
 		// Dynamic import for behaviour module
-		if (typeof import !== 'undefined') {
-			import('/dist/behaviours/headerBehaviour.js')
-				.then(function(mod) {
-					if (mod && mod.initHeaders) {
-						mod.initHeaders(header);
-					}
-				})
-				.catch(function(err) {
-					console.warn('Failed to initialize header behaviour:', err);
-				});
-		}
+		import('/dist/behaviours/headerBehaviour.js')
+			.then(function(mod) {
+				if (mod && mod.initHeaders) {
+					mod.initHeaders(header);
+				}
+			})
+			.catch(function(err) {
+				console.warn('Failed to initialize header behaviour:', err);
+			});
 	}
 	
 	// Initialize after DOM is ready

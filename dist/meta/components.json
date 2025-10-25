@@ -1,6 +1,6 @@
 {
-  "version": "0.0.42",
-  "generatedAt": "2025-10-22T09:29:44.167Z",
+  "version": "0.0.43",
+  "generatedAt": "2025-10-22T09:30:39.872Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -192,68 +192,6 @@
       ],
       "source": "src/components/Tag/Tag.schema.ts"
     },
-    "Radios": {
-      "name": "Radios",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Keyboard arrow navigation cycles through options.",
-        "Conditional content container is hidden with --hidden class when inactive."
-      ],
-      "props": [
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Group name"
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "description": "Controlled selected value"
-        },
-        {
-          "name": "defaultValue",
-          "type": "string",
-          "description": "Uncontrolled initial value"
-        },
-        {
-          "name": "hasError",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Error style"
-        },
-        {
-          "name": "describedBy",
-          "type": "string",
-          "description": "aria-describedby id list"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra CSS classes"
-        },
-        {
-          "name": "size",
-          "type": "'normal'|'small'",
-          "defaultValue": "normal",
-          "description": "Size variant"
-        },
-        {
-          "name": "inline",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Inline layout"
-        },
-        {
-          "name": "options",
-          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
-          "required": true,
-          "description": "Radio options"
-        }
-      ],
-      "source": "src/components/Radios/Radios.schema.ts"
-    },
     "Select": {
       "name": "Select",
       "category": "form",
@@ -343,6 +281,68 @@
       ],
       "source": "src/components/Select/Select.schema.ts"
     },
+    "Radios": {
+      "name": "Radios",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Keyboard arrow navigation cycles through options.",
+        "Conditional content container is hidden with --hidden class when inactive."
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Controlled selected value"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "description": "Uncontrolled initial value"
+        },
+        {
+          "name": "hasError",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Error style"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "description": "aria-describedby id list"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra CSS classes"
+        },
+        {
+          "name": "size",
+          "type": "'normal'|'small'",
+          "defaultValue": "normal",
+          "description": "Size variant"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Inline layout"
+        },
+        {
+          "name": "options",
+          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
+          "required": true,
+          "description": "Radio options"
+        }
+      ],
+      "source": "src/components/Radios/Radios.schema.ts"
+    },
     "Panel": {
       "name": "Panel",
       "category": "content",
@@ -425,29 +425,6 @@
         }
       ],
       "source": "src/components/Label/Label.schema.ts"
-    },
-    "InsetText": {
-      "name": "InsetText",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content (ignored if html is provided)"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content (overrides text)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/InsetText/InsetText.schema.ts"
     },
     "Input": {
       "name": "Input",
@@ -590,6 +567,29 @@
         }
       ],
       "source": "src/components/Input/Input.schema.ts"
+    },
+    "InsetText": {
+      "name": "InsetText",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content (ignored if html is provided)"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content (overrides text)"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/InsetText/InsetText.schema.ts"
     },
     "Hint": {
       "name": "Hint",
@@ -1116,8 +1116,8 @@
   "categories": {
     "form": [
       "Textarea",
-      "Radios",
       "Select",
+      "Radios",
       "Label",
       "Input",
       "Fieldset",

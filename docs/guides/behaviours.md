@@ -2,6 +2,59 @@
 
 The behaviour layer supplies JavaScript enhancements that mirror React interactive logic for non‑React (Nunjucks / static HTML) environments while remaining opt‑in and easily disposable.
 
+## React Component for SSR/Hydration
+
+For React applications (especially Next.js App Router), use the `BehavioursLoader` component to safely initialize behaviours after hydration:
+
+```tsx
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <BehavioursLoader />
+      </body>
+    </html>
+  );
+}
+```
+
+**Features:**
+- ✅ Prevents SSR/client attribute mismatches
+- ✅ Avoids hydration warnings
+- ✅ Dynamically imports behaviours bundle (keeps it out of server chunk)
+- ✅ Initializes after React hydration completes
+- ✅ Supports scoped initialization
+- ✅ Provides error handling callbacks
+
+**Props:**
+- `scope?: ParentNode | null` - Optional container to limit behaviour initialization
+- `onInit?: () => void` - Callback invoked after successful initialization
+- `onError?: (error: unknown) => void` - Callback invoked if initialization fails
+
+**Scoped example:**
+```tsx
+'use client';
+import { useRef } from 'react';
+import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours';
+
+export function FormSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  return (
+    <div ref={containerRef}>
+      <YourFormComponents />
+      <BehavioursLoader 
+        scope={containerRef.current}
+        onInit={() => console.log('Form behaviours ready')}
+      />
+    </div>
+  );
+}
+```
+
 ## Provided Behaviours
 
 | Area | Init Function | Teardown | Features | Custom Events |

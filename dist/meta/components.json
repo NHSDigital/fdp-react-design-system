@@ -1,6 +1,6 @@
 {
   "version": "0.0.44-alpha.13",
-  "generatedAt": "2025-10-26T11:09:08.373Z",
+  "generatedAt": "2025-10-26T12:55:17.852Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -426,6 +426,56 @@
       ],
       "source": "src/components/Label/Label.schema.ts"
     },
+    "InsetText": {
+      "name": "InsetText",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content (ignored if html is provided)"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content (overrides text)"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/InsetText/InsetText.schema.ts"
+    },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
+    },
     "Input": {
       "name": "Input",
       "category": "form",
@@ -568,29 +618,6 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "InsetText": {
-      "name": "InsetText",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content (ignored if html is provided)"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content (overrides text)"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/InsetText/InsetText.schema.ts"
-    },
     "Heading": {
       "name": "Heading",
       "category": "typography",
@@ -636,33 +663,6 @@
         }
       ],
       "source": "src/components/Heading/Heading.schema.ts"
-    },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Fieldset": {
       "name": "Fieldset",
@@ -880,86 +880,6 @@
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
     },
-    "CharacterCount": {
-      "name": "CharacterCount",
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true,
-          "description": "Unique id for textarea and message association"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Name attribute for textarea"
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "required": false,
-          "description": "Current value (controlled)"
-        },
-        {
-          "name": "defaultValue",
-          "type": "string",
-          "required": false,
-          "description": "Initial value (uncontrolled)"
-        },
-        {
-          "name": "rows",
-          "type": "number",
-          "required": false,
-          "defaultValue": "5",
-          "description": "Textarea rows"
-        },
-        {
-          "name": "maxLength",
-          "type": "number",
-          "required": false,
-          "description": "Maximum characters"
-        },
-        {
-          "name": "maxWords",
-          "type": "number",
-          "required": false,
-          "description": "Maximum words (alternative to maxLength)"
-        },
-        {
-          "name": "threshold",
-          "type": "number",
-          "required": false,
-          "defaultValue": "75",
-          "description": "Threshold percentage to show counter"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "required": false,
-          "description": "Wrapper extra classes"
-        },
-        {
-          "name": "countMessageClasses",
-          "type": "string",
-          "required": false,
-          "description": "Extra classes for message element"
-        },
-        {
-          "name": "hasError",
-          "type": "boolean",
-          "required": false,
-          "description": "Force error styling"
-        },
-        {
-          "name": "describedBy",
-          "type": "string",
-          "required": false,
-          "description": "aria-describedby ids"
-        }
-      ],
-      "source": "src/components/CharacterCount/CharacterCount.schema.ts"
-    },
     "Checkboxes": {
       "name": "Checkboxes",
       "props": [
@@ -1111,6 +1031,86 @@
         }
       ],
       "source": "src/components/Button/Button.schema.ts"
+    },
+    "CharacterCount": {
+      "name": "CharacterCount",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Unique id for textarea and message association"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Name attribute for textarea"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Current value (controlled)"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial value (uncontrolled)"
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "required": false,
+          "defaultValue": "5",
+          "description": "Textarea rows"
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "required": false,
+          "description": "Maximum characters"
+        },
+        {
+          "name": "maxWords",
+          "type": "number",
+          "required": false,
+          "description": "Maximum words (alternative to maxLength)"
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "required": false,
+          "defaultValue": "75",
+          "description": "Threshold percentage to show counter"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "description": "Wrapper extra classes"
+        },
+        {
+          "name": "countMessageClasses",
+          "type": "string",
+          "required": false,
+          "description": "Extra classes for message element"
+        },
+        {
+          "name": "hasError",
+          "type": "boolean",
+          "required": false,
+          "description": "Force error styling"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "required": false,
+          "description": "aria-describedby ids"
+        }
+      ],
+      "source": "src/components/CharacterCount/CharacterCount.schema.ts"
     }
   },
   "categories": {
@@ -1135,12 +1135,12 @@
       "Details"
     ],
     "typography": [
-      "Heading",
-      "Hint"
+      "Hint",
+      "Heading"
     ],
     "uncategorised": [
-      "CharacterCount",
-      "Checkboxes"
+      "Checkboxes",
+      "CharacterCount"
     ]
   }
 }

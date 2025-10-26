@@ -245,8 +245,6 @@ span .nhsuk-u-visually-hidden {
 .nhsuk-header__navigation-container {
   margin: 0 auto;
   position: relative;
-  /* Default reserve for More button space (0 by default; can be overridden) */
-  --nhs-header-more-reserve: 0px;
   box-shadow: inset 0 0.25px 0 0 #d8dde0;
 }
 
@@ -264,8 +262,6 @@ span .nhsuk-u-visually-hidden {
 
 .nhsuk-header__navigation-container--initializing {
   transition: opacity 150ms ease-in-out;
-  /* During init, conservatively reserve space for the More button to avoid shifts */
-  --nhs-header-more-reserve: var(--fdp-header-more-reserve, 104px);
 }
 
 .nhsuk-header__navigation-container:not(.nhsuk-header__navigation-container--initializing) {
@@ -526,14 +522,6 @@ span .nhsuk-u-visually-hidden {
   margin: 0 -8px;
   padding: 0;
   width: calc(100% + 24px);
-  /* Flex spacer to reserve space for potential More button */
-}
-
-.nhsuk-header__navigation-list::after {
-  content: "";
-  flex: 0 0 var(--nhs-header-more-reserve, 0px);
-  inline-size: var(--nhs-header-more-reserve, 0px);
-  block-size: 1px; /* minimal size to avoid affecting line-height */
 }
 
 @media (min-width: 768px) {
@@ -1373,8 +1361,6 @@ nav[data-ssr-hydrating=true] + .nhsuk-header__dropdown-menu {
 /* SSR Fallback Navigation Container */
 
 .nhsuk-header__navigation-container--ssr {
-  /* Reserve space for potential More button to avoid layout shift on hydration */
-  --nhs-header-more-reserve: var(--fdp-header-more-reserve, 104px);
   /* Server-side: start as single line; overflow handled via progressive enhancement */
 }
 

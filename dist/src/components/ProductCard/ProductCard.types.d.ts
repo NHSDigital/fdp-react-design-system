@@ -4,9 +4,29 @@ import type React from "react";
  */
 export type ProductCardImageType = "photo" | "graphic";
 /**
- * Product card layout orientation
+ * Strongly typed enum for image type
  */
-export type ProductCardLayout = "horizontal" | "vertical";
+export declare enum ProductCardImageTypeEnum {
+    Photo = "photo",
+    Graphic = "graphic"
+}
+/**
+ * Product card layout orientation
+ * Accepts canonical values 'vertical' | 'horizontal' and also synonyms
+ * 'portrait' (vertical) and 'landscape' (horizontal) for semantic clarity
+ * when used in grid vs row contexts.
+ */
+export type ProductCardLayout = "horizontal" | "vertical" | "landscape" | "portrait";
+/**
+ * Strongly typed enum for ProductCard layout orientation.
+ * Includes canonical values and their semantic aliases.
+ */
+export declare enum ProductCardLayoutEnum {
+    Vertical = "vertical",
+    Horizontal = "horizontal",
+    Portrait = "portrait",// alias of Vertical
+    Landscape = "landscape"
+}
 /**
  * Product card theme enum based on FDP brand gradients
  */
@@ -24,8 +44,18 @@ export type ProductCardTheme = "aqua-green" | "purple" | "blue" | "grey" | "azur
 /**
  * Vector graphic shape configuration
  */
+export declare enum VectorGraphicKindEnum {
+    Rect = "rect",
+    Hex = "hex",
+    Circle = "circle"
+}
+export declare enum VectorGraphicShadowEnum {
+    None = "none",
+    Soft = "soft",
+    Strong = "strong"
+}
 export interface VectorGraphicShape {
-    kind: "rect" | "hex" | "circle";
+    kind: VectorGraphicKindEnum;
     x: number;
     y: number;
     size?: number;
@@ -33,16 +63,21 @@ export interface VectorGraphicShape {
     height?: number;
     rotate?: number;
     gradient: ProductCardTheme;
-    shadow?: "none" | "soft" | "strong";
+    shadow?: VectorGraphicShadowEnum;
 }
 /**
  * Button configuration for ProductCard
  */
+export declare enum ProductCardButtonVariantEnum {
+    Primary = "primary",
+    Secondary = "secondary",
+    Tertiary = "tertiary"
+}
 export interface ProductCardButton {
     label: string;
     href?: string;
     onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-    variant?: "primary" | "secondary" | "tertiary";
+    variant?: ProductCardButtonVariantEnum;
     disabled?: boolean;
     ariaLabel?: string;
 }

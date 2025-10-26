@@ -56,6 +56,18 @@ var Heading = ({
 };
 
 // src/components/ProductCard/ProductCard.types.ts
+var ProductCardImageTypeEnum = /* @__PURE__ */ ((ProductCardImageTypeEnum2) => {
+  ProductCardImageTypeEnum2["Photo"] = "photo";
+  ProductCardImageTypeEnum2["Graphic"] = "graphic";
+  return ProductCardImageTypeEnum2;
+})(ProductCardImageTypeEnum || {});
+var ProductCardLayoutEnum = /* @__PURE__ */ ((ProductCardLayoutEnum2) => {
+  ProductCardLayoutEnum2["Vertical"] = "vertical";
+  ProductCardLayoutEnum2["Horizontal"] = "horizontal";
+  ProductCardLayoutEnum2["Portrait"] = "portrait";
+  ProductCardLayoutEnum2["Landscape"] = "landscape";
+  return ProductCardLayoutEnum2;
+})(ProductCardLayoutEnum || {});
 var ProductCardThemeEnum = /* @__PURE__ */ ((ProductCardThemeEnum2) => {
   ProductCardThemeEnum2["AquaGreen"] = "aqua-green";
   ProductCardThemeEnum2["Purple"] = "purple";
@@ -64,6 +76,24 @@ var ProductCardThemeEnum = /* @__PURE__ */ ((ProductCardThemeEnum2) => {
   ProductCardThemeEnum2["Azure"] = "azure";
   return ProductCardThemeEnum2;
 })(ProductCardThemeEnum || {});
+var VectorGraphicKindEnum = /* @__PURE__ */ ((VectorGraphicKindEnum2) => {
+  VectorGraphicKindEnum2["Rect"] = "rect";
+  VectorGraphicKindEnum2["Hex"] = "hex";
+  VectorGraphicKindEnum2["Circle"] = "circle";
+  return VectorGraphicKindEnum2;
+})(VectorGraphicKindEnum || {});
+var VectorGraphicShadowEnum = /* @__PURE__ */ ((VectorGraphicShadowEnum2) => {
+  VectorGraphicShadowEnum2["None"] = "none";
+  VectorGraphicShadowEnum2["Soft"] = "soft";
+  VectorGraphicShadowEnum2["Strong"] = "strong";
+  return VectorGraphicShadowEnum2;
+})(VectorGraphicShadowEnum || {});
+var ProductCardButtonVariantEnum = /* @__PURE__ */ ((ProductCardButtonVariantEnum2) => {
+  ProductCardButtonVariantEnum2["Primary"] = "primary";
+  ProductCardButtonVariantEnum2["Secondary"] = "secondary";
+  ProductCardButtonVariantEnum2["Tertiary"] = "tertiary";
+  return ProductCardButtonVariantEnum2;
+})(ProductCardButtonVariantEnum || {});
 
 // src/components/ProductCard/ProductCard.tsx
 import { jsx as jsx2, jsxs } from "react/jsx-runtime";
@@ -475,6 +505,11 @@ var ProductCard = ({
   elevated = true,
   imageAspectRatio = 1.5
 }) => {
+  const normalizedLayout = React2.useMemo(() => {
+    if (layout === "landscape") return "horizontal";
+    if (layout === "portrait") return "vertical";
+    return layout;
+  }, [layout]);
   const shapes = React2.useMemo(() => {
     var _a, _b;
     if ((image == null ? void 0 : image.type) === "graphic") {
@@ -487,7 +522,7 @@ var ProductCard = ({
   }, [image, theme]);
   const cardClasses = [
     "nhs-product-card",
-    `nhs-product-card--${layout}`,
+    `nhs-product-card--${normalizedLayout}`,
     `nhs-product-card--theme-${theme}`,
     elevated && "nhs-product-card--elevated",
     (onClick || href) && "nhs-product-card--clickable",
@@ -598,6 +633,11 @@ var ProductCard = ({
 };
 export {
   ProductCard,
-  ProductCardThemeEnum
+  ProductCardButtonVariantEnum,
+  ProductCardImageTypeEnum,
+  ProductCardLayoutEnum,
+  ProductCardThemeEnum,
+  VectorGraphicKindEnum,
+  VectorGraphicShadowEnum
 };
 //# sourceMappingURL=index.js.map

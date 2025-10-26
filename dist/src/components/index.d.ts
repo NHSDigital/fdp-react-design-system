@@ -126,5 +126,5 @@ export { ParallaxScene } from "./Parallax/ParallaxScene";
 export type { ParallaxSceneProps, ParallaxShapeSpec, ParallaxMode, } from "./Parallax/ParallaxScene.types";
 export { PatternBanner } from "./PatternBanner/PatternBanner";
 export type { PatternBannerProps, PatternBannerShape, } from "./PatternBanner/PatternBanner.types";
-export { ProductCard, ProductCardThemeEnum } from "./ProductCard";
+export { ProductCard, ProductCardThemeEnum, ProductCardLayoutEnum, ProductCardImageTypeEnum, VectorGraphicKindEnum, VectorGraphicShadowEnum, ProductCardButtonVariantEnum, } from "./ProductCard";
 export type { ProductCardProps, ProductCardImageType, ProductCardLayout, ProductCardTheme, VectorGraphicShape, ProductCardButton, } from "./ProductCard";

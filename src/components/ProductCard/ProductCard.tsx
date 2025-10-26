@@ -5,7 +5,11 @@ import type {
 	VectorGraphicShape,
 	ProductCardTheme,
 } from "./ProductCard.types";
-import { ProductCardThemeEnum } from "./ProductCard.types";
+import {
+	ProductCardThemeEnum,
+	VectorGraphicKindEnum,
+	VectorGraphicShadowEnum,
+} from "./ProductCard.types";
 import "./ProductCard.scss";
 
 // Deterministic RNG (same as PatternBanner)
@@ -40,7 +44,11 @@ function generateVectorShapes(
 ): VectorGraphicShape[] {
 	const rng = mulberry32(seed);
 	const shapes: VectorGraphicShape[] = [];
-	const kinds: VectorGraphicShape["kind"][] = ["rect", "hex", "circle"];
+	const kinds: VectorGraphicShape["kind"][] = [
+		VectorGraphicKindEnum.Rect,
+		VectorGraphicKindEnum.Hex,
+		VectorGraphicKindEnum.Circle,
+	];
 
 	// Get complementary gradients based on theme
 	const themeIndex = DEFAULT_GRADIENTS.indexOf(theme);
@@ -80,12 +88,12 @@ function generateVectorShapes(
 	): Box => {
 		let wPct = 0;
 		let hPct = 0;
-		if (kind === "rect") {
+		if (kind === VectorGraphicKindEnum.Rect) {
 			const w = widthPx ?? 48;
 			const h = heightPx ?? 36;
 			wPct = (w / BASE_W) * 100;
 			hPct = (h / BASE_H) * 100;
-		} else if (kind === "circle") {
+		} else if (kind === VectorGraphicKindEnum.Circle) {
 			const d = sizePx ?? 40;
 			wPct = (d / BASE_W) * 100;
 			hPct = (d / BASE_H) * 100;
@@ -115,9 +123,12 @@ function generateVectorShapes(
 		const y = clamp(20 + rng() * 60, 10, 90);
 
 		const gradient = gradients[Math.floor(rng() * gradients.length)];
-		const shadow = shapes.length < 2 ? "soft" : "none";
+		const shadow =
+			shapes.length < 2
+				? VectorGraphicShadowEnum.Soft
+				: VectorGraphicShadowEnum.None;
 
-		if (kind === "rect") {
+		if (kind === VectorGraphicKindEnum.Rect) {
 			const width = 40 + rng() * 80; // 40-120px (same as PatternBanner)
 			const height = 28 + rng() * 64; // 28-92px
 			const box = candidateBox(kind, x, y, width, height);
@@ -136,7 +147,7 @@ function generateVectorShapes(
 
 			boxes.push(box);
 			shapes.push({ kind, x, y, width, height, gradient, rotate: 0, shadow });
-		} else if (kind === "circle") {
+		} else if (kind === VectorGraphicKindEnum.Circle) {
 			const size = 24 + rng() * 80; // 24-104px diameter (same as PatternBanner)
 			const box = candidateBox(kind, x, y, undefined, undefined, size);
 
@@ -315,7 +326,7 @@ const VectorGraphic: React.FC<{
 						const cx = (s.x / 100) * viewW;
 						const cy = (s.y / 100) * viewH;
 						
-						if (s.kind === "circle") {
+						if (s.kind === VectorGraphicKindEnum.Circle) {
 							// Circle: use 8 cardinal/diagonal points on perimeter
 							const r = (s.size ?? 40) / 2;
 							const angles = [0, 45, 90, 135, 180, 225, 270, 315];
@@ -323,7 +334,7 @@ const VectorGraphic: React.FC<{
 								const rad = (deg * Math.PI) / 180;
 								return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)] as [number, number];
 							});
-						} else if (s.kind === "rect") {
+						} else if (s.kind === VectorGraphicKindEnum.Rect) {
 							// Rectangle: use 4 corners
 							const w = s.width ?? 60;
 							const h = s.height ?? 40;
@@ -410,9 +421,9 @@ const VectorGraphic: React.FC<{
 			{shapes.map((shape, idx) => {
 				const fillClass = `pc-grad-${shape.gradient}`;
 				const filter =
-					shape.shadow === "soft"
+					shape.shadow === VectorGraphicShadowEnum.Soft
 						? "url(#pc-shadow-soft)"
-						: shape.shadow === "strong"
+						: shape.shadow === VectorGraphicShadowEnum.Strong
 							? "url(#pc-shadow-strong)"
 							: undefined;
 
@@ -421,7 +432,7 @@ const VectorGraphic: React.FC<{
 				const x = (shape.x / 100) * viewW;
 				const y = (shape.y / 100) * viewH;
 
-				if (shape.kind === "rect") {
+				if (shape.kind === VectorGraphicKindEnum.Rect) {
 					// Rectangles use their specified dimensions directly
 					const w = shape.width || 60;
 					const h = shape.height || 40;
@@ -437,7 +448,7 @@ const VectorGraphic: React.FC<{
 							filter={filter}
 						/>
 					);
-				} else if (shape.kind === "circle") {
+				} else if (shape.kind === VectorGraphicKindEnum.Circle) {
 					// Circles use their specified radius directly
 					const r = (shape.size || 40) / 2;
 					return (
@@ -450,7 +461,7 @@ const VectorGraphic: React.FC<{
 							filter={filter}
 						/>
 					);
-				} else if (shape.kind === "hex") {
+				} else if (shape.kind === VectorGraphicKindEnum.Hex) {
 					// Hexagons use their specified size directly
 					const size = shape.size || 40;
 					return (

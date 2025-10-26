@@ -982,6 +982,10 @@ var Header = ({
     }
     const nextShow = fit < navigation.items.length;
     const nextVisible = nextShow ? fit : navigation.items.length;
+    try {
+      container.style.setProperty("--nhs-header-more-reserve", nextShow ? `${reserve}px` : "0px");
+    } catch {
+    }
     setShowMoreButton((prev) => prev === nextShow ? prev : nextShow);
     setVisibleItems((prev) => prev === nextVisible ? prev : nextVisible);
     container.classList.remove("nhsuk-header__navigation-container--measuring");

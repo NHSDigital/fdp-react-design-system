@@ -3147,6 +3147,10 @@ const eu = ({
       H += P, J += 1;
     }
     const L = J < i.items.length, G = L ? J : i.items.length;
+    try {
+      I.style.setProperty("--nhs-header-more-reserve", L ? `${D}px` : "0px");
+    } catch {
+    }
     x((U) => U === L ? U : L), g((U) => U === G ? U : G), I.classList.remove("nhsuk-header__navigation-container--measuring"), j.current = !1;
   }, [T, i?.items]);
   rt(() => {

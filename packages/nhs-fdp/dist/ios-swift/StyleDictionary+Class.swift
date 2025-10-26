@@ -44,6 +44,7 @@ public class StyleDictionaryClass {
     public static let brandFdpPrimaryBlue = UIColor(red: 0.000, green: 0.369, blue: 0.722, alpha: 1) /** NHS Blue */
     public static let brandFdpPrimaryDarkBlue = UIColor(red: 0.000, green: 0.188, blue: 0.529, alpha: 1) /** NHS FDP Dark Blue */
     public static let brandFdpPrimaryDarkGreen = UIColor(red: 0.388, green: 0.651, blue: 0.569, alpha: 1) /** NHS Dark Green */
+    public static let brandFdpPrimaryDarkPurple = UIColor(red: 0.675, green: 0.596, blue: 0.796, alpha: 1) /** NHS Dark Purple */
     public static let brandFdpPrimaryGreen = UIColor(red: 0.000, green: 0.588, blue: 0.224, alpha: 1) /** NHS Green */
     public static let brandFdpPrimaryPurple = UIColor(red: 0.839, green: 0.800, blue: 0.890, alpha: 1) /** NHS Purple (tint) */
     public static let brandFdpPrimaryWhite = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1) /** NHS White */

@@ -9,6 +9,7 @@
         "green": { "$value": "#009639", "$description": "NHS Green" },
         "dark-green": { "$value": "#63A691", "$description": "NHS Dark Green" },
         "purple": { "$value": "#D6CCE3", "$description": "NHS Purple (tint)" },
+		"dark-purple": { "$value": "#ac98cb", "$description": "NHS Dark Purple" },
         "white": { "$value": "#ffffff", "$description": "NHS White" }
       },
       "grey": {

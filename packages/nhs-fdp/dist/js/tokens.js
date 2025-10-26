@@ -41,6 +41,7 @@ export const BrandFdpPrimaryBlue = "#005eb8"; // NHS Blue
 export const BrandFdpPrimaryGreen = "#009639"; // NHS Green
 export const BrandFdpPrimaryDarkGreen = "#63a691"; // NHS Dark Green
 export const BrandFdpPrimaryPurple = "#d6cce3"; // NHS Purple (tint)
+export const BrandFdpPrimaryDarkPurple = "#ac98cb"; // NHS Dark Purple
 export const BrandFdpPrimaryWhite = "#ffffff"; // NHS White
 export const BrandFdpGrey1 = "#425563"; // NHS Dark Grey
 export const BrandFdpGrey2 = "#768692"; // NHS Mid Grey

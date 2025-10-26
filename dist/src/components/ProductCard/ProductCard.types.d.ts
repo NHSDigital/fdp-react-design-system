@@ -11,13 +11,6 @@ export declare enum ProductCardImageTypeEnum {
     Graphic = "graphic"
 }
 /**
- * Product card layout orientation
- * Accepts canonical values 'vertical' | 'horizontal' and also synonyms
- * 'portrait' (vertical) and 'landscape' (horizontal) for semantic clarity
- * when used in grid vs row contexts.
- */
-export type ProductCardLayout = "horizontal" | "vertical" | "landscape" | "portrait";
-/**
  * Strongly typed enum for ProductCard layout orientation.
  * Includes canonical values and their semantic aliases.
  */
@@ -106,9 +99,9 @@ export interface ProductCardProps {
     };
     /**
      * Card layout orientation
-     * @default "vertical"
+     * @default ProductCardLayoutEnum.Vertical
      */
-    layout?: ProductCardLayout;
+    layout?: ProductCardLayoutEnum;
     /**
      * Optional buttons/CTAs (max 2 recommended)
      */

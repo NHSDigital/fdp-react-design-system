@@ -1,81 +1,8 @@
 {
   "version": "0.0.44-alpha.15",
-  "generatedAt": "2025-10-26T13:13:43.844Z",
+  "generatedAt": "2025-10-26T15:01:22.670Z",
   "count": 18,
   "components": {
-    "Tag": {
-      "name": "Tag",
-      "category": "meta",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Close button (when closable) is a native button with aria-label \"Remove\"."
-      ],
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML string content (overrides text)"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "description": "Children content (highest precedence)"
-        },
-        {
-          "name": "color",
-          "type": "'default'|'white'|'grey'|'green'|'aqua-green'|'blue'|'purple'|'pink'|'red'|'orange'|'yellow'",
-          "defaultValue": "default",
-          "description": "Visual color variant",
-          "enum": [
-            "default",
-            "white",
-            "grey",
-            "green",
-            "aqua-green",
-            "blue",
-            "purple",
-            "pink",
-            "red",
-            "orange",
-            "yellow"
-          ]
-        },
-        {
-          "name": "noBorder",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Removes border style"
-        },
-        {
-          "name": "closable",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Displays close (×) control"
-        },
-        {
-          "name": "onClose",
-          "type": "() => void",
-          "description": "Callback when close button clicked"
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Disables close interaction"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/Tag/Tag.schema.ts"
-    },
     "Textarea": {
       "name": "Textarea",
       "category": "form",
@@ -191,6 +118,79 @@
         }
       ],
       "source": "src/components/Textarea/Textarea.schema.ts"
+    },
+    "Tag": {
+      "name": "Tag",
+      "category": "meta",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Close button (when closable) is a native button with aria-label \"Remove\"."
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML string content (overrides text)"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "description": "Children content (highest precedence)"
+        },
+        {
+          "name": "color",
+          "type": "'default'|'white'|'grey'|'green'|'aqua-green'|'blue'|'purple'|'pink'|'red'|'orange'|'yellow'",
+          "defaultValue": "default",
+          "description": "Visual color variant",
+          "enum": [
+            "default",
+            "white",
+            "grey",
+            "green",
+            "aqua-green",
+            "blue",
+            "purple",
+            "pink",
+            "red",
+            "orange",
+            "yellow"
+          ]
+        },
+        {
+          "name": "noBorder",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Removes border style"
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Displays close (×) control"
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "description": "Callback when close button clicked"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables close interaction"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/Tag/Tag.schema.ts"
     },
     "Select": {
       "name": "Select",
@@ -697,87 +697,6 @@
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
     },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
-    },
-    "Details": {
-      "name": "Details",
-      "category": "content",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Uses native <details> and <summary> elements for disclosure.",
-        "Summary is focusable; body content announced when expanded."
-      ],
-      "props": [
-        {
-          "name": "summaryText",
-          "type": "string",
-          "description": "Text for the summary (clickable)"
-        },
-        {
-          "name": "summaryHtml",
-          "type": "string",
-          "description": "HTML for the summary (overrides summaryText)"
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Text content for the details body"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content for the details body (overrides text)"
-        },
-        {
-          "name": "open",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Whether the details is open by default"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "id",
-          "type": "string",
-          "description": "Unique identifier"
-        }
-      ],
-      "source": "src/components/Details/Details.schema.ts"
-    },
     "ErrorSummary": {
       "name": "ErrorSummary",
       "category": "form",
@@ -826,6 +745,39 @@
         }
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
+    },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "DateInput": {
       "name": "DateInput",
@@ -879,6 +831,54 @@
         }
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
+    },
+    "Details": {
+      "name": "Details",
+      "category": "content",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Uses native <details> and <summary> elements for disclosure.",
+        "Summary is focusable; body content announced when expanded."
+      ],
+      "props": [
+        {
+          "name": "summaryText",
+          "type": "string",
+          "description": "Text for the summary (clickable)"
+        },
+        {
+          "name": "summaryHtml",
+          "type": "string",
+          "description": "HTML for the summary (overrides summaryText)"
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Text content for the details body"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content for the details body (overrides text)"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the details is open by default"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Unique identifier"
+        }
+      ],
+      "source": "src/components/Details/Details.schema.ts"
     },
     "Checkboxes": {
       "name": "Checkboxes",
@@ -1114,9 +1114,6 @@
     }
   },
   "categories": {
-    "meta": [
-      "Tag"
-    ],
     "form": [
       "Textarea",
       "Select",
@@ -1124,10 +1121,13 @@
       "Label",
       "Input",
       "Fieldset",
-      "ErrorMessage",
       "ErrorSummary",
+      "ErrorMessage",
       "DateInput",
       "Button"
+    ],
+    "meta": [
+      "Tag"
     ],
     "content": [
       "Panel",

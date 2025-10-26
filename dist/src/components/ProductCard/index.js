@@ -496,7 +496,7 @@ var ProductCard = ({
   title,
   description,
   image,
-  layout = "vertical",
+  layout = "vertical" /* Vertical */,
   buttons = [],
   badge,
   theme = "blue",
@@ -510,9 +510,10 @@ var ProductCard = ({
   imageAspectRatio = 1.5
 }) => {
   const normalizedLayout = React2.useMemo(() => {
-    if (layout === "landscape") return "horizontal";
-    if (layout === "portrait") return "vertical";
-    return layout;
+    if (layout === "landscape" /* Landscape */) return "horizontal";
+    if (layout === "portrait" /* Portrait */) return "vertical";
+    if (layout === "horizontal" /* Horizontal */) return "horizontal";
+    return "vertical";
   }, [layout]);
   const shapes = React2.useMemo(() => {
     var _a, _b;

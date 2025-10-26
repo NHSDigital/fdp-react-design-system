@@ -81,7 +81,7 @@ export { CareCard } from './CareCard';
 export type { CareCardProps, CareCardType, HeadingLevel as CareCardHeadingLevel } from './CareCard';
 export { ProductCardServer as ProductCard, ProductCardThemeEnum } from './ProductCard/ProductCard.server';
 export type { ProductCardServerProps as ProductCardProps, } from './ProductCard/ProductCard.server';
-export type { ProductCardImageType, ProductCardLayout, ProductCardTheme, VectorGraphicShape } from './ProductCard/ProductCard.types';
+export type { ProductCardImageType, ProductCardTheme, VectorGraphicShape } from './ProductCard/ProductCard.types';
 export { ProductCardLayoutEnum, ProductCardImageTypeEnum, VectorGraphicKindEnum, VectorGraphicShadowEnum, ProductCardButtonVariantEnum, } from './ProductCard/ProductCard.types';
 export { InputServer as Input } from './Input/Input.server';
 export type { InputProps } from './Input/Input.types';

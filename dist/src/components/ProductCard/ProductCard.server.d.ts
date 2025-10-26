@@ -2,7 +2,7 @@ import React from "react";
 import type { ProductCardProps } from "./ProductCard.types";
 import "./ProductCard.scss";
 export { ProductCardThemeEnum } from "./ProductCard.types";
-export type { ProductCardImageType, ProductCardLayout, ProductCardTheme, VectorGraphicShape, } from "./ProductCard.types";
+export type { ProductCardImageType, ProductCardTheme, VectorGraphicShape, } from "./ProductCard.types";
 /**
  * Server-safe props for ProductCard (no event handlers)
  */

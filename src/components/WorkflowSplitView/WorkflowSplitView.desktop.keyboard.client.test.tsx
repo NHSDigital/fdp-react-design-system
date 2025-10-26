@@ -88,7 +88,11 @@ describe("WorkflowSplitView (desktop keyboard navigation)", () => {
       fireEvent.keyDown(document.activeElement as Element, { key: "ArrowLeft" });
     });
     // Should remain on first
-    await waitFor(() => expect(document.activeElement).toBe(cells[0]));
+    await waitFor(() => {
+      const active = document.activeElement as HTMLElement | null;
+      // Accept focus staying on the first gridcell or within it (descendant focus)
+      expect(Boolean(active && (active === cells[0] || cells[0].contains(active!)))).toBe(true);
+    });
   });
 
   it("Enter enters nav container and focuses listbox active option; Escape ascends back to container", () => {

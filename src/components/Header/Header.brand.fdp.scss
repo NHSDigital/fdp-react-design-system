@@ -6,6 +6,16 @@
 	[data-brand="fdp"] {
 		// FDP brand defaults: white header background and appropriate text/link colors
 		.nhsuk-header {
+			// Header-level background and text colors must be declared before nested rules
+			// to avoid Sass mixed-decls deprecation warnings and ensure consistent ordering.
+			background-color: var(
+				--fdp-header-bg,
+				var(--brand-fdp-semantic-surface-background-primary, #ffffff)
+			);
+			color: var(
+				--fdp-header-text,
+				var(--brand-fdp-semantic-surface-text-primary, #425563)
+			);
 
 			// Centre justify the FDP logo / service area.
 			.nhsuk-header__service {
@@ -20,14 +30,6 @@
 			}
 
 			// Allow per-consumer overrides via CSS custom properties with semantic fallbacks
-			background-color: var(
-				--fdp-header-bg,
-				var(--brand-fdp-semantic-surface-background-primary, #ffffff)
-			);
-			color: var(
-				--fdp-header-text,
-				var(--brand-fdp-semantic-surface-text-primary, #425563)
-			);
 
 			&__container {
 				padding-left: 32px;

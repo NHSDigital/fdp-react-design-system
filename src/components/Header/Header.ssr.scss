@@ -40,8 +40,6 @@ nav[data-ssr-hydrating="true"] {
 
 /* SSR Fallback Navigation Container */
 .nhsuk-header__navigation-container--ssr {
-  /* Reserve space for potential More button to avoid layout shift on hydration */
-  --nhs-header-more-reserve: var(--fdp-header-more-reserve, 104px);
   /* Server-side: start as single line; overflow handled via progressive enhancement */
   .nhsuk-header__navigation-list {
     display: flex;

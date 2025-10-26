@@ -1,6 +1,6 @@
 {
   "version": "0.0.44-alpha.12",
-  "generatedAt": "2025-10-26T11:05:12.088Z",
+  "generatedAt": "2025-10-26T11:08:13.671Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -697,39 +697,6 @@
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
     },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
-    },
     "ErrorSummary": {
       "name": "ErrorSummary",
       "category": "form",
@@ -778,6 +745,39 @@
         }
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
+    },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "Details": {
       "name": "Details",
@@ -1121,8 +1121,8 @@
       "Label",
       "Input",
       "Fieldset",
-      "ErrorMessage",
       "ErrorSummary",
+      "ErrorMessage",
       "DateInput",
       "Button"
     ],

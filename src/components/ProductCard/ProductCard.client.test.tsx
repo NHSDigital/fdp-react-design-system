@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ProductCard } from "./ProductCard";
+import { ProductCard, ProductCardLayoutEnum } from ".";
 
 describe("ProductCard - Client Tests", () => {
   describe("Rendering", () => {
@@ -125,7 +125,7 @@ describe("ProductCard - Client Tests", () => {
 
     it("applies horizontal layout class when specified", () => {
       const { container } = render(
-        <ProductCard title="Test" description="Test" layout="horizontal" />
+        <ProductCard title="Test" description="Test" layout={ProductCardLayoutEnum.Horizontal} />
       );
 
       expect(container.firstChild instanceof Element && 
@@ -134,7 +134,7 @@ describe("ProductCard - Client Tests", () => {
 
     it("accepts 'landscape' alias for horizontal", () => {
       const { container } = render(
-        <ProductCard title="Test" description="Test" layout="landscape" />
+        <ProductCard title="Test" description="Test" layout={ProductCardLayoutEnum.Landscape} />
       );
 
       expect(container.firstChild instanceof Element &&
@@ -143,7 +143,7 @@ describe("ProductCard - Client Tests", () => {
 
     it("accepts 'portrait' alias for vertical", () => {
       const { container } = render(
-        <ProductCard title="Test" description="Test" layout="portrait" />
+        <ProductCard title="Test" description="Test" layout={ProductCardLayoutEnum.Portrait} />
       );
 
       expect(container.firstChild instanceof Element &&

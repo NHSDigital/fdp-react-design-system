@@ -9,6 +9,7 @@ import {
 	ProductCardThemeEnum,
 	VectorGraphicKindEnum,
 	VectorGraphicShadowEnum,
+	ProductCardLayoutEnum,
 } from "./ProductCard.types";
 import "./ProductCard.scss";
 
@@ -523,7 +524,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 	title,
 	description,
 	image,
-	layout = "vertical",
+	layout = ProductCardLayoutEnum.Vertical,
 	buttons = [],
 	badge,
 	theme = "blue",
@@ -536,11 +537,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 	elevated = true,
 	imageAspectRatio = 1.5,
 }) => {
-		// Support semantic aliases: 'portrait' => 'vertical', 'landscape' => 'horizontal'
+		// Support semantic aliases in enum: Portrait => Vertical, Landscape => Horizontal
 		const normalizedLayout = React.useMemo(() => {
-			if (layout === "landscape") return "horizontal" as const;
-			if (layout === "portrait") return "vertical" as const;
-			return layout;
+			if (layout === ProductCardLayoutEnum.Landscape) return "horizontal" as const;
+			if (layout === ProductCardLayoutEnum.Portrait) return "vertical" as const;
+			// layout may be Vertical or Horizontal; enum values are strings we can pass through
+			if (layout === ProductCardLayoutEnum.Horizontal) return "horizontal" as const;
+			return "vertical" as const;
 		}, [layout]);
 
 	// Generate or use provided shapes

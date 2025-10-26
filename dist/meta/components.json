@@ -1,8 +1,81 @@
 {
-  "version": "0.0.44-alpha.14",
-  "generatedAt": "2025-10-26T13:12:47.254Z",
+  "version": "0.0.44-alpha.15",
+  "generatedAt": "2025-10-26T13:13:43.844Z",
   "count": 18,
   "components": {
+    "Tag": {
+      "name": "Tag",
+      "category": "meta",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Close button (when closable) is a native button with aria-label \"Remove\"."
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML string content (overrides text)"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "description": "Children content (highest precedence)"
+        },
+        {
+          "name": "color",
+          "type": "'default'|'white'|'grey'|'green'|'aqua-green'|'blue'|'purple'|'pink'|'red'|'orange'|'yellow'",
+          "defaultValue": "default",
+          "description": "Visual color variant",
+          "enum": [
+            "default",
+            "white",
+            "grey",
+            "green",
+            "aqua-green",
+            "blue",
+            "purple",
+            "pink",
+            "red",
+            "orange",
+            "yellow"
+          ]
+        },
+        {
+          "name": "noBorder",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Removes border style"
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Displays close (×) control"
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "description": "Callback when close button clicked"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables close interaction"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/Tag/Tag.schema.ts"
+    },
     "Textarea": {
       "name": "Textarea",
       "category": "form",
@@ -118,79 +191,6 @@
         }
       ],
       "source": "src/components/Textarea/Textarea.schema.ts"
-    },
-    "Tag": {
-      "name": "Tag",
-      "category": "meta",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Close button (when closable) is a native button with aria-label \"Remove\"."
-      ],
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML string content (overrides text)"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "description": "Children content (highest precedence)"
-        },
-        {
-          "name": "color",
-          "type": "'default'|'white'|'grey'|'green'|'aqua-green'|'blue'|'purple'|'pink'|'red'|'orange'|'yellow'",
-          "defaultValue": "default",
-          "description": "Visual color variant",
-          "enum": [
-            "default",
-            "white",
-            "grey",
-            "green",
-            "aqua-green",
-            "blue",
-            "purple",
-            "pink",
-            "red",
-            "orange",
-            "yellow"
-          ]
-        },
-        {
-          "name": "noBorder",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Removes border style"
-        },
-        {
-          "name": "closable",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Displays close (×) control"
-        },
-        {
-          "name": "onClose",
-          "type": "() => void",
-          "description": "Callback when close button clicked"
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Disables close interaction"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/Tag/Tag.schema.ts"
     },
     "Select": {
       "name": "Select",
@@ -697,55 +697,6 @@
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
     },
-    "ErrorSummary": {
-      "name": "ErrorSummary",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Focuses programmatically on mount in React; macro/static render initial markup without auto-focus (handled by enhancement script if added).",
-        "Provides role=\"alert\" and an H2 title with aria-labelledby for screen reader context."
-      ],
-      "props": [
-        {
-          "name": "titleText",
-          "type": "string",
-          "defaultValue": "\"There is a problem\"",
-          "description": "Summary title text (ignored if titleHtml provided)"
-        },
-        {
-          "name": "titleHtml",
-          "type": "string",
-          "description": "Raw HTML for title (takes precedence over titleText)"
-        },
-        {
-          "name": "descriptionText",
-          "type": "string",
-          "description": "Description text (ignored if descriptionHtml or children provided)"
-        },
-        {
-          "name": "descriptionHtml",
-          "type": "string",
-          "description": "Description HTML (takes precedence over descriptionText unless children provided)"
-        },
-        {
-          "name": "errorList",
-          "type": "Array<{ text?: string; html?: string; href?: string; attributes?: Record<string, any> }>",
-          "required": true,
-          "description": "List of error items displayed under the description"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes for root container"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "description": "Custom description content (overrides descriptionText/Html)"
-        }
-      ],
-      "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
-    },
     "ErrorMessage": {
       "name": "ErrorMessage",
       "category": "form",
@@ -827,6 +778,55 @@
       ],
       "source": "src/components/Details/Details.schema.ts"
     },
+    "ErrorSummary": {
+      "name": "ErrorSummary",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Focuses programmatically on mount in React; macro/static render initial markup without auto-focus (handled by enhancement script if added).",
+        "Provides role=\"alert\" and an H2 title with aria-labelledby for screen reader context."
+      ],
+      "props": [
+        {
+          "name": "titleText",
+          "type": "string",
+          "defaultValue": "\"There is a problem\"",
+          "description": "Summary title text (ignored if titleHtml provided)"
+        },
+        {
+          "name": "titleHtml",
+          "type": "string",
+          "description": "Raw HTML for title (takes precedence over titleText)"
+        },
+        {
+          "name": "descriptionText",
+          "type": "string",
+          "description": "Description text (ignored if descriptionHtml or children provided)"
+        },
+        {
+          "name": "descriptionHtml",
+          "type": "string",
+          "description": "Description HTML (takes precedence over descriptionText unless children provided)"
+        },
+        {
+          "name": "errorList",
+          "type": "Array<{ text?: string; html?: string; href?: string; attributes?: Record<string, any> }>",
+          "required": true,
+          "description": "List of error items displayed under the description"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes for root container"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "description": "Custom description content (overrides descriptionText/Html)"
+        }
+      ],
+      "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
+    },
     "DateInput": {
       "name": "DateInput",
       "category": "form",
@@ -879,6 +879,64 @@
         }
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
+    },
+    "Checkboxes": {
+      "name": "Checkboxes",
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxItem[]",
+          "required": true,
+          "description": "Array of checkbox items"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Shared name attribute"
+        },
+        {
+          "name": "idPrefix",
+          "type": "string",
+          "description": "ID prefix for fieldset and inputs"
+        },
+        {
+          "name": "legend",
+          "type": "string",
+          "description": "Legend text"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "description": "Legend rendered as page heading"
+        },
+        {
+          "name": "legendSize",
+          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
+          "description": "Legend size"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Group hint text"
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "description": "Group error message"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra wrapper classes"
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "description": "Small variant"
+        }
+      ],
+      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     },
     "CharacterCount": {
       "name": "CharacterCount",
@@ -1053,67 +1111,12 @@
         }
       ],
       "source": "src/components/Button/Button.schema.ts"
-    },
-    "Checkboxes": {
-      "name": "Checkboxes",
-      "props": [
-        {
-          "name": "items",
-          "type": "CheckboxItem[]",
-          "required": true,
-          "description": "Array of checkbox items"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Shared name attribute"
-        },
-        {
-          "name": "idPrefix",
-          "type": "string",
-          "description": "ID prefix for fieldset and inputs"
-        },
-        {
-          "name": "legend",
-          "type": "string",
-          "description": "Legend text"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "description": "Legend rendered as page heading"
-        },
-        {
-          "name": "legendSize",
-          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
-          "description": "Legend size"
-        },
-        {
-          "name": "hint",
-          "type": "string",
-          "description": "Group hint text"
-        },
-        {
-          "name": "errorMessage",
-          "type": "string",
-          "description": "Group error message"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra wrapper classes"
-        },
-        {
-          "name": "small",
-          "type": "boolean",
-          "description": "Small variant"
-        }
-      ],
-      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     }
   },
   "categories": {
+    "meta": [
+      "Tag"
+    ],
     "form": [
       "Textarea",
       "Select",
@@ -1121,13 +1124,10 @@
       "Label",
       "Input",
       "Fieldset",
-      "ErrorSummary",
       "ErrorMessage",
+      "ErrorSummary",
       "DateInput",
       "Button"
-    ],
-    "meta": [
-      "Tag"
     ],
     "content": [
       "Panel",
@@ -1139,8 +1139,8 @@
       "Heading"
     ],
     "uncategorised": [
-      "CharacterCount",
-      "Checkboxes"
+      "Checkboxes",
+      "CharacterCount"
     ]
   }
 }

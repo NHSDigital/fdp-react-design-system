@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { renderToString } from "react-dom/server";
+import { ProductCardLayoutEnum } from ".";
 import { ProductCard } from "./ProductCard";
 
 describe("ProductCard - SSR Tests", () => {
@@ -126,7 +127,7 @@ describe("ProductCard - SSR Tests", () => {
 
   it("applies horizontal layout class in SSR", () => {
     const html = renderToString(
-      <ProductCard title="Test" description="Test" layout="horizontal" />
+      <ProductCard title="Test" description="Test" layout={ProductCardLayoutEnum.Horizontal} />
     );
 
     expect(html).toContain('nhs-product-card--horizontal');
@@ -134,7 +135,7 @@ describe("ProductCard - SSR Tests", () => {
 
   it("accepts 'landscape' alias for horizontal in SSR", () => {
     const html = renderToString(
-      <ProductCard title="Test" description="Test" layout="landscape" />
+      <ProductCard title="Test" description="Test" layout={ProductCardLayoutEnum.Landscape} />
     );
 
     expect(html).toContain('nhs-product-card--horizontal');
@@ -142,7 +143,7 @@ describe("ProductCard - SSR Tests", () => {
 
   it("accepts 'portrait' alias for vertical in SSR", () => {
     const html = renderToString(
-      <ProductCard title="Test" description="Test" layout="portrait" />
+      <ProductCard title="Test" description="Test" layout={ProductCardLayoutEnum.Portrait} />
     );
 
     expect(html).toContain('nhs-product-card--vertical');

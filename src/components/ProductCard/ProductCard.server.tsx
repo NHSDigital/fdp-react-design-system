@@ -5,14 +5,13 @@ import type {
 	VectorGraphicShape,
 	ProductCardTheme,
 } from "./ProductCard.types";
-import { ProductCardThemeEnum, VectorGraphicKindEnum, VectorGraphicShadowEnum } from "./ProductCard.types";
+import { ProductCardThemeEnum, VectorGraphicKindEnum, VectorGraphicShadowEnum, ProductCardLayoutEnum } from "./ProductCard.types";
 import "./ProductCard.scss";
 
 // Re-export for convenience
 export { ProductCardThemeEnum } from "./ProductCard.types";
 export type {
 	ProductCardImageType,
-	ProductCardLayout,
 	ProductCardTheme,
 	VectorGraphicShape,
 } from "./ProductCard.types";
@@ -89,12 +88,12 @@ function generateVectorShapes(
 	): Box => {
 		let wPct = 0;
 		let hPct = 0;
-		if (kind === "rect") {
+		if (kind === VectorGraphicKindEnum.Rect) {
 			const w = widthPx ?? 48;
 			const h = heightPx ?? 36;
 			wPct = (w / BASE_W) * 100;
 			hPct = (h / BASE_H) * 100;
-		} else if (kind === "circle") {
+		} else if (kind === VectorGraphicKindEnum.Circle) {
 			const d = sizePx ?? 40;
 			wPct = (d / BASE_W) * 100;
 			hPct = (d / BASE_H) * 100;
@@ -531,7 +530,7 @@ export const ProductCardServer: React.FC<ProductCardServerProps> = ({
 	title,
 	description,
 	image,
-	layout = "vertical",
+	layout = ProductCardLayoutEnum.Vertical,
 	buttons = [],
 	badge,
 	theme = "blue",
@@ -556,9 +555,17 @@ export const ProductCardServer: React.FC<ProductCardServerProps> = ({
 		return [];
 	}, [image, theme]);
 
+	// Normalize layout for class names
+	const normalizedLayout = React.useMemo(() => {
+		if (layout === ProductCardLayoutEnum.Landscape) return "horizontal" as const;
+		if (layout === ProductCardLayoutEnum.Portrait) return "vertical" as const;
+		if (layout === ProductCardLayoutEnum.Horizontal) return "horizontal" as const;
+		return "vertical" as const;
+	}, [layout]);
+
 	const cardClasses = [
 		"nhs-product-card",
-		`nhs-product-card--${layout}`,
+		`nhs-product-card--${normalizedLayout}`,
 		`nhs-product-card--theme-${theme}`,
 		elevated && "nhs-product-card--elevated",
 		href && "nhs-product-card--clickable",

@@ -121,7 +121,6 @@ export type {
 } from './ProductCard/ProductCard.server';
 export type {
 	ProductCardImageType, 
-	ProductCardLayout, 
 	ProductCardTheme, 
 	VectorGraphicShape
 } from './ProductCard/ProductCard.types';

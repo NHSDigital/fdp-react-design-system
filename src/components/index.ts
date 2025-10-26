@@ -277,7 +277,6 @@ export {
 export type {
 	ProductCardProps,
 	ProductCardImageType,
-	ProductCardLayout,
 	ProductCardTheme,
 	VectorGraphicShape,
 	ProductCardButton,

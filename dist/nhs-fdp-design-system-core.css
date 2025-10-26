@@ -2316,6 +2316,13 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] .nhsuk-header .nhsuk-header__service {
   justify-content: center;
 }
+@media (max-width: calc(768px - 1px)) {
+  [data-brand=fdp] .nhsuk-header .nhsuk-header__service {
+    max-width: 90%;
+    margin-inline: auto;
+    gap: 8px;
+  }
+}
 [data-brand=fdp] .nhsuk-header__container {
   padding-left: 32px;
   padding-right: 32px;
@@ -2339,6 +2346,24 @@ span .nhsuk-u-visually-hidden {
 }
 [data-brand=fdp] .nhsuk-header__service-name {
   font-size: 24px;
+  line-height: 1.1;
+}
+@media (max-width: calc(768px - 1px)) {
+  [data-brand=fdp] .nhsuk-header__service-name {
+    font-size: clamp(16px, 5vw, 20px);
+  }
+}
+@media (max-width: calc(768px - 1px)) {
+  [data-brand=fdp] .nhsuk-header__organisation-logo {
+    height: auto;
+    max-width: 90%;
+  }
+}
+@media (max-width: calc(768px - 1px)) {
+  [data-brand=fdp] .nhsuk-header__organisation-logo[data-logo-variant=graphic] {
+    width: 7.5em;
+    max-width: 90%;
+  }
 }
 [data-brand=fdp] .nhsuk-header__navigation-list {
   justify-content: space-evenly;

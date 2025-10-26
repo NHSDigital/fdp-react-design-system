@@ -153,6 +153,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	&__navigation-container {
 		margin: 0 auto;
 		position: relative;
+		/* Default reserve for More button space (0 by default; can be overridden) */
+		--nhs-header-more-reserve: 0px;
 		// Use inset so the hairline renders inside the element rather than outside (the previous
 		// 0 -1px offset was drawing the line just above the box and it could be obscured by the
 		// preceding header content). Inset ensures consistent visibility.
@@ -175,6 +177,8 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		// Prevent layout shift during initialization with subtle opacity transition
 		&--initializing {
 			transition: opacity #{tokens.$nhs-fdp-animation-duration-fast} ease-in-out;
+			/* During init, conservatively reserve space for the More button to avoid shifts */
+			--nhs-header-more-reserve: var(--fdp-header-more-reserve, 104px);
 		}
 
 		// Ensure smooth transition when initialization completes
@@ -207,6 +211,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			}
 		}
 	}
+
 
 	// --- Service (logo + name) -------------------------------------------------
 	// NOTE: Consolidated duplicate declarations; keep a single authoritative block.
@@ -456,6 +461,14 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 		padding: 0;
 		width: calc(100% + #{tokens.$nhs-fdp-spacing-4});
 
+		/* Flex spacer to reserve space for potential More button */
+		&::after {
+			content: "";
+			flex: 0 0 var(--nhs-header-more-reserve, 0px);
+			inline-size: var(--nhs-header-more-reserve, 0px);
+			block-size: 1px; /* minimal size to avoid affecting line-height */
+		}
+
 		@media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
 			width: calc(100% + #{tokens.$nhs-fdp-spacing-6});
 			margin: 0 -#{tokens.$nhs-fdp-spacing-3};
@@ -525,7 +538,7 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			width: 24px;
 			height: 24px;
 			margin-left: tokens.$nhs-fdp-spacing-1;
-			margin-top: -4px; // optical alignment
+			margin-top: -6px; // optical alignment
 			vertical-align: middle;
 			transform: rotate(90deg); // closed: points down
 			transition: transform #{tokens.$nhs-fdp-animation-duration-fast} #{tokens.$nhs-fdp-animation-easing-ease-out};
@@ -782,3 +795,4 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 	display: inline-block !important;
 	visibility: hidden; // retains width; prevents flicker
 }
+//

@@ -40,6 +40,8 @@ nav[data-ssr-hydrating="true"] {
 
 /* SSR Fallback Navigation Container */
 .nhsuk-header__navigation-container--ssr {
+  /* Reserve space for potential More button to avoid layout shift on hydration */
+  --nhs-header-more-reserve: var(--fdp-header-more-reserve, 104px);
   /* Server-side: start as single line; overflow handled via progressive enhancement */
   .nhsuk-header__navigation-list {
     display: flex;
@@ -68,9 +70,9 @@ nav[data-ssr-hydrating="true"] {
 
 /* Progressive Enhancement Indicator */
 .nhsuk-header__navigation-container--initializing {
-  /* Subtle loading state while JavaScript calculates overflow */
-  opacity: 0.95;
-  transition: opacity tokens.$nhs-fdp-animation-duration-fast ease-in-out;
+  /* Avoid visual change during hydration to prevent flash */
+  opacity: 1; // keep identical to SSR/default state
+  transition: none; // no fade during init to avoid flicker
 }
 
 /* No-JS Fallback Styles */

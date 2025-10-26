@@ -130,20 +130,11 @@
 					--fdp-header-dark-blue-bg,
 					#{tokens.$nhs-fdp-brand-fdp-primary-dark-blue}
 				);
-				color: var(
-					--fdp-header-dark-blue-text,
-					#{tokens.$nhs-fdp-color-primary-white}
-				);
+				color: tokens.$nhs-fdp-color-primary-white;
 
 				.nhsuk-header__navigation {
-					background-color: var(
-						--fdp-header-dark-blue-nav-bg,
-						#{tokens.$nhs-fdp-brand-fdp-primary-dark-blue}
-					);
-					color: var(
-						--fdp-header-dark-blue-nav-text,
-						#{tokens.$nhs-fdp-brand-fdp-primary-white}
-					);
+					background-color: transparent;
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
 
 					a {
 						color: var(
@@ -159,32 +150,27 @@
 
 					&__navigation-link,
 					&__navigation-button {
-						color: var(
-							--fdp-header-dark-blue-nav-text,
-							#{tokens.$nhs-fdp-brand-fdp-primary-white}
-						);
-						
+						color: tokens.$nhs-fdp-brand-fdp-primary-white;
 					}
 					
-				}
-
-				// Reset link/button colors back to white for dark background
-				&__navigation-link,
-				&__navigation-button {
-					color: var(
-						--fdp-header-dark-blue-nav-text,
-						#{tokens.$nhs-fdp-brand-fdp-primary-white}
-					);
 				}
 
 				// Reset text/link/button colors
 				.nhsuk-header__service-logo,
 				.nhsuk-header__service-name,
 				.nhsuk-header__service-name[href],
-				.nhsuk-header__organisation-name,
+				.nhsuk-header__organisation-name{
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+				}
+
 				.nhsuk-header__navigation-link,
 				.nhsuk-header__navigation-button {
 					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+
+					&:focus {
+							background-color: tokens.$nhs-fdp-brand-fdp-primary-purple;
+							color: tokens.$nhs-fdp-brand-fdp-semantic-intent-info;
+						}
 				}
 
 				// Service area colours on dark background
@@ -309,17 +295,22 @@
 					}
 				}
 
-				// Reset text/link/button colors back to white for dark background
+				// Reset text/link/button colors
 				.nhsuk-header__service-logo,
 				.nhsuk-header__service-name,
 				.nhsuk-header__service-name[href],
-				.nhsuk-header__organisation-name,
+				.nhsuk-header__organisation-name{
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+				}
+
 				.nhsuk-header__navigation-link,
 				.nhsuk-header__navigation-button {
-					color: var(
-						--fdp-header-dark-grey-text,
-						#{tokens.$nhs-fdp-color-primary-white}
-					);
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+
+					&:focus {
+						background-color: tokens.$nhs-fdp-brand-fdp-primary-purple;
+						color: tokens.$nhs-fdp-semantic-color-focus-text;
+					}
 				}
 
 				// Service area colours on dark background
@@ -371,16 +362,22 @@
 				}
 
 				// Reset link/button colors back to white for dark background
+				// Reset text/link/button colors
 				.nhsuk-header__service-logo,
 				.nhsuk-header__service-name,
 				.nhsuk-header__service-name[href],
-				.nhsuk-header__organisation-name,
+				.nhsuk-header__organisation-name{
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+				}
+
 				.nhsuk-header__navigation-link,
 				.nhsuk-header__navigation-button {
-					color: var(
-						--fdp-header-mid-grey-text,
-						#{tokens.$nhs-fdp-color-primary-white}
-					);
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+
+					&:focus {
+						background-color: tokens.$nhs-fdp-brand-fdp-primary-purple;
+						color: tokens.$nhs-fdp-semantic-color-focus-text;
+					}
 				}
 
 				.nhsuk-header__navigation {
@@ -429,16 +426,22 @@
 				}
 
 				// Reset link/button colors back to white for dark background
+				// Reset text/link/button colors
 				.nhsuk-header__service-logo,
 				.nhsuk-header__service-name,
 				.nhsuk-header__service-name[href],
-				.nhsuk-header__organisation-name,
+				.nhsuk-header__organisation-name{
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+				}
+
 				.nhsuk-header__navigation-link,
 				.nhsuk-header__navigation-button {
-					color: var(
-						--fdp-header-dark-grey-gradient-text,
-						#{tokens.$nhs-fdp-color-primary-white}
-					);
+					color: tokens.$nhs-fdp-brand-fdp-primary-white;
+
+					&:focus {
+						background-color: tokens.$nhs-fdp-brand-fdp-primary-purple;
+						color: tokens.$nhs-fdp-semantic-color-focus-text;
+					}
 				}
 
 				// Navigation separator hairline on dark background

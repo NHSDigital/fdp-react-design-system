@@ -350,6 +350,24 @@ export const FDPOnNHSDarkBlue: Story = {
 	},
 };
 
+export const FDPOnNHSDarkBlueGradient: Story = {
+	args: { ...baseArgs, logoVariant: LogoVariant.Inverse },
+	render: (args) => (
+		<div style={{ background: '#003087', padding: 0 }}>
+			<BrandThemeProvider brand="fdp" scope="local">
+				<Header {...(args as any)} className="nhsuk-header--blue-gradient" />
+			</BrandThemeProvider>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'FDP brand-scoped Header on NHS blue background; uses the inverse logo by default.',
+			},
+		},
+	},
+};
+
 export const FDPOnNHSPaleGrey: Story = {
 	args: { ...baseArgs, logoVariant: LogoVariant.Full },
 	render: (args) => (

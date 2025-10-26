@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.11",
-  "generatedAt": "2025-10-26T10:31:19.128Z",
+  "version": "0.0.44-alpha.12",
+  "generatedAt": "2025-10-26T10:32:11.787Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -192,6 +192,68 @@
       ],
       "source": "src/components/Tag/Tag.schema.ts"
     },
+    "Radios": {
+      "name": "Radios",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Keyboard arrow navigation cycles through options.",
+        "Conditional content container is hidden with --hidden class when inactive."
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Controlled selected value"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "description": "Uncontrolled initial value"
+        },
+        {
+          "name": "hasError",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Error style"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "description": "aria-describedby id list"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra CSS classes"
+        },
+        {
+          "name": "size",
+          "type": "'normal'|'small'",
+          "defaultValue": "normal",
+          "description": "Size variant"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Inline layout"
+        },
+        {
+          "name": "options",
+          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
+          "required": true,
+          "description": "Radio options"
+        }
+      ],
+      "source": "src/components/Radios/Radios.schema.ts"
+    },
     "Select": {
       "name": "Select",
       "category": "form",
@@ -280,68 +342,6 @@
         }
       ],
       "source": "src/components/Select/Select.schema.ts"
-    },
-    "Radios": {
-      "name": "Radios",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Keyboard arrow navigation cycles through options.",
-        "Conditional content container is hidden with --hidden class when inactive."
-      ],
-      "props": [
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Group name"
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "description": "Controlled selected value"
-        },
-        {
-          "name": "defaultValue",
-          "type": "string",
-          "description": "Uncontrolled initial value"
-        },
-        {
-          "name": "hasError",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Error style"
-        },
-        {
-          "name": "describedBy",
-          "type": "string",
-          "description": "aria-describedby id list"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra CSS classes"
-        },
-        {
-          "name": "size",
-          "type": "'normal'|'small'",
-          "defaultValue": "normal",
-          "description": "Size variant"
-        },
-        {
-          "name": "inline",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Inline layout"
-        },
-        {
-          "name": "options",
-          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
-          "required": true,
-          "description": "Radio options"
-        }
-      ],
-      "source": "src/components/Radios/Radios.schema.ts"
     },
     "Panel": {
       "name": "Panel",
@@ -448,33 +448,6 @@
         }
       ],
       "source": "src/components/InsetText/InsetText.schema.ts"
-    },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Input": {
       "name": "Input",
@@ -617,6 +590,33 @@
         }
       ],
       "source": "src/components/Input/Input.schema.ts"
+    },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Heading": {
       "name": "Heading",
@@ -826,59 +826,6 @@
         }
       ],
       "source": "src/components/Details/Details.schema.ts"
-    },
-    "DateInput": {
-      "name": "DateInput",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Groups day/month/year inputs with shared hint/error via describedBy.",
-        "Field-level validation errors (client side state in React) are not present in initial SSR/macro output."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "required": true,
-          "description": "Root id used as prefix for generated input IDs and hint/error IDs"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional classes for the date input wrapper"
-        },
-        {
-          "name": "items",
-          "type": "Array<{ name: string; label?: string; value?: string; classes?: string; id?: string; inputmode?: string; autocomplete?: string; pattern?: string }>",
-          "description": "Explicit configuration of day/month/year items (fallback defaults applied when omitted)"
-        },
-        {
-          "name": "namePrefix",
-          "type": "string",
-          "description": "Prefix to wrap submitted field names e.g. prefix[day]"
-        },
-        {
-          "name": "values",
-          "type": "{ day?: string; month?: string; year?: string }",
-          "description": "Initial values for each field"
-        },
-        {
-          "name": "fieldset",
-          "type": "{ legend?: string; classes?: string; describedBy?: string }",
-          "description": "Optional fieldset wrapper and legend text"
-        },
-        {
-          "name": "hint",
-          "type": "{ text?: string; html?: string; classes?: string }",
-          "description": "Hint configuration (before error message)"
-        },
-        {
-          "name": "errorMessage",
-          "type": "{ text?: string; html?: string; classes?: string }",
-          "description": "Group level error message (adds error state styles)"
-        }
-      ],
-      "source": "src/components/DateInput/DateInput.schema.ts"
     },
     "Checkboxes": {
       "name": "Checkboxes",
@@ -1111,20 +1058,73 @@
         }
       ],
       "source": "src/components/Button/Button.schema.ts"
+    },
+    "DateInput": {
+      "name": "DateInput",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Groups day/month/year inputs with shared hint/error via describedBy.",
+        "Field-level validation errors (client side state in React) are not present in initial SSR/macro output."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "required": true,
+          "description": "Root id used as prefix for generated input IDs and hint/error IDs"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional classes for the date input wrapper"
+        },
+        {
+          "name": "items",
+          "type": "Array<{ name: string; label?: string; value?: string; classes?: string; id?: string; inputmode?: string; autocomplete?: string; pattern?: string }>",
+          "description": "Explicit configuration of day/month/year items (fallback defaults applied when omitted)"
+        },
+        {
+          "name": "namePrefix",
+          "type": "string",
+          "description": "Prefix to wrap submitted field names e.g. prefix[day]"
+        },
+        {
+          "name": "values",
+          "type": "{ day?: string; month?: string; year?: string }",
+          "description": "Initial values for each field"
+        },
+        {
+          "name": "fieldset",
+          "type": "{ legend?: string; classes?: string; describedBy?: string }",
+          "description": "Optional fieldset wrapper and legend text"
+        },
+        {
+          "name": "hint",
+          "type": "{ text?: string; html?: string; classes?: string }",
+          "description": "Hint configuration (before error message)"
+        },
+        {
+          "name": "errorMessage",
+          "type": "{ text?: string; html?: string; classes?: string }",
+          "description": "Group level error message (adds error state styles)"
+        }
+      ],
+      "source": "src/components/DateInput/DateInput.schema.ts"
     }
   },
   "categories": {
     "form": [
       "Textarea",
-      "Select",
       "Radios",
+      "Select",
       "Label",
       "Input",
       "Fieldset",
       "ErrorSummary",
       "ErrorMessage",
-      "DateInput",
-      "Button"
+      "Button",
+      "DateInput"
     ],
     "meta": [
       "Tag"

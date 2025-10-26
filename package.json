@@ -182,7 +182,8 @@
     "./components/Parallax/ParallaxScene/css": "./dist/components/Parallax/ParallaxScene.css",
     "./components/PatternBanner/css": "./dist/components/PatternBanner/PatternBanner.css",
     "./components/StepByStepNavigation/css": "./dist/components/StepByStepNavigation/StepByStepNavigation.css",
-    "./components/ProductCard/css": "./dist/components/ProductCard/ProductCard.css"
+    "./components/ProductCard/css": "./dist/components/ProductCard/ProductCard.css",
+    "./components/Header/Header.brand/css": "./dist/components/Header/Header.brand.css"
   },
   "sideEffects": [
     "dist/**/*.css"

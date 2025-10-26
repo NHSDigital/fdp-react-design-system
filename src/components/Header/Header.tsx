@@ -117,6 +117,10 @@ export const Header: React.FC<HeaderProps> = ({
 
 		const nextShow = fit < navigation.items.length;
 		const nextVisible = nextShow ? fit : navigation.items.length;
+		// Set CSS reserve to measured width if More will be shown, otherwise remove reserve
+		try {
+			container.style.setProperty('--nhs-header-more-reserve', nextShow ? `${reserve}px` : '0px');
+		} catch {}
 		// Only update state if changed to avoid extra observer cycles & flicker
 		setShowMoreButton(prev => (prev === nextShow ? prev : nextShow));
 		setVisibleItems(prev => (prev === nextVisible ? prev : nextVisible));

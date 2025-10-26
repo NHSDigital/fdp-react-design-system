@@ -1,10 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 // Dynamically import behaviours and attach to window to avoid tree-shaking
 export default function NHSBehavioursInit() {
-	useEffect(() => {
+	useLayoutEffect(() => {
 		let cancelled = false;
 
 		(async () => {

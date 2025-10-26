@@ -220,6 +220,7 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
   const baseHeight = 600;
   const viewW = baseHeight * aspectRatio;
   const viewH = baseHeight;
+  const fmt = (n) => n.toFixed(2);
   const hexPoints = (cx, cy, size) => {
     const r = size / 2;
     const angles = [0, 60, 120, 180, 240, 300];
@@ -227,7 +228,7 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
       const rad = a * Math.PI / 180;
       const x = cx + r * Math.cos(rad);
       const y = cy + r * Math.sin(rad);
-      return `${x},${y}`;
+      return `${fmt(x)},${fmt(y)}`;
     }).join(" ");
   };
   return /* @__PURE__ */ jsxs(
@@ -427,13 +428,13 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
             return /* @__PURE__ */ jsx2(
               "line",
               {
-                x1: best.p[0],
-                y1: best.p[1],
-                x2: best.q[0],
-                y2: best.q[1],
+                x1: fmt(best.p[0]),
+                y1: fmt(best.p[1]),
+                x2: fmt(best.q[0]),
+                y2: fmt(best.q[1]),
                 stroke: "rgb(158, 171, 181)",
-                strokeWidth: "0.5",
-                strokeMiterlimit: "0.5"
+                strokeWidth: fmt(0.5),
+                strokeMiterlimit: fmt(0.5)
               },
               `connector-${i}-${j}`
             );
@@ -444,6 +445,8 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
           const filter = shape.shadow === "soft" /* Soft */ ? "url(#pc-shadow-soft)" : shape.shadow === "strong" /* Strong */ ? "url(#pc-shadow-strong)" : void 0;
           const x = shape.x / 100 * viewW;
           const y = shape.y / 100 * viewH;
+          const xStr = fmt(x);
+          const yStr = fmt(y);
           if (shape.kind === "rect" /* Rect */) {
             const w = shape.width || 60;
             const h = shape.height || 40;
@@ -451,11 +454,11 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
               "rect",
               {
                 className: fillClass,
-                x: x - w / 2,
-                y: y - h / 2,
-                width: w,
-                height: h,
-                transform: `rotate(${shape.rotate || 0} ${x} ${y})`,
+                x: fmt(x - w / 2),
+                y: fmt(y - h / 2),
+                width: fmt(w),
+                height: fmt(h),
+                transform: `rotate(${shape.rotate || 0} ${xStr} ${yStr})`,
                 filter
               },
               idx
@@ -466,9 +469,9 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
               "circle",
               {
                 className: fillClass,
-                cx: x,
-                cy: y,
-                r,
+                cx: xStr,
+                cy: yStr,
+                r: fmt(r),
                 filter
               },
               idx
@@ -480,7 +483,7 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
               {
                 className: fillClass,
                 points: hexPoints(x, y, size),
-                transform: `rotate(${shape.rotate || 0} ${x} ${y})`,
+                transform: `rotate(${shape.rotate || 0} ${xStr} ${yStr})`,
                 filter
               },
               idx

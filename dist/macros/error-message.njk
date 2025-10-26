@@ -1,0 +1,4 @@
+{# Manual ErrorMessage macro (schema-generated variant may overwrite) #}
+{% macro errorMessage(params) %}
+  <span class="nhsuk-error-message{% if params.className %} {{ params.className }}{% endif %}"{% if params.id %} id="{{ params.id }}"{% endif %}><span class="nhsuk-u-visually-hidden">{{ (params.visuallyHiddenText is defined and params.visuallyHiddenText != null) and params.visuallyHiddenText or 'Error:' }} </span>{{ params.html | safe if params.html else params.text }}</span>
+{% endmacro %}

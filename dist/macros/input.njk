@@ -1,0 +1,29 @@
+{# Manual Input macro (schema-generated variant may overwrite) #}
+{% macro input(params) %}
+  {% set type = params.type or 'text' %}
+  {% set isRange = type == 'range' %}
+  {% set classes = 'nhsuk-input' %}
+  {% if params.hasError %}{% set classes = classes + ' nhsuk-input--error' %}{% endif %}
+  {% if isRange %}{% set classes = classes + ' nhsuk-input--range' %}{% endif %}
+  {% if not isRange and params.width and params.width != 'full' %}{% set classes = classes + ' nhsuk-input--width-' + params.width %}{% endif %}
+  {% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}
+  {% set currentVal = (params.value if params.value is defined else (params.defaultValue if params.defaultValue is defined else (params.min if (isRange and params.min is defined) else (isRange and '0') ))) %}
+  {% if isRange %}
+    <div class="nhsuk-input-range-wrapper">
+      {% if params.showValueLabels %}
+        <div class="nhsuk-input-range-labels">
+          <span class="nhsuk-input-range-label nhsuk-input-range-label--min">{{ (params.valueLabels and params.valueLabels.min) or params.min or '0' }}</span>
+          <input class="{{ classes }}" id="{{ params.id }}" name="{{ params.name }}" type="{{ type }}" data-current-value="{{ currentVal }}"{% if params.min is defined %} min="{{ params.min }}"{% endif %}{% if params.max is defined %} max="{{ params.max }}"{% endif %}{% if params.step is defined %} step="{{ params.step }}"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %} />
+          <span class="nhsuk-input-range-label nhsuk-input-range-label--max">{{ (params.valueLabels and params.valueLabels.max) or params.max or '100' }}</span>
+        </div>
+      {% else %}
+  <input class="{{ classes }}" id="{{ params.id }}" name="{{ params.name }}" type="{{ type }}" data-current-value="{{ currentVal }}"{% if params.min is defined %} min="{{ params.min }}"{% endif %}{% if params.max is defined %} max="{{ params.max }}"{% endif %}{% if params.step is defined %} step="{{ params.step }}"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %} />
+      {% endif %}
+      {% if params.showCurrentValue %}
+  <div class="nhsuk-input-range-current-value"><span class="nhsuk-input-range-current-label">{{ (params.valueLabels and params.valueLabels.current) or 'Current value:' }} <strong>{{ currentVal }}</strong></span></div>
+      {% endif %}
+    </div>
+  {% else %}
+  <input class="{{ classes }}" id="{{ params.id }}" name="{{ params.name }}" type="{{ type }}"{% if params.value is defined %} value="{{ params.value }}"{% elif params.defaultValue is defined %} value="{{ params.defaultValue }}"{% endif %}{% if params.placeholder %} placeholder="{{ params.placeholder }}"{% endif %}{% if params.disabled %} disabled{% endif %}{% if params.readOnly %} readonly{% endif %}{% if params.required %} required{% endif %}{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}{% if params.inputMode %} inputmode="{{ params.inputMode }}"{% endif %}{% if params.autoComplete %} autocomplete="{{ params.autoComplete }}"{% endif %}{% if params.maxLength is defined %} maxlength="{{ params.maxLength }}"{% endif %}{% if params.minLength is defined %} minlength="{{ params.minLength }}"{% endif %}{% if params.pattern %} pattern="{{ params.pattern }}"{% endif %}{% if params.step is defined %} step="{{ params.step }}"{% endif %}{% if params.min is defined %} min="{{ params.min }}"{% endif %}{% if params.max is defined %} max="{{ params.max }}"{% endif %} />
+  {% endif %}
+{% endmacro %}

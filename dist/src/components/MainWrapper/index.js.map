@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../src/components/MainWrapper/MainWrapper.tsx"],
+  "sourcesContent": ["import React from 'react';\nimport { MainWrapperProps } from './MainWrapper.types';\nimport './MainWrapper.scss';\n\n/**\n * MainWrapper component provides consistent padding around main content areas\n * following NHS UK spacing conventions.\n * \n * @example\n * ```tsx\n * <Container>\n *   <MainWrapper>\n *     <h1>Page Title</h1>\n *     <p>Main content goes here...</p>\n *   </MainWrapper>\n * </Container>\n * ```\n * \n * @example\n * ```tsx\n * // With size variants\n * <MainWrapper size=\"large\">Large padding for spacious layouts</MainWrapper>\n * <MainWrapper size=\"small\">Compact padding for dense layouts</MainWrapper>\n * ```\n */\nexport const MainWrapper: React.FC<MainWrapperProps> = ({\n  as: Component = 'main',\n  size = 'default',\n  className,\n  children,\n  ...props\n}) => {\n  const classes = [\n    'nhsuk-main-wrapper',\n    size === 'large' && 'nhsuk-main-wrapper--l',\n    size === 'small' && 'nhsuk-main-wrapper--s',\n    className\n  ].filter(Boolean).join(' ');\n\n  return (\n    <Component className={classes} {...props}>\n      {children}\n    </Component>\n  );\n};\n"],
+  "mappings": ";AAwCI;AAfG,IAAM,cAA0C,CAAC;AAAA,EACtD,IAAI,YAAY;AAAA,EAChB,OAAO;AAAA,EACP;AAAA,EACA;AAAA,EACA,GAAG;AACL,MAAM;AACJ,QAAM,UAAU;AAAA,IACd;AAAA,IACA,SAAS,WAAW;AAAA,IACpB,SAAS,WAAW;AAAA,IACpB;AAAA,EACF,EAAE,OAAO,OAAO,EAAE,KAAK,GAAG;AAE1B,SACE,oBAAC,aAAU,WAAW,SAAU,GAAG,OAChC,UACH;AAEJ;",
+  "names": []
+}

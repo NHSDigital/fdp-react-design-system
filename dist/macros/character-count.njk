@@ -1,0 +1,65 @@
+{# CharacterCount component macro (parity with React CharacterCount) #}
+{% macro characterCount(params) %}
+  {# Determine counting mode and limit #}
+  {% set limit = params.maxLength if params.maxLength is defined else params.maxWords %}
+  {% set isWords = params.maxWords is defined %}
+  {% set unit = 'word' if isWords else 'character' %}
+  {% set unitPlural = 'words' if isWords else 'characters' %}
+  {# Determine initial value (prefer explicit value then defaultValue) so parity matches React SSR output #}
+  {% set initialValue = '' %}
+  {% if params.value is defined %}
+    {% set initialValue = params.value %}
+  {% elseif params.defaultValue is defined %}
+    {% set initialValue = params.defaultValue %}
+  {% endif %}
+  {# Count words manually (Nunjucks lacks regex split). Collapse whitespace first. #}
+  {% if isWords %}
+    {% set trimmed = initialValue | trim %}
+    {% if trimmed == '' %}
+      {% set count = 0 %}
+    {% else %}
+      {% set normalised = trimmed.replace('\n', ' ') %}
+      {% set normalised = normalised.replace('  ', ' ') %}
+      {% set parts = normalised.split(' ') %}
+      {% set count = parts | length %}
+    {% endif %}
+  {% else %}
+    {% set count = initialValue | length %}
+  {% endif %}
+  {# For SSR parity we intentionally DO NOT apply dynamic over-limit or threshold logic yet. #}
+  {% set remaining = limit - count %}
+  {% set threshold = params.threshold or 75 %}
+  {% set showCount = false %}
+  {% set isOver = false %}
+
+  {% set wrapperClasses = 'nhsuk-character-count' %}{% if params.className %}{% set wrapperClasses = wrapperClasses + ' ' + params.className %}{% endif %}
+  {% set textareaClasses = 'nhsuk-js-character-count' %}
+  {% set messageClasses = 'nhsuk-character-count__message nhsuk-character-count__message--disabled' %}
+
+  <div
+    class="{{ wrapperClasses }}"
+    data-module="nhsuk-character-count"
+    {% if params.maxLength is defined %}data-maxlength="{{ params.maxLength }}"{% endif %}
+    {% if params.maxWords is defined %}data-maxwords="{{ params.maxWords }}"{% endif %}
+    data-threshold="{{ threshold }}"
+    data-testid="character-count"
+  >
+    <textarea
+      class="nhsuk-textarea {{ textareaClasses }}"
+      id="{{ params.id }}"
+      name="{{ params.name }}"
+      rows="{{ params.rows or 5 }}"
+      aria-describedby="{{ params.id }}-info"
+      wrap="soft"
+  >{{ initialValue | escape }}</textarea>
+    <div
+      class="nhsuk-hint {{ messageClasses }}"
+      id="{{ params.id }}-info"
+      role="status"
+      aria-live="polite"
+    >
+      {# Message mirrors React generateCountMessage initial state #}
+  You can enter up to {{ limit }} {{ limit == 1 and unit or unitPlural }}
+    </div>
+  </div>
+{% endmacro %}

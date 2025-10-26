@@ -169,6 +169,11 @@
     "./macros": "./dist/macros",
     "./components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css": "./dist/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.css",
     "./components/ProductRoadmap/css": "./dist/components/ProductRoadmap/ProductRoadmap.css",
+    "./components/ProductCard": {
+      "types": "./dist/src/components/ProductCard/index.d.ts",
+      "import": "./dist/src/components/ProductCard/index.js",
+      "require": "./dist/src/components/ProductCard/index.js"
+    },
     "./components/_internal/Mermaid/css": "./dist/components/_internal/Mermaid.css",
     "./tokens": {
       "import": "./packages/nhs-fdp/dist/js/tokens.js",

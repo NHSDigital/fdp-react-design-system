@@ -101,6 +101,31 @@ function App() {
 }
 ```
 
+### Component-level imports
+
+You can import individual components via stable subpaths to keep bundles lean and make intent explicit:
+
+```tsx
+// Import a single component (JS + types)
+import Button from '@fergusbisset/nhs-fdp-design-system/components/Button';
+
+// Many components are available this way, e.g.
+import Card from '@fergusbisset/nhs-fdp-design-system/components/Card';
+import Grid from '@fergusbisset/nhs-fdp-design-system/components/Grid';
+
+// Server-only variants (where available)
+import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/components/Header/server';
+
+// Styles can still be brought in globally or per-component via CSS subpaths
+import '@fergusbisset/nhs-fdp-design-system/components/Button/css';
+```
+
+Notes:
+
+- Subpath exports are generated from the built `dist/src/components/*/index.{js,d.ts}` entries.
+- Server subpaths (e.g. `components/Header/server`) are available where a server-safe variant exists.
+- Tree-shaking works with both the root entry and component subpaths; choose whichever suits your project structure.
+
 ## 🚨 Critical: Next.js Setup
 
 Interactive components (Header overflow, CharacterCount, etc.) require the behaviour bundle to run on the client. Keep your root layout as a Server Component and add a tiny client-only initializer.
@@ -127,6 +152,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 ```
 
 Why this works:
+
 - Your layout stays server-rendered (no "use client").
 - NHSBehavioursInit runs only on the client and imports the behaviours bundle so the Header can enhance.
 

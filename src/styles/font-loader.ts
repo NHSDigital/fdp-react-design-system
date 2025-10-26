@@ -37,10 +37,10 @@ export async function checkFrutigerLoaded(): Promise<boolean> {
 	const normalAvailable = document.fonts.check('1em "Frutiger W01"');
 	const boldAvailable = document.fonts.check('600 1em "Frutiger W01"');
 	
-	console.log('Font availability check:', {
-	  normal: normalAvailable,
-	  bold: boldAvailable
-	});
+	// console.log('Font availability check:', {
+	//   normal: normalAvailable,
+	//   bold: boldAvailable
+	// });
 	
 	return normalAvailable && boldAvailable;
   } catch (error) {
@@ -87,7 +87,7 @@ export async function preloadFrutigerFonts(): Promise<FontLoadingState> {
 		link.crossOrigin = 'anonymous';
 		
 		link.onload = () => {
-		  console.log(`Successfully preloaded font: ${font.href}`);
+		  //console.log(`Successfully preloaded font: ${font.href}`);
 		  resolve();
 		};
 		link.onerror = (error) => {

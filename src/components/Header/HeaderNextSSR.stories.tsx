@@ -31,7 +31,6 @@ type Story = StoryObj<typeof HeaderServer>;
 export const NextSSRWithOverflow: Story = {
   args: {
     service: { text: 'NHS Service', href: '/' },
-	brand: 'nhs',
     navigation: {
       items: [
         { href: '#', text: 'Home', current: true },

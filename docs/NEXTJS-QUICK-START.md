@@ -1,4 +1,4 @@
-# Next.js Quick Start - The Missing Script
+# Next.js Quick Start (SSR + Behaviours)
 
 ## TL;DR - The Problem
 
@@ -8,102 +8,33 @@ You import `HeaderServer` from `/ssr` and it renders perfectly... but it's not i
 
 ## The Solution
 
-You need to load the behaviours script. Here are your options:
+Load the behaviours via a tiny client-only component provided by the library. This keeps your layout as a Server Component and ensures the behaviours are bundled in your app.
 
-### Option 1: Import Behaviours (Simplest)
-
-In your root layout, add a single import at the top:
+### Recommended: NHSBehavioursInit
 
 ```tsx
-// app/layout.tsx
-import '@fergusbisset/nhs-fdp-design-system/behaviours'  // ← Add this line
-import { Header } from '@fergusbisset/nhs-fdp-design-system/ssr'
-import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
+// app/layout.tsx (Server Component)
+import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@fergusbisset/nhs-fdp-design-system/nextjs';
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Header
+        <NHSBehavioursInit />
+        <HeaderServer
           service={{ text: 'My Service', href: '/' }}
-          navigation={{
-            items: [
-              { href: '/', text: 'Home' },
-              { href: '/about', text: 'About' },
-              // ... more items
-            ]
-          }}
+          navigation={{ items: [ { href: '/', text: 'Home' }, { href: '/about', text: 'About' } ] }}
         />
         {children}
       </body>
     </html>
-  )
+  );
 }
 ```
 
-That's it! The behaviours module has auto-init code at the bottom that runs when imported.
-
-### Option 2: Manual Script Tag
-
-If you can't use imports (or want more control), add a script tag:
-
-```tsx
-// app/layout.tsx
-import { Header } from '@fergusbisset/nhs-fdp-design-system/ssr'
-import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en">
-      <head>
-        <script
-          src="node_modules/@fergusbisset/nhs-fdp-design-system/dist/behaviours/index.js"
-          defer
-        />
-      </head>
-      <body>
-        <Header {/* ... */} />
-        {children}
-      </body>
-    </html>
-  )
-}
-```
-
-### Option 3: Client Component Wrapper
-
-Create a client component that imports behaviours:
-
-```tsx
-// components/BehavioursLoader.tsx
-'use client'
-
-import '@fergusbisset/nhs-fdp-design-system/behaviours'
-
-export function BehavioursLoader() {
-  return null  // No UI, just loads the script
-}
-```
-
-Then use it in your layout:
-
-```tsx
-// app/layout.tsx
-import { Header } from '@fergusbisset/nhs-fdp-design-system/ssr'
-import { BehavioursLoader } from './components/BehavioursLoader'
-
-export default function RootLayout({ children }) {
-  return (
-    <html>
-      <body>
-        <Header {/* ... */} />
-        {children}
-        <BehavioursLoader />  {/* ← Loads behaviours as client bundle */}
-      </body>
-    </html>
-  )
-}
-```
+Alternative (legacy): If you can’t use the component, create your own client-only wrapper that imports '@fergusbisset/nhs-fdp-design-system/behaviours'. Note: avoid manual script tags (e.g. adding a src directly) – this is brittle in Next.js and won’t help SSR inline dynamic imports.
 
 ## How to Verify It's Working
 
@@ -222,7 +153,7 @@ But this would:
 - Run browser code during SSR (potential errors)
 - Force client-side code into server components
 
-Instead, you explicitly import behaviours in your layout, which:
+Instead, use a small client island (NHSBehavioursInit), which:
 
 - Only loads on client
 - Keeps server bundle clean

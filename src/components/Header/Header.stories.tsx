@@ -75,6 +75,32 @@ const logo = getBrandLogo(BrandKey.FDP, LogoVariant.Compact);
 \`\`\`
 
 Client usage can still use \`BrandThemeProvider\` to style via CSS and for client-only behaviors, but SSR image selection relies on either \`attributes={{ 'data-brand': 'fdp' }}\` or an explicit \`logo.src\`.
+
+\n
+## Next.js progressive enhancement (Header overflow, behaviours)
+
+When using the server variant in a Next.js app, keep your root layout as a Server Component and add a tiny client-only initializer to load behaviours. The design system provides one for you:
+
+\`\`\`tsx
+// app/layout.tsx (Server Component)
+import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@fergusbisset/nhs-fdp-design-system/nextjs';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+	return (
+		<html lang="en">
+			<body>
+				<NHSBehavioursInit />
+				<HeaderServer serviceName="Service" navigation={{ items: [{ href: '/', text: 'Home' }] }} />
+				{children}
+			</body>
+		</html>
+	);
+}
+\`\`\`
+
+See the Next.js quick start for more details: \`docs/NEXTJS-QUICK-START.md\`.
         `,
 			},
 		},

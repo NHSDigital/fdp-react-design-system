@@ -103,39 +103,38 @@ function App() {
 
 ## 🚨 Critical: Next.js Setup
 
-**If you're using this design system in Next.js, you MUST load the behaviour script** for progressive enhancement features to work (interactive headers, character counts, conditional reveals, etc.).
+Interactive components (Header overflow, CharacterCount, etc.) require the behaviour bundle to run on the client. Keep your root layout as a Server Component and add a tiny client-only initializer.
 
-### Quick Setup
-
-Add one import at the top of your root layout:
+### Quick Setup (recommended)
 
 ```tsx
-// app/layout.tsx
-import '@fergusbisset/nhs-fdp-design-system/behaviours'  // ← Add this line!
-import { Header } from '@fergusbisset/nhs-fdp-design-system/ssr'
-import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
+// app/layout.tsx (Server Component)
+import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@fergusbisset/nhs-fdp-design-system/nextjs';
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <Header {/* your header props */} />
+        <NHSBehavioursInit /> {/* client island ensures behaviours are bundled and initialised */}
+        <HeaderServer serviceName="Service" navigation={{ items: [ { href: '/', text: 'Home' } ] }} />
         {children}
       </body>
     </html>
-  )
+  );
 }
 ```
 
-**That's it!** The behaviours module has auto-initialization code that runs on import.
+Why this works:
+- Your layout stays server-rendered (no "use client").
+- NHSBehavioursInit runs only on the client and imports the behaviours bundle so the Header can enhance.
 
-**Without this**, components like `HeaderServer` will render but won't be interactive (no overflow menus, no keyboard navigation, no transitions).
-
-📖 **[Complete Next.js Setup Guide](./docs/NEXTJS-QUICK-START.md)** - Detailed setup, verification, and troubleshooting
+📖 **[Complete Next.js Setup Guide](./docs/NEXTJS-QUICK-START.md)** – Detailed setup, verification, and troubleshooting
 
 ## Project Structure
 
-```
+```text
 nhs-fdp-design-system/
 ├── docs/                    # Documentation
 │   ├── components/          # Component guides

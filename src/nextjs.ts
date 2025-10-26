@@ -13,3 +13,5 @@ export { useNavigationSplitNextUrlSync } from './nextjs/useNavigationSplitNextUr
 
 // Next.js-specific behaviour initialization (no "use client" required)
 export { InitBehaviours, InitBehavioursInline } from './nextjs/InitBehaviours';
+// Client-side behaviours initializer (use in a small client island)
+export { NHSBehavioursInit } from './nextjs/NHSBehavioursInit';

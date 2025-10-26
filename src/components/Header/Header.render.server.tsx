@@ -292,46 +292,7 @@ export function renderHeaderMarkupServer(
 				</div>
 			)}
 			</header>
-			{/* Inline, SSR-safe hydration kick for header behaviour. */}
-			<script
-				type="module"
-				dangerouslySetInnerHTML={{
-					__html: `
-					(function() {
-						function init() {
-							try {
-								var header = document.querySelector('header.nhsuk-header[data-module="nhsuk-header"]');
-								if (!header) return;
-								// Prefer global behaviours if already present
-								if (window.__nhsHeaderBehaviours && window.__nhsHeaderBehaviours.initHeaders) {
-									window.__nhsHeaderBehaviours.initHeaders(header);
-									console?.log?.('[HeaderServer] Initialized via global behaviours');
-									return;
-								}
-								// Fallback: attempt dynamic import (works if app bundles /behaviours)
-								import('@fergusbisset/nhs-fdp-design-system/behaviours')
-									.then(function(mod){
-										if (mod && mod.initHeaders) {
-											mod.initHeaders(header);
-											console?.log?.('[HeaderServer] Initialized via dynamic import');
-										}
-									})
-									.catch(function(err){
-										console?.warn?.('[HeaderServer] Could not load behaviours module. Import "@fergusbisset/nhs-fdp-design-system/behaviours" in your app.', err);
-									});
-							} catch (e) {
-								console?.warn?.('[HeaderServer] init error', e);
-							}
-						}
-						if (document.readyState === 'loading') {
-							document.addEventListener('DOMContentLoaded', init);
-						} else {
-							setTimeout(init, 0);
-						}
-					})();
-					`.trim(),
-				}}
-			/>
+			
 		</>
 	);
 }

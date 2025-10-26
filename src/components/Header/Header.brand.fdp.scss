@@ -6,6 +6,12 @@
 	[data-brand="fdp"] {
 		// FDP brand defaults: white header background and appropriate text/link colors
 		.nhsuk-header {
+
+			// Centre justify the FDP logo / service area.
+			.nhsuk-header__service {
+				justify-content: center;
+			}
+
 			// Allow per-consumer overrides via CSS custom properties with semantic fallbacks
 			background-color: var(
 				--fdp-header-bg,

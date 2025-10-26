@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.13",
-  "generatedAt": "2025-10-26T13:03:33.187Z",
+  "version": "0.0.44-alpha.14",
+  "generatedAt": "2025-10-26T13:04:31.353Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -343,6 +343,50 @@
       ],
       "source": "src/components/Radios/Radios.schema.ts"
     },
+    "Panel": {
+      "name": "Panel",
+      "category": "content",
+      "since": "0.1.1",
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Unique identifier"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "headingText",
+          "type": "string",
+          "description": "Heading text (ignored if headingHtml is provided)"
+        },
+        {
+          "name": "headingHtml",
+          "type": "string",
+          "description": "Heading HTML (overrides headingText)"
+        },
+        {
+          "name": "headingLevel",
+          "type": "1|2|3|4|5|6",
+          "defaultValue": "2",
+          "description": "Heading level to render for the heading"
+        },
+        {
+          "name": "bodyText",
+          "type": "string",
+          "description": "Body text (ignored if bodyHtml is provided)"
+        },
+        {
+          "name": "bodyHtml",
+          "type": "string",
+          "description": "Body HTML (overrides bodyText)"
+        }
+      ],
+      "source": "src/components/Panel/Panel.schema.ts"
+    },
     "Label": {
       "name": "Label",
       "category": "form",
@@ -547,77 +591,6 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "Panel": {
-      "name": "Panel",
-      "category": "content",
-      "since": "0.1.1",
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "Unique identifier"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "headingText",
-          "type": "string",
-          "description": "Heading text (ignored if headingHtml is provided)"
-        },
-        {
-          "name": "headingHtml",
-          "type": "string",
-          "description": "Heading HTML (overrides headingText)"
-        },
-        {
-          "name": "headingLevel",
-          "type": "1|2|3|4|5|6",
-          "defaultValue": "2",
-          "description": "Heading level to render for the heading"
-        },
-        {
-          "name": "bodyText",
-          "type": "string",
-          "description": "Body text (ignored if bodyHtml is provided)"
-        },
-        {
-          "name": "bodyHtml",
-          "type": "string",
-          "description": "Body HTML (overrides bodyText)"
-        }
-      ],
-      "source": "src/components/Panel/Panel.schema.ts"
-    },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
-    },
     "Heading": {
       "name": "Heading",
       "category": "typography",
@@ -663,6 +636,33 @@
         }
       ],
       "source": "src/components/Heading/Heading.schema.ts"
+    },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Fieldset": {
       "name": "Fieldset",
@@ -1130,13 +1130,13 @@
       "Tag"
     ],
     "content": [
-      "InsetText",
       "Panel",
+      "InsetText",
       "Details"
     ],
     "typography": [
-      "Hint",
-      "Heading"
+      "Heading",
+      "Hint"
     ],
     "uncategorised": [
       "CharacterCount",

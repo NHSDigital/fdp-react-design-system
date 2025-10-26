@@ -10,6 +10,13 @@
 			// Centre justify the FDP logo / service area.
 			.nhsuk-header__service {
 				justify-content: center;
+				// On small screens, constrain the service block so it never exceeds 90% width
+				// and use scalable typography so the logo and text can size proportionally.
+				@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+					max-width: 90%;
+					margin-inline: auto;
+					gap: tokens.$nhs-fdp-spacing-2;
+				}
 			}
 
 			// Allow per-consumer overrides via CSS custom properties with semantic fallbacks
@@ -50,9 +57,34 @@
 					}
 			}
 
-			// Increase service name size for FDP brand only (not logo)
+			// FDP brand service name sizing and responsive scaling
 			&__service-name {
+				// Base uplift for FDP brand at larger sizes
 				font-size: 24px;
+				line-height: 1.1;
+				// On small screens, scale with viewport width for proportional fit inside 90% container
+				@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+					font-size: clamp(16px, 5vw, 20px);
+				}
+			}
+
+			// FDP brand responsive scaling for the graphic logo variant so it shrinks with text
+			&__organisation-logo {
+				@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+					height: auto;
+					// Default cap for logos on small screens
+					max-width: 90%;
+				}
+
+				// Specifically when using the FDP graphic logo variant, size in em so it scales with text
+				&[data-logo-variant="graphic"] {
+					@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+						// Width expressed in em ties the graphic size to the current font-size
+						// allowing proportional scaling with the service text.
+						width: 7.5em;
+						max-width: 90%;
+					}
+				}
 			}
 
 			// Evenly distribute primary nav items under FDP brand

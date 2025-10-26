@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.15",
-  "generatedAt": "2025-10-26T15:04:20.387Z",
+  "version": "0.0.44-alpha.16",
+  "generatedAt": "2025-10-26T15:05:17.396Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -387,6 +387,45 @@
       ],
       "source": "src/components/Panel/Panel.schema.ts"
     },
+    "Label": {
+      "name": "Label",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
+      ],
+      "props": [
+        {
+          "name": "htmlFor",
+          "type": "string",
+          "description": "ID of associated form control"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Render as page heading (h1 wrapper)"
+        },
+        {
+          "name": "size",
+          "type": "'xl'|'l'|'m'|'s'",
+          "defaultValue": "m",
+          "description": "Size variant"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Label content"
+        }
+      ],
+      "source": "src/components/Label/Label.schema.ts"
+    },
     "InsetText": {
       "name": "InsetText",
       "category": "content",
@@ -552,45 +591,6 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "Label": {
-      "name": "Label",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Supports page heading mode by rendering an <h1> containing a nested <label> to retain association."
-      ],
-      "props": [
-        {
-          "name": "htmlFor",
-          "type": "string",
-          "description": "ID of associated form control"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Render as page heading (h1 wrapper)"
-        },
-        {
-          "name": "size",
-          "type": "'xl'|'l'|'m'|'s'",
-          "defaultValue": "m",
-          "description": "Size variant"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Label content"
-        }
-      ],
-      "source": "src/components/Label/Label.schema.ts"
-    },
     "Hint": {
       "name": "Hint",
       "category": "typography",
@@ -697,6 +697,39 @@
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
     },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
+    },
     "ErrorSummary": {
       "name": "ErrorSummary",
       "category": "form",
@@ -745,39 +778,6 @@
         }
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
-    },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "Details": {
       "name": "Details",
@@ -880,6 +880,64 @@
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
     },
+    "Checkboxes": {
+      "name": "Checkboxes",
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxItem[]",
+          "required": true,
+          "description": "Array of checkbox items"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Shared name attribute"
+        },
+        {
+          "name": "idPrefix",
+          "type": "string",
+          "description": "ID prefix for fieldset and inputs"
+        },
+        {
+          "name": "legend",
+          "type": "string",
+          "description": "Legend text"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "description": "Legend rendered as page heading"
+        },
+        {
+          "name": "legendSize",
+          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
+          "description": "Legend size"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Group hint text"
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "description": "Group error message"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra wrapper classes"
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "description": "Small variant"
+        }
+      ],
+      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
+    },
     "CharacterCount": {
       "name": "CharacterCount",
       "props": [
@@ -959,64 +1017,6 @@
         }
       ],
       "source": "src/components/CharacterCount/CharacterCount.schema.ts"
-    },
-    "Checkboxes": {
-      "name": "Checkboxes",
-      "props": [
-        {
-          "name": "items",
-          "type": "CheckboxItem[]",
-          "required": true,
-          "description": "Array of checkbox items"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Shared name attribute"
-        },
-        {
-          "name": "idPrefix",
-          "type": "string",
-          "description": "ID prefix for fieldset and inputs"
-        },
-        {
-          "name": "legend",
-          "type": "string",
-          "description": "Legend text"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "description": "Legend rendered as page heading"
-        },
-        {
-          "name": "legendSize",
-          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
-          "description": "Legend size"
-        },
-        {
-          "name": "hint",
-          "type": "string",
-          "description": "Group hint text"
-        },
-        {
-          "name": "errorMessage",
-          "type": "string",
-          "description": "Group error message"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra wrapper classes"
-        },
-        {
-          "name": "small",
-          "type": "boolean",
-          "description": "Small variant"
-        }
-      ],
-      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     },
     "Button": {
       "name": "Button",
@@ -1118,11 +1118,11 @@
       "Textarea",
       "Select",
       "Radios",
-      "Input",
       "Label",
+      "Input",
       "Fieldset",
-      "ErrorSummary",
       "ErrorMessage",
+      "ErrorSummary",
       "DateInput",
       "Button"
     ],
@@ -1139,8 +1139,8 @@
       "Heading"
     ],
     "uncategorised": [
-      "CharacterCount",
-      "Checkboxes"
+      "Checkboxes",
+      "CharacterCount"
     ]
   }
 }

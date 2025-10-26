@@ -7,7 +7,9 @@ A modern product card component following FDP brand guidelines with vector graph
 - **FDP Brand Gradients**: Five color themes (aqua-green, purple, blue, grey, azure)
 - **Vector Graphics**: Auto-generated or custom SVG shapes with gradients
 - **Photo Support**: Traditional image display with optimized aspect ratios
-- **Flexible Layouts**: Vertical (default) or horizontal orientations
+- **Flexible Layouts**: Vertical (default) or horizontal orientations (also accepts 'portrait'/'landscape' aliases)
+- **Flexible Layouts**: Vertical (default) or horizontal orientations (also accepts 'portrait'/'landscape' aliases)
+- **Strongly-Typed Enums**: Enums provided for layout, theme, image type, vector kinds/shadows, and button variants
 - **Interactive**: Optional clickable cards with keyboard navigation
 - **Action Buttons**: Support for multiple CTAs with three variants
 - **Fully Accessible**: Semantic HTML, ARIA labels, keyboard navigation
@@ -44,7 +46,7 @@ import { ProductCard } from '@fergusbisset/nhs-fdp';
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `image` | `object` | - | Image configuration (see Image Configuration below) |
-| `layout` | `'vertical' \| 'horizontal'` | `'vertical'` | Card layout orientation |
+| `layout` | `'vertical' \| 'horizontal'` (aliases: `'portrait'`=`vertical`, `'landscape'`=`horizontal`) | `'vertical'` | Card layout orientation (see `ProductCardLayoutEnum`) |
 | `buttons` | `ProductCardButton[]` | `[]` | Array of action buttons/CTAs |
 | `badge` | `string` | - | Optional badge text (e.g., "New", "Beta") |
 | `theme` | `ProductCardTheme` | `'blue'` | Color theme for gradients and accents |
@@ -141,7 +143,7 @@ The `image` prop accepts an object with the following structure:
 />
 ```
 
-### Horizontal Layout
+### Horizontal (Landscape) Layout
 
 ```tsx
 <ProductCard
@@ -149,6 +151,63 @@ The `image` prop accepts an object with the following structure:
   description="AI-powered tools for evidence-based decisions"
   theme="purple"
   layout="horizontal"
+  image={{ type: 'graphic', seed: 54321 }}
+  buttons={[
+    { label: "Explore Features", href: "/features" }
+  ]}
+/>
+
+### Enum usage
+
+You can use provided enums for stronger typing and consistency:
+
+```tsx
+import {
+  ProductCard,
+  ProductCardThemeEnum,
+  ProductCardLayoutEnum,
+  ProductCardImageTypeEnum,
+  ProductCardButtonVariantEnum,
+} from '@fergusbisset/nhs-fdp-design-system';
+
+<ProductCard
+  title="Analytics"
+  description="Insights for your population"
+  theme={ProductCardThemeEnum.Blue}
+  layout={ProductCardLayoutEnum.Landscape}
+  image={{ type: ProductCardImageTypeEnum.Graphic, seed: 42 }}
+  buttons={[{ label: 'View', variant: ProductCardButtonVariantEnum.Primary }]}
+/>;
+```
+
+These enums are also available via the component subpath and the SSR entry:
+
+```tsx
+// Component subpath
+import {
+  ProductCard,
+  ProductCardThemeEnum,
+  ProductCardLayoutEnum,
+  ProductCardImageTypeEnum,
+  ProductCardButtonVariantEnum,
+} from '@fergusbisset/nhs-fdp-design-system/components/ProductCard';
+
+// SSR barrel
+import {
+  ProductCard,
+  ProductCardThemeEnum,
+  ProductCardLayoutEnum,
+  ProductCardImageTypeEnum,
+  ProductCardButtonVariantEnum,
+} from '@fergusbisset/nhs-fdp-design-system/ssr';
+```
+
+// or using the alias
+<ProductCard
+  title="Clinical Decision Support"
+  description="AI-powered tools for evidence-based decisions"
+  theme="purple"
+  layout="landscape" // alias of "horizontal"
   image={{ type: 'graphic', seed: 54321 }}
   buttons={[
     { label: "Explore Features", href: "/features" }

@@ -125,6 +125,13 @@ export type {
 	ProductCardTheme, 
 	VectorGraphicShape
 } from './ProductCard/ProductCard.types';
+export {
+	ProductCardLayoutEnum,
+	ProductCardImageTypeEnum,
+	VectorGraphicKindEnum,
+	VectorGraphicShadowEnum,
+	ProductCardButtonVariantEnum,
+} from './ProductCard/ProductCard.types';
 
 // Server-first form controls
 export { InputServer as Input } from './Input/Input.server';

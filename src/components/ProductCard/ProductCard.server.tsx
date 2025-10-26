@@ -5,7 +5,7 @@ import type {
 	VectorGraphicShape,
 	ProductCardTheme,
 } from "./ProductCard.types";
-import { ProductCardThemeEnum } from "./ProductCard.types";
+import { ProductCardThemeEnum, VectorGraphicKindEnum, VectorGraphicShadowEnum } from "./ProductCard.types";
 import "./ProductCard.scss";
 
 // Re-export for convenience
@@ -49,7 +49,7 @@ function generateVectorShapes(
 ): VectorGraphicShape[] {
 	const rng = mulberry32(seed);
 	const shapes: VectorGraphicShape[] = [];
-	const kinds: VectorGraphicShape["kind"][] = ["rect", "hex", "circle"];
+	const kinds: VectorGraphicShape["kind"][] = [VectorGraphicKindEnum.Rect, VectorGraphicKindEnum.Hex, VectorGraphicKindEnum.Circle];
 
 	// Get complementary gradients based on theme
 	const themeIndex = DEFAULT_GRADIENTS.indexOf(theme);
@@ -124,7 +124,7 @@ function generateVectorShapes(
 		const y = clamp(20 + rng() * 60, 10, 90);
 
 		const gradient = gradients[Math.floor(rng() * gradients.length)];
-		const shadow = shapes.length < 2 ? "soft" : "none";
+		const shadow = shapes.length < 2 ? VectorGraphicShadowEnum.Soft : VectorGraphicShadowEnum.None;
 
 		if (kind === "rect") {
 			const width = 40 + rng() * 80; // 40-120px (same as PatternBanner)

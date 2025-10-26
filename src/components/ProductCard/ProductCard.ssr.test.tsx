@@ -132,6 +132,22 @@ describe("ProductCard - SSR Tests", () => {
     expect(html).toContain('nhs-product-card--horizontal');
   });
 
+  it("accepts 'landscape' alias for horizontal in SSR", () => {
+    const html = renderToString(
+      <ProductCard title="Test" description="Test" layout="landscape" />
+    );
+
+    expect(html).toContain('nhs-product-card--horizontal');
+  });
+
+  it("accepts 'portrait' alias for vertical in SSR", () => {
+    const html = renderToString(
+      <ProductCard title="Test" description="Test" layout="portrait" />
+    );
+
+    expect(html).toContain('nhs-product-card--vertical');
+  });
+
   it("applies theme class in SSR", () => {
     const html = renderToString(
       <ProductCard title="Test" description="Test" theme="aqua-green" />

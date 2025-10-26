@@ -132,6 +132,24 @@ describe("ProductCard - Client Tests", () => {
         container.firstChild.className.includes("nhs-product-card--horizontal")).toBe(true);
     });
 
+    it("accepts 'landscape' alias for horizontal", () => {
+      const { container } = render(
+        <ProductCard title="Test" description="Test" layout="landscape" />
+      );
+
+      expect(container.firstChild instanceof Element &&
+        container.firstChild.className.includes("nhs-product-card--horizontal")).toBe(true);
+    });
+
+    it("accepts 'portrait' alias for vertical", () => {
+      const { container } = render(
+        <ProductCard title="Test" description="Test" layout="portrait" />
+      );
+
+      expect(container.firstChild instanceof Element &&
+        container.firstChild.className.includes("nhs-product-card--vertical")).toBe(true);
+    });
+
     it("applies theme class", () => {
       const { container } = render(
         <ProductCard title="Test" description="Test" theme="aqua-green" />

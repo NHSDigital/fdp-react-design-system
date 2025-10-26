@@ -525,6 +525,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 	elevated = true,
 	imageAspectRatio = 1.5,
 }) => {
+		// Support semantic aliases: 'portrait' => 'vertical', 'landscape' => 'horizontal'
+		const normalizedLayout = React.useMemo(() => {
+			if (layout === "landscape") return "horizontal" as const;
+			if (layout === "portrait") return "vertical" as const;
+			return layout;
+		}, [layout]);
+
 	// Generate or use provided shapes
 	// Note: For SSR compatibility, always provide a seed if using graphic images
 	// to avoid hydration mismatches from Date.now()
@@ -540,7 +547,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
 	const cardClasses = [
 		"nhs-product-card",
-		`nhs-product-card--${layout}`,
+		`nhs-product-card--${normalizedLayout}`,
 		`nhs-product-card--theme-${theme}`,
 		elevated && "nhs-product-card--elevated",
 		(onClick || href) && "nhs-product-card--clickable",

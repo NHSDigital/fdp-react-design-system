@@ -265,7 +265,15 @@ export type {
 } from "./PatternBanner/PatternBanner.types";
 
 // ProductCard FDP brand component
-export { ProductCard, ProductCardThemeEnum } from "./ProductCard";
+export {
+	ProductCard,
+	ProductCardThemeEnum,
+	ProductCardLayoutEnum,
+	ProductCardImageTypeEnum,
+	VectorGraphicKindEnum,
+	VectorGraphicShadowEnum,
+	ProductCardButtonVariantEnum,
+} from "./ProductCard";
 export type {
 	ProductCardProps,
 	ProductCardImageType,

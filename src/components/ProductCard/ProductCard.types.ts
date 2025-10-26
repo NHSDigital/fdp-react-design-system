@@ -6,146 +6,192 @@ import type React from "react";
 export type ProductCardImageType = "photo" | "graphic";
 
 /**
- * Product card layout orientation
+ * Strongly typed enum for image type
  */
-export type ProductCardLayout = "horizontal" | "vertical";
+export enum ProductCardImageTypeEnum {
+	Photo = "photo",
+	Graphic = "graphic",
+}
+
+/**
+ * Product card layout orientation
+ * Accepts canonical values 'vertical' | 'horizontal' and also synonyms
+ * 'portrait' (vertical) and 'landscape' (horizontal) for semantic clarity
+ * when used in grid vs row contexts.
+ */
+export type ProductCardLayout =
+	| "horizontal"
+	| "vertical"
+	| "landscape" // alias of "horizontal"
+	| "portrait"; // alias of "vertical"
+
+/**
+ * Strongly typed enum for ProductCard layout orientation.
+ * Includes canonical values and their semantic aliases.
+ */
+export enum ProductCardLayoutEnum {
+	Vertical = "vertical",
+	Horizontal = "horizontal",
+	Portrait = "portrait", // alias of Vertical
+	Landscape = "landscape", // alias of Horizontal
+}
 
 /**
  * Product card theme enum based on FDP brand gradients
  */
 export enum ProductCardThemeEnum {
-  AquaGreen = "aqua-green",
-  Purple = "purple",
-  Blue = "blue",
-  Grey = "grey",
-  Azure = "azure",
+	AquaGreen = "aqua-green",
+	Purple = "purple",
+	Blue = "blue",
+	Grey = "grey",
+	Azure = "azure",
 }
 
 /**
  * Product card theme based on FDP brand gradients
  */
-export type ProductCardTheme = 
-  | "aqua-green"
-  | "purple"
-  | "blue"
-  | "grey"
-  | "azure";
+export type ProductCardTheme =
+	| "aqua-green"
+	| "purple"
+	| "blue"
+	| "grey"
+	| "azure";
 
 /**
  * Vector graphic shape configuration
  */
+export enum VectorGraphicKindEnum {
+	Rect = "rect",
+	Hex = "hex",
+	Circle = "circle",
+}
+
+export enum VectorGraphicShadowEnum {
+	None = "none",
+	Soft = "soft",
+	Strong = "strong",
+}
+
 export interface VectorGraphicShape {
-  kind: "rect" | "hex" | "circle";
-  x: number; // 0-100 percentage
-  y: number; // 0-100 percentage
-  size?: number; // for circle/hex in px
-  width?: number; // for rect in px
-  height?: number; // for rect in px
-  rotate?: number; // degrees
-  gradient: ProductCardTheme;
-  shadow?: "none" | "soft" | "strong";
+	kind: VectorGraphicKindEnum;
+	x: number; // 0-100 percentage
+	y: number; // 0-100 percentage
+	size?: number; // for circle/hex in px
+	width?: number; // for rect in px
+	height?: number; // for rect in px
+	rotate?: number; // degrees
+	gradient: ProductCardTheme;
+	shadow?: VectorGraphicShadowEnum;
 }
 
 /**
  * Button configuration for ProductCard
  */
+export enum ProductCardButtonVariantEnum {
+	Primary = "primary",
+	Secondary = "secondary",
+	Tertiary = "tertiary",
+}
+
 export interface ProductCardButton {
-  label: string;
-  href?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => void;
-  variant?: "primary" | "secondary" | "tertiary";
-  disabled?: boolean;
-  ariaLabel?: string;
+	label: string;
+	href?: string;
+	onClick?: (
+		event: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>
+	) => void;
+	variant?: ProductCardButtonVariantEnum;
+	disabled?: boolean;
+	ariaLabel?: string;
 }
 
 /**
  * Props for the ProductCard component
  */
 export interface ProductCardProps {
-  /**
-   * Product title
-   */
-  title: string;
+	/**
+	 * Product title
+	 */
+	title: string;
 
-  /**
-   * Product description
-   */
-  description: string;
+	/**
+	 * Product description
+	 */
+	description: string;
 
-  /**
-   * Image configuration
-   */
-  image?: {
-    type: ProductCardImageType;
-    src?: string; // URL for photo type
-    alt?: string; // Alt text for photo
-    shapes?: VectorGraphicShape[]; // Custom shapes for graphic type
-    seed?: number; // Seed for auto-generated graphics
-    theme?: ProductCardTheme; // Theme for auto-generated graphics
-  };
+	/**
+	 * Image configuration
+	 */
+	image?: {
+		type: ProductCardImageType;
+		src?: string; // URL for photo type
+		alt?: string; // Alt text for photo
+		shapes?: VectorGraphicShape[]; // Custom shapes for graphic type
+		seed?: number; // Seed for auto-generated graphics
+		theme?: ProductCardTheme; // Theme for auto-generated graphics
+	};
 
-  /**
-   * Card layout orientation
-   * @default "vertical"
-   */
-  layout?: ProductCardLayout;
+	/**
+	 * Card layout orientation
+	 * @default "vertical"
+	 */
+	layout?: ProductCardLayout;
 
-  /**
-   * Optional buttons/CTAs (max 2 recommended)
-   */
-  buttons?: ProductCardButton[];
+	/**
+	 * Optional buttons/CTAs (max 2 recommended)
+	 */
+	buttons?: ProductCardButton[];
 
-  /**
-   * Optional badge or tag text
-   */
-  badge?: string;
+	/**
+	 * Optional badge or tag text
+	 */
+	badge?: string;
 
-  /**
-   * Theme for the card
-   * @default "blue"
-   */
-  theme?: ProductCardTheme;
+	/**
+	 * Theme for the card
+	 * @default "blue"
+	 */
+	theme?: ProductCardTheme;
 
-  /**
-   * Custom class name
-   */
-  className?: string;
+	/**
+	 * Custom class name
+	 */
+	className?: string;
 
-  /**
-   * Custom inline styles
-   */
-  style?: React.CSSProperties;
+	/**
+	 * Custom inline styles
+	 */
+	style?: React.CSSProperties;
 
-  /**
-   * Optional click handler for the entire card
-   */
-  onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
+	/**
+	 * Optional click handler for the entire card
+	 */
+	onClick?: (event: React.MouseEvent<HTMLDivElement>) => void;
 
-  /**
-   * Make the entire card clickable with an href
-   */
-  href?: string;
+	/**
+	 * Make the entire card clickable with an href
+	 */
+	href?: string;
 
-  /**
-   * Heading level for the title
-   * @default 3
-   */
-  headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+	/**
+	 * Heading level for the title
+	 * @default 3
+	 */
+	headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
 
-  /**
-   * Optional custom content to render in the card footer
-   */
-  footer?: React.ReactNode;
+	/**
+	 * Optional custom content to render in the card footer
+	 */
+	footer?: React.ReactNode;
 
-  /**
-   * Enable elevation/shadow effect
-   * @default true
-   */
-  elevated?: boolean;
+	/**
+	 * Enable elevation/shadow effect
+	 * @default true
+	 */
+	elevated?: boolean;
 
-  /**
-   * Aspect ratio for image area (width/height)
-   * @default 1.5 (3:2)
-   */
-  imageAspectRatio?: number;
+	/**
+	 * Aspect ratio for image area (width/height)
+	 * @default 1.5 (3:2)
+	 */
+	imageAspectRatio?: number;
 }

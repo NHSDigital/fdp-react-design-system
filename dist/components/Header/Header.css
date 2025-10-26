@@ -647,6 +647,9 @@
   background-color: var(--fdp-header-bg, var(--brand-fdp-semantic-surface-background-primary, #ffffff));
   color: var(--fdp-header-text, var(--brand-fdp-semantic-surface-text-primary, #425563));
 }
+[data-brand=fdp] .nhsuk-header .nhsuk-header__service {
+  justify-content: center;
+}
 [data-brand=fdp] .nhsuk-header__container {
   padding-left: 32px;
   padding-right: 32px;

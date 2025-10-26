@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.10",
-  "generatedAt": "2025-10-26T10:29:15.607Z",
+  "version": "0.0.44-alpha.11",
+  "generatedAt": "2025-10-26T10:31:19.128Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -449,6 +449,33 @@
       ],
       "source": "src/components/InsetText/InsetText.schema.ts"
     },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
+    },
     "Input": {
       "name": "Input",
       "category": "form",
@@ -590,33 +617,6 @@
         }
       ],
       "source": "src/components/Input/Input.schema.ts"
-    },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Heading": {
       "name": "Heading",

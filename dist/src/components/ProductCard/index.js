@@ -118,7 +118,11 @@ function clamp(n, min, max) {
 function generateVectorShapes(seed, theme, density = 4) {
   const rng = mulberry32(seed);
   const shapes = [];
-  const kinds = ["rect", "hex", "circle"];
+  const kinds = [
+    "rect" /* Rect */,
+    "hex" /* Hex */,
+    "circle" /* Circle */
+  ];
   const themeIndex = DEFAULT_GRADIENTS.indexOf(theme);
   const gradients = [
     theme,
@@ -134,12 +138,12 @@ function generateVectorShapes(seed, theme, density = 4) {
   const candidateBox = (kind, x, y, widthPx, heightPx, sizePx) => {
     let wPct = 0;
     let hPct = 0;
-    if (kind === "rect") {
+    if (kind === "rect" /* Rect */) {
       const w = widthPx != null ? widthPx : 48;
       const h = heightPx != null ? heightPx : 36;
       wPct = w / BASE_W * 100;
       hPct = h / BASE_H * 100;
-    } else if (kind === "circle") {
+    } else if (kind === "circle" /* Circle */) {
       const d = sizePx != null ? sizePx : 40;
       wPct = d / BASE_W * 100;
       hPct = d / BASE_H * 100;
@@ -163,8 +167,8 @@ function generateVectorShapes(seed, theme, density = 4) {
     const x = clamp(20 + rng() * 60, 10, 90);
     const y = clamp(20 + rng() * 60, 10, 90);
     const gradient = gradients[Math.floor(rng() * gradients.length)];
-    const shadow = shapes.length < 2 ? "soft" : "none";
-    if (kind === "rect") {
+    const shadow = shapes.length < 2 ? "soft" /* Soft */ : "none" /* None */;
+    if (kind === "rect" /* Rect */) {
       const width = 40 + rng() * 80;
       const height = 28 + rng() * 64;
       const box = candidateBox(kind, x, y, width, height);
@@ -179,7 +183,7 @@ function generateVectorShapes(seed, theme, density = 4) {
       if (overlaps) continue;
       boxes.push(box);
       shapes.push({ kind, x, y, width, height, gradient, rotate: 0, shadow });
-    } else if (kind === "circle") {
+    } else if (kind === "circle" /* Circle */) {
       const size = 24 + rng() * 80;
       const box = candidateBox(kind, x, y, void 0, void 0, size);
       if (!withinViewBox(box)) continue;
@@ -355,14 +359,14 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
             var _a, _b, _c, _d;
             const cx = s.x / 100 * viewW;
             const cy = s.y / 100 * viewH;
-            if (s.kind === "circle") {
+            if (s.kind === "circle" /* Circle */) {
               const r = ((_a = s.size) != null ? _a : 40) / 2;
               const angles = [0, 45, 90, 135, 180, 225, 270, 315];
               return angles.map((deg) => {
                 const rad = deg * Math.PI / 180;
                 return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)];
               });
-            } else if (s.kind === "rect") {
+            } else if (s.kind === "rect" /* Rect */) {
               const w = (_b = s.width) != null ? _b : 60;
               const h = (_c = s.height) != null ? _c : 40;
               return [
@@ -437,10 +441,10 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
         })() }),
         shapes.map((shape, idx) => {
           const fillClass = `pc-grad-${shape.gradient}`;
-          const filter = shape.shadow === "soft" ? "url(#pc-shadow-soft)" : shape.shadow === "strong" ? "url(#pc-shadow-strong)" : void 0;
+          const filter = shape.shadow === "soft" /* Soft */ ? "url(#pc-shadow-soft)" : shape.shadow === "strong" /* Strong */ ? "url(#pc-shadow-strong)" : void 0;
           const x = shape.x / 100 * viewW;
           const y = shape.y / 100 * viewH;
-          if (shape.kind === "rect") {
+          if (shape.kind === "rect" /* Rect */) {
             const w = shape.width || 60;
             const h = shape.height || 40;
             return /* @__PURE__ */ jsx2(
@@ -456,7 +460,7 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
               },
               idx
             );
-          } else if (shape.kind === "circle") {
+          } else if (shape.kind === "circle" /* Circle */) {
             const r = (shape.size || 40) / 2;
             return /* @__PURE__ */ jsx2(
               "circle",
@@ -469,7 +473,7 @@ var VectorGraphic = ({ shapes, aspectRatio }) => {
               },
               idx
             );
-          } else if (shape.kind === "hex") {
+          } else if (shape.kind === "hex" /* Hex */) {
             const size = shape.size || 40;
             return /* @__PURE__ */ jsx2(
               "polygon",

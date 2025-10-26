@@ -945,8 +945,8 @@ span .nhsuk-u-visually-hidden {
 }
 
 [data-brand=fdp] .nhsuk-header {
-  background-color: var(--brand-fdp-semantic-surface-background-primary, #ffffff);
-  color: var(--brand-fdp-semantic-surface-text-primary, #425563);
+  background-color: var(--fdp-header-bg, var(--brand-fdp-semantic-surface-background-primary, #ffffff));
+  color: var(--fdp-header-text, var(--brand-fdp-semantic-surface-text-primary, #425563));
 }
 
 [data-brand=fdp] .nhsuk-header__container {
@@ -992,11 +992,11 @@ span .nhsuk-u-visually-hidden {
 }
 
 [data-brand=fdp] .nhsuk-header:where(:not(.nhsuk-header--blue):not(.nhsuk-header--dark-grey-gradient):not(.nhsuk-header--dark-gray-gradient):not(.nhsuk-header--dark-blue-gradient)) .nhsuk-header__navigation {
-  background-color: var(--brand-fdp-semantic-surface-background-primary, #ffffff);
+  background-color: var(--fdp-header-nav-bg, var(--brand-fdp-semantic-surface-background-primary, #ffffff));
 }
 
 [data-brand=fdp] .nhsuk-header__navigation-link, [data-brand=fdp] .nhsuk-header__navigation-button {
-  color: var(--brand-fdp-semantic-surface-text-primary, #425563);
+  color: var(--fdp-header-nav-text, var(--brand-fdp-semantic-surface-text-primary, #425563));
   font-weight: 600;
 }
 
@@ -1008,34 +1008,66 @@ span .nhsuk-u-visually-hidden {
   color: #003087;
 }
 
-[data-brand=fdp] .nhsuk-header .nhsuk-header__navigation .nhsuk-header__navigation-link,
-[data-brand=fdp] .nhsuk-header .nhsuk-header__navigation .nhsuk-header__navigation-button {
+[data-brand=fdp] .nhsuk-header__navigation-link:focus, [data-brand=fdp] .nhsuk-header__navigation-button:focus {
+  background-color: #d6cce3;
+  box-shadow: inset 0 -4px #ac98cb;
+  color: #212b32;
+}
+
+[data-brand=fdp] .nhsuk-header [data-brand=fdp] .nhsuk-header__navigation [data-brand=fdp] .nhsuk-header__navigation-link,
+[data-brand=fdp] .nhsuk-header [data-brand=fdp] .nhsuk-header__navigation [data-brand=fdp] .nhsuk-header__navigation-button {
   font-weight: 600;
 }
 
-[data-brand=fdp] .nhsuk-header .nhsuk-header__service .nhsuk-header__service-name,
-[data-brand=fdp] .nhsuk-header .nhsuk-header__service .nhsuk-header__service-logo {
+[data-brand=fdp] .nhsuk-header [data-brand=fdp] .nhsuk-header__service [data-brand=fdp] .nhsuk-header__service-name,
+[data-brand=fdp] .nhsuk-header [data-brand=fdp] .nhsuk-header__service [data-brand=fdp] .nhsuk-header__service-logo {
   font-weight: 600;
+}
+
+[data-brand=fdp] .nhsuk-header .nhsuk-header__dropdown-menu {
+  border: 0;
+}
+
+[data-brand=fdp] .nhsuk-header .nhsuk-header__dropdown-link:focus {
+  background-color: #d6cce3;
+  color: #212b32;
+  box-shadow: inset 0 -4px #ac98cb;
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue {
-  background-color: #003087;
-  color: #ffffff;
+  background-color: var(--fdp-header-dark-blue-bg, #003087);
+  color: var(--fdp-header-dark-blue-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation {
-  background: #003087;
+  background-color: var(--fdp-header-dark-blue-nav-bg, #003087);
+  color: var(--fdp-header-dark-blue-nav-text, #ffffff);
 }
 
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation a {
+  color: var(--fdp-header-dark-blue-nav-text, #ffffff);
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation a:focus {
+  background-color: #d6cce3;
+  color: #003087;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation__navigation-link, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation__navigation-button {
+  color: var(--fdp-header-dark-blue-nav-text, #ffffff);
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__navigation-link, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__navigation-button {
+  color: var(--fdp-header-dark-blue-nav-text, #ffffff);
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__service-logo,
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__service-name,
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__service-name[href],
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__organisation-name,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation-link,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation-button {
   color: #ffffff;
-}
-
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-logo, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name[href] {
-  color: #ffffff;
-  text-decoration-color: currentColor;
-  font-weight: 600;
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-logo:hover, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name:hover, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue__service-name[href]:hover {
@@ -1056,41 +1088,22 @@ span .nhsuk-u-visually-hidden {
   box-shadow: inset 0 0.25px 0 0 #d8dde0;
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation {
-  background-color: #003087;
-  color: #ffffff;
-}
-
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue .nhsuk-header__navigation a {
-  color: #ffffff;
-}
-
-.nhsuk-header__navigation-item--hidden {
-  display: none !important;
-}
-
-.nhsuk-header__navigation-container--measuring .nhsuk-header__navigation-item--hidden {
-  display: inline-block !important;
-  visibility: hidden;
-}
-
 [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey {
-  background-color: #e8edee;
-  color: #ffffff;
+  background-color: var(--fdp-header-pale-grey-bg, #e8edee);
+  color: var(--fdp-header-pale-grey-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation {
-  background: #425563;
+  background-color: var(--fdp-header-pale-grey-nav-bg, #e8edee);
+  color: var(--fdp-header-pale-grey-nav-text, #ffffff);
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation-link,
-[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation-button {
-  color: #425563;
+[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation a {
+  color: var(--fdp-header-pale-grey-nav-text, #425563);
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation-link,
-[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation-button {
-  color: #425563;
+[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey__navigation-link, [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey__navigation-button {
+  color: var(--fdp-header-pale-grey-nav-text, #425563);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__service-logo,
@@ -1099,34 +1112,40 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__organisation-name,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation-link,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation-button {
-  color: #425563;
+  color: var(--fdp-header-pale-grey-text, #425563);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation-container {
   box-shadow: inset 0 0.25px 0 0 #d8dde0;
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation {
-  background-color: #e8edee;
-  color: #ffffff;
-}
-
-[data-brand=fdp] .nhsuk-header.nhsuk-header--pale-grey .nhsuk-header__navigation a {
-  color: #425563;
-}
-
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey {
   background-color: #425563;
   color: #ffffff;
+  background-color: var(--fdp-header-dark-grey-bg, #425563);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation {
-  background: #ffffff;
+  background-color: transparent;
+  color: var(--fdp-header-pale-grey-nav-text, #ffffff);
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation-link,
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation-button {
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation a {
   color: #ffffff;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation a:focus {
+  background-color: #d6cce3;
+  color: #212b32;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__navigation-link, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__navigation-button {
+  color: var(--fdp-header-dark-grey-nav-text, #ffffff);
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__navigation-link:focus, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__navigation-button:focus {
+  background-color: #d6cce3;
+  color: #212b32;
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__service-logo,
@@ -1135,11 +1154,11 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__organisation-name,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation-link,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation-button {
-  color: #ffffff;
+  color: var(--fdp-header-dark-grey-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__service-logo, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__service-name, [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__service-name[href] {
-  color: #ffffff;
+  color: var(--fdp-header-dark-grey-text, #ffffff);
   text-decoration-color: currentColor;
   font-weight: 600;
 }
@@ -1158,29 +1177,17 @@ span .nhsuk-u-visually-hidden {
   color: #212b32;
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__navigation-container {
-  box-shadow: inset 0 1px 0 0 var(--brand-fdp-semantic-surface-border-default, #d8dde0);
-}
-
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey__navigation-container a {
-  text-decoration: none;
-}
-
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation-container {
   box-shadow: inset 0 0.25px 0 0 #d8dde0;
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey .nhsuk-header__navigation {
-  background-color: #425563;
-}
-
 [data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey {
-  background-color: #768692;
-  color: #ffffff;
+  background-color: var(--fdp-header-mid-grey-bg, #768692);
+  color: var(--fdp-header-mid-grey-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation {
-  background: transparent;
+  background-color: var(--fdp-header-mid-grey-nav-bg, #768692);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__service-logo,
@@ -1189,24 +1196,44 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__organisation-name,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation-link,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation-button {
+  color: var(--fdp-header-mid-grey-text, #ffffff);
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation {
+  background-color: transparent;
   color: #ffffff;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation a {
+  color: #ffffff;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation a:focus {
+  background-color: #d6cce3;
+  color: #212b32;
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation-container {
   box-shadow: inset 0 0.25px 0 0 #d8dde0;
 }
 
-[data-brand=fdp] .nhsuk-header.nhsuk-header--mid-grey .nhsuk-header__navigation {
-  background-color: #768692;
-}
-
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient {
-  background: linear-gradient(90deg, #4c6272, #768692);
-  color: #ffffff;
+  background: var(--fdp-header-dark-grey-gradient-bg, linear-gradient(90deg, #4c6272, #768692));
+  color: var(--fdp-header-dark-grey-gradient-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation {
-  background: transparent;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation a {
+  color: #ffffff;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation a:focus {
+  background-color: #d6cce3;
+  color: #212b32;
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__service-logo,
@@ -1215,7 +1242,7 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__organisation-name,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation-link,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation-button {
-  color: #ffffff;
+  color: var(--fdp-header-dark-grey-gradient-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-grey-gradient .nhsuk-header__navigation-container {
@@ -1224,12 +1251,22 @@ span .nhsuk-u-visually-hidden {
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient {
-  background: linear-gradient(270deg, #005eb8, #003087);
-  color: #ffffff;
+  background: var(--fdp-header-dark-blue-gradient-bg, #003087);
+  color: var(--fdp-header-dark-blue-gradient-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__navigation {
-  background: transparent;
+  background-color: transparent;
+  color: #ffffff;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__navigation a {
+  color: #ffffff;
+}
+
+[data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__navigation a:focus {
+  background-color: #d6cce3;
+  color: #212b32;
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__service-logo,
@@ -1238,7 +1275,7 @@ span .nhsuk-u-visually-hidden {
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__organisation-name,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__navigation-link,
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__navigation-button {
-  color: #ffffff;
+  color: var(--fdp-header-dark-blue-gradient-text, #ffffff);
 }
 
 [data-brand=fdp] .nhsuk-header.nhsuk-header--dark-blue-gradient .nhsuk-header__navigation-container {

@@ -69,6 +69,7 @@ var require_tokens = __commonJS({
             green: "#009639",
             "dark-green": "#63a691",
             purple: "#d6cce3",
+            "dark-purple": "#ac98cb",
             white: "#ffffff"
           },
           grey: {

@@ -203,6 +203,9 @@ const VectorGraphic: React.FC<{
 	const viewW = baseHeight * aspectRatio;
 	const viewH = baseHeight;
 
+	// Format numbers deterministically to avoid SSR/client attribute string diffs
+	const fmt = (n: number) => n.toFixed(2);
+
 	const hexPoints = (cx: number, cy: number, size: number): string => {
 		// Hexagon points in proper coordinates
 		const r = size / 2;
@@ -212,7 +215,7 @@ const VectorGraphic: React.FC<{
 				const rad = (a * Math.PI) / 180;
 				const x = cx + r * Math.cos(rad);
 				const y = cy + r * Math.sin(rad);
-				return `${x},${y}`;
+				return `${fmt(x)},${fmt(y)}`;
 			})
 			.join(" ");
 	};
@@ -406,13 +409,13 @@ const VectorGraphic: React.FC<{
 						return (
 							<line
 								key={`connector-${i}-${j}`}
-								x1={best.p[0]}
-								y1={best.p[1]}
-								x2={best.q[0]}
-								y2={best.q[1]}
+								x1={fmt(best.p[0])}
+								y1={fmt(best.p[1])}
+								x2={fmt(best.q[0])}
+								y2={fmt(best.q[1])}
 								stroke="rgb(158, 171, 181)"
-								strokeWidth="0.5"
-								strokeMiterlimit="0.5"
+								strokeWidth={fmt(0.5)}
+								strokeMiterlimit={fmt(0.5)}
 							/>
 						);
 					});
@@ -432,6 +435,8 @@ const VectorGraphic: React.FC<{
 				// No scaling needed - shapes use their natural sizes
 				const x = (shape.x / 100) * viewW;
 				const y = (shape.y / 100) * viewH;
+				const xStr = fmt(x);
+				const yStr = fmt(y);
 
 				if (shape.kind === VectorGraphicKindEnum.Rect) {
 					// Rectangles use their specified dimensions directly
@@ -441,11 +446,11 @@ const VectorGraphic: React.FC<{
 						<rect
 							key={idx}
 							className={fillClass}
-							x={x - w / 2}
-							y={y - h / 2}
-							width={w}
-							height={h}
-							transform={`rotate(${shape.rotate || 0} ${x} ${y})`}
+							x={fmt(x - w / 2)}
+							y={fmt(y - h / 2)}
+							width={fmt(w)}
+							height={fmt(h)}
+							transform={`rotate(${shape.rotate || 0} ${xStr} ${yStr})`}
 							filter={filter}
 						/>
 					);
@@ -456,9 +461,9 @@ const VectorGraphic: React.FC<{
 						<circle
 							key={idx}
 							className={fillClass}
-							cx={x}
-							cy={y}
-							r={r}
+							cx={xStr}
+							cy={yStr}
+							r={fmt(r)}
 							filter={filter}
 						/>
 					);
@@ -470,7 +475,7 @@ const VectorGraphic: React.FC<{
 							key={idx}
 							className={fillClass}
 							points={hexPoints(x, y, size)}
-							transform={`rotate(${shape.rotate || 0} ${x} ${y})`}
+							transform={`rotate(${shape.rotate || 0} ${xStr} ${yStr})`}
 							filter={filter}
 						/>
 					);

@@ -39,7 +39,6 @@ export function NHSBehavioursInit() {
 					} catch {}
 				}
 			} catch (err) {
-				// eslint-disable-next-line no-console
 				console.error("NHSBehavioursInit: failed to load behaviours", err);
 			}
 		})();

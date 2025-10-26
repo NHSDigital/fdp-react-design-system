@@ -1,5 +1,0 @@
-{# Manual Hint macro (may be overwritten by schema generator in dist) #}
-{% macro hint(params) %}
-  {# params: { id?, className?, html? (content) } #}
-  <div class="nhsuk-hint{% if params.className %} {{ params.className }}{% endif %}"{% if params.id %} id="{{ params.id }}"{% endif %}>{{ params.html | safe }}</div>
-{% endmacro %}

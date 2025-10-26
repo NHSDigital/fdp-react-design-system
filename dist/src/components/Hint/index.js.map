@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../../src/mapping/hint.ts", "../../../../src/components/Hint/Hint.tsx"],
-  "sourcesContent": ["export interface HintInputProps {\n  className?: string;\n  id?: string;\n}\n\nexport interface NormalisedHintModel {\n  classes: string;\n  id?: string;\n}\n\nexport function mapHintProps(input: HintInputProps): NormalisedHintModel {\n  const classes = [\n    'nhsuk-hint',\n    input.className || ''\n  ].filter(Boolean).join(' ');\n  return { classes, id: input.id };\n}\n", "import React from \"react\";\nimport \"./Hint.scss\";\nimport { HintProps } from \"./Hint.types\";\nimport { mapHintProps } from \"../../mapping/hint\";\n\nexport const Hint: React.FC<HintProps> = ({\n\tid,\n\tclassName,\n\tchildren,\n\t...rest\n}) => {\n\tconst model = mapHintProps({ id, className });\n\treturn (\n\t\t<div className={model.classes} id={model.id} {...rest}>\n\t\t\t{children}\n\t\t</div>\n\t);\n};\n"],
-  "mappings": ";AAUO,SAAS,aAAa,OAA4C;AACvE,QAAM,UAAU;AAAA,IACd;AAAA,IACA,MAAM,aAAa;AAAA,EACrB,EAAE,OAAO,OAAO,EAAE,KAAK,GAAG;AAC1B,SAAO,EAAE,SAAS,IAAI,MAAM,GAAG;AACjC;;;ACHE;AARK,IAAM,OAA4B,CAAC;AAAA,EACzC;AAAA,EACA;AAAA,EACA;AAAA,EACA,GAAG;AACJ,MAAM;AACL,QAAM,QAAQ,aAAa,EAAE,IAAI,UAAU,CAAC;AAC5C,SACC,oBAAC,SAAI,WAAW,MAAM,SAAS,IAAI,MAAM,IAAK,GAAG,MAC/C,UACF;AAEF;",
-  "names": []
-}

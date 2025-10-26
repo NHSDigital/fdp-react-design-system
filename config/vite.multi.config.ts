@@ -37,7 +37,14 @@ export default defineConfig({
       }
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
+        // Leave behaviours dynamic import unresolved during library build; it resolves in consumer apps
+        '@fergusbisset/nhs-fdp-design-system/behaviours'
+      ],
       output: { globals: { react: 'React', 'react-dom': 'ReactDOM' } }
     },
     sourcemap: true,

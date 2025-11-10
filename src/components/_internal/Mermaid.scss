@@ -28,8 +28,8 @@
 	--mermaid-node-extra-padding-y: 0;
 
 	/* Extra padding to apply to the SVG viewBox (in px) to avoid edge clipping */
-	--mermaid-svg-extra-padding-x: 6;
-	--mermaid-svg-extra-padding-y: 4;
+	--mermaid-svg-extra-padding-x: 20;
+	--mermaid-svg-extra-padding-y: 16;
 
 	/* Edge label sizing controls */
 	--mermaid-edge-label-padding-x: 4;
@@ -47,14 +47,8 @@
 	line-height: 1.3;
 	position: relative;
 
-	/* Scroll hint (fade) */
-	mask-image: linear-gradient(
-		to right,
-		transparent 0,
-		#000 24px,
-		#000 calc(100% - 24px),
-		transparent 100%
-	);
+	/* Scroll hint (fade) - removed to prevent edge clipping */
+	/* Use overflow-x: auto for horizontal scrolling instead */
 }
 
 /* Optional utility variants to quickly tweak padding per-diagram */
@@ -77,6 +71,9 @@
 .mermaid-diagram.is-airy {
 	--mermaid-node-base-padding-x: 24;
 	--mermaid-node-base-padding-y: 16;
+	--mermaid-svg-extra-padding-x: 32;
+	--mermaid-svg-extra-padding-y: 24;
+	padding: nhs.$nhs-fdp-spacing-5; // Extra container padding
 }
 
 .mermaid-error {
@@ -255,6 +252,131 @@
 			}
 		}
 
+		/* Lifecycle diagram specific styles */
+		.node.lifecycle-start {
+			rect, polygon, circle, ellipse {
+				fill: #e1f5fe !important; /* Light blue */
+				stroke: #01579b !important;
+			}
+			text { fill: #01579b !important; }
+
+			.nodeLabel {
+				color: #01579b !important;
+			}
+		}
+
+		.node.lifecycle-ready {
+			rect, polygon, circle, ellipse {
+				fill: #c8e6c9 !important; /* Light green */
+				stroke: #1b5e20 !important;
+			}
+			text { fill: #1b5e20 !important; }
+
+			.nodeLabel {
+				color: #1b5e20 !important;
+			}
+		}
+
+		.node.lifecycle-error {
+			
+			rect, polygon, circle, ellipse {
+				fill: #ffcdd2 !important; /* Light red */
+				stroke: #b71c1c !important;
+			}
+			text { fill: #b71c1c !important; }
+			
+			.nodeLabel {
+				color: #b71c1c !important;
+			}
+		}
+
+		.node.lifecycle-phase {
+			rect, polygon, circle, ellipse {
+				fill: #fff9c4 !important; /* Yellow */
+				stroke: #f57f17 !important;
+			}
+			text { fill: #f57f17 !important; }
+
+			.nodeLabel {
+				color: #f57f17 !important;
+			}
+		}
+
+		.node.lifecycle-user-action {
+			rect, polygon, circle, ellipse {
+				fill: #f8bbd0 !important; /* Pink */
+				stroke: #880e4f !important;
+			}
+			text { fill: #880e4f !important; }
+
+			.nodeLabel {
+				color: #880e4f !important;
+			}
+		}
+
+		.node.lifecycle-complete {
+			rect, polygon, circle, ellipse {
+				fill: #d1c4e9 !important; /* Light purple */
+				stroke: #4a148c !important;
+			}
+			text { fill: #4a148c !important; }
+
+			.nodeLabel {
+				color: #4a148c !important;
+			}
+		}
+
+		.node.lifecycle-announce {
+			rect, polygon, circle, ellipse {
+				fill: #b2dfdb !important; /* Light teal */
+				stroke: #004d40 !important;
+			}
+			text { fill: #004d40 !important; }
+
+			.nodeLabel {
+				color: #004d40 !important;
+			}
+		}
+
+		.node.initPhase {
+			rect, polygon, circle, ellipse {
+				fill: #fff3e0 !important; /* Light orange */
+				stroke: #ff6f00 !important;
+				stroke-width: 2px !important;
+			}
+			text { fill: #e65100 !important; }
+
+			.nodeLabel {
+				color: #e65100 !important;
+			}
+		}
+
+		.node.sortPhase {
+			rect, polygon, circle, ellipse {
+				fill: #e8eaf6 !important; /* Light indigo */
+				stroke: #3f51b5 !important;
+				stroke-width: 2px !important;
+			}
+			text { fill: #1a237e !important; }
+
+			.nodeLabel {
+				color: #1a237e !important;
+			}
+		}
+
+		.node.domPhase {
+			rect, polygon, circle, ellipse {
+				fill: #e0f2f1 !important; /* Light teal */
+				stroke: #009688 !important;
+				stroke-width: 2px !important;
+			}
+			text { fill: #004d40 !important; }
+
+			.nodeLabel {
+				color: #004d40 !important;
+			}
+		}
+
 		/* Edges */
 		.edgePath {
 			path.path {
@@ -262,6 +384,28 @@
 				stroke-width: 1.2px !important;
 			}
 		}
+
+		/* Markers (arrowheads) - ensure they render on top and are visible */
+		marker {
+			overflow: visible !important;
+			
+			path {
+				fill: var(--_mm-border) !important;
+				stroke: var(--_mm-border) !important;
+			}
+		}
+
+		/* Ensure markers render above nodes by adjusting SVG rendering order */
+		defs {
+			marker {
+				/* Markers are defined in defs, ensure they're styled */
+				path {
+					fill: var(--_mm-border) !important;
+					stroke: none !important;
+				}
+			}
+		}
+
 		.edgeLabel {
 			background-color: nhs.$nhs-fdp-color-primary-white !important; /* optional background */
 			overflow: visible !important; /* allow expansion */

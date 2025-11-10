@@ -264,6 +264,43 @@ export const Mermaid: React.FC<MermaidProps> = ({
 		}
 	}
 
+	function adjustArrowheads(container: HTMLElement) {
+		try {
+			const svg = container.querySelector("svg");
+			if (!svg) return;
+
+			// Find and offset the actual arrowhead path elements
+			const arrowPaths = svg.querySelectorAll<SVGPathElement>("path.arrowMarkerPath");
+			
+			arrowPaths.forEach((arrowPath) => {
+				// Move the arrowhead back (away from the node) using transform
+				const existingTransform = arrowPath.getAttribute("transform") || "";
+				// Translate the arrowhead back by 7px in the x direction
+				const newTransform = existingTransform + " translate(-6, 0)";
+				arrowPath.setAttribute("transform", newTransform.trim());
+			});
+
+			// Also adjust marker definitions for good measure
+			const defs = svg.querySelector("defs");
+			if (defs) {
+				const markers = defs.querySelectorAll("marker");
+				markers.forEach((marker) => {
+					marker.setAttribute("overflow", "visible");
+					
+					const refX = marker.getAttribute("refX");
+					if (refX) {
+						const refXNum = parseFloat(refX);
+						if (!isNaN(refXNum) && refXNum > 0) {
+							marker.setAttribute("refX", String(Math.max(0, refXNum - 10)));
+						}
+					}
+				});
+			}
+		} catch {
+			/* ignore */
+		}
+	}
+
 	useEffect(() => {
 		let cancelled = false;
 		if (!definition) return;
@@ -351,6 +388,9 @@ export const Mermaid: React.FC<MermaidProps> = ({
 				// Post-process edge labels so backgrounds match text size with padding
 				adjustEdgeLabels(ref.current, { padX: edgePadX, padY: edgePadY });
 
+				// Fix arrowhead visibility
+				adjustArrowheads(ref.current);
+
 				// Slightly expand the SVG viewBox to avoid edge clipping from tight bounds
 				try {
 					const svgEl = ref.current.querySelector("svg");
@@ -412,14 +452,158 @@ export const Mermaid: React.FC<MermaidProps> = ({
 	const Wrapper: any = inline ? "span" : "div";
 	// Include core 'mermaid' class so library default theme selectors (e.g. .mermaid .node) still attach;
 	// we layer our custom styling via .mermaid-diagram.
+	const [copyStatus, setCopyStatus] = useState<null | "copied" | "error">(null);
+
+	async function serializeAndCopySvg() {
+		if (!ref.current) {
+			setCopyStatus("error");
+			return;
+		}
+		const svgEl = ref.current.querySelector("svg");
+		if (!svgEl) {
+			setCopyStatus("error");
+			return;
+		}
+		try {
+			// Clone to avoid mutating the live DOM
+			const clone = svgEl.cloneNode(true) as SVGElement;
+			// Ensure XML namespaces so Illustrator recognizes it
+			clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+			clone.setAttribute("xmlns:xlink", "http://www.w3.org/1999/xlink");
+
+			// Helper to walk tree in document order and return Element[] (including root)
+			function getTreeElements(root: Element): Element[] {
+				const out: Element[] = [];
+				function walk(node: Element) {
+					out.push(node);
+					Array.from(node.children).forEach((c) => walk(c as Element));
+				}
+				walk(root);
+				return out;
+			}
+
+			const originalElements = getTreeElements(svgEl as Element);
+			const clonedElements = getTreeElements(clone as Element);
+
+			// Ensure foreignObject inner HTML nodes carry the XHTML namespace so serializers keep them
+			const foreigns = clone.querySelectorAll("foreignObject");
+			foreigns.forEach((fo) => {
+				Array.from(fo.children).forEach((c) => {
+					try {
+						const el = c as Element;
+						if (!el.getAttribute("xmlns")) el.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+					} catch {
+						// ignore
+					}
+				});
+			});
+
+			// Properties that commonly affect SVG rendering in Illustrator and text/link fidelity
+			const props = [
+				"fill",
+				"fill-opacity",
+				"fill-rule",
+				"stroke",
+				"stroke-width",
+				"stroke-opacity",
+				"stroke-linecap",
+				"stroke-linejoin",
+				"stroke-dasharray",
+				"stroke-dashoffset",
+				"font-family",
+				"font-size",
+				"font-weight",
+				"font-style",
+				"text-anchor",
+				"dominant-baseline",
+				"alignment-baseline",
+				"letter-spacing",
+				"word-spacing",
+				"opacity",
+				"shape-rendering",
+				"text-rendering",
+				"vector-effect",
+				"text-decoration",
+				"white-space",
+				"background-color",
+				"background",
+			];
+
+			for (let i = 0; i < clonedElements.length; i++) {
+				const original = originalElements[i];
+				const el = clonedElements[i] as Element;
+				if (!original || !el) continue;
+				const cs = window.getComputedStyle(original as Element);
+				props.forEach((p) => {
+					try {
+						const v = cs.getPropertyValue(p);
+						if (v && v.trim() !== "" && v.trim() !== "initial") {
+							(el as HTMLElement).style.setProperty(p, v);
+						}
+					} catch {
+						// ignore per-property failures
+					}
+				});
+
+				// Preserve href attributes (xlink:href or href) on anchor/use/image elements
+				try {
+					if ((original as Element).hasAttribute("xlink:href") && !el.hasAttribute("xlink:href")) {
+						el.setAttribute("xlink:href", (original as Element).getAttribute("xlink:href") || "");
+					}
+					if ((original as Element).hasAttribute("href") && !el.hasAttribute("href")) {
+						el.setAttribute("href", (original as Element).getAttribute("href") || "");
+					}
+				} catch {
+					// ignore
+				}
+			}
+
+			// Ensure explicit width/height if viewBox is present
+			const vb = clone.getAttribute("viewBox");
+			if (vb) {
+				const parts = vb.split(/\s+/).map((s) => parseFloat(s));
+				if (parts.length === 4 && parts.every((n) => Number.isFinite(n))) {
+					const [, , w, h] = parts as [number, number, number, number];
+					clone.setAttribute("width", String(w));
+					clone.setAttribute("height", String(h));
+				}
+			}
+
+			// Prepend XML declaration — some apps prefer it when parsing clipboard SVG
+			const serializedBody = new XMLSerializer().serializeToString(clone);
+			const serialized = `<?xml version="1.0" encoding="UTF-8"?>\n${serializedBody}`;
+			await navigator.clipboard.writeText(serialized);
+			setCopyStatus("copied");
+			setTimeout(() => setCopyStatus(null), 3000);
+		} catch (err) {
+			setCopyStatus("error");
+			setTimeout(() => setCopyStatus(null), 3000);
+		}
+	}
+
 	return (
-		<Wrapper
-			ref={ref}
-			className={`mermaid mermaid-diagram ${className || ""}`.trim()}
-			data-mermaid
-		>
-			{/* SVG injected */}
-		</Wrapper>
+		<>
+			<Wrapper
+				ref={ref}
+				className={`mermaid mermaid-diagram ${className || ""}`.trim()}
+				data-mermaid
+			>
+				{/* SVG injected */}
+			</Wrapper>
+			<div className="mermaid-controls" style={{ marginTop: 8 }}>
+				<button
+					type="button"
+					className="nhsuk-button nhsuk-button--secondary"
+					onClick={serializeAndCopySvg}
+				>
+					Copy diagram (SVG)
+				</button>
+				<span className="nhsuk-u-visually-hidden" role="status" aria-live="polite">
+					{copyStatus === "copied" && "Diagram SVG copied to clipboard"}
+					{copyStatus === "error" && "Failed to copy diagram"}
+				</span>
+			</div>
+		</>
 	);
 };
 

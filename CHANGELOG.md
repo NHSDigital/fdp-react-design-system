@@ -6,6 +6,30 @@ The format loosely follows [Keep a Changelog](https://keepachangelog.com/) and v
 
 ## Unreleased
 
+### Added (Unreleased – SPC Package Infrastructure)
+
+- Internal SPC package `@nhs-fdp/spc` build & validation pipeline established (Vite lib + CSS build). New scripts: `build:spc`, `spc:validate`, `spc:exports:snapshot`, `spc:exports:check`, `spc:metrics`, `spc:parity`, and codemod helpers (`spc:codemod:*`).
+- Export surface governance added: snapshot + diff check prevents accidental removals prior to externalisation.
+- Bundle size gate (gzipped) introduced with initial budget ≤150KB (current `index.esm.js` ~52.15KB gzipped; `spc.css` ~3.00KB).
+- CSS artifact (`spc.css`) emitted with minimal styles; presence validated in `spc:validate` script.
+- SSR gate integrated into `spc:validate` ensuring SPC components remain server‑render safe.
+
+### Changed (Unreleased – SPC Package Infrastructure)
+
+- Standardised path alias usage: removed local `@ds` alias and rely solely on root alias `@/` for SPC barrels (simplifies future extraction and prevents duplicate resolution paths).
+- Deduplicated parity build steps (removed second redundant SPC CSS build invocation) to streamline build time.
+- Documentation updated (README draft) to reflect dual‑export adoption path and migration guide preview.
+
+### Fixed (Unreleased – SPC Package Infrastructure)
+
+- Resolved transient TypeScript declaration alias resolution warnings by eliminating the package‑local tsconfig path mapping; declarations now emit cleanly via root alias configuration.
+
+### Notes (Unreleased – SPC Package Infrastructure)
+
+- Current validation status: PASS (all gates green) after alias cleanup (10 Nov 2025).
+- Next extraction milestones will be tracked via conventional commit scopes (`feat(spc):`, `fix(spc):`).
+
+
 ## 0.0.40 - 2025-10-16
 
 ### Changed (FDP brand header)

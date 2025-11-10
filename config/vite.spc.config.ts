@@ -24,7 +24,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@ds': resolve(__dirname, '../src')
+      '@': resolve(__dirname, '../src')
     }
   },
   build: {

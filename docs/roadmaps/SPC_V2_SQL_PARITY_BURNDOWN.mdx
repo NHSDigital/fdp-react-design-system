@@ -146,3 +146,30 @@ Optional / medium term
   - Data Visualisation/SPC/v2/Test dataset (JSON)
   - Data Visualisation/SPC/v2/Healthcare (v2 engine)
   - Data Visualisation/SPC/v2/SPC MetricCard (v2 engine)
+
+## Recent notes (2025-11-10)
+
+- Internal SPC package infrastructure hardened: dedicated build (`npm run build:spc`) now produces ESM bundle + `spc.css`; validation script (`npm run spc:validate`) passes (export surface, gzip size, SSR, CSS artifact).
+- Alias simplification complete: removed local package tsconfig alias; barrels use root `@/` mapping for cleaner future extraction.
+- Export surface governance (snapshot + diff) active; no breaking removals detected since introduction.
+- Gzip baseline sizes (for tracking): `index.esm.js` ≈52.15KB, `spc.css` ≈3.00KB (well below provisional 150KB budget); monitor as parity fixtures expand.
+- Build pipeline deduplicated (removed redundant CSS invocation) keeping fast build lean.
+- Next near‑term tasks (non‑parity but enabling extraction): codemod adoption metrics, publish dry‑run, add CI status gate for `spc:validate` and parity checks.
+
+### Extraction / Packaging Readiness Checklist (Draft)
+
+- [x] Independent build (JS + CSS)
+- [x] Validation script (size, SSR, exports, CSS)
+- [x] Alias convergence on root path
+- [ ] Codemod uptake ≥70% of internal imports
+- [ ] CI gates (`spc:validate`, `spc:parity`) in main pipeline
+- [ ] Publish dry‑run to internal registry namespace
+- [ ] ADR update marking readiness phase
+- [ ] External README & license confirmation
+
+### Upcoming (Planned)
+
+- Canonical SQL numeric fixtures for T/G (parity assertions) → unblock completing M8 skipped tests.
+- Wire M9 CI parity checks (XmR/T/G) and fail on drift.
+- Add adoption telemetry (simple script scanning repo imports to report percentage using `@nhs-fdp/spc`).
+- Fine‑grained bundle analysis (per‑chunk cost) to refine budget below 150KB.

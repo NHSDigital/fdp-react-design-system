@@ -503,7 +503,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:parity",
-    "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run update:js-exports && npm run build:behaviours && npm run schemas:extract && npm run copy:macros && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:spc && vite build --config config/vite.spc.css.config.ts && npm run build:multi-render:optional",
+  "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run update:js-exports && npm run build:behaviours && npm run schemas:extract && npm run copy:macros && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:spc && npm run build:multi-render:optional",
     "build:quiet": "bash scripts/build-parity-quiet.sh",
     "copy:macros": "mkdir -p dist/macros && cp src/macros/*.njk dist/macros/",
     "build:multi-render:optional": "node scripts/run-multi-render-optional.cjs",
@@ -604,6 +604,7 @@
     "spc:codemod:apply": "tsx scripts/spc-codemod-settings.ts --apply",
     "spc:validate": "tsx scripts/validate-spc-package.ts",
     "spc:codemod:imports": "tsx scripts/codemod-spc-imports.ts",
+    "spc:adoption": "tsx scripts/spc-adoption-metrics.ts",
     "build:spc": "vite build --config config/vite.spc.config.ts && vite build --config config/vite.spc.css.config.ts",
     "spc:exports:snapshot": "node scripts/spc-export-snapshot.cjs",
     "spc:exports:check": "node scripts/spc-export-check.cjs"

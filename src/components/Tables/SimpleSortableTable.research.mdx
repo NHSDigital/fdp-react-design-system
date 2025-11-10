@@ -1,0 +1,239 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../_internal/Mermaid';
+
+<Meta title="NHS/Content/Table/SimpleSortableTable"/>
+
+# SortableTable Component Lifecycle Research
+
+This documentation provides detailed analysis of sortable table component patterns, 
+based on research from MOJ Frontend's SortableTable implementation.
+
+## Component Lifecycle Diagram
+
+The following diagram illustrates the complete lifecycle of a sortable table component,
+from initialisation through user interaction and DOM updates.
+
+<Mermaid className="is-airy">{`
+---
+title: SortableTable Component Lifecycle
+---
+flowchart TD
+    Start([Component Instantiation]) --> CheckElements{Check thead<br/>& tbody exist?}
+    
+    CheckElements -->|No| EarlyReturn([Early Return])
+    CheckElements -->|Yes| StoreRefs[Store DOM References<br/>$head, $body, $caption]
+    
+    StoreRefs --> DefineIcons[Define SVG Icons<br/>↑ ↓ ↕]
+    DefineIcons --> FindHeadings[Query all th elements<br/>in thead]
+    
+    FindHeadings --> Phase1[Initialisation]
+    
+    Phase1 --> CreateButtons[createHeadingButtons]
+    CreateButtons --> IterateHeadings{For each heading<br/>with aria-sort}
+    IterateHeadings --> WrapButton[Wrap text content<br/>in button element<br/>data-index=column]
+    WrapButton --> IterateHeadings
+    
+    IterateHeadings --> UpdateCaption[updateCaption]
+    UpdateCaption --> CheckCaption{Caption exists?}
+    CheckCaption -->|Yes| AddAssistive[Add visually-hidden<br/>assistive text about<br/>sortable columns]
+    CheckCaption -->|No| UpdateIndicators
+    AddAssistive --> UpdateIndicators
+    
+    UpdateIndicators[updateDirectionIndicators] --> SyncIcons[Sync SVG icons with<br/>current aria-sort state<br/>ascending→↑<br/>descending→↓<br/>none→↕]
+    
+    SyncIcons --> CreateStatus[createStatusBox]
+    CreateStatus --> AddLiveRegion[Insert aria-live region<br/>after table for<br/>screen reader updates]
+    
+    AddLiveRegion --> InitSorted[initialiseSortedColumn]
+    InitSorted --> CheckPreSort{Find column with<br/>aria-sort=ascending<br/>or descending?}
+    CheckPreSort -->|Yes| DoInitialSort[Sort rows by<br/>that column]
+    CheckPreSort -->|No| AttachListener
+    DoInitialSort --> ApplyRows[Replace tbody rows<br/>with sorted order]
+    ApplyRows --> AttachListener
+    
+    AttachListener[Attach click listener<br/>to thead] --> Ready([Ready State])
+    
+    Ready --> UserClick([User Clicks<br/>Sort Button])
+    
+    UserClick --> HandleClick[onSortButtonClick]
+    HandleClick --> FindButton{Find button<br/>in event target?}
+    FindButton -->|No| Ready
+    FindButton -->|Yes| GetState[Get current<br/>aria-sort state]
+    
+    GetState --> CalcDirection{Current state?}
+    CalcDirection -->|none or descending| SetAsc[Set direction:<br/>ascending]
+    CalcDirection -->|ascending| SetDesc[Set direction:<br/>descending]
+    
+    SetAsc --> GetRows[getTableRowsArray<br/>Get all tbody rows]
+    SetDesc --> GetRows
+    
+    GetRows --> SortRows[sort rows, columnNumber, direction]
+    
+    SortRows --> ExtractValues[For each row pair<br/>extract cell values]
+    ExtractValues --> CheckDataAttr{Has data-sort-value<br/>attribute?}
+    CheckDataAttr -->|Yes| UseDataAttr[Use attribute value]
+    CheckDataAttr -->|No| UseInner[Use innerHTML]
+    UseDataAttr --> IsNumber{Value is<br/>finite number?}
+    UseInner --> IsNumber
+    
+    IsNumber -->|Yes| NumericCompare[Numeric subtraction<br/>valueA - valueB]
+    IsNumber -->|No| StringCompare[String localeCompare<br/>valueA.localeCompare valueB]
+    
+    NumericCompare --> SwapOrder{Sort direction?}
+    StringCompare --> SwapOrder
+    SwapOrder -->|descending| ReverseAB[Swap A and B]
+    SwapOrder -->|ascending| KeepAB[Keep A and B]
+    
+    ReverseAB --> SortComplete
+    KeepAB --> SortComplete[Array.sort complete]
+    
+    SortComplete --> AddSorted[addRows<br/>Replace tbody content<br/>with sorted rows]
+    
+    AddSorted --> ClearStates[removeButtonStates<br/>Set all columns<br/>aria-sort=none]
+    
+    ClearStates --> UpdateButton[updateButtonState<br/>Set clicked column<br/>to new direction]
+    
+    UpdateButton --> AnnounceSort[Update aria-live status<br/>Sort by %heading% %direction%]
+    
+    AnnounceSort --> RefreshIcons[updateDirectionIndicators<br/>Update all SVG icons]
+    
+    RefreshIcons --> Ready
+    
+    class Start lifecycle-start
+    class Ready lifecycle-ready
+    class EarlyReturn lifecycle-error
+    class Phase1 lifecycle-phase
+    class UserClick lifecycle-user-action
+    class SortComplete lifecycle-complete
+    class AnnounceSort lifecycle-announce
+    class CreateButtons,UpdateCaption,UpdateIndicators,CreateStatus,InitSorted initPhase
+    class SortRows,ExtractValues,CheckDataAttr,IsNumber,NumericCompare,StringCompare sortPhase
+    class AddSorted,ClearStates,UpdateButton,RefreshIcons domPhase
+`}</Mermaid>
+
+## Key Architectural Patterns
+
+### 1. Progressive Enhancement
+The SortableTable component exemplifies progressive enhancement by building JavaScript functionality on top of a fully functional HTML table that works without any scripting:
+
+- **Base Layer (HTML)**: A standard `<table>` with `<thead>` and `<tbody>` elements that displays all data in a readable tabular format. The table is fully accessible and usable even if JavaScript fails to load or is disabled.
+
+- **Enhancement Detection**: The component checks for required DOM elements (`thead` and `tbody`) before attempting any initialisation. If these elements aren't present, the component returns early without throwing errors, leaving the existing markup intact.
+
+- **Graceful Degradation**: If JavaScript is unavailable:
+  - The table remains visible with all its data
+  - Column headers are still readable (they just won't be sortable buttons)
+  - Screen readers can still navigate and understand the table structure
+  - Users can still access all information, just without the sorting convenience
+
+- **Enhancement Layer**: When JavaScript executes successfully, the component:
+  - Wraps column header text in `<button>` elements for interaction
+  - Adds ARIA attributes (`aria-sort`) to communicate state
+  - Inserts visual indicators (SVG arrows) to show sort direction
+  - Creates a live region for screen reader announcements
+  - Enables dynamic reordering of rows based on user interaction
+
+This approach ensures that core functionality (viewing data) is never dependent on JavaScript, while the sorting interaction is treated as a convenient enhancement rather than a requirement. This is particularly important for accessibility and resilience in government services where users may have varied browser capabilities or network conditions.
+
+### 2. Accessibility First
+- **ARIA Live Regions**: Status box with `aria-live="polite"` announces sort changes
+- **Button Semantics**: Column headers become button elements when sortable
+- **Visual Indicators**: SVG icons synchronised with `aria-sort` state
+- **Screen Reader Support**: Visually-hidden caption text explains sortability
+
+### 3. Data Handling
+- **data-sort-value attribute**: Allows custom sort values separate from display
+- **Type Detection**: Automatic numeric vs string comparison
+- **Locale-Aware**: Uses `localeCompare()` for string sorting
+
+### 4. State Management
+- Single source of truth: `aria-sort` attribute on column headers
+- State flows: none → ascending → descending → ascending...
+- Only one column can have active sort state
+
+### 5. Event Delegation
+- Single click listener on thead (not per-button)
+- Event bubbling used for scalability
+- Closest() selector for target identification
+
+## Performance Considerations
+
+### DOM Manipulation Strategy
+
+1. **Batch Updates**: All row removals/additions happen together
+2. **Native Sort**: Leverages Array.prototype.sort for efficiency
+3. **Minimal Reflows**: Icon updates use `insertAdjacentHTML`
+
+### Potential Optimisations
+
+- Virtual scrolling for large datasets
+- Debouncing rapid clicks
+- Web Worker for sorting large datasets
+- Memoization of cell values
+
+## Comparison with AriaTabsDataGrid
+
+| Feature | MOJ SortableTable | AriaTabsDataGrid |
+|---------|-------------------|-------------------|
+| Framework | Vanilla JS | React |
+| ARIA Pattern | Table with sortable columns | Tabs + Grid composite |
+| State Management | DOM attributes | React state/hooks |
+| Sorting | Client-side DOM manipulation | Data transformation |
+| Accessibility | Manual ARIA + live regions | React Aria components |
+| Progressive Enhancement | Yes (works without JS) | Requires JavaScript |
+| Use Case | Simple sortable tables | Complex multi-panel data views |
+
+## Implementation Notes
+
+### Critical Success Factors
+1. **Initialise early**: Set up all ARIA attributes and buttons before user interaction
+2. **Maintain sync**: Keep visual indicators, ARIA state, and DOM order consistent
+3. **Announce changes**: Use aria-live regions for screen reader feedback
+4. **Preserve semantics**: Table structure remains valid HTML table
+
+### Common Pitfalls
+- Forgetting to remove previous sort indicators
+- Not updating live region with meaningful messages
+- Missing data-sort-value for formatted numbers (e.g., currency)
+- Inadequate keyboard navigation support
+
+## Testing Recommendations
+
+### Unit Tests
+- ✅ Button creation from sortable headers
+- ✅ Sort direction cycling (none → asc → desc → asc)
+- ✅ Numeric vs string comparison logic
+- ✅ data-sort-value precedence over innerHTML
+
+### Integration Tests
+- ✅ Full user interaction flow
+- ✅ ARIA live region announcements
+- ✅ Icon synchronisation with state
+- ✅ Multiple rapid clicks handling
+
+### Accessibility Tests
+- ✅ Screen reader announces sort changes
+- ✅ Keyboard navigation works correctly
+- ✅ Focus management after sorting
+- ✅ Color not sole indicator of sort state
+
+## References
+
+- **MOJ Frontend**: [SortableTable Component](https://moj-frontend.herokuapp.com/components/sortable-table)
+- **ARIA Authoring Practices**: [Sortable Table Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/table/)
+- **GOV.UK Frontend**: [ConfigurableComponent Base Class](https://frontend.design-system.service.gov.uk/js-api-reference/)
+
+## Future Enhancements
+
+1. **Multi-column Sort**: Hold shift to sort by multiple columns
+2. **Sort Persistence**: Remember sort preferences in sessionStorage
+3. **Keyboard Shortcuts**: Dedicated keys for common sort operations
+4. **Custom Comparators**: Plugin system for domain-specific sorting
+5. **Animation**: Subtle transitions when rows reorder
+6. **Filters**: Combine sorting with client-side filtering
+7. **Export**: Download sorted data as CSV
+
+---
+
+*This research documentation is maintained as part of the NHS FDP Design System 
+to inform future table component development and improvements.*

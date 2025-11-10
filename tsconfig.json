@@ -3,14 +3,16 @@
 	"compilerOptions": {
 		"declaration": true,
 		"emitDeclarationOnly": false,
-		"outDir": "./dist"
+		"outDir": "./dist",
+		"rootDir": "./src"
 	},
 	"include": [
-		"src/**/*", "docs/roadmaps/ColorSwatches.mdx", "docs/roadmaps/GradientSwatches.mdx", "docs/roadmaps/components", "docs/roadmaps/FDPSubBrand.mdx",
+		"src/**/*"
 	],
 	"exclude": [
 		"node_modules",
 		"dist",
-		"**/*.test.*"
+		"**/*.test.*",
+		"docs/**/*"
 	]
 }

@@ -8,6 +8,8 @@
 			"DOM.Iterable"
 		],
 		"module": "ESNext",
+		/* Disambiguate the project root for TS when resolving self-package exports */
+		"rootDir": "..",
 		"skipLibCheck": true,
 		/* Bundler mode */
 		"moduleResolution": "bundler",

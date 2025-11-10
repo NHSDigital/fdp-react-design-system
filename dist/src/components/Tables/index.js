@@ -2189,7 +2189,173 @@ Object.defineProperty(Table, "TH", {
   }
 });
 var Table_default = Table;
+
+// src/components/Tables/SimpleSortableTable.tsx
+import { useEffect, useRef, useState } from "react";
+import { jsx as jsx4, jsxs as jsxs3 } from "react/jsx-runtime";
+var SimpleSortableTable = ({
+  columns,
+  data,
+  initialSort,
+  onSortChange,
+  caption,
+  ...tableProps
+}) => {
+  const [sortState, setSortState] = useState({
+    key: (initialSort == null ? void 0 : initialSort.key) || "",
+    direction: (initialSort == null ? void 0 : initialSort.direction) || "none"
+  });
+  const [sortedData, setSortedData] = useState(data);
+  const statusRef = useRef(null);
+  const icons = {
+    ascending: '<svg class="nhsuk-sortable-table__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17" aria-hidden="true" focusable="false"><path d="m6.5 0 5.5 7h-11l5.5-7z"/></svg>',
+    descending: '<svg class="nhsuk-sortable-table__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17" aria-hidden="true" focusable="false"><path d="m6.5 17-5.5-7h11l-5.5 7z"/></svg>',
+    sortable: '<svg class="nhsuk-sortable-table__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="17" viewBox="0 0 13 17" aria-hidden="true" focusable="false"><path d="m6.5 0 5.5 7h-11l5.5-7z"/><path d="m6.5 17-5.5-7h11l-5.5 7z"/></svg>'
+  };
+  useEffect(() => {
+    if (sortState.direction === "none" || !sortState.key) {
+      setSortedData([...data]);
+      return;
+    }
+    const column = columns.find((col) => col.key === sortState.key);
+    if (!column) {
+      setSortedData([...data]);
+      return;
+    }
+    const sorted = [...data].sort((a, b) => {
+      let valueA;
+      let valueB;
+      if (column.sortValue) {
+        valueA = column.sortValue(a);
+        valueB = column.sortValue(b);
+      } else {
+        valueA = a[column.key];
+        valueB = b[column.key];
+      }
+      if (valueA == null && valueB == null) return 0;
+      if (valueA == null) return 1;
+      if (valueB == null) return -1;
+      const strA = String(valueA);
+      const strB = String(valueB);
+      const numA = Number(strA);
+      const numB = Number(strB);
+      const isNumeric = !isNaN(numA) && !isNaN(numB) && isFinite(numA) && isFinite(numB);
+      let comparison = 0;
+      if (isNumeric) {
+        comparison = numA - numB;
+      } else {
+        comparison = strA.localeCompare(strB);
+      }
+      return sortState.direction === "descending" ? -comparison : comparison;
+    });
+    setSortedData(sorted);
+  }, [data, sortState, columns]);
+  const handleSort = (columnKey) => {
+    const column = columns.find((col) => col.key === columnKey);
+    if (!column || column.sortable === false) return;
+    let newDirection;
+    if (sortState.key === columnKey) {
+      if (sortState.direction === "none" || sortState.direction === "descending") {
+        newDirection = "ascending";
+      } else {
+        newDirection = "descending";
+      }
+    } else {
+      newDirection = "ascending";
+    }
+    setSortState({ key: columnKey, direction: newDirection });
+    if (statusRef.current && (newDirection === "ascending" || newDirection === "descending")) {
+      const directionText = newDirection === "ascending" ? "ascending" : "descending";
+      statusRef.current.textContent = `Sort by ${column.title} ${directionText}`;
+    }
+    if (onSortChange && (newDirection === "ascending" || newDirection === "descending")) {
+      onSortChange(columnKey, newDirection);
+    }
+  };
+  const buildHead = () => {
+    return columns.map((column) => {
+      const isSortable = column.sortable !== false;
+      const isActive = sortState.key === column.key && sortState.direction !== "none";
+      const direction = isActive ? sortState.direction : "none";
+      if (isSortable) {
+        const icon = direction === "ascending" ? icons.ascending : direction === "descending" ? icons.descending : icons.sortable;
+        const buttonNode = /* @__PURE__ */ jsxs3(
+          "button",
+          {
+            type: "button",
+            className: "nhsuk-sortable-table__button",
+            onClick: () => handleSort(column.key),
+            "data-column-key": column.key,
+            "aria-label": `${column.title}, ${direction === "ascending" ? "sorted ascending" : direction === "descending" ? "sorted descending" : "not sorted, activate to sort ascending"}`,
+            children: [
+              /* @__PURE__ */ jsx4("span", { className: "nhsuk-sortable-table__button-text", "aria-hidden": "true", children: column.title }),
+              /* @__PURE__ */ jsx4(
+                "span",
+                {
+                  className: "nhsuk-sortable-table__icon-wrapper",
+                  "aria-hidden": "true",
+                  dangerouslySetInnerHTML: { __html: icon }
+                }
+              )
+            ]
+          }
+        );
+        return {
+          node: buttonNode,
+          format: column.format,
+          classes: column.headerClasses,
+          attributes: {
+            "aria-sort": direction
+          }
+        };
+      }
+      return {
+        text: column.title,
+        format: column.format,
+        classes: column.headerClasses
+      };
+    });
+  };
+  const buildRows = () => {
+    return sortedData.map((row) => {
+      return columns.map((column) => {
+        const value = row[column.key];
+        return {
+          text: value != null ? String(value) : "",
+          format: column.format,
+          classes: column.cellClasses
+        };
+      });
+    });
+  };
+  const sortableCount = columns.filter((col) => col.sortable !== false).length;
+  const captionSuffix = sortableCount > 0 ? ", column headers with buttons are sortable" : "";
+  const enhancedCaption = caption ? `${caption}${captionSuffix}` : void 0;
+  return /* @__PURE__ */ jsxs3("div", { className: "nhsuk-sortable-table-container", children: [
+    /* @__PURE__ */ jsx4(
+      Table_default,
+      {
+        ...tableProps,
+        caption: enhancedCaption,
+        head: buildHead(),
+        rows: buildRows()
+      }
+    ),
+    /* @__PURE__ */ jsx4(
+      "div",
+      {
+        ref: statusRef,
+        className: "nhsuk-sortable-table__status nhsuk-u-visually-hidden",
+        "aria-live": "polite",
+        "aria-atomic": "true",
+        role: "status"
+      }
+    )
+  ] });
+};
+var SimpleSortableTable_default = SimpleSortableTable;
 export {
+  SimpleSortableTable_default as SimpleSortableTable,
   Table_default as Table,
   TableBodyRow,
   TableCaption,

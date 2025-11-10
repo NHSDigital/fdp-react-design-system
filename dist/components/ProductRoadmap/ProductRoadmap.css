@@ -94,7 +94,9 @@ span .nhsuk-u-visually-hidden {
   --roadmap-row-gap: 8px;
   --item-height: 2;
   --roadmap-line-height: 1.5rem;
-  --roadmap-item-block-height: calc(var(--roadmap-line-height) * var(--item-height));
+  --roadmap-item-block-height: calc(
+  	var(--roadmap-line-height) * var(--item-height)
+  );
   --roadmap-item-horizontal-inset: 16px;
   display: grid;
   grid-auto-rows: auto;

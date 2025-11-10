@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { renderToString } from "react-dom/server";
-import { ProductCardLayoutEnum } from ".";
+import { ProductCardLayoutEnum, ProductCardButtonVariantEnum, VectorGraphicKindEnum, VectorGraphicShadowEnum } from ".";
 import { ProductCard } from "./ProductCard";
 
 describe("ProductCard - SSR Tests", () => {
@@ -35,8 +35,8 @@ describe("ProductCard - SSR Tests", () => {
         title="Test"
         description="Test"
         buttons={[
-          { label: "Learn More", href: "/learn", variant: "primary" },
-          { label: "Contact", href: "/contact", variant: "secondary" },
+          { label: "Learn More", href: "/learn", variant: ProductCardButtonVariantEnum.Primary },
+          { label: "Contact", href: "/contact", variant: ProductCardButtonVariantEnum.Secondary },
         ]}
       />
     );
@@ -104,9 +104,9 @@ describe("ProductCard - SSR Tests", () => {
         image={{
           type: "graphic",
           shapes: [
-            { kind: "circle", x: 50, y: 50, size: 80, gradient: "blue" },
-            { kind: "rect", x: 30, y: 30, width: 60, height: 40, gradient: "aqua-green" },
-            { kind: "hex", x: 70, y: 70, size: 60, gradient: "purple" },
+            { kind: VectorGraphicKindEnum.Circle, x: 50, y: 50, size: 80, gradient: "blue" },
+            { kind: VectorGraphicKindEnum.Rect, x: 30, y: 30, width: 60, height: 40, gradient: "aqua-green" },
+            { kind: VectorGraphicKindEnum.Hex, x: 70, y: 70, size: 60, gradient: "purple" },
           ],
         }}
       />
@@ -223,9 +223,9 @@ describe("ProductCard - SSR Tests", () => {
         title="Test"
         description="Test"
         buttons={[
-          { label: "Primary", variant: "primary", href: "#" },
-          { label: "Secondary", variant: "secondary", href: "#" },
-          { label: "Tertiary", variant: "tertiary", href: "#" },
+          { label: "Primary", variant: ProductCardButtonVariantEnum.Primary, href: "#" },
+          { label: "Secondary", variant: ProductCardButtonVariantEnum.Secondary, href: "#" },
+          { label: "Tertiary", variant: ProductCardButtonVariantEnum.Tertiary, href: "#" },
         ]}
       />
     );
@@ -297,7 +297,7 @@ describe("ProductCard - SSR Tests", () => {
         image={{
           type: "graphic",
           shapes: [
-            { kind: "circle", x: 50, y: 50, size: 80, gradient: "blue", shadow: "soft" },
+            { kind: VectorGraphicKindEnum.Circle, x: 50, y: 50, size: 80, gradient: "blue", shadow: VectorGraphicShadowEnum.Soft },
           ],
         }}
       />

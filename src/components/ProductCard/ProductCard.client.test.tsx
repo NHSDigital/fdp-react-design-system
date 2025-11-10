@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ProductCard, ProductCardLayoutEnum } from ".";
+import { VectorGraphicKindEnum, ProductCardButtonVariantEnum } from "./ProductCard.types";
 
 describe("ProductCard - Client Tests", () => {
   describe("Rendering", () => {
@@ -99,8 +100,8 @@ describe("ProductCard - Client Tests", () => {
           image={{
             type: "graphic",
             shapes: [
-              { kind: "circle", x: 50, y: 50, size: 80, gradient: "blue" },
-              { kind: "rect", x: 30, y: 30, width: 60, height: 40, gradient: "aqua-green" },
+              { kind: VectorGraphicKindEnum.Circle, x: 50, y: 50, size: 80, gradient: "blue" },
+              { kind: VectorGraphicKindEnum.Rect, x: 30, y: 30, width: 60, height: 40, gradient: "aqua-green" },
             ],
           }}
         />
@@ -403,7 +404,7 @@ describe("ProductCard - Client Tests", () => {
         <ProductCard
           title="Test"
           description="Test"
-          buttons={[{ label: "Primary", variant: "primary", onClick: vi.fn() }]}
+          buttons={[{ label: "Primary", variant: ProductCardButtonVariantEnum.Primary, onClick: vi.fn() }]}
         />
       );
 
@@ -416,7 +417,7 @@ describe("ProductCard - Client Tests", () => {
         <ProductCard
           title="Test"
           description="Test"
-          buttons={[{ label: "Secondary", variant: "secondary", onClick: vi.fn() }]}
+          buttons={[{ label: "Secondary", variant: ProductCardButtonVariantEnum.Secondary, onClick: vi.fn() }]}
         />
       );
 
@@ -429,7 +430,7 @@ describe("ProductCard - Client Tests", () => {
         <ProductCard
           title="Test"
           description="Test"
-          buttons={[{ label: "Tertiary", variant: "tertiary", onClick: vi.fn() }]}
+          buttons={[{ label: "Tertiary", variant: ProductCardButtonVariantEnum.Tertiary, onClick: vi.fn() }]}
         />
       );
 

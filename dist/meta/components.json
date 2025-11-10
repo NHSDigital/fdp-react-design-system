@@ -1,8 +1,81 @@
 {
-  "version": "0.0.44-alpha.17",
-  "generatedAt": "2025-10-26T16:22:19.884Z",
+  "version": "0.0.44-alpha.18",
+  "generatedAt": "2025-10-26T16:23:40.009Z",
   "count": 18,
   "components": {
+    "Tag": {
+      "name": "Tag",
+      "category": "meta",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Close button (when closable) is a native button with aria-label \"Remove\"."
+      ],
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Plain text content"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML string content (overrides text)"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "description": "Children content (highest precedence)"
+        },
+        {
+          "name": "color",
+          "type": "'default'|'white'|'grey'|'green'|'aqua-green'|'blue'|'purple'|'pink'|'red'|'orange'|'yellow'",
+          "defaultValue": "default",
+          "description": "Visual color variant",
+          "enum": [
+            "default",
+            "white",
+            "grey",
+            "green",
+            "aqua-green",
+            "blue",
+            "purple",
+            "pink",
+            "red",
+            "orange",
+            "yellow"
+          ]
+        },
+        {
+          "name": "noBorder",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Removes border style"
+        },
+        {
+          "name": "closable",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Displays close (×) control"
+        },
+        {
+          "name": "onClose",
+          "type": "() => void",
+          "description": "Callback when close button clicked"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Disables close interaction"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        }
+      ],
+      "source": "src/components/Tag/Tag.schema.ts"
+    },
     "Textarea": {
       "name": "Textarea",
       "category": "form",
@@ -119,141 +192,6 @@
       ],
       "source": "src/components/Textarea/Textarea.schema.ts"
     },
-    "Tag": {
-      "name": "Tag",
-      "category": "meta",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Close button (when closable) is a native button with aria-label \"Remove\"."
-      ],
-      "props": [
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Plain text content"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML string content (overrides text)"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "description": "Children content (highest precedence)"
-        },
-        {
-          "name": "color",
-          "type": "'default'|'white'|'grey'|'green'|'aqua-green'|'blue'|'purple'|'pink'|'red'|'orange'|'yellow'",
-          "defaultValue": "default",
-          "description": "Visual color variant",
-          "enum": [
-            "default",
-            "white",
-            "grey",
-            "green",
-            "aqua-green",
-            "blue",
-            "purple",
-            "pink",
-            "red",
-            "orange",
-            "yellow"
-          ]
-        },
-        {
-          "name": "noBorder",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Removes border style"
-        },
-        {
-          "name": "closable",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Displays close (×) control"
-        },
-        {
-          "name": "onClose",
-          "type": "() => void",
-          "description": "Callback when close button clicked"
-        },
-        {
-          "name": "disabled",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Disables close interaction"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        }
-      ],
-      "source": "src/components/Tag/Tag.schema.ts"
-    },
-    "Radios": {
-      "name": "Radios",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Keyboard arrow navigation cycles through options.",
-        "Conditional content container is hidden with --hidden class when inactive."
-      ],
-      "props": [
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Group name"
-        },
-        {
-          "name": "value",
-          "type": "string",
-          "description": "Controlled selected value"
-        },
-        {
-          "name": "defaultValue",
-          "type": "string",
-          "description": "Uncontrolled initial value"
-        },
-        {
-          "name": "hasError",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Error style"
-        },
-        {
-          "name": "describedBy",
-          "type": "string",
-          "description": "aria-describedby id list"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra CSS classes"
-        },
-        {
-          "name": "size",
-          "type": "'normal'|'small'",
-          "defaultValue": "normal",
-          "description": "Size variant"
-        },
-        {
-          "name": "inline",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Inline layout"
-        },
-        {
-          "name": "options",
-          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
-          "required": true,
-          "description": "Radio options"
-        }
-      ],
-      "source": "src/components/Radios/Radios.schema.ts"
-    },
     "Select": {
       "name": "Select",
       "category": "form",
@@ -342,6 +280,68 @@
         }
       ],
       "source": "src/components/Select/Select.schema.ts"
+    },
+    "Radios": {
+      "name": "Radios",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Keyboard arrow navigation cycles through options.",
+        "Conditional content container is hidden with --hidden class when inactive."
+      ],
+      "props": [
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Group name"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "description": "Controlled selected value"
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "description": "Uncontrolled initial value"
+        },
+        {
+          "name": "hasError",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Error style"
+        },
+        {
+          "name": "describedBy",
+          "type": "string",
+          "description": "aria-describedby id list"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra CSS classes"
+        },
+        {
+          "name": "size",
+          "type": "'normal'|'small'",
+          "defaultValue": "normal",
+          "description": "Size variant"
+        },
+        {
+          "name": "inline",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Inline layout"
+        },
+        {
+          "name": "options",
+          "type": "Array<{ value: string; text: string; hint?: string; disabled?: boolean; conditional?: any }>",
+          "required": true,
+          "description": "Radio options"
+        }
+      ],
+      "source": "src/components/Radios/Radios.schema.ts"
     },
     "Panel": {
       "name": "Panel",
@@ -591,33 +591,6 @@
       ],
       "source": "src/components/Input/Input.schema.ts"
     },
-    "Hint": {
-      "name": "Hint",
-      "category": "typography",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Provides supporting contextual help text associated with a form field or section."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Hint content"
-        }
-      ],
-      "source": "src/components/Hint/Hint.schema.ts"
-    },
     "Heading": {
       "name": "Heading",
       "category": "typography",
@@ -663,6 +636,33 @@
         }
       ],
       "source": "src/components/Heading/Heading.schema.ts"
+    },
+    "Hint": {
+      "name": "Hint",
+      "category": "typography",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Provides supporting contextual help text associated with a form field or section."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Hint content"
+        }
+      ],
+      "source": "src/components/Hint/Hint.schema.ts"
     },
     "Fieldset": {
       "name": "Fieldset",
@@ -880,6 +880,64 @@
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
     },
+    "Checkboxes": {
+      "name": "Checkboxes",
+      "props": [
+        {
+          "name": "items",
+          "type": "CheckboxItem[]",
+          "required": true,
+          "description": "Array of checkbox items"
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "Shared name attribute"
+        },
+        {
+          "name": "idPrefix",
+          "type": "string",
+          "description": "ID prefix for fieldset and inputs"
+        },
+        {
+          "name": "legend",
+          "type": "string",
+          "description": "Legend text"
+        },
+        {
+          "name": "isPageHeading",
+          "type": "boolean",
+          "description": "Legend rendered as page heading"
+        },
+        {
+          "name": "legendSize",
+          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
+          "description": "Legend size"
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "description": "Group hint text"
+        },
+        {
+          "name": "errorMessage",
+          "type": "string",
+          "description": "Group error message"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Extra wrapper classes"
+        },
+        {
+          "name": "small",
+          "type": "boolean",
+          "description": "Small variant"
+        }
+      ],
+      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
+    },
     "CharacterCount": {
       "name": "CharacterCount",
       "props": [
@@ -959,64 +1017,6 @@
         }
       ],
       "source": "src/components/CharacterCount/CharacterCount.schema.ts"
-    },
-    "Checkboxes": {
-      "name": "Checkboxes",
-      "props": [
-        {
-          "name": "items",
-          "type": "CheckboxItem[]",
-          "required": true,
-          "description": "Array of checkbox items"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "required": true,
-          "description": "Shared name attribute"
-        },
-        {
-          "name": "idPrefix",
-          "type": "string",
-          "description": "ID prefix for fieldset and inputs"
-        },
-        {
-          "name": "legend",
-          "type": "string",
-          "description": "Legend text"
-        },
-        {
-          "name": "isPageHeading",
-          "type": "boolean",
-          "description": "Legend rendered as page heading"
-        },
-        {
-          "name": "legendSize",
-          "type": "\"xl\"|\"l\"|\"m\"|\"s\"",
-          "description": "Legend size"
-        },
-        {
-          "name": "hint",
-          "type": "string",
-          "description": "Group hint text"
-        },
-        {
-          "name": "errorMessage",
-          "type": "string",
-          "description": "Group error message"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Extra wrapper classes"
-        },
-        {
-          "name": "small",
-          "type": "boolean",
-          "description": "Small variant"
-        }
-      ],
-      "source": "src/components/Checkboxes/Checkboxes.schema.ts"
     },
     "Button": {
       "name": "Button",
@@ -1114,10 +1114,13 @@
     }
   },
   "categories": {
+    "meta": [
+      "Tag"
+    ],
     "form": [
       "Textarea",
-      "Radios",
       "Select",
+      "Radios",
       "Label",
       "Input",
       "Fieldset",
@@ -1126,21 +1129,18 @@
       "DateInput",
       "Button"
     ],
-    "meta": [
-      "Tag"
-    ],
     "content": [
       "Panel",
       "InsetText",
       "Details"
     ],
     "typography": [
-      "Hint",
-      "Heading"
+      "Heading",
+      "Hint"
     ],
     "uncategorised": [
-      "CharacterCount",
-      "Checkboxes"
+      "Checkboxes",
+      "CharacterCount"
     ]
   }
 }

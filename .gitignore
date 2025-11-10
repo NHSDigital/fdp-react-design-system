@@ -1,3 +1,4 @@
+# Restored from commit 5247091e (First phase of nunjucks parity and proper progressive enhancement)
 # Dependencies
 node_modules
 .DS_Store

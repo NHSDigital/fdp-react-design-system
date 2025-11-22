@@ -1,0 +1,46 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    # Limit number of open PRs to avoid overwhelming maintainers
+    open-pull-requests-limit: 10
+    # Add labels for easy filtering
+    labels:
+      - "dependencies"
+      - "automated"
+    # Group minor and patch updates together to reduce PR noise
+    groups:
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "patch"
+    # Assign PRs to maintainer
+    assignees:
+      - "fergusbisset"
+    # Increase pull request limit for security updates
+    # Security updates are always created separately
+    versioning-strategy: increase
+    # Allow Dependabot to rebase PRs
+    rebase-strategy: "auto"
+
+  # Monitor GitHub Actions for updates
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    assignees:
+      - "fergusbisset"

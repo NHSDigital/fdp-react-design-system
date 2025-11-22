@@ -21,9 +21,9 @@ jobs:
     timeout-minutes: 10
     continue-on-error: true # Allow-fail initially; tighten later
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: 'npm'

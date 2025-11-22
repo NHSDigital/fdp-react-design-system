@@ -16,12 +16,12 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Setup Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: '24'
         cache: 'npm'
@@ -44,7 +44,7 @@ jobs:
       run: npm run test:ssr-components
 
     - name: Publish to Chromatic
-      uses: chromaui/action@v1
+      uses: chromaui/action@v13
       with:
         projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
         buildScriptName: build-storybook
@@ -54,7 +54,7 @@ jobs:
 
     - name: Upload multi-render logs and reports (always)
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: multi-render-artifacts
         if-no-files-found: ignore

@@ -42,6 +42,7 @@ import { autoInsertBaselinesMultiV2 } from "./logic_v2/utils/autoRecalc";
 // VisualsScenario is re-exported from engine presets
 
 export const SPCChart: React.FC<SPCChartProps> = (props) => {
+	
 	// Optional flags now available as props
 	// Human-friendly label for SpcWarningCode values (snake_case -> Capitalised words)
 	const formatWarningCode = React.useCallback(
@@ -124,8 +125,8 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		effHighlightOutOfControl,
 		effVisualsScenario,
 		effVisualsEngineSettings,
-			effSource,
-			effPrecomputedVisuals,
+		effSource,
+		effPrecomputedVisuals,
 		effEngineAutoRecalc,
 	} = normalizeSpcProps(props);
 
@@ -141,8 +142,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		effHighlightOutOfControl ?? props.highlightOutOfControl
 	) as boolean;
 	const visualsScenario = (effVisualsScenario ?? props.visualsScenario) ?? V2VisualsScenario.None;
-	const visualsEngineSettings =
-		effVisualsEngineSettings ?? props.visualsEngineSettings;
+	const visualsEngineSettings = effVisualsEngineSettings ?? props.visualsEngineSettings;
 	const source = effSource ?? props.source;
 	const announceFocus = props.a11y?.announceFocus ?? props.announceFocus ?? false;
 
@@ -387,6 +387,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		.reverse()
 		.find((r) => r.limits.mean != null);
 	const mean = engineRepresentative?.limits.mean ?? null;
+
 	// Basic diagnostics derived in the chart (until v2 engine surfaces warnings directly)
 	interface WarningItem {
 		code: SpcWarningCode;
@@ -395,6 +396,8 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		message: string;
 		context?: Record<string, unknown>;
 	}
+
+	// Compute warnings based on engine rows and settings
 	const warnings = React.useMemo<WarningItem[]>(() => {
 		const list: WarningItem[] = [];
 		try {
@@ -450,6 +453,8 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		}
 		return list;
 	}, [rowsForUi, effEngineSettings?.minimumPoints]);
+
+	// Apply warnings filter if provided
 	const filteredWarnings = React.useMemo(() => {
 		if (!warnings.length) return [] as typeof warnings;
 			if (!effWarningsFilter) return warnings;
@@ -475,7 +480,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		});
 		}, [warnings, effWarningsFilter]);
 
-// Diagnostics live region and table are handled by DiagnosticsPanel now
+	// Diagnostics live region and table are handled by DiagnosticsPanel now
 
 	// Y-axis domain including limits
 	const ucl = engineRepresentative?.limits.ucl ?? null;
@@ -547,6 +552,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 		height,
 		{ maxFraction: 0.35 }
 	);
+
 	const yBottomGapPx = showZeroBreakOuter ? totalReservedPx : 0;
 
 	// Use shared auto metrics helper to infer unit consistently with SPCMetricCard
@@ -565,6 +571,7 @@ export const SPCChart: React.FC<SPCChartProps> = (props) => {
 	}, [effData, unit, narrationContext?.measureUnit]);
 
 	const effectiveUnit = unit ?? narrationContext?.measureUnit ?? autoFromHelper.unit;
+
 	const effectiveNarrationContext = React.useMemo(() => {
 		return effectiveUnit
 			? { ...(narrationContext || {}), measureUnit: effectiveUnit }

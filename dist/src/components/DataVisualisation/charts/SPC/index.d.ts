@@ -1,5 +1,8 @@
 export { default as SPCChart } from './SPCChart/SPCChart';
 export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart.props';
+export { SPCSpark } from './SPCSpark/SPCSpark';
+export type { SPCSparkProps, SPCSparkPoint } from './SPCSpark/SPCSpark.types';
+export { SparkSize } from './SPCSpark/SPCSpark.types';
 export { ImprovementDirection, VariationIcon, ChartType } from './engine';
 export { AssuranceIcon, BaselineSuggestionReason, RULE_METADATA } from './SPCChart/public';
 export { SpcWarningSeverity, SpcWarningCategory, SpcWarningCode } from './SPCChart/logic_v2/types';

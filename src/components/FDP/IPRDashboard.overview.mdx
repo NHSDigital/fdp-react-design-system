@@ -1,0 +1,409 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../_internal/Mermaid';
+
+<Meta title="FDP/IPR Dashboard/Overview" />
+
+# IPR Dashboard Overview
+
+The Integrated Performance Report (IPR) Dashboard provides a comprehensive view of organisational performance across multiple domains, enabling data-driven decision making at Trust, Division, Care Group, and Ward levels.
+
+## IPR Dashboard Architecture
+
+This diagram illustrates the high-level architecture of the IPR Dashboard system:
+
+<Mermaid>{`
+graph TB
+    subgraph "Data Sources"
+        A[Patient Administration System]
+        B[Electronic Health Records]
+        C[Workforce Management]
+        D[Finance Systems]
+        E[Quality & Safety]
+    end
+    
+    subgraph "IPR Dashboard Platform"
+        F[Data Integration Layer]
+        G[SPC Analytics Engine]
+        H[Performance Metrics]
+        I[Drill-down Navigation]
+    end
+    
+    subgraph "User Interface"
+        J[Performance Overview]
+        K[Exception Reports]
+        L[Transformation Tracking]
+        M[Ward-level Views]
+    end
+    
+    A --> F
+    B --> F
+    C --> F
+    D --> F
+    E --> F
+    
+    F --> G
+    F --> H
+    
+    G --> J
+    H --> J
+    H --> K
+    H --> L
+    
+    I --> J
+    I --> K
+    I --> M
+    
+    style G fill:#005eb8,color:#fff
+    style I fill:#005eb8,color:#fff
+`}
+</Mermaid>
+
+
+## National Outcomes Framework (NOF) Domains
+
+The IPR Dashboard is structured around the six NOF domains, each containing strategic metrics:
+
+
+<Mermaid>
+{`
+graph LR
+    NOF[National Outcomes<br/>Framework]
+    
+    NOF --> A[Access to<br/>Services]
+    NOF --> B[Effectiveness<br/>of Care]
+    NOF --> C[Patient<br/>Experience]
+    NOF --> D[Patient<br/>Safety]
+    NOF --> E[People &<br/>Workforce]
+    NOF --> F[Operational<br/>Efficiency]
+    
+    A --> A1[A&E 4h Performance]
+    A --> A2[RTT 18 Weeks]
+    A --> A3[Cancer 62 Days]
+    
+    B --> B1[HSMR Index]
+    B --> B2[Readmission Rates]
+    B --> B3[Length of Stay]
+    
+    C --> C1[Friends & Family]
+    C --> C2[Complaints Rate]
+    C --> C3[Patient Surveys]
+    
+    D --> D1[HCAI Rate]
+    D --> D2[Falls per 1000]
+    D --> D3[Pressure Ulcers]
+    
+    E --> E1[Sickness Absence]
+    E --> E2[Turnover Rate]
+    E --> E3[Vacancy Rate]
+    
+    F --> F1[Bed Occupancy]
+    F --> F2[Theatre Utilisation]
+    F --> F3[DNA Rates]
+    
+    style NOF fill:#005eb8,color:#fff
+    style A fill:#330072,color:#fff
+    style B fill:#330072,color:#fff
+    style C fill:#330072,color:#fff
+    style D fill:#330072,color:#fff
+    style E fill:#330072,color:#fff
+    style F fill:#330072,color:#fff
+`}
+</Mermaid>
+
+
+## Hierarchical Organisational Structure
+
+Performance data is available across four organisational levels, enabling drill-down analysis:
+
+
+<Mermaid>
+{`
+graph TD
+    Trust[Trust Level<br/>Strategic Overview]
+    
+    Trust --> D1[Division: Medicine]
+    Trust --> D2[Division: Surgery]
+    Trust --> D3[Division: Women & Children]
+    
+    D1 --> CG1[Care Group: Cardiology]
+    D1 --> CG2[Care Group: Respiratory]
+    D2 --> CG3[Care Group: Orthopaedics]
+    D2 --> CG4[Care Group: General Surgery]
+    
+    CG1 --> W1[Ward: CCU]
+    CG1 --> W2[Ward: Cardiology Bay 1]
+    CG3 --> W3[Ward: Trauma Unit]
+    CG3 --> W4[Ward: Elective Ortho]
+    
+    style Trust fill:#005eb8,color:#fff
+    style D1 fill:#330072,color:#fff
+    style D2 fill:#330072,color:#fff
+    style D3 fill:#330072,color:#fff
+`}
+</Mermaid>
+
+
+## SPC Analytics Workflow
+
+The dashboard uses Statistical Process Control (SPC) to identify variation and trends:
+
+
+<Mermaid>
+{`
+flowchart LR
+    subgraph "Data Input"
+        A[Time Series Data<br/>18 months]
+    end
+    
+    subgraph "SPC Engine"
+        B[Calculate Control Limits]
+        C[Detect Special Cause<br/>Variation]
+        D[Identify Trends]
+        E[Classify Variation]
+    end
+    
+    subgraph "Visualisation"
+        F[Sparkline View]
+        G[Full SPC Chart]
+        H[Variation Icons]
+    end
+    
+    subgraph "Decision Support"
+        I{Variation Type}
+        J[Common Cause<br/>System-level action]
+        K[Special Cause<br/>Local investigation]
+        L[Improving Trend<br/>Sustain & spread]
+        M[Concerning Trend<br/>Urgent review]
+    end
+    
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    
+    E --> F
+    E --> G
+    E --> H
+    
+    F --> I
+    G --> I
+    H --> I
+    
+    I -->|Common Cause| J
+    I -->|Special Cause| K
+    I -->|Improvement| L
+    I -->|Deterioration| M
+    
+    style B fill:#005eb8,color:#fff
+    style C fill:#005eb8,color:#fff
+    style D fill:#005eb8,color:#fff
+    style E fill:#005eb8,color:#fff
+    style L fill:#007f3b,color:#fff
+    style M fill:#da291c,color:#fff
+`}
+</Mermaid>
+
+
+## User Journey: Exception Investigation
+
+Typical workflow for investigating performance exceptions:
+
+
+<Mermaid>
+{`
+sequenceDiagram
+    actor User as Performance Manager
+    participant Overview as Performance Overview
+    participant Grid as Data Grid (Trust)
+    participant Chart as SPC Chart Detail
+    participant Drill as Drill-down Navigation
+    participant Ward as Ward-level Data
+    
+    User->>Overview: Navigate to Performance Overview
+    Overview->>Grid: Display Trust-level metrics
+    Grid->>User: Show all NOF domains with SPC icons
+    
+    User->>Grid: Notice HCAI rate showing deterioration
+    Grid->>Chart: Select HCAI metric row
+    Chart->>User: Display 18-month SPC chart
+    Chart->>User: Highlight special cause variation (shift)
+    
+    User->>Chart: Identify deterioration started Month 10
+    User->>Drill: Switch to Division tab
+    Drill->>User: Show divisional breakdown
+    
+    User->>Drill: Identify Medicine division outlier
+    User->>Drill: Switch to Care Group tab
+    Drill->>Ward: Navigate to ward level
+    Ward->>User: Identify specific ward with infection cluster
+    
+    User->>User: Initiate targeted infection control intervention
+    
+    Note over User,Ward: SPC-driven investigation enables<br/>rapid identification of root cause<br/>at ward level
+`}
+</Mermaid>
+
+
+## Dashboard Navigation Structure
+
+The IPR Dashboard navigation provides four main sections:
+
+
+<Mermaid>
+{`
+stateDiagram-v2
+    [*] --> PerformanceOverview
+    
+    state PerformanceOverview {
+        [*] --> TrustView
+        TrustView --> DivisionView: Drill down
+        DivisionView --> CareGroupView: Drill down
+        CareGroupView --> WardView: Drill down
+        
+        WardView --> CareGroupView: Drill up
+        CareGroupView --> DivisionView: Drill up
+        DivisionView --> TrustView: Drill up
+    }
+    
+    PerformanceOverview --> PerformanceSummary: Navigate
+    PerformanceSummary --> ExceptionReport: Navigate
+    ExceptionReport --> Transformation: Navigate
+    
+    Transformation --> PerformanceOverview: Navigate
+    
+    state PerformanceSummary {
+        [*] --> MonthlyTrends
+        MonthlyTrends --> YearOnYear
+        YearOnYear --> BenchmarkComparison
+    }
+    
+    state ExceptionReport {
+        [*] --> SpecialCauseAlerts
+        SpecialCauseAlerts --> TargetBreaches
+        TargetBreaches --> DeterioratingTrends
+    }
+    
+    state Transformation {
+        [*] --> ActiveProgrammes
+        ActiveProgrammes --> Milestones
+        Milestones --> BenefitsRealisation
+    }
+    
+    note right of PerformanceOverview: Primary view with<br/>hierarchical drill-down
+    note right of ExceptionReport: Signals requiring<br/>immediate attention
+    note right of Transformation: Strategic initiatives<br/>and progress tracking
+`}
+</Mermaid>
+
+
+## Data Refresh and Alert Flow
+
+Real-time data processing and alerting mechanism:
+
+
+<Mermaid>
+{`
+graph TB
+    subgraph "Scheduled Jobs"
+        A[Daily ETL Job<br/>03:00 UTC]
+        B[Weekly Aggregation<br/>Sunday 04:00]
+        C[Monthly Rollup<br/>1st of month]
+    end
+    
+    subgraph "Processing Pipeline"
+        D[Extract Source Data]
+        E[Transform & Validate]
+        F[Load to Data Warehouse]
+        G[Run SPC Engine]
+        H[Classify Signals]
+    end
+    
+    subgraph "Alert Generation"
+        I{Signal Type?}
+        J[Special Cause Alert]
+        K[Target Breach Alert]
+        L[Trend Alert]
+        M[No Action Required]
+    end
+    
+    subgraph "Notification"
+        N[Email to Performance Team]
+        O[Dashboard Badge]
+        P[Exception Report Entry]
+    end
+    
+    A --> D
+    B --> D
+    C --> D
+    
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    
+    H --> I
+    
+    I -->|Special Cause Detected| J
+    I -->|Target Missed| K
+    I -->|Significant Trend| L
+    I -->|Common Cause| M
+    
+    J --> N
+    J --> O
+    J --> P
+    
+    K --> N
+    K --> O
+    K --> P
+    
+    L --> O
+    L --> P
+    
+    style G fill:#005eb8,color:#fff
+    style J fill:#da291c,color:#fff
+    style K fill:#ed8b00,color:#fff
+    style L fill:#ed8b00,color:#fff
+    style M fill:#007f3b,color:#fff
+`}
+</Mermaid>
+
+
+## Key Features
+
+### SPC-Driven Analytics
+- Automatic detection of special cause variation using NHS-standard SPC rules
+- Differentiation between common cause (system) and special cause (local) variation
+- Trend identification for improvement or deterioration
+
+### Hierarchical Navigation
+- Trust-level strategic overview
+- Division, Care Group, and Ward drill-down capability
+- Contextual filtering maintains focus on specific domains or metrics
+
+### Visual Indicators
+- **Sparklines**: Compact 18-month trend visualization in table cells
+- **SPC Icons**: At-a-glance variation state (improvement, deterioration, common cause)
+- **Full Charts**: Detailed SPC analysis with control limits and signals
+
+### Exception Reporting
+- Automated identification of metrics requiring attention
+- Filtered views showing only special cause variation or target breaches
+- Priority ranking based on clinical and operational impact
+
+## Technical Implementation
+
+The IPR Dashboard is built using:
+
+- **React 19** with TypeScript for type-safe component development
+- **NavigationSplitView** for responsive hierarchical navigation
+- **GroupableDataGrid** / **AriaTabsDataGrid** for accessible tabbed data views
+- **SPC Engine** (v2 logic) for statistical process control analysis
+- **SPCSpark** components for compact trend visualization
+- **SPCVariationIcon** for intuitive variation state communication
+
+## Related Documentation
+
+- [Performance Overview Story](?path=/story/fdp-ipr-dashboard-performance-overview--performance-overview)
+- [SPC Components](?path=/docs/data-visualisation-charts-spc--docs)
+- [NavigationSplitView](?path=/docs/layouts-navigationsplitview--docs)
+- [GroupableDataGrid](?path=/docs/data-tables-groupabledatagrid--docs)

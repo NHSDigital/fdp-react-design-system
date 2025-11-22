@@ -1,6 +1,6 @@
 {
-  "version": "0.0.44-alpha.18",
-  "generatedAt": "2025-11-10T17:01:41.045Z",
+  "version": "0.0.45",
+  "generatedAt": "2025-11-15T19:12:00.242Z",
   "count": 18,
   "components": {
     "Textarea": {
@@ -697,87 +697,6 @@
       ],
       "source": "src/components/Fieldset/Fieldset.schema.ts"
     },
-    "ErrorMessage": {
-      "name": "ErrorMessage",
-      "category": "form",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
-      ],
-      "props": [
-        {
-          "name": "id",
-          "type": "string",
-          "description": "HTML id attribute"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "visuallyHiddenText",
-          "type": "string",
-          "defaultValue": "Error:",
-          "description": "Prefix announced to screen readers"
-        },
-        {
-          "name": "children",
-          "type": "ReactNode|string",
-          "required": true,
-          "description": "Error message content"
-        }
-      ],
-      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
-    },
-    "Details": {
-      "name": "Details",
-      "category": "content",
-      "since": "0.1.1",
-      "a11yNotes": [
-        "Uses native <details> and <summary> elements for disclosure.",
-        "Summary is focusable; body content announced when expanded."
-      ],
-      "props": [
-        {
-          "name": "summaryText",
-          "type": "string",
-          "description": "Text for the summary (clickable)"
-        },
-        {
-          "name": "summaryHtml",
-          "type": "string",
-          "description": "HTML for the summary (overrides summaryText)"
-        },
-        {
-          "name": "text",
-          "type": "string",
-          "description": "Text content for the details body"
-        },
-        {
-          "name": "html",
-          "type": "string",
-          "description": "HTML content for the details body (overrides text)"
-        },
-        {
-          "name": "open",
-          "type": "boolean",
-          "defaultValue": "false",
-          "description": "Whether the details is open by default"
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "description": "Additional CSS classes"
-        },
-        {
-          "name": "id",
-          "type": "string",
-          "description": "Unique identifier"
-        }
-      ],
-      "source": "src/components/Details/Details.schema.ts"
-    },
     "ErrorSummary": {
       "name": "ErrorSummary",
       "category": "form",
@@ -826,6 +745,54 @@
         }
       ],
       "source": "src/components/ErrorSummary/ErrorSummary.schema.ts"
+    },
+    "Details": {
+      "name": "Details",
+      "category": "content",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Uses native <details> and <summary> elements for disclosure.",
+        "Summary is focusable; body content announced when expanded."
+      ],
+      "props": [
+        {
+          "name": "summaryText",
+          "type": "string",
+          "description": "Text for the summary (clickable)"
+        },
+        {
+          "name": "summaryHtml",
+          "type": "string",
+          "description": "HTML for the summary (overrides summaryText)"
+        },
+        {
+          "name": "text",
+          "type": "string",
+          "description": "Text content for the details body"
+        },
+        {
+          "name": "html",
+          "type": "string",
+          "description": "HTML content for the details body (overrides text)"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "defaultValue": "false",
+          "description": "Whether the details is open by default"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "description": "Unique identifier"
+        }
+      ],
+      "source": "src/components/Details/Details.schema.ts"
     },
     "DateInput": {
       "name": "DateInput",
@@ -879,6 +846,39 @@
         }
       ],
       "source": "src/components/DateInput/DateInput.schema.ts"
+    },
+    "ErrorMessage": {
+      "name": "ErrorMessage",
+      "category": "form",
+      "since": "0.1.1",
+      "a11yNotes": [
+        "Includes visually hidden prefix text (default \"Error:\") to aid screen reader users."
+      ],
+      "props": [
+        {
+          "name": "id",
+          "type": "string",
+          "description": "HTML id attribute"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "description": "Additional CSS classes"
+        },
+        {
+          "name": "visuallyHiddenText",
+          "type": "string",
+          "defaultValue": "Error:",
+          "description": "Prefix announced to screen readers"
+        },
+        {
+          "name": "children",
+          "type": "ReactNode|string",
+          "required": true,
+          "description": "Error message content"
+        }
+      ],
+      "source": "src/components/ErrorMessage/ErrorMessage.schema.ts"
     },
     "Checkboxes": {
       "name": "Checkboxes",
@@ -1121,9 +1121,9 @@
       "Label",
       "Input",
       "Fieldset",
-      "ErrorMessage",
       "ErrorSummary",
       "DateInput",
+      "ErrorMessage",
       "Button"
     ],
     "meta": [

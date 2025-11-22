@@ -17,13 +17,13 @@ export default [
       parser: tsParser,
       parserOptions: { ecmaVersion: 2022, sourceType: 'module' }
     },
-  plugins: { '@typescript-eslint': tsPlugin, storybook },
-  rules: {
-    // NOTE (2025-09-14): Previously we restricted importing SPC engine enums/constants
-    // directly from implementation files to enforce layering (prefer spcConstants).
-    // The team now wants these enums available anywhere, so this restriction is disabled.
-    'no-restricted-imports': 'off'
-  }
+    plugins: { '@typescript-eslint': tsPlugin },
+    rules: {
+      // NOTE (2025-09-14): Previously we restricted importing SPC engine enums/constants
+      // directly from implementation files to enforce layering (prefer spcConstants).
+      // The team now wants these enums available anywhere, so this restriction is disabled.
+      'no-restricted-imports': 'off'
+    }
   },
   // Discourage deep SPC logic_v2 imports outside SPCChart implementation — prefer charts/SPC/engine
   {

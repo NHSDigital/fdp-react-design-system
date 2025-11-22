@@ -11,6 +11,11 @@
 export { default as SPCChart } from './SPCChart/SPCChart';
 export type { SPCChartProps, SPCDatum } from './SPCChart/SPCChart.props';
 
+// SPCSpark component
+export { SPCSpark } from './SPCSpark/SPCSpark';
+export type { SPCSparkProps, SPCSparkPoint } from './SPCSpark/SPCSpark.types';
+export { SparkSize } from './SPCSpark/SPCSpark.types';
+
 // Engine logic & enums
 // v1 engine entry deprecated; use v2 via './engine'
 // Prefer enums via engine where available; keep other legacy enums from types

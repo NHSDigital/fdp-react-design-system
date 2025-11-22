@@ -6696,6 +6696,18 @@ var colourImprovement = () => tokenColour(SPC_TOKEN_KEYS.improvement, SPC_FALLBA
 var colourConcern = () => tokenColour(SPC_TOKEN_KEYS.concern, SPC_FALLBACK_HEX.concern);
 var colourNoJudgement = () => tokenColour(SPC_TOKEN_KEYS.noJudgement, SPC_FALLBACK_HEX.noJudgement);
 var colourCommon = () => tokenColour(SPC_TOKEN_KEYS.common, SPC_FALLBACK_HEX.common);
+function colourForSignal(icon) {
+  switch (icon) {
+    case "improvement" /* Improvement */:
+      return colourImprovement();
+    case "concern" /* Concern */:
+      return colourConcern();
+    case "neither" /* Neither */:
+    case "suppressed" /* Suppressed */:
+    default:
+      return colourCommon();
+  }
+}
 function colourForState(state) {
   switch (state) {
     case "special_cause_improving" /* SpecialCauseImproving */:
@@ -12943,6 +12955,486 @@ var SPCChart = (props) => {
 };
 var SPCChart_default = SPCChart;
 
+// src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.tsx
+import { useMemo as useMemo12 } from "react";
+
+// src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.types.ts
+var SparkSize = /* @__PURE__ */ ((SparkSize2) => {
+  SparkSize2["Xs"] = "xs";
+  SparkSize2["Sm"] = "sm";
+  SparkSize2["Md"] = "md";
+  SparkSize2["Lg"] = "lg";
+  SparkSize2["Xl"] = "xl";
+  SparkSize2["Full"] = "full";
+  return SparkSize2;
+})(SparkSize || {});
+
+// src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.tsx
+import { Fragment as Fragment6, jsx as jsx22, jsxs as jsxs16 } from "react/jsx-runtime";
+var SIZE_PRESETS = {
+  ["xs" /* Xs */]: { height: 24, pointR: 2, stroke: 1 },
+  ["sm" /* Sm */]: { height: 32, pointR: 3, stroke: 1 },
+  ["md" /* Md */]: { height: 44, pointR: 4, stroke: 1 },
+  ["lg" /* Lg */]: { height: 56, pointR: 5, stroke: 1 },
+  ["xl" /* Xl */]: { height: 72, pointR: 6, stroke: 1 },
+  // Full: maintain aspect ratio at container width with smaller point radius for precision
+  ["full" /* Full */]: { height: 44, pointR: 2, stroke: 1 }
+};
+function computeWindow(data, windowSize) {
+  if (!windowSize || data.length <= windowSize) return data;
+  return data.slice(data.length - windowSize);
+}
+function computeMetrics(points) {
+  const numeric = points.filter((p) => typeof p.value === "number");
+  if (!numeric.length)
+    return { mean: null, latestValue: null, latestIndex: null };
+  const mean2 = numeric.reduce((a, b) => a + b.value, 0) / numeric.length;
+  const latestIndex = [...points].reverse().findIndex((p) => p.value != null);
+  const absoluteLatestIndex = latestIndex >= 0 ? points.length - 1 - latestIndex : null;
+  const latestValue = absoluteLatestIndex != null ? points[absoluteLatestIndex].value : null;
+  return { mean: mean2, latestValue, latestIndex: absoluteLatestIndex };
+}
+var stateColour = (state) => colourForState(state);
+var SPCSpark = ({
+  data,
+  windowSize,
+  minPointsForSignals = 13,
+  showMean = true,
+  showLimits = true,
+  showLimitBand = true,
+  showInnerBands = false,
+  showLatestMarker = true,
+  showStateGlyph = true,
+  variationState,
+  metricImprovement,
+  gradientWash = false,
+  size = "sm" /* Sm */,
+  ariaLabel,
+  className,
+  onPointClick,
+  maxPoints,
+  thinningStrategy = "stride",
+  colorPointsBySignal = true,
+  centerLine,
+  controlLimits,
+  sigmaBands,
+  pointSignals,
+  pointNeutralSpecialCause,
+  visualCategories
+}) => {
+  var _a2, _b2;
+  const dirEnum = metricImprovement;
+  const points = useMemo12(
+    () => computeWindow(data, windowSize),
+    [data, windowSize]
+  );
+  const metrics = useMemo12(() => computeMetrics(points), [points]);
+  const sizeEnum = (() => {
+    if (typeof size === "string") {
+      switch (size) {
+        case "xs":
+          return "xs" /* Xs */;
+        case "sm":
+          return "sm" /* Sm */;
+        case "md":
+          return "md" /* Md */;
+        case "lg":
+          return "lg" /* Lg */;
+        case "xl":
+          return "xl" /* Xl */;
+        case "full":
+          return "full" /* Full */;
+        default:
+          return "sm" /* Sm */;
+      }
+    }
+    return size != null ? size : "sm" /* Sm */;
+  })();
+  const preset = SIZE_PRESETS[sizeEnum];
+  const computedWidth = Math.max(points.length * 6, 60);
+  const canvasWidth = computedWidth;
+  const widthAttr = sizeEnum === "full" /* Full */ ? "100%" : computedWidth;
+  const height = preset.height;
+  const svgStyle = useMemo12(() => {
+    if (sizeEnum !== "full" /* Full */) return void 0;
+    return {
+      width: "100%",
+      height: "auto",
+      // Maintain the internal viewBox aspect ratio as the element scales with container width
+      aspectRatio: `${canvasWidth} / ${height}`,
+      display: "block"
+    };
+  }, [sizeEnum, canvasWidth, height]);
+  const PAD_X = Math.max(6, preset.pointR + 3);
+  const PAD_Y = Math.max(4, preset.pointR + 3);
+  const globalIndexBase = useMemo12(() => {
+    var _a3, _b3;
+    return ((_a3 = data == null ? void 0 : data.length) != null ? _a3 : 0) - ((_b3 = points == null ? void 0 : points.length) != null ? _b3 : 0);
+  }, [data == null ? void 0 : data.length, points == null ? void 0 : points.length]);
+  const mean2 = centerLine != null ? centerLine : (_a2 = metrics.mean) != null ? _a2 : null;
+  const computedLimits = useMemo12(() => {
+    if (!showLimits) return null;
+    if (controlLimits) return controlLimits;
+    const numeric = points.filter((p) => typeof p.value === "number");
+    if (!numeric.length || mean2 == null) return null;
+    const vals = numeric.map((p) => p.value);
+    const min = Math.min(...vals);
+    const max = Math.max(...vals);
+    return { lower: min, upper: max };
+  }, [showLimits, controlLimits == null ? void 0 : controlLimits.lower, controlLimits == null ? void 0 : controlLimits.upper, points, mean2]);
+  const classification = useMemo12(() => {
+    return {
+      state: variationState != null ? variationState : "common_cause" /* CommonCause */,
+      firedRules: [],
+      mean: mean2 != null ? mean2 : null,
+      stdDev: null,
+      side: metrics.latestValue != null && mean2 != null ? metrics.latestValue > mean2 ? "above" : "below" : void 0
+    };
+  }, [variationState, mean2, metrics.latestValue]);
+  const derivedState = classification.state;
+  const color2 = stateColour(derivedState);
+  const meanY = (v) => {
+    const numeric = points.filter((p) => p.value != null);
+    if (!numeric.length) return height / 2;
+    const vals = numeric.map((p) => p.value);
+    if (computedLimits) {
+      if (computedLimits.lower != null) vals.push(computedLimits.lower);
+      if (computedLimits.upper != null) vals.push(computedLimits.upper);
+    }
+    const min = Math.min(...vals);
+    const max = Math.max(...vals);
+    if (min === max) return height / 2;
+    return height - (v - min) / (max - min) * (height - PAD_Y * 2) - PAD_Y;
+  };
+  const renderIndexes = useMemo12(() => {
+    if (!maxPoints || points.length <= maxPoints)
+      return points.map((_, i) => i);
+    if (thinningStrategy === "stride") {
+      const desired = Math.max(2, maxPoints);
+      const step = (points.length - 1) / (desired - 1);
+      const keep2 = /* @__PURE__ */ new Set();
+      for (let j = 0; j < desired; j++) keep2.add(Math.round(j * step));
+      keep2.add(points.length - 1);
+      return Array.from(keep2).sort((a, b) => a - b);
+    }
+    const src = points.map((p, i) => ({ i, v: p.value }));
+    function perpDist(p, a, b) {
+      var _a3, _b3, _c;
+      const x2 = p.i, y2 = (_a3 = p.v) != null ? _a3 : 0;
+      const x1 = a.i, y1 = (_b3 = a.v) != null ? _b3 : 0, x22 = b.i, y22 = (_c = b.v) != null ? _c : 0;
+      const num = Math.abs((y22 - y1) * x2 - (x22 - x1) * y2 + x22 * y1 - y22 * x1);
+      const den = Math.hypot(y22 - y1, x22 - x1);
+      return den === 0 ? 0 : num / den;
+    }
+    function rdp(arr, eps2) {
+      if (arr.length <= 2) return arr;
+      let maxD = -1, idx = -1;
+      for (let i = 1; i < arr.length - 1; i++) {
+        const d = perpDist(arr[i], arr[0], arr[arr.length - 1]);
+        if (d > maxD) {
+          maxD = d;
+          idx = i;
+        }
+      }
+      if (maxD > eps2) {
+        const left = rdp(arr.slice(0, idx + 1), eps2);
+        const right = rdp(arr.slice(idx), eps2);
+        return [...left.slice(0, -1), ...right];
+      }
+      return [arr[0], arr[arr.length - 1]];
+    }
+    let eps = 0.1;
+    let simplified = src;
+    for (let iter = 0; iter < 8; iter++) {
+      simplified = rdp(src, eps);
+      if (simplified.length <= maxPoints) break;
+      eps *= 1.6;
+    }
+    const keep = new Set(simplified.map((p) => p.i));
+    keep.add(0);
+    keep.add(points.length - 1);
+    return Array.from(keep).sort((a, b) => a - b);
+  }, [points, maxPoints, thinningStrategy]);
+  const renderPoints = useMemo12(
+    () => renderIndexes.map((i) => points[i]),
+    [renderIndexes, points]
+  );
+  const innerWidth = useMemo12(() => Math.max(1, canvasWidth - PAD_X * 2), [canvasWidth, PAD_X]);
+  const xForIndex = useMemo12(() => {
+    const count = Math.max(1, renderPoints.length - 1);
+    return (seq) => seq / count * innerWidth + PAD_X;
+  }, [renderPoints.length, innerWidth, PAD_X]);
+  const pathD = useMemo12(() => {
+    let d = "";
+    renderPoints.forEach((p, seq) => {
+      if (p.value == null) return;
+      const y2 = meanY(p.value);
+      const x2 = xForIndex(seq);
+      d += d ? ` L ${x2} ${y2}` : `M ${x2} ${y2}`;
+    });
+    return d;
+  }, [renderPoints, xForIndex]);
+  const latestIndex = (_b2 = metrics.latestIndex) != null ? _b2 : -1;
+  const limits = computedLimits;
+  const gradient = getGradientOpacities();
+  const gradientId = useMemo12(
+    () => `spc-spark-wash-${Math.random().toString(36).slice(2)}`,
+    [points.length, gradientWash]
+  );
+  const glyphAllowed = points.length >= (minPointsForSignals || 0);
+  const autoLabel = ariaLabel || "SPC sparkline";
+  const ariaDescription = (() => {
+    if (!derivedState) return void 0;
+    const polarity = dirEnum === "Up" /* Up */ ? "higher_is_better" /* HigherIsBetter */ : dirEnum === "Down" /* Down */ ? "lower_is_better" /* LowerIsBetter */ : "context_dependent" /* ContextDependent */;
+    const input = {
+      variationIcon: derivedState === "special_cause_improving" /* SpecialCauseImproving */ ? "improvement" /* Improvement */ : derivedState === "special_cause_deteriorating" /* SpecialCauseDeteriorating */ ? "concern" /* Concern */ : derivedState === "special_cause_no_judgement" /* SpecialCauseNoJudgement */ ? "suppressed" /* Suppressed */ : "neither" /* Neither */,
+      trend: dirEnum === "Up" /* Up */ ? "higher" /* Higher */ : "lower" /* Lower */,
+      polarity
+    };
+    try {
+      return deriveVariationAriaDescription(input);
+    } catch {
+      return void 0;
+    }
+  })();
+  const glyphY = useMemo12(() => {
+    if (!glyphAllowed) return 10;
+    const recent = [...points].reverse().filter((p) => p.value != null).slice(0, 6).map((p) => meanY(p.value));
+    if (!recent.length) return 10;
+    const avgY = recent.reduce((a, b) => a + b, 0) / recent.length;
+    return avgY < height / 2 ? height : 10;
+  }, [points, glyphAllowed, height]);
+  return /* @__PURE__ */ jsxs16(
+    "svg",
+    {
+      role: "img",
+      "aria-label": autoLabel,
+      "aria-description": ariaDescription,
+      width: sizeEnum === "full" /* Full */ ? void 0 : widthAttr,
+      height: sizeEnum === "full" /* Full */ ? void 0 : height,
+      style: svgStyle,
+      className,
+      viewBox: `0 0 ${canvasWidth} ${height}`,
+      children: [
+        gradientWash && /* @__PURE__ */ jsxs16(Fragment6, { children: [
+          /* @__PURE__ */ jsx22("defs", { children: /* @__PURE__ */ jsxs16("linearGradient", { id: gradientId, x1: "0", y1: "0", x2: "0", y2: "1", children: [
+            /* @__PURE__ */ jsx22(
+              "stop",
+              {
+                offset: "0%",
+                stopColor: color2,
+                stopOpacity: Number(gradient.start)
+              }
+            ),
+            /* @__PURE__ */ jsx22(
+              "stop",
+              {
+                offset: "60%",
+                stopColor: color2,
+                stopOpacity: Number(gradient.mid)
+              }
+            ),
+            /* @__PURE__ */ jsx22(
+              "stop",
+              {
+                offset: "100%",
+                stopColor: color2,
+                stopOpacity: Number(gradient.end)
+              }
+            )
+          ] }) }),
+          /* @__PURE__ */ jsx22(
+            "rect",
+            {
+              x: 0,
+              y: 0,
+              width: canvasWidth,
+              height,
+              fill: `url(#${gradientId})`
+            }
+          )
+        ] }),
+        limits && limits.lower != null && limits.upper != null && /* @__PURE__ */ jsxs16(Fragment6, { children: [
+          showLimitBand && /* @__PURE__ */ jsx22(
+            "rect",
+            {
+              x: 0,
+              y: Math.min(
+                meanY(limits.upper),
+                meanY(limits.lower)
+              ),
+              width: canvasWidth,
+              height: Math.abs(
+                meanY(limits.upper) - meanY(limits.lower)
+              ),
+              fill: color2,
+              fillOpacity: 0.08
+            }
+          ),
+          /* @__PURE__ */ jsx22(
+            "line",
+            {
+              x1: 0,
+              x2: canvasWidth,
+              y1: meanY(limits.lower),
+              y2: meanY(limits.lower),
+              stroke: color2,
+              strokeDasharray: "4,4",
+              strokeOpacity: 0.3,
+              strokeWidth: 1
+            }
+          ),
+          /* @__PURE__ */ jsx22(
+            "line",
+            {
+              x1: 0,
+              x2: canvasWidth,
+              y1: meanY(limits.upper),
+              y2: meanY(limits.upper),
+              stroke: color2,
+              strokeDasharray: "4,4",
+              strokeOpacity: 0.3,
+              strokeWidth: 1
+            }
+          ),
+          sigmaBands && showInnerBands && /* @__PURE__ */ jsxs16(Fragment6, { children: [
+            sigmaBands.lowerTwo != null && /* @__PURE__ */ jsx22(
+              "line",
+              {
+                x1: 0,
+                x2: canvasWidth,
+                y1: meanY(sigmaBands.lowerTwo),
+                y2: meanY(sigmaBands.lowerTwo),
+                stroke: color2,
+                strokeDasharray: "3,6",
+                strokeOpacity: 0.2,
+                strokeWidth: 1
+              }
+            ),
+            sigmaBands.lowerOne != null && /* @__PURE__ */ jsx22(
+              "line",
+              {
+                x1: 0,
+                x2: canvasWidth,
+                y1: meanY(sigmaBands.lowerOne),
+                y2: meanY(sigmaBands.lowerOne),
+                stroke: color2,
+                strokeDasharray: "2,6",
+                strokeOpacity: 0.2,
+                strokeWidth: 1
+              }
+            ),
+            sigmaBands.upperOne != null && /* @__PURE__ */ jsx22(
+              "line",
+              {
+                x1: 0,
+                x2: canvasWidth,
+                y1: meanY(sigmaBands.upperOne),
+                y2: meanY(sigmaBands.upperOne),
+                stroke: color2,
+                strokeDasharray: "2,6",
+                strokeOpacity: 0.2,
+                strokeWidth: 1
+              }
+            ),
+            sigmaBands.upperTwo != null && /* @__PURE__ */ jsx22(
+              "line",
+              {
+                x1: 0,
+                x2: canvasWidth,
+                y1: meanY(sigmaBands.upperTwo),
+                y2: meanY(sigmaBands.upperTwo),
+                stroke: color2,
+                strokeDasharray: "3,6",
+                strokeOpacity: 0.2,
+                strokeWidth: 1
+              }
+            )
+          ] })
+        ] }),
+        showMean && mean2 != null && /* @__PURE__ */ jsx22(
+          "line",
+          {
+            x1: 0,
+            x2: canvasWidth,
+            y1: meanY(mean2),
+            y2: meanY(mean2),
+            stroke: colourCommon(),
+            strokeWidth: 1,
+            strokeDasharray: "2,2"
+          }
+        ),
+        /* @__PURE__ */ jsx22(
+          "path",
+          {
+            d: pathD,
+            fill: "none",
+            stroke: colourCommon(),
+            strokeWidth: preset.stroke,
+            strokeLinecap: "round"
+          }
+        ),
+        renderIndexes.map((origIdx, seq) => {
+          const p = points[origIdx];
+          if (!p || p.value == null) return null;
+          const y2 = meanY(p.value);
+          const x2 = xForIndex(seq);
+          const isLatest = origIdx === latestIndex;
+          const r = (isLatest && showLatestMarker ? preset.pointR + 1 : preset.pointR) - 0.5;
+          let fillColour = colourCommon();
+          if (colorPointsBySignal) {
+            const cat = visualCategories == null ? void 0 : visualCategories[globalIndexBase + origIdx];
+            if (cat != null) {
+              if (cat === "Improvement" /* Improvement */) fillColour = colourForSignal("improvement" /* Improvement */);
+              else if (cat === "Concern" /* Concern */) fillColour = colourForSignal("concern" /* Concern */);
+              else if (cat === "NoJudgement" /* NoJudgement */) fillColour = tokenColour("no-judgement", "#490092");
+              else fillColour = colourCommon();
+            } else {
+              const sig = pointSignals == null ? void 0 : pointSignals[globalIndexBase + origIdx];
+              if (sig === "improvement" /* Improvement */) fillColour = colourForSignal(sig);
+              else if (sig === "concern" /* Concern */) fillColour = colourForSignal(sig);
+              else {
+                const neutralSC = pointNeutralSpecialCause == null ? void 0 : pointNeutralSpecialCause[globalIndexBase + origIdx];
+                fillColour = neutralSC ? tokenColour("no-judgement", "#490092") : colourCommon();
+              }
+            }
+          }
+          return /* @__PURE__ */ jsx22(
+            "circle",
+            {
+              cx: x2,
+              cy: y2,
+              r,
+              fill: fillColour,
+              stroke: "none",
+              strokeWidth: 0,
+              onClick: onPointClick ? () => onPointClick(origIdx, p) : void 0,
+              style: onPointClick ? { cursor: "pointer" } : void 0,
+              "data-index": origIdx,
+              "data-signal-colour": colorPointsBySignal ? fillColour : void 0
+            },
+            origIdx
+          );
+        }),
+        showStateGlyph && glyphAllowed && derivedState && derivedState !== "common_cause" /* CommonCause */ && dirEnum && /* @__PURE__ */ jsx22(
+          "text",
+          {
+            x: canvasWidth - 4,
+            y: glyphY,
+            textAnchor: "end",
+            fontSize: 12,
+            fontWeight: "bold",
+            fill: color2,
+            "data-glyph-pos": glyphY < height / 2 ? "top" : "bottom",
+            children: dirEnum === "Up" /* Up */ ? "H" : "L"
+          }
+        )
+      ]
+    }
+  );
+};
+SPCSpark.displayName = "SPCSpark";
+
 // src/components/DataVisualisation/charts/SPC/utils/state.ts
 function mapIconToVariation(icon) {
   switch (icon) {
@@ -13051,7 +13543,9 @@ export {
   PARITY_V26,
   RULE_METADATA,
   SPCChart_default as SPCChart,
+  SPCSpark,
   SPCTooltipOverlay_default as SPCTooltipOverlay,
+  SparkSize,
   SpcEmbeddedIconVariant,
   SpcVisualCategory,
   SpcWarningCategory,

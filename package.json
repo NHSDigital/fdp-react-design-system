@@ -1,6 +1,6 @@
 {
   "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.44-alpha.18",
+  "version": "0.0.45",
   "description": "NHS FDP Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -487,7 +487,14 @@
       "import": "./dist/src/components/WorkflowSplitView/index.js",
       "require": "./dist/src/components/WorkflowSplitView/index.js"
     },
-    "./components/Tables/SimpleSortableTable/css": "./dist/components/Tables/SimpleSortableTable.css"
+    "./components/FDP": {
+      "types": "./dist/src/components/FDP/index.d.ts",
+      "import": "./dist/src/components/FDP/index.js",
+      "require": "./dist/src/components/FDP/index.js"
+    },
+    "./components/Tables/SimpleSortableTable/css": "./dist/components/Tables/SimpleSortableTable.css",
+    "./components/FDP/Subnav/css": "./dist/components/FDP/Subnav.css",
+    "./components/GroupableDataGrid/css": "./dist/components/GroupableDataGrid/GroupableDataGrid.css"
   },
   "sideEffects": [
     "dist/**/*.css"
@@ -503,7 +510,7 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:parity",
-  "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run update:js-exports && npm run build:behaviours && npm run schemas:extract && npm run copy:macros && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:spc && npm run build:multi-render:optional",
+    "build:parity": "npm run clean:dist && npm run build:tokens:smart && npm run build:multi && npm run build:index:esm && npm run build:index:umd && npm run build:core:css && npm run build:component-css && npm run update:css-exports && npm run verify:css-exports && npm run build:components:js && npm run update:js-exports && npm run build:behaviours && npm run schemas:extract && npm run copy:macros && npm run build:types && npm run verify:js-entries && npm run verify:component-parity && npm run verify:css-aliases && npm run build:multi-render:optional",
     "build:quiet": "bash scripts/build-parity-quiet.sh",
     "copy:macros": "mkdir -p dist/macros && cp src/macros/*.njk dist/macros/",
     "build:multi-render:optional": "node scripts/run-multi-render-optional.cjs",
@@ -552,9 +559,9 @@
     "test:coverage": "vitest run --coverage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=chpt_ccbfd54ca0760e9",
-    "chromatic:ci": "npx chromatic --project-token=chpt_ccbfd54ca0760e9 --exit-zero-on-changes",
-    "chromatic:review": "npx chromatic --project-token=chpt_ccbfd54ca0760e9 --auto-accept-changes",
+    "chromatic": "npx chromatic",
+    "chromatic:ci": "npx chromatic --exit-zero-on-changes",
+    "chromatic:review": "npx chromatic --auto-accept-changes",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepublishOnly": "npm run check:tokens && npm run lint && npm test && npm run build",

@@ -175,6 +175,34 @@ export type {
 	ResponsiveDataGridProps as AriaTabsDataGridAdaptiveProps,
 } from "./ResponsiveDataGrid";
 
+// Groupable Data Grid Components
+export {
+	GroupableDataGrid,
+	GroupHeader,
+	TreeNodeComponent,
+	HierarchyDataManager,
+	applyAggregation,
+	applyAggregations,
+	enhanceDataWithCalculatedFields,
+} from "./GroupableDataGrid";
+export type {
+	GroupableDataGridProps,
+	GroupableMode,
+	GroupConfig,
+	GroupLevel,
+	TreeConfig,
+	PivotConfig,
+	AggregationConfig,
+	AggregationType,
+	CalculatedField,
+	ExpansionState,
+	GroupHeaderProps,
+	TreeNodeData,
+	GroupNode,
+	GroupHeaderContext,
+	TreeNodeContext,
+} from "./GroupableDataGrid";
+
 // Layout Components
 export { WidthContainer } from "./WidthContainer";
 export { PageTemplate } from "./PageTemplate";

@@ -1,0 +1,552 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../_internal/Mermaid';
+
+<Meta title="FDP/IPR Dashboard/Data Models" />
+
+# IPR Metrics Conceptual Object Model - Visual Diagrams
+
+## Domain Architecture Overview
+
+<Mermaid code={`
+graph TB
+    subgraph "STRATEGIC DOMAINS"
+        CA[Care and Experience<br/>8 metrics]
+        EF[Effectiveness and Mortality<br/>6 metrics]
+        RE[Responsiveness and Efficiency<br/>45 metrics]
+        SA[Safety<br/>22 metrics]
+        UR[Use of Resources<br/>12 metrics]
+        WL[Workforce and Leadership<br/>61 metrics]
+    end
+    
+    subgraph "CORE ENTITIES"
+        PM[Performance Metric]
+        MO[Metric Observation]
+        SITE[Site - KGH or NGH]
+        DC[Data Contributor<br/>35 named individuals]
+        OU[Organisational Unit<br/>11 divisions]
+        RP[Reporting Period<br/>27 months]
+    end
+    
+    CA --> PM
+    EF --> PM
+    RE --> PM
+    SA --> PM
+    UR --> PM
+    WL --> PM
+    
+    PM --> MO
+    SITE --> MO
+    RP --> MO
+    DC --> PM
+    OU --> PM
+    
+    style CA fill:#e1f5e1
+    style EF fill:#fff3cd
+    style RE fill:#cfe2ff
+    style SA fill:#f8d7da
+    style UR fill:#d1ecf1
+    style WL fill:#e2d9f3
+`} />
+
+## Entity-Relationship Model
+
+<Mermaid code={`
+erDiagram
+    PERFORMANCE_METRIC ||--o{ METRIC_OBSERVATION : generates
+    SITE ||--o{ METRIC_OBSERVATION : measures
+    REPORTING_PERIOD ||--o{ METRIC_OBSERVATION : "occurs in"
+    DATA_CONTRIBUTOR ||--o{ METRIC_RESPONSIBILITY : owns
+    PERFORMANCE_METRIC ||--o{ METRIC_RESPONSIBILITY : "assigned to"
+    ORGANISATIONAL_UNIT ||--o{ UNIT_METRIC_ALLOCATION : "responsible for"
+    PERFORMANCE_METRIC ||--o{ UNIT_METRIC_ALLOCATION : "allocated to"
+    
+    PERFORMANCE_METRIC {
+        string metric_id PK
+        string metric_name
+        string domain
+        string subcategory
+        string data_type
+        boolean has_target
+        string x_axis_title
+        string y_axis_title
+    }
+    
+    METRIC_OBSERVATION {
+        int observation_id PK
+        string metric_id
+        string site_id
+        date period
+        decimal site_value
+        decimal site_target
+        string rag_status
+        decimal variance
+    }
+    
+    SITE {
+        string site_id PK
+        string site_name
+        string organisation_code
+    }
+    
+    DATA_CONTRIBUTOR {
+        int contributor_id PK
+        string name
+        string role
+        string department
+    }
+    
+    ORGANISATIONAL_UNIT {
+        int unit_id PK
+        string unit_name
+        string unit_type
+        int parent_unit_id
+    }
+    
+    REPORTING_PERIOD {
+        date period_id PK
+        int month
+        int year
+        string financial_year
+        int quarter
+    }
+    
+    METRIC_RESPONSIBILITY {
+        string metric_id
+        int contributor_id
+        string accountability_type
+    }
+    
+    UNIT_METRIC_ALLOCATION {
+        string metric_id
+        int unit_id
+        decimal allocation_value
+    }
+`} />
+
+## Data Flow Architecture
+
+<Mermaid code={`
+graph LR
+    subgraph "SOURCE SYSTEMS"
+        ESR[ESR<br/>Electronic Staff Record]
+        FIN[Finance Systems<br/>Ledger]
+        SIRI[Patient Safety<br/>SIRI/Datix]
+        PAS[PAS<br/>Patient Admin]
+        NAV[National Submissions<br/>NHS England]
+    end
+    
+    subgraph "DATA CONTRIBUTORS"
+        DC1[Finance Team<br/>UR metrics]
+        DC2[Workforce Team<br/>WL metrics]
+        DC3[Safety Team<br/>SA metrics]
+        DC4[Operations Team<br/>RE metrics]
+        DC5[Quality Team<br/>CA, EF metrics]
+    end
+    
+    subgraph "IPR DATABASE"
+        IPR[(Integrated Performance<br/>Report Dataset)]
+    end
+    
+    subgraph "REPORTING OUTPUTS"
+        TB[Trust Board Pack]
+        DIV[Divisional Scorecards]
+        EXT[External Submissions<br/>CQC, NHSE]
+        EXEC[Executive Dashboard]
+    end
+    
+    ESR --> DC2
+    FIN --> DC1
+    SIRI --> DC3
+    PAS --> DC4
+    NAV --> DC5
+    
+    DC1 --> IPR
+    DC2 --> IPR
+    DC3 --> IPR
+    DC4 --> IPR
+    DC5 --> IPR
+    
+    IPR --> TB
+    IPR --> DIV
+    IPR --> EXT
+    IPR --> EXEC
+    
+    style IPR fill:#4CAF50,color:#fff
+    style TB fill:#2196F3,color:#fff
+`} />
+
+## Metric Hierarchy Structure
+
+<Mermaid code={`
+graph TD
+    WL[Workforce Domain<br/>61 metrics]
+    
+    WL --> WL_STAB[Stability<br/>2 metrics]
+    WL --> WL_DEV[Development<br/>2 metrics]
+    WL --> WL_WELL[Wellbeing<br/>1 metric]
+    WL --> WL_STAFF[Staffing Levels<br/>42 metrics]
+    WL --> WL_TEMP[Temporary Staff<br/>14 metrics]
+    
+    WL_STAFF --> SG1[Consultant<br/>4 metrics]
+    WL_STAFF --> SG2[Medical & Dental<br/>4 metrics]
+    WL_STAFF --> SG3[Nursing<br/>4 metrics]
+    WL_STAFF --> SG4[Sci/Tech/Therapeutic<br/>4 metrics]
+    WL_STAFF --> SG5[Support Clinical<br/>4 metrics]
+    WL_STAFF --> SG6[Infrastructure<br/>4 metrics]
+    WL_STAFF --> SG7[Other Staff<br/>4 metrics]
+    
+    SG3 --> N1[Total WTE]
+    SG3 --> N2[Substantive WTE]
+    SG3 --> N3[Bank WTE]
+    SG3 --> N4[Agency WTE]
+    
+    RE[Cancer Services<br/>32 metrics]
+    
+    RE --> CP1[Generic Standards<br/>3 metrics]
+    RE --> CP2[Tumour-Specific<br/>29 metrics]
+    
+    CP2 --> TS1[Breast<br/>2 metrics]
+    CP2 --> TS2[Lung<br/>2 metrics]
+    CP2 --> TS3[Lower GI<br/>2 metrics]
+    CP2 --> TS4[Upper GI<br/>2 metrics]
+    CP2 --> TS5[Other Sites<br/>21 metrics]
+    
+    TS1 --> B1[31-day]
+    TS1 --> B2[62-day]
+    
+    UR[Productivity<br/>6 metrics]
+    
+    UR --> UR1[Current Period<br/>UR060]
+    UR --> UR2[YoY Comparison<br/>UR061]
+    
+    UR1 --> UR1A[Activity Growth<br/>UR060AG]
+    UR1 --> UR1C[Cost Growth<br/>UR060CG]
+    
+    UR2 --> UR2A[Activity Growth YoY<br/>UR061AG]
+    UR2 --> UR2C[Cost Growth YoY<br/>UR061CG]
+    
+    style WL fill:#e2d9f3
+    style RE fill:#cfe2ff
+    style UR fill:#d1ecf1
+    style SG3 fill:#fff3cd
+    style TS1 fill:#fff3cd
+    style UR1 fill:#fff3cd
+`} />
+
+## Domain Interaction Model
+
+<Mermaid code={`
+graph TB
+    subgraph "STRATEGIC RELATIONSHIPS"
+        WL[Workforce<br/>Capacity]
+        RE[Activity<br/>Demand]
+        SA[Safety<br/>Quality]
+        UR[Financial<br/>Resources]
+        CA[Patient<br/>Experience]
+        EF[Clinical<br/>Outcomes]
+    end
+    
+    WL -->|Staffing levels impact| RE
+    WL -->|Staff ratios affect| SA
+    WL -->|Temporary staff costs| UR
+    
+    RE -->|Activity volumes drive| UR
+    RE -->|Wait times influence| CA
+    
+    SA -->|Incidents affect| CA
+    SA -->|Harm prevention impacts| EF
+    
+    UR -->|Financial constraint limits| WL
+    UR -->|Investment enables| RE
+    
+    CA -->|Feedback informs| EF
+    EF -->|Mortality signals| SA
+    
+    style WL fill:#e2d9f3,stroke:#6c4ca7,stroke-width:3px
+    style RE fill:#cfe2ff,stroke:#0d6efd,stroke-width:3px
+    style SA fill:#f8d7da,stroke:#dc3545,stroke-width:3px
+    style UR fill:#d1ecf1,stroke:#0dcaf0,stroke-width:3px
+    style CA fill:#e1f5e1,stroke:#198754,stroke-width:3px
+    style EF fill:#fff3cd,stroke:#ffc107,stroke-width:3px
+`} />
+
+## Organisational Allocation Model
+
+<Mermaid code={`
+graph LR
+    subgraph "TRUST-LEVEL METRICS"
+        TM[Trust Aggregate<br/>All 154 metrics]
+    end
+    
+    subgraph "SITE-LEVEL"
+        KGH[Kettering General<br/>Hospital]
+        NGH[Northampton General<br/>Hospital]
+    end
+    
+    subgraph "DIVISIONAL ALLOCATION"
+        D1[Cardiorespiratory &<br/>Place-based Medicine<br/>Kettering]
+        D2[Specialist Medicine &<br/>Place-based Medicine<br/>Northampton]
+        D3[Surgery]
+        D4[Family Health]
+        D5[Clinical Support<br/>Cancer & Diagnostics]
+        D6[Finance]
+        D7[People]
+        D8[Digital]
+        D9[COO, MD,<br/>Corporate Nursing]
+        D10[Governance &<br/>Strategy]
+        D11[Estates &<br/>Facilities]
+    end
+    
+    TM --> KGH
+    TM --> NGH
+    
+    KGH --> D1
+    KGH --> D3
+    KGH --> D4
+    
+    NGH --> D2
+    NGH --> D3
+    NGH --> D4
+    
+    D5 --> KGH
+    D5 --> NGH
+    
+    D6 -.->|UR metrics| TM
+    D7 -.->|WL metrics| TM
+    D8 -.->|Digital enablement| TM
+    D9 -.->|Governance| TM
+    D10 -.->|Strategy| TM
+    D11 -.->|Infrastructure| TM
+    
+    style TM fill:#4CAF50,color:#fff
+    style KGH fill:#2196F3,color:#fff
+    style NGH fill:#2196F3,color:#fff
+`} />
+
+## Metric Lifecycle States
+
+<Mermaid code={`
+stateDiagram-v2
+    [*] --> Defined: Metric specification created
+    Defined --> DataCollection: Source system identified
+    DataCollection --> Validated: Quality checks passed
+    Validated --> Reported: Included in IPR
+    Reported --> UnderReview: Performance issue flagged
+    UnderReview --> ActionRequired: Target breach confirmed
+    ActionRequired --> Improved: Remedial action effective
+    Improved --> Reported: Return to normal monitoring
+    
+    Reported --> Retired: Metric no longer required
+    Retired --> [*]
+    
+    DataCollection --> DataQualityIssue: Validation failure
+    DataQualityIssue --> DataCollection: Issue resolved
+    
+    note right of Defined : Metric ID assigned<br/>Target set<br/>Owner designated
+    
+    note right of ActionRequired : Appears in exception report<br/>Escalated to accountable director<br/>Improvement plan required
+`} />
+
+## Data Quality Framework
+
+<Mermaid code={`
+graph TB
+    subgraph "DATA QUALITY DIMENSIONS"
+        DQ[Data Quality<br/>Framework]
+        
+        DQ --> ACC[Accuracy<br/>Values within expected ranges]
+        DQ --> COM[Completeness<br/>58% metrics have targets<br/>67-89% temporal coverage]
+        DQ --> CON[Consistency<br/>Child metrics sum to parent]
+        DQ --> TIM[Timeliness<br/>Monthly submission deadlines]
+        DQ --> VAL[Validity<br/>Conforms to data dictionary]
+    end
+    
+    subgraph "QUALITY CONTROLS"
+        ACC --> QC1[Range validation<br/>Percentages 0-100%]
+        COM --> QC2[Missing data alerts<br/>Target definition gaps]
+        CON --> QC3[Logical checks<br/>Hierarchy validation]
+        TIM --> QC4[Submission tracking<br/>SLA monitoring]
+        VAL --> QC5[Schema validation<br/>Type checking]
+    end
+    
+    subgraph "QUALITY METRICS"
+        QC1 --> QM1[Data anomaly count]
+        QC2 --> QM2[Completeness %]
+        QC3 --> QM3[Consistency errors]
+        QC4 --> QM4[On-time submission %]
+        QC5 --> QM5[Schema violation count]
+    end
+    
+    style DQ fill:#4CAF50,color:#fff
+    style QM1 fill:#f8d7da
+    style QM2 fill:#fff3cd
+    style QM3 fill:#cfe2ff
+    style QM4 fill:#d1ecf1
+    style QM5 fill:#e2d9f3
+`} />
+
+## Performance Reporting Workflow
+
+<Mermaid code={`
+sequenceDiagram
+    participant DC as Data Contributor
+    participant DQ as Data Quality Check
+    participant IPR as IPR Database
+    participant RM as Report Manager
+    participant TB as Trust Board
+    participant DIV as Divisions
+    
+    DC->>DQ: Submit monthly data
+    
+    alt Data Valid
+        DQ->>IPR: Load to database
+        IPR->>RM: Data available
+        RM->>RM: Generate reports
+        RM->>TB: Board pack (core metrics)
+        RM->>DIV: Divisional scorecards
+    else Data Invalid
+        DQ->>DC: Rejection with errors
+        DC->>DQ: Resubmit corrected data
+    end
+    
+    TB->>DIV: Exception escalation
+    DIV->>DC: Action plan request
+    DC->>RM: Progress update
+    
+    Note over DC,TB: Monthly cycle
+    Note over IPR: 7,284 records<br/>27 months<br/>154 unique metrics
+`} />
+
+## Domain Maturity Matrix
+
+<Mermaid code={`
+graph TB
+    subgraph "Strategic Asset (High Quality, Predictive)"
+        SA1[Use of Resources]
+        SA2[Effectiveness & Mortality]
+    end
+    
+    subgraph "Developing Capability (High Quality, Reactive)"
+        DC1[Care & Experience]
+        DC2[Safety]
+    end
+    
+    subgraph "Quick Wins (Low Quality, Predictive)"
+        QW1[Responsiveness & Efficiency]
+    end
+    
+    subgraph "Foundation Building (Low Quality, Reactive)"
+        FB1[Workforce & Leadership]
+    end
+    
+    SA1 -.->|Maturity: 85%| DC1
+    SA2 -.->|Maturity: 80%| DC2
+    DC1 -.->|Maturity: 75%| QW1
+    DC2 -.->|Maturity: 70%| QW1
+    QW1 -.->|Maturity: 65%| FB1
+    
+    style SA1 fill:#198754,color:#fff
+    style SA2 fill:#198754,color:#fff
+    style DC1 fill:#0dcaf0,color:#000
+    style DC2 fill:#0dcaf0,color:#000
+    style QW1 fill:#ffc107,color:#000
+    style FB1 fill:#6c757d,color:#fff
+`} />
+
+## Key Performance Indicator Hierarchy
+
+<Mermaid code={`
+graph TD
+    BOARD[Executive Dashboard<br/>Strategic Oversight<br/>TRUST BOARD 20-30 KPIs]
+    
+    BOARD --> B1[Constitutional Standards<br/>A&E, Cancer, RTT]
+    BOARD --> B2[Safety Thermometer<br/>Never events, HCAI]
+    BOARD --> B3[Financial Position<br/>I&E, CIP, Cash]
+    BOARD --> B4[Workforce Stability<br/>Vacancy, turnover]
+    
+    DIV[Operational Management<br/>Performance Monitoring<br/>DIVISIONAL SCORECARDS 40-50 KPIs]
+    
+    DIV --> D1[Service-specific<br/>metrics]
+    DIV --> D2[Divisional<br/>allocations]
+    DIV --> D3[Exception<br/>reporting]
+    
+    DETAIL[Specialist Analysis<br/>Deep Dives<br/>DETAILED METRICS 60-80 KPIs]
+    
+    DETAIL --> DT1[Tumour site-specific<br/>cancer pathways]
+    DETAIL --> DT2[Staff group<br/>WTE breakdowns]
+    DETAIL --> DT3[Granular<br/>productivity splits]
+    
+    B1 --> DIV
+    B2 --> DIV
+    B3 --> DIV
+    B4 --> DIV
+    
+    DIV --> DETAIL
+    
+    style BOARD fill:#dc3545,color:#fff
+    style DIV fill:#ffc107,color:#000
+    style DETAIL fill:#198754,color:#fff
+`} />
+
+## Metric Rationalisation Framework
+
+<Mermaid code={`
+graph LR
+    subgraph "CURRENT STATE"
+        CS[154 Unique<br/>Metrics]
+    end
+    
+    subgraph "PROPOSED STRUCTURE"
+        CORE[Core Metrics<br/>20-30<br/><br/>Board-level<br/>All with targets<br/>Monthly review]
+        
+        OPS[Operational Metrics<br/>40-50<br/><br/>Divisional mgmt<br/>Exception-based board<br/>Monthly/quarterly]
+        
+        DET[Detailed Metrics<br/>60-80<br/><br/>Specialist analysis<br/>Available on demand<br/>As needed]
+    end
+    
+    subgraph "BENEFITS"
+        BEN1[Reduced<br/>cognitive load]
+        BEN2[Clearer<br/>accountability]
+        BEN3[Faster<br/>decision-making]
+        BEN4[Retained<br/>granularity]
+    end
+    
+    CS --> CORE
+    CS --> OPS
+    CS --> DET
+    
+    CORE --> BEN1
+    CORE --> BEN2
+    OPS --> BEN3
+    DET --> BEN4
+    
+    style CS fill:#f8d7da
+    style CORE fill:#198754,color:#fff
+    style OPS fill:#ffc107
+    style DET fill:#6c757d,color:#fff
+`} />
+
+---
+
+## Summary Statistics
+
+### Domain Distribution
+- **Workforce & Leadership:** 61 metrics (39.6%)
+- **Responsiveness & Efficiency:** 45 metrics (29.2%)
+- **Safety:** 22 metrics (14.3%)
+- **Use of Resources:** 12 metrics (7.8%)
+- **Care & Experience:** 8 metrics (5.2%)
+- **Effectiveness & Mortality:** 6 metrics (3.9%)
+
+### Data Characteristics
+- **Total Records:** 7,284
+- **Unique Metrics:** 154
+- **Time Period:** April 2023 – September 2025 (27 months)
+- **Sites:** 2 (KGH, NGH)
+- **Data Contributors:** 35
+- **Metrics with Targets:** 90 (58.4%)
+- **Organisational Units:** 11
+
+---
+
+*Visual diagrams rendered using Mermaid notation for integration into documentation systems*

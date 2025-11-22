@@ -9990,6 +9990,17 @@ import * as React32 from "react";
 // src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.tsx
 import { useMemo as useMemo14 } from "react";
 
+// src/components/DataVisualisation/charts/SPC/SPCSpark/SPCSpark.types.ts
+var SparkSize = /* @__PURE__ */ ((SparkSize2) => {
+  SparkSize2["Xs"] = "xs";
+  SparkSize2["Sm"] = "sm";
+  SparkSize2["Md"] = "md";
+  SparkSize2["Lg"] = "lg";
+  SparkSize2["Xl"] = "xl";
+  SparkSize2["Full"] = "full";
+  return SparkSize2;
+})(SparkSize || {});
+
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic/spcConstants.ts
 var RULE_PRECEDENCE = [
   "single_point" /* SinglePoint */,
@@ -12743,7 +12754,9 @@ __export(SPC_exports, {
   PARITY_V26: () => PARITY_V26,
   RULE_METADATA: () => RULE_METADATA,
   SPCChart: () => SPCChart_default,
+  SPCSpark: () => SPCSpark,
   SPCTooltipOverlay: () => SPCTooltipOverlay_default,
+  SparkSize: () => SparkSize,
   SpcEmbeddedIconVariant: () => SpcEmbeddedIconVariant,
   SpcVisualCategory: () => SpcVisualCategory,
   SpcWarningCategory: () => SpcWarningCategory,

@@ -141,13 +141,34 @@ $header-vertical-pad-tablet: tokens.$nhs-fdp-spacing-4;
 			padding-right: tokens.$nhs-fdp-spacing-7;
 			gap: tokens.$nhs-fdp-spacing-4;
 		}
+
+		// Full width variant (NHS brand only) - removes max-width and uses fixed 64px padding
+		&--full-width {
+			max-width: none;
+			padding-left: 64px;
+			padding-right: 64px;
+
+			// Maintain responsive padding on smaller screens
+			@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+				padding-left: tokens.$nhs-fdp-spacing-4;
+				padding-right: tokens.$nhs-fdp-spacing-4;
+			}
+		}
 	}
 
-	// Optional width-constrained + centred container.
-	// Usage: supply containerClasses="nhsuk-width-container" (already supported) – this override ensures
-	// the header content is capped at 1200px and horizontally centred while preserving existing
-	// horizontal spacing via internal padding (rather than asymmetric outer margins that block centring).
-	// (Redundant now the base container is always capped) – rule removed.
+	&__navigation-container {
+		// Full width variant for navigation (NHS brand only)
+		&--full-width {
+			max-width: none;
+			padding-left: 64px;
+			padding-right: 64px;
+
+			@media (max-width: calc(#{tokens.$nhs-fdp-breakpoint-medium} - 1px)) {
+				padding-left: tokens.$nhs-fdp-spacing-4;
+				padding-right: tokens.$nhs-fdp-spacing-4;
+			}
+		}
+	}
 
 	// Navigation container - hierarchical structure
 	&__navigation-container {

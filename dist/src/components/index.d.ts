@@ -107,6 +107,8 @@ export { AriaDataGrid, AriaTabsDataGrid, SortStatusControl, createGenericTabsCon
 export type { AriaDataGridProps, AriaTabsDataGridProps, AriaTabsDataGridRef, TabPanelConfig, SortStatusControlProps, GenericTabDefinition, GenericColumnDefinition, } from "./SortableDataTable";
 export { ResponsiveDataGrid, ResponsiveDataGridDemo, PatientCard, AppointmentCard, MedicationCard, VitalsCard, ResponsiveDataGrid as AdaptiveDataGrid, ResponsiveDataGrid as AriaTabsDataGridAdaptive, } from "./ResponsiveDataGrid";
 export type { ResponsiveDataGridProps, ResponsiveTabPanelConfig, LayoutMode, ViewportConfig, ResponsiveDataGridProps as AdaptiveDataGridProps, ResponsiveDataGridProps as AriaTabsDataGridAdaptiveProps, } from "./ResponsiveDataGrid";
+export { GroupableDataGrid, GroupHeader, TreeNodeComponent, HierarchyDataManager, applyAggregation, applyAggregations, enhanceDataWithCalculatedFields, } from "./GroupableDataGrid";
+export type { GroupableDataGridProps, GroupableMode, GroupConfig, GroupLevel, TreeConfig, PivotConfig, AggregationConfig, AggregationType, CalculatedField, ExpansionState, GroupHeaderProps, TreeNodeData, GroupNode, GroupHeaderContext, TreeNodeContext, } from "./GroupableDataGrid";
 export { WidthContainer } from "./WidthContainer";
 export { PageTemplate } from "./PageTemplate";
 export type { PageTemplateProps } from "./PageTemplate";

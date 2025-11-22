@@ -1,0 +1,873 @@
+// GroupableDataGrid Component Styles
+// ---------------------------------------------------------------------------
+// Unified table component supporting flat, grouped, tree, and pivot modes
+// Follows NHS FDP Design System patterns and tokens
+// ---------------------------------------------------------------------------
+@use '../../../packages/nhs-fdp/scss' as nhs;
+@use 'sass:map';
+@use 'sass:color';
+
+// Component-specific variables using design tokens
+$color-primary: nhs.$nhs-fdp-color-primary-blue;
+$color-secondary: nhs.$nhs-fdp-color-grey-5;
+$color-text: nhs.$nhs-fdp-color-primary-black;
+$color-text-secondary: nhs.$nhs-fdp-color-grey-1;
+$color-border: nhs.$nhs-fdp-color-grey-3;
+$color-white: nhs.$nhs-fdp-color-primary-white;
+$color-focus: nhs.$nhs-fdp-color-primary-yellow;
+$color-hover: nhs.$nhs-fdp-color-grey-5;
+
+// Group and tree specific tokens
+$group-indent: 2rem;
+$group-indent-mobile: 1rem;
+$tree-connector-color: nhs.$nhs-fdp-color-grey-3; // #aeb7bd
+$tree-connector-width: 1px;
+$group-header-bg: nhs.$nhs-fdp-color-grey-5; // #f0f4f5
+$group-header-bg-hover: nhs.$nhs-fdp-color-grey-4; // #d8dde0
+$group-header-bg-expanded: $color-white;
+$group-header-border-color: $color-primary;
+$group-header-font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+// Group level colors for multi-level visual distinction
+// Using data-viz categorical colors for consistency with charts
+$group-level-colors: (
+  1: nhs.$nhs-fdp-color-data-viz-categorical-1,  // #005eb8 - Primary Blue
+  2: nhs.$nhs-fdp-color-data-viz-categorical-2,  // #41b6e6 - Light Blue
+  3: nhs.$nhs-fdp-color-data-viz-categorical-3,  // #00a499 - Aqua Green
+  4: nhs.$nhs-fdp-color-data-viz-categorical-5,  // #007f3b - Primary Green
+  5: nhs.$nhs-fdp-color-data-viz-categorical-8,  // #ae2573 - Pink
+);
+
+// Aggregation display tokens
+$aggregation-text-color: nhs.$nhs-fdp-color-grey-1;
+$aggregation-font-size: nhs.$nhs-fdp-font-size-14-tablet;
+$aggregation-badge-bg: nhs.$nhs-fdp-color-grey-5;
+
+// Tree node states
+$tree-node-hover-bg: $group-header-bg; // #f0f4f5 - Light grey hover
+$tree-node-selected-bg: nhs.$nhs-fdp-color-grey-3; // #aeb7bd - Darker grey for focus
+$tree-node-focus-outline: 3px solid $color-focus;
+
+// Transitions
+$transition-default: all nhs.$nhs-fdp-animation-duration-normal nhs.$nhs-fdp-animation-easing-ease-out;
+
+// Font
+$font-family-primary: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
+
+// Breakpoints (aligned with AriaTabsDataGrid)
+$breakpoints: (
+  phone: 480px,
+  tablet: 768px,
+  tabletMax: 1024px,
+  desktop: 1025px,
+);
+
+@mixin respond-to($key) {
+  $size: map.get($breakpoints, $key);
+  @if $key == 'desktop' {
+    @media (min-width: $size) { @content; }
+  } @else {
+    @media (max-width: $size) { @content; }
+  }
+}
+
+// Main component container
+.groupable-datagrid {
+  font-family: $font-family-primary;
+  background: $color-white;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+
+  // Loading and error states
+  &--loading,
+  &--error {
+    padding: nhs.$nhs-fdp-component-card-padding-desktop;
+    text-align: center;
+  }
+
+  // Controls section (expand all, collapse all, etc.)
+  &__controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: nhs.$nhs-fdp-spacing-3 0;
+	padding-bottom: nhs.$nhs-fdp-spacing-3;
+    gap: nhs.$nhs-fdp-spacing-2;
+
+    @include respond-to(phone) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &-left,
+    &-right {
+      display: flex;
+      gap: nhs.$nhs-fdp-spacing-2;
+      align-items: center;
+
+      @include respond-to(phone) {
+        width: 100%;
+      }
+    }
+
+    &-info {
+      color: $color-text-secondary;
+      font-size: $aggregation-font-size;
+    }
+  }
+
+  // Table wrapper (for flat mode)
+  &__table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  // Treegrid container (for grouped/tree modes)
+  &__treegrid {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: auto;
+    
+    // ARIA treegrid role
+    &[role="treegrid"] {
+      // Ensure keyboard focus is visible
+      &:focus-visible {
+        outline: 2px solid $color-focus;
+        outline-offset: 2px;
+      }
+    }
+  }
+
+  // Header row
+  &__header-row {
+    border-bottom: 2px solid $color-border;
+    background: $group-header-bg;
+
+    th {
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+      text-align: left;
+      font-weight: $group-header-font-weight;
+      font-size: nhs.$nhs-fdp-font-size-16-desktop;
+      color: $color-text;
+
+      @include respond-to(phone) {
+        padding: nhs.$nhs-fdp-spacing-2;
+        font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      }
+
+      &:first-child {
+        padding-left: nhs.$nhs-fdp-spacing-4;
+
+        @include respond-to(phone) {
+          padding-left: nhs.$nhs-fdp-spacing-2;
+        }
+      }
+    }
+  }
+
+  // Regular data row
+  &__data-row {
+    border-bottom: 1px solid $color-border;
+    transition: $transition-default;
+
+    &:hover {
+      background: $tree-node-hover-bg;
+    }
+
+    // Only show focus styles when explicitly focused via keyboard navigation
+    &--focused {
+      background: $tree-node-selected-bg !important;
+      outline: $tree-node-focus-outline !important;
+      outline-offset: -2px !important;
+      position: relative;
+      z-index: 10;
+    }
+
+    td {
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+      font-size: nhs.$nhs-fdp-font-size-16-desktop;
+      color: $color-text;
+
+      @include respond-to(phone) {
+        padding: nhs.$nhs-fdp-spacing-2;
+        font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      }
+
+      &:first-child {
+        padding-left: nhs.$nhs-fdp-spacing-4;
+
+        @include respond-to(phone) {
+          padding-left: nhs.$nhs-fdp-spacing-2;
+        }
+      }
+
+      &:focus-visible {
+        outline: $tree-node-focus-outline;
+        outline-offset: -2px;
+        position: relative;
+        z-index: 10;
+      }
+    }
+  }
+
+  // Summary footer row
+  &__summary-row {
+    border-top: 2px solid $color-primary;
+    background: $group-header-bg;
+    font-weight: $group-header-font-weight;
+
+    td {
+      padding: nhs.$nhs-fdp-spacing-3;
+      font-size: nhs.$nhs-fdp-font-size-16-desktop;
+
+      @include respond-to(phone) {
+        padding: nhs.$nhs-fdp-spacing-2;
+        font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      }
+    }
+  }
+}
+
+// Group header row (expandable group)
+.group-header {
+  border-bottom: 1px solid $color-border;
+  background: $group-header-bg;
+  transition: $transition-default;
+  cursor: pointer;
+
+  &:hover {
+    background: $group-header-bg-hover;
+  }
+
+  &--expanded {
+    background: $group-header-bg-expanded;
+    border-left: 3px solid $group-header-border-color;
+  }
+
+  // Only show focus styles when explicitly focused via keyboard navigation
+  &--focused {
+    background: $tree-node-selected-bg !important;
+    outline: $tree-node-focus-outline !important;
+    outline-offset: -2px !important;
+    position: relative;
+    z-index: 10;
+  }
+
+  &--level {
+    @each $level, $color in $group-level-colors {
+      &-#{$level} {
+        border-left-color: $color;
+
+        .group-header__icon {
+          color: $color;
+        }
+      }
+    }
+  }
+
+  &__cell {
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-1;
+    font-weight: $group-header-font-weight;
+    font-size: nhs.$nhs-fdp-font-size-16-desktop;
+
+    @include respond-to(phone) {
+      padding: nhs.$nhs-fdp-spacing-2;
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    }
+
+    &--first {
+      display: flex;
+      align-items: center;
+      gap: nhs.$nhs-fdp-spacing-2;
+    }
+
+    // Indentation for nested groups
+    &--indent {
+      @for $i from 0 through 10 {
+        &-#{$i} {
+          padding-left: calc(nhs.$nhs-fdp-spacing-2 + (#{$group-indent} * #{$i}));
+
+          @include respond-to(phone) {
+            padding-left: calc(nhs.$nhs-fdp-spacing-2 + (#{$group-indent-mobile} * #{$i}));
+          }
+        }
+      }
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform nhs.$nhs-fdp-animation-duration-fast nhs.$nhs-fdp-animation-easing-ease-out;
+    color: $color-primary;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &--expanded {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__label {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__count {
+    color: $color-text-secondary;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    font-size: $aggregation-font-size;
+    margin-left: nhs.$nhs-fdp-spacing-1;
+  }
+
+  &__aggregations {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-3;
+    align-items: center;
+    color: $aggregation-text-color;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    font-size: $aggregation-font-size;
+
+    @include respond-to(phone) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: nhs.$nhs-fdp-spacing-1;
+    }
+  }
+
+  &__aggregation {
+    display: flex;
+    align-items: center;
+    gap: nhs.$nhs-fdp-spacing-1;
+
+    &-label {
+      color: $color-text-secondary;
+    }
+
+    &-value {
+      font-weight: $group-header-font-weight;
+      color: $color-text;
+      background: $aggregation-badge-bg;
+      padding: 2px nhs.$nhs-fdp-spacing-1;
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+    }
+  }
+}
+
+// Tree node row
+.tree-node {
+  border-bottom: 1px solid $color-border;
+  transition: $transition-default;
+  position: relative;
+
+  &:hover {
+    background: $tree-node-hover-bg;
+  }
+
+  &--expanded {
+    font-weight: $group-header-font-weight;
+  }
+
+  &--has-children {
+    cursor: pointer;
+  }
+
+  // Only show focus styles when explicitly focused via keyboard navigation
+  &--focused {
+    background: $tree-node-selected-bg !important;
+    outline: $tree-node-focus-outline !important;
+    outline-offset: -2px !important;
+    position: relative;
+    z-index: 10;
+  }
+
+  &__cell {
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+    font-size: nhs.$nhs-fdp-font-size-16-desktop;
+
+    @include respond-to(phone) {
+      padding: nhs.$nhs-fdp-spacing-2;
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    }
+
+    &--first {
+      display: flex;
+      align-items: center;
+      gap: nhs.$nhs-fdp-spacing-2;
+    }
+
+    // Tree indentation
+    &--depth {
+      @for $i from 0 through 10 {
+        &-#{$i} {
+          padding-left: calc(nhs.$nhs-fdp-spacing-4 + (#{$group-indent} * #{$i}));
+
+          @include respond-to(phone) {
+            padding-left: calc(nhs.$nhs-fdp-spacing-2 + (#{$group-indent-mobile} * #{$i}));
+          }
+        }
+      }
+    }
+  }
+
+  &__expander {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+    color: $color-primary;
+    transition: transform nhs.$nhs-fdp-animation-duration-fast nhs.$nhs-fdp-animation-easing-ease-out;
+
+    &:hover {
+      color: color.adjust($color-primary, $lightness: -10%);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-focus;
+      outline-offset: 2px;
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    &--expanded {
+      transform: rotate(90deg);
+    }
+
+    &--placeholder {
+      visibility: hidden;
+    }
+  }
+
+  &__connector {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+  }
+}
+
+// Tree connectors (visual lines connecting parent/child)
+.tree-connectors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+
+  &__line {
+    position: absolute;
+    background: $tree-connector-color;
+
+    &--vertical {
+      width: $tree-connector-width;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+
+    &--horizontal {
+      height: $tree-connector-width;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &--solid {
+      background: $tree-connector-color;
+    }
+
+    &--dashed {
+      background: repeating-linear-gradient(
+        to bottom,
+        $tree-connector-color 0,
+        $tree-connector-color 4px,
+        transparent 4px,
+        transparent 8px
+      );
+    }
+
+    &--dotted {
+      background: repeating-linear-gradient(
+        to bottom,
+        $tree-connector-color 0,
+        $tree-connector-color 2px,
+        transparent 2px,
+        transparent 4px
+      );
+    }
+  }
+}
+
+// Aggregation cells
+.aggregation-cell {
+  font-variant-numeric: tabular-nums;
+  
+  &--highlighted {
+    background: $aggregation-badge-bg;
+    font-weight: $group-header-font-weight;
+  }
+
+  &--error {
+    color: nhs.$nhs-fdp-color-primary-red;
+  }
+
+  &--warning {
+    color: nhs.$nhs-fdp-color-secondary-orange;
+  }
+
+  &--success {
+    color: nhs.$nhs-fdp-color-primary-green;
+  }
+}
+
+// Empty state
+.groupable-datagrid__empty {
+  padding: nhs.$nhs-fdp-spacing-4;
+  text-align: center;
+  color: $color-text-secondary;
+  font-size: nhs.$nhs-fdp-font-size-16-desktop;
+}
+
+// Keyboard navigation indicator
+.groupable-datagrid__nav-hint {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+  
+  &--visible {
+    position: static;
+    padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+    background: $color-focus;
+    color: $color-text;
+    font-size: nhs.$nhs-fdp-font-size-14-mobile;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    margin-bottom: nhs.$nhs-fdp-spacing-2;
+  }
+}
+
+// Print styles
+@media print {
+  .groupable-datagrid {
+    &__controls {
+      display: none;
+    }
+
+    .group-header,
+    .tree-node {
+      page-break-inside: avoid;
+    }
+
+    .tree-connectors {
+      display: none; // Connectors don't print well
+    }
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .group-header,
+  .tree-node {
+    border-width: 2px;
+  }
+
+  .group-header__icon,
+  .tree-node__expander {
+    border: 1px solid currentColor;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .group-header__icon,
+  .tree-node__expander,
+  .group-header,
+  .tree-node,
+  .groupable-datagrid__data-row {
+    transition: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// SORTABLE HEADERS
+// ---------------------------------------------------------------------------
+
+.groupable-datagrid__header-cell {
+  &--sortable {
+    cursor: pointer;
+    user-select: none;
+    
+    &:hover {
+      background-color: $group-header-bg;
+    }
+    
+    &:active {
+      background-color: $group-header-bg-hover;
+    }
+  }
+  
+  &--sorted {
+    background-color: color.adjust($color-primary, $alpha: -0.95);
+  }
+}
+
+.groupable-datagrid__header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: nhs.$nhs-fdp-spacing-1;
+}
+
+.groupable-datagrid__sort-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875em;
+  color: $color-primary;
+  
+  .groupable-datagrid__sort-order {
+    font-size: 0.75em;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    padding: 0.125rem 0.25rem;
+    background-color: $color-primary;
+    color: $color-white;
+    border-radius: nhs.$nhs-fdp-border-radius-small;
+    line-height: 1;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// ROW SELECTION
+// ---------------------------------------------------------------------------
+
+.groupable-datagrid__data-row {
+  &--selected {
+    background-color: color.adjust($color-primary, $alpha: -0.9) !important;
+    
+    td {
+      border-top-color: $color-primary;
+      border-bottom-color: $color-primary;
+    }
+    
+    &:first-child td:first-child {
+      border-left-color: $color-primary;
+    }
+    
+    &:last-child td:last-child {
+      border-right-color: $color-primary;
+    }
+  }
+  
+  &[style*="cursor: pointer"] {
+    &:hover {
+      background-color: $tree-node-hover-bg;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// MOBILE CARD VIEW
+// ---------------------------------------------------------------------------
+
+.groupable-datagrid--mobile-cards {
+  .groupable-datagrid__table-wrapper {
+    display: none; // Hide table in card mode
+  }
+}
+
+.groupable-datagrid--mobile-scroll {
+  .groupable-datagrid__cards {
+    display: none; // Hide cards in scroll mode
+  }
+  
+  .groupable-datagrid__table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    @include respond-to(tablet) {
+      // Enable horizontal scroll on mobile/tablet
+      &::-webkit-scrollbar {
+        height: 8px;
+      }
+      
+      &::-webkit-scrollbar-track {
+        background: $color-secondary;
+      }
+      
+      &::-webkit-scrollbar-thumb {
+        background: $color-border;
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.groupable-datagrid__cards {
+  display: flex;
+  flex-direction: column;
+  gap: nhs.$nhs-fdp-spacing-3;
+}
+
+.groupable-datagrid__card {
+  background: $color-white;
+  border: 2px solid $color-border;
+  padding: nhs.$nhs-fdp-spacing-3;
+  transition: $transition-default;
+  
+  &--group {
+    background: $group-header-bg;
+    border-color: $group-header-border-color;
+    border-left-width: 4px;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+    cursor: pointer;
+    
+    &:hover {
+      background: $group-header-bg-hover;
+    }
+  }
+  
+  &--level-1 {
+    border-left-color: map.get($group-level-colors, 1);
+  }
+  
+  &--level-2 {
+    border-left-color: map.get($group-level-colors, 2);
+  }
+  
+  &--level-3 {
+    border-left-color: map.get($group-level-colors, 3);
+  }
+  
+  &--selected {
+    border-color: $color-primary;
+    border-width: 2px;
+    background-color: color.adjust($color-primary, $alpha: -0.95);
+    box-shadow: 0 2px 8px color.adjust($color-primary, $alpha: -0.8);
+  }
+  
+  &[style*="cursor"] {
+    cursor: pointer;
+    
+    &:hover {
+      border-color: $color-primary;
+      box-shadow: 0 2px 8px color.adjust($color-primary, $alpha: -0.9);
+    }
+    
+    &:active {
+      transform: scale(0.99);
+    }
+  }
+}
+
+.groupable-datagrid__card-group-header {
+  display: flex;
+  align-items: center;
+  gap: nhs.$nhs-fdp-spacing-2;
+}
+
+.groupable-datagrid__card-group-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: $color-primary;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.groupable-datagrid__card-group-chevron {
+  transition: transform nhs.$nhs-fdp-animation-duration-fast nhs.$nhs-fdp-animation-easing-ease-out;
+  
+  &--expanded {
+    transform: rotate(0deg);
+  }
+  
+  &:not(&--expanded) {
+    transform: rotate(-90deg);
+  }
+}
+
+.groupable-datagrid__card-group-label {
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  flex: 1;
+}
+
+.groupable-datagrid__card-group-count {
+  font-size: nhs.$nhs-fdp-font-size-14-mobile;
+  color: $color-text-secondary;
+}
+
+.groupable-datagrid__card-title {
+  font-size: nhs.$nhs-fdp-font-size-19-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  color: $color-text;
+  margin-bottom: nhs.$nhs-fdp-spacing-3;
+  padding-bottom: nhs.$nhs-fdp-spacing-2;
+  border-bottom: 2px solid $color-border;
+  
+  @media (min-width: #{map.get($breakpoints, tablet)}) {
+    font-size: nhs.$nhs-fdp-font-size-19-tablet;
+  }
+}
+
+.groupable-datagrid__card-field {
+  display: flex;
+  flex-direction: column;
+  gap: nhs.$nhs-fdp-spacing-1;
+  padding: nhs.$nhs-fdp-spacing-2 0;
+  border-bottom: 1px solid $color-secondary;
+  
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.groupable-datagrid__card-label {
+  font-size: nhs.$nhs-fdp-font-size-14-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-bold;
+  color: $color-text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.groupable-datagrid__card-value {
+  font-size: nhs.$nhs-fdp-font-size-16-mobile;
+  color: $color-text;
+  
+  // Handle complex content (e.g., sparklines)
+  > * {
+    max-width: 100%;
+  }
+}
+

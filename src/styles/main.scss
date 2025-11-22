@@ -29,6 +29,7 @@
 @use '../components/Footer/Footer.scss';
 @use '../components/GanttChart/GanttChart.scss';
 @use '../components/Grid/Grid.scss';
+@use '../components/GroupableDataGrid/GroupableDataGrid.scss' as groupable-data-grid;
 @use '../components/Header/Header.scss' as header-main;
 @use '../components/HeaderSearch/HeaderSearch.scss';
 @use '../components/Heading/Heading.scss';

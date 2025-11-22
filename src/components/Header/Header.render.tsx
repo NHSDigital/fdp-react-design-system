@@ -53,6 +53,7 @@ export function renderHeaderMarkup(
 		containerClasses,
 		variant: headerVariant = "default",
 		attributes = {},
+		fullWidth = false,
 		maxVisibleItems, // deprecated (ignored)
 			responsiveNavigation = true,
 			logoVariant = LogoVariantEnum.Full,
@@ -77,6 +78,14 @@ export function renderHeaderMarkup(
 		(effectiveService.href && effectiveService.href === logo.href);
 	const logoHref = combineLogoAndServiceNameLinks ? effectiveService.href : logo.href;
 
+	// Infer brand from document attribute (client only). Defaults to 'nhs' when absent/SSR.
+	const inferBrand = (): 'nhs' | 'fdp' => {
+		if (typeof document === 'undefined') return 'nhs';
+		const attr = document.documentElement.getAttribute('data-brand');
+		return attr === 'fdp' ? 'fdp' : 'nhs';
+	};
+	const brand = providedBrand ?? inferBrand();
+
 	const headerClasses = classNames(
 		"nhsuk-header",
 		{
@@ -88,6 +97,9 @@ export function renderHeaderMarkup(
 	);
 	const containerClass = classNames(
 		"nhsuk-header__container",
+		{
+			"nhsuk-header__container--full-width": fullWidth && brand === 'nhs',
+		},
 		containerClasses
 	);
 	const navigationClasses = classNames(
@@ -98,14 +110,6 @@ export function renderHeaderMarkup(
 		},
 		navigation?.className
 	);
-
-	// Infer brand from document attribute (client only). Defaults to 'nhs' when absent/SSR.
-	const inferBrand = (): 'nhs' | 'fdp' => {
-		if (typeof document === 'undefined') return 'nhs';
-		const attr = document.documentElement.getAttribute('data-brand');
-		return attr === 'fdp' ? 'fdp' : 'nhs';
-	};
-	const brand = providedBrand ?? inferBrand();
 
 	const renderNHSLogo = () => (
 		<svg

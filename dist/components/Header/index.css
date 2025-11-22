@@ -242,6 +242,32 @@ span .nhsuk-u-visually-hidden {
   }
 }
 
+.nhsuk-header__container--full-width {
+  max-width: none;
+  padding-left: 64px;
+  padding-right: 64px;
+}
+
+@media (max-width: calc(768px - 1px)) {
+  .nhsuk-header__container--full-width {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+.nhsuk-header__navigation-container--full-width {
+  max-width: none;
+  padding-left: 64px;
+  padding-right: 64px;
+}
+
+@media (max-width: calc(768px - 1px)) {
+  .nhsuk-header__navigation-container--full-width {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
 .nhsuk-header__navigation-container {
   margin: 0 auto;
   position: relative;

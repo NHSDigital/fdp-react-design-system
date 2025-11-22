@@ -46,6 +46,8 @@ export interface HeaderProps {
 	variant?: "default" | "white" | "organisation";
 	/** Optional brand logo variant hint when brand is active (e.g., FDP). Defaults to LogoVariant.Full. */
 	logoVariant?: LogoVariant;
+	/** If true, header container uses full width with fixed 64px padding instead of max-width constraint (NHS brand only) */
+	fullWidth?: boolean;
 	// Deprecated: maxVisibleItems (previously for HeaderStatic) retained for backward compatibility but ignored.
 	maxVisibleItems?: number; // no-op
 	/** If true (default), navigation is responsive and client enhancement will manage overflow; if false, render all items into dropdown on server */

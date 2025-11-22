@@ -80,36 +80,36 @@ function generateComponentHTML(component: any): string {
 
 function generateSimpleComponent(kebabCase: string, nhsukClass: string): string {
   const templates: Record<string, string> = {
-    'button': \`<button class="nhsuk-button" data-module="nhsuk-button" type="submit">Save and continue</button>\`,
-    'tag': \`<strong class="nhsuk-tag">New</strong>\`,
-    'skip-link': \`<a class="nhsuk-skip-link" href="#maincontent">Skip to main content</a>\`,
-    'back-link': \`<a class="nhsuk-back-link" href="#"><span class="nhsuk-u-visually-hidden">Go back</span></a>\`,
-    'action-link': \`<a class="nhsuk-action-link" href="#"><span class="nhsuk-action-link__text">Find a minor injuries unit</span></a>\`,
-    'hint': \`<div class="nhsuk-hint" id="example-hint">It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'.</div>\`,
-    'error-message': \`<span class="nhsuk-error-message" id="example-error"><span class="nhsuk-u-visually-hidden">Error:</span> Enter a valid email address</span>\`,
+    'button': `<button class="nhsuk-button" data-module="nhsuk-button" type="submit">Save and continue</button>`,
+    'tag': `<strong class="nhsuk-tag">New</strong>`,
+    'skip-link': `<a class="nhsuk-skip-link" href="#maincontent">Skip to main content</a>`,
+    'back-link': `<a class="nhsuk-back-link" href="#"><span class="nhsuk-u-visually-hidden">Go back</span></a>`,
+    'action-link': `<a class="nhsuk-action-link" href="#"><span class="nhsuk-action-link__text">Find a minor injuries unit</span></a>`,
+    'hint': `<div class="nhsuk-hint" id="example-hint">It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ 12 34 56 C'.</div>`,
+    'error-message': `<span class="nhsuk-error-message" id="example-error"><span class="nhsuk-u-visually-hidden">Error:</span> Enter a valid email address</span>`,
   };
   
-  return templates[kebabCase] || \`<div class="\${nhsukClass}">Sample \${kebabCase} component</div>\`;
+  return templates[kebabCase] || `<div class="\${nhsukClass}">Sample \${kebabCase} component</div>`;
 }
 
 function generateFormComponent(kebabCase: string, nhsukClass: string): string {
   const templates: Record<string, string> = {
-    'input': \`<div class="nhsuk-form-group">
+    'input': `<div class="nhsuk-form-group">
       <label class="nhsuk-label" for="example">Email address</label>
       <input class="nhsuk-input" id="example" name="example" type="email">
-    </div>\`,
-    'textarea': \`<div class="nhsuk-form-group">
+    </div>`,
+    'textarea': `<div class="nhsuk-form-group">
       <label class="nhsuk-label" for="example">Can you provide more detail?</label>
       <textarea class="nhsuk-textarea" id="example" name="example" rows="5"></textarea>
-    </div>\`,
-    'select': \`<div class="nhsuk-form-group">
+    </div>`,
+    'select': `<div class="nhsuk-form-group">
       <label class="nhsuk-label" for="select-1">Choose an option</label>
       <select class="nhsuk-select" id="select-1" name="select-1">
         <option value="option1">Option 1</option>
         <option value="option2">Option 2</option>
       </select>
-    </div>\`,
-    'checkboxes': \`<div class="nhsuk-form-group">
+    </div>`,
+    'checkboxes': `<div class="nhsuk-form-group">
       <fieldset class="nhsuk-fieldset">
         <legend class="nhsuk-fieldset__legend">Which of these apply to you?</legend>
         <div class="nhsuk-checkboxes">
@@ -119,8 +119,8 @@ function generateFormComponent(kebabCase: string, nhsukClass: string): string {
           </div>
         </div>
       </fieldset>
-    </div>\`,
-    'radios': \`<div class="nhsuk-form-group">
+    </div>`,
+    'radios': `<div class="nhsuk-form-group">
       <fieldset class="nhsuk-fieldset">
         <legend class="nhsuk-fieldset__legend">Where do you live?</legend>
         <div class="nhsuk-radios">
@@ -130,8 +130,8 @@ function generateFormComponent(kebabCase: string, nhsukClass: string): string {
           </div>
         </div>
       </fieldset>
-    </div>\`,
-    'date-input': \`<div class="nhsuk-form-group">
+    </div>`,
+    'date-input': `<div class="nhsuk-form-group">
       <fieldset class="nhsuk-fieldset">
         <legend class="nhsuk-fieldset__legend">What is your date of birth?</legend>
         <div class="nhsuk-date-input" id="example">
@@ -143,28 +143,28 @@ function generateFormComponent(kebabCase: string, nhsukClass: string): string {
           </div>
         </div>
       </fieldset>
-    </div>\`,
-    'character-count': \`<div class="nhsuk-form-group">
+    </div>`,
+    'character-count': `<div class="nhsuk-form-group">
       <label class="nhsuk-label" for="example">Can you provide more detail?</label>
       <div class="nhsuk-character-count" data-module="nhsuk-character-count" data-maxlength="200">
         <textarea class="nhsuk-textarea nhsuk-character-count__input" id="example" name="example" rows="5"></textarea>
         <div class="nhsuk-character-count__message">You can enter up to 200 characters</div>
       </div>
-    </div>\`,
-    'fieldset': \`<fieldset class="nhsuk-fieldset">
+    </div>`,
+    'fieldset': `<fieldset class="nhsuk-fieldset">
       <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
         <h1 class="nhsuk-fieldset__heading">What is your address?</h1>
       </legend>
-    </fieldset>\`,
-    'label': \`<label class="nhsuk-label" for="example">National Insurance number</label>\`,
+    </fieldset>`,
+    'label': `<label class="nhsuk-label" for="example">National Insurance number</label>`,
   };
   
-  return templates[kebabCase] || \`<div class="\${nhsukClass}">Sample \${kebabCase} form component</div>\`;
+  return templates[kebabCase] || `<div class="\${nhsukClass}">Sample \${kebabCase} form component</div>`;
 }
 
 function generateNavigationComponent(kebabCase: string, nhsukClass: string): string {
   const templates: Record<string, string> = {
-    'header': \`<header class="nhsuk-header" role="banner">
+    'header': `<header class="nhsuk-header" role="banner">
       <div class="nhsuk-width-container nhsuk-header__container">
         <div class="nhsuk-header__logo">
           <a class="nhsuk-header__link" href="/" aria-label="NHS homepage">
@@ -180,8 +180,8 @@ function generateNavigationComponent(kebabCase: string, nhsukClass: string): str
           </div>
         </div>
       </div>
-    </header>\`,
-    'breadcrumb': \`<nav class="nhsuk-breadcrumb" aria-label="Breadcrumb">
+    </header>`,
+    'breadcrumb': `<nav class="nhsuk-breadcrumb" aria-label="Breadcrumb">
       <div class="nhsuk-width-container">
         <ol class="nhsuk-breadcrumb__list">
           <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="/">Home</a></li>
@@ -194,8 +194,8 @@ function generateNavigationComponent(kebabCase: string, nhsukClass: string): str
           </a>
         </p>
       </div>
-    </nav>\`,
-    'contents-list': \`<nav class="nhsuk-contents-list" role="navigation" aria-labelledby="contents-list">
+    </nav>`,
+    'contents-list': `<nav class="nhsuk-contents-list" role="navigation" aria-labelledby="contents-list">
       <h2 class="nhsuk-u-visually-hidden" id="contents-list">Contents</h2>
       <ol class="nhsuk-contents-list__list">
         <li class="nhsuk-contents-list__item">
@@ -205,8 +205,8 @@ function generateNavigationComponent(kebabCase: string, nhsukClass: string): str
           <a class="nhsuk-contents-list__link" href="#item2">Item 2</a>
         </li>
       </ol>
-    </nav>\`,
-    'pagination': \`<nav class="nhsuk-pagination" role="navigation" aria-label="Pagination">
+    </nav>`,
+    'pagination': `<nav class="nhsuk-pagination" role="navigation" aria-label="Pagination">
       <ul class="nhsuk-list nhsuk-pagination__list">
         <li class="nhsuk-pagination__item nhsuk-pagination__item--previous">
           <a class="nhsuk-pagination__link nhsuk-pagination__link--prev" href="/page1">
@@ -223,15 +223,15 @@ function generateNavigationComponent(kebabCase: string, nhsukClass: string): str
           </a>
         </li>
       </ul>
-    </nav>\`,
+    </nav>`,
   };
   
-  return templates[kebabCase] || \`<nav class="\${nhsukClass}">Sample \${kebabCase} navigation component</nav>\`;
+  return templates[kebabCase] || `<nav class="\${nhsukClass}">Sample \${kebabCase} navigation component</nav>`;
 }
 
 function generateLinksComponent(kebabCase: string, nhsukClass: string): string {
   if (kebabCase === 'footer') {
-    return \`<footer class="nhsuk-footer" id="nhsuk-footer">
+    return `<footer class="nhsuk-footer" id="nhsuk-footer">
       <div class="nhsuk-width-container">
         <h2 class="nhsuk-u-visually-hidden">Support links</h2>
         <ul class="nhsuk-footer__list">
@@ -242,15 +242,15 @@ function generateLinksComponent(kebabCase: string, nhsukClass: string): string {
         </ul>
         <p class="nhsuk-footer__copyright">&copy; Crown copyright</p>
       </div>
-    </footer>\`;
+    </footer>`;
   }
   
-  return \`<div class="\${nhsukClass}">Sample \${kebabCase} component with links</div>\`;
+  return `<div class="\${nhsukClass}">Sample \${kebabCase} component with links</div>`;
 }
 
 function generateDataComponent(kebabCase: string, nhsukClass: string): string {
   const templates: Record<string, string> = {
-    'summary-list': \`<dl class="nhsuk-summary-list">
+    'summary-list': `<dl class="nhsuk-summary-list">
       <div class="nhsuk-summary-list__row">
         <dt class="nhsuk-summary-list__key">Name</dt>
         <dd class="nhsuk-summary-list__value">Sarah Philips</dd>
@@ -259,8 +259,8 @@ function generateDataComponent(kebabCase: string, nhsukClass: string): string {
         <dt class="nhsuk-summary-list__key">Date of birth</dt>
         <dd class="nhsuk-summary-list__value">5 January 1978</dd>
       </div>
-    </dl>\`,
-    'table': \`<div class="nhsuk-table-container">
+    </dl>`,
+    'table': `<div class="nhsuk-table-container">
       <table class="nhsuk-table">
         <caption class="nhsuk-table__caption">Skin symptoms and possible causes</caption>
         <thead class="nhsuk-table__head">
@@ -276,15 +276,15 @@ function generateDataComponent(kebabCase: string, nhsukClass: string): string {
           </tr>
         </tbody>
       </table>
-    </div>\`,
+    </div>`,
   };
   
-  return templates[kebabCase] || \`<div class="\${nhsukClass}">Sample \${kebabCase} data component</div>\`;
+  return templates[kebabCase] || `<div class="\${nhsukClass}">Sample \${kebabCase} data component</div>`;
 }
 
 function generateContentComponent(kebabCase: string, nhsukClass: string): string {
   const templates: Record<string, string> = {
-    'hero': \`<section class="nhsuk-hero">
+    'hero': `<section class="nhsuk-hero">
       <div class="nhsuk-width-container nhsuk-hero--border">
         <div class="nhsuk-grid-row">
           <div class="nhsuk-grid-column-two-thirds">
@@ -295,18 +295,18 @@ function generateContentComponent(kebabCase: string, nhsukClass: string): string
           </div>
         </div>
       </div>
-    </section>\`,
-    'panel': \`<div class="nhsuk-panel">
+    </section>`,
+    'panel': `<div class="nhsuk-panel">
       <h3>If you need help now, but it's not an emergency</h3>
       <p>Go to <a href="#">111.nhs.uk</a> or call 111.</p>
-    </div>\`,
-    'card': \`<div class="nhsuk-card">
+    </div>`,
+    'card': `<div class="nhsuk-card">
       <div class="nhsuk-card__content">
         <h3 class="nhsuk-card__heading">If you need help now, but it's not an emergency</h3>
         <p class="nhsuk-card__description">Go to 111.nhs.uk or call 111.</p>
       </div>
-    </div>\`,
-    'tabs': \`<div class="nhsuk-tabs" data-module="nhsuk-tabs">
+    </div>`,
+    'tabs': `<div class="nhsuk-tabs" data-module="nhsuk-tabs">
       <h2 class="nhsuk-tabs__title">Contents</h2>
       <ul class="nhsuk-tabs__list">
         <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
@@ -320,20 +320,20 @@ function generateContentComponent(kebabCase: string, nhsukClass: string): string
         <h3>Past day</h3>
         <p>Content for past day.</p>
       </div>
-    </div>\`,
-    'details': \`<details class="nhsuk-details">
+    </div>`,
+    'details': `<details class="nhsuk-details">
       <summary class="nhsuk-details__summary">
         <span class="nhsuk-details__summary-text">Where to find your NHS number</span>
       </summary>
       <div class="nhsuk-details__text">
         <p>You can find your NHS number on any document sent to you by the NHS.</p>
       </div>
-    </details>\`,
-    'inset-text': \`<div class="nhsuk-inset-text">
+    </details>`,
+    'inset-text': `<div class="nhsuk-inset-text">
       <span class="nhsuk-u-visually-hidden">Information: </span>
       <p>You can report any suspected side effect to the <a href="#">UK Safety Scheme</a>.</p>
-    </div>\`,
-    'warning-callout': \`<div class="nhsuk-warning-callout">
+    </div>`,
+    'warning-callout': `<div class="nhsuk-warning-callout">
       <h3 class="nhsuk-warning-callout__label">
         <span role="text">
           <span class="nhsuk-u-visually-hidden">Important: </span>
@@ -341,8 +341,8 @@ function generateContentComponent(kebabCase: string, nhsukClass: string): string
         </span>
       </h3>
       <p>Stay away from school, nursery or work until all the spots have crusted over.</p>
-    </div>\`,
-    'do-dont-list': \`<div class="nhsuk-do-dont-list">
+    </div>`,
+    'do-dont-list': `<div class="nhsuk-do-dont-list">
       <h3 class="nhsuk-do-dont-list__label">Do</h3>
       <ul class="nhsuk-list nhsuk-do-dont-list__list">
         <li>
@@ -352,14 +352,14 @@ function generateContentComponent(kebabCase: string, nhsukClass: string): string
           cover blisters that are likely to burst with a soft plaster or dressing
         </li>
       </ul>
-    </div>\`,
-    'images': \`<figure class="nhsuk-image">
+    </div>`,
+    'images': `<figure class="nhsuk-image">
       <img class="nhsuk-image__img" src="/placeholder-320x240.png" alt="Picture of eczema">
       <figcaption class="nhsuk-image__caption">
         Eczema usually causes red, itchy, dry, cracked skin.
       </figcaption>
-    </figure>\`,
-    'task-list': \`<ul class="nhsuk-task-list">
+    </figure>`,
+    'task-list': `<ul class="nhsuk-task-list">
       <li class="nhsuk-task-list__item nhsuk-task-list__item--with-link">
         <div class="nhsuk-task-list__name-and-hint">
           <a class="nhsuk-task-list__link" href="#" aria-describedby="eligibility-completed">
@@ -370,27 +370,27 @@ function generateContentComponent(kebabCase: string, nhsukClass: string): string
           <span class="nhsuk-u-visually-hidden">Check eligibility </span>Completed
         </div>
       </li>
-    </ul>\`,
-    'error-summary': \`<div class="nhsuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
+    </ul>`,
+    'error-summary': `<div class="nhsuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1">
       <h2 class="nhsuk-error-summary__title" id="error-summary-title">There is a problem</h2>
       <div class="nhsuk-error-summary__body">
         <ul class="nhsuk-list nhsuk-error-summary__list">
           <li><a href="#example-error-1">Enter a valid email address</a></li>
         </ul>
       </div>
-    </div>\`,
+    </div>`,
   };
   
-  return templates[kebabCase] || \`<div class="\${nhsukClass}">Sample \${kebabCase} content component</div>\`;
+  return templates[kebabCase] || `<div class="\${nhsukClass}">Sample \${kebabCase} content component</div>`;
 }
 
 function generateDefaultComponent(kebabCase: string, nhsukClass: string): string {
-  return \`<div class="\${nhsukClass}">Sample \${kebabCase} component</div>\`;
+  return `<div class="\${nhsukClass}">Sample \${kebabCase} component</div>`;
 }
 
 // Base HTML template
 function createHTMLTemplate(title: string, componentHTML: string): string {
-  return \`<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -437,14 +437,14 @@ function createHTMLTemplate(title: string, componentHTML: string): string {
         window.NHSFrontend.initAll();
     </script>
 </body>
-</html>\`;
+</html>`;
 }
 
 // Main generation function
 async function generateAllComponents() {
   const baseDir = './tests/visual/reference';
   
-  console.log(\`🏗️ Generating NHS UK reference files for \${components.length} components...\`);
+  console.log(`🏗️ Generating NHS UK reference files for \${components.length} components...`);
   
   for (const component of components) {
     const { name, kebabCase } = component;
@@ -458,29 +458,29 @@ async function generateAllComponents() {
     const fullHTML = createHTMLTemplate(name, componentHTML);
     
     // Write default variant
-    const defaultFile = path.join(componentDir, \`\${kebabCase}-default.html\`);
+    const defaultFile = path.join(componentDir, `\${kebabCase}-default.html`);
     await fs.writeFile(defaultFile, fullHTML, 'utf8');
     
-    console.log(\`✅ Generated: \${defaultFile}\`);
+    console.log(`✅ Generated: \${defaultFile}`);
     
     // Generate additional variants for some components
     if (kebabCase === 'button') {
-      const secondaryHTML = createHTMLTemplate(\`\${name} Secondary\`, 
-        \`<button class="nhsuk-button nhsuk-button--secondary" data-module="nhsuk-button" type="button">Secondary button</button>\`);
-      await fs.writeFile(path.join(componentDir, \`\${kebabCase}-secondary.html\`), secondaryHTML, 'utf8');
+      const secondaryHTML = createHTMLTemplate(`\${name} Secondary`, 
+        `<button class="nhsuk-button nhsuk-button--secondary" data-module="nhsuk-button" type="button">Secondary button</button>`);
+      await fs.writeFile(path.join(componentDir, `\${kebabCase}-secondary.html`), secondaryHTML, 'utf8');
     }
     
     if (kebabCase === 'tag') {
-      const variantHTML = createHTMLTemplate(\`\${name} Variants\`,
-        \`<strong class="nhsuk-tag">New</strong>
+      const variantHTML = createHTMLTemplate(`\${name} Variants`,
+        `<strong class="nhsuk-tag">New</strong>
          <strong class="nhsuk-tag nhsuk-tag--red">Urgent</strong>
-         <strong class="nhsuk-tag nhsuk-tag--green">Active</strong>\`);
-      await fs.writeFile(path.join(componentDir, \`\${kebabCase}-variants.html\`), variantHTML, 'utf8');
+         <strong class="nhsuk-tag nhsuk-tag--green">Active</strong>`);
+      await fs.writeFile(path.join(componentDir, `\${kebabCase}-variants.html`), variantHTML, 'utf8');
     }
   }
   
   // Generate index file
-  const indexHTML = \`<!DOCTYPE html>
+  const indexHTML = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -493,19 +493,19 @@ async function generateAllComponents() {
         <h1>NHS UK Reference Components</h1>
         <p>Complete reference library for visual testing comparison.</p>
         
-        <h2>Available Components (\${components.length} total)</h2>
+        <h2>Available Components (${components.length} total)</h2>
         <ul class="nhsuk-list">
-            \${components.map(c => \`<li><a href="/\${c.kebabCase}/\${c.kebabCase}-default.html">\${c.name}</a></li>\`).join('\\n            ')}
+            ${components.map(c => `<li><a href="/${c.kebabCase}/${c.kebabCase}-default.html">${c.name}</a></li>`).join('\n            ')}
         </ul>
     </div>
 </body>
-</html>\`;
+</html>`;
   
   await fs.writeFile(path.join(baseDir, 'index.html'), indexHTML, 'utf8');
   
-  console.log(\`🎉 Generated \${components.length} NHS UK reference components successfully!\`);
-  console.log(\`📁 Files saved to: \${baseDir}\`);
-  console.log(\`🌐 Start server with: npx http-server \${baseDir} -p 3002 --cors\`);
+  console.log(`🎉 Generated \${components.length} NHS UK reference components successfully!`);
+  console.log(`📁 Files saved to: \${baseDir}`);
+  console.log(`🌐 Start server with: npx http-server \${baseDir} -p 3002 --cors`);
 }
 
 // Run the generator

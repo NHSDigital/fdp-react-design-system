@@ -673,7 +673,7 @@
     "react": "19.1.1",
     "react-aria": "^3.42.0",
     "react-dom": "19.1.1",
-    "sass": "^1.89.2"
+    "sass": "^1.94.2"
   },
   "peerDependencies": {
     "next": ">=13.4.0 || ^14 || ^15"

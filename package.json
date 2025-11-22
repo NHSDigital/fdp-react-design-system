@@ -652,7 +652,7 @@
     "prettier": "^3.6.2",
     "prismjs": "^1.30.0",
     "remark-gfm": "^4.0.1",
-    "rimraf": "^5.0.5",
+    "rimraf": "^6.1.2",
     "storybook": "^10.0.5",
     "style-dictionary": "^5.0.1",
     "ts-morph": "^27.0.0",

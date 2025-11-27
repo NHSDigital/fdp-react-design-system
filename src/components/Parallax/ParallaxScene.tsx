@@ -182,67 +182,28 @@ export const ParallaxScene: React.FC<ParallaxSceneProps> = (props) => {
 	const [scrollBase, setScrollBase] = React.useState<number | null>(null);
 	React.useEffect(() => {
 		if (mode !== "scroll" || isReduced) return;
-		let cleanup: (() => void) | undefined;
-		(async () => {
-			if (typeof window === "undefined") return;
-			const el = ref.current;
-			if (!el) return;
-			try {
-				const gsapMod = await import("gsap");
-				const stMod = await import("gsap/ScrollTrigger");
-				const gsap = (gsapMod as any).default ?? (gsapMod as any).gsap ?? gsapMod;
-				const ScrollTrigger = (stMod as any).ScrollTrigger ?? (stMod as any).default ?? stMod;
-				gsap.registerPlugin(ScrollTrigger as any);
+		if (typeof window === "undefined") return;
+		const el = ref.current;
+		if (!el) return;
 
-				const st = (ScrollTrigger as any).create({
-					trigger: el,
-					start: scrollStart,
-					end: scrollEnd,
-					markers: debugMarkers,
-					pin,
-					pinSpacing,
-					scrub: scrub as any,
-					invalidateOnRefresh: true,
-					onUpdate: (self: any) => setProgress(self.progress),
-				});
-				// Initialize baseline to current progress to avoid on-load jump in non-pinned flows
-				setScrollBase((prev) => (prev === null ? (st as any).progress ?? 0.5 : prev));
-				if (debugMarkers && (window as any)) {
-					(window as any).__parallaxRefresh = () => {
-						try {
-							(ScrollTrigger as any).refresh();
-						} catch {}
-					};
-				}
-				cleanup = () => {
-					try {
-						st.kill();
-					} catch {}
-				};
-			} catch (e) {
-				// Fallback to native scroll if GSAP is unavailable
-				const handler = () => {
-					const rect = el.getBoundingClientRect();
-					const viewport = window.innerHeight || document.documentElement.clientHeight;
-					const total = rect.height + viewport;
-					const traveled = viewport - rect.top;
-					const visible = clamp(traveled / total, 0, 1);
-					setScrollBase((prev) => (prev === null ? visible : prev));
-					setProgress(visible);
-				};
-				handler();
-				window.addEventListener("scroll", handler, { passive: true });
-				window.addEventListener("resize", handler);
-				cleanup = () => {
-					window.removeEventListener("scroll", handler);
-					window.removeEventListener("resize", handler);
-				};
-			}
-		})();
-		return () => {
-			if (cleanup) cleanup();
+		// Native scroll-based parallax (no GSAP dependency)
+		const handler = () => {
+			const rect = el.getBoundingClientRect();
+			const viewport = window.innerHeight || document.documentElement.clientHeight;
+			const total = rect.height + viewport;
+			const traveled = viewport - rect.top;
+			const visible = clamp(traveled / total, 0, 1);
+			setScrollBase((prev) => (prev === null ? visible : prev));
+			setProgress(visible);
 		};
-	}, [mode, isReduced, scrollStart, scrollEnd, debugMarkers, pin, pinSpacing, scrub]);
+		handler();
+		window.addEventListener("scroll", handler, { passive: true });
+		window.addEventListener("resize", handler);
+		return () => {
+			window.removeEventListener("scroll", handler);
+			window.removeEventListener("resize", handler);
+		};
+	}, [mode, isReduced]);
 
 	// Timed progress
 	React.useEffect(() => {

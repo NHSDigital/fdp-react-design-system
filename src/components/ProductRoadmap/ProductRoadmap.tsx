@@ -119,14 +119,15 @@ export const ProductRoadmap: React.FC<ProductRoadmapProps> = memo(({
 		const selector = newlyOpened.map(id => `.nhsuk-product-roadmap__inline-children[data-parent="${id}"] .nhsuk-product-roadmap__inline-child`).join(',');
 		const nodes = Array.from(document.querySelectorAll(selector)) as HTMLElement[];
 		if (!nodes.length) return;
-		if (prefersReduce) {
-			nodes.forEach(ch => { ch.style.opacity = '1'; ch.style.transform = 'translateY(0)'; });
-			return;
-		}
-		import('gsap').then(gsapMod => {
-			const gsap = gsapMod.gsap || (gsapMod as any).default || gsapMod;
-			gsap.to(nodes, { opacity: 1, y: 0, duration: 0.32, ease: 'power2.out', stagger: 0.05 });
-		}).catch(() => { nodes.forEach(ch => { ch.style.opacity = '1'; ch.style.transform = 'translateY(0)'; }); });
+		// Apply CSS transition for cascade animation (no GSAP dependency)
+		nodes.forEach((ch, i) => {
+			const delay = prefersReduce ? 0 : i * 50; // 50ms stagger
+			setTimeout(() => {
+				ch.style.transition = prefersReduce ? 'none' : 'opacity 0.32s ease-out, transform 0.32s ease-out';
+				ch.style.opacity = '1';
+				ch.style.transform = 'translateY(0)';
+			}, delay);
+		});
 	}, [activeItemIds, drilldownMode, enableDrilldown]);
 
 	const closePanel = useCallback(() => {

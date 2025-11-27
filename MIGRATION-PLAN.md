@@ -307,36 +307,36 @@ After the main migration is stable, extract SPC to its own repository:
 ## Checklist
 
 ### Phase 1: Template Merge
-- [ ] Add NHSDigital remote
-- [ ] Merge template with `--allow-unrelated-histories`
-- [ ] Resolve merge conflicts
-- [ ] Review and integrate template CI/CD
+- [x] Add NHSDigital remote
+- [x] Merge template with `--allow-unrelated-histories`
+- [x] Resolve merge conflicts
+- [x] Review and integrate template CI/CD
 
 ### Phase 2: Dependencies
-- [ ] Remove Chromatic
-- [ ] Remove GSAP
-- [ ] Update ParallaxScene to use fallback only
-- [ ] Update ProductRoadmap to use fallback only
+- [x] Remove Chromatic
+- [x] Remove GSAP
+- [x] Update ParallaxScene to use fallback only
+- [x] Update ProductRoadmap to use fallback only
 
 ### Phase 3: Documentation
-- [ ] Delete 16 identified docs files
-- [ ] Review 2 ambiguous files
+- [x] Delete 16 identified docs files
+- [x] Review 2 ambiguous files
 
 ### Phase 4: Functionality
-- [ ] Remove FDP internal dashboards (keep Subnav)
-- [ ] Remove ~20 development/migration scripts
-- [ ] Update package.json scripts
+- [x] Remove FDP internal dashboards (keep Subnav)
+- [x] Remove ~20 development/migration scripts
+- [x] Update package.json scripts
 
 ### Phase 5: Package Config
-- [ ] Update package name to `@nhsdigital/nhs-fdp-design-system`
-- [ ] Update author to "FDP Product Design Team"
-- [ ] Update license to MIT
-- [ ] Update publishConfig for npm public
-- [ ] Search/replace all package references
+- [x] Update package name to `@nhsdigital/nhs-fdp-design-system`
+- [x] Update author to "FDP Product Design Team"
+- [x] Update license to MIT
+- [x] Update publishConfig for npm public
+- [x] Search/replace all package references
 
 ### Phase 6: CI/CD
-- [ ] Configure npm publish workflow
-- [ ] Set up NPM_TOKEN secret
+- [x] Configure npm publish workflow
+- [ ] Set up NPM_TOKEN secret (requires manual setup in GitHub)
 
 ### Phase 7: Verification
 - [ ] All tests pass

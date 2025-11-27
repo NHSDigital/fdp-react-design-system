@@ -656,12 +656,6 @@ span .nhsuk-u-visually-hidden {
   cursor: pointer;
   user-select: none;
   border-right: 1px solid #d8dde0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  hyphens: auto;
-  white-space: normal;
-  text-overflow: ellipsis;
-  max-width: 100%;
 }
 .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header:last-child {
   border-right: none;
@@ -671,6 +665,14 @@ span .nhsuk-u-visually-hidden {
 }
 .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header:hover {
   background-color: #f0f4f5;
+}
+.aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  white-space: normal;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .aria-tabs-datagrid__grid.nhsuk-table thead th.sortable-header:focus-visible {
   outline: none;
@@ -1297,11 +1299,11 @@ span .nhsuk-u-visually-hidden {
   .aria-tabs-datagrid__tabs {
     display: none;
   }
-  .aria-tabs-datagrid__panel {
-    page-break-inside: avoid;
-  }
   .aria-tabs-datagrid__panel[hidden] {
     display: block;
+  }
+  .aria-tabs-datagrid__panel {
+    page-break-inside: avoid;
   }
 }
 @media (min-width: 1025px) {

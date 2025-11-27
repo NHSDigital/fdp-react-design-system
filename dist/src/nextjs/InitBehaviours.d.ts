@@ -6,7 +6,7 @@ export declare function InitBehaviours(): import("react/jsx-runtime").JSX.Elemen
  *
  * @example
  * ```tsx
- * import { InitBehavioursInline } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+ * import { InitBehavioursInline } from '@nhsdigital/fdp-design-system/nextjs'
  *
  * export default function RootLayout({ children }) {
  *   return (

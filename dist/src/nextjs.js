@@ -1,7 +1,7 @@
-import { M as k, S as w, a as E, W as U, g as b } from "../SkipLink-D44GdWV3.js";
+import { M as k, S as w, a as E, W as U, g as b } from "../SkipLink-BNpYjmdQ.js";
 import * as N from "react";
 import { useEffect as R } from "react";
-import { B as A, a as F, C as G, F as H, G as $, b as L, R as M, S as O, g as T } from "../SkipLink-BE-cc-Aq.js";
+import { B as A, a as F, C as G, F as H, G as $, b as L, R as M, S as O, g as T } from "../SkipLink-BHzMGYwx.js";
 let a = null;
 try {
   a = Function("return require")()("next/navigation");
@@ -38,7 +38,7 @@ function v() {
     let n = !1;
     return (async () => {
       try {
-        const e = await import("@fergusbisset/nhs-fdp-design-system/behaviours");
+        const e = await import("@nhsdigital/fdp-design-system/behaviours");
         if (n) return;
         if (e && typeof e.initAll == "function")
           try {

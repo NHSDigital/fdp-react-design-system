@@ -129,7 +129,6 @@
   margin-right: 16px;
   color: #ffffff;
   text-decoration: underline;
-  text-decoration: none;
 }
 .nhsuk-header__service-logo:hover {
   color: #ffffff;
@@ -145,6 +144,9 @@
 }
 .nhsuk-header__service-logo:focus:visited {
   color: #212b32;
+}
+.nhsuk-header__service-logo {
+  text-decoration: none;
 }
 .nhsuk-header__service-logo:only-child {
   display: flex;
@@ -338,15 +340,6 @@
 .nhsuk-header__navigation-link {
   color: #ffffff;
   text-decoration: underline;
-  display: inline-flex;
-  align-items: flex-start;
-  position: relative;
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
-  gap: 4px;
-  padding: 16px 16px 16px 16px;
 }
 .nhsuk-header__navigation-link:hover {
   color: #ffffff;
@@ -362,6 +355,17 @@
 }
 .nhsuk-header__navigation-link:focus:visited {
   color: #212b32;
+}
+.nhsuk-header__navigation-link {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  gap: 4px;
+  padding: 16px 16px 16px 16px;
 }
 @media (min-width: 768px) {
   .nhsuk-header__navigation-link {
@@ -383,15 +387,6 @@
   font-family: inherit;
   color: #ffffff;
   text-decoration: underline;
-  display: inline-flex;
-  align-items: flex-start;
-  position: relative;
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
-  gap: 4px;
-  padding: 24px 16px 20px 16px;
 }
 .nhsuk-header__navigation-button:hover {
   color: #ffffff;
@@ -407,6 +402,17 @@
 }
 .nhsuk-header__navigation-button:focus:visited {
   color: #212b32;
+}
+.nhsuk-header__navigation-button {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  gap: 4px;
+  padding: 24px 16px 20px 16px;
 }
 @media (min-width: 768px) {
   .nhsuk-header__navigation-button {

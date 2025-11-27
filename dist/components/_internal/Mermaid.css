@@ -166,27 +166,20 @@ span .nhsuk-u-visually-hidden {
 
 /* (Removed duplicate top-level node/label overrides in favour of the consolidated block below) */
 /* Mermaid generated structure overrides (hierarchical nesting) */
-.mermaid-diagram {
-  /* Nodes and edges (single authoritative block) */
-}
 .mermaid-diagram span.nodeLabel {
   font-size: 14px !important;
   color: var(--nhs-fdp-color-primary-white, #ffffff) !important;
   font-family: "Frutiger W01", Arial, sans-serif;
 }
+.mermaid-diagram {
+  /* Nodes and edges (single authoritative block) */
+}
 .mermaid-diagram svg {
   width: 100%;
   height: auto;
-  /* Token-driven class styles (no need for Mermaid classDef colours) */
-  /* Lifecycle diagram specific styles */
-  /* Edges */
-  /* Markers (arrowheads) - ensure they render on top and are visible */
-  /* Ensure markers render above nodes by adjusting SVG rendering order */
 }
 .mermaid-diagram svg .node {
   /* Base shapes (specificity via svg .node + !important) */
-  /* Accent nodes (start/end/terminal) */
-  /* Highlight key action outputs */
 }
 .mermaid-diagram svg .node rect,
 .mermaid-diagram svg .node polygon,
@@ -204,6 +197,9 @@ span .nhsuk-u-visually-hidden {
   /* Avoid overriding font-size/family to prevent bbox mismatch */
   white-space: pre; /* only break on explicit \n */
 }
+.mermaid-diagram svg .node {
+  /* Accent nodes (start/end/terminal) */
+}
 .mermaid-diagram svg .node[id^=A] rect,
 .mermaid-diagram svg .node[id^=A] polygon,
 .mermaid-diagram svg .node[id^=A] circle,
@@ -220,6 +216,9 @@ span .nhsuk-u-visually-hidden {
 .mermaid-diagram svg .node[id^=A] text, .mermaid-diagram svg .node[id^=Z] text, .mermaid-diagram svg .node[id^=X] text {
   font-weight: 600 !important;
 }
+.mermaid-diagram svg .node {
+  /* Highlight key action outputs */
+}
 .mermaid-diagram svg .node[id^=H] rect,
 .mermaid-diagram svg .node[id^=H] polygon,
 .mermaid-diagram svg .node[id^=H] circle,
@@ -234,14 +233,14 @@ span .nhsuk-u-visually-hidden {
   fill: #fff !important;
   font-weight: 600 !important;
 }
-.mermaid-diagram svg .node .label {
-  /* Decision emphasis for threshold-related content */
-}
 .mermaid-diagram svg .node .label foreignObject {
   overflow: visible; /* allow expansion */
 }
 .mermaid-diagram svg .node .label foreignObject div {
   display: contents !important;
+}
+.mermaid-diagram svg .node .label {
+  /* Decision emphasis for threshold-related content */
 }
 .mermaid-diagram svg .node .label:has(div:contains("threshold")) rect, .mermaid-diagram svg .node .label:has(span:contains("threshold")) rect {
   stroke: var(--_mm-warn);
@@ -256,6 +255,9 @@ span .nhsuk-u-visually-hidden {
   font-weight: 600 !important;
   fill: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
   color: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
+}
+.mermaid-diagram svg {
+  /* Token-driven class styles (no need for Mermaid classDef colours) */
 }
 .mermaid-diagram svg .node.decision rect, .mermaid-diagram svg .node.decision polygon, .mermaid-diagram svg .node.decision circle, .mermaid-diagram svg .node.decision ellipse {
   fill: #fff3e0 !important;
@@ -297,6 +299,9 @@ span .nhsuk-u-visually-hidden {
 }
 .mermaid-diagram svg .node.warning .nodeLabel {
   color: #b71c1c !important;
+}
+.mermaid-diagram svg {
+  /* Lifecycle diagram specific styles */
 }
 .mermaid-diagram svg .node.lifecycle-start rect, .mermaid-diagram svg .node.lifecycle-start polygon, .mermaid-diagram svg .node.lifecycle-start circle, .mermaid-diagram svg .node.lifecycle-start ellipse {
   fill: #e1f5fe !important; /* Light blue */
@@ -401,9 +406,15 @@ span .nhsuk-u-visually-hidden {
 .mermaid-diagram svg .node.domPhase .nodeLabel {
   color: #004d40 !important;
 }
+.mermaid-diagram svg {
+  /* Edges */
+}
 .mermaid-diagram svg .edgePath path.path {
   stroke: var(--_mm-border) !important;
   stroke-width: 1.2px !important;
+}
+.mermaid-diagram svg {
+  /* Markers (arrowheads) - ensure they render on top and are visible */
 }
 .mermaid-diagram svg marker {
   overflow: visible !important;
@@ -411,6 +422,9 @@ span .nhsuk-u-visually-hidden {
 .mermaid-diagram svg marker path {
   fill: var(--_mm-border) !important;
   stroke: var(--_mm-border) !important;
+}
+.mermaid-diagram svg {
+  /* Ensure markers render above nodes by adjusting SVG rendering order */
 }
 .mermaid-diagram svg defs marker {
   /* Markers are defined in defs, ensure they're styled */

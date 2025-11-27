@@ -1,0 +1,297 @@
+{
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "base": {
+        "$value": "Frutiger W01",
+        "$description": "Primary NHS font family"
+      },
+      "fallback": {
+        "$value": "Arial, sans-serif",
+        "$description": "Fallback fonts if Frutiger fails to load"
+      },
+      "print": {
+        "$value": "sans-serif",
+        "$description": "Font family for print styles"
+      }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "normal": {
+        "$value": "400",
+        "$description": "Normal font weight"
+      },
+      "bold": {
+        "$value": "600",
+        "$description": "Bold font weight"
+      },
+      "light": {
+        "$value": "400",
+        "$description": "Light font weight (same as normal)"
+      }
+    },
+    "size": {
+      "$type": "fontSize",
+      "base": {
+        "$value": "16px",
+        "$description": "Base font size"
+      },
+      "14": {
+		"desktop": {
+			"$value": "14px"
+		},
+        "mobile": {
+          "$value": "12px"
+        },
+        "tablet": {
+          "$value": "14px"
+        },
+        "print": {
+          "$value": "12pt"
+        }
+      },
+      "16": {
+		"desktop": {
+		  "$value": "16px"
+		},
+        "mobile": {
+          "$value": "14px"
+        },
+        "tablet": {
+          "$value": "16px"
+        },
+        "print": {
+          "$value": "12pt"
+        }
+      },
+      "19": {
+		"desktop": {
+		  "$value": "19px"
+		},
+        "mobile": {
+          "$value": "16px"
+        },
+        "tablet": {
+          "$value": "19px"
+        },
+        "print": {
+          "$value": "13pt"
+        }
+      },
+      "22": {
+		"desktop": {
+		  "$value": "22px"
+		},
+        "mobile": {
+          "$value": "19px"
+        },
+        "tablet": {
+          "$value": "22px"
+        },
+        "print": {
+          "$value": "15pt"
+        }
+      },
+      "26": {
+		"desktop": {
+		  "$value": "26px"
+		},
+        "mobile": {
+          "$value": "22px"
+        },
+        "tablet": {
+          "$value": "26px"
+        },
+        "print": {
+          "$value": "17pt"
+        }
+      },
+      "36": {
+		"desktop": {
+		  "$value": "36px"
+		},
+        "mobile": {
+          "$value": "27px"
+        },
+        "tablet": {
+          "$value": "36px"
+        },
+        "print": {
+          "$value": "20pt"
+        }
+      },
+      "48": {
+		"desktop": {
+		  "$value": "48px"
+		},
+        "mobile": {
+          "$value": "33px"
+        },
+        "tablet": {
+          "$value": "48px"
+        },
+        "print": {
+          "$value": "24pt"
+        }
+      }
+    },
+    "line-height": {
+      "$type": "lineHeight",
+      "base": {
+        "$value": "24px",
+        "$description": "Base line height"
+      },
+      "14": {
+		"desktop": {
+		  "$value": "24px"
+		},
+        "mobile": {
+          "$value": "20px"
+        },
+        "tablet": {
+          "$value": "24px"
+        },
+        "print": {
+          "$value": "1.3"
+        }
+      },
+      "16": {
+		"desktop": {
+		  "$value": "24px"
+		},
+        "mobile": {
+          "$value": "24px"
+        },
+        "tablet": {
+          "$value": "24px"
+        },
+        "print": {
+          "$value": "1.3"
+        }
+      },
+      "19": {
+		"desktop": {
+		  "$value": "24px"
+		},
+        "mobile": {
+          "$value": "24px"
+        },
+        "tablet": {
+          "$value": "28px"
+        },
+        "print": {
+          "$value": "1.25"
+        }
+      },
+      "22": {
+		"desktop": {
+		  "$value": "30px"
+		},
+        "mobile": {
+          "$value": "27px"
+        },
+        "tablet": {
+          "$value": "30px"
+        },
+        "print": {
+          "$value": "1.25"
+        }
+      },
+      "26": {
+		"desktop": {
+		  "$value": "32px"
+		},
+        "mobile": {
+          "$value": "29px"
+        },
+        "tablet": {
+          "$value": "32px"
+        },
+        "print": {
+          "$value": "1.25"
+        }
+      },
+      "36": {
+		"desktop": {
+		  "$value": "42px"
+		},
+        "mobile": {
+          "$value": "33px"
+        },
+        "tablet": {
+          "$value": "42px"
+        },
+        "print": {
+          "$value": "1.2"
+        }
+      },
+      "48": {
+		"desktop": {
+		  "$value": "54px"
+		},
+        "mobile": {
+          "$value": "38px"
+        },
+        "tablet": {
+          "$value": "54px"
+        },
+        "print": {
+          "$value": "1.15"
+        }
+      }
+    },
+    "size-clamp": {
+      "$type": "fontSize",
+      "$description": "Fluid font sizes using CSS clamp() for responsive typography",
+      "small": {
+        "$value": "clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem)",
+        "$description": "~13px → ~14.4px"
+      },
+      "body": {
+        "$value": "clamp(1rem, 0.6vw + 0.9rem, 1.1875rem)",
+        "$description": "16px → 19px"
+      },
+      "lead": {
+        "$value": "clamp(1.0625rem, 0.9vw + 0.9rem, 1.375rem)",
+        "$description": "~17px → 22px"
+      },
+      "display": {
+        "$value": "clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem)",
+        "$description": "24px → 36px"
+      },
+      "hero": {
+        "$value": "clamp(2rem, 2.4vw + 1.2rem, 3rem)",
+        "$description": "32px → 48px"
+      }
+    },
+    "letter-spacing": {
+      "$type": "letterSpacing",
+      "$description": "Tracking presets for body and headings",
+      "tight": {
+        "$value": "-0.005em",
+        "$description": "Slightly tighter for large headings"
+      },
+      "normal": {
+        "$value": "0",
+        "$description": "Default tracking"
+      },
+      "wide": {
+        "$value": "+0.02em",
+        "$description": "For UI labels or meta text"
+      },
+      "caps": {
+        "$value": "+0.06em",
+        "$description": "All-caps labels"
+      }
+    },
+    "line-height-unitless": {
+      "$type": "lineHeight",
+      "$description": "Unitless line-height scale for modern typography stacks",
+      "small": { "$value": "1.45" },
+      "body": { "$value": "1.5" },
+      "lead": { "$value": "1.45" },
+      "display": { "$value": "1.2" },
+      "hero": { "$value": "1.15" }
+    }
+  }
+}

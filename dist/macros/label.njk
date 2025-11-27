@@ -1,0 +1,20 @@
+{# Label macro - mirrors React Label component #}
+{% macro label(params) %}
+  {% set size = params.size or 'm' %}
+  {% set classes = [
+    'nhsuk-label',
+    size != 'm' and 'nhsuk-label--' + size or '',
+    params.className
+  ] | reject('equalto','') | join(' ') %}
+  {% if params.isPageHeading %}
+    <h1 class="{{ classes }}">
+      <label class="nhsuk-label-wrapper"{% if params.htmlFor %} for="{{ params.htmlFor }}"{% endif %}>
+        {% if params.children %}{{ params.children | safe }}{% elif params.html %}{{ params.html | safe }}{% else %}{{ params.text }}{% endif %}
+      </label>
+    </h1>
+  {% else %}
+    <label class="{{ classes }}"{% if params.htmlFor %} for="{{ params.htmlFor }}"{% endif %}>
+      {% if params.children %}{{ params.children | safe }}{% elif params.html %}{{ params.html | safe }}{% else %}{{ params.text }}{% endif %}
+    </label>
+  {% endif %}
+{% endmacro %}

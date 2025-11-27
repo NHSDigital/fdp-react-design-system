@@ -1,0 +1,163 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../../../../../../_internal/Mermaid';
+import Table from '../../../../../../Tables/Table';
+import SPCChartAutoRecalcBasicExample from '../doc-examples/SPCChartAutoRecalcBasicExample';
+import SPCChartAutoRecalcTunedExample from '../doc-examples/SPCChartAutoRecalcTunedExample';
+import SPCChartAutoRecalcMinGapExample from '../doc-examples/SPCChartAutoRecalcMinGapExample';
+import SPCChartAutoRecalcAppendExample from '../doc-examples/SPCChartAutoRecalcAppendExample';
+import SPCChartAutoRecalcMultiExample from '../doc-examples/SPCChartAutoRecalcMultiExample';
+
+<Meta title="Data Visualisation/SPC/Guides/SPCChart Automatic Baseline Insertion"/>
+
+# Automatic baseline insertion (UI pre-processor)
+
+This guide explains the aims, scope, and usage of the optional UI pre-processor that automatically inserts a baseline after a sustained favourable shift. It’s implemented for XmR only and is opt-in via `engine.autoRecalc`.
+
+## Why this exists
+
+- Reduce manual baseline management for dashboards that want pragmatic automation.
+- Keep the v2 engine logic stable: preprocessing adjusts input rows rather than adding more engine settings.
+- Provide guardrails (deltaSigma, minGap) to avoid over-segmentation.
+
+## Scope and constraints
+
+- Chart type: XmR only. For T/G, auto baseline insertion is ignored.
+- Directionality: Respects `metricImprovement` (Up/Down). If `Neither`, absolute change is used and sign inferred.
+- Data hygiene: Ghosts and non-numeric values are ignored in windows and MR calculations.
+- At most one baseline is inserted per render at the first qualifying index.
+
+## How it works (at a glance)
+
+<Mermaid>{`flowchart TD
+  A[Rows in] --> B{engine.autoRecalc.enabled?}
+  B -- No --> Z[Pass-through]
+  B -- Yes --> C[Project numeric, non-ghost rows]
+  C --> D[Compute MRbar and sigma proxy - MRbar * 2.66/3]
+  D --> E[Slide pre/post windows of length N]
+  E --> F{Favourable deltaSigma >= threshold?}
+  F -- No --> E
+  F -- Yes --> G[Check all post values on the favourable side]
+  G --> H{minGap since last baseline OK?}
+  H -- No --> E
+  H -- Yes --> I[Insert baseline at first qualifying index]
+  I --> Z[Return adjusted rows]
+`}</Mermaid>
+
+Key parameters:
+
+<Table
+  caption="engine.autoRecalc"
+  captionSize="s"
+  head={[{ text: 'Field' }, { text: 'Type' }, { text: 'Default' }, { text: 'Meaning' }]}
+  rows={[
+    [ { code: 'enabled', codeLanguage: 'typescript' }, { code: 'boolean', codeLanguage: 'typescript' }, { code: 'false', codeLanguage: 'typescript' }, { text: 'Turns the pre-processor on.' } ],
+    [ { code: 'shiftLength', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '6', codeLanguage: 'typescript' }, { text: 'Points in each pre/post window (sustained run length).' } ],
+    [ { code: 'deltaSigma', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '0.5', codeLanguage: 'typescript' }, { text: 'Minimum |Δmean| in sigma units between pre and post windows.' } ],
+    [ { code: 'minGap', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '—', codeLanguage: 'typescript' }, { text: 'Optional minimum points since previous baseline.' } ],
+    [ { code: 'maxInsertions', codeLanguage: 'typescript' }, { code: 'number', codeLanguage: 'typescript' }, { code: '0', codeLanguage: 'typescript' }, { text: 'Optional cap for multiple automatic baseline insertions per render. Default preserves single-insert behaviour.' } ],
+  ]}
+  firstCellIsHeader
+/>
+
+## Usage examples
+
+### Basic (enable default thresholds)
+
+```tsx
+import { SPCChart } from '../SPCChart';
+import { ChartType, ImprovementDirection } from '../types';
+
+<SPCChart
+  input={{ data: series }}
+  engine={{
+    chartType: ChartType.XmR,
+    metricImprovement: ImprovementDirection.Up,
+    autoRecalc: { enabled: true }
+  }}
+  enableRules
+/>
+```
+
+<SPCChartAutoRecalcBasicExample />
+
+### Tuned sensitivity (longer run, bigger shift)
+
+```tsx
+<SPCChart
+  input={{ data: series }}
+  engine={{
+    chartType: ChartType.XmR,
+    metricImprovement: ImprovementDirection.Down,
+    autoRecalc: { enabled: true, shiftLength: 7, deltaSigma: 0.75 }
+  }}
+  enableRules
+/>
+```
+
+<SPCChartAutoRecalcTunedExample />
+
+### Enforce spacing between baselines
+
+```tsx
+<SPCChart
+  input={{ data: series }}
+  engine={{
+    chartType: ChartType.XmR,
+    metricImprovement: ImprovementDirection.Up,
+    autoRecalc: { enabled: true, minGap: 12 }
+  }}
+  enableRules
+/>
+```
+
+<SPCChartAutoRecalcMinGapExample />
+
+### Multiple insertions (cap with maxInsertions)
+
+```tsx
+<SPCChart
+  input={{ data: series }}
+  engine={{
+    chartType: ChartType.XmR,
+    metricImprovement: ImprovementDirection.Up,
+    autoRecalc: { enabled: true, maxInsertions: 2, minGap: 12 }
+  }}
+  enableRules
+/>
+```
+
+<SPCChartAutoRecalcMultiExample />
+
+### Interactive: append points and watch auto-recalc
+
+Use the buttons to append points to the current series. Start with several baseline-like points,
+then append shifted-like points to form a sustained favourable run. When the thresholds are met,
+the chart will insert a baseline (see partition markers).
+
+<SPCChartAutoRecalcAppendExample />
+
+Note
+
+- The interactive controls use the design-system components: Button, Select, and Grid layout primitives (Grid/Row/Column) with an associated Label for accessibility.
+- The “Direction” Select is wired to `engine.metricImprovement` so you can switch between Up, Down, and Neither while experimenting.
+- Partition markers are enabled in the demo to make baseline insertions obvious, and the warnings/diagnostics panel is visible for extra context.
+
+## Implementation details
+
+- Implementation lives in `logic_v2/utils/autoRecalc.ts` and is wired via `SPCChart.tsx` by preprocessing the canonical `rowsInput` to `rowsInputMaybeAuto` when enabled.
+- Sigma proxy: MRbar is the mean absolute first difference over numeric, non-ghost points; proxy sigma = MRbar × (2.66/3).
+- Windowing: Windows of length N slide across the numeric series; all post-window values must be strictly on the favourable side of the pre-mean.
+- Safety: Exceptions in preprocessing fall back to passthrough to avoid UI disruption.
+
+## Caveats and good practice
+
+- Treat this as a convenience: for audited outputs, manual baselines may still be preferred.
+- Multiple insertions are supported via `maxInsertions`; the default value preserves single-insert behaviour. Each insertion iteration enforces at least a 1-point progress to avoid re-selecting the same index and respects `minGap` when provided.
+- For `metricImprovement.Neither`, the direction is inferred from the delta sign.
+- Rare-event charts (T/G) are unaffected; targets are ignored in v2 for T/G per current guidance.
+
+## Related
+
+- Component docs: SPCChart.docs.mdx (Grouped props, warnings, visuals)
+- Engine reference: spc-engine-logic.mdx, spc-v2-settings.mdx
+- Conflict strategy and precedence: spc-precedence-strategy.mdx

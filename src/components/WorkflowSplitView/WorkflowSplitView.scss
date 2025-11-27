@@ -1,0 +1,222 @@
+@use "../../../packages/nhs-fdp/scss" as nhs;
+
+.nhsfdp-workflow {
+	--wf-transition: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+	--wf-border-color: #{nhs.$nhs-fdp-color-grey-4};
+	--wf-background: #{nhs.$nhs-fdp-color-primary-white};
+	--wf-divider: #{nhs.$nhs-fdp-color-grey-5};
+	--wf-focus-outline: #{nhs.$nhs-fdp-semantic-color-focus-background};
+	// Adjustable focus ring metrics used across the component
+	--wf-focus-ring-size: 3px; // thickness of the focus ring
+	--wf-current-bar: 4px; // left accent width for current nav item
+
+	display: block;
+	background: var(--wf-background);
+	font-family: var(
+		--nhs-font-family-base,
+		-apple-system,
+		system-ui,
+		Arial,
+		"Segoe UI",
+		Roboto,
+		Helvetica,
+		sans-serif
+	);
+	font-size: nhs.$nhs-fdp-font-size-19-desktop;
+}
+
+.nhsfdp-workflow-grid {
+	display: grid;
+	grid-template-rows: auto 1fr;
+	gap: nhs.$nhs-fdp-spacing-2;
+}
+
+.nhsfdp-workflow-body {
+	display: grid;
+	grid-template-columns: 320px 1fr 360px; // align with NavigationSplitView nav/secondary
+	gap: 0;
+}
+
+.nhsfdp-workflow-grid.panes-2 .nhsfdp-workflow-body {
+	grid-template-columns: 320px 1fr;
+}
+
+.nhsfdp-pane {
+	background: var(--wf-background);
+	// Ensure child focus rings that extend to edges aren't clipped
+	overflow: visible;
+
+	&.content {
+		padding: 32px;
+	}
+}
+
+// Desktop/tablet: make pane containers clearly visible when focused via keyboard
+.nhsfdp-pane:focus-visible {
+	outline: 3px solid var(--wf-focus-outline);
+	outline-offset: -3px;
+	z-index: 1;
+}
+
+// When a pane is the active container (paneFocusMode), show a subtle non-intrusive ring
+// Use box-shadow to avoid layout shift; keep same color as :focus-visible for consistency
+.nhsfdp-pane.is-active-pane {
+	box-shadow: inset 0 0 0 3px var(--wf-focus-outline);
+}
+
+.nhsfdp-primary-nav__item.is-current {
+	font-weight: nhs.$nhs-fdp-font-weight-bold;
+}
+
+// Breadcrumbs now use NHS DS breadcrumb classes via BreadcrumbsBar component.
+
+// Add horizontal padding to the breadcrumbs bar within this component only
+.nhsfdp-workflow {
+	.nhsuk-breadcrumb {
+		// Show on tablet and desktop; add padding on desktop and above only
+		padding-left: nhs.$nhs-fdp-spacing-5;
+		padding-right: nhs.$nhs-fdp-spacing-5;
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+			padding-top: 0;
+			padding-bottom: 0;
+			padding-left: 0;
+			padding-right: nhs.$nhs-fdp-spacing-1;
+			margin-bottom: nhs.$nhs-fdp-spacing-4;
+		}
+		@media (max-width: calc(nhs.$nhs-fdp-breakpoint-medium - 1px)) {
+			display: none;
+		}
+	}
+}
+
+// Mobile panes: viewport/track with transform-based slide, no card chrome
+.nhsfdp-cards-viewport {
+	overflow: hidden;
+	width: 100%;
+	background: var(--wf-background);
+	/* Prevent scroll anchoring causing subtle vertical jumps during horizontal transforms */
+	overflow-anchor: none;
+}
+
+.nhsfdp-cards-track {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 100%;
+	transition: transform var(--wf-transition);
+	will-change: transform;
+}
+
+.nhsfdp-pane.mobile-pane {
+	background: var(--wf-background);
+	padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-5;
+	// Optional divider similar to pane borders when swiping
+	border-right: 1px solid var(--wf-divider);
+
+	&:focus-visible {
+		outline: 3px solid var(--wf-focus-outline);
+		outline-offset: -3px;
+	}
+}
+
+// Mobile previous/next controls
+.nhsfdp-mobile-controls {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: nhs.$nhs-fdp-spacing-4;
+	padding: 0 nhs.$nhs-fdp-spacing-5;
+	margin-bottom: nhs.$nhs-fdp-spacing-2;
+	/* Reserve vertical space consistently to avoid reflow when back/next toggle */
+	min-height: 48px; // roughly the back link height
+}
+
+// Primary nav list — align with NavigationSplitView list item visuals
+.nhsfdp-primary-nav {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-right: 1px solid var(--wf-divider);
+	// Allow the custom focus ring pseudo-element to fully render at edges
+	overflow: visible;
+	// Brand-aware typography for the nav list
+	font-family: var(
+		--nhs-font-family-base,
+		-apple-system,
+		system-ui,
+		"Segoe UI",
+		Arial,
+		Roboto,
+		Helvetica,
+		sans-serif
+	);
+}
+
+.nhsfdp-primary-nav__item {
+	width: 100%;
+	text-align: left;
+	background: none;
+	border: none;
+	padding: nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-5;
+	cursor: pointer;
+	display: block;
+	font-size: nhs.$nhs-fdp-font-size-19-desktop;
+	line-height: 1.4;
+	position: relative;
+	// Brand-aware typography for the nav item label
+	font-family: var(
+		--nhs-font-family-base,
+		-apple-system,
+		system-ui,
+		"Segoe UI",
+		Roboto,
+		Arial,
+		Helvetica,
+		sans-serif
+	);
+
+	&:hover {
+		background: nhs.$nhs-fdp-color-grey-5;
+	}
+
+	&.is-current {
+		background: nhs.$nhs-fdp-color-grey-5;
+		box-shadow: inset 4px 0 0 nhs.$nhs-fdp-color-primary-blue;
+	}
+
+	// Draw a custom focus ring above fills using a pseudo-element so
+	// it isn't obscured by the current-item left bar or neighboring borders.
+	// Left inset accounts for the current bar width to keep the ring fully visible.
+	&::after {
+		content: "";
+		position: absolute;
+		pointer-events: none;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		border: none;
+		border-radius: 0;
+		z-index: 2;
+		// Hidden by default
+		opacity: 0;
+	}
+
+	&:focus-visible::after,
+	&:focus::after,
+	&.is-focused::after {
+		top: 0;
+		right: 0;
+		bottom: 0;
+		// Overlay the full button, including the current bar region
+		left: 0;
+		box-shadow: inset 0 0 0 var(--wf-focus-ring-size) nhs.$nhs-fdp-semantic-color-focus-text;
+		opacity: 1;
+	}
+
+	// Disable default/UA outline since we provide our own focus ring above
+	&:focus,
+	&:focus-visible {
+		outline: none;
+	}
+}

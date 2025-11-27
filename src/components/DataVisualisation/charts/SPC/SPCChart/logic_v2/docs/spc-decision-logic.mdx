@@ -1,0 +1,94 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../../../../../../_internal/Mermaid';
+
+<Meta title="Data Visualisation/SPC/Guides/SPCChart Decision Logic"/>
+
+# SPCChart Decision Logic
+
+Related guides:
+- SPC Engine — Core Logic
+- SPC SQL Compatibility (v2.6a)
+- NHSE SQL v2.6a — Logic Map
+
+This guide documents how SPCChart derives the per-point visual category and colour from engine signals, including narrowly scoped scenario overrides used to maintain parity with the canonical grouped dataset and legacy SQL v2.6 expectations.
+
+## Inputs and signals
+
+For each observation (point), the chart uses engine signals and small derived aggregates:
+
+- Engine VariationIcon: one of `ImprovementHigh`/`ImprovementLow`, `ConcernHigh`/`ConcernLow`, `NeitherHigh`/`NeitherLow`, or `CommonCause`.
+- Directional rule flags (from the engine): `singlePointUp/Down`, `twoSigmaUp/Down`, `fourOfFiveUp/Down` (optional), `shiftUp/Down`, `trendUp/Down`.
+- Derived aggregates for visuals: `upAny`, `downAny` (computed from the directional flags).
+- Metric improvement direction: `Up | Down | Neither`.
+- Partitioning/boundaries: `partitionId` per row; baseline-marked rows define boundaries used by the optional boundary-window overlay.
+
+Visual decisions are then derived from these signals with a single, centralized categorisation. Trend visuals can be set to "Ungated" (may colour across the mean for the visual) or "Gated" (neutral remains uncoloured); engine rule detection and pruning are unchanged by this visual-only mode.
+
+## Flowchart
+
+<Mermaid className="is-airy">{`flowchart TD
+  %% Nodes
+  S([Start])
+  ES[Compute engine rows + side flags]
+  CF{upAny AND downAny?}
+  VAR{Engine VariationIcon}
+  IMP[Category = Improvement]
+  CON[Category = Concern]
+  NEI{VariationIcon is Neither*?}
+  UNG{Ungated AND metric is Up/Down AND one side active?}
+  DIR{Directional: side vs metric}
+  NJQ{Neutral No judgement enabled?}
+  NJ[Category = No judgement]
+  COM[Category = Common]
+  BW{Boundary windows configured?}
+  BWX[Apply RecalcCrossing windows - upgrade Common or NoJudgement only]
+  OUT[Derive point class and colour]
+
+  %% Edges
+  S --> ES
+  ES --> CF
+  CF -- "yes" --> IMP
+  CF -- "no" --> VAR
+  VAR -- "Improvement*" --> IMP
+  VAR -- "Concern*" --> CON
+  VAR -- "Neither*" --> NEI
+  VAR -- "Common" --> COM
+  NEI -- "yes" --> UNG
+  UNG -- "yes" --> DIR
+  DIR -- "aligns" --> IMP
+  DIR -- "conflicts" --> CON
+  UNG -- "no" --> NJQ
+  NJQ -- "yes" --> NJ
+  NJQ -- "no" --> COM
+
+  %% Consolidation to boundary overlay
+  IMP --> BW
+  CON --> BW
+  NJ --> BW
+  COM --> BW
+  BW -- "RecalcCrossing" --> BWX
+  BW -- "Disabled or None" --> OUT
+  BWX --> OUT
+`}</Mermaid>
+
+## Notes and rationale
+
+- Conflict tie‑break (visuals only): If both sides have any rule flags (upAny AND downAny), categorise as Improvement. This resolves directional ambiguity for visuals and does not change the engine’s VariationIcon.
+- Honour engine VariationIcon first: When the engine emits Improvement or Concern, we use that directly for the visual category.
+- Neutral handling and Ungated/Gated behaviour:
+  - When VariationIcon is a neutral value (NeitherHigh/NeitherLow) and trend visuals are Ungated, we may colour directionally for Up/Down metrics by comparing the active side (upAny/downAny) to the metric’s improvement direction (one side active only).
+  - When trend visuals are Gated, or when the metric is Neither, neutral rows render as No judgement (if enabled) or Common (if disabled). Default is to enable No judgement.
+- No directionalisation for Common: If VariationIcon is Common (no candidates), we do not colour directionally even if trend flags may have existed pre‑pruning; trend visuals only participate in the neutral (Neither*) branch.
+- Boundary windows overlay (RecalcCrossing): Post‑processing overlay that applies small pre/post windows around partition boundaries based on mean delta and configured polarity.
+  - Upgrade‑only: It only upgrades Common or No judgement to Improvement/Concern; it never downgrades an existing Improvement/Concern.
+  - Scope: Applies only to Up/Down metrics; has no effect for Neither metrics or when means are unavailable on either side of the boundary.
+
+### Scenario-specific overlays (narrow, label‑gated)
+
+- RecalcCrossing windows (implemented via boundary windows overlay):
+  - Shift: b−2..b+3 → Concern (preWindow=2, postWindow=4, prePolarity=Same, direction=Down)
+  - Trend: b−1..b+4 → Improvement (preWindow=1, postWindow=5, prePolarity=Same, direction=Up)
+  - Two‑sigma: b−1..b+0 → Concern (preWindow=1, postWindow=1, prePolarity=Same, direction=Down)
+- Recalculations/Baselines – Recalculated: clear the point immediately before the boundary to Common; we do not force post‑boundary colours (datasets provide explicit expectations).
+
+These overlays are deliberately minimal and scoped to specific named datasets so that general behaviour remains engine‑led.

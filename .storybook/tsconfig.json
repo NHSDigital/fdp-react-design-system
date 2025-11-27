@@ -1,0 +1,20 @@
+{
+  "extends": "../config/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "declaration": false
+  },
+  "include": [
+    "../src/**/*",
+    "../stories/**/*",
+    "./**/*"
+, "../docs/roadmaps/ColorSwatches.mdx", "../docs/roadmaps/GradientSwatches.mdx", "../docs/roadmaps/components", "../docs/roadmaps/FDPSubBrand.mdx"  ],
+  "exclude": [
+    "../node_modules",
+    "../dist"
+  ]
+}

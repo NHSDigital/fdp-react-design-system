@@ -1,0 +1,2 @@
+/** Deprecated monolithic Input test placeholder (do not remove until migration complete audit no longer needs presence). */
+export {};

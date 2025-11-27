@@ -1,0 +1,103 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import * as NavSplitStories from './NavigationSplitView.stories';
+
+import * as React from 'react';
+import { NavigationSplitView } from './NavigationSplitView';
+
+<Meta title="NHS/Navigation/NavigationSplitView/Documentation" of={NavSplitStories} />
+
+# NavigationSplitView
+
+Mobile-first master–detail navigation component inspired by SwiftUI `NavigationSplitView`, adapted for the NHS FDP Design System.
+
+## Key Features
+
+- Responsive: list/cards → two-column → optional three-column
+- Accessible listbox semantics & roving focus
+- Debounced URL sync & optional Next.js router hook
+- Lazy secondary pane mounting for performance
+- Collapsible navigation pane with persistence (localStorage / URL / both)
+- Footer region for actions / status
+- Customisable collapse/expand icons & accessible labels
+
+## Basic Example
+
+```tsx
+<NavigationSplitView
+  items={patients}
+  renderContent={item => item ? <PatientDetail patient={item} /> : <EmptyState />}
+  renderSecondaryContent={item => item && <Analytics patientId={item.id} />}
+/>
+```
+
+## Collapsible Navigation & Persistence
+
+```tsx
+<NavigationSplitView
+  collapsibleNav
+  persistNavCollapsed="both" // localStorage + URL
+  collapseToggleLabelShow="Show navigation"
+  collapseToggleLabelHide="Hide navigation"
+  navFooter={<FooterActions />}
+  {...props}
+/>
+```
+
+State precedence when restoring: URL param → localStorage → `navInitiallyCollapsed`.
+
+## Custom Toggle Icons
+
+```tsx
+<NavigationSplitView
+  collapsibleNav
+  collapseToggleIconShow={<MyExpandIcon />}
+  collapseToggleIconHide={<MyCollapseIcon />}
+  {...props}
+/>
+```
+
+Icons should be decorative; the accessible name comes from `collapseToggleLabelShow/Hide`.
+
+## URL Sync
+
+Enable lightweight query param synchronisation without polluting history:
+
+```tsx
+<NavigationSplitView
+  syncUrl
+  urlParamSelected="patient"
+  urlParamDrill="drill"
+  urlSyncDebounceMs={120}
+  lazySecondary
+  {...props}
+/>
+```
+
+## Props Overview
+
+See code `NavigationSplitView.types.ts` or Storybook controls panel for live prop descriptions (ArgsTable omitted due to blocks export changes).
+
+## Live Demo (Primary Story)
+
+<Canvas>
+  <Story of={NavSplitStories.Default} />
+</Canvas>
+
+---
+
+### Performance Notes
+
+- Use `lazySecondary` if secondary panel has heavy charts.
+- Use `urlSyncDebounceMs` to reduce rapid `replaceState` calls.
+- Collapse the nav to maximise content real estate on wide screens.
+
+### Accessibility Notes
+
+- `aria-describedby` provides keyboard instructions.
+- Selection changes announced via a polite live region (disable with `skipAnnouncements`).
+- Collapse toggle uses `aria-label` and a native `title` tooltip for discoverability.
+
+### Roadmap
+
+Virtualisation, search/filter, richer drill routing helpers.
+

@@ -1,0 +1,126 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Schema manifest: prop tables" />
+
+# Using the schema manifest to auto‑generate prop tables
+
+This guide shows how to consume the published component schema manifest to render prop tables (and other docs) automatically in your apps and docs.
+
+The manifest is built during `docs:pre`/`build:parity` and published at this package export path:
+
+- `@nhsdigital/fdp-design-system/meta/components.json`
+
+Each component entry includes `name`, `props[]` with `name`, `type`, `required?`, `defaultValue?`, and `description?`.
+
+---
+
+## Quick start (Next.js App Router)
+
+Next supports JSON imports out of the box. In a server component, import the manifest and render a simple prop table.
+
+```tsx
+// app/components/PropsTable.tsx (Server Component)
+import manifest from '@nhsdigital/fdp-design-system/meta/components.json';
+
+type Prop = {
+  name: string;
+  type: string;
+  required?: boolean;
+  defaultValue?: string;
+  description?: string;
+};
+
+export function PropsTable({ component }: { component: string }) {
+  const entry = (manifest.components as Record<string, { name: string; props: Prop[] }>)[component];
+  if (!entry) return <p>No schema found for {component}.</p>;
+  return (
+    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <thead>
+        <tr>
+          <th style={{ textAlign: 'left', padding: 8 }}>Prop</th>
+          <th style={{ textAlign: 'left', padding: 8 }}>Type</th>
+          <th style={{ textAlign: 'left', padding: 8 }}>Required</th>
+          <th style={{ textAlign: 'left', padding: 8 }}>Default</th>
+          <th style={{ textAlign: 'left', padding: 8 }}>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {entry.props.map((p) => (
+          <tr key={p.name}>
+            <td style={{ padding: 8, borderTop: '1px solid #d8dde0' }}><code>{p.name}</code></td>
+            <td style={{ padding: 8, borderTop: '1px solid #d8dde0' }}><code>{p.type}</code></td>
+            <td style={{ padding: 8, borderTop: '1px solid #d8dde0' }}>{p.required ? 'Yes' : 'No'}</td>
+            <td style={{ padding: 8, borderTop: '1px solid #d8dde0' }}>{p.defaultValue ?? ''}</td>
+            <td style={{ padding: 8, borderTop: '1px solid #d8dde0' }}>{p.description ?? ''}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+```
+
+Usage in a page:
+
+```tsx
+// app/docs/input/page.tsx
+import { PropsTable } from '../../components/PropsTable';
+
+export default function Page() {
+  return (
+    <main>
+      <h1>Input</h1>
+      <PropsTable component="Input" />
+    </main>
+  );
+}
+```
+
+---
+
+## Quick start (general React/Vite)
+
+Ensure your project’s TS config has `"resolveJsonModule": true`. Then import the manifest normally.
+
+```tsx
+import manifest from '@nhsdigital/fdp-design-system/meta/components.json';
+
+// Same PropsTable component as above can be reused.
+```
+
+If your bundler doesn’t support JSON imports, you can fetch the file at runtime (when hosted), or (for local development against this repo) reference `dist/meta/components.json` after a build.
+
+```ts
+// Example runtime fetch when your app serves node_modules static assets (adjust path to your setup)
+const res = await fetch('/node_modules/@nhsdigital/fdp-design-system/dist/meta/components.json');
+const manifest = await res.json();
+```
+
+---
+
+## Tips
+
+- Keep prop descriptions concise; they surface directly in prop tables.
+- When you add/modify a schema file under `src/components/**/**.schema.ts`, run `npm run schemas:extract` (or `npm run docs:pre`) to regenerate the manifest.
+- The manifest is also used by our parity automation; keeping it accurate helps eliminate drift.
+
+---
+
+## Manifest shape (excerpt)
+
+```json
+{
+  "version": "0.0.34-alpha.8",
+  "components": {
+    "Input": {
+      "name": "Input",
+      "props": [
+        { "name": "id", "type": "string", "required": true },
+        { "name": "name", "type": "string", "required": true },
+        { "name": "type", "type": "'text'|'email'|'password'|...", "defaultValue": "'text'" },
+        { "name": "className", "type": "string", "description": "Additional CSS classes" }
+      ]
+    }
+  }
+}
+```

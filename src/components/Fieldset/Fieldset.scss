@@ -1,0 +1,93 @@
+// NHS Fieldset SCSS - Uses compiled design tokens
+@use "../../../packages/nhs-fdp/scss" as nhs;
+
+.nhsuk-fieldset {
+	border: 0;
+	margin: 0;
+	padding-top: nhs.$nhs-fdp-spacing-4;
+	padding-bottom: nhs.$nhs-fdp-spacing-4;
+	margin-bottom: nhs.$nhs-fdp-spacing-5;
+	margin-top: nhs.$nhs-fdp-spacing-4;
+	padding-inline: 0;
+	// Clearfix for legacy browser support
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+
+	// Fieldset legend
+	&__legend {
+		box-sizing: border-box;
+		color: nhs.$nhs-fdp-semantic-color-text-primary;
+		display: table;
+		margin-bottom: 0;
+		margin-top: 0;
+		max-width: 100%;
+		padding: 0;
+		white-space: normal;
+
+		// Default legend typography
+		font-family:
+			#{nhs.$nhs-fdp-font-family-base},
+			#{nhs.$nhs-fdp-font-family-fallback};
+		font-size: nhs.$nhs-fdp-font-size-19-mobile;
+		line-height: nhs.$nhs-fdp-font-line-height-base;
+		font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			font-size: nhs.$nhs-fdp-font-size-19-tablet;
+		}
+
+		// Legend size modifiers
+		&--xl {
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
+			font-size: nhs.$nhs-fdp-font-size-48-mobile;
+			font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+			@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+				font-size: nhs.$nhs-fdp-font-size-48-tablet;
+			}
+		}
+
+		&--l {
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
+			font-size: nhs.$nhs-fdp-font-size-36-mobile;
+			font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+			@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+				font-size: nhs.$nhs-fdp-font-size-36-tablet;
+			}
+		}
+
+		&--m {
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
+			font-size: nhs.$nhs-fdp-font-size-26-mobile;
+			font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+			@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+				font-size: nhs.$nhs-fdp-font-size-26-tablet;
+			}
+		}
+
+		&--s {
+			margin-bottom: nhs.$nhs-fdp-spacing-1;
+			font-size: nhs.$nhs-fdp-font-size-19-mobile;
+			font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+			@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+				font-size: nhs.$nhs-fdp-font-size-19-tablet;
+			}
+		}
+	}
+
+	// Fieldset heading
+	&__heading {
+		// Heading inside legend inherits all legend styles
+		font-size: inherit;
+		font-weight: inherit;
+		margin: 0;
+		line-height: inherit;
+		color: inherit;
+	}
+}

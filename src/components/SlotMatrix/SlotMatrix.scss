@@ -1,0 +1,88 @@
+// Import core NHS design system aggregated SCSS (includes tokens & semantic helpers)
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// SlotMatrix root scope – expose CSS custom properties so states can be themed without rebuild.
+.nhs-slot-matrix {
+  // Runtime-themable custom properties (candidate for upstream token definitions)
+  --slot-cell-min-size: 44px; /* minimum interactive size aligned with touch target guidance */
+  --slot-border-color: var(--nhsuk-border-color, nhs.$nhs-fdp-border-color-default, #d8dde0);
+  --slot-bg-default: var(--nhsuk-white, #fff);
+  --slot-bg-full: var(--nhs-slot-bg-full, #f3f3f3);
+  --slot-bg-overbook: var(--nhs-slot-bg-overbook, #f8e1d2);
+  --slot-bg-held: var(--nhs-slot-bg-held, #fff7d6);
+  --slot-selected-outline: var(--nhs-slot-selected-outline, #005eb8);
+  --slot-focus-outline: var(--nhsuk-focus-color, #003078);
+
+  display: grid;
+  gap: 2px;
+  font-size: 1rem;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback}; 
+  // Frutiger stack
+  line-height: 1.3;
+  color: nhs.$nhs-fdp-color-primary-black; // Primary body text color
+
+  // Grid container
+  &__grid[role='grid'] { 
+	outline: none; 
+  }
+
+  // Headers (timebands & sessions share typography)
+  &__timeband-header,
+  &__session-header {
+    font-weight: 600;
+    text-align: center;
+    font-family: inherit;
+    font-size: 1rem;
+    color: nhs.$nhs-fdp-color-grey-1; // Secondary/supporting text
+    padding: 4px 6px;
+  }
+
+  // Slot cell base styles
+  &__cell {
+    min-width: var(--slot-cell-min-size);
+    min-height: var(--slot-cell-min-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--slot-border-color);
+    background: var(--slot-bg-default);
+    position: relative;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem; // compact readable number display
+    letter-spacing: .25px;
+    padding: 2px;
+    transition: background-color .15s ease, box-shadow .15s ease;
+
+    &[data-status='full'] { background: var(--slot-bg-full); }
+    &[data-status='overbook'] { background: var(--slot-bg-overbook); }
+    &[data-status='held'] { background: var(--slot-bg-held); }
+    &:focus-visible { outline: 3px solid var(--slot-focus-outline); outline-offset: 1px; }
+    &:hover { background: color-mix(in srgb, var(--slot-bg-default) 90%, #000); }
+
+    &--selected { box-shadow: 0 0 0 2px var(--slot-selected-outline) inset; }
+  }
+
+  // Screen-reader only helper
+  &__sr-only { position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); border:0; }
+
+  // Toolbar layout
+  &__toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 1rem;
+
+    &-section { display: flex; align-items: center; gap: 8px; }
+    select { font-size: inherit; }
+    button { cursor: pointer; font-size: inherit; }
+  }
+
+  // Legend styles
+  &__legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; font-size: 0.65rem; }
+  &__legend--vertical { flex-direction: column; align-items: flex-start; }
+  &__legend-item { display: inline-flex; align-items: center; gap: 4px; }
+  &__legend-swatch { width: 12px; height: 12px; border: 1px solid var(--slot-border-color); box-sizing: border-box; }
+}

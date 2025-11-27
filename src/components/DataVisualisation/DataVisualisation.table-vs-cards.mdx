@@ -1,0 +1,52 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/Guides/Table vs Cards" />
+
+# Table vs Cards
+
+Choosing between a data table and a list of summary cards depends on the audience, task, and constraints (precision vs scanability, desktop vs mobile). This guide outlines trade‑offs and when to use each pattern, aligned to the logic in `logic/data-viz-logic.json`.
+
+## When to use a Table
+
+- Precise values: exact numbers matter and must be scannable by column
+- Long labels: wide columns with tooltips/wrap are acceptable
+- Sorting/filtering: users compare values across many items
+- Accessibility: keyboard navigation, screen reader tables semantics
+
+Consider:
+- Highlighting: add visual emphasis (icons, badges) to surface patterns
+- Progressive disclosure: row details expanders when text is long
+- Responsiveness: switch to stacked rows or fall back to cards on mobile
+
+## When to use Cards / Card List
+
+- Summary first: each item needs context (owner, tags, status, actions)
+- Mobile‑first: vertical scanning and large touch targets
+- Mixed content: combine a headline, small sparkline, and metadata
+
+Consider:
+- Sorting/filtering: provide explicit controls to aid scanning
+- Comparability: use consistent layouts; add badges for key deltas
+- Density: prefer tables when users must compare many items side‑by‑side
+
+## KPI Tiles
+
+- Headline value for dashboards, with optional delta/status and a tiny spark
+- Always link to detail (table or chart) for context
+
+## Pattern recipes
+
+- Rank + detail: table with sortable columns, and an optional card view toggle
+- Overview dashboard: grid of cards/tiles; each links to a detailed table page
+- Mobile responsive: card list on small screens; table on larger screens
+
+## Ties to the Wizard
+
+The wizard now captures a presentation preference before chart selection:
+
+- Precise values → recommends `table`
+- Summary/mobile → recommends `card` / `card_list`
+- Dashboard tile → recommends `kpi_tile` + `spc_spark`
+
+These recommendations complement, not replace, chart guidance from your analytical goal (magnitude, rank, deviation, etc.).
+

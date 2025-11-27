@@ -1,0 +1,91 @@
+{
+  "border": {
+    "width": {
+      "$type": "borderWidth",
+      "default": {
+        "$value": "1px",
+        "$description": "Default border width for general use"
+      },
+      "form-element": {
+        "$value": "2px",
+        "$description": "Border width for form elements like inputs and buttons"
+      },
+      "form-element-error": {
+        "$value": "4px",
+        "$description": "Border width for form elements in error state"
+      },
+      "card-bottom": {
+        "$value": "4px",
+        "$description": "Bottom border width for clickable cards"
+      },
+      "panel": {
+        "$value": "8px",
+        "$description": "Border width for panel components"
+      },
+      "table-header": {
+        "$value": "2px",
+        "$description": "Table header border width"
+      },
+      "table-cell": {
+        "$value": "1px",
+        "$description": "Table cell border width"
+      },
+      "semantic": {
+        "thin": {
+          "$value": "1px",
+          "$description": "Thin border width for subtle separations"
+        },
+        "standard": {
+          "$value": "2px", 
+          "$description": "Standard border width for most components"
+        },
+        "thick": {
+          "$value": "4px",
+          "$description": "Thick border width for emphasis"
+        }
+      }
+    },
+    "radius": {
+      "$type": "borderRadius",
+      "none": {
+        "$value": "0px",
+        "$description": "No border radius"
+      },
+      "small": {
+        "$value": "4px",
+        "$description": "Small border radius for buttons and form elements"
+      },
+      "medium": {
+        "$value": "8px",
+        "$description": "Medium border radius"
+      },
+      "large": {
+        "$value": "12px",
+        "$description": "Large border radius"
+      }
+    },
+    "color": {
+      "$type": "color",
+      "default": {
+        "$value": "{color.grey.4}",
+        "$description": "Default border color"
+      },
+      "form": {
+        "$value": "{color.grey.1}",
+        "$description": "Border color for form elements"
+      },
+      "card": {
+        "$value": "{color.grey.4}",
+        "$description": "Border color for cards"
+      },
+      "card-hover": {
+        "$value": "{color.grey.3}",
+        "$description": "Border color for cards on hover"
+      },
+      "error": {
+        "$value": "{color.primary.red}",
+        "$description": "Border color for error states"
+      }
+    }
+  }
+}

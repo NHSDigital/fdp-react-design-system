@@ -1,0 +1,27 @@
+@use "../../../packages/nhs-fdp/scss" as nhs;
+
+// Dashboard Summary Grid component SCSS
+// Provides consistent spacing and layout for the summary grid
+
+.nhs-fdp-dashboard-summary-grid {
+	margin-bottom: nhs.$nhs-fdp-spacing-8; // 32px bottom margin
+
+	&__column {
+		margin-bottom: nhs.$nhs-fdp-spacing-6; // 24px bottom margin for spacing between rows
+
+		// Remove bottom margin from last row on larger screens
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			&:nth-child(3),
+			&:nth-child(4) {
+				margin-bottom: 0;
+			}
+		}
+
+		// Remove bottom margin from last item on mobile
+		@media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+	}
+}

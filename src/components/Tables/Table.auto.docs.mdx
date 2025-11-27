@@ -1,0 +1,85 @@
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
+
+<Meta title="NHS/Content/Table/Documentation" />
+
+# Table
+
+Tables display structured data in rows and columns. This page documents the base `Table` plus its composable sub-components.
+
+## Sub-components
+
+| Component | Description | Backwards-compatible alias |
+| --------- | ----------- | -------------------------- |
+| `Table.Caption` | Renders a semantic `<caption>` with NHS modifier sizes | — |
+| `Table.BodyRow` | Convenience wrapper for a `<tr>` in either `<thead>` or `<tbody>` with optional responsive role mapping | `Table.Row` |
+| `Table.HeaderCell` | Rich header cell supporting text, HTML, or syntax‑highlighted code content | `Table.TH` |
+
+Example composition:
+
+```tsx
+<Table>
+	<Table.Caption size="m">Key metrics</Table.Caption>
+	<thead>
+		<Table.BodyRow>
+			<Table.HeaderCell text="Metric" />
+			<Table.HeaderCell text="Value" />
+		</Table.BodyRow>
+	</thead>
+	<tbody>
+		<Table.BodyRow>
+			<th scope="row" className="nhsuk-table__header">Admissions</th>
+			<td className="nhsuk-table__cell">120</td>
+		</Table.BodyRow>
+	</tbody>
+</Table>
+```
+
+Aliases `Table.Row` and `Table.TH` are deprecated; prefer the explicit names above. In development builds, a console warning is shown when these aliases are accessed.
+
+## Declarative columns API
+
+Instead of manually supplying `head` and `rows`, you can pass:
+
+```ts
+columns: TableColumn[]
+data: any[]
+```
+
+If `head` or `rows` are omitted they will be auto-generated from `columns` and `data`.
+Manual `head` / `rows` take precedence when provided.
+
+```tsx
+<Table
+	caption="Monthly metrics"
+	visuallyHiddenCaption
+	columns={[
+		{ key: 'metric', title: 'Metric' },
+		{ key: 'value', title: 'Value', format: 'numeric' },
+		{ key: 'delta', title: 'Δ vs prev', render: v => `${v > 0 ? '+' : ''}${v}` }
+	]}
+	data={[
+		{ metric: 'Admissions', value: 120, delta: 5 },
+		{ metric: 'Discharges', value: 95, delta: -2 }
+	]}
+	firstCellIsHeader
+	responsive
+/>
+```
+
+### Column shape
+
+| Field | Purpose |
+| ----- | ------- |
+| `key` | Property name in each data object (used if `accessor` not supplied) |
+| `title` | Column header text |
+| `format` | Optional format (e.g. `numeric`) adds NHS class modifier |
+| `accessor(row, index)` | Derive raw value (overrides `row[key]`) |
+| `render(value, row, rowIndex, column)` | Return custom cell (string/number/React node or TableCellData-like object) |
+| `headerClasses` / `cellClasses` | Additional class names |
+| `headerAttributes` / `cellAttributes` | Additional attributes |
+
+## Visually hidden caption
+
+Set `visuallyHiddenCaption` to keep the `<caption>` for assistive tech while hiding it visually (adds utility class). This preserves semantics required for complex tables while avoiding duplicate on-page headings.
+
+{/* Stories table auto-generated */}

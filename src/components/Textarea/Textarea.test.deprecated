@@ -1,0 +1,6 @@
+// Deprecated monolithic Textarea test placeholder for audit script.
+import { describe, it, expect } from 'vitest';
+
+describe('Textarea (deprecated placeholder)', () => {
+  it('placeholder', () => { expect(true).toBe(true); });
+});

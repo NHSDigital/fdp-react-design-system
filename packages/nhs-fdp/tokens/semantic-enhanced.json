@@ -1,0 +1,107 @@
+{
+  "semantic": {
+    "_note": {
+      "_comment": "Enhanced relationship tokens only. Base semantic.intent/context/surface live in semantic-core.json."
+    },
+    "relationship": {
+      "$type": "color",
+      "parent-child": {
+        "card": {
+          "background": {
+            "$value": "{semantic.surface.elevation.1}",
+            "$description": "Card background - base elevation"
+          },
+          "content": {
+            "background": {
+              "$value": "calculated-lighten({semantic.relationship.parent-child.card.background}, 2%)",
+              "$description": "Card content background - slightly lighter than parent"
+            },
+            "text": {
+              "$value": "auto-contrast({semantic.relationship.parent-child.card.content.background})",
+              "$description": "Card content text - auto-calculated contrast"
+            }
+          },
+          "header": {
+            "background": {
+              "$value": "calculated-darken({semantic.relationship.parent-child.card.background}, 3%)",
+              "$description": "Card header background - slightly darker than parent"
+            },
+            "text": {
+              "$value": "auto-contrast({semantic.relationship.parent-child.card.header.background})",
+              "$description": "Card header text - auto-calculated contrast"
+            }
+          }
+        },
+        
+        "panel": {
+          "background": {
+            "$value": "{semantic.surface.elevation.1}",
+            "$description": "Panel background - base elevation"
+          },
+          "border": {
+            "$value": "calculated-darken({semantic.relationship.parent-child.panel.background}, 15%)",
+            "$description": "Panel border - darker than background for definition"
+          },
+          "content": {
+            "text": {
+              "$value": "auto-contrast({semantic.relationship.parent-child.panel.background})",
+              "$description": "Panel content text - optimal contrast"
+            }
+          }
+        }
+      },
+      
+      "state-propagation": {
+        "interactive": {
+          "default": {
+            "$value": "{semantic.intent.primary}",
+            "$description": "Default interactive state"
+          },
+          "hover": {
+            "$value": "calculated-darken({semantic.relationship.state-propagation.interactive.default}, 10%)",
+            "$description": "Hover state - automatically 10% darker"
+          },
+          "active": {
+            "$value": "calculated-darken({semantic.relationship.state-propagation.interactive.default}, 20%)",
+            "$description": "Active state - automatically 20% darker"
+          },
+          "disabled": {
+            "$value": "calculated-fade({semantic.relationship.state-propagation.interactive.default}, 40%)",
+            "$description": "Disabled state - automatically 40% opacity"
+          }
+        },
+        
+        "button": {
+          "primary": {
+            "background": {
+              "$value": "{semantic.intent.primary}",
+              "$description": "Primary button background"
+            },
+            "hover": {
+              "$value": "calculated-darken({semantic.relationship.state-propagation.button.primary.background}, 10%)",
+              "$description": "Primary button hover - 10% darker"
+            },
+            "active": {
+              "$value": "calculated-darken({semantic.relationship.state-propagation.button.primary.background}, 20%)",
+              "$description": "Primary button active - 20% darker"
+            }
+          },
+          "secondary": {
+            "background": {
+              "$value": "transparent",
+              "$description": "Secondary button background"
+            },
+            "border": {
+              "$value": "{semantic.intent.secondary}",
+              "$description": "Secondary button border"
+            },
+            "hover": {
+              "$value": "calculated-tint({semantic.intent.secondary}, 90%)",
+              "$description": "Secondary button hover - light tint"
+            }
+          }
+        }
+      }
+    }
+  }
+}

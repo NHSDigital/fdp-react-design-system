@@ -1,0 +1,119 @@
+{
+  "size": {
+    "icon": {
+      "$type": "dimension",
+      "small": {
+        "$value": "16px",
+        "$description": "Small icon size"
+      },
+      "medium": {
+        "$value": "18px",
+        "$description": "Medium icon size (breadcrumb chevrons)"
+      },
+      "large": {
+        "$value": "24px", 
+        "$description": "Large icon size (back links)"
+      },
+      "extra-large": {
+        "$value": "32px",
+        "$description": "Extra large icon size"
+      },
+      "nhs-default": {
+        "$value": "34px",
+        "$description": "Default NHS icon size"
+      }
+    },
+    "form": {
+      "$type": "dimension",
+      "control": {
+        "small": {
+          "$value": "32px",
+          "$description": "Small form control size"
+        },
+        "medium": {
+          "$value": "40px",
+          "$description": "Medium form control size (default)"
+        },
+        "large": {
+          "$value": "48px",
+          "$description": "Large form control size"
+        }
+      },
+      "input-width": {
+        "xs": {
+          "$value": "5.4ex",
+          "$description": "Extra small input width (2 characters)"
+        },
+        "sm": {
+          "$value": "7.2ex", 
+          "$description": "Small input width (3 characters)"
+        },
+        "md": {
+          "$value": "9ex",
+          "$description": "Medium input width (4 characters)"
+        },
+        "lg": {
+          "$value": "10.8ex",
+          "$description": "Large input width (5 characters)"
+        },
+        "xl": {
+          "$value": "20ex",
+          "$description": "Extra large input width (10 characters)"
+        },
+        "2xl": {
+          "$value": "38ex",
+          "$description": "2XL input width (20 characters)"
+        },
+        "3xl": {
+          "$value": "56ex",
+          "$description": "3XL input width (30 characters)"
+        }
+      }
+    },
+    "button": {
+      "$type": "dimension",
+      "min-height": {
+        "mobile": {
+          "$value": "44px",
+          "$description": "Minimum button height on mobile for touch targets"
+        },
+        "desktop": {
+          "$value": "40px",
+          "$description": "Minimum button height on desktop"
+        }
+      }
+    }
+  },
+  "layout": {
+    "container": {
+      "$type": "dimension",
+      "max-width": {
+        "$value": "1020px",
+        "$description": "Maximum container width"
+      }
+    },
+    "column": {
+      "$type": "percentage",
+      "full": {
+        "$value": "100%",
+        "$description": "Full width column"
+      },
+      "half": {
+        "$value": "50%",
+        "$description": "Half width column"
+      },
+      "third": {
+        "$value": "33.333%",
+        "$description": "One third width column"
+      },
+      "quarter": {
+        "$value": "25%",
+        "$description": "Quarter width column"
+      },
+      "actions": {
+        "$value": "20%",
+        "$description": "Actions column width in summary lists"
+      }
+    }
+  }
+}

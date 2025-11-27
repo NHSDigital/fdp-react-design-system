@@ -1,0 +1,146 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { BrandThemeProvider } from '../../src/themes/BrandThemeProvider';
+
+<Meta title="Roadmaps/FDP Sub-Brand/Typography" />
+
+<BrandThemeProvider brand="fdp" scope="local">
+
+# Typography strategy
+
+This design system ships NHS defaults (Frutiger) and enables sub-brands like FDP to switch to their own typefaces (Source Sans Pro/3) without breaking components.
+
+> This page is rendered in FDP brand scope, so examples below use Source Sans Pro.
+
+## Architecture
+
+- Token layer (Sass): still defines NHS font names and sizes (see `packages/nhs-fdp/tokens/typography.json`).
+- Runtime CSS variables: `--nhs-font-family-*` control the actual stacks used by components.
+- Brand override: set `[data-brand="fdp"]` on a wrapper to switch the base/heading stacks to Source Sans.
+- Components reference `var(--nhs-font-family-base)` so the brand choice propagates automatically.
+
+## Tokens and usage (new)
+
+This release adds modern typography tokens to make responsive, consistent type trivial to adopt.
+
+- Fluid sizes (Sass): `$nhs-fdp-font-size-clamp-small | body | lead | display | hero`
+- Letter-spacing presets (Sass): `$nhs-fdp-font-letter-spacing-tight | normal | wide | caps`
+- Unitless line-height (Sass): `$nhs-fdp-font-line-height-unitless-small | body | lead | display | hero`
+
+You can consume these directly in component SCSS:
+
+```scss
+@use '../../packages/nhs-fdp/scss' as nhs;
+
+.example-heading {
+  font-family: var(--nhs-font-family-base);
+  font-size: #{nhs.$nhs-fdp-font-size-clamp-display};
+  line-height: #{nhs.$nhs-fdp-font-line-height-unitless-display};
+  letter-spacing: #{nhs.$nhs-fdp-font-letter-spacing-tight};
+  font-weight: 700;
+}
+
+.example-body {
+  font-family: var(--nhs-font-family-base);
+  font-size: #{nhs.$nhs-fdp-font-size-clamp-body};
+  line-height: #{nhs.$nhs-fdp-font-line-height-unitless-body};
+}
+
+.example-caption {
+  font-family: var(--nhs-font-family-base);
+  font-size: #{nhs.$nhs-fdp-font-size-clamp-small};
+  line-height: #{nhs.$nhs-fdp-font-line-height-unitless-small};
+  letter-spacing: #{nhs.$nhs-fdp-font-letter-spacing-wide};
+}
+```
+
+Prefer unitless line-height to avoid compounding layout issues across fluid sizes, and use the presets to standardise tracking across the system.
+
+## How to self-host Source Sans
+
+1. Place your font files (preferably variable `SourceSans3VF.woff2`) under `src/styles/fonts/source-sans-pro/`.
+2. Uncomment the `@font-face` blocks in `src/styles/_source-sans-pro.scss` and ensure the URLs match your files.
+3. Import the stylesheet once in your app shell (or in Storybook preview):
+
+```scss
+@use '../src/styles/_source-sans-pro.scss';
+```
+
+4. Wrap your app with the FDP brand attribute so the CSS variable overrides apply:
+
+```tsx
+<div data-brand="fdp">{children}</div>
+```
+
+This sets:
+
+```css
+[data-brand="fdp"] {
+  --nhs-font-family-base: "Source Sans Pro", "Source Sans 3", system-ui, -apple-system, Arial, "Segoe UI", Roboto, Helvetica, sans-serif;
+}
+```
+
+## Brand-aware font stacks
+
+- Default brand (NHS): Components inherit Frutiger via `--nhs-font-family-base`.
+- FDP brand: The `[data-brand="fdp"]` scope switches `--nhs-font-family-base` to Source Sans (Pro/3).
+- Components should NOT hardcode stacks. Always use `var(--nhs-font-family-base)` for UI text, or an explicit monospace token for code.
+
+Example (Data Visualisation), using brand-aware stacks and new tokens:
+
+```scss
+@use '../../packages/nhs-fdp/scss' as nhs;
+
+.fdp-chart__title {
+  font-family: var(--fdp-chart-font-family);
+  font-size: #{nhs.$nhs-fdp-font-size-clamp-display};
+  line-height: #{nhs.$nhs-fdp-font-line-height-unitless-display};
+  letter-spacing: #{nhs.$nhs-fdp-font-letter-spacing-tight};
+  font-weight: 600;
+}
+
+.fdp-chart__description {
+  font-family: var(--fdp-chart-font-family);
+  font-size: #{nhs.$nhs-fdp-font-size-clamp-body};
+  line-height: #{nhs.$nhs-fdp-font-line-height-unitless-body};
+}
+```
+
+Note: `--fdp-chart-font-family` is internally mapped to `var(--nhs-font-family-base)` so Data Visualisation elements follow the brand automatically.
+
+## Common recipes
+
+- Headings: display/hero sizes with tight letter-spacing
+  - `font-size: $nhs-fdp-font-size-clamp-display|hero`
+  - `letter-spacing: $nhs-fdp-font-letter-spacing-tight`
+  - `line-height: $nhs-fdp-font-line-height-unitless-display|hero`
+
+- Body copy: body size with comfortable line-height
+  - `font-size: $nhs-fdp-font-size-clamp-body`
+  - `line-height: $nhs-fdp-font-line-height-unitless-body`
+
+- Small text (captions/labels): small size and slightly wider tracking
+  - `font-size: $nhs-fdp-font-size-clamp-small`
+  - `letter-spacing: $nhs-fdp-font-letter-spacing-wide`
+  - `line-height: $nhs-fdp-font-line-height-unitless-small`
+
+## Migration tips
+
+- Replace pixel/rem sizes with the closest fluid clamp token. Start with body/display and iterate visually.
+- Remove hardcoded `font-family` stacks; use `var(--nhs-font-family-base)` so brand scopes work.
+- Prefer unitless `line-height` tokens over fixed values to improve consistency across fluid scales.
+- For code or tabular numerals, use purpose-specific tokens (mono/number) where available; avoid mixing with UI text tokens.
+
+## Performance and accessibility
+
+- Use `font-display: swap` (already configured) to prevent invisible text.
+- Prefer a single variable font file over many static cuts.
+- Preload the `.woff2` with `<link rel="preload" as="font" crossorigin>` if the brand font is core to the experience.
+- Keep robust fallbacks in the stack; components remain readable even if the brand font fails to load.
+
+## Roadmap
+
+- Add semantic typography tokens for headings, body, code, and UI labels.
+- Provide helpers to inject/preload brand font assets at runtime.
+- Optional: expose a `BrandThemeProvider` to set `data-brand` automatically.
+ 
+</BrandThemeProvider>

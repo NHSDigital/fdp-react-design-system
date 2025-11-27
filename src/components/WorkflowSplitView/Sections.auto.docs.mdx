@@ -1,0 +1,132 @@
+import { Meta, Story, Canvas, Source } from "@storybook/addon-docs/blocks";
+import React from "react";
+import WorkflowSplitView from "./WorkflowSplitView";
+
+<Meta title="FDP/Components/WorkflowSplitView/Using Sections" />
+
+# WorkflowSplitView – Sections
+
+This guide shows how to use per-step sections to split a step into smaller parts with a secondary navigation pane. Sections are optional and fully backward compatible.
+
+## When to use
+
+- Long steps that naturally break into 2–5 focused subsections
+- When you want a right-hand section list and/or guidance panel
+- When different subsections need different content UIs
+
+## Define sections on steps
+
+```tsx
+import type { WorkflowStep } from "./WorkflowSplitView.types";
+
+const steps: WorkflowStep<string>[] = [
+  {
+    id: "location",
+    label: "Location",
+    sections: [
+      { id: "site", label: "Site" },
+      { id: "rooms", label: "Rooms", guidance: <>Pick multiple rooms if needed.</> },
+    ],
+  },
+  { id: "review", label: "Review" },
+];
+```
+
+## Render content by section
+
+The renderers now receive the active section as the second argument.
+
+```tsx
+<WorkflowSplitView
+  steps={steps}
+  renderStepContent={(step, section) => {
+    if (!step) return null;
+    if (step.id === "location") {
+      switch (section?.id) {
+        case "site":
+          return <SiteForm />;
+        case "rooms":
+          return <RoomsForm />;
+        default:
+          return <div>Please select a section</div>;
+      }
+    }
+    if (step.id === "review") return <Review />;
+    return null;
+  }}
+  renderSecondaryContent={(step, section) =>
+    section?.guidance ? <aside>{section.guidance}</aside> : null
+  }
+/>
+```
+
+## Secondary navigation
+
+- If your step has `sections` and you don’t provide `renderSecondaryNav`, a basic list is rendered automatically in the right pane when `layoutForStep` shows the secondary pane.
+- To customize the nav:
+
+```tsx
+renderSecondaryNav={(step, sections, activeSection, onSelect) =>
+  sections ? (
+    <nav aria-label="Sections">
+      {sections.map((s) => (
+        <button
+          key={String(s.id)}
+          aria-current={activeSection?.id === s.id ? "true" : undefined}
+          onClick={() => onSelect?.(s.id)}
+        >
+          {s.label}
+        </button>
+      ))}
+    </nav>
+  ) : null
+}
+```
+
+## Section selection state
+
+- Uncontrolled (default):
+  - `defaultSectionIdForStep(step)` can choose the initial section.
+  - Falls back to the first section.
+- Controlled:
+  - Pass `currentSectionId` and update it via `onSectionChange(sectionId, section, step)`.
+
+```tsx
+<WorkflowSplitView
+  steps={steps}
+  currentSectionId={currentSection}
+  onSectionChange={(id) => setCurrentSection(id)}
+  defaultSectionIdForStep={(step) => step.sections?.[0]?.id}
+  // Ensure the secondary pane is shown for steps with sections
+  layoutForStep={({ step, breakpoint }) => ({
+    panes: breakpoint === "desktop" ? 3 : 2,
+    showPrimaryNav: true,
+    showSecondaryNav: !!step.sections?.length,
+  })}
+/>
+```
+
+## Breakpoints
+
+- Desktop: grid with primary nav, content, and secondary nav/content
+- Tablet: opt-in grid with `enableTabletGrid` (defaults to mobile pattern)
+- Mobile: sliding cards pattern (no secondary pane)
+
+## Accessibility
+
+- Primary nav remains a listbox with roving focus.
+- The default sections list is also a listbox.
+- Left/Right navigation moves between nav → content → secondary.
+
+## API reference (sections)
+
+- `WorkflowStep.sections?: WorkflowSection[]`
+- `renderStepContent(step, section?)`
+- `renderSecondaryContent?(step, section?)`
+- `renderSecondaryNav?(step, sections?, activeSection?, onSelectSection?)`
+- `currentSectionId?` / `defaultSectionIdForStep?` / `onSectionChange?`
+
+<Source
+  code={`// Minimal working example omitted in docs source; see snippets above.`}
+  language="tsx"
+/>

@@ -1,0 +1,68 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.nhsuk-skip-link {
+  position: absolute;
+  z-index: 9999;
+  left: nhs.$nhs-fdp-spacing-4;
+  top: nhs.$nhs-fdp-spacing-4;
+  padding: nhs.$nhs-fdp-spacing-3;
+  
+  // Visually hidden until focused
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+  
+  // Style when focused
+  &:focus {
+    position: absolute !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: nhs.$nhs-fdp-spacing-3 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    clip-path: none !important;
+    white-space: normal !important;
+    
+    // Visual styling when focused
+    background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    font-weight: 600;
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+    text-decoration: none;
+    border: 2px solid nhs.$nhs-fdp-semantic-color-text-primary;
+    border-radius: 4px;
+    outline: 3px solid transparent;
+    box-shadow: 0 2px 0 nhs.$nhs-fdp-semantic-color-text-primary;
+    
+    // Ensure it appears above other content
+    z-index: 9999;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    }
+  }
+
+  // Focused element styling
+  &-focused-element {
+    &:focus {
+      // Remove the native visible focus indicator when the element is
+      // programmatically focused.
+      //
+      // We set the focus on the linked element (this is usually the <main>
+      // element) when the skip link is activated to improve screen reader
+      // announcements. However, we remove the visible focus indicator from the
+      // linked element because the user cannot interact with it.
+      outline: none;
+    }
+  }
+}

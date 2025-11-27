@@ -1,0 +1,340 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+@use 'sass:color';
+
+.nhs-aria-button {
+	// Base button styles
+	box-sizing: border-box;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0;
+	border: 2px solid transparent;
+	border-radius: 4px;
+	padding: 8px 16px;
+	font-size: 16px;
+	font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
+	
+	// Prevent text selection
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	min-height: 56px;
+
+	// Mixin to generate metric-style variants with configurable accent color
+	@mixin metric-variant($accent) {
+		position: relative;
+		// Vertical (bottom→top) gradient inspired by MetricCard
+		background: linear-gradient(
+			0deg,
+			rgba($accent, 0.05),
+			nhs.$nhs-fdp-color-primary-white
+		);
+		color: nhs.$nhs-fdp-semantic-color-text-primary;
+		box-shadow:
+			0 1px 3px rgba(0, 0, 0, 0.06),
+			0 1px 2px rgba(0, 0, 0, 0.08);
+		text-shadow: none;
+
+		// Accent bar like MetricCard
+		&::before {
+			content: "";
+			position: absolute;
+			inset: auto 0 0 0; // stick to the bottom edge
+			height: 4px;
+			width: 100%;
+			// Subtle vertical gradient for depth: slightly darker at the very bottom edge
+			background: linear-gradient(
+				0deg,
+				color.mix(#000, $accent, 10%),
+				$accent
+			);
+			border-bottom-left-radius: inherit;
+			border-bottom-right-radius: inherit;
+		}
+
+		// Typography slightly heavier to keep NHS button feel
+		font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+		// Hover
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
+				// Slightly stronger vertical gradient on hover
+				background: linear-gradient(
+					0deg,
+					rgba($accent, 0.4),
+					nhs.$nhs-fdp-color-primary-white
+				);
+				// Slightly strengthen the bar gradient on hover
+				&::before {
+					background: linear-gradient(
+						0deg,
+						color.mix(#000, $accent, 12%),
+						$accent
+					);
+				}
+				border-color: $accent;
+				color: nhs.$nhs-fdp-semantic-color-text-primary;
+				box-shadow:
+					0 4px 12px rgba(0, 0, 0, 0.1),
+					0 2px 4px rgba(0, 0, 0, 0.08);
+			}
+
+			&[data-pressed],
+			&:active {
+				transform: translateY(0); // reduce movement for card-like feel
+				// Active uses a stronger accent vertical gradient
+				background: linear-gradient(
+					0deg,
+					rgba($accent, 0.10),
+					nhs.$nhs-fdp-color-primary-white
+				);
+				// Emphasise the bar slightly more when active
+				&::before {
+					background: linear-gradient(
+						0deg,
+						color.mix(#000, $accent, 14%),
+						$accent
+					);
+				}
+				border-color: nhs.$nhs-fdp-border-color-card-hover;
+				box-shadow:
+					0 2px 6px rgba(0, 0, 0, 0.12),
+					0 1px 3px rgba(0, 0, 0, 0.1);
+			}
+		}
+
+		// Focus ring aligns to card focus
+		&:focus,
+		&[data-focused],
+		&:focus-visible {
+			outline: 2px solid nhs.$nhs-fdp-color-primary-blue;
+			outline-offset: 2px;
+			box-shadow:
+				0 0 0 3px nhs.$nhs-fdp-semantic-color-focus-background,
+				0 1px 3px rgba(0, 0, 0, 0.06),
+				0 1px 2px rgba(0, 0, 0, 0.08);
+		}
+
+		// Disabled keeps surface but duller
+		&[data-disabled],
+		&:disabled,
+		&[aria-disabled="true"] {
+			opacity: 0.7;
+			cursor: not-allowed;
+			box-shadow:
+				0 1px 3px rgba(0, 0, 0, 0.06),
+				0 1px 2px rgba(0, 0, 0, 0.04);
+		}
+	}
+
+	// Focused state styles (data attribute from our component)
+	&[data-focused] {
+		background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+		color: nhs.$nhs-fdp-semantic-color-focus-text;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+		border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+	}
+
+	// Base focus (always works - accessibility baseline)
+	&:focus {
+		outline: none;
+		outline-offset: 2px;
+		
+		&:not(:active) {
+			background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+			color: nhs.$nhs-fdp-semantic-color-focus-text;
+			border-color: nhs.$nhs-fdp-semantic-color-focus-background;
+			box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+		}
+
+		// Remove outline on mouse focus when focus-visible is supported
+		&:not(:focus-visible) {
+			outline: none;
+		}
+	}
+
+	// Enhanced focus-visible (modern browsers)
+	&:focus-visible {
+		outline: none;
+		outline-offset: 2px;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+	}
+
+	// Remove default outline when React Aria is handling focus
+	&[data-focus-visible]:focus {
+		outline: none;
+		box-shadow: 0 4px 0 nhs.$nhs-fdp-semantic-color-focus-text;
+	}
+
+	&--metric-green {
+		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-3);
+	}
+
+	&--metric-warning {
+		@include metric-variant(nhs.$nhs-fdp-color-data-viz-categorical-7);
+	}
+
+
+	// Color variants
+	&--primary {
+		background-color: nhs.$nhs-fdp-semantic-color-button-primary-background;
+		color: nhs.$nhs-fdp-color-primary-white;
+		border-color: nhs.$nhs-fdp-semantic-color-button-primary-background;
+
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
+				background-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
+				border-color: nhs.$nhs-fdp-semantic-color-button-primary-hover;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-semantic-color-button-primary-shadow;
+			}
+			
+			&[data-pressed],
+			&:active {
+				// This handles the press/active state
+				background-color: nhs.$nhs-fdp-semantic-color-button-primary-shadow;
+				border-color: nhs.$nhs-fdp-semantic-color-button-primary-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+				color: nhs.$nhs-fdp-color-primary-white;
+			}
+		}
+	}
+
+	&--secondary {
+		background-color: nhs.$nhs-fdp-color-primary-white;
+		color: nhs.$nhs-fdp-color-primary-blue;
+		border-color: nhs.$nhs-fdp-color-primary-blue;
+		box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-blue;
+
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
+				background-color: nhs.$nhs-fdp-semantic-color-button-secondary-hover;
+				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
+				color: nhs.$nhs-fdp-semantic-color-button-login-hover;
+			}
+			
+			&[data-pressed],
+			&:active {
+				background-color: nhs.$nhs-fdp-semantic-color-button-secondary-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-login-hover;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+			}
+		}
+	}
+
+	&--reverse {
+		// For dark backgrounds
+		background-color: nhs.$nhs-fdp-color-primary-white;
+		color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
+		border-color: nhs.$nhs-fdp-color-primary-white;
+
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
+				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-hover;
+				color: nhs.$nhs-fdp-semantic-color-button-reverse-text;
+				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-hover;
+			}
+			
+			&[data-pressed],
+			&:active {
+				background-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-reverse-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 transparent;
+			}
+		}
+	}
+
+	&--warning {
+		background-color: nhs.$nhs-fdp-semantic-color-error;
+		color: nhs.$nhs-fdp-color-primary-white;
+		border-color: nhs.$nhs-fdp-semantic-color-error;
+		box-shadow: nhs.$nhs-fdp-shadow-button-warning;
+
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
+				background-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
+				border-color: nhs.$nhs-fdp-semantic-color-button-warning-hover;
+			}
+			
+			&[data-pressed],
+			&:active {
+				background-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-warning-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+				color: nhs.$nhs-fdp-color-primary-white;
+			}
+		}
+	}
+
+	&--login {
+		background-color: nhs.$nhs-fdp-color-primary-blue;
+		color: nhs.$nhs-fdp-color-primary-white;
+		border-color: nhs.$nhs-fdp-color-primary-blue;
+
+		&:not([data-disabled]):not(:disabled):not([aria-disabled="true"]) {
+			&[data-hovered],
+			&:hover {
+				background-color: nhs.$nhs-fdp-color-primary-blue;
+				border-color: nhs.$nhs-fdp-color-primary-blue;
+			}
+			
+			&[data-pressed],
+			&:active {
+				background-color: nhs.$nhs-fdp-semantic-color-button-login-active;
+				border-color: nhs.$nhs-fdp-semantic-color-button-login-active;
+				box-shadow: 0 nhs.$nhs-fdp-button-shadow-size 0 nhs.$nhs-fdp-color-primary-white;
+				color: nhs.$nhs-fdp-color-primary-white;
+			}
+		}
+	}
+
+
+	// State variants
+	&--loading {
+		position: relative;
+		color: transparent;
+
+		&::after {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 16px;
+			height: 16px;
+			margin: -8px 0 0 -8px;
+			border: 2px solid transparent;
+			border-top-color: currentColor;
+			border-radius: 50%;
+			animation: nhs-button-spin 0.6s linear infinite;
+		}
+	}
+
+	// Responsive adjustments
+	@media (max-width: 768px) {
+		width: 100%;
+		//margin-bottom: 16px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+// Keyframes for loading spinner
+@keyframes nhs-button-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

@@ -1,0 +1,146 @@
+// NHS FDP Typography Mixins
+// Provides semantic typography mixins similar to NHS UK's @include nhsuk-font-size()
+@use '../tokens' as tokens;
+
+/// Font size mixin
+/// 
+/// Applies font-size and line-height for a given typography scale point
+/// with responsive breakpoints matching NHS UK implementation
+///
+/// @param {Number} $size - Point from the typography scale (14, 16, 19, 22, 26, 36, 48)
+/// @param {Boolean} $line-height [true] - Whether to include line-height
+/// @param {Boolean} $important [false] - Whether to mark declarations as !important
+///
+/// @example scss
+///   .my-component {
+///     @include nhs-fdp-font-size(26);
+///   }
+///
+/// @example scss
+///   .my-heading {
+///     @include nhs-fdp-font-size(48, $important: true);
+///   }
+
+@mixin nhs-fdp-font-size($size, $line-height: true, $important: false) {
+  $important-suffix: if($important, !important, null);
+  
+  @if $size == 14 {
+    font-size: tokens.$nhs-fdp-font-size-14-mobile $important-suffix;
+    @if $line-height {
+      line-height: tokens.$nhs-fdp-font-line-height-14-mobile $important-suffix;
+    }
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-14-tablet $important-suffix;
+      @if $line-height {
+        line-height: tokens.$nhs-fdp-font-line-height-14-tablet $important-suffix;
+      }
+    }
+  } @else if $size == 16 {
+    font-size: tokens.$nhs-fdp-font-size-16-mobile $important-suffix;
+    @if $line-height {
+      line-height: tokens.$nhs-fdp-font-line-height-16-mobile $important-suffix;
+    }
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-16-tablet $important-suffix;
+      @if $line-height {
+        line-height: tokens.$nhs-fdp-font-line-height-16-tablet $important-suffix;
+      }
+    }
+  } @else if $size == 19 {
+    font-size: tokens.$nhs-fdp-font-size-19-mobile $important-suffix;
+    @if $line-height {
+      line-height: tokens.$nhs-fdp-font-line-height-19-mobile $important-suffix;
+    }
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-19-tablet $important-suffix;
+      @if $line-height {
+        line-height: tokens.$nhs-fdp-font-line-height-19-tablet $important-suffix;
+      }
+    }
+  } @else if $size == 22 {
+    font-size: tokens.$nhs-fdp-font-size-22-mobile $important-suffix;
+    @if $line-height {
+      line-height: tokens.$nhs-fdp-font-line-height-22-mobile $important-suffix;
+    }
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-22-tablet $important-suffix;
+      @if $line-height {
+        line-height: tokens.$nhs-fdp-font-line-height-22-tablet $important-suffix;
+      }
+    }
+  } @else if $size == 26 {
+    font-size: tokens.$nhs-fdp-font-size-26-mobile $important-suffix;
+    @if $line-height {
+      line-height: tokens.$nhs-fdp-font-line-height-26-mobile $important-suffix;
+    }
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-26-tablet $important-suffix;
+      @if $line-height {
+        line-height: tokens.$nhs-fdp-font-line-height-26-tablet $important-suffix;
+      }
+    }
+  } @else if $size == 36 {
+    font-size: tokens.$nhs-fdp-font-size-36-mobile $important-suffix;
+    @if $line-height {
+      line-height: tokens.$nhs-fdp-font-line-height-36-mobile $important-suffix;
+    }
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-36-tablet $important-suffix;
+      @if $line-height {
+        line-height: tokens.$nhs-fdp-font-line-height-36-tablet $important-suffix;
+      }
+    }
+  } @else if $size == 48 {
+    font-size: tokens.$nhs-fdp-font-size-48-mobile $important-suffix;
+    @if $line-height {
+      line-height: tokens.$nhs-fdp-font-line-height-48-mobile $important-suffix;
+    }
+    
+    @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+      font-size: tokens.$nhs-fdp-font-size-48-tablet $important-suffix;
+      @if $line-height {
+        line-height: tokens.$nhs-fdp-font-line-height-48-tablet $important-suffix;
+      }
+    }
+  } @else {
+    @error "Unknown font size `#{$size}` - expected 14, 16, 19, 22, 26, 36, or 48.";
+  }
+}
+
+/// Font weight mixins
+@mixin nhs-fdp-font-weight-normal($important: false) {
+  font-weight: tokens.$nhs-fdp-font-weight-normal if($important, !important, null);
+}
+
+@mixin nhs-fdp-font-weight-bold($important: false) {
+  font-weight: tokens.$nhs-fdp-font-weight-bold if($important, !important, null);
+}
+
+/// Complete font mixin
+/// 
+/// Applies font-size, line-height, and font-weight
+///
+/// @param {Number} $size - Point from the typography scale
+/// @param {String} $weight [normal] - Font weight: normal or bold
+/// @param {Boolean} $line-height [true] - Whether to include line-height
+/// @param {Boolean} $important [false] - Whether to mark declarations as !important
+
+@mixin nhs-fdp-font($size, $weight: normal, $line-height: true, $important: false) {
+  // Apply font-weight first (before any nested rules)
+  @if $weight == normal {
+    @include nhs-fdp-font-weight-normal($important);
+  } @else if $weight == bold {
+    @include nhs-fdp-font-weight-bold($important);
+  } @else {
+    @error "Unknown font weight `#{$weight}` - expected normal or bold.";
+  }
+  
+  // Then apply font-size and line-height (which includes media queries)
+  @include nhs-fdp-font-size($size, $line-height, $important);
+}

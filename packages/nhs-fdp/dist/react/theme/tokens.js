@@ -1,0 +1,379 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+export const AnimationDurationFast = "150ms"; // Fast animation duration for micro-interactions
+export const AnimationDurationNormal = "300ms"; // Normal animation duration for most transitions
+export const AnimationDurationSlow = "500ms"; // Slow animation duration for complex transitions
+export const AnimationEasingEaseIn = "cubic-bezier(0.4, 0, 1, 1)"; // Ease in timing function
+export const AnimationEasingEaseOut = "cubic-bezier(0, 0, 0.2, 1)"; // Ease out timing function
+export const AnimationEasingEaseInOut = "cubic-bezier(0.4, 0, 0.2, 1)"; // Ease in-out timing function
+export const AnimationEasingBounce = "cubic-bezier(0.68, -0.55, 0.265, 1.55)"; // Bounce timing function
+export const TransitionButtonDefault =
+  "background-color 300ms cubic-bezier(0, 0, 0.2, 1)"; // Default button transition
+export const TransitionButtonShadow =
+  "box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"; // Button shadow transition
+export const TransitionInputFocus =
+  "border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1)"; // Input focus transition
+export const TransitionCardHover =
+  "border-color 300ms cubic-bezier(0, 0, 0.2, 1)"; // Card hover transition
+export const BorderWidthDefault = "1px"; // Default border width for general use
+export const BorderWidthFormElement = "2px"; // Border width for form elements like inputs and buttons
+export const BorderWidthFormElementError = "4px"; // Border width for form elements in error state
+export const BorderWidthCardBottom = "4px"; // Bottom border width for clickable cards
+export const BorderWidthPanel = "4px"; // Border width for panel components
+export const BorderWidthTableHeader = "2px"; // Table header border width
+export const BorderWidthTableCell = "1px"; // Table cell border width
+export const BorderRadiusNone = "0px"; // No border radius
+export const BorderRadiusSmall = "4px"; // Small border radius for buttons and form elements
+export const BorderRadiusMedium = "8px"; // Medium border radius
+export const BorderRadiusLarge = "12px"; // Large border radius
+export const BorderColorDefault = "#d8dde0"; // Default border color
+export const BorderColorForm = "#4c6272"; // Border color for form elements
+export const BorderColorCard = "#d8dde0"; // Border color for cards
+export const BorderColorCardHover = "#aeb7bd"; // Border color for cards on hover
+export const BorderColorError = "#d5281b"; // Border color for error states
+export const ColorPrimaryBlue = "#005eb8"; // NHS Blue - Primary brand color
+export const ColorPrimaryWhite = "#ffffff"; // NHS White
+export const ColorPrimaryBlack = "#212b32"; // NHS Black
+export const ColorPrimaryGreen = "#007f3b"; // NHS Green
+export const ColorPrimaryPurple = "#330072"; // NHS Purple
+export const ColorPrimaryDarkPink = "#7c2855"; // NHS Dark Pink
+export const ColorPrimaryRed = "#d5281b"; // NHS Red
+export const ColorPrimaryYellow = "#ffeb3b"; // NHS Yellow
+export const ColorSecondaryPaleYellow = "#fff9c4"; // NHS Pale Yellow
+export const ColorSecondaryWarmYellow = "#ffb81c"; // NHS Warm Yellow
+export const ColorSecondaryOrange = "#ed8b00"; // NHS Orange
+export const ColorSecondaryAquaGreen = "#00a499"; // NHS Aqua Green
+export const ColorSecondaryPink = "#ae2573"; // NHS Pink
+export const ColorGrey1 = "#4c6272"; // NHS Grey 1 - Darkest grey
+export const ColorGrey2 = "#768692"; // NHS Grey 2 - Darker grey
+export const ColorGrey3 = "#aeb7bd"; // NHS Grey 3 - Medium grey
+export const ColorGrey4 = "#d8dde0"; // NHS Grey 4 - Light grey
+export const ColorGrey5 = "#f0f4f5"; // NHS Grey 5 - Lightest grey
+export const ColorTextPrimary = "#212b32"; // Primary text color
+export const ColorTextSecondary = "#4c6272"; // Secondary text color
+export const ColorTextReverse = "#ffffff"; // Reverse/inverted text color
+export const ColorTextPrint = "#212b32"; // Print text color
+export const ColorLinkDefault = "#005eb8"; // Default link color
+export const ColorLinkHover = "#7c2855"; // Link hover color
+export const ColorLinkActive = "#003087"; // Link active color (50% shade of blue)
+export const ColorLinkVisited = "#330072"; // Visited link color
+export const ColorFocusBackground = "#ffeb3b"; // Focus background color
+export const ColorFocusText = "#212b32"; // Focus text color
+export const ColorBorderDefault = "#d8dde0"; // Default border color
+export const ColorBorderSecondary = "#ffffff33"; // Secondary border color
+export const ColorError = "#d5281b"; // Error color
+export const ColorFormBorder = "#4c6272"; // Form border color
+export const ColorFormBackground = "#ffffff"; // Form background color
+export const ColorButtonPrimaryBackground = "#007f3b";
+export const ColorButtonPrimaryText = "#ffffff";
+export const ColorButtonPrimaryHover = "#006530"; // 20% shade of green
+export const ColorButtonPrimaryActive = "#004021"; // 50% shade of green
+export const ColorButtonPrimaryShadow = "#004021"; // 50% shade of green
+export const ColorButtonSecondaryBackground = "#00000000";
+export const ColorButtonSecondaryBackgroundSolid = "#ffffff";
+export const ColorButtonSecondaryBorder = "#005eb8";
+export const ColorButtonSecondaryText = "#005eb8";
+export const ColorButtonSecondaryHover = "#d9e5f2"; // 85% tint of blue
+export const ColorButtonSecondaryActive = "#c7daf0"; // 78% tint of blue
+export const ColorButtonSecondaryShadow = "#005eb8";
+export const ColorButtonReverseBackground = "#ffffff";
+export const ColorButtonReverseText = "#212b32";
+export const ColorButtonReverseHover = "#d9dde0"; // 15% shade of white
+export const ColorButtonReverseActive = "#b3bcc2"; // 30% shade of white
+export const ColorButtonReverseShadow = "#b3bcc2";
+export const ColorButtonWarningBackground = "#d5281b";
+export const ColorButtonWarningHover = "#aa2016"; // 20% shade of red
+export const ColorButtonWarningActive = "#6a140e"; // 50% shade of red
+export const ColorButtonWarningShadow = "#6a140e";
+export const ColorButtonLoginBackground = "#005eb8";
+export const ColorButtonLoginHover = "#004b93"; // 20% shade of blue
+export const ColorButtonLoginActive = "#002f5c"; // 50% shade of blue
+export const ColorButtonLoginShadow = "#002f5c";
+export const ComponentButtonPaddingMobileVertical = "8px"; // Button vertical padding on mobile
+export const ComponentButtonPaddingMobileHorizontal = "16px"; // Button horizontal padding on mobile
+export const ComponentButtonPaddingDesktopVertical = "12px"; // Button vertical padding on desktop
+export const ComponentButtonPaddingDesktopHorizontal = "16px"; // Button horizontal padding on desktop
+export const ComponentButtonShadowSize = "4px"; // Button shadow size
+export const ComponentFormInputMinHeight = "40px"; // Minimum height for input fields
+export const ComponentFormInputPadding = "4px"; // Internal padding for input fields
+export const ComponentFormCheckboxSize = "40px"; // Size of checkbox and radio button controls
+export const ComponentFormCheckboxLabelPadding = "12px"; // Left and right padding for checkbox labels
+export const ComponentCardPaddingMobile = "16px"; // Card content padding on mobile
+export const ComponentCardPaddingDesktop = "32px"; // Card content padding on desktop
+export const ComponentCardHeadingMargin = "16px"; // Margin below card headings
+export const ComponentPanelPaddingMobile = "20px"; // Panel padding on mobile (24px - 4px border)
+export const ComponentPanelPaddingDesktop = "28px"; // Panel padding on desktop (32px - 4px border)
+export const ComponentBreadcrumbChevronMarginLeft = "9px"; // Left margin for breadcrumb chevron
+export const ComponentBreadcrumbChevronMarginRight = "2px"; // Right margin for breadcrumb chevron
+export const ComponentBreadcrumbPaddingTopMobile = "16px"; // Top padding for breadcrumb on mobile
+export const ComponentBreadcrumbPaddingTopDesktop = "24px"; // Top padding for breadcrumb on desktop
+export const ComponentSummaryListCellPaddingVertical = "8px"; // Top and bottom padding for summary list cells
+export const ComponentSummaryListCellPaddingHorizontal = "24px"; // Right padding for summary list cells
+export const ComponentSummaryListRowMargin = "16px"; // Bottom margin for summary list rows on mobile
+export const ComponentSpread = "4px"; // Default shadow spread
+export const ComponentBlur = "4px"; // Default shadow blur
+export const ComponentLink = "4px"; // Link shadow spread
+export const ComponentDetails = "8px"; // Details component shadow
+export const ComponentExpander = "4px"; // Expander shadow
+export const ComponentPagination = "16px"; // Pagination shadow
+export const ButtonPrimaryBackgroundDefault = "#007f3b"; // Primary button background color
+export const ButtonPrimaryBackgroundHover = "#006530"; // Primary button hover background color
+export const ButtonPrimaryBackgroundActive = "#004021"; // Primary button active background color
+export const ButtonPrimaryBackgroundDisabled = "#d8dde0"; // Primary button disabled background color
+export const ButtonPrimaryTextDefault = "#ffffff"; // Primary button text color
+export const ButtonPrimaryTextDisabled = "#768692"; // Primary button disabled text color
+export const ButtonPrimaryBorderDefault = "#00000000"; // Primary button border color
+export const ButtonPrimaryBorderFocus = "#ffeb3b"; // Primary button focus border color
+export const ButtonSecondaryBackgroundDefault = "#00000000"; // Secondary button background color
+export const ButtonSecondaryBackgroundSolid = "#ffffff"; // Secondary button solid background color
+export const ButtonSecondaryBackgroundHover = "#d9e5f2"; // Secondary button hover background color
+export const ButtonSecondaryBackgroundActive = "#c7daf0"; // Secondary button active background color
+export const ButtonSecondaryTextDefault = "#005eb8"; // Secondary button text color
+export const ButtonSecondaryBorderDefault = "#005eb8"; // Secondary button border color
+export const ButtonSpacingPaddingVerticalMobile = "8px"; // Button vertical padding on mobile
+export const ButtonSpacingPaddingHorizontalMobile = "16px"; // Button horizontal padding on mobile
+export const ButtonSpacingPaddingVerticalDesktop = "12px"; // Button vertical padding on desktop
+export const ButtonSpacingPaddingHorizontalDesktop = "16px"; // Button horizontal padding on desktop
+export const ButtonBorderWidth = "2px"; // Button border width
+export const ButtonBorderRadius = "4px"; // Button border radius
+export const ButtonShadowSize = "4px"; // Button shadow size
+export const ButtonTypographyWeight = "600"; // Button font weight
+export const CardBackgroundDefault = "#ffffff"; // Default card background color
+export const CardBorderDefault = "#d8dde0"; // Default card border color
+export const CardBorderHover = "#aeb7bd"; // Card border color on hover
+export const CardBorderBottom = "#f0f4f5"; // Card image bottom border color
+export const CardTextHeading = "#212b32"; // Card heading text color
+export const CardTextDescription = "#212b32"; // Card description text color
+export const CardTextLink = "#005eb8"; // Card link text color
+export const CardSpacingPaddingMobile = "16px"; // Card content padding on mobile
+export const CardSpacingPaddingDesktop = "32px"; // Card content padding on desktop
+export const CardSpacingHeadingMargin = "16px"; // Margin below card headings
+export const CardBorderWidthDefault = "1px"; // Default card border width
+export const CardBorderWidthBottom = "4px"; // Card bottom border width for clickable cards
+export const CardShadowDefault = "none"; // Default card shadow
+export const CardShadowHover = "0 2px 4px rgba(0, 0, 0, 0.1)"; // Card shadow on hover
+export const FormInputBackgroundDefault = "#ffffff"; // Default input background color
+export const FormInputBackgroundFocus = "#ffffff"; // Input background color when focused
+export const FormInputBackgroundDisabled = "#d8dde0"; // Input background color when disabled
+export const FormInputBackgroundError = "#ffffff"; // Input background color in error state
+export const FormInputBorderDefault = "#4c6272"; // Default input border color
+export const FormInputBorderFocus = "#ffeb3b"; // Input border color when focused
+export const FormInputBorderError = "#d5281b"; // Input border color in error state
+export const FormInputBorderDisabled = "#aeb7bd"; // Input border color when disabled
+export const FormInputTextDefault = "#212b32"; // Default input text color
+export const FormInputTextPlaceholder = "#4c6272"; // Input placeholder text color
+export const FormInputTextDisabled = "#768692"; // Input text color when disabled
+export const FormLabelTextDefault = "#212b32"; // Form label text color
+export const FormLabelTextRequired = "#ffffff"; // Required form label indicator color
+export const FormLabelTypographyWeight = "600"; // Form label font weight
+export const FormErrorTextDefault = "#d5281b"; // Form error message text color
+export const FormErrorTypographyWeight = "600"; // Form error message font weight
+export const FormHintTextDefault = "#4c6272"; // Form hint text color
+export const FormSpacingInputPadding = "4px"; // Internal padding for input fields
+export const FormSpacingInputMinHeight = "40px"; // Minimum height for input fields
+export const FormSpacingCheckboxSize = "40px"; // Size of checkbox controls
+export const FormSpacingCheckboxLabelPadding = "12px"; // Padding for checkbox labels
+export const FormBorderWidthDefault = "2px"; // Default form element border width
+export const FormBorderWidthError = "4px"; // Form element border width in error state
+export const FormBorderRadius = "0px"; // Form element border radius
+export const SizeIconSmall = "16px"; // Small icon size
+export const SizeIconMedium = "18px"; // Medium icon size (breadcrumb chevrons)
+export const SizeIconLarge = "24px"; // Large icon size (back links)
+export const SizeIconExtraLarge = "32px"; // Extra large icon size
+export const SizeIconNhsDefault = "34px"; // Default NHS icon size
+export const SizeFormControlSmall = "32px"; // Small form control size
+export const SizeFormControlMedium = "40px"; // Medium form control size (default)
+export const SizeFormControlLarge = "48px"; // Large form control size
+export const SizeFormInputWidthXs = "5.4ex"; // Extra small input width (2 characters)
+export const SizeFormInputWidthSm = "7.2ex"; // Small input width (3 characters)
+export const SizeFormInputWidthMd = "9ex"; // Medium input width (4 characters)
+export const SizeFormInputWidthLg = "10.8ex"; // Large input width (5 characters)
+export const SizeFormInputWidthXl = "20ex"; // Extra large input width (10 characters)
+export const SizeFormInputWidth2xl = "38ex"; // 2XL input width (20 characters)
+export const SizeFormInputWidth3xl = "56ex"; // 3XL input width (30 characters)
+export const SizeButtonMinHeightMobile = "44px"; // Minimum button height on mobile for touch targets
+export const SizeButtonMinHeightDesktop = "40px"; // Minimum button height on desktop
+export const LayoutContainerMaxWidth = "1020px"; // Maximum container width
+export const LayoutColumnFull = "100%"; // Full width column
+export const LayoutColumnHalf = "50%"; // Half width column
+export const LayoutColumnThird = "33.333%"; // One third width column
+export const LayoutColumnQuarter = "25%"; // Quarter width column
+export const LayoutColumnActions = "20%"; // Actions column width in summary lists
+export const BreakpointMobile = "320px"; // Mobile breakpoint
+export const BreakpointTablet = "641px"; // Tablet breakpoint
+export const BreakpointDesktop = "1025px"; // Desktop breakpoint
+export const BreakpointLargeDesktop = "1280px"; // Large desktop breakpoint
+export const GridPageWidth = "960px"; // Maximum page width
+export const GridGutter = "32px"; // Grid gutter width
+export const GridGutterHalf = "16px"; // Half grid gutter width
+export const StateErrorBackground = "#d5281b"; // Error state background color
+export const StateErrorBorder = "#d5281b"; // Error state border color
+export const StateErrorText = "#ffffff"; // Error state text color
+export const StateSuccessBackground = "#007f3b"; // Success state background color
+export const StateSuccessBorder = "#007f3b"; // Success state border color
+export const StateSuccessText = "#ffffff"; // Success state text color
+export const StateWarningBackground = "#ffeb3b"; // Warning state background color
+export const StateWarningBorder = "#ffeb3b"; // Warning state border color
+export const StateWarningText = "#212b32"; // Warning state text color
+export const StateInfoBackground = "#005eb8"; // Info state background color
+export const StateInfoBorder = "#005eb8"; // Info state border color
+export const StateInfoText = "#ffffff"; // Info state text color
+export const StateDisabledBackground = "#d8dde0"; // Disabled state background color
+export const StateDisabledBorder = "#aeb7bd"; // Disabled state border color
+export const StateDisabledText = "#768692"; // Disabled state text color
+export const ShadowButtonDefault = "0 4px 0 #004021"; // Default button shadow
+export const ShadowButtonSecondary = "0 4px 0 #005eb8"; // Secondary button shadow
+export const ShadowButtonWarning = "0 4px 0 #6a140e"; // Warning button shadow
+export const ShadowButtonFocus = "0 4px 0 #ffeb3b"; // Button shadow when focused
+export const ShadowCardDefault = "none"; // Default card shadow (none for NHS style)
+export const ShadowCardHover = "0 2px 4px rgba(0, 0, 0, 0.1)"; // Card shadow on hover (if needed)
+export const FocusOutlineWidth = "4px"; // Focus outline width
+export const FocusOutlineOffset = "0px"; // Focus outline offset
+export const FocusOutlineStyle = "solid"; // Focus outline style
+export const FocusShadowInput = "0 0 0 3px #ffeb3b"; // Focus shadow for input elements
+export const FocusShadowButton = "0 0 0 3px #ffeb3b"; // Focus shadow for buttons
+export const ElevationNone = "none"; // No elevation
+export const ElevationLow = "0 1px 3px rgba(0, 0, 0, 0.12)"; // Low elevation shadow
+export const ElevationMedium = "0 2px 6px rgba(0, 0, 0, 0.16)"; // Medium elevation shadow
+export const ElevationHigh = "0 4px 12px rgba(0, 0, 0, 0.20)"; // High elevation shadow
+export const Spacing0 = "0"; // No spacing
+export const Spacing1 = "4px"; // Extra small spacing
+export const Spacing2 = "8px"; // Small spacing
+export const Spacing3 = "16px"; // Medium spacing
+export const Spacing4 = "24px"; // Large spacing
+export const Spacing5 = "32px"; // Large spacing
+export const Spacing6 = "40px"; // 2XL spacing
+export const Spacing7 = "48px"; // 3XL spacing
+export const Spacing8 = "56px"; // 4XL spacing
+export const Spacing9 = "64px"; // 5XL spacing
+export const SpacingResponsive0Mobile = "0";
+export const SpacingResponsive0Tablet = "0";
+export const SpacingResponsive1Mobile = "4px";
+export const SpacingResponsive1Tablet = "4px";
+export const SpacingResponsive2Mobile = "8px";
+export const SpacingResponsive2Tablet = "8px";
+export const SpacingResponsive3Mobile = "8px";
+export const SpacingResponsive3Tablet = "16px";
+export const SpacingResponsive4Mobile = "16px";
+export const SpacingResponsive4Tablet = "24px";
+export const SpacingResponsive5Mobile = "24px";
+export const SpacingResponsive5Tablet = "32px";
+export const SpacingResponsive6Mobile = "32px";
+export const SpacingResponsive6Tablet = "40px";
+export const SpacingResponsive7Mobile = "40px";
+export const SpacingResponsive7Tablet = "48px";
+export const SpacingResponsive8Mobile = "48px";
+export const SpacingResponsive8Tablet = "56px";
+export const SpacingResponsive9Mobile = "56px";
+export const SpacingResponsive9Tablet = "64px";
+export const FontFamilyBase = "Frutiger W01"; // Primary NHS font family
+export const FontFamilyFallback = "Arial, Helvetica, sans-serif"; // Fallback fonts if Frutiger fails to load
+export const FontFamilyPrint = "sans-serif"; // Font family for print styles
+export const FontWeightNormal = "400"; // Normal font weight
+export const FontWeightBold = "600"; // Bold font weight
+export const FontWeightLight = "400"; // Light font weight (same as normal)
+export const FontSize14Mobile = "12px";
+export const FontSize14Tablet = "14px";
+export const FontSize14Print = "12pt";
+export const FontSize16Mobile = "14px";
+export const FontSize16Tablet = "16px";
+export const FontSize16Print = "12pt";
+export const FontSize19Mobile = "16px";
+export const FontSize19Tablet = "19px";
+export const FontSize19Print = "13pt";
+export const FontSize22Mobile = "19px";
+export const FontSize22Tablet = "22px";
+export const FontSize22Print = "15pt";
+export const FontSize26Mobile = "22px";
+export const FontSize26Tablet = "26px";
+export const FontSize26Print = "17pt";
+export const FontSize36Mobile = "27px";
+export const FontSize36Tablet = "36px";
+export const FontSize36Print = "20pt";
+export const FontSize48Mobile = "33px";
+export const FontSize48Tablet = "48px";
+export const FontSize48Print = "24pt";
+export const FontSizeBase = "16px"; // Base font size
+export const FontLineHeightBase = "24px"; // Base line height
+export const HeadingsNhsukHeadingXl = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "600",
+  fontSize: { mobile: "33px", tablet: "48px", print: "24pt" },
+  lineHeight: "1.09",
+  marginTop: "0",
+  marginBottom: { mobile: "40px", tablet: "48px" },
+}; // Extra large heading style (h1 equivalent)
+export const HeadingsNhsukHeadingL = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "600",
+  fontSize: { mobile: "27px", tablet: "36px", print: "20pt" },
+  lineHeight: "1.11",
+  marginTop: "0",
+  marginBottom: { mobile: "16px", tablet: "24px" },
+}; // Large heading style (h2 equivalent)
+export const HeadingsNhsukHeadingM = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "600",
+  fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
+  lineHeight: "1.15",
+  marginTop: "0",
+  marginBottom: { mobile: "16px", tablet: "24px" },
+}; // Medium heading style (h3 equivalent)
+export const HeadingsNhsukHeadingS = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "600",
+  fontSize: { mobile: "19px", tablet: "22px", print: "15pt" },
+  lineHeight: "1.18",
+  marginTop: "0",
+  marginBottom: { mobile: "16px", tablet: "24px" },
+}; // Small heading style (h4 equivalent)
+export const HeadingsNhsukHeadingXs = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "600",
+  fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
+  lineHeight: "1.26",
+  marginTop: "0",
+  marginBottom: { mobile: "16px", tablet: "24px" },
+}; // Extra small heading style (h5 equivalent)
+export const ParagraphsBody = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "400",
+  fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
+  lineHeight: "1.47",
+  marginTop: "0",
+  marginBottom: { mobile: "16px", tablet: "24px" },
+}; // Default paragraph text style (nhsuk-body-m)
+export const ParagraphsBodyLarge = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "400",
+  fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
+  lineHeight: "1.38",
+  marginTop: "0",
+  marginBottom: { mobile: "24px", tablet: "32px" },
+}; // Large body text style (nhsuk-body-l)
+export const ParagraphsBodySmall = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "400",
+  fontSize: { mobile: "14px", tablet: "16px", print: "12pt" },
+  lineHeight: "1.5",
+  marginTop: "0",
+  marginBottom: { mobile: "16px", tablet: "24px" },
+}; // Small body text style (nhsuk-body-s)
+export const ParagraphsLedeText = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "400",
+  fontSize: { mobile: "22px", tablet: "26px", print: "17pt" },
+  lineHeight: "1.38",
+  marginTop: "0",
+  marginBottom: { mobile: "40px", tablet: "48px" },
+}; // Lead paragraph style (nhsuk-lede-text)
+export const ParagraphsLedeTextSmall = {
+  fontFamily: "Frutiger W01",
+  fontWeight: "400",
+  fontSize: { mobile: "16px", tablet: "19px", print: "13pt" },
+  lineHeight: "1.47",
+  marginTop: "0",
+  marginBottom: { mobile: "24px", tablet: "32px" },
+}; // Small lead paragraph style (nhsuk-lede-text--small)

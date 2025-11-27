@@ -1,0 +1,245 @@
+import * as React from "react";
+import { buildSpcV26a, computeSpcVisualCategories, SpcVisualCategory } from "../charts/SPC/engine";
+import { VARIATION_COLOURS, VariationState } from "../charts/SPC/SPCIcons/SPCConstants";
+import { ChartType, ImprovementDirection, VariationIcon } from "../charts/SPC/engine";
+import type {
+	SPCSparkProps,
+	SPCSparkPoint,
+} from "../charts/SPC/SPCSpark/SPCSpark.types";
+import { getGradientOpacities } from "../charts/SPC/SPCIcons/tokenUtils";
+import { mapIconToVariation, isSpecialCauseIcon } from "../charts/SPC/utils/state";
+import { visualsToPointSignals } from "../charts/SPC";
+import type { PointSignal } from "../charts/SPC/utils/transform";
+
+// mapIconToVariation and isSpecialCauseIcon now provided by SPC utils/state
+
+// Helper: hex -> rgb tuple
+function hexToRgb(h: string): [number, number, number] {
+	const v = h.replace("#", "");
+	return [
+		parseInt(v.slice(0, 2), 16),
+		parseInt(v.slice(2, 4), 16),
+		parseInt(v.slice(4, 6), 16),
+	];
+}
+
+export interface UseSpcInput {
+	values: Array<number | null>;
+	x?: Array<string | number | Date>;
+	chartType?: ChartType; // default XmR
+	metricImprovement?: ImprovementDirection;
+	// Deprecated: SQL compatibility wrapper no longer supported at hook level
+	showLimits?: boolean;
+	showLimitBand?: boolean;
+	showInnerBands?: boolean;
+	showMean?: boolean;
+	// autoClassify?: boolean; // spark auto-classification fallback
+}
+
+export interface UseSpcResult {
+	sparkProps: Pick<
+		SPCSparkProps,
+		| "data"
+		| "showMean"
+		| "showLimits"
+		| "showLimitBand"
+		| "showInnerBands"
+		| "metricImprovement"
+		| "variationState"
+		| "centerLine"
+		| "controlLimits"
+		| "pointSignals"
+		| "sigmaBands"
+		| "pointNeutralSpecialCause"
+		| "visualCategories"
+	>;
+	/** Inline style variables for MetricCard background and accent colour */
+	metricCardStyle: React.CSSProperties;
+	/** Latest SPC state (Improving/Concern/Common/No‑Judgement) */
+	latestState: VariationState | null;
+}
+
+/**
+ * useSpc – derive SPC-backed visual props for SPCSpark and SPCMetricCard from raw values.
+ * It runs the full SPC engine for consistent classification and also computes a colour to
+ * tint the MetricCard background/accent based on the latest point’s state.
+ */
+export function useSpc(input: UseSpcInput): UseSpcResult {
+	const {
+		values,
+		x,
+		chartType = ChartType.XmR,
+		metricImprovement = ImprovementDirection.Neither,
+		showLimits = true,
+		showLimitBand = false,
+		showInnerBands = false,
+		showMean = false,
+		// autoClassify = true,
+	} = input;
+
+	const rows = React.useMemo(() => {
+		const pts: SPCSparkPoint[] = [];
+		for (let i = 0; i < values.length; i++) {
+			pts.push({ x: x?.[i], value: values[i] });
+		}
+		return pts;
+	}, [values, x]);
+
+	// Build engine result for consistent classification and limits (v2)
+	const engine = React.useMemo(() => {
+		try {
+			const data = rows.map((r, i) => ({ x: (r.x as any) ?? i, value: r.value }));
+			// Mirror SPCChart defaults: resolve minimumPoints and enable chart-level eligibility when sufficient points
+			const resolvedMinPts = 13;
+			const eligibleCount = data.filter((d) => typeof d.value === "number").length;
+			const settings: any = { minimumPoints: resolvedMinPts };
+			if (eligibleCount >= resolvedMinPts) settings.chartLevelEligibility = true;
+			return buildSpcV26a({ chartType, metricImprovement, data, settings });
+		} catch {
+			return null;
+		}
+	}, [rows, chartType, metricImprovement]);
+
+	// Choose the last real row (value not null, not ghost) for centre/limits
+	const lastRealRow = React.useMemo(() => {
+		const rowsEngine: any[] | undefined = (engine as any)?.rows;
+		if (!rowsEngine || rowsEngine.length === 0) return null;
+		for (let i = rowsEngine.length - 1; i >= 0; i--) {
+			const r = rowsEngine[i];
+			if (r && r.value != null && !r.ghost) return r;
+		}
+		return rowsEngine[rowsEngine.length - 1] ?? null;
+	}, [engine]);
+
+	// Determine latest state from representative rows (or rows fallback)
+	const latestState: VariationState | null = React.useMemo(() => {
+		const rowsEngine: any[] | undefined = (engine as any)?.rows;
+		if (!rowsEngine || rowsEngine.length === 0) return null;
+		// pick the last non-ghost with a value if possible, else last
+		let last = rowsEngine[rowsEngine.length - 1];
+		for (let i = rowsEngine.length - 1; i >= 0; i--) {
+			const r = rowsEngine[i];
+			if (r && r.value != null && !r.ghost) { last = r; break; }
+		}
+		return mapIconToVariation(last?.variationIcon as VariationIcon | null);
+	}, [engine]);
+
+	// Engine-derived centre line, limits, and per-point signals (prefer latest real row)
+	const centerLine: number | null = React.useMemo(() => {
+		return (lastRealRow?.mean ?? null) as number | null;
+	}, [lastRealRow]);
+
+	const controlLimits: { lower: number | null; upper: number | null } | null =
+		React.useMemo(() => {
+			if (!lastRealRow) return null;
+			const lower = (lastRealRow?.lowerProcessLimit ?? null) as number | null;
+			const upper = (lastRealRow?.upperProcessLimit ?? null) as number | null;
+			if (lower == null && upper == null) return null;
+			return { lower, upper };
+		}, [lastRealRow]);
+
+	const sigmaBands: {
+		upperOne: number | null;
+		upperTwo: number | null;
+		lowerOne: number | null;
+		lowerTwo: number | null;
+	} | null = React.useMemo(() => {
+		if (!lastRealRow) return null;
+		return {
+			upperOne: (lastRealRow?.upperOneSigma ?? null) as number | null,
+			upperTwo: (lastRealRow?.upperTwoSigma ?? null) as number | null,
+			lowerOne: (lastRealRow?.lowerOneSigma ?? null) as number | null,
+			lowerTwo: (lastRealRow?.lowerTwoSigma ?? null) as number | null,
+		};
+	}, [lastRealRow]);
+
+	// Compute v2 visual categories (UI-agnostic) for exact parity with SPCChart
+	const visualCategories: SpcVisualCategory[] | undefined = React.useMemo(() => {
+		const rowsEngine: any[] | undefined = (engine as any)?.rows;
+		if (!rowsEngine || rowsEngine.length === 0) return undefined;
+		try {
+			return computeSpcVisualCategories(rowsEngine as any, {
+				metricImprovement,
+				enableNeutralNoJudgement: true,
+			});
+		} catch {
+			return undefined;
+		}
+	}, [engine, metricImprovement]);
+
+	const pointSignals: Array<PointSignal | null> | undefined = React.useMemo(() => {
+		return visualsToPointSignals(visualCategories);
+	}, [visualCategories?.length]);
+
+	// Neutral special-cause flags per point (variation 'neither' with specialCauseNeitherValue present)
+	const pointNeutralSpecialCause: boolean[] | undefined = React.useMemo(() => {
+		if (!visualCategories || visualCategories.length === 0) return undefined;
+		return visualCategories.map((c) => c === SpcVisualCategory.NoJudgement);
+	}, [visualCategories?.length]);
+
+	// Build gradient/accent style based on the final point's signal colour
+	const metricCardStyle: React.CSSProperties = React.useMemo(() => {
+		// Use the precomputed lastRealRow when available
+		let lastSignalState: VariationState | null = null;
+		if (lastRealRow && lastRealRow.value != null && !lastRealRow.ghost) {
+			const icon: VariationIcon | undefined = lastRealRow.variationIcon as VariationIcon | undefined;
+			if (latestState === VariationState.SpecialCauseNoJudgement) {
+				// In a No Judgement series context, any special-cause final point renders purple, else grey
+				lastSignalState = isSpecialCauseIcon(icon)
+					? VariationState.SpecialCauseNoJudgement
+					: VariationState.CommonCause;
+			} else {
+				lastSignalState = mapIconToVariation(icon) ?? VariationState.CommonCause;
+			}
+		}
+		const chosen = lastSignalState ?? VariationState.CommonCause;
+		const hex = VARIATION_COLOURS[chosen].hex;
+		const [r, g, b] = hexToRgb(hex);
+		const stops = getGradientOpacities();
+		const bg = `linear-gradient(180deg, rgba(${r}, ${g}, ${b}, ${stops.start}) 0%, rgba(${r}, ${g}, ${b}, ${stops.mid}) 50%, rgba(${r}, ${g}, ${b}, ${stops.end}) 100%)`;
+		return {
+			["--fdp-metric-card-bg"]: bg,
+			["--fdp-metric-card-accent"]: hex,
+		} as React.CSSProperties as Record<string, any>;
+	}, [lastRealRow, latestState]);
+
+	// Spark props – prefer engine-derived values and avoid duplicate classification
+	const sparkProps: UseSpcResult["sparkProps"] = React.useMemo(() => {
+		return {
+			data: rows,
+			showMean,
+			showLimits,
+			showLimitBand,
+			showInnerBands,
+			metricImprovement,
+			centerLine,
+			controlLimits,
+			sigmaBands,
+			pointSignals,
+			pointNeutralSpecialCause,
+			visualCategories,
+			variationState: latestState ?? undefined,
+		};
+	}, [
+		rows,
+		showMean,
+		showLimits,
+		showLimitBand,
+		showInnerBands,
+		metricImprovement,
+		latestState,
+		centerLine,
+		controlLimits?.lower,
+		controlLimits?.upper,
+		sigmaBands?.upperTwo,
+		sigmaBands?.lowerOne,
+		sigmaBands?.lowerTwo,
+		pointSignals?.length,
+		pointNeutralSpecialCause?.length,
+		visualCategories?.length,
+	]);
+
+	return { sparkProps, metricCardStyle, latestState };
+}
+
+export default useSpc;

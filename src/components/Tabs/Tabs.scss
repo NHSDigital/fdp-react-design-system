@@ -1,0 +1,283 @@
+// ==========================================================================
+// COMPONENTS / #TABS
+// ==========================================================================
+
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.nhsuk-tabs {
+  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+  margin-bottom: nhs.$nhs-fdp-spacing-8;
+  
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+    margin-bottom: nhs.$nhs-fdp-spacing-9;
+  }
+
+  // Tab title (mobile only)
+  &__title {
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    margin-top: 0;
+    margin-bottom: nhs.$nhs-fdp-spacing-5;
+    
+    @include nhs.nhs-fdp-font-size(22);
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      display: none;
+    }
+  }
+
+  // Tab list container
+  &__list-container {
+    border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+    
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+      border-bottom: 0;
+    }
+  }
+
+  // Tab list
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap; // Allow wrapping if there are many tabs
+    
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+      flex-direction: column;
+    }
+  }
+
+  // Individual tab list item
+  &__list-item {
+    margin: 0;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      background-color: nhs.$nhs-fdp-color-grey-4;
+      flex: 1; // Allow tabs to grow equally
+      margin-bottom: 0;
+      margin-left: 0;
+      margin-right: nhs.$nhs-fdp-spacing-1;
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-4;
+      position: relative;
+      text-align: center;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+      
+      &::before {
+        content: none;
+      }
+    }
+    
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+      border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+      
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+    
+    // Selected tab state
+    &--selected {
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        $border-width: nhs.$nhs-fdp-component-tabs-border-width;
+        background-color: nhs.$nhs-fdp-color-primary-white;
+        border: $border-width solid nhs.$nhs-fdp-semantic-color-border-default;
+        border-bottom: 0;
+        margin-bottom: -$border-width; // Compensation for border (otherwise we get a shift)
+        margin-top: -(nhs.$nhs-fdp-spacing-1);
+        padding-bottom: (nhs.$nhs-fdp-spacing-2 * 1.5) + $border-width;
+        padding-left: nhs.$nhs-fdp-spacing-4 - $border-width;
+        padding-right: nhs.$nhs-fdp-spacing-4 - $border-width;
+        padding-top: (nhs.$nhs-fdp-spacing-2 * 1.5) - $border-width;
+        position: relative;
+        
+        .nhsuk-tabs__tab {
+          text-decoration: none;
+        }
+      }
+      
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        .nhsuk-tabs__tab {
+          background-color: nhs.$nhs-fdp-color-primary-blue;
+          color: nhs.$nhs-fdp-semantic-color-text-reverse;
+          text-decoration: none;
+        }
+      }
+    }
+    
+    // Disabled tab state
+    &--disabled {
+      .nhsuk-tabs__tab {
+        color: nhs.$nhs-fdp-semantic-color-text-secondary;
+        cursor: not-allowed;
+        
+        &:hover,
+        &:focus {
+          background-color: transparent;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  // Tab button
+  &__tab {
+    // Reset button defaults and ensure font inheritance
+    background: none;
+    border: 0;
+    font-family: inherit; // Inherit from parent .nhsuk-tabs
+    font-size: inherit;
+    line-height: inherit;
+    
+    // Tab styling
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    cursor: pointer;
+    display: block;
+    font-weight: nhs.$nhs-fdp-font-weight-normal;
+    margin-bottom: 0;
+    padding: nhs.$nhs-fdp-spacing-3;
+    position: relative;
+    text-align: left;
+    text-decoration: underline;
+    width: 100%;
+    
+    @include nhs.nhs-fdp-font-size(19);
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      background: none;
+      border: none;
+      margin-bottom: 0;
+      padding: 0;
+      text-align: center;
+      width: 100%; // Ensure button fills its container
+      min-width: 0; // Allow text to wrap if needed
+    }
+    
+    // Hover state
+    &:hover {
+      color: nhs.$nhs-fdp-semantic-color-text-primary;
+      text-decoration: none;
+      
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        background-color: nhs.$nhs-fdp-color-primary-blue;
+        color: nhs.$nhs-fdp-semantic-color-text-reverse;
+      }
+    }
+    
+    // Focus state
+    &:focus {
+      background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+      color: nhs.$nhs-fdp-semantic-color-focus-text;
+      text-decoration: none;
+      
+      @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+        background-color: #ffeb3b;
+        box-shadow: 0 -2px #ffeb3b, 0 4px #212b32;
+        outline: 4px solid transparent;
+      }
+      
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        box-shadow: none;
+        outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+      }
+    }
+    
+    // Focus pseudo-element for proper keyboard navigation in desktop mode
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      &::after {
+        bottom: 0;
+        content: "";
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+    
+    // Active state
+    &:active {
+      color: nhs.$nhs-fdp-semantic-color-link-active;
+      text-decoration: none;
+      
+      @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+        background-color: nhs.$nhs-fdp-color-primary-blue;
+        color: nhs.$nhs-fdp-semantic-color-text-reverse;
+      }
+    }
+    
+    // Disabled state
+    &:disabled {
+      background-color: transparent;
+      color: nhs.$nhs-fdp-semantic-color-text-secondary;
+      cursor: not-allowed;
+      
+      &:hover,
+      &:focus,
+      &:active {
+        background-color: transparent;
+        color: nhs.$nhs-fdp-semantic-color-text-secondary;
+        text-decoration: none;
+      }
+    }
+  }
+
+  // Tab panel
+  &__panel {
+    background-color: nhs.$nhs-fdp-color-primary-white;
+    border: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+    border-top: 0;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    padding: nhs.$nhs-fdp-spacing-6 nhs.$nhs-fdp-spacing-4;
+    
+    @include nhs.nhs-fdp-font-size(19);
+    
+    @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+      background-color: transparent;
+      border: 0;
+      padding: nhs.$nhs-fdp-spacing-5 0 0;
+    }
+    
+    &[hidden] {
+      display: none;
+    }
+    
+    // Remove margin from first element
+    > *:first-child {
+      margin-top: 0;
+    }
+    
+    // Remove margin from last element
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Print styles
+@media print {
+  .nhsuk-tabs {
+    &__title {
+      display: block;
+    }
+    
+    &__list-container {
+      display: none;
+    }
+    
+    &__panel {
+      display: block !important;
+      
+      &::before {
+        content: attr(aria-labelledby);
+        display: block;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+        margin-bottom: nhs.$nhs-fdp-spacing-3;
+      }
+    }
+  }
+}

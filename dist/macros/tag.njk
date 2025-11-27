@@ -1,0 +1,20 @@
+{# Tag component macro (manual initial version, will be schema generated later) #}
+{% macro tag(params) %}
+  {% set color = params.color or 'default' %}
+  {% set classes = [
+    'nhsuk-tag',
+    color != 'default' and 'nhsuk-tag--' + color or '',
+    params.noBorder and 'nhsuk-tag--no-border' or '',
+    params.closable and 'nhsuk-tag--closable' or '',
+    params.disabled and 'nhsuk-tag--disabled' or '',
+    params.className
+  ] | reject('equalto','') | join(' ') %}
+  <strong class="{{ classes }}"{% for name, value in (params.attributes or {}) %} {{ name }}="{{ value }}"{% endfor %}>
+    {% if params.children %}{{ params.children | safe }}
+    {% elif params.html %}{{ params.html | safe }}
+    {% else %}{{ params.text }}{% endif %}
+    {% if params.closable %}
+      <button type="button" class="nhsuk-tag__close" aria-label="Remove" title="Remove"{% if params.onClose %} data-on-close="true"{% endif %}{% if params.disabled %} disabled{% endif %}>×</button>
+    {% endif %}
+  </strong>
+{% endmacro %}

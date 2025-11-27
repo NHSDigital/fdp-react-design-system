@@ -1,0 +1,139 @@
+//==========================================================================
+// COMPONENTS / #DETAILS
+// ==========================================================================
+
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+////
+/// Details component
+///
+/// 1. Style the summary to look like a link...
+/// 2. Make the focus outline shrink-wrap the text content of the summary
+/// 3. Absolutely position the marker against this element
+/// 3. Allow for absolutely positioned marker and align with disclosed text
+/// 4. Only underline the text, not the arrow
+/// 5. Remove the default details marker so we can style our own consistently and
+///    ensure it displays in Firefox
+/// 6. Custom padding to left align the details text with the summary
+///
+/// @group components
+/// @link https://github.com/alphagov/govuk-frontend Original code taken from GDS (Government Digital Service)
+////
+
+.nhsuk-details {
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+  display: block;
+  font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+  margin-bottom: nhs.$nhs-fdp-spacing-6;
+  
+  @include nhs.nhs-fdp-font-size(19);
+
+  // Details summary
+  &__summary {
+    display: block;
+  }
+
+  // Details content text
+  &__text {
+    margin-bottom: nhs.$nhs-fdp-spacing-6;
+    margin-top: nhs.$nhs-fdp-spacing-3;
+  }
+
+  // Spacing when followed by headings
+  + h2,
+  + .nhsuk-heading-l {
+    padding-top: nhs.$nhs-fdp-spacing-6;
+  }
+}
+
+// Hack to support Internet Explorer 11
+@media screen\0 {
+  .nhsuk-details {
+    border-left: nhs.$nhs-fdp-spacing-1 solid nhs.$nhs-fdp-color-grey-4;
+    margin-top: nhs.$nhs-fdp-spacing-3;
+    padding: nhs.$nhs-fdp-spacing-4 0;
+    padding-left: nhs.$nhs-fdp-component-disclosure-icon-offset; // [6]
+
+    &__summary-text {
+      display: block;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      margin-bottom: nhs.$nhs-fdp-spacing-6;
+    }
+  }
+}
+
+// We wrap styles for newer browsers in a feature query, which is ignored by
+// older browsers, which always expand the details element.
+//
+// Additionally, -ms-ime-align is only supported by Edge 12 - 18
+//
+// This ensures we don't use these styles in browsers which:
+//   - support ES6 modules but not the <details> element (Edge 16 - 18)
+//   - do not support ES6 modules or the <details> element (eg, IE8+)
+@supports not (-ms-ime-align: auto) {
+  .nhsuk-details {
+    &__summary {
+      color: nhs.$nhs-fdp-semantic-color-link-default; // [1]
+      cursor: pointer;
+      padding-left: nhs.$nhs-fdp-spacing-5;
+      position: relative; // [3]
+      width: fit-content; // [2]
+
+      &:hover {
+        color: nhs.$nhs-fdp-semantic-color-link-hover;
+      }
+
+      &:focus {
+        background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+        box-shadow: 0 -2px nhs.$nhs-fdp-semantic-color-focus-background, 0 4px nhs.$nhs-fdp-semantic-color-text-primary;
+        color: nhs.$nhs-fdp-semantic-color-focus-text;
+        outline: nhs.$nhs-fdp-focus-outline-width solid transparent;
+        text-decoration: none;
+      }
+
+      &:hover,
+      &:focus {
+        .nhsuk-details__summary-text {
+          text-decoration: none;
+        }
+      }
+
+      &::-webkit-details-marker {
+        display: none; // [5]
+      }
+
+      &::before {
+        border-color: transparent transparent transparent nhs.$nhs-fdp-semantic-color-text-primary;
+        border-style: solid;
+        border-width: nhs.$nhs-fdp-border-radius-medium 0 nhs.$nhs-fdp-border-radius-medium nhs.$nhs-fdp-border-radius-large;
+        bottom: 0;
+        content: "";
+        height: 0;
+        left: 0;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        width: 0;
+      }
+
+      .nhsuk-details[open] > & {
+        &::before {
+          border-color: nhs.$nhs-fdp-semantic-color-text-primary transparent transparent transparent;
+          border-width: nhs.$nhs-fdp-border-radius-large nhs.$nhs-fdp-border-radius-medium 0 nhs.$nhs-fdp-border-radius-medium; // [4]
+        }
+      }
+    }
+
+    &__summary-text {
+      text-decoration: underline; // [4]
+    }
+
+    &__text {
+      border-left: nhs.$nhs-fdp-spacing-1 solid nhs.$nhs-fdp-color-grey-4;
+      margin-top: nhs.$nhs-fdp-spacing-3;
+      padding: nhs.$nhs-fdp-spacing-4 0;
+      padding-left: nhs.$nhs-fdp-component-disclosure-icon-offset; // [6]
+      padding-right: 0;
+    }
+  }
+}

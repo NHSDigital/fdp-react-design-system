@@ -1,0 +1,761 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --animation-duration-fast: 150ms; /** Fast animation duration for micro-interactions */
+  --animation-duration-normal: 300ms; /** Normal animation duration for most transitions */
+  --animation-duration-slow: 500ms; /** Slow animation duration for complex transitions */
+  --animation-easing-ease-in: cubic-bezier(0.4, 0, 1, 1); /** Ease in timing function */
+  --animation-easing-ease-out: cubic-bezier(0, 0, 0.2, 1); /** Ease out timing function */
+  --animation-easing-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1); /** Ease in-out timing function */
+  --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55); /** Bounce timing function */
+  --transition-button-default: background-color 300ms cubic-bezier(0, 0, 0.2, 1); /** Default button transition */
+  --transition-button-shadow: box-shadow 150ms cubic-bezier(0, 0, 0.2, 1); /** Button shadow transition */
+  --transition-input-focus: border-color 150ms cubic-bezier(0, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0, 0, 0.2, 1); /** Input focus transition */
+  --transition-card-hover: border-color 300ms cubic-bezier(0, 0, 0.2, 1); /** Card hover transition */
+  --border-width-default: 1px; /** Default border width for general use */
+  --border-width-form-element: 2px; /** Border width for form elements like inputs and buttons */
+  --border-width-form-element-error: 4px; /** Border width for form elements in error state */
+  --border-width-card-bottom: 4px; /** Bottom border width for clickable cards */
+  --border-width-panel: 8px; /** Border width for panel components */
+  --border-width-table-header: 2px; /** Table header border width */
+  --border-width-table-cell: 1px; /** Table cell border width */
+  --border-width-semantic-thin: 1px; /** Thin border width for subtle separations */
+  --border-width-semantic-standard: 2px; /** Standard border width for most components */
+  --border-width-semantic-thick: 4px; /** Thick border width for emphasis */
+  --border-radius-none: 0px; /** No border radius */
+  --border-radius-small: 4px; /** Small border radius for buttons and form elements */
+  --border-radius-medium: 8px; /** Medium border radius */
+  --border-radius-large: 12px; /** Large border radius */
+  --border-color-default: #d8dde0; /** Default border color */
+  --border-color-form: #4c6272; /** Border color for form elements */
+  --border-color-card: #d8dde0; /** Border color for cards */
+  --border-color-card-hover: #aeb7bd; /** Border color for cards on hover */
+  --border-color-error: #d5281b; /** Border color for error states */
+  --brand-fdp-primary-dark-blue: #003087; /** NHS FDP Dark Blue */
+  --brand-fdp-primary-blue: #005eb8; /** NHS Blue */
+  --brand-fdp-primary-green: #009639; /** NHS Green */
+  --brand-fdp-primary-dark-green: #63a691; /** NHS Dark Green */
+  --brand-fdp-primary-purple: #d6cce3; /** NHS Purple (tint) */
+  --brand-fdp-primary-dark-purple: #ac98cb; /** NHS Dark Purple */
+  --brand-fdp-primary-white: #ffffff; /** NHS White */
+  --brand-fdp-grey-1: #425563; /** NHS Dark Grey */
+  --brand-fdp-grey-2: #768692; /** NHS Mid Grey */
+  --brand-fdp-grey-3: #aeb7bd; /** NHS Grey 3 (derived to align system) */
+  --brand-fdp-grey-4: #d8dde0; /** NHS Grey 4 (derived to align system) */
+  --brand-fdp-grey-5: #e8edee; /** NHS Pale Grey */
+  --brand-fdp-semantic-intent-primary: #009639; /** Primary intent (FDP Green) */
+  --brand-fdp-semantic-intent-secondary: #005eb8; /** Secondary intent (NHS Blue) */
+  --brand-fdp-semantic-intent-warning: #d5281b; /** Warning intent (NHS Red for accessibility consistency) */
+  --brand-fdp-semantic-intent-success: #009639; /** Success intent */
+  --brand-fdp-semantic-intent-neutral: #425563; /** Neutral intent (dark grey) */
+  --brand-fdp-semantic-intent-info: #003087; /** Info intent (FDP Dark Blue) */
+  --brand-fdp-semantic-surface-background-primary: #ffffff; /** Primary background (white) */
+  --brand-fdp-semantic-surface-background-secondary: #e8edee; /** Secondary background (pale grey) */
+  --brand-fdp-semantic-surface-background-elevated: #ffffff; /** Elevated background (cards) */
+  --brand-fdp-semantic-surface-text-primary: #425563; /** Primary text (dark grey) */
+  --brand-fdp-semantic-surface-text-secondary: #768692; /** Secondary text (mid grey) */
+  --brand-fdp-semantic-surface-text-tertiary: #aeb7bd; /** Tertiary text (grey 3) */
+  --brand-fdp-semantic-surface-text-inverse: #ffffff; /** Inverse text (white) */
+  --brand-fdp-semantic-surface-border-default: #d8dde0; /** Default border (grey 4) */
+  --brand-fdp-semantic-surface-border-subtle: #e8edee; /** Subtle border (pale grey) */
+  --brand-fdp-semantic-surface-border-strong: #768692; /** Strong border (mid grey) */
+  --color-primary-blue: #005eb8; /** NHS Blue - Primary brand color */
+  --color-primary-blue-active: #002f5c; /** NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse */
+  --color-primary-white: #ffffff; /** NHS White */
+  --color-primary-black: #212b32; /** NHS Black */
+  --color-primary-green: #007f3b; /** NHS Green */
+  --color-primary-purple: #330072; /** NHS Purple */
+  --color-primary-dark-pink: #7c2855; /** NHS Dark Pink */
+  --color-primary-red: #d5281b; /** NHS Red */
+  --color-primary-light-purple: #880fb8; /** NHS Light Purple (data viz promoted) */
+  --color-primary-yellow: #ffeb3b; /** NHS Yellow */
+  --color-secondary-pale-yellow: #fff9c4; /** NHS Pale Yellow */
+  --color-secondary-warm-yellow: #ffb81c; /** NHS Warm Yellow */
+  --color-secondary-region-yellow: #fae100; /** NHS Region Yellow (maps) */
+  --color-secondary-orange: #ed8b00; /** NHS Orange */
+  --color-secondary-tangerine: #ed4f00; /** NHS Tangerine (data viz promoted) */
+  --color-secondary-aqua-green: #00a499; /** NHS Aqua Green */
+  --color-secondary-light-blue: #41b6e6; /** NHS Light Blue (data viz promoted) */
+  --color-secondary-pink: #ae2573; /** NHS Pink */
+  --color-secondary-bright-pink: #e317aa; /** NHS Bright Pink (data viz promoted) */
+  --color-secondary-light-green: #78be20; /** NHS Light Green (data viz promoted) */
+  --color-secondary-brown: #9a6324; /** NHS Brown (data viz promoted neutral) */
+  --color-grey-1: #4c6272; /** NHS Grey 1 - Darkest grey */
+  --color-grey-2: #768692; /** NHS Grey 2 - Darker grey */
+  --color-grey-3: #aeb7bd; /** NHS Grey 3 - Medium grey */
+  --color-grey-4: #d8dde0; /** NHS Grey 4 - Light grey */
+  --color-grey-5: #f0f4f5; /** NHS Grey 5 - Lightest grey */
+  --color-accessibility-okabe-ito-green: #009e73; /** Okabe–Ito green (CVD-safe) – recommended positive */
+  --color-accessibility-okabe-ito-vermillion: #d55e00; /** Okabe–Ito vermillion / red–orange (CVD-safe) – recommended negative */
+  --color-accessibility-cvd-safe-blue: #1f77b4; /** CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets */
+  --color-accessibility-cvd-safe-orange: #ff7f0e; /** CVD-safe orange (pairs with blue) */
+  --color-accessibility-positive: #009e73; /** Accessibility semantic alias – positive */
+  --color-accessibility-negative: #d55e00; /** Accessibility semantic alias – negative */
+  --color-data-viz-categorical-1: #005eb8; /** Series 1 – NHS Blue (brand core) */
+  --color-data-viz-categorical-2: #41b6e6; /** Series 2 – NHS Light Blue (new) */
+  --color-data-viz-categorical-3: #00a499; /** Series 3 – NHS Aqua Green (existing) */
+  --color-data-viz-categorical-4: #78be20; /** Series 4 – NHS Light Green (new) */
+  --color-data-viz-categorical-5: #007f3b; /** Series 5 – NHS Green (existing) */
+  --color-data-viz-categorical-6: #ffb81c; /** Series 6 – NHS Warm Yellow (existing; distinct from focus yellow) */
+  --color-data-viz-categorical-7: #ed4f00; /** Series 7 – NHS Tangerine (new; warmer/deeper than existing orange) */
+  --color-data-viz-categorical-8: #ae2573; /** Series 8 – NHS Pink (existing) */
+  --color-data-viz-categorical-9: #e317aa; /** Series 9 – NHS Bright Pink (new vivid accent) */
+  --color-data-viz-categorical-10: #880fb8; /** Series 10 – NHS Light Purple (new mid purple) */
+  --color-data-viz-categorical-11: #330072; /** Series 11 – NHS Purple (existing dark purple) */
+  --color-data-viz-categorical-12: #9a6324; /** Series 12 – NHS Brown (new; earth neutral) */
+  --color-data-viz-neutral-comparison: #4c6272; /** Neutral comparison series (optional) */
+  --color-data-viz-region-north-east: #005eb8; /** North East – NHS Blue */
+  --color-data-viz-region-north-west: #41b6e6; /** North West – NHS Light Blue */
+  --color-data-viz-region-east-of-england: #330072; /** East of England – NHS Purple */
+  --color-data-viz-region-midlands: #ae2573; /** Midlands – NHS Pink */
+  --color-data-viz-region-london: #78be21; /** London – NHS Light Green (new) */
+  --color-data-viz-region-south-west: #fae100; /** South West – NHS Yellow variant (new) */
+  --color-data-viz-region-south-east: #ed8b00; /** South East – NHS Orange (existing base orange) */
+  --color-data-viz-severity-low: #fff9c4; /** Low severity – pale yellow background */
+  --color-data-viz-severity-moderate: #ffb81c; /** Moderate severity – warm yellow */
+  --color-data-viz-severity-high: #ed8b00; /** High severity – orange */
+  --color-data-viz-severity-critical: #d5281b; /** Critical severity – red */
+  --color-data-viz-org-level-trust: #005eb8; /** Trust – NHS Blue */
+  --color-data-viz-org-level-ambulance: #007f3b; /** Ambulance – NHS Green */
+  --color-data-viz-org-level-icb: #7c2855; /** ICB – NHS Dark Pink */
+  --color-data-viz-org-level-region: #330072; /** Region – NHS Purple */
+  --color-data-viz-stroke-categorical-1: #ffffff; /** Stroke for series 1 (blue) */
+  --color-data-viz-stroke-categorical-2: #212b32; /** Stroke for series 2 (light blue) */
+  --color-data-viz-stroke-categorical-3: #212b32; /** Stroke for series 3 (aqua green) */
+  --color-data-viz-stroke-categorical-4: #212b32; /** Stroke for series 4 (light green) */
+  --color-data-viz-stroke-categorical-5: #ffffff; /** Stroke for series 5 (green) */
+  --color-data-viz-stroke-categorical-6: #212b32; /** Stroke for series 6 (warm yellow) */
+  --color-data-viz-stroke-categorical-7: #ffffff; /** Stroke for series 7 (tangerine) */
+  --color-data-viz-stroke-categorical-8: #ffffff; /** Stroke for series 8 (pink) */
+  --color-data-viz-stroke-categorical-9: #ffffff; /** Stroke for series 9 (bright pink) */
+  --color-data-viz-stroke-categorical-10: #ffffff; /** Stroke for series 10 (light purple) */
+  --color-data-viz-stroke-categorical-11: #ffffff; /** Stroke for series 11 (purple) */
+  --color-data-viz-stroke-categorical-12: #ffffff; /** Stroke for series 12 (brown) */
+  --color-data-viz-stroke-region-north-east: #5996d1; /** Stroke for North East (blue lightened 35%) */
+  --color-data-viz-stroke-region-north-west: #3189ad; /** Stroke for North West (light blue darkened 25%) */
+  --color-data-viz-stroke-region-east-of-england: #7a59a3; /** Stroke for East of England (purple lightened 35%) */
+  --color-data-viz-stroke-region-midlands: #ca71a4; /** Stroke for Midlands (pink lightened 35%) */
+  --color-data-viz-stroke-region-london: #5a8f19; /** Stroke for London (light green darkened 25%) */
+  --color-data-viz-stroke-region-south-west: #bca900; /** Stroke for South West (yellow darkened 25%) */
+  --color-data-viz-stroke-region-south-east: #b26800; /** Stroke for South East (orange darkened 25%) */
+  --color-data-viz-stroke-severity-low: #212b32; /** Stroke for low severity (pale yellow fill) */
+  --color-data-viz-stroke-severity-moderate: #212b32; /** Stroke for moderate severity (warm yellow fill) */
+  --color-data-viz-stroke-severity-high: #212b32; /** Stroke for high severity (orange fill) */
+  --color-data-viz-stroke-severity-critical: #ffffff; /** Stroke for critical severity (red fill) */
+  --color-data-viz-stroke-org-level-trust: #ffffff; /** Stroke for trust (blue fill) */
+  --color-data-viz-stroke-org-level-ambulance: #ffffff; /** Stroke for ambulance (green fill) */
+  --color-data-viz-stroke-org-level-icb: #ffffff; /** Stroke for ICB (dark pink fill) */
+  --color-data-viz-stroke-org-level-region: #ffffff; /** Stroke for region (purple fill) */
+  --color-data-viz-spc-improvement: #00b0f0; /** SPC special cause improvement (favourable) */
+  --color-data-viz-spc-concern: #e46c0a; /** SPC special cause concern (deteriorating) */
+  --color-data-viz-spc-no-judgement: #490092; /** SPC special cause (no directional judgement) */
+  --color-data-viz-spc-common-cause: #a6a6a6; /** SPC common cause (baseline variation) */
+  --color-data-viz-spc-assurance-pass: #00823b; /** SPC assurance pass indicator (process capable) */
+  --color-data-viz-spc-assurance-fail: #da291c; /** SPC assurance fail indicator (process not capable) */
+  --color-data-viz-spc-gradient-stop-start-opacity: 0.18; /** Start stop opacity (0%) for classic variant wash */
+  --color-data-viz-spc-gradient-stop-mid-opacity: 0.06; /** Mid stop opacity (~65-75%) */
+  --color-data-viz-spc-gradient-stop-end-opacity: 0; /** End stop opacity (100%) */
+  --color-data-viz-spc-gradient-stop-triangle-start-opacity: 0.18; /** Start opacity for triangle variants (kept aligned) */
+  --color-data-viz-spc-gradient-stop-triangle-mid-opacity: 0.06; /** Mid opacity for triangle variants */
+  --color-data-viz-spc-gradient-stop-triangle-end-opacity: 0; /** End opacity for triangle variants */
+  --color-data-viz-spc-stroke-improvement: #000000; /** Stroke for improvement points */
+  --color-data-viz-spc-stroke-concern: #000000; /** Stroke for concern points */
+  --color-data-viz-spc-stroke-no-judgement: #000000; /** Stroke for no-judgement points */
+  --color-data-viz-spc-stroke-common-cause: #ffffff; /** Stroke for common cause points */
+  --color-data-viz-spc-stroke-assurance-pass: #000000; /** Stroke for assurance pass points */
+  --color-data-viz-spc-stroke-assurance-fail: #000000; /** Stroke for assurance fail points */
+  --component-button-padding-mobile-vertical: 8px; /** Button vertical padding on mobile */
+  --component-button-padding-mobile-horizontal: 16px; /** Button horizontal padding on mobile */
+  --component-button-padding-desktop-vertical: 12px; /** Button vertical padding on desktop */
+  --component-button-padding-desktop-horizontal: 16px; /** Button horizontal padding on desktop */
+  --component-button-shadow-size: 4px; /** Button shadow size */
+  --component-form-input-min-height: 40px; /** Minimum height for input fields */
+  --component-form-input-padding: 4px; /** Internal padding for input fields */
+  --component-form-checkbox-size: 40px; /** Size of checkbox and radio button controls */
+  --component-form-checkbox-label-padding: 12px; /** Left and right padding for checkbox labels */
+  --component-card-padding-mobile: 16px; /** Card content padding on mobile */
+  --component-card-padding-desktop: 32px; /** Card content padding on desktop */
+  --component-card-heading-margin: 16px; /** Margin below card headings */
+  --component-panel-padding-mobile: 20px; /** Panel padding on mobile (24px - 4px border) */
+  --component-panel-padding-desktop: 28px; /** Panel padding on desktop (32px - 4px border) */
+  --component-breadcrumb-chevron-margin-left: 9px; /** Left margin for breadcrumb chevron */
+  --component-breadcrumb-chevron-margin-right: 2px; /** Right margin for breadcrumb chevron */
+  --component-breadcrumb-padding-top-mobile: 16px; /** Top padding for breadcrumb on mobile */
+  --component-breadcrumb-padding-top-desktop: 24px; /** Top padding for breadcrumb on desktop */
+  --component-summary-list-cell-padding-vertical: 8px; /** Top and bottom padding for summary list cells */
+  --component-summary-list-cell-padding-horizontal: 24px; /** Right padding for summary list cells */
+  --component-summary-list-row-margin: 16px; /** Bottom margin for summary list rows on mobile */
+  --component-disclosure-icon-offset: 20px; /** Standard spacing for disclosure component icon offset */
+  --component-disclosure-icon-size: 32px; /** Standard size for disclosure component icons */
+  --component-disclosure-icon-position-offset: 16px; /** Half icon size for centering calculations */
+  --component-icon-text-gap: 38px; /** Standard spacing between icons and adjacent text content */
+  --component-icon-text-gap-small: 26px; /** Reduced spacing for smaller screens */
+  --component-warning-icon-offset: 33px; /** Warning callout icon positioning offset */
+  --component-warning-icon-offset-mobile: 25px; /** Warning callout icon positioning offset on mobile */
+  --component-warning-icon-top: 16px; /** Warning callout icon top position */
+  --component-warning-icon-top-mobile: 8px; /** Warning callout icon top position on mobile */
+  --component-guidance-icon-size: 34px; /** Do/Don't list icon size */
+  --component-guidance-icon-position-top: 2px; /** Do/Don't list icon top position */
+  --component-guidance-icon-position-top-print: 4px; /** Do/Don't list icon top position adjustment for print */
+  --component-guidance-content-padding: 40px; /** Do/Don't list content left padding */
+  --component-guidance-content-padding-small: 32px; /** Do/Don't list content left padding on smaller screens */
+  --component-guidance-tick-size: 28px; /** Do/Don't list tick mark size */
+  --component-header-logo-min-width: 100px; /** Minimum width for header logo */
+  --component-header-logo-height: 40px; /** Standard height for header logo */
+  --component-header-search-button-width: 44px; /** Width of header search button */
+  --component-header-search-icon-size: 24px; /** Size of search icon */
+  --component-header-menu-icon-size: 28px; /** Size of mobile menu icons */
+  --component-task-padding-adjustment: 4px; /** Visual balance adjustment for task list item padding */
+  --component-tag-padding-adjustment: 2px; /** Visual balance adjustment for tag padding */
+  --component-tabs-border-width: 1px; /** Standard border width for tab elements */
+  --component-tabs-border-compensation: 1px; /** Border compensation for visual alignment */
+  --component-tabs-padding-multiplier: 1.5; /** Padding multiplier for selected tab visual enhancement */
+  --component-details: 8px; /** Details component shadow */
+  --component-navigation-dropdown-item-padding: 6px; /** Standard padding for dropdown navigation items */
+  --component-navigation-dropdown-logo-margin: 32px; /** Standard spacing for logo area in navigation */
+  --component-expander: 4px; /** Expander shadow */
+  --component-print-icon-adjustment: 4px; /** Icon position adjustment for print media */
+  --component-print-logo-height: 32px; /** Logo height for print layouts */
+  --component-spread: 4px; /** Default shadow spread */
+  --component-blur: 4px; /** Default shadow blur */
+  --component-link: 4px; /** Link shadow spread */
+  --component-pagination: 16px; /** Pagination shadow */
+  --button-primary-background-default: #007f3b; /** Primary button background color */
+  --button-primary-background-hover: #006530; /** Primary button hover background color */
+  --button-primary-background-active: #00401e; /** Primary button active background color */
+  --button-primary-background-disabled: #d8dde0; /** Primary button disabled background color */
+  --button-primary-text-default: #ffffff; /** Primary button text color */
+  --button-primary-text-disabled: #768692; /** Primary button disabled text color */
+  --button-primary-border-default: rgba(0, 0, 0, 0); /** Primary button border color */
+  --button-primary-border-focus: #ffeb3b; /** Primary button focus border color */
+  --button-secondary-background-default: rgba(0, 0, 0, 0); /** Secondary button background color */
+  --button-secondary-background-solid: #ffffff; /** Secondary button solid background color */
+  --button-secondary-background-hover: #d9e5f2; /** Secondary button hover background color */
+  --button-secondary-background-active: #c7daf0; /** Secondary button active background color */
+  --button-secondary-text-default: #005eb8; /** Secondary button text color */
+  --button-secondary-border-default: #005eb8; /** Secondary button border color */
+  --button-spacing-padding-vertical-mobile: 8px; /** Button vertical padding on mobile */
+  --button-spacing-padding-horizontal-mobile: 16px; /** Button horizontal padding on mobile */
+  --button-spacing-padding-vertical-desktop: 12px; /** Button vertical padding on desktop */
+  --button-spacing-padding-horizontal-desktop: 16px; /** Button horizontal padding on desktop */
+  --button-border-width: 2px; /** Button border width */
+  --button-border-radius: 4px; /** Button border radius */
+  --button-shadow-size: 4px; /** Button shadow size */
+  --button-typography-weight: 600; /** Button font weight */
+  --card-background-default: #ffffff; /** Default card background color */
+  --card-border-default: #d8dde0; /** Default card border color */
+  --card-border-hover: #aeb7bd; /** Card border color on hover */
+  --card-border-bottom: #f0f4f5; /** Card image bottom border color */
+  --card-text-heading: #212b32; /** Card heading text color */
+  --card-text-description: #212b32; /** Card description text color */
+  --card-text-link: #005eb8; /** Card link text color */
+  --card-spacing-padding-mobile: 16px; /** Card content padding on mobile */
+  --card-spacing-padding-desktop: 32px; /** Card content padding on desktop */
+  --card-spacing-heading-margin: 16px; /** Margin below card headings */
+  --card-border-width-default: 1px; /** Default card border width */
+  --card-border-width-bottom: 4px; /** Card bottom border width for clickable cards */
+  --card-shadow-default: none; /** Default card shadow */
+  --card-shadow-hover: 0 2px 4px rgba(0, 0, 0, 0.1); /** Card shadow on hover */
+  --form-input-background-default: #ffffff; /** Default input background color */
+  --form-input-background-focus: #ffffff; /** Input background color when focused */
+  --form-input-background-disabled: #f0f4f5; /** Input background color when disabled */
+  --form-input-background-error: #ffffff; /** Input background color in error state */
+  --form-input-border-default: #4c6272; /** Default input border color */
+  --form-input-border-focus: #ffeb3b; /** Input border color when focused */
+  --form-input-border-error: #d5281b; /** Input border color in error state */
+  --form-input-border-disabled: #aeb7bd; /** Input border color when disabled */
+  --form-input-text-default: #212b32; /** Default input text color */
+  --form-input-text-placeholder: #4c6272; /** Input placeholder text color */
+  --form-input-text-disabled: #768692; /** Input text color when disabled */
+  --form-label-text-default: #212b32; /** Form label text color */
+  --form-label-text-required: #d5281b; /** Required form label indicator color */
+  --form-label-typography-weight: 600; /** Form label font weight */
+  --form-error-text-default: #d5281b; /** Form error message text color */
+  --form-error-typography-weight: 600; /** Form error message font weight */
+  --form-hint-text-default: #4c6272; /** Form hint text color */
+  --form-spacing-input-padding: 4px; /** Internal padding for input fields */
+  --form-spacing-input-min-height: 40px; /** Minimum height for input fields */
+  --form-spacing-checkbox-size: 40px; /** Size of checkbox controls */
+  --form-spacing-checkbox-label-padding: 12px; /** Padding for checkbox labels */
+  --form-border-width-default: 2px; /** Default form element border width */
+  --form-border-width-error: 4px; /** Form element border width in error state */
+  --form-border-radius: 0px; /** Form element border radius */
+  --tag-default-background: #004c96; /** Default tag background (10% shade of NHS blue) */
+  --tag-default-border: #004c96; /** Default tag border (10% shade of NHS blue) */
+  --tag-default-text: #ffffff; /** Default tag text color */
+  --tag-white-background: #ffffff; /** White tag background */
+  --tag-white-border: #212b32; /** White tag border */
+  --tag-white-text: #212b32; /** White tag text color */
+  --tag-grey-background: #dbe0e3; /** Grey tag background (80% tint of grey-1) */
+  --tag-grey-border: #354550; /** Grey tag border (30% shade of grey-1) */
+  --tag-grey-text: #354550; /** Grey tag text color (30% shade of grey-1) */
+  --tag-green-background: #cce5d8; /** Green tag background (80% tint of NHS green) */
+  --tag-green-border: #004c23; /** Green tag border (40% shade of NHS green) */
+  --tag-green-text: #004c23; /** Green tag text color (40% shade of NHS green) */
+  --tag-aqua-green-background: #ccedeb; /** Aqua green tag background (80% tint of NHS aqua green) */
+  --tag-aqua-green-border: #00524d; /** Aqua green tag border (50% shade of NHS aqua green) */
+  --tag-aqua-green-text: #00524d; /** Aqua green tag text color (50% shade of NHS aqua green) */
+  --tag-blue-background: #ccdff1; /** Blue tag background (80% tint of NHS blue) */
+  --tag-blue-border: #004281; /** Blue tag border (30% shade of NHS blue) */
+  --tag-blue-text: #004281; /** Blue tag text color (30% shade of NHS blue) */
+  --tag-purple-background: #d6cce3; /** Purple tag background (80% tint of NHS purple) */
+  --tag-purple-border: #240050; /** Purple tag border (30% shade of NHS purple) */
+  --tag-purple-text: #240050; /** Purple tag text color (30% shade of NHS purple) */
+  --tag-pink-background: #efd3e3; /** Pink tag background (80% tint of NHS pink) */
+  --tag-pink-border: #57133a; /** Pink tag border (50% shade of NHS pink) */
+  --tag-pink-text: #57133a; /** Pink tag text color (50% shade of NHS pink) */
+  --tag-red-background: #f7d4d1; /** Red tag background (80% tint of NHS red) */
+  --tag-red-border: #6b140e; /** Red tag border (50% shade of NHS red) */
+  --tag-red-text: #6b140e; /** Red tag text color (50% shade of NHS red) */
+  --tag-orange-background: #ffdc8e; /** Orange tag background (50% tint of NHS warm yellow) */
+  --tag-orange-border: #4d3708; /** Orange tag border (70% shade of NHS warm yellow) */
+  --tag-orange-text: #4d3708; /** Orange tag text color (70% shade of NHS warm yellow) */
+  --tag-yellow-background: #fff59d; /** Yellow tag background (50% tint of NHS yellow) */
+  --tag-yellow-border: #4d4712; /** Yellow tag border (70% shade of NHS yellow) */
+  --tag-yellow-text: #4d4712; /** Yellow tag text color (70% shade of NHS yellow) */
+  --diagram-flowchart-decision-fill: #fff3e0; /** Flowchart/Mermaid decision node fill */
+  --diagram-flowchart-decision-stroke: #f57c00; /** Flowchart/Mermaid decision node border/stroke */
+  --diagram-flowchart-decision-text: #4e342e; /** Flowchart/Mermaid decision node text */
+  --diagram-flowchart-auto-fill: #e3f2fd; /** Flowchart/Mermaid automation node fill */
+  --diagram-flowchart-auto-stroke: #1976d2; /** Flowchart/Mermaid automation node border/stroke */
+  --diagram-flowchart-auto-text: #0d47a1; /** Flowchart/Mermaid automation node text */
+  --diagram-flowchart-action-fill: #e8f5e9; /** Flowchart/Mermaid action/outcome node fill */
+  --diagram-flowchart-action-stroke: #388e3c; /** Flowchart/Mermaid action/outcome node border/stroke */
+  --diagram-flowchart-action-text: #1b5e20; /** Flowchart/Mermaid action/outcome node text */
+  --diagram-flowchart-warning-fill: #ffebee; /** Flowchart/Mermaid warning node fill */
+  --diagram-flowchart-warning-stroke: #d32f2f; /** Flowchart/Mermaid warning node border/stroke */
+  --diagram-flowchart-warning-text: #b71c1c; /** Flowchart/Mermaid warning node text */
+  --diagram-mermaid-class-decision-fill: #fff3e0; /** Mermaid class decision fill alias */
+  --diagram-mermaid-class-decision-stroke: #f57c00; /** Mermaid class decision stroke alias */
+  --diagram-mermaid-class-decision-text: #4e342e; /** Mermaid class decision text alias */
+  --diagram-mermaid-class-auto-fill: #e3f2fd; /** Mermaid class automation fill alias */
+  --diagram-mermaid-class-auto-stroke: #1976d2; /** Mermaid class automation stroke alias */
+  --diagram-mermaid-class-auto-text: #0d47a1; /** Mermaid class automation text alias */
+  --diagram-mermaid-class-action-fill: #e8f5e9; /** Mermaid class action fill alias */
+  --diagram-mermaid-class-action-stroke: #388e3c; /** Mermaid class action stroke alias */
+  --diagram-mermaid-class-action-text: #1b5e20; /** Mermaid class action text alias */
+  --diagram-mermaid-class-warning-fill: #ffebee; /** Mermaid class warning fill alias */
+  --diagram-mermaid-class-warning-stroke: #d32f2f; /** Mermaid class warning stroke alias */
+  --diagram-mermaid-class-warning-text: #b71c1c; /** Mermaid class warning text alias */
+  --size-icon-small: 16px; /** Small icon size */
+  --size-icon-medium: 18px; /** Medium icon size (breadcrumb chevrons) */
+  --size-icon-large: 24px; /** Large icon size (back links) */
+  --size-icon-extra-large: 32px; /** Extra large icon size */
+  --size-icon-nhs-default: 34px; /** Default NHS icon size */
+  --size-form-control-small: 32px; /** Small form control size */
+  --size-form-control-medium: 40px; /** Medium form control size (default) */
+  --size-form-control-large: 48px; /** Large form control size */
+  --size-form-input-width-xs: 5.4ex; /** Extra small input width (2 characters) */
+  --size-form-input-width-sm: 7.2ex; /** Small input width (3 characters) */
+  --size-form-input-width-md: 9ex; /** Medium input width (4 characters) */
+  --size-form-input-width-lg: 10.8ex; /** Large input width (5 characters) */
+  --size-form-input-width-xl: 20ex; /** Extra large input width (10 characters) */
+  --size-form-input-width-2xl: 38ex; /** 2XL input width (20 characters) */
+  --size-form-input-width-3xl: 56ex; /** 3XL input width (30 characters) */
+  --size-button-min-height-mobile: 44px; /** Minimum button height on mobile for touch targets */
+  --size-button-min-height-desktop: 40px; /** Minimum button height on desktop */
+  --layout-container-max-width: 1020px; /** Maximum container width */
+  --layout-column-full: 100%; /** Full width column */
+  --layout-column-half: 50%; /** Half width column */
+  --layout-column-third: 33.333%; /** One third width column */
+  --layout-column-quarter: 25%; /** Quarter width column */
+  --layout-column-actions: 20%; /** Actions column width in summary lists */
+  --layout-margin-negative-thin: -1px; /** Negative margin for border compensation */
+  --layout-margin-negative-standard: -2px; /** Standard negative margin for visual alignment */
+  --layout-gap-minimal: 1px; /** Minimal gap between elements */
+  --layout-gap-small: 6px; /** Small gap for tight layouts */
+  --breakpoint-small: 320px; /** Small devices (mobile phones) */
+  --breakpoint-small-max: 767px; /** Maximum width for small devices */
+  --breakpoint-medium: 768px; /** Medium devices (tablets and small laptops) */
+  --breakpoint-large: 1025px; /** Large devices (desktops) */
+  --breakpoint-xlarge: 1200px; /** Extra large devices (large desktops) */
+  --breakpoint-xxlarge: 1440px; /** Extra extra large devices (ultra-wide screens) */
+  --grid-page-width: 960px; /** Maximum page width */
+  --grid-gutter: 32px; /** Grid gutter width */
+  --grid-gutter-half: 16px; /** Half grid gutter width */
+  --gradient-metric-card-primary: linear-gradient(135deg, rgba(0,94,184,0.05), #ffffff); /** Primary metric card subtle wash (NHS Blue 5% → White) */
+  --gradient-metric-card-secondary: linear-gradient(135deg, rgba(136,15,184,0.06), #ffffff); /** Secondary metric card subtle wash (Light Purple 6% → White) */
+  --gradient-metric-card-accent: linear-gradient(135deg, rgba(255,184,28,0.10), #ffffff); /** Accent metric card subtle wash (Warm Yellow 10% → White) */
+  --gradient-metric-card-success: linear-gradient(135deg, rgba(0,164,153,0.10), #ffffff); /** Success metric card subtle wash (Aqua Green 10% → White) */
+  --gradient-metric-card-warning: linear-gradient(135deg, rgba(237,79,0,0.10), #ffffff); /** Warning metric card subtle wash (Tangerine 10% → White) */
+  --gradient-metric-card-error: linear-gradient(135deg, rgba(213,40,27,0.10), #ffffff); /** Error metric card subtle wash (NHS Red 10% → White) */
+  --gradient-palette-white-to-light-blue: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,94,184,0.10) 88%, rgba(0,94,184,0.60) 96%, rgba(0,94,184,1) 100%); /** Predominantly white wash fading into NHS Blue (smooth vertical) */
+  --gradient-palette-white-to-dark-blue: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,48,135,0.10) 88%, rgba(0,48,135,0.60) 96%, rgba(0,48,135,1) 100%); /** Predominantly white wash fading into NHS Dark Blue (smooth vertical) */
+  --gradient-palette-white-to-purple: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(172,152,203,0.22) 88%, rgba(172,152,203,0.60) 96%, rgba(172,152,203,1) 100%); /** Predominantly white wash fading into Purple (smooth vertical) */
+  --gradient-palette-white-to-green: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(0,127,59,0.20) 88%, rgba(0,127,59,0.60) 96%, rgba(0,127,59,1) 100%); /** Predominantly white wash fading into NHS Green (smooth vertical) */
+  --gradient-palette-white-to-grey: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.96) 40%, rgba(255,255,255,0.90) 65%, rgba(255,255,255,0.82) 78%, rgba(76,98,114,0.20) 88%, rgba(76,98,114,0.60) 96%, rgba(76,98,114,1) 100%); /** Predominantly white wash fading into NHS Dark Grey (smooth vertical) */
+  --gradient-palette-light-blue: linear-gradient(90deg, #005eb8, #60b2e2); /** Light Blue gradient (NHS Blue → #60b2e2) */
+  --gradient-palette-light-blue-vertical: linear-gradient(180deg, #005eb8, #60b2e2); /** Light Blue gradient vertical (top→bottom) */
+  --gradient-palette-light-blue-diagonal: linear-gradient(135deg, #005eb8, #60b2e2); /** Light Blue gradient diagonal */
+  --gradient-palette-light-blue-45deg: linear-gradient(45deg, #005eb8, #60b2e2); /** Light Blue gradient at 45deg */
+  --gradient-palette-light-blue-270deg: linear-gradient(270deg, #005eb8, #60b2e2); /** Light Blue gradient at 270deg (horizontal) */
+  --gradient-palette-light-blue-from-top-left: linear-gradient(to bottom right, #005eb8, #60b2e2); /** Light Blue gradient from top-left corner */
+  --gradient-palette-light-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #60b2e2); /** Light Blue gradient from top-right corner */
+  --gradient-palette-light-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #60b2e2); /** Light Blue gradient from bottom-left corner */
+  --gradient-palette-light-blue-from-bottom-right: linear-gradient(to top left, #005eb8, #60b2e2); /** Light Blue gradient from bottom-right corner */
+  --gradient-palette-dark-blue: linear-gradient(90deg, #005eb8, #003087); /** Dark Blue gradient (NHS Blue → NHS Dark Blue) */
+  --gradient-palette-dark-blue-vertical: linear-gradient(180deg, #005eb8, #003087); /** Dark Blue gradient vertical (top→bottom) */
+  --gradient-palette-dark-blue-diagonal: linear-gradient(135deg, #005eb8, #003087); /** Dark Blue gradient diagonal */
+  --gradient-palette-dark-blue-45deg: linear-gradient(45deg, #005eb8, #003087); /** Dark Blue gradient at 45deg */
+  --gradient-palette-dark-blue-270deg: linear-gradient(270deg, #005eb8, #003087); /** Dark Blue gradient at 270deg (horizontal) */
+  --gradient-palette-dark-blue-from-top-left: linear-gradient(to bottom right, #005eb8, #003087); /** Dark Blue gradient from top-left corner */
+  --gradient-palette-dark-blue-from-top-right: linear-gradient(to bottom left, #005eb8, #003087); /** Dark Blue gradient from top-right corner */
+  --gradient-palette-dark-blue-from-bottom-left: linear-gradient(to top right, #005eb8, #003087); /** Dark Blue gradient from bottom-left corner */
+  --gradient-palette-dark-blue-from-bottom-right: linear-gradient(to top left, #005eb8, #003087); /** Dark Blue gradient from bottom-right corner */
+  --gradient-palette-purple: linear-gradient(90deg, #ac98cb, #d6cce3); /** Purple gradient (#ac98cb → NHS Purple 20% tint) */
+  --gradient-palette-purple-vertical: linear-gradient(180deg, #ac98cb, #d6cce3); /** Purple gradient vertical (top→bottom) */
+  --gradient-palette-purple-diagonal: linear-gradient(135deg, #ac98cb, #d6cce3); /** Purple gradient diagonal */
+  --gradient-palette-purple-45deg: linear-gradient(45deg, #ac98cb, #d6cce3); /** Purple gradient at 45deg */
+  --gradient-palette-purple-270deg: linear-gradient(270deg, #ac98cb, #d6cce3); /** Purple gradient at 270deg (horizontal) */
+  --gradient-palette-purple-from-top-left: linear-gradient(to bottom right, #ac98cb, #d6cce3); /** Purple gradient from top-left corner */
+  --gradient-palette-purple-from-top-right: linear-gradient(to bottom left, #ac98cb, #d6cce3); /** Purple gradient from top-right corner */
+  --gradient-palette-purple-from-bottom-left: linear-gradient(to top right, #ac98cb, #d6cce3); /** Purple gradient from bottom-left corner */
+  --gradient-palette-purple-from-bottom-right: linear-gradient(to top left, #ac98cb, #d6cce3); /** Purple gradient from bottom-right corner */
+  --gradient-palette-green: linear-gradient(90deg, #007f3b, #63a691); /** Green gradient (NHS Green → NHS Dark Green 60% tint) */
+  --gradient-palette-green-vertical: linear-gradient(180deg, #007f3b, #63a691); /** Green gradient vertical (top→bottom) */
+  --gradient-palette-green-diagonal: linear-gradient(135deg, #007f3b, #63a691); /** Green gradient diagonal */
+  --gradient-palette-green-45deg: linear-gradient(45deg, #007f3b, #63a691); /** Green gradient at 45deg */
+  --gradient-palette-green-270deg: linear-gradient(270deg, #007f3b, #63a691); /** Green gradient at 270deg (horizontal) */
+  --gradient-palette-green-from-top-left: linear-gradient(to bottom right, #007f3b, #63a691); /** Green gradient from top-left corner */
+  --gradient-palette-green-from-top-right: linear-gradient(to bottom left, #007f3b, #63a691); /** Green gradient from top-right corner */
+  --gradient-palette-green-from-bottom-left: linear-gradient(to top right, #007f3b, #63a691); /** Green gradient from bottom-left corner */
+  --gradient-palette-green-from-bottom-right: linear-gradient(to top left, #007f3b, #63a691); /** Green gradient from bottom-right corner */
+  --gradient-palette-grey: linear-gradient(90deg, #4c6272, #768692); /** Grey gradient (NHS Dark Grey → NHS Mid Grey) */
+  --gradient-palette-grey-vertical: linear-gradient(180deg, #4c6272, #768692); /** Grey gradient vertical (top→bottom) */
+  --gradient-palette-grey-diagonal: linear-gradient(135deg, #4c6272, #768692); /** Grey gradient diagonal */
+  --gradient-palette-grey-45deg: linear-gradient(45deg, #4c6272, #768692); /** Grey gradient at 45deg */
+  --gradient-palette-grey-270deg: linear-gradient(270deg, #4c6272, #768692); /** Grey gradient at 270deg (horizontal) */
+  --gradient-palette-grey-from-top-left: linear-gradient(to bottom right, #4c6272, #768692); /** Grey gradient from top-left corner */
+  --gradient-palette-grey-from-top-right: linear-gradient(to bottom left, #4c6272, #768692); /** Grey gradient from top-right corner */
+  --gradient-palette-grey-from-bottom-left: linear-gradient(to top right, #4c6272, #768692); /** Grey gradient from bottom-left corner */
+  --gradient-palette-grey-from-bottom-right: linear-gradient(to top left, #4c6272, #768692); /** Grey gradient from bottom-right corner */
+  --semantic-intent-hover-primary: darken(#007f3b, 10%); /** Primary intent hover state - darker NHS Green */
+  --semantic-intent-hover-secondary: darken(#005eb8, 10%); /** Secondary intent hover state - darker NHS Blue */
+  --semantic-intent-hover-warning: darken(#d5281b, 10%); /** Warning intent hover state - darker NHS Red */
+  --semantic-intent-active-primary: darken(#007f3b, 20%); /** Primary intent active state - much darker NHS Green */
+  --semantic-intent-active-secondary: darken(#005eb8, 20%); /** Secondary intent active state - much darker NHS Blue */
+  --semantic-intent-active-warning: darken(#d5281b, 20%); /** Warning intent active state - much darker NHS Red */
+  --semantic-intent-light-primary: lighten(#007f3b, 40%); /** Light primary intent - for backgrounds and subtle states */
+  --semantic-intent-light-secondary: lighten(#005eb8, 40%); /** Light secondary intent - for backgrounds and subtle states */
+  --semantic-intent-light-warning: lighten(#d5281b, 40%); /** Light warning intent - for backgrounds and subtle states */
+  --semantic-context-form-background-error: lighten(#d5281b, 40%); /** Error form background - uses light warning intent */
+  --semantic-context-form-background-success: lighten(#007f3b, 40%); /** Success form background - uses light primary intent */
+  --semantic-context-form-background-default: #ffffff; /** Default form background */
+  --semantic-context-form-background-disabled: #d8dde0; /** Disabled form background */
+  --semantic-context-form-background-readonly: #e8edee; /** Read-only form background */
+  --semantic-context-form-border-default: #4c6272; /** Default form border color - calm and accessible */
+  --semantic-context-form-border-focus: #005eb8; /** Form focus border - uses secondary intent for consistency */
+  --semantic-context-form-border-error: #d5281b; /** Form error border - uses warning intent */
+  --semantic-context-form-border-success: #007f3b; /** Form success border - uses success intent */
+  --semantic-context-form-text-default: #212b32; /** Default form text color - high contrast */
+  --semantic-context-form-text-placeholder: #768692; /** Form placeholder text - reduced contrast but readable */
+  --semantic-context-form-text-disabled: #768692; /** Disabled form text */
+  --semantic-context-form-text-error: #d5281b; /** Form error text color */
+  --semantic-context-navigation-background-header: #005eb8; /** Header navigation background - NHS Blue */
+  --semantic-context-navigation-background-footer: #005eb8; /** Footer navigation background - consistent with header */
+  --semantic-context-navigation-background-sidebar: #ffffff; /** Sidebar navigation background */
+  --semantic-context-navigation-text-primary: #ffffff; /** Primary navigation text - high contrast on blue */
+  --semantic-context-navigation-text-secondary: rgba(255, 255, 255, 0.8); /** Secondary navigation text - slightly transparent */
+  --semantic-context-navigation-text-active: #ffeb3b; /** Active navigation text - NHS Yellow for visibility */
+  --semantic-context-navigation-accent-hover: rgba(255, 255, 255, 0.1); /** Navigation hover accent - subtle overlay */
+  --semantic-context-navigation-accent-active: rgba(255, 255, 255, 0.2); /** Navigation active accent - stronger overlay */
+  --semantic-context-navigation-accent-border: #ffeb3b; /** Navigation accent border - NHS Yellow */
+  --semantic-context-content-background-primary: #ffffff; /** Primary content background */
+  --semantic-context-content-background-secondary: #d8dde0; /** Secondary content background - for panels and asides */
+  --semantic-context-content-background-elevated: #ffffff; /** Elevated content background - for cards and modals */
+  --semantic-context-content-text-primary: #212b32; /** Primary content text - maximum readability */
+  --semantic-context-content-text-secondary: #4c6272; /** Secondary content text - for supporting information */
+  --semantic-context-content-text-tertiary: #768692; /** Tertiary content text - for captions and metadata */
+  --semantic-context-content-accent-link: #005eb8; /** Content link color - uses secondary intent */
+  --semantic-context-content-accent-highlight: #ffeb3b; /** Content highlight color - NHS Yellow */
+  --semantic-context-content-accent-border: #e8edee; /** Content border color - subtle separation */
+  --semantic-intent-primary: #007f3b; /** Primary intent color - NHS Green for main actions and success states */
+  --semantic-intent-secondary: #005eb8; /** Secondary intent color - NHS Blue for secondary actions and information */
+  --semantic-intent-warning: #d5281b; /** Warning intent color - NHS Red for errors and dangerous actions */
+  --semantic-intent-success: #007f3b; /** Success intent color - derived from primary for consistency */
+  --semantic-intent-neutral: #4c6272; /** Neutral intent color - for disabled states and subtle actions */
+  --semantic-intent-info: #005eb8; /** Information intent color - for informational content */
+  --semantic-surface-elevation-0: #ffffff; /** Base surface - no elevation */
+  --semantic-surface-elevation-1: #ffffff; /** Low elevation surface - cards */
+  --semantic-surface-elevation-2: #ffffff; /** Medium elevation surface - dialogs */
+  --semantic-surface-elevation-3: #ffffff; /** High elevation surface - tooltips */
+  --semantic-surface-interactive-default: #ffffff; /** Default interactive surface */
+  --semantic-surface-interactive-hover: #d8dde0; /** Hover interactive surface - subtle change */
+  --semantic-surface-interactive-active: #e8edee; /** Active interactive surface - more pronounced */
+  --semantic-surface-interactive-selected: rgba(0, 94, 184, 0.1); /** Selected interactive surface - NHS Blue tint */
+  --semantic-data-viz-series-1: #005eb8;
+  --semantic-data-viz-series-2: #41b6e6;
+  --semantic-data-viz-series-3: #00a499;
+  --semantic-data-viz-series-4: #78be20;
+  --semantic-data-viz-series-5: #007f3b;
+  --semantic-data-viz-series-6: #ffb81c;
+  --semantic-data-viz-series-7: #ed4f00;
+  --semantic-data-viz-series-8: #ae2573;
+  --semantic-data-viz-series-9: #e317aa;
+  --semantic-data-viz-series-10: #880fb8;
+  --semantic-data-viz-series-11: #330072;
+  --semantic-data-viz-series-12: #9a6324;
+  --semantic-data-viz-region-north-east: #005eb8;
+  --semantic-data-viz-region-north-west: #41b6e6;
+  --semantic-data-viz-region-east-of-england: #330072;
+  --semantic-data-viz-region-midlands: #ae2573;
+  --semantic-data-viz-region-london: #78be21;
+  --semantic-data-viz-region-south-west: #fae100;
+  --semantic-data-viz-region-south-east: #ed8b00;
+  --semantic-data-viz-severity-low: #fff9c4;
+  --semantic-data-viz-severity-moderate: #ffb81c;
+  --semantic-data-viz-severity-high: #ed8b00;
+  --semantic-data-viz-severity-critical: #d5281b;
+  --semantic-data-viz-org-level-trust: #005eb8;
+  --semantic-data-viz-org-level-ambulance: #007f3b;
+  --semantic-data-viz-org-level-icb: #7c2855;
+  --semantic-data-viz-org-level-region: #330072;
+  --semantic-data-viz-stroke-series-1: #ffffff;
+  --semantic-data-viz-stroke-series-2: #212b32;
+  --semantic-data-viz-stroke-series-3: #212b32;
+  --semantic-data-viz-stroke-series-4: #212b32;
+  --semantic-data-viz-stroke-series-5: #ffffff;
+  --semantic-data-viz-stroke-series-6: #212b32;
+  --semantic-data-viz-stroke-series-7: #ffffff;
+  --semantic-data-viz-stroke-series-8: #ffffff;
+  --semantic-data-viz-stroke-series-9: #ffffff;
+  --semantic-data-viz-stroke-series-10: #ffffff;
+  --semantic-data-viz-stroke-series-11: #ffffff;
+  --semantic-data-viz-stroke-series-12: #ffffff;
+  --semantic-data-viz-stroke-region-north-east: #5996d1;
+  --semantic-data-viz-stroke-region-north-west: #3189ad;
+  --semantic-data-viz-stroke-region-east-of-england: #7a59a3;
+  --semantic-data-viz-stroke-region-midlands: #ca71a4;
+  --semantic-data-viz-stroke-region-london: #5a8f19;
+  --semantic-data-viz-stroke-region-south-west: #bca900;
+  --semantic-data-viz-stroke-region-south-east: #b26800;
+  --semantic-data-viz-stroke-severity-low: #212b32;
+  --semantic-data-viz-stroke-severity-moderate: #212b32;
+  --semantic-data-viz-stroke-severity-high: #212b32;
+  --semantic-data-viz-stroke-severity-critical: #ffffff;
+  --semantic-data-viz-stroke-org-level-trust: #ffffff;
+  --semantic-data-viz-stroke-org-level-ambulance: #ffffff;
+  --semantic-data-viz-stroke-org-level-icb: #ffffff;
+  --semantic-data-viz-stroke-org-level-region: #ffffff;
+  --semantic-relationship-parent-child-card-background: #ffffff; /** Card background - base elevation */
+  --semantic-relationship-parent-child-card-content-background: calculated-lighten(#ffffff, 2%); /** Card content background - slightly lighter than parent */
+  --semantic-relationship-parent-child-card-content-text: auto-contrast(calculated-lighten(#ffffff, 2%)); /** Card content text - auto-calculated contrast */
+  --semantic-relationship-parent-child-card-header-background: calculated-darken(#ffffff, 3%); /** Card header background - slightly darker than parent */
+  --semantic-relationship-parent-child-card-header-text: auto-contrast(calculated-darken(#ffffff, 3%)); /** Card header text - auto-calculated contrast */
+  --semantic-relationship-parent-child-panel-background: #ffffff; /** Panel background - base elevation */
+  --semantic-relationship-parent-child-panel-border: calculated-darken(#ffffff, 15%); /** Panel border - darker than background for definition */
+  --semantic-relationship-parent-child-panel-content-text: auto-contrast(#ffffff); /** Panel content text - optimal contrast */
+  --semantic-relationship-state-propagation-interactive-default: #007f3b; /** Default interactive state */
+  --semantic-relationship-state-propagation-interactive-hover: calculated-darken(#007f3b, 10%); /** Hover state - automatically 10% darker */
+  --semantic-relationship-state-propagation-interactive-active: calculated-darken(#007f3b, 20%); /** Active state - automatically 20% darker */
+  --semantic-relationship-state-propagation-interactive-disabled: calculated-fade(#007f3b, 40%); /** Disabled state - automatically 40% opacity */
+  --semantic-relationship-state-propagation-button-primary-background: #007f3b; /** Primary button background */
+  --semantic-relationship-state-propagation-button-primary-hover: calculated-darken(#007f3b, 10%); /** Primary button hover - 10% darker */
+  --semantic-relationship-state-propagation-button-primary-active: calculated-darken(#007f3b, 20%); /** Primary button active - 20% darker */
+  --semantic-relationship-state-propagation-button-secondary-background: rgba(0, 0, 0, 0); /** Secondary button background */
+  --semantic-relationship-state-propagation-button-secondary-border: #005eb8; /** Secondary button border */
+  --semantic-relationship-state-propagation-button-secondary-hover: calculated-tint(#005eb8, 90%); /** Secondary button hover - light tint */
+  --semantic-color-text-primary: #212b32; /** Primary text color */
+  --semantic-color-text-secondary: #4c6272; /** Secondary text color */
+  --semantic-color-text-reverse: #ffffff; /** Reverse/inverted text color */
+  --semantic-color-text-print: #212b32; /** Print text color */
+  --semantic-color-link-default: #005eb8; /** Default link color */
+  --semantic-color-link-hover: #7c2855; /** Link hover color */
+  --semantic-color-link-active: #003087; /** Link active color (50% shade of blue) */
+  --semantic-color-link-visited: #330072; /** Visited link color */
+  --semantic-color-focus-background: #ffeb3b; /** Focus background color */
+  --semantic-color-focus-text: #212b32; /** Focus text color */
+  --semantic-color-border-default: #d8dde0; /** Default border color */
+  --semantic-color-border-secondary: rgba(255, 255, 255, 0.2); /** Secondary border color */
+  --semantic-color-error: #d5281b; /** Error color */
+  --semantic-color-form-border: #4c6272; /** Form border color */
+  --semantic-color-form-background: #ffffff; /** Form background color */
+  --semantic-color-hover-subtle: #e8edee; /** Subtle background hover for interactive list items */
+  --semantic-color-hover-header-link: #3a71a6; /** Header link hover color (slightly lighter than NHS Blue) */
+  --semantic-color-active-header-link: #002c5c; /** Header link active color (darker than NHS Blue) */
+  --semantic-color-button-primary-background: #007f3b;
+  --semantic-color-button-primary-text: #ffffff;
+  --semantic-color-button-primary-hover: #006530; /** 20% shade of green */
+  --semantic-color-button-primary-active: #00401e; /** 50% shade of green */
+  --semantic-color-button-primary-shadow: #00401e; /** 50% shade of green */
+  --semantic-color-button-secondary-background: rgba(0, 0, 0, 0);
+  --semantic-color-button-secondary-background-solid: #ffffff;
+  --semantic-color-button-secondary-border: #005eb8;
+  --semantic-color-button-secondary-text: #005eb8;
+  --semantic-color-button-secondary-hover: #d9e5f2; /** 85% tint of blue */
+  --semantic-color-button-secondary-active: #c7daf0; /** 78% tint of blue */
+  --semantic-color-button-secondary-shadow: #005eb8;
+  --semantic-color-button-reverse-background: #ffffff;
+  --semantic-color-button-reverse-text: #212b32;
+  --semantic-color-button-reverse-hover: #d9dde0; /** 15% shade of white */
+  --semantic-color-button-reverse-active: #b3bcc2; /** 30% shade of white */
+  --semantic-color-button-reverse-shadow: #b3bcc2;
+  --semantic-color-button-warning-background: #d5281b;
+  --semantic-color-button-warning-hover: #aa2016; /** 20% shade of red */
+  --semantic-color-button-warning-active: #6a140e; /** 50% shade of red */
+  --semantic-color-button-warning-shadow: #6a140e;
+  --semantic-color-button-login-background: #005eb8;
+  --semantic-color-button-login-hover: #004b93; /** 20% shade of blue */
+  --semantic-color-button-login-active: #002f5c; /** 50% shade of blue */
+  --semantic-color-button-login-shadow: #002f5c;
+  --shadow-button-default: 0 4px 0 #00401e; /** Default button shadow */
+  --shadow-button-secondary: 0 4px 0 #005eb8; /** Secondary button shadow */
+  --shadow-button-warning: 0 4px 0 #6a140e; /** Warning button shadow */
+  --shadow-button-focus: 0 4px 0 #ffeb3b; /** Button shadow when focused */
+  --shadow-card-default: none; /** Default card shadow (none for NHS style) */
+  --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.1); /** Card shadow on hover (if needed) */
+  --focus-outline-width: 4px; /** Focus outline width */
+  --focus-outline-offset: 0px; /** Focus outline offset */
+  --focus-outline-style: solid; /** Focus outline style */
+  --focus-shadow-input: 0 0 0 3px #ffeb3b; /** Focus shadow for input elements */
+  --focus-shadow-button: 0 0 0 3px #ffeb3b; /** Focus shadow for buttons */
+  --focus-shadow-link-pattern: 0 -2px #ffeb3b, 0 4px #212b32; /** Standard link focus shadow pattern */
+  --focus-box-shadow-offset-top: -2px; /** Top offset for focus box shadow */
+  --focus-box-shadow-offset-bottom: 4px; /** Bottom offset for focus box shadow */
+  --elevation-none: none; /** No elevation */
+  --elevation-low: 0 1px 3px rgba(0, 0, 0, 0.12); /** Low elevation shadow */
+  --elevation-medium: 0 2px 6px rgba(0, 0, 0, 0.16); /** Medium elevation shadow */
+  --elevation-high: 0 4px 12px rgba(0, 0, 0, 0.20); /** High elevation shadow */
+  --spacing-0: 0; /** No spacing */
+  --spacing-1: 4px; /** Extra small spacing */
+  --spacing-2: 8px; /** Small spacing */
+  --spacing-3: 16px; /** Medium spacing */
+  --spacing-4: 24px; /** Large spacing */
+  --spacing-5: 32px; /** Large spacing */
+  --spacing-6: 40px; /** 2XL spacing */
+  --spacing-7: 48px; /** 3XL spacing */
+  --spacing-8: 56px; /** 4XL spacing */
+  --spacing-9: 64px; /** 5XL spacing */
+  --spacing-responsive-0-mobile: 0;
+  --spacing-responsive-0-tablet: 0;
+  --spacing-responsive-1-mobile: 4px;
+  --spacing-responsive-1-tablet: 4px;
+  --spacing-responsive-2-mobile: 8px;
+  --spacing-responsive-2-tablet: 8px;
+  --spacing-responsive-3-mobile: 8px;
+  --spacing-responsive-3-tablet: 16px;
+  --spacing-responsive-4-mobile: 16px;
+  --spacing-responsive-4-tablet: 24px;
+  --spacing-responsive-5-mobile: 24px;
+  --spacing-responsive-5-tablet: 32px;
+  --spacing-responsive-6-mobile: 32px;
+  --spacing-responsive-6-tablet: 40px;
+  --spacing-responsive-7-mobile: 40px;
+  --spacing-responsive-7-tablet: 48px;
+  --spacing-responsive-8-mobile: 48px;
+  --spacing-responsive-8-tablet: 56px;
+  --spacing-responsive-9-mobile: 56px;
+  --spacing-responsive-9-tablet: 64px;
+  --theme-light-semantic-intent-primary: #007f3b; /** Light theme primary - NHS Green */
+  --theme-light-semantic-intent-secondary: #005eb8; /** Light theme secondary - NHS Blue */
+  --theme-light-semantic-intent-warning: #d5281b; /** Light theme warning - NHS Red */
+  --theme-light-semantic-intent-success: #007f3b; /** Light theme success - NHS Green */
+  --theme-light-semantic-intent-neutral: #4c6272; /** Light theme neutral - Dark grey */
+  --theme-light-semantic-intent-info: #005eb8; /** Light theme info - NHS Blue */
+  --theme-light-semantic-surface-background-primary: #ffffff; /** Light theme primary background */
+  --theme-light-semantic-surface-background-secondary: #f0f4f5; /** Light theme secondary background */
+  --theme-light-semantic-surface-background-elevated: #ffffff; /** Light theme elevated surface (cards, modals) */
+  --theme-light-semantic-surface-text-primary: #212b32; /** Light theme primary text - high contrast */
+  --theme-light-semantic-surface-text-secondary: #4c6272; /** Light theme secondary text */
+  --theme-light-semantic-surface-text-tertiary: #768692; /** Light theme tertiary text - captions */
+  --theme-light-semantic-surface-text-inverse: #ffffff; /** Light theme inverse text - for dark backgrounds */
+  --theme-light-semantic-surface-border-default: #d8dde0; /** Light theme default border */
+  --theme-light-semantic-surface-border-subtle: #f0f4f5; /** Light theme subtle border */
+  --theme-light-semantic-surface-border-strong: #768692; /** Light theme strong border */
+  --theme-dark-semantic-intent-primary: lighten(#007f3b, 20%); /** Dark theme primary - lighter NHS Green for contrast */
+  --theme-dark-semantic-intent-secondary: lighten(#005eb8, 25%); /** Dark theme secondary - lighter NHS Blue for contrast */
+  --theme-dark-semantic-intent-warning: lighten(#d5281b, 15%); /** Dark theme warning - lighter NHS Red for contrast */
+  --theme-dark-semantic-intent-success: lighten(#007f3b, 20%); /** Dark theme success - lighter NHS Green */
+  --theme-dark-semantic-intent-neutral: #aeb7bd; /** Dark theme neutral - Medium grey for contrast */
+  --theme-dark-semantic-intent-info: lighten(#005eb8, 25%); /** Dark theme info - lighter NHS Blue */
+  --theme-dark-semantic-surface-background-primary: darken(#212b32, 5%); /** Dark theme primary background - very dark */
+  --theme-dark-semantic-surface-background-secondary: lighten(#212b32, 8%); /** Dark theme secondary background - slightly lighter */
+  --theme-dark-semantic-surface-background-elevated: lighten(#212b32, 12%); /** Dark theme elevated surface - cards, modals */
+  --theme-dark-semantic-surface-text-primary: fade(#ffffff, 95%); /** Dark theme primary text - high contrast white */
+  --theme-dark-semantic-surface-text-secondary: fade(#ffffff, 80%); /** Dark theme secondary text - medium contrast */
+  --theme-dark-semantic-surface-text-tertiary: fade(#ffffff, 60%); /** Dark theme tertiary text - low contrast */
+  --theme-dark-semantic-surface-text-inverse: #212b32; /** Dark theme inverse text - for light backgrounds */
+  --theme-dark-semantic-surface-border-default: fade(#ffffff, 20%); /** Dark theme default border - subtle white */
+  --theme-dark-semantic-surface-border-subtle: fade(#ffffff, 10%); /** Dark theme subtle border - very light white */
+  --theme-dark-semantic-surface-border-strong: fade(#ffffff, 40%); /** Dark theme strong border - more visible white */
+  --font-family-base: 'Frutiger W01'; /** Primary NHS font family */
+  --font-family-fallback: Arial, sans-serif; /** Fallback fonts if Frutiger fails to load */
+  --font-family-print: sans-serif; /** Font family for print styles */
+  --font-weight-normal: 400; /** Normal font weight */
+  --font-weight-bold: 600; /** Bold font weight */
+  --font-weight-light: 400; /** Light font weight (same as normal) */
+  --font-size-14-desktop: 14px;
+  --font-size-14-mobile: 12px;
+  --font-size-14-tablet: 14px;
+  --font-size-14-print: 12pt;
+  --font-size-16-desktop: 16px;
+  --font-size-16-mobile: 14px;
+  --font-size-16-tablet: 16px;
+  --font-size-16-print: 12pt;
+  --font-size-19-desktop: 19px;
+  --font-size-19-mobile: 16px;
+  --font-size-19-tablet: 19px;
+  --font-size-19-print: 13pt;
+  --font-size-22-desktop: 22px;
+  --font-size-22-mobile: 19px;
+  --font-size-22-tablet: 22px;
+  --font-size-22-print: 15pt;
+  --font-size-26-desktop: 26px;
+  --font-size-26-mobile: 22px;
+  --font-size-26-tablet: 26px;
+  --font-size-26-print: 17pt;
+  --font-size-36-desktop: 36px;
+  --font-size-36-mobile: 27px;
+  --font-size-36-tablet: 36px;
+  --font-size-36-print: 20pt;
+  --font-size-48-desktop: 48px;
+  --font-size-48-mobile: 33px;
+  --font-size-48-tablet: 48px;
+  --font-size-48-print: 24pt;
+  --font-size-base: 16px; /** Base font size */
+  --font-line-height-14-desktop: 24px;
+  --font-line-height-14-mobile: 20px;
+  --font-line-height-14-tablet: 24px;
+  --font-line-height-14-print: 1.3;
+  --font-line-height-16-desktop: 24px;
+  --font-line-height-16-mobile: 24px;
+  --font-line-height-16-tablet: 24px;
+  --font-line-height-16-print: 1.3;
+  --font-line-height-19-desktop: 24px;
+  --font-line-height-19-mobile: 24px;
+  --font-line-height-19-tablet: 28px;
+  --font-line-height-19-print: 1.25;
+  --font-line-height-22-desktop: 30px;
+  --font-line-height-22-mobile: 27px;
+  --font-line-height-22-tablet: 30px;
+  --font-line-height-22-print: 1.25;
+  --font-line-height-26-desktop: 32px;
+  --font-line-height-26-mobile: 29px;
+  --font-line-height-26-tablet: 32px;
+  --font-line-height-26-print: 1.25;
+  --font-line-height-36-desktop: 42px;
+  --font-line-height-36-mobile: 33px;
+  --font-line-height-36-tablet: 42px;
+  --font-line-height-36-print: 1.2;
+  --font-line-height-48-desktop: 54px;
+  --font-line-height-48-mobile: 38px;
+  --font-line-height-48-tablet: 54px;
+  --font-line-height-48-print: 1.15;
+  --font-line-height-base: 24px; /** Base line height */
+  --font-size-clamp-small: clamp(0.8125rem, 0.25vw + 0.75rem, 0.9rem); /** ~13px → ~14.4px */
+  --font-size-clamp-body: clamp(1rem, 0.6vw + 0.9rem, 1.1875rem); /** 16px → 19px */
+  --font-size-clamp-lead: clamp(1.0625rem, 0.9vw + 0.9rem, 1.375rem); /** ~17px → 22px */
+  --font-size-clamp-display: clamp(1.5rem, 1.8vw + 1.1rem, 2.25rem); /** 24px → 36px */
+  --font-size-clamp-hero: clamp(2rem, 2.4vw + 1.2rem, 3rem); /** 32px → 48px */
+  --font-letter-spacing-tight: -0.005em; /** Slightly tighter for large headings */
+  --font-letter-spacing-normal: 0; /** Default tracking */
+  --font-letter-spacing-wide: +0.02em; /** For UI labels or meta text */
+  --font-letter-spacing-caps: +0.06em; /** All-caps labels */
+  --font-line-height-unitless-small: 1.45;
+  --font-line-height-unitless-body: 1.5;
+  --font-line-height-unitless-lead: 1.45;
+  --font-line-height-unitless-display: 1.2;
+  --font-line-height-unitless-hero: 1.15;
+}

@@ -1,0 +1,86 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import RunChart, { RunChartColor } from './RunChart';
+
+<Meta title="Data Visualisation/RunChart/Documentation" />
+
+# RunChart
+
+A RunChart is a simple time-series line chart that uses the median as a baseline. It’s useful in early monitoring when you have too few points for stable SPC (Shewhart) limits and rules. As more observations accumulate, transition to SPC to interpret changes with statistically derived limits and established special-cause rules.
+
+## When to use
+
+Use a RunChart when:
+- You’re just starting to collect data (typically fewer than 12–20 points)
+- You need a quick view for conversations about data quality and early patterns
+- You want to show a median baseline and (optionally) provisional run rules hints for trend/shift education
+
+Prefer SPCChart when:
+- You have sufficient observations for stable limits (typically ≥ 20)
+- You need to classify special causes reliably using established rules and sigma bands
+- You’re communicating capability against targets (prediction vs specification)
+
+See the SPC documentation for guidance on the transition:
+
+- Data Visualisation → SPC → Documentation → “Run chart → Shewhart chart transition”
+- Direct link: <a href="/?path=/docs/data-visualisation-spc-documentation--docs#run-chart-shewhart-chart-transition">SPC docs: Run chart → Shewhart chart transition</a>
+
+## Import
+
+```ts
+import { RunChart, RunChartColor } from '@nhsdigital/fdp-design-system/components/DataVisualisation';
+```
+
+## Props overview
+
+Key props (see source for full details):
+- `series`: single-series data e.g. `[{ x: Date, y: number }]` with an `id`
+- `showMedian` (default true): draw a median baseline
+- `showRunRulesHints` (default false): show provisional markers for trend/shift (educational; not SPC)
+- `strokeWidth` (default 1): line thickness
+- `smooth` (default true): curve smoothing (monotoneX)
+- `lineColor` (default NHS Blue): select colour from the NHS data‑viz palette
+- `gradientFills` (default true): light gradient wash under the line (uses the stroke colour, fading to transparent)
+
+## Examples
+
+Basic RunChart with NHS Blue and median:
+
+```tsx
+<RunChart
+  series={[{ id: 'wait', data: [{ x: new Date(2025,0,1), y: 34 }, { x: new Date(2025,0,8), y: 36 }] }]}
+  yLabel="Minutes"
+  showMedian
+  lineColor={RunChartColor.NHSBlue}
+/>
+```
+
+RunChart with provisional run rules hints and styling:
+
+```tsx
+<RunChart
+  series={[{ id: 'metric', data: Array.from({ length: 12 }).map((_, i) => ({ x: new Date(2025,0,i+1), y: 50 + (i > 6 ? 3 : 0) })) }]}
+  yLabel="Value"
+  showMedian
+  showRunRulesHints
+  strokeWidth={2}
+  smooth={false}
+  lineColor={RunChartColor.Categorical4}
+/>
+```
+
+Disable the gradient wash (useful for hard-edged visuals or when layering fills):
+
+```tsx
+<RunChart
+  series={[{ id: 'metric', data: [{ x: new Date(2025,0,1), y: 10 }, { x: new Date(2025,0,8), y: 14 }] }]}
+  yLabel="Value"
+  gradientFills={false}
+  lineColor={RunChartColor.NHSBlue}
+/>
+```
+
+## Notes
+
+- Run rules hints are labelled “Run: …” to distinguish them from SPC signals. They are visual aids only and should not be used to make the same inferences as SPC.
+- When the data length grows, prefer SPC to establish centre lines and control limits, and to detect special causes using standard rules.
+- The gradient fill (when enabled) automatically matches the line stroke colour and fades to transparent.

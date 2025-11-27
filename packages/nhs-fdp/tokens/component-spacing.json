@@ -1,0 +1,296 @@
+{
+  "component": {
+    "button": {
+      "$type": "spacing",
+      "padding": {
+        "mobile": {
+          "vertical": {
+            "$value": "8px",
+            "$description": "Button vertical padding on mobile"
+          },
+          "horizontal": {
+            "$value": "16px", 
+            "$description": "Button horizontal padding on mobile"
+          }
+        },
+        "desktop": {
+          "vertical": {
+            "$value": "12px",
+            "$description": "Button vertical padding on desktop"
+          },
+          "horizontal": {
+            "$value": "16px",
+            "$description": "Button horizontal padding on desktop"
+          }
+        }
+      },
+      "shadow": {
+        "size": {
+          "$value": "4px",
+          "$description": "Button shadow size"
+        }
+      }
+    },
+    "form": {
+      "$type": "spacing",
+      "input": {
+        "min-height": {
+          "$value": "40px",
+          "$description": "Minimum height for input fields"
+        },
+        "padding": {
+          "$value": "4px",
+          "$description": "Internal padding for input fields"
+        }
+      },
+      "checkbox": {
+        "size": {
+          "$value": "40px",
+          "$description": "Size of checkbox and radio button controls"
+        },
+        "label-padding": {
+          "$value": "12px",
+          "$description": "Left and right padding for checkbox labels"
+        }
+      }
+    },
+    "card": {
+      "$type": "spacing", 
+      "padding": {
+        "mobile": {
+          "$value": "16px",
+          "$description": "Card content padding on mobile"
+        },
+        "desktop": {
+          "$value": "32px",
+          "$description": "Card content padding on desktop"
+        }
+      },
+      "heading-margin": {
+        "$value": "16px",
+        "$description": "Margin below card headings"
+      }
+    },
+    "panel": {
+      "$type": "spacing",
+      "padding": {
+        "mobile": {
+          "$value": "20px",
+          "$description": "Panel padding on mobile (24px - 4px border)"
+        },
+        "desktop": {
+          "$value": "28px", 
+          "$description": "Panel padding on desktop (32px - 4px border)"
+        }
+      }
+    },
+    "breadcrumb": {
+      "$type": "spacing",
+      "chevron": {
+        "margin-left": {
+          "$value": "9px",
+          "$description": "Left margin for breadcrumb chevron"
+        },
+        "margin-right": {
+          "$value": "2px",
+          "$description": "Right margin for breadcrumb chevron"
+        }
+      },
+      "padding-top": {
+        "mobile": {
+          "$value": "16px",
+          "$description": "Top padding for breadcrumb on mobile"
+        },
+        "desktop": {
+          "$value": "24px",
+          "$description": "Top padding for breadcrumb on desktop"
+        }
+      }
+    },
+    "summary-list": {
+      "$type": "spacing",
+      "cell-padding": {
+        "vertical": {
+          "$value": "8px",
+          "$description": "Top and bottom padding for summary list cells"
+        },
+        "horizontal": {
+          "$value": "24px",
+          "$description": "Right padding for summary list cells"
+        }
+      },
+      "row-margin": {
+        "$value": "16px",
+        "$description": "Bottom margin for summary list rows on mobile"
+      }
+    },
+    "disclosure": {
+      "$type": "spacing",
+      "icon-offset": {
+        "$value": "20px",
+        "$description": "Standard spacing for disclosure component icon offset"
+      },
+      "icon-size": {
+        "$value": "32px",
+        "$description": "Standard size for disclosure component icons"
+      },
+      "icon-position-offset": {
+        "$value": "16px",
+        "$description": "Half icon size for centering calculations"
+      }
+    },
+    "icon-text": {
+      "$type": "spacing",
+      "gap": {
+        "$value": "38px",
+        "$description": "Standard spacing between icons and adjacent text content"
+      },
+      "gap-small": {
+        "$value": "26px",
+        "$description": "Reduced spacing for smaller screens"
+      }
+    },
+    "warning": {
+      "$type": "spacing",
+      "icon-offset": {
+        "$value": "33px",
+        "$description": "Warning callout icon positioning offset"
+      },
+      "icon-offset-mobile": {
+        "$value": "25px",
+        "$description": "Warning callout icon positioning offset on mobile"
+      },
+      "icon-top": {
+        "$value": "16px",
+        "$description": "Warning callout icon top position"
+      },
+      "icon-top-mobile": {
+        "$value": "8px",
+        "$description": "Warning callout icon top position on mobile"
+      }
+    },
+    "guidance": {
+      "$type": "spacing",
+      "icon-size": {
+        "$value": "34px",
+        "$description": "Do/Don't list icon size"
+      },
+      "icon-position-top": {
+        "$value": "2px",
+        "$description": "Do/Don't list icon top position"
+      },
+      "icon-position-top-print": {
+        "$value": "4px",
+        "$description": "Do/Don't list icon top position adjustment for print"
+      },
+      "content-padding": {
+        "$value": "40px",
+        "$description": "Do/Don't list content left padding"
+      },
+      "content-padding-small": {
+        "$value": "32px",
+        "$description": "Do/Don't list content left padding on smaller screens"
+      },
+      "tick-size": {
+        "$value": "28px",
+        "$description": "Do/Don't list tick mark size"
+      }
+    },
+    "header": {
+      "$type": "spacing",
+      "logo-min-width": {
+        "$value": "100px",
+        "$description": "Minimum width for header logo"
+      },
+      "logo-height": {
+        "$value": "40px",
+        "$description": "Standard height for header logo"
+      },
+      "search-button-width": {
+        "$value": "44px",
+        "$description": "Width of header search button"
+      },
+      "search-icon-size": {
+        "$value": "24px",
+        "$description": "Size of search icon"
+      },
+      "menu-icon-size": {
+        "$value": "28px",
+        "$description": "Size of mobile menu icons"
+      }
+    },
+    "task": {
+      "$type": "spacing",
+      "padding-adjustment": {
+        "$value": "4px",
+        "$description": "Visual balance adjustment for task list item padding"
+      }
+    },
+    "tag": {
+      "$type": "spacing",
+      "padding-adjustment": {
+        "$value": "2px",
+        "$description": "Visual balance adjustment for tag padding"
+      }
+    },
+    "tabs": {
+      "$type": "spacing",
+      "border-width": {
+        "$value": "1px",
+        "$description": "Standard border width for tab elements"
+      },
+      "border-compensation": {
+        "$value": "1px",
+        "$description": "Border compensation for visual alignment"
+      },
+      "padding-multiplier": {
+        "$value": "1.5",
+        "$description": "Padding multiplier for selected tab visual enhancement"
+      }
+    },
+    "details": {
+      "$type": "spacing",
+      "arrow": {
+        "border-width-horizontal": {
+          "$value": "7px",
+          "$description": "Horizontal border width for details arrow"
+        },
+        "border-width-vertical": {
+          "$value": "12.124px",
+          "$description": "Vertical border width for details arrow"
+        }
+      }
+    },
+    "navigation": {
+      "$type": "spacing",
+      "dropdown": {
+        "item-padding": {
+          "$value": "6px",
+          "$description": "Standard padding for dropdown navigation items"
+        },
+        "logo-margin": {
+          "$value": "32px",
+          "$description": "Standard spacing for logo area in navigation"
+        }
+      }
+    },
+    "expander": {
+      "$type": "spacing",
+      "border-width": {
+        "$value": "1px",
+        "$description": "Standard border width for expander components"
+      }
+    },
+    "print": {
+      "$type": "spacing",
+      "icon-adjustment": {
+        "$value": "4px",
+        "$description": "Icon position adjustment for print media"
+      },
+      "logo-height": {
+        "$value": "32px",
+        "$description": "Logo height for print layouts"
+      }
+    }
+  }
+}

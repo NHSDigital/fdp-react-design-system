@@ -1,0 +1,11 @@
+// NHS Hint SCSS - Uses semantic typography mixins
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.nhsuk-hint {
+  color: nhs.$nhs-fdp-semantic-color-text-secondary;
+  display: block;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  margin-bottom: nhs.$nhs-fdp-spacing-3;
+
+  @include nhs.nhs-fdp-font(19); // Matches NHS UK @include nhsuk-font(19)
+}

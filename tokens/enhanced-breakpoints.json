@@ -1,0 +1,107 @@
+{
+  "breakpoint": {
+    "enhanced": {
+      "mobile": {
+        "small": { "value": "320px" },
+        "medium": { "value": "480px" },
+        "large": { "value": "640px" }
+      },
+      "tablet": {
+        "small": { "value": "768px" },
+        "medium": { "value": "834px" },
+        "large": { "value": "960px" }
+      },
+      "desktop": {
+        "small": { "value": "1024px" },
+        "medium": { "value": "1200px" },
+        "large": { "value": "1440px" }
+      }
+    },
+    "legacy": {
+      "mobile": { "value": "0px" },
+      "tablet": { "value": "768px" },
+      "desktop": { "value": "1024px" }
+    }
+  },
+  "component": {
+    "aria-tabs-datagrid": {
+      "responsive": {
+        "header": {
+          "padding": {
+            "mobile": { "value": "0.5rem" },
+            "tablet": { "value": "0.75rem" },
+            "desktop": { "value": "1rem" }
+          },
+          "gap": {
+            "mobile": { "value": "0.5rem" },
+            "tablet": { "value": "0.75rem" },
+            "desktop": { "value": "1rem" }
+          },
+          "min-height": {
+            "mobile": { "value": "2.5rem" },
+            "tablet": { "value": "3rem" },
+            "desktop": { "value": "3.5rem" }
+          }
+        },
+        "tabs": {
+          "padding": {
+            "mobile": { "value": "0.5rem 0.75rem" },
+            "tablet": { "value": "0.75rem 1rem" },
+            "desktop": { "value": "1rem 1.5rem" }
+          },
+          "min-width": {
+            "mobile": { "value": "auto" },
+            "tablet": { "value": "6rem" },
+            "desktop": { "value": "8rem" }
+          },
+          "font-size": {
+            "mobile": { "value": "0.875rem" },
+            "tablet": { "value": "1rem" },
+            "desktop": { "value": "1rem" }
+          }
+        },
+        "panel": {
+          "padding": {
+            "mobile": { "value": "0.75rem" },
+            "tablet": { "value": "1rem" },
+            "desktop": { "value": "1.5rem" }
+          },
+          "gap": {
+            "mobile": { "value": "0.75rem" },
+            "tablet": { "value": "1rem" },
+            "desktop": { "value": "1.25rem" }
+          }
+        },
+        "table": {
+          "cell-padding": {
+            "mobile": { "value": "0.5rem 0.25rem" },
+            "tablet": { "value": "0.75rem 0.5rem" },
+            "desktop": { "value": "1rem 0.75rem" }
+          },
+          "header-padding": {
+            "mobile": { "value": "0.75rem 0.25rem" },
+            "tablet": { "value": "1rem 0.5rem" },
+            "desktop": { "value": "1.25rem 0.75rem" }
+          },
+          "font-size": {
+            "mobile": { "value": "0.875rem" },
+            "tablet": { "value": "0.875rem" },
+            "desktop": { "value": "1rem" }
+          }
+        },
+        "layout": {
+          "container-padding": {
+            "mobile": { "value": "0.5rem" },
+            "tablet": { "value": "1rem" },
+            "desktop": { "value": "1.5rem" }
+          },
+          "max-width": {
+            "mobile": { "value": "100%" },
+            "tablet": { "value": "100%" },
+            "desktop": { "value": "1200px" }
+          }
+        }
+      }
+    }
+  }
+}

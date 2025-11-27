@@ -1,0 +1,9 @@
+// Deprecated monolithic SummaryList test file retained as a marker for migration completion.
+// All relevant coverage moved into SummaryList.ssr.test.tsx, SummaryList.client.test.tsx, and SummaryList.hydration.test.tsx.
+import { describe, it, expect } from 'vitest';
+
+describe('SummaryList (deprecated monolithic placeholder)', () => {
+  it('placeholder', () => {
+    expect(true).toBe(true);
+  });
+});

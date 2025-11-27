@@ -1,0 +1,275 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Table from '../../../../../../Tables/Table';
+import Mermaid from '../../../../../../_internal/Mermaid';
+
+<Meta title="Data Visualisation/SPC/Guides/SPC v2 - Conflict precedence & strategies" />
+
+# SPC v2 - Conflict precedence & strategies
+
+## Quick glossary
+
+- **Observation (data point)**: One measured value in sequence (a “row” on the chart).
+- **Centre line (CL)**: The process average (mean) used as the reference line.
+- **Standard deviation (σ)**: Measurement of spread; used to set control limits.
+- **Control limits (UCL/LCL)**: Upper/lower statistical bounds, typically CL ± 3σ; points beyond often indicate special cause.
+- **Sigma bands (1σ, 2σ, 3σ)**: Zones at 1, 2, and 3 standard deviations from the mean.
+- **Side (high/low)**: Whether a point lies above (high-side) or below (low-side) the centre line.
+
+### Rules and patterns (v2)
+
+- Common cause vs special cause: special cause is signalled by rule hits.
+- Single beyond 3σ: any point beyond UCL/LCL.
+- Shift (run above/below mean): N consecutive on one side of the mean (default 6 in v2 parity preset).
+- Trend (monotonic): N strictly increasing or decreasing points (default 6).
+- Two-of-three beyond 2σ: two of the last three points beyond ±2σ on the same side (optionally count >3σ toward the two-of-three rule).
+- Four-of-five beyond 1σ: optional early-warning rule; excluded from primary conflict ranking.
+
+### v2 concepts
+
+- Improvement direction: whether Up or Down is favourable.
+- VariationIcon: per-row classification after pruning for Up/Down metrics; for Neither metrics, neutral side-specific icons (`NeitherHigh`/`NeitherLow`).
+- PrimeDirection: compares the highest-ranked rule on each side (Up vs Down).
+- ConflictStrategy: how to resolve when both sides have candidates:
+  - `SqlPrimeThenRule` (default): use PrimeDirection; if Same, apply `MetricConflictRule` (Improvement or Concern).
+  - `PreferImprovement`: Excel-like improvement-first behaviour.
+  - `RuleHierarchy`: custom rule precedence order.
+- MetricConflictRule: tie-break rule when PrimeDirection is Same (default Improvement).
+- Trend favourable segmentation: optional step to split runs at mean crossings and keep favourable-side segments; optional dominance clears opposite-side non-trend flags inside highlighted windows.
+- Optional trend across partitions: detect trend windows spanning partitions, then re-seg/prune.
+
+## How v2 resolves conflicts
+
+For each row inside a partition, the engine:
+
+1) Builds directional rule flags (singlePoint/twoSigma/[fourOfFive]/shift/trend, Up/Down as applicable).
+2) Forms aligned/opposite candidates from those flags given the improvement direction.
+3) Computes a directional summary with rule ranks and PrimeDirection (highest-ranked rule per side).
+4) Applies a conflict strategy to prune one side when both candidates exist; then sets `VariationIcon` and diagnostics.
+
+Pseudocode (simplified):
+
+```ts
+import { applySqlPruning, deriveOriginalCandidates } from './logic_v2/conflict';
+import { ConflictStrategy, ImprovementDirection, MetricConflictRule } from './logic_v2/types';
+
+const { aligned, opposite } = deriveOriginalCandidates(row, metricImprovement);
+row.specialCauseImprovementValue = aligned ? row.value! : null;
+row.specialCauseConcernValue = opposite ? row.value! : null;
+
+// Optional early tie-break: prefer trend side when both exist and trend is present on only one side
+// Controlled by settings.preferTrendWhenConflict
+
+applySqlPruning(
+  row,
+  metricImprovement,
+  /* tie-break on PrimeDirection.Same */ MetricConflictRule.Improvement,
+  /* preferImprovementWhenConflict */ false,
+  /* conflictStrategy */ ConflictStrategy.SqlPrimeThenRule,
+  /* ruleHierarchy (optional) */ undefined,
+  /* preferTrendWhenConflict */ false
+);
+```
+
+## Conflict strategies (v2)
+
+The engine supports multiple strategies for resolving two-sided conflicts (both improvement and concern candidates present):
+
+- SqlPrimeThenRule (default):
+  - Use PrimeDirection (side with the highest-ranked rule: Trend > Shift > TwoSigma > SinglePoint).
+  - If PrimeDirection is Same, apply `metricConflictRule` (default Improvement) as the tie-break.
+- PreferImprovement:
+  - Always keep the improvement side; ignores PrimeDirection.
+- RuleHierarchy:
+  - Choose the side containing the highest-precedence rule from a provided list; on ties, fall back to `metricConflictRule`.
+
+Advanced options:
+- preferImprovementWhenConflict: convenience flag to enforce improvement-first without supplying a strategy; also gates trend segmentation off to avoid creating opposite-side trend candidates.
+- preferTrendWhenConflict: early tie-break that keeps the side carrying a trend when both sides exist and only one side has a trend flag.
+- trend segmentation: apply before pruning to split cross-mean runs and reduce opposite-side candidates; optional dominance clears opposite-side non-trend flags within highlighted windows.
+- rule hierarchy: override the default ranking order if needed; four-of-five is excluded from primary ranking.
+
+## Guidance notes
+
+- Sustained rules (trend/shift) generally carry higher rank and will dominate over isolated single points under the default ranking.
+- Two-of-three tuning (include >3σ) and optional four-of-five (1σ) allow sensitivity exploration; keep four-of-five OFF for formal reporting.
+- Use trend favourable segmentation to resolve cross-mean trend conflicts when present; the default mode applies segmentation only when conflicts exist.
+
+## Conflict and segmentation settings (v2)
+
+<Table 
+  caption="Conflict pruning and trend segmentation settings (v2)"
+  captionSize="m"
+  firstCellIsHeader
+  head={[
+    { text: 'Setting' },
+    { text: 'Purpose' },
+    { text: 'Type' },
+    { text: 'Default' },
+  ]}
+  rows={[
+    [
+      { code: 'conflictStrategy' },
+      { text: 'Select conflict resolution strategy' },
+      { text: 'ConflictStrategy (SqlPrimeThenRule / PreferImprovement / RuleHierarchy)' },
+      { code: 'SqlPrimeThenRule' },
+    ],
+    [
+      { code: 'metricConflictRule' },
+      { text: 'Tie-break when PrimeDirection is Same' },
+      { text: 'MetricConflictRule (Improvement / Concern)' },
+      { code: 'Improvement' },
+    ],
+    [
+      { code: 'preferImprovementWhenConflict' },
+      { text: 'Improvement-first override (also gates trend segmentation off)' },
+      { code: 'boolean' },
+      { code: 'false' },
+    ],
+    [
+      { code: 'preferTrendWhenConflict' },
+      { text: 'When both sides exist, keep the side carrying a trend (if only one side has trend)' },
+      { code: 'boolean' },
+      { code: 'false' },
+    ],
+    [
+      { code: 'ruleHierarchy' },
+      { text: 'Custom precedence order for RuleHierarchy strategy' },
+      { text: 'SpcRuleId[] (default Trend > Shift > TwoSigma > SinglePoint)' },
+      { code: 'undefined' },
+    ],
+    [
+      { code: 'trendSegmentationMode' },
+      { text: 'When to apply favourable-side segmentation to trend runs' },
+      { text: 'Off / AutoWhenConflict / Always' },
+      { code: 'Off' },
+    ],
+    [
+      { code: 'trendSegmentationStrategy' },
+      { text: 'Which favourable segments to keep when a run crosses the mean' },
+      { text: 'TrendSegmentationStrategy' },
+      { code: 'CrossingAfterUnfavourable' },
+    ],
+    [
+      { code: 'trendDominatesHighlightedWindow' },
+      { text: 'Inside highlighted trend segments, drop opposite-side non-trend flags' },
+      { code: 'boolean' },
+      { code: 'false' },
+    ],
+    [
+      { code: 'twoSigmaIncludeAboveThree' },
+      { text: 'Count >3σ points toward the two-of-three rule' },
+      { code: 'boolean' },
+      { code: 'false (preset true)' },
+    ],
+    [
+      { code: 'enableFourOfFiveRule' },
+      { text: 'Enable optional four-of-five beyond 1σ (excluded from ranking)' },
+      { code: 'boolean' },
+      { code: 'false' },
+    ],
+  ]}
+/>
+
+## Conflict resolution flow (v2)
+
+<Mermaid className="is-airy">{`flowchart TD
+  S([Start: after rule detection]) --> A[Build aligned/opposite candidates]
+  A --> B[Summarise sides and compute PrimeDirection]
+  B --> C{preferTrendWhenConflict AND one side has trend?}
+  C -- Yes --> D[Keep trend side; drop other] --> H[Set VariationIcon + diagnostics]
+  C -- No --> E{preferImprovementWhenConflict?}
+  E -- Yes --> F[Keep improvement side; drop other] --> H
+  E -- No --> G{Strategy}
+  G -- SqlPrimeThenRule --> P[Use PrimeDirection; if Same apply MetricConflictRule] --> H
+  G -- RuleHierarchy --> R[Pick side with highest rule per provided order; tie -> MetricConflictRule] --> H
+  G -- PreferImprovement --> F --> H
+  H --> OUT([Row complete])
+`}</Mermaid>
+
+## Algorithm flowcharts
+
+<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', alignItems: 'start' }}>
+  <div>
+    <h4>Legacy Flow</h4>
+
+    <Mermaid className="is-airy" config={{
+      theme: 'base',
+      flowchart: { htmlLabels: true, useMaxWidth: true },
+      themeVariables: { fontSize: '14px' }
+    }}>{`flowchart TD
+  A[Start: after rule detection] --> B[Side-gate trend:\ninc only if current > mean;\ndec only if current < mean]
+  B --> C[Optional: collapse cluster rules on a side\nIf 4-of-5 true, clear 2-of-3]
+  C --> D{MetricImprovement?}
+  D -- Up --> U1{Any high-side signal?}
+  U1 -- Yes --> OI([Outcome: Improvement])
+  U1 -- No --> U2{Any low-side signal?}
+  U2 -- Yes --> OC([Outcome: Concern])
+  U2 -- No --> ON([Outcome: Neither])
+
+  D -- Down --> D1{Any low-side signal?}
+  D1 -- Yes --> OI
+  D1 -- No --> D2{Any high-side signal?}
+  D2 -- Yes --> OC
+  D2 -- No --> ON
+
+  D -- Neither --> ON
+
+  %% Note: if both high & low present, ordering yields Improvement (first favourable match)
+  classDef outcome fill:#e6f7ff,stroke:#1890ff,color:#000
+  class OI,OC,ON outcome
+`}</Mermaid>
+
+  </div>
+  <div>
+		<h4>Directional First Flow</h4>
+    <Mermaid className="is-airy" config={{
+				theme: 'base',
+				flowchart: { htmlLabels: true, useMaxWidth: true },
+				themeVariables: { fontSize: '14px' }
+		}}>{`flowchart TD
+			A[Start: after rule detection] --> B[Derive favourable/unfavourable sets based on metric polarity]
+			B --> C[Optional: collapse cluster rules on a side\nIf 4-of-5 true, clear 2-of-3]
+			C --> D{Favourable only?}
+			D -- Yes --> O1([Outcome: Improvement])
+			D -- No --> E{Unfavourable only?}
+			E -- Yes --> F{emergingGraceEnabled AND \nlast N minus 1 points strictly favourable?}
+			F -- Yes --> O3([Outcome: Neither])
+			F -- No --> O2([Outcome: Concern])
+			E -- No --> G{Both favourable & unfavourable?}
+			G -- Yes --> H{Emerging favourable OR\nconfirmed trend present?}
+			H -- Yes --> O1
+			H -- No --> O3
+			G -- No --> O3
+
+			classDef outcome fill:#e6f7ff,stroke:#1890ff,color:#000
+			class O1,O2,O3 outcome
+		`}</Mermaid>
+		</div>
+</div>
+
+## Choosing a strategy: recommendations
+
+- Default (SqlPrimeThenRule): use for SQL v2.6a parity and most clinical dashboards. Combine with `trendSegmentationMode: AutoWhenConflict` for robust handling of cross-mean trend runs.
+- PreferImprovement: use sparingly when product requirements demand improvement-first visuals (Excel-like) irrespective of rule rank. Note: segmentation is gated off by the engine when this is true.
+- RuleHierarchy: use when you need to explicitly prioritise, for example, Trend over Shift across all conflicts; supply a `ruleHierarchy` order.
+
+Helpers:
+- `withConflictPresetV26(overrides?)`: enables segmentation with CrossingAfterUnfavourable and keeps other parity defaults.
+- `withConflictPresetAutoV26(metricImprovement, overrides?)`: chooses improvement-first for Up metrics (segmentation gated) and segmentation for Down metrics by default.
+
+## Examples
+
+```ts
+import { withConflictPresetV26, withConflictPresetAutoV26 } from './logic_v2/presets';
+
+// Generic conflict-aware settings (segmentation auto when conflicts present)
+const s1 = withConflictPresetV26();
+
+// Direction-aware: improvement-first for Up metrics, segmentation for Down metrics
+const s2 = withConflictPresetAutoV26(ImprovementDirection.Up);
+```
+
+## Testing
+
+- Conflict pruning and diagnostics are covered in `logic_v2` unit tests (conflict resolution, rule ranking, Neither semantics).
+- Storybook vignettes under Data Visualisation/SPC/v2 demonstrate conflict behaviour with and without segmentation.

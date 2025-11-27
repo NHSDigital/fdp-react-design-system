@@ -1,0 +1,66 @@
+// NHS FDP Design System - Main Stylesheet
+// This file imports all component styles and utilities
+
+// Import base token CSS custom properties (generated) so component styles can use them
+@use '../../packages/nhs-fdp/dist/css/tokens.css';
+
+// Import base tokens and utilities (Sass variable layer)
+@use './utilities.scss';
+
+// Import all component styles (only those that exist)
+@use '../components/Account/Account.scss';
+@use '../components/ActionLink/ActionLink.scss';
+@use '../components/BackLink/BackLink.scss';
+@use '../components/Breadcrumb/Breadcrumb.scss';
+@use '../components/Button/Button.scss';
+@use '../components/Card/Card.scss';
+@use '../components/CareCard/CareCard.scss';
+@use '../components/CharacterCount/CharacterCount.scss';
+@use '../components/Checkboxes/Checkboxes.scss';
+@use '../components/ContentsList/ContentsList.scss';
+@use '../components/DashboardSummaryGrid/DashboardSummaryGrid.scss';
+@use '../components/DateInput/DateInput.scss';
+@use '../components/Details/Details.scss';
+@use '../components/DoDontList/DoDontList.scss';
+@use '../components/ErrorMessage/ErrorMessage.scss';
+@use '../components/ErrorSummary/ErrorSummary.scss';
+@use '../components/Expander/Expander.scss';
+@use '../components/Fieldset/Fieldset.scss';
+@use '../components/Footer/Footer.scss';
+@use '../components/GanttChart/GanttChart.scss';
+@use '../components/Grid/Grid.scss';
+@use '../components/GroupableDataGrid/GroupableDataGrid.scss' as groupable-data-grid;
+@use '../components/Header/Header.scss' as header-main;
+@use '../components/HeaderSearch/HeaderSearch.scss';
+@use '../components/Heading/Heading.scss';
+@use '../components/Hero/Hero.scss';
+@use '../components/Hint/Hint.scss';
+@use '../components/Images/Images.scss';
+@use '../components/Input/Input.scss';
+@use '../components/InsetText/InsetText.scss';
+@use '../components/Label/Label.scss';
+@use '../components/List/List.scss';
+@use '../components/MainWrapper/MainWrapper.scss';
+@use '../components/Pagination/Pagination.scss';
+@use '../components/Panel/Panel.scss';
+@use '../components/Radios/Radios.scss';
+@use '../components/Select/Select.scss';
+@use '../components/SkipLink/SkipLink.scss';
+@use '../components/ResponsiveDataGrid/ResponsiveDataGrid.scss' as responsive-data-grid;
+@use '../components/SortableDataTable/AriaTabsDataGrid.scss';
+@use '../components/SortableDataTable/AriaTabsDataGridDemo.scss';
+// SortStatusControl: use canonical nested implementation (root file forwards for backwards compatibility)
+@use '../components/SortableDataTable/SortStatusControl/SortStatusControl.scss' as sort-status-control;
+@use '../components/SpacingUtilities/SpacingUtilities.scss';
+@use '../components/SummaryCard/SummaryCard.scss';
+@use '../components/SummaryList/SummaryList.scss';
+@use '../components/Tables/Table.scss';
+@use '../components/Tabs/Tabs.scss';
+@use '../components/Tag/Tag.scss';
+@use '../components/TaskList/TaskList.scss';
+@use '../components/Textarea/Textarea.scss';
+@use '../components/WarningCallout/WarningCallout.scss';
+@use '../components/WidthUtilities/WidthUtilities.scss';
+
+// Import fonts last (CSS import comes after @use)
+@import './fonts.css';

@@ -1,0 +1,70 @@
+// NHS FDP Design System - Core Stylesheet
+// Essential layout and utility styles that should be imported globally
+// Optimized for Next.js layout.tsx and progressive enhancement
+
+// Import design tokens first (required for typography styles)
+@use '../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+// Import base utilities
+@use './utilities.scss';
+
+// Core layout components that are typically used globally
+@use '../components/Grid/Grid.scss';
+@use '../components/MainWrapper/MainWrapper.scss';
+@use '../components/WidthUtilities/WidthUtilities.scss';
+@use '../components/SpacingUtilities/SpacingUtilities.scss';
+
+// Critical layout components for progressive enhancement
+@use '../components/Header/Header.scss' as header-main;
+@use '../components/Footer/Footer.scss';
+
+// Skip link for accessibility (should be global)
+@use '../components/SkipLink/SkipLink.scss';
+@use '../components/Heading/Heading.scss';
+@use '../components/ErrorMessage/ErrorMessage.scss';  // Form validation
+@use '../components/Breadcrumb/Breadcrumb.scss';      // Navigation
+@use '../components/BackLink/BackLink.scss';          // Navigation
+
+// Import fonts last (CSS import comes after @use)
+@use './fonts.css';
+
+// Typography - Paragraph styles
+// Based on NHS Service Manual typography guidelines
+.nhsuk-body {
+  font-family: var(--nhs-font-family-base);
+  font-size: tokens.$nhs-fdp-font-size-19-desktop;
+  line-height: 1.5;
+  margin-top: 0;
+  margin-bottom: tokens.$nhs-fdp-spacing-4;
+
+  @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+    font-size: tokens.$nhs-fdp-font-size-19-tablet;
+    line-height: 1.47;
+  }
+}
+
+.nhsuk-body-l {
+  font-family: var(--nhs-font-family-base);
+  font-size: tokens.$nhs-fdp-font-size-26-desktop;
+  line-height: 1.44;
+  margin-top: 0;
+  margin-bottom: tokens.$nhs-fdp-spacing-5;
+
+  @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+    font-size: tokens.$nhs-fdp-font-size-26-tablet;
+    line-height: 1.38;
+  }
+}
+
+.nhsuk-body-s {
+  font-family: var(--nhs-font-family-base);
+  font-size: tokens.$nhs-fdp-font-size-14-desktop;
+  line-height: 1.57;
+  margin-top: 0;
+  margin-bottom: tokens.$nhs-fdp-spacing-4;
+
+  @media (min-width: tokens.$nhs-fdp-breakpoint-medium) {
+    font-size: tokens.$nhs-fdp-font-size-14-tablet;
+    line-height: 1.5;
+  }
+}

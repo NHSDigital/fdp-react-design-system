@@ -1,0 +1,325 @@
+// ==========================================================================
+// COMPONENTS / #TABLE
+// ==========================================================================
+
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Responsive breakpoints based on enhanced tokens
+// Using max-width: ($tablet-small - 1px) to ensure mobile styles apply below tablet breakpoint
+$tablet-small: 768px; // breakpoint.enhanced.tablet.small
+$mobile-large: 640px; // breakpoint.enhanced.mobile.large
+
+.nhsuk-table-container {
+  overflow-x: auto;
+}
+
+.nhsuk-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+
+  // Table caption
+  &__caption {
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    display: table-caption;
+    padding-bottom: nhs.$nhs-fdp-spacing-3;
+    text-align: left;
+
+    @media (max-width: ($tablet-small - 1px)) {
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    }
+
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+        display: block;
+        font-size: inherit;
+        font-weight: normal;
+        padding: nhs.$nhs-fdp-spacing-3 0;
+      }
+    }
+
+    // Caption size variants
+    &--xl {
+      font-size: nhs.$nhs-fdp-font-size-36-desktop;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
+
+      @media (max-width: ($tablet-small - 1px)) {
+        font-size: nhs.$nhs-fdp-font-size-36-mobile;
+      }
+    }
+
+    &--l {
+      font-size: nhs.$nhs-fdp-font-size-26-desktop;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
+
+      @media (max-width: ($tablet-small - 1px)) {
+        font-size: nhs.$nhs-fdp-font-size-26-mobile;
+      }
+    }
+
+    &--m {
+      font-size: nhs.$nhs-fdp-font-size-22-desktop;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+      @media (max-width: ($tablet-small - 1px)) {
+        font-size: nhs.$nhs-fdp-font-size-22-mobile;
+      }
+    }
+
+    &--s {
+      font-size: nhs.$nhs-fdp-font-size-16-desktop;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+      @media (max-width: ($tablet-small - 1px)) {
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      }
+    }
+  }
+
+  // Table head
+  &__head {
+    border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+
+    // Responsive variant override - hide table head on mobile
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+    }
+  }
+
+  // Table row
+  &__row {
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border-bottom: 3px solid nhs.$nhs-fdp-semantic-color-border-default;
+        display: block;
+        margin-bottom: nhs.$nhs-fdp-spacing-3;
+        padding: nhs.$nhs-fdp-spacing-3 0;
+      }
+    }
+  }
+
+  // Table header cell
+  &__header {
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    border-bottom: 2px solid nhs.$nhs-fdp-semantic-color-border-default;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2 0;
+    text-align: left;
+    vertical-align: top;
+
+    @media (max-width: ($tablet-small - 1px)) {
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border: 0;
+        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+        display: block;
+        padding: nhs.$nhs-fdp-spacing-2 0;
+        text-align: right;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &::before {
+          content: attr(data-label) ': ';
+          display: inline-block;
+          font-weight: nhs.$nhs-fdp-font-weight-bold;
+          margin-right: nhs.$nhs-fdp-spacing-2;
+        }
+      }
+    }
+  }
+
+  // Table body
+  &__body {
+    // Body cell header variant
+    &__cell {
+      &--header {
+        font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+        font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+
+        @media (max-width: ($tablet-small - 1px)) {
+          font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        }
+      }
+    }
+  }
+
+  // Table data cell
+  &__cell {
+    font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+    color: nhs.$nhs-fdp-semantic-color-text-primary;
+    padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2 0;
+    text-align: left;
+    vertical-align: top;
+
+    @media (max-width: ($tablet-small - 1px)) {
+      font-size: nhs.$nhs-fdp-font-size-16-mobile;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    // Numeric cell variant
+    &--numeric {
+      text-align: right;
+    }
+
+    // Responsive variant override
+    .nhsuk-table--responsive & {
+      @media (max-width: ($tablet-small - 1px)) {
+        border: 0;
+        border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+        display: block;
+        padding: nhs.$nhs-fdp-spacing-2 0;
+        text-align: right;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+
+        &::before {
+          content: attr(data-label) ': ';
+          display: inline-block;
+          font-weight: nhs.$nhs-fdp-font-weight-bold;
+          margin-right: nhs.$nhs-fdp-spacing-2;
+        }
+      }
+    }
+
+    // Inline code / preformatted blocks inside table cells (documentation usage)
+    code, pre code {
+      // Using base font family with a monospace fallback (no dedicated code font token yet)
+      font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback, monospace;
+      font-size: 0.85em;
+      -webkit-font-smoothing: auto;
+    }
+    pre {
+      background: nhs.$nhs-fdp-color-grey-5;
+      border: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+      border-radius: 4px;
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+      margin: nhs.$nhs-fdp-spacing-1 0 0;
+      overflow: auto;
+      max-width: 100%;
+      line-height: 1.4;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
+    }
+    // New semantic classes added for code rendering API
+    .nhsuk-table__code {
+      background: nhs.$nhs-fdp-color-grey-5;
+      color: nhs.$nhs-fdp-semantic-color-text-primary;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      border: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+      line-height: 1.3;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .nhsuk-table__code--inline {
+      display: inline-block;
+      background: nhs.$nhs-fdp-color-grey-5;
+	  font-size: 1rem;
+    }
+    .nhsuk-table__code--block {
+      display: block;
+      background: transparent;
+      padding: 0;
+      border: 0;
+      white-space: pre; // preserve formatting
+    }
+    .nhsuk-table__pre {
+      background: nhs.$nhs-fdp-color-grey-5;
+      border: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+      border-radius: 4px;
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+      margin: nhs.$nhs-fdp-spacing-1 0 0;
+      overflow: auto;
+      max-width: 100%;
+      line-height: 1.4;
+      font-size: 1rem;
+      position: relative;
+    }
+    .nhsuk-table__pre code {
+      background: none;
+      border: 0;
+      padding: 0;
+      white-space: pre;
+    }
+  // Token highlight classes (lightweight)
+  // Map token colours to existing semantic intent palette (no dedicated code tokens yet)
+  .nhsuk-code-kw { color: nhs.$nhs-fdp-semantic-intent-secondary; font-weight: 600; }
+  .nhsuk-code-str { color: nhs.$nhs-fdp-semantic-intent-success; }
+  .nhsuk-code-num { color: nhs.$nhs-fdp-semantic-intent-info; }
+  .nhsuk-code-lit { color: nhs.$nhs-fdp-semantic-intent-warning; font-style: italic; }
+  .nhsuk-code-com { color: nhs.$nhs-fdp-semantic-color-text-secondary; font-style: italic; }
+  // Prism token class alignment (map to our semantic palette)
+  .token.keyword { @extend .nhsuk-code-kw; }
+  .token.string { @extend .nhsuk-code-str; }
+  .token.number { @extend .nhsuk-code-num; }
+  .token.boolean, .token.null, .token.undefined { @extend .nhsuk-code-lit; }
+  .token.comment { @extend .nhsuk-code-com; }
+  }
+
+  // Table variants
+  &--panel {
+    border: nhs.$nhs-fdp-border-width-default solid nhs.$nhs-fdp-border-color-default;
+    padding: nhs.$nhs-fdp-spacing-3;
+
+    .nhsuk-table__caption {
+      margin-top: 0;
+      padding-bottom: nhs.$nhs-fdp-spacing-3;
+    }
+  }
+
+  &--responsive {
+    @media (max-width: ($tablet-small - 1px)) {
+      border: 0;
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // Alignment utility modifiers (applied to header or cell)
+  // Usage: add class `nhsuk-table__cell--align-right` / `-center` (or
+  // `nhsuk-table__header--align-right` / `-center`) to override default
+  // left alignment. Left alignment is the default so no modifier needed.
+  // These are defined after numeric variants so they can override them
+  // (e.g. centre-align a numeric column for visual reasons if required).
+  // ------------------------------------------------------------------
+  &__cell--align-right,
+  &__header--align-right { text-align: right; }
+
+  &__cell--align-center,
+  &__header--align-center { text-align: center; }
+}

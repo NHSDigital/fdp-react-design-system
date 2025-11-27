@@ -1,0 +1,283 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// CareCard component SCSS with design tokens
+// Based on NHS UK care card component styles
+// Care cards help users identify and understand the care they need
+
+.nhsuk-care-card {
+  margin-top: nhs.$nhs-fdp-spacing-7; // 32px
+  position: relative;
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+
+  @media (min-width: 641px) {
+    margin-top: nhs.$nhs-fdp-spacing-7;
+  }
+
+  @media print {
+    color: nhs.$nhs-fdp-color-primary-black !important;
+  }
+
+  &__heading-container {
+    padding-bottom: nhs.$nhs-fdp-spacing-3; // 12px
+    padding-top: nhs.$nhs-fdp-spacing-3; // 12px
+    position: relative;
+    padding-left: nhs.$nhs-fdp-spacing-5; // 24px
+    padding-right: nhs.$nhs-fdp-spacing-5; // 24px
+
+    @media (min-width: 641px) {
+      padding-left: nhs.$nhs-fdp-spacing-5;
+      padding-right: nhs.$nhs-fdp-spacing-5;
+    }
+  }
+
+  &__heading {
+    margin: 0;
+    padding-top: 0;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-white;
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+
+    // Mobile typography
+    font-size: nhs.$nhs-fdp-font-size-22-mobile; // 19px
+    
+    @media (min-width: 641px) {
+      font-size: nhs.$nhs-fdp-font-size-22-tablet; // 22px
+    }
+
+    @media print {
+      color: nhs.$nhs-fdp-color-primary-black !important;
+    }
+  }
+
+  &__arrow {
+    bottom: -10px;
+    display: block;
+    height: 20px;
+    left: 30px;
+    overflow: hidden;
+    position: absolute;
+    transform: rotate(45deg);
+    width: 20px;
+
+    @media print {
+      display: none;
+    }
+
+    @media (min-width: 641px) {
+      left: 38px;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      display: block;
+      height: 0;
+      position: absolute;
+      top: 0;
+      transform: rotate(45deg);
+      width: 0;
+      border: solid 32px;
+    }
+  }
+
+  &__content {
+    padding: nhs.$nhs-fdp-spacing-5; // 24px
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+
+    @media (min-width: 641px) {
+      padding: nhs.$nhs-fdp-spacing-5;
+    }
+
+    // Remove top/bottom padding from first/last child elements
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+
+    // Ensure all content elements use the NHS font family
+    p, ul, ol, li, div, span {
+      font-family: inherit;
+    }
+
+    // Universal selector to ensure all elements inherit font
+    * {
+      font-family: inherit;
+    }
+
+    // Specific styling for lists
+    ul, ol {
+      font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+      line-height: nhs.$nhs-fdp-font-line-height-base;
+      
+      // Mobile typography
+      font-size: nhs.$nhs-fdp-font-size-19-mobile; // 16px
+      
+      @media (min-width: 641px) {
+        font-size: nhs.$nhs-fdp-font-size-19-tablet; // 19px
+      }
+    }
+
+    li {
+      font-family: inherit;
+      margin-bottom: nhs.$nhs-fdp-spacing-2; // 8px
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__text {
+    margin-bottom: 0;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+
+    // Mobile typography
+    font-size: nhs.$nhs-fdp-font-size-19-mobile; // 16px
+    
+    @media (min-width: 641px) {
+      font-size: nhs.$nhs-fdp-font-size-19-tablet; // 19px
+    }
+  }
+
+  // Non-urgent care card (blue)
+  &--non-urgent {
+    background-color: nhs.$nhs-fdp-color-primary-blue;
+    border: 4px solid nhs.$nhs-fdp-color-primary-blue;
+
+    .nhsuk-care-card__arrow {
+      &::before,
+      &::after {
+        border-color: nhs.$nhs-fdp-color-primary-blue;
+      }
+    }
+
+    .nhsuk-care-card__content {
+      background-color: nhs.$nhs-fdp-color-primary-white;
+      color: nhs.$nhs-fdp-color-primary-black;
+
+      a {
+        color: nhs.$nhs-fdp-card-text-link;
+        
+        &:hover {
+          color: nhs.$nhs-fdp-card-text-link;
+          text-decoration: underline;
+        }
+        
+        &:focus {
+          color: nhs.$nhs-fdp-color-primary-black;
+          background-color: nhs.$nhs-fdp-color-primary-yellow;
+          outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-color-primary-black;
+          outline-offset: 0;
+          box-shadow: inset 0 0 0 2px;
+        }
+      }
+    }
+
+    @media print {
+      border-width: 4px;
+    }
+  }
+
+  // Urgent care card (red)
+  &--urgent {
+    background-color: nhs.$nhs-fdp-color-primary-red;
+    border: 6px solid nhs.$nhs-fdp-color-primary-red;
+
+    .nhsuk-care-card__arrow {
+      &::before,
+      &::after {
+        border-color: nhs.$nhs-fdp-color-primary-red;
+      }
+    }
+
+    .nhsuk-care-card__content {
+      background-color: nhs.$nhs-fdp-color-primary-white;
+      color: nhs.$nhs-fdp-color-primary-black;
+
+      a {
+        color: nhs.$nhs-fdp-card-text-link;
+        
+        &:hover {
+          color: nhs.$nhs-fdp-card-text-link;
+          text-decoration: underline;
+        }
+        
+        &:focus {
+          color: nhs.$nhs-fdp-color-primary-black;
+          background-color: nhs.$nhs-fdp-color-primary-yellow;
+          outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-color-primary-black;
+          outline-offset: 0;
+          box-shadow: inset 0 0 0 2px;
+        }
+      }
+    }
+
+    @media print {
+      border-width: 6px;
+    }
+  }
+
+  // Emergency care card (red with black content)
+  &--emergency {
+    background-color: nhs.$nhs-fdp-color-primary-red;
+    border: 8px solid nhs.$nhs-fdp-color-primary-red;
+
+    .nhsuk-care-card__arrow {
+      &::before,
+      &::after {
+        border-color: nhs.$nhs-fdp-color-primary-red;
+      }
+    }
+
+    .nhsuk-care-card__content {
+      background-color: nhs.$nhs-fdp-color-primary-black;
+      color: nhs.$nhs-fdp-color-primary-white;
+
+      a {
+        color: nhs.$nhs-fdp-color-primary-white;
+        
+        &:hover {
+          color: nhs.$nhs-fdp-color-primary-white;
+          text-decoration: underline;
+        }
+        
+        &:focus {
+          background-color: nhs.$nhs-fdp-color-primary-yellow;
+          color: nhs.$nhs-fdp-color-primary-black;
+          outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-color-primary-black;
+          outline-offset: 0;
+          box-shadow: inset 0 0 0 2px;
+        }
+      }
+
+      @media print {
+        background-color: nhs.$nhs-fdp-color-primary-white;
+        color: nhs.$nhs-fdp-color-primary-black !important;
+      }
+    }
+
+    @media print {
+      border-width: 8px;
+    }
+  }
+}
+
+// Visually hidden utility for screen readers
+.nhsuk-u-visually-hidden {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  width: 1px !important;
+}

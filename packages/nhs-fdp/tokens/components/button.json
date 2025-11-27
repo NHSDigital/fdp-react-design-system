@@ -1,0 +1,126 @@
+{
+  "button": {
+    "primary": {
+      "background": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.button.primary.background}",
+          "$description": "Primary button background color"
+        },
+        "hover": {
+          "$value": "{semantic.color.button.primary.hover}",
+          "$description": "Primary button hover background color"
+        },
+        "active": {
+          "$value": "{semantic.color.button.primary.active}",
+          "$description": "Primary button active background color"
+        },
+        "disabled": {
+          "$value": "{color.grey.4}",
+          "$description": "Primary button disabled background color"
+        }
+      },
+      "text": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.button.primary.text}",
+          "$description": "Primary button text color"
+        },
+        "disabled": {
+          "$value": "{color.grey.2}",
+          "$description": "Primary button disabled text color"
+        }
+      },
+      "border": {
+        "$type": "color",
+        "default": {
+          "$value": "transparent",
+          "$description": "Primary button border color"
+        },
+        "focus": {
+          "$value": "{semantic.color.focus.background}",
+          "$description": "Primary button focus border color"
+        }
+      }
+    },
+    "secondary": {
+      "background": {
+        "$type": "color", 
+        "default": {
+          "$value": "{semantic.color.button.secondary.background}",
+          "$description": "Secondary button background color"
+        },
+        "solid": {
+          "$value": "{semantic.color.button.secondary.background-solid}",
+          "$description": "Secondary button solid background color"
+        },
+        "hover": {
+          "$value": "{semantic.color.button.secondary.hover}",
+          "$description": "Secondary button hover background color"
+        },
+        "active": {
+          "$value": "{semantic.color.button.secondary.active}",
+          "$description": "Secondary button active background color"
+        }
+      },
+      "text": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.button.secondary.text}",
+          "$description": "Secondary button text color"
+        }
+      },
+      "border": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.button.secondary.border}",
+          "$description": "Secondary button border color"
+        }
+      }
+    },
+    "spacing": {
+      "$type": "spacing",
+      "padding-vertical-mobile": {
+        "$value": "{component.button.padding.mobile.vertical}",
+        "$description": "Button vertical padding on mobile"
+      },
+      "padding-horizontal-mobile": {
+        "$value": "{component.button.padding.mobile.horizontal}",
+        "$description": "Button horizontal padding on mobile"
+      },
+      "padding-vertical-desktop": {
+        "$value": "{component.button.padding.desktop.vertical}",
+        "$description": "Button vertical padding on desktop"
+      },
+      "padding-horizontal-desktop": {
+        "$value": "{component.button.padding.desktop.horizontal}",
+        "$description": "Button horizontal padding on desktop"
+      }
+    },
+    "border": {
+      "$type": "borderWidth",
+      "width": {
+        "$value": "{border.width.form-element}",
+        "$description": "Button border width"
+      },
+      "radius": {
+        "$value": "{border.radius.small}",
+        "$description": "Button border radius"
+      }
+    },
+    "shadow": {
+      "$type": "boxShadow",
+      "size": {
+        "$value": "{component.button.shadow.size}",
+        "$description": "Button shadow size"
+      }
+    },
+    "typography": {
+      "$type": "fontWeight",
+      "weight": {
+        "$value": "{font.weight.bold}",
+        "$description": "Button font weight"
+      }
+    }
+  }
+}

@@ -1,0 +1,77 @@
+/**
+ * NHS Frutiger Font Loading
+ * 
+ * NHS uses the Frutiger font. To use the font you must have a licence.
+ * NHS England has a licence for the Frutiger webfont which all NHS organisations in England can use.
+ * NHS organisations can register here: https://service-manual.nhs.uk/design-system/styles/use-frutiger-font/
+ * 
+ * For development purposes, we provide fallback fonts that closely match Frutiger.
+ * Production deployments should use the official NHS Frutiger fonts.
+ */
+
+/*
+  Font family CSS variables
+  - Default to NHS Frutiger stack
+  - Allow sub-brands to override via [data-brand] attribute
+*/
+:root {
+  /* Base and heading stacks include sensible system fallbacks */
+  --nhs-font-family-base: "Frutiger W01", Arial, Helvetica, sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+  --nhs-font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* FDP sub-brand: switch base/heading to Source Sans when enabled */
+[data-brand="fdp"] {
+  /* If Source Sans is self-hosted, this will take effect automatically */
+  --nhs-font-family-base: "Source Sans Pro", "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, Helvetica, sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
+
+/* NHS brand (explicit): allow local NHS scopes to reset back to Frutiger
+   This is required when an ancestor has data-brand="fdp" and a subtree wishes
+   to return to NHS defaults; variables inherit, so we must re-declare here. */
+[data-brand="nhs"] {
+  --nhs-font-family-base: "Frutiger W01", Arial, Helvetica, sans-serif;
+  --nhs-font-family-heading: var(--nhs-font-family-base);
+}
+
+/* Frutiger W01 Normal Weight (400) */
+@font-face {
+  font-display: swap;
+  font-family: "Frutiger W01";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot");
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.eot?#iefix") format("embedded-opentype"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff2") format("woff2"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.woff") format("woff"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-55Roman.ttf") format("truetype");
+}
+
+/* Frutiger W01 Bold Weight (600) */
+@font-face {
+  font-display: swap;
+  font-family: "Frutiger W01";
+  font-style: normal;
+  font-weight: 600;
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.eot");
+  src: url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.eot?#iefix") format("embedded-opentype"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.woff2") format("woff2"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.woff") format("woff"),
+       url("https://assets.nhs.uk/fonts/FrutigerLTW01-65Bold.ttf") format("truetype");
+}
+
+/* Print styles */
+@media print {
+  html,
+  body,
+  .nhs-typography {
+    font-family: sans-serif !important;
+  }
+}
+
+/* Set a sane global default using variables so brands can override at runtime */
+html, body, .nhs-typography-root {
+  font-family: var(--nhs-font-family-base);
+}

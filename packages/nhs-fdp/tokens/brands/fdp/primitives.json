@@ -1,0 +1,24 @@
+{
+  "brand": {
+    "fdp": {
+      "$type": "color",
+      "$description": "FDP brand primitive palette (from FDP sub-brand brief)",
+      "primary": {
+        "dark-blue": { "$value": "#003087", "$description": "NHS FDP Dark Blue" },
+        "blue": { "$value": "#005EB8", "$description": "NHS Blue" },
+        "green": { "$value": "#009639", "$description": "NHS Green" },
+        "dark-green": { "$value": "#63A691", "$description": "NHS Dark Green" },
+        "purple": { "$value": "#D6CCE3", "$description": "NHS Purple (tint)" },
+		"dark-purple": { "$value": "#ac98cb", "$description": "NHS Dark Purple" },
+        "white": { "$value": "#ffffff", "$description": "NHS White" }
+      },
+      "grey": {
+        "1": { "$value": "#425563", "$description": "NHS Dark Grey" },
+        "2": { "$value": "#768692", "$description": "NHS Mid Grey" },
+        "3": { "$value": "#aeb7bd", "$description": "NHS Grey 3 (derived to align system)" },
+        "4": { "$value": "#d8dde0", "$description": "NHS Grey 4 (derived to align system)" },
+        "5": { "$value": "#E8EDEE", "$description": "NHS Pale Grey" }
+      }
+    }
+  }
+}

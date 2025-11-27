@@ -1,0 +1,15 @@
+{# Reused inner markup for DateInput (expects variables from parent macro scope) #}
+  {% if params.hint %}<div id="{{ hintId }}" class="nhsuk-hint{% if params.hint.classes %} {{ params.hint.classes }}{% endif %}">{% if params.hint.html %}{{ params.hint.html | safe }}{% else %}{{ params.hint.text }}{% endif %}</div>{% endif %}
+  {% if params.errorMessage %}<span id="{{ errorId }}" class="nhsuk-error-message{% if params.errorMessage.classes %} {{ params.errorMessage.classes }}{% endif %}"><span class="nhsuk-u-visually-hidden">Error:</span> {% if params.errorMessage.html %}{{ params.errorMessage.html | safe }}{% else %}{{ params.errorMessage.text }}{% endif %}</span>{% endif %}
+  <div class="nhsuk-date-input{% if params.className %} {{ params.className }}{% endif %}" id="{{ id }}" data-testid="date-input">
+    {% for item in items %}
+      {% set inputId = (item.id or (id + '-' + item.name)) %}
+      {% set inputName = params.namePrefix and (params.namePrefix + '[' + item.name + ']') or item.name %}
+      {% set baseLabel = item.label or (item.name[0]|upper + item.name[1:]) %}
+      {% set val = params.values and attribute(params.values, item.name) %}
+      <div class="nhsuk-date-input__item">
+        <label class="nhsuk-label nhsuk-date-input__label" for="{{ inputId }}">{{ baseLabel }}</label>
+        <input class="nhsuk-input nhsuk-date-input__input {{ item.classes }}" id="{{ inputId }}" name="{{ inputName }}" type="text"{% if item.inputmode %} inputmode="{{ item.inputmode }}"{% endif %}{% if item.autocomplete %} autocomplete="{{ item.autocomplete }}"{% endif %}{% if item.pattern %} pattern="{{ item.pattern }}"{% endif %}{% if describedAttr %} aria-describedby="{{ describedAttr }}"{% endif %}{% if val %} value="{{ val }}"{% endif %} />
+      </div>
+    {% endfor %}
+  </div>

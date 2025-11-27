@@ -1,0 +1,67 @@
+// NHS Textarea SCSS - Uses compiled design tokens
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.nhsuk-textarea {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  border: nhs.$nhs-fdp-border-width-form-element solid nhs.$nhs-fdp-color-grey-3;
+  border-radius: nhs.$nhs-fdp-border-radius-none;
+  box-sizing: border-box;
+  margin-top: 0;
+  padding: nhs.$nhs-fdp-form-spacing-input-padding;
+  width: 100%;
+  resize: vertical;
+  
+  // Typography
+  font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+  font-size: nhs.$nhs-fdp-font-size-19-mobile;
+  font-weight: nhs.$nhs-fdp-font-weight-normal;
+  line-height: nhs.$nhs-fdp-font-line-height-base;
+  color: nhs.$nhs-fdp-semantic-color-text-primary;
+  background-color: nhs.$nhs-fdp-color-primary-white;
+
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+    font-size: nhs.$nhs-fdp-font-size-19-tablet;
+  }
+
+  // Focus state
+  &:focus {
+    outline: nhs.$nhs-fdp-focus-outline-width nhs.$nhs-fdp-focus-outline-style nhs.$nhs-fdp-semantic-color-focus-background;
+    outline-offset: 0;
+    box-shadow: inset 0 0 0 nhs.$nhs-fdp-border-width-form-element nhs.$nhs-fdp-semantic-color-focus-text;
+    border-color: nhs.$nhs-fdp-semantic-color-focus-text;
+  }
+
+  // Disabled state
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: nhs.$nhs-fdp-color-grey-5;
+    color: nhs.$nhs-fdp-semantic-color-text-secondary;
+    resize: none;
+  }
+
+  // Error state
+  &--error {
+    border-color: nhs.$nhs-fdp-border-color-error;
+    border-width: nhs.$nhs-fdp-border-width-form-element-error;
+  }
+
+  // Resize variants
+  &--resize-none {
+    resize: none;
+  }
+
+  &--resize-both {
+    resize: both;
+  }
+
+  &--resize-horizontal {
+    resize: horizontal;
+  }
+
+  &--resize-vertical {
+    resize: vertical;
+  }
+}

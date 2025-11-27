@@ -1,0 +1,294 @@
+@use "../../../packages/nhs-fdp/scss" as nhs;
+
+// CSS Grid refactor: replaces table layout with grid container + absolutely positioned items.
+
+.nhsuk-product-roadmap {
+	--column-width: 400px; // default column width (override inline)
+	--category-width: 220px;
+	--roadmap-row-gap: #{nhs.$nhs-fdp-spacing-2}; // 8px
+	--item-height: 2; // lines to clamp
+	--roadmap-line-height: 1.5rem; // provisional until token
+	// Total vertical block height per lane (content line box * lines + vertical inner padding)
+	--roadmap-item-block-height: calc(
+		var(--roadmap-line-height) * var(--item-height)
+	);
+	// Horizontal inset inside each item background to create visual separation between adjacent items
+	--roadmap-item-horizontal-inset: #{nhs.$nhs-fdp-spacing-3};
+
+	display: grid;
+	// grid-template-columns defined inline to allow dynamic number of date columns
+	grid-auto-rows: auto;
+	overflow: auto;
+	width: 100%;
+	font-family:
+		#{nhs.$nhs-fdp-font-family-base},
+		#{nhs.$nhs-fdp-font-family-fallback};
+	font-size: nhs.$nhs-fdp-font-size-16-mobile;
+
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+		font-size: nhs.$nhs-fdp-font-size-16-tablet;
+	}
+
+	&__header-cell,
+	&__date-heading {
+		position: sticky;
+		top: 0;
+		background: nhs.$nhs-fdp-color-primary-white;
+		color: nhs.$nhs-fdp-color-grey-1;
+		font-weight: #{nhs.$nhs-fdp-font-weight-bold};
+		font-size: nhs.$nhs-fdp-font-size-16-mobile;
+		padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+		border-bottom: nhs.$nhs-fdp-border-width-semantic-thin solid
+			nhs.$nhs-fdp-color-grey-4;
+		white-space: nowrap;
+		text-align: left;
+		z-index: 2;
+	}
+
+	&__header-cell {
+		left: 0;
+		z-index: 3;
+	}
+
+	&__category-cell {
+		position: sticky;
+		left: 0;
+		// Apply metric card style: gradient background + left accent bar
+		background: nhs.$nhs-fdp-gradient-metric-card-primary;
+		color: nhs.$nhs-fdp-color-primary-blue;
+		position: sticky;
+		overflow: hidden; // ensure accent bar stays clipped
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0 auto 0 0;
+			width: 4px;
+			background: nhs.$nhs-fdp-color-data-viz-categorical-1; // accent colour aligned with MetricCard primary
+		}
+		padding: nhs.$nhs-fdp-spacing-3;
+		font-weight: #{nhs.$nhs-fdp-font-weight-bold};
+		font-size: nhs.$nhs-fdp-font-size-16-mobile;
+		line-height: 1.4;
+		border-bottom: nhs.$nhs-fdp-border-width-semantic-thin solid
+			nhs.$nhs-fdp-color-grey-4;
+		z-index: 1;
+	}
+
+	&__items-row {
+		position: relative;
+		background: nhs.$nhs-fdp-color-primary-white;
+		border-bottom: nhs.$nhs-fdp-border-width-semantic-thin solid
+			nhs.$nhs-fdp-color-grey-4;
+		padding: nhs.$nhs-fdp-spacing-4 0 nhs.$nhs-fdp-spacing-4
+			nhs.$nhs-fdp-spacing-1;
+	}
+
+	&__items-layer {
+		position: relative;
+	}
+
+	// Wrapper rows act only as accessibility containers; let child cells occupy columns
+	&__header-row,
+	&__row {
+		display: contents;
+	}
+
+	&__item {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		height: var(--roadmap-item-block-height);
+		font-size: nhs.$nhs-fdp-font-size-16-mobile;
+		line-height: var(--roadmap-line-height);
+		padding: 0 nhs.$nhs-fdp-spacing-2;
+	}
+
+	&__item-bg {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: var(--roadmap-item-horizontal-inset);
+		right: var(--roadmap-item-horizontal-inset);
+		border-radius: nhs.$nhs-fdp-border-radius-small;
+		background: nhs.$nhs-fdp-color-grey-5;
+	}
+
+	// Uniform item colouring (removed alternating nth-child patterns to avoid re-colour flicker on expansion)
+
+	&__item-content {
+		position: relative;
+		display: -webkit-box;
+		-webkit-line-clamp: var(--item-height);
+		line-clamp: var(--item-height);
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		line-height: var(--roadmap-line-height);
+		padding: 0 nhs.$nhs-fdp-spacing-4;
+		font-weight: #{nhs.$nhs-fdp-font-weight-normal};
+		display: flex;
+		align-items: center;
+		gap: nhs.$nhs-fdp-spacing-2;
+		width: 100%;
+		padding-right: nhs.$nhs-fdp-spacing-6; // space for chevron
+	}
+	&__item-expander {
+		position: absolute;
+		top: 50%;
+		right: nhs.$nhs-fdp-spacing-4;
+		width: 0.65rem;
+		height: 0.65rem;
+		border-right: 2px solid nhs.$nhs-fdp-color-grey-2;
+		border-bottom: 2px solid nhs.$nhs-fdp-color-grey-2;
+		transform: translateY(-50%) rotate(-45deg); // pointing right
+		transform-origin: 50% 50%;
+		transition: transform 0.26s cubic-bezier(0.4, 0.2, 0.2, 1);
+		pointer-events: none;
+	}
+	&__item-expander--open {
+		transform: translateY(-50%) rotate(45deg);
+	} // pointing down
+
+	// Drill-down overlay (experimental)
+	&__drilldown-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 999;
+		display: flex;
+		align-items: center; // vertically center panel
+		justify-content: center; // horizontally center panel
+		pointer-events: none;
+	}
+	&__drilldown-backdrop {
+		position: absolute;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.4);
+		backdrop-filter: blur(2px);
+		pointer-events: auto;
+		z-index: 0; // ensure backdrop stays behind panel
+	}
+	&__drilldown-panel {
+		position: relative;
+		width: min(560px, 92vw);
+		max-height: calc(100vh - (2 * #{nhs.$nhs-fdp-spacing-6}));
+		margin: nhs.$nhs-fdp-spacing-6; // breathing room around centered panel
+		background: nhs.$nhs-fdp-color-primary-white;
+		border: 1px solid nhs.$nhs-fdp-color-grey-4;
+		border-radius: nhs.$nhs-fdp-border-radius-medium;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		pointer-events: auto;
+		z-index: 1; // panel above blurred backdrop
+	}
+	&__drilldown-header {
+		display: flex;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: nhs.$nhs-fdp-spacing-3;
+		padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2
+			nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4;
+		background: nhs.$nhs-fdp-gradient-metric-card-secondary;
+		color: nhs.$nhs-fdp-color-primary-white;
+	}
+	&__drilldown-title {
+		margin: 0;
+		font-size: nhs.$nhs-fdp-font-size-19-mobile;
+		line-height: nhs.$nhs-fdp-font-line-height-19-mobile;
+		font-weight: #{nhs.$nhs-fdp-font-weight-bold};
+		color: nhs.$nhs-fdp-color-primary-blue;
+		margin-top: 0;
+	}
+	&__drilldown-close {
+		border: 0;
+		background: transparent;
+		color: inherit;
+		font-size: nhs.$nhs-fdp-font-size-19-mobile;
+		line-height: 1;
+		cursor: pointer;
+	}
+	&__drilldown-content {
+		padding: nhs.$nhs-fdp-spacing-4;
+		border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+		font-size: nhs.$nhs-fdp-font-size-16-mobile;
+		line-height: nhs.$nhs-fdp-font-line-height-16-mobile;
+	}
+	&__drilldown-children {
+		list-style: none;
+		margin: 0;
+		padding: nhs.$nhs-fdp-spacing-4;
+		display: flex;
+		flex-direction: column;
+		gap: nhs.$nhs-fdp-spacing-3;
+		overflow-y: auto;
+	}
+	&__drilldown-child-title {
+		display: block;
+	}
+	&__drilldown-child-content {
+		margin-top: nhs.$nhs-fdp-spacing-1;
+	}
+	&__item--expandable {
+		cursor: pointer;
+	}
+	&__item--active .nhsuk-product-roadmap__item-bg {
+		outline: 2px solid nhs.$nhs-fdp-color-data-viz-categorical-1;
+	}
+	// Inline drilldown children
+	&__inline-child {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		font-size: nhs.$nhs-fdp-font-size-14-mobile;
+		line-height: 1.3;
+		padding: 0 nhs.$nhs-fdp-spacing-3;
+		margin: 0 nhs.$nhs-fdp-spacing-3;
+		// Align left/right visual inset with parent items
+		transition:
+			opacity 0.22s ease,
+			transform 0.22s ease;
+		&--collapsing {
+			opacity: 0;
+			transform: translateY(-4px);
+		}
+	}
+	&__inline-child-bg {
+		position: absolute;
+		inset: 2px;
+		border-radius: nhs.$nhs-fdp-border-radius-small;
+		background: nhs.$nhs-fdp-color-grey-5;
+		opacity: 0.85;
+	}
+
+	// Status colour variants (extend / adjust tokens as needed)
+	&__inline-child--status-done &__inline-child-bg {
+		background: var(--color-status-positive-bg, var(--color-green-10));
+	}
+	&__inline-child--status-inprogress &__inline-child-bg {
+		background: var(--color-status-info-bg, var(--color-blue-10));
+	}
+	&__inline-child--status-blocked &__inline-child-bg {
+		background: var(--color-status-negative-bg, var(--color-red-10));
+	}
+	&__inline-child--status-risk &__inline-child-bg {
+		background: var(--color-status-warning-bg, var(--color-yellow-10));
+	}
+
+	&__inline-child-content {
+		position: relative;
+		z-index: 1;
+	}
+	&__inline-child-bg {
+		position: absolute;
+		inset: 2px;
+		border-radius: nhs.$nhs-fdp-border-radius-small;
+		background: nhs.$nhs-fdp-color-grey-5;
+		opacity: 0.85;
+	}
+	&__inline-child-content {
+		position: relative;
+		font-weight: #{nhs.$nhs-fdp-font-weight-normal};
+	}
+}

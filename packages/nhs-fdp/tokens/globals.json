@@ -1,0 +1,44 @@
+{
+  "breakpoint": {
+    "$type": "breakpoint",
+    "small": {
+      "$value": "320px",
+      "$description": "Small devices (mobile phones)"
+    },
+    "small-max": {
+      "$value": "767px",
+      "$description": "Maximum width for small devices"
+    },
+    "medium": {
+      "$value": "768px",
+      "$description": "Medium devices (tablets and small laptops)"
+    },
+    "large": {
+      "$value": "1025px",
+      "$description": "Large devices (desktops)"
+    },
+    "xlarge": {
+      "$value": "1200px",
+      "$description": "Extra large devices (large desktops)"
+    },
+    "xxlarge": {
+      "$value": "1440px",
+      "$description": "Extra extra large devices (ultra-wide screens)"
+    }
+  },
+  "grid": {
+    "$type": "dimension",
+    "page-width": {
+      "$value": "960px",
+      "$description": "Maximum page width"
+    },
+    "gutter": {
+      "$value": "32px",
+      "$description": "Grid gutter width"
+    },
+    "gutter-half": {
+      "$value": "16px",
+      "$description": "Half grid gutter width"
+    }
+  }
+}

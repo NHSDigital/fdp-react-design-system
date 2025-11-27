@@ -1,0 +1,453 @@
+.nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.nhsuk-u-hidden {
+  display: none !important;
+}
+.nhsuk-u-show {
+  display: block !important;
+}
+.nhsuk-u-text-left {
+  text-align: left !important;
+}
+.nhsuk-u-text-center {
+  text-align: center !important;
+}
+.nhsuk-u-text-right {
+  text-align: right !important;
+}
+.nhsuk-u-margin-0 {
+  margin: 0 !important;
+}
+.nhsuk-u-margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+.nhsuk-u-margin-top-0 {
+  margin-top: 0 !important;
+}
+.nhsuk-u-padding-0 {
+  padding: 0 !important;
+}
+.nhsuk-u-padding-bottom-0 {
+  padding-bottom: 0 !important;
+}
+.nhsuk-u-padding-top-0 {
+  padding-top: 0 !important;
+}
+.nhsuk-u-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.nhsuk-header .nhsuk-u-visually-hidden,
+.nhsuk-header__search .nhsuk-u-visually-hidden,
+label .nhsuk-u-visually-hidden,
+span .nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.nhsuk-width-container {
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: 1200px;
+}
+@media (min-width: 768px) {
+  .nhsuk-width-container {
+    padding: 0 32px;
+  }
+}
+@media (min-width: 1020px) {
+  .nhsuk-width-container {
+    padding: 0 40px;
+  }
+}
+
+.nhsuk-icon {
+  width: auto !important;
+  height: 2em;
+  vertical-align: text-bottom;
+  flex-shrink: 0;
+}
+
+.mermaid-diagram {
+  --_mm-bg: var(--nhs-fdp-color-grey-6, nhs.$nhs-fdp-color-grey-6);
+  --_mm-border: var(--nhs-fdp-color-grey-4, nhs.$nhs-fdp-color-grey-4);
+  --_mm-text: var(--nhs-fdp-color-text, nhs.$nhs-fdp-color-primary-black);
+  --_mm-accent: var(
+  	--nhs-fdp-color-primary-blue,
+  	nhs.$nhs-fdp-color-primary-blue
+  );
+  --_mm-accent-alt: var(
+  	--nhs-fdp-color-data-viz-spc-improvement,
+  	nhs.$nhs-fdp-color-data-viz-spc-improvement
+  );
+  --_mm-warn: var(
+  	--nhs-fdp-color-data-viz-spc-concern,
+  	nhs.$nhs-fdp-color-data-viz-spc-concern
+  );
+  --_mm-radius: 6px;
+  /* Defaults for node padding used by the TS adjuster (in px numbers) */
+  --mermaid-node-base-padding-x: 12;
+  --mermaid-node-base-padding-y: 8;
+  /* Extra padding you can add on top per diagram/context */
+  --mermaid-node-extra-padding-x: 0;
+  --mermaid-node-extra-padding-y: 0;
+  /* Extra padding to apply to the SVG viewBox (in px) to avoid edge clipping */
+  --mermaid-svg-extra-padding-x: 20;
+  --mermaid-svg-extra-padding-y: 16;
+  /* Edge label sizing controls */
+  --mermaid-edge-label-padding-x: 4;
+  --mermaid-edge-label-padding-y: 2;
+  --mermaid-edge-label-bg: #ffffff;
+  background: var(--_mm-bg);
+  border: 1px solid var(--_mm-border);
+  border-radius: var(--_mm-radius);
+  padding: 24px;
+  overflow-x: auto;
+  font-family: Frutiger W01, Arial, sans-serif;
+  line-height: 1.3;
+  position: relative;
+  /* Scroll hint (fade) - removed to prevent edge clipping */
+  /* Use overflow-x: auto for horizontal scrolling instead */
+}
+
+/* Optional utility variants to quickly tweak padding per-diagram */
+.mermaid-diagram.is-compact {
+  --mermaid-node-base-padding-x: 8;
+  --mermaid-node-base-padding-y: 6;
+}
+
+.mermaid-diagram.is-cozy {
+  --mermaid-node-base-padding-x: 16;
+  --mermaid-node-base-padding-y: 10;
+}
+
+.mermaid-diagram.is-spacious {
+  --mermaid-node-base-padding-x: 20;
+  --mermaid-node-base-padding-y: 14;
+}
+
+/* Extra roomy */
+.mermaid-diagram.is-airy {
+  --mermaid-node-base-padding-x: 24;
+  --mermaid-node-base-padding-y: 16;
+  --mermaid-svg-extra-padding-x: 32;
+  --mermaid-svg-extra-padding-y: 24;
+  padding: 32px;
+}
+
+.mermaid-error {
+  background: var(--nhs-fdp-color-data-viz-spc-concern, #e46c0a);
+  color: #fff;
+  padding: 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  overflow-x: auto;
+}
+
+/* (Removed duplicate top-level node/label overrides in favour of the consolidated block below) */
+/* Mermaid generated structure overrides (hierarchical nesting) */
+.mermaid-diagram {
+  /* Nodes and edges (single authoritative block) */
+}
+.mermaid-diagram span.nodeLabel {
+  font-size: 14px !important;
+  color: var(--nhs-fdp-color-primary-white, #ffffff) !important;
+  font-family: "Frutiger W01", Arial, sans-serif;
+}
+.mermaid-diagram svg {
+  width: 100%;
+  height: auto;
+  /* Token-driven class styles (no need for Mermaid classDef colours) */
+  /* Lifecycle diagram specific styles */
+  /* Edges */
+  /* Markers (arrowheads) - ensure they render on top and are visible */
+  /* Ensure markers render above nodes by adjusting SVG rendering order */
+}
+.mermaid-diagram svg .node {
+  /* Base shapes (specificity via svg .node + !important) */
+  /* Accent nodes (start/end/terminal) */
+  /* Highlight key action outputs */
+}
+.mermaid-diagram svg .node rect,
+.mermaid-diagram svg .node polygon,
+.mermaid-diagram svg .node circle,
+.mermaid-diagram svg .node ellipse {
+  fill: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
+  stroke: var(--_mm-border) !important;
+  stroke-width: 1px !important;
+  rx: var(--_mm-radius);
+  ry: var(--_mm-radius);
+}
+.mermaid-diagram svg .node text {
+  /* Keep fill only; allow Mermaid-measured font to define node sizing */
+  fill: var(--nhs-fdp-color-primary-white, #ffffff) !important;
+  /* Avoid overriding font-size/family to prevent bbox mismatch */
+  white-space: pre; /* only break on explicit \n */
+}
+.mermaid-diagram svg .node[id^=A] rect,
+.mermaid-diagram svg .node[id^=A] polygon,
+.mermaid-diagram svg .node[id^=A] circle,
+.mermaid-diagram svg .node[id^=A] ellipse, .mermaid-diagram svg .node[id^=Z] rect,
+.mermaid-diagram svg .node[id^=Z] polygon,
+.mermaid-diagram svg .node[id^=Z] circle,
+.mermaid-diagram svg .node[id^=Z] ellipse, .mermaid-diagram svg .node[id^=X] rect,
+.mermaid-diagram svg .node[id^=X] polygon,
+.mermaid-diagram svg .node[id^=X] circle,
+.mermaid-diagram svg .node[id^=X] ellipse {
+  fill: var(--_mm-accent-alt) !important;
+  stroke: var(--_mm-accent) !important;
+}
+.mermaid-diagram svg .node[id^=A] text, .mermaid-diagram svg .node[id^=Z] text, .mermaid-diagram svg .node[id^=X] text {
+  font-weight: 600 !important;
+}
+.mermaid-diagram svg .node[id^=H] rect,
+.mermaid-diagram svg .node[id^=H] polygon,
+.mermaid-diagram svg .node[id^=H] circle,
+.mermaid-diagram svg .node[id^=H] ellipse, .mermaid-diagram svg .node[id^=N] rect,
+.mermaid-diagram svg .node[id^=N] polygon,
+.mermaid-diagram svg .node[id^=N] circle,
+.mermaid-diagram svg .node[id^=N] ellipse {
+  fill: var(--_mm-accent) !important;
+  stroke: var(--_mm-accent-alt) !important;
+}
+.mermaid-diagram svg .node[id^=H] text, .mermaid-diagram svg .node[id^=N] text {
+  fill: #fff !important;
+  font-weight: 600 !important;
+}
+.mermaid-diagram svg .node .label {
+  /* Decision emphasis for threshold-related content */
+}
+.mermaid-diagram svg .node .label foreignObject {
+  overflow: visible; /* allow expansion */
+}
+.mermaid-diagram svg .node .label foreignObject div {
+  display: contents !important;
+}
+.mermaid-diagram svg .node .label:has(div:contains("threshold")) rect, .mermaid-diagram svg .node .label:has(span:contains("threshold")) rect {
+  stroke: var(--_mm-warn);
+}
+.mermaid-diagram svg .clusters foreignObject {
+  overflow: visible !important; /* allow expansion */
+  y: 8px !important; /* slight nudge down */
+}
+.mermaid-diagram svg .clusters span.nodeLabel {
+  margin-top: 4px;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  fill: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
+  color: var(--nhs-fdp-color-primary-blue, #005eb8) !important;
+}
+.mermaid-diagram svg .node.decision rect, .mermaid-diagram svg .node.decision polygon, .mermaid-diagram svg .node.decision circle, .mermaid-diagram svg .node.decision ellipse {
+  fill: #fff3e0 !important;
+  stroke: #f57c00 !important;
+  color: #4e342e !important;
+}
+.mermaid-diagram svg .node.decision text {
+  fill: #4e342e !important;
+}
+.mermaid-diagram svg .node.decision .nodeLabel {
+  color: #4e342e !important;
+}
+.mermaid-diagram svg .node.auto rect, .mermaid-diagram svg .node.auto polygon, .mermaid-diagram svg .node.auto circle, .mermaid-diagram svg .node.auto ellipse {
+  fill: #e3f2fd !important;
+  stroke: #1976d2 !important;
+}
+.mermaid-diagram svg .node.auto text {
+  fill: #0d47a1 !important;
+}
+.mermaid-diagram svg .node.auto .nodeLabel {
+  color: #0d47a1 !important;
+}
+.mermaid-diagram svg .node.action rect, .mermaid-diagram svg .node.action polygon, .mermaid-diagram svg .node.action circle, .mermaid-diagram svg .node.action ellipse {
+  fill: #e8f5e9 !important;
+  stroke: #388e3c !important;
+}
+.mermaid-diagram svg .node.action text {
+  fill: #1b5e20 !important;
+}
+.mermaid-diagram svg .node.action .nodeLabel {
+  color: #1b5e20 !important;
+}
+.mermaid-diagram svg .node.warning rect, .mermaid-diagram svg .node.warning polygon, .mermaid-diagram svg .node.warning circle, .mermaid-diagram svg .node.warning ellipse {
+  fill: #ffebee !important;
+  stroke: #d32f2f !important;
+}
+.mermaid-diagram svg .node.warning text {
+  fill: #b71c1c !important;
+}
+.mermaid-diagram svg .node.warning .nodeLabel {
+  color: #b71c1c !important;
+}
+.mermaid-diagram svg .node.lifecycle-start rect, .mermaid-diagram svg .node.lifecycle-start polygon, .mermaid-diagram svg .node.lifecycle-start circle, .mermaid-diagram svg .node.lifecycle-start ellipse {
+  fill: #e1f5fe !important; /* Light blue */
+  stroke: #01579b !important;
+}
+.mermaid-diagram svg .node.lifecycle-start text {
+  fill: #01579b !important;
+}
+.mermaid-diagram svg .node.lifecycle-start .nodeLabel {
+  color: #01579b !important;
+}
+.mermaid-diagram svg .node.lifecycle-ready rect, .mermaid-diagram svg .node.lifecycle-ready polygon, .mermaid-diagram svg .node.lifecycle-ready circle, .mermaid-diagram svg .node.lifecycle-ready ellipse {
+  fill: #c8e6c9 !important; /* Light green */
+  stroke: #1b5e20 !important;
+}
+.mermaid-diagram svg .node.lifecycle-ready text {
+  fill: #1b5e20 !important;
+}
+.mermaid-diagram svg .node.lifecycle-ready .nodeLabel {
+  color: #1b5e20 !important;
+}
+.mermaid-diagram svg .node.lifecycle-error rect, .mermaid-diagram svg .node.lifecycle-error polygon, .mermaid-diagram svg .node.lifecycle-error circle, .mermaid-diagram svg .node.lifecycle-error ellipse {
+  fill: #ffcdd2 !important; /* Light red */
+  stroke: #b71c1c !important;
+}
+.mermaid-diagram svg .node.lifecycle-error text {
+  fill: #b71c1c !important;
+}
+.mermaid-diagram svg .node.lifecycle-error .nodeLabel {
+  color: #b71c1c !important;
+}
+.mermaid-diagram svg .node.lifecycle-phase rect, .mermaid-diagram svg .node.lifecycle-phase polygon, .mermaid-diagram svg .node.lifecycle-phase circle, .mermaid-diagram svg .node.lifecycle-phase ellipse {
+  fill: #fff9c4 !important; /* Yellow */
+  stroke: #f57f17 !important;
+}
+.mermaid-diagram svg .node.lifecycle-phase text {
+  fill: #f57f17 !important;
+}
+.mermaid-diagram svg .node.lifecycle-phase .nodeLabel {
+  color: #f57f17 !important;
+}
+.mermaid-diagram svg .node.lifecycle-user-action rect, .mermaid-diagram svg .node.lifecycle-user-action polygon, .mermaid-diagram svg .node.lifecycle-user-action circle, .mermaid-diagram svg .node.lifecycle-user-action ellipse {
+  fill: #f8bbd0 !important; /* Pink */
+  stroke: #880e4f !important;
+}
+.mermaid-diagram svg .node.lifecycle-user-action text {
+  fill: #880e4f !important;
+}
+.mermaid-diagram svg .node.lifecycle-user-action .nodeLabel {
+  color: #880e4f !important;
+}
+.mermaid-diagram svg .node.lifecycle-complete rect, .mermaid-diagram svg .node.lifecycle-complete polygon, .mermaid-diagram svg .node.lifecycle-complete circle, .mermaid-diagram svg .node.lifecycle-complete ellipse {
+  fill: #d1c4e9 !important; /* Light purple */
+  stroke: #4a148c !important;
+}
+.mermaid-diagram svg .node.lifecycle-complete text {
+  fill: #4a148c !important;
+}
+.mermaid-diagram svg .node.lifecycle-complete .nodeLabel {
+  color: #4a148c !important;
+}
+.mermaid-diagram svg .node.lifecycle-announce rect, .mermaid-diagram svg .node.lifecycle-announce polygon, .mermaid-diagram svg .node.lifecycle-announce circle, .mermaid-diagram svg .node.lifecycle-announce ellipse {
+  fill: #b2dfdb !important; /* Light teal */
+  stroke: #004d40 !important;
+}
+.mermaid-diagram svg .node.lifecycle-announce text {
+  fill: #004d40 !important;
+}
+.mermaid-diagram svg .node.lifecycle-announce .nodeLabel {
+  color: #004d40 !important;
+}
+.mermaid-diagram svg .node.initPhase rect, .mermaid-diagram svg .node.initPhase polygon, .mermaid-diagram svg .node.initPhase circle, .mermaid-diagram svg .node.initPhase ellipse {
+  fill: #fff3e0 !important; /* Light orange */
+  stroke: #ff6f00 !important;
+  stroke-width: 2px !important;
+}
+.mermaid-diagram svg .node.initPhase text {
+  fill: #e65100 !important;
+}
+.mermaid-diagram svg .node.initPhase .nodeLabel {
+  color: #e65100 !important;
+}
+.mermaid-diagram svg .node.sortPhase rect, .mermaid-diagram svg .node.sortPhase polygon, .mermaid-diagram svg .node.sortPhase circle, .mermaid-diagram svg .node.sortPhase ellipse {
+  fill: #e8eaf6 !important; /* Light indigo */
+  stroke: #3f51b5 !important;
+  stroke-width: 2px !important;
+}
+.mermaid-diagram svg .node.sortPhase text {
+  fill: #1a237e !important;
+}
+.mermaid-diagram svg .node.sortPhase .nodeLabel {
+  color: #1a237e !important;
+}
+.mermaid-diagram svg .node.domPhase rect, .mermaid-diagram svg .node.domPhase polygon, .mermaid-diagram svg .node.domPhase circle, .mermaid-diagram svg .node.domPhase ellipse {
+  fill: #e0f2f1 !important; /* Light teal */
+  stroke: #009688 !important;
+  stroke-width: 2px !important;
+}
+.mermaid-diagram svg .node.domPhase text {
+  fill: #004d40 !important;
+}
+.mermaid-diagram svg .node.domPhase .nodeLabel {
+  color: #004d40 !important;
+}
+.mermaid-diagram svg .edgePath path.path {
+  stroke: var(--_mm-border) !important;
+  stroke-width: 1.2px !important;
+}
+.mermaid-diagram svg marker {
+  overflow: visible !important;
+}
+.mermaid-diagram svg marker path {
+  fill: var(--_mm-border) !important;
+  stroke: var(--_mm-border) !important;
+}
+.mermaid-diagram svg defs marker {
+  /* Markers are defined in defs, ensure they're styled */
+}
+.mermaid-diagram svg defs marker path {
+  fill: var(--_mm-border) !important;
+  stroke: none !important;
+}
+.mermaid-diagram svg .edgeLabel {
+  background-color: #ffffff !important; /* optional background */
+  overflow: visible !important; /* allow expansion */
+  font-size: 18px;
+}
+.mermaid-diagram svg .edgeLabel text {
+  fill: var(--_mm-text) !important;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: bold;
+}
+.mermaid-diagram svg .edgeLabel rect {
+  background-color: #ffffff !important; /* optional background */
+  fill: #ffffff !important; /* optional background */
+}
+.mermaid-diagram svg .edgeLabel foreignObject {
+  overflow: visible !important; /* allow expansion */
+}
+.mermaid-diagram svg .edgeLabel foreignObject div {
+  display: contents !important;
+  padding: var(--mermaid-edge-label-padding-y) var(--mermaid-edge-label-padding-x);
+  background: var(--mermaid-edge-label-bg);
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* Dark mode */
+.theme-dark .mermaid-diagram {
+  --_mm-bg: var(--nhs-fdp-color-grey-1, nhs.$nhs-fdp-color-grey-1);
+  --_mm-border: var(--nhs-fdp-color-grey-3, nhs.$nhs-fdp-color-grey-3);
+  --_mm-text: var(--nhs-fdp-color-text-on-dark, #fff);
+}

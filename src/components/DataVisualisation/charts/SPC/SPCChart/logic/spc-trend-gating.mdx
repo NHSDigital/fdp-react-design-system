@@ -1,0 +1,265 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+// import { TrendGatingEmbeddedHigh } from './storybook/TrendGatingEmbeddedHighStory';
+// import { TrendGatingEmbeddedComparison } from './storybook/TrendGatingEmbeddedComparison';
+import { TrendVisualMode } from '../SPCChart.props';
+import Mermaid from '../../../../../_internal/Mermaid';
+// import { ED4hTrendGatingEmbedded } from './storybook/ED4hTrendGatingEmbeddedStory';
+
+<Meta title="Data Visualisation/SPC/Guides/v1/Trend Gating Rationale"/>
+
+# A Historic dive into Trend Side‑Gating Rationale, when in the SPC v1 logic it was optional
+
+> Note (v2 engine default): SPCChart now uses the v2 SPC engine by default. Side‑gating of trend classification is always applied in the engine (classification layer). You can still choose visuals via `trendVisualMode` — `Ungated` (default visuals colour early trends by direction) or `Gated` (keep early trends neutral purple) — without changing the underlying classification. The examples below remain accurate conceptually; for v2 code, prefer importing from `logic_v2` (e.g. `buildSpcV26a`) and, for display classification that mirrors engine semantics, `computeSpcVisualCategories`.
+
+## Trend Side‑Gating & Neutral (Purple) Points
+
+This note explains why **early monotonic trend points that are still on the *unfavourable* side of the mean** now render in the **neutral purple special‑cause colour** (instead of immediately showing Improvement / Concern).
+
+### Defaults and configuration
+
+- Trend side‑gating is always enabled at the classification layer (engine). Early trend points on the unfavourable side of the mean are held in a neutral (no‑judgement) state for classification and icons.
+- Raw trend detection is still performed symmetrically under the hood and exposed via rule tags for analysis.
+- Visual affordances you can control without changing classification:
+
+  - `trendVisualMode` (default `TrendVisualMode.Ungated`):
+    - `Ungated` colours early monotonic trend points by direction (blue/orange) even before crossing the mean (NHS UI guidance).
+    - `Gated` keeps early trend points neutral purple until the run is on the favourable side of the mean (more conservative visual).
+  - `enableNeutralNoJudgement` (default true): toggles neutral purple styling/copy.
+  - `showTrendGatingExplanation` (default true): shows explanatory copy in the tooltip.
+
+Note: Side‑gating remains in the engine regardless of visual mode. This separates statistical classification from UI presentation.
+
+See also: Precedence & Directional Strategy for how trend interacts with icon selection under different precedence strategies.
+
+### Pros and cons at a glance
+
+Perspective: what are we optimising for statistical caution or improvement motivation?
+
+Pros of side‑gating (classification held neutral until favourable side):
+
+- Reduces premature celebration/alert: no “Improvement” while still in unfavourable territory.
+- Clear semantics: Improvement/Concern strictly mean “directional special cause on favourable/unfavourable side of mean.”
+- Aligns with orthodox SPC interpretation and mixed‑rule precedence (trend vs shift/outlier).
+- Safer for governance/board reporting; avoids misleading positives.
+
+Cons of side‑gating:
+
+- Delayed visible recognition during recovery; long stretches of purple can be demotivating.
+- The moment an intervention starts working may be visually distant from when blue/orange appears.
+
+Pros of ungated visuals (colour by direction immediately):
+
+- Timely feedback for Quality Improvement (QI) teams; reinforces early gains.
+- Closer to NHS “Making Data Count” exemplars used in training materials.
+- Easier cause‑and‑effect storytelling around interventions and PDSA cycles.
+
+Cons of ungated visuals:
+
+- Can look like “improvement” while still below target or on the unfavourable side of the mean.
+- Risks misinterpretation if used in governance contexts without explanation.
+
+Our approach balances both: visuals may be ungated for QI; classification remains side‑gated for accuracy and auditability.
+
+See also: Minimum points thresholds and suppression semantics in `docs/spc-thresholds.md` (limits suppressed and `variationIcon: 'suppressed'` below the threshold).
+
+### What Changed
+
+Previously a strictly increasing (or decreasing) 6‑point run would immediately colour as Improvement (or Concern) once the rule length threshold was reached, *even if those points had not yet crossed onto the favourable side of the mean*.
+
+The engine now applies **side gating**:
+
+| Rule Flag | Value Side vs Mean | Metric Direction (example: High is good) | Variation Icon | Colour |
+|-----------|--------------------|-------------------------------------------|----------------|--------|
+| `specialCauseTrendUp` | Below mean | High is good | Neither (neutral special cause) | Purple |
+| `specialCauseTrendUp` | Above mean | High is good | Improvement | Blue |
+| `specialCauseTrendDown` | Above mean | High is good | Neither (neutral) | Purple |
+| `specialCauseTrendDown` | Below mean | High is good | Concern | Orange |
+
+The same logic mirrors for *Low is good* (favourable side inverted). Neutral direction always yields `Neither`.
+
+### Rationale
+
+1. **Avoid Premature Conclusions** – A rising sequence while still below the mean has not yet demonstrated improved performance; classifying too early biases interpretation.
+2. **Reduces False Celebrations / Alerts** – Analysts were previously seeing “Improvement” icons before any actual favourable shift materialised.
+3. **Consistency With Other Side‑Sensitive Rules** – Shift and two‑of‑three logic already require being stably on one side of the mean; trend gating brings parity.
+4. **Diagnostic Transparency** – Purple indicates *“emerging special cause pattern detected, but not yet favourable/unfavourable in outcome terms”*.
+
+#### Why not make this a toggle?
+
+While improvement teams often want to know “when did the upward run begin?”, using a runtime toggle to remove side‑gating re‑introduces early directional colour before outcomes become favourable. This:
+
+- increases false “celebration/alert” risk,
+- adds branching behaviour for consumers (docs/tests/snapshots), and
+- encourages divergent defaults across products.
+
+Best practice is to separate detection (pattern found) from interpretation (outcome direction). We keep classification cautious and provide explicit insights to satisfy the improvement‑onset use‑case (see “Improvement‑oriented insights & overlays” below).
+
+### Academic & Methodological Basis
+
+Side‑gated trend interpretation layers a decision/utility frame over orthodox symmetric detection. Core detection uses classic Shewhart / Nelson style rules (monotonic run of length N) without altering Type I error properties. The post‑detection gating then maps the raw trend flag to a directional semantic only when the observed values sit on the favourable side of the centre line (or cross into it), otherwise holding a neutral “emerging” state.
+
+#### Key supporting sources / analogues:
+
+- Shewhart, W.A. (1931) Economic Control of Quality of Manufactured Product – establishes symmetric control concepts (trend signalling independent of goal direction).
+- Western Electric Company (1956) Statistical Quality Control Handbook – formalises supplementary rules (precursor to Nelson) used here unchanged.
+- Nelson, L.S. (1984–1985) Journal of Quality Technology rule set – provides monotonic run detection; side‑gating does not modify underlying detection criteria.
+- Provost & Murray (2011) The Health Care Data Guide – emphasises aim statements and narrative framing in healthcare SPC, supporting decoupling detection from interpretation when communicating improvement vs deterioration.
+- NHS England / NHS Improvement “Making Data Count” guidance – prioritises actionable interpretation and avoiding misleading early colour shifts.
+- Benneyan (various healthcare SPC papers) – highlights aligning signal response to clinical objectives (utility weighting of signals).
+- Economic design of control charts (Montgomery, 7th ed.) – conceptual analogue: asymmetric costs for false improvement vs false deterioration narratives justify post‑processing utility mapping.
+
+#### Interpretive principles applied:
+
+1. Maintain statistical neutrality in detection (no change to run length N, no one‑sided selection bias in flag generation).
+2. Apply polarity only in classification (semantic layer) to reduce misclassification cost for early, not‑yet‑favourable sequences.
+3. Provide explicit neutral state (purple) rather than suppressing information, preserving analyst situational awareness.
+4. Preserve auditability via retained underlying rule flags (trend_inc / trend_dec in `ruleTags`).
+
+### Why this serves both audiences
+
+- QI teams: Default visual mode (`TrendVisualMode.Ungated`) shows emerging direction quickly to sustain engagement and support rapid learning cycles.
+- Governance/assurance: Engine classification (icons, data attributes, precedence) stays side‑gated, ensuring dashboards and automated workflows don’t over‑state performance.
+- Clarity: The prop name (`trendVisualMode`) and tooltip copy make the split explicit; consumers can opt‑in to `Gated` visuals for conservative views.
+
+Tip: Pair variation signals with target‑based assurance icons to communicate both “is the process changing?” (mean‑relative SPC) and “are we meeting the goal?” (target‑relative capability).
+
+#### Board‑ready view
+
+For governance dashboards and external reporting, prefer conservative visuals:
+- Set `trendVisualMode={TrendVisualMode.Gated}` so early trends remain neutral until favourable‑side inclusion.
+- Keep engine classification unchanged (side‑gated) for icons and data attributes.
+- Pair with capability/assurance indicators (target‑relative) to show goal attainment alongside variation.
+
+#### Quick start in Storybook
+
+- Use the “Trend visual mode” control in SPC stories to switch between Ungated and Gated visuals.
+- Or open the Individuals story preset “GovernanceAssurancePreset” which defaults to Gated visuals and shows embedded assurance icons for board views.
+
+#### Limitations / scope:
+
+- Does not produce a formal probability adjustment; neutrality is an interpretive state, not a statistical “non‑signal”.
+- Users seeking pure symmetric SPC can disable precedence strategy enhancements or rely on raw rule tags.
+- Future extension could parameterise the gating (e.g. require M points on favourable side post‑cross before upgrading) – currently immediate upon any favourable-side inclusion after run continuation.
+
+### Improvement‑oriented insights & overlays
+
+If your goal is to understand “when did the trend begin?” (e.g., to time‑link with an intervention), compute insights from raw detection while keeping classification side‑gated:
+
+- Trend start (first index where the monotonic run reaches length N)
+- First favourable‑side inclusion (first index the same run includes a point on the favourable side of the mean)
+- Persisted across mean (boolean)
+
+You can then render lightweight overlays/markers or narrative copy, without changing `variationIcon` classification.
+
+Example outline:
+
+```ts
+import { buildSpcV26a as buildSpc } from '../../engine';
+import { ChartType, ImprovementDirection } from '../../engine';
+import { extractRuleIds } from '../descriptors';
+
+const engine = buildSpc({
+  chartType: ChartType.XmR,
+  metricImprovement: ImprovementDirection.Up, // or Down/Neither
+  data: rows.map((r) => ({ x: r.x, value: r.y }))
+});
+
+function computeTrendInsights(rows) {
+  const insights = [];
+  let currentRun = null; // { dir: 'up'|'down', start: number, length: number, startMean: number }
+  for (let i = 0; i < rows.length; i++) {
+    const ruleIds = extractRuleIds(rows[i]);
+    const hasUp = ruleIds.includes('specialCauseTrendUp');
+    const hasDown = ruleIds.includes('specialCauseTrendDown');
+    // ... maintain monotonicity state; when length hits N, record detectedAt
+    // then determine favourable side using metricImprovement and row.mean vs row.value
+  }
+  return insights;
+}
+
+const insights = computeTrendInsights(engine.rows);
+// Render: pin markers at detectedAt and firstFavourableCrossAt; add tooltip copy.
+```
+
+Tip: prefer helpers like `extractRuleIds(row)` and `ruleGlossary` to avoid coupling to internal tag names.
+
+#### Overlay toggles in Storybook
+
+There is a dedicated story to explore these UI-only overlays without affecting classification:
+
+- Story: “SPCChart → TrendOverlays”
+- Props you can toggle:
+  - `showTrendStartMarkers` – hollow marker at the point where the monotonic run first reaches N.
+  - `showFirstFavourableCrossMarkers` – solid marker at the first favourable-side inclusion within the run.
+  - `showTrendBridgeOverlay` – dashed connector from trend start to the first favourable point.
+
+These overlays are derived from engine rows and respect `metricImprovement`; they don’t modify icons or underlying rules.
+
+### Illustration (Dataset Story)
+
+Below is the same dataset rendered two ways to compare visual-only behaviour while keeping classification side‑gated under the hood.
+
+- Left: Ungated visuals (default) – early monotonic run colours by direction even before crossing the mean.
+- Right: Gated visuals – early monotonic run remains neutral purple until it includes favourable-side points.
+
+{/* <TrendGatingEmbeddedComparison /> */}
+
+Note: Both modes use the same engine classification (side‑gated). The difference is purely in point and background colours prior to crossing the mean.
+
+### Further Examples (ED 4h Compliance)
+
+ED 4h compliance with side‑gating: early points remain neutral until the series reaches the favourable side of the mean; subsequent points classify as Improvement/Concern accordingly.
+
+{/* <ED4hTrendGatingEmbedded /> */}
+
+### Visual Decision Flow
+
+<Mermaid>{`flowchart TD
+  A[Trend length >= N & Monotonic] --> B{Metric Direction};
+  B -->|Neutral| C[Neutral • Purple];
+
+  B -->|High is good| D{Value > Mean?};
+  D -->|Yes| E[Improvement];
+  D -->|No| C;
+
+  B -->|Low is good| F{Value < Mean?};
+  F -->|Yes| E2[Improvement];
+  F -->|No| C;
+`}</Mermaid>
+
+### Under the Hood
+
+Pseudocode of the gating step (conceptual):
+
+```ts
+for (const row of rows) {
+  if (row.specialCauseTrendUp) {
+    const favourable = direction === 'Up' ? row.value > mean : direction === 'Down' ? row.value < mean : false;
+    if (!favourable) row.variationIcon = 'neither';
+  }
+  if (row.specialCauseTrendDown) {
+    const favourable = direction === 'Up' ? row.value < mean : direction === 'Down' ? row.value > mean : false;
+    if (!favourable) row.variationIcon = 'neither';
+  }
+}
+```
+
+### Test Coverage
+
+Trend side‑gating behaviour is enforced by multiple tests:
+
+| Test File | Purpose |
+|-----------|---------|
+| `spc.trendSideGate.client.test.ts` | Core regression: trend while on adverse side stays neutral. |
+| `spc.trendEdgeCases.client.test.ts` | Entire trend below elevated mean → no premature Improvement. |
+| `spc.trendCrossMeanEdge.client.test.ts` | Crossing the mean: only post‑cross points classed as Improvement. |
+| `spc.trendAlternatingMixed.client.test.ts` | Alternating / partial trends don’t leak Improvement/Concern early. |
+| `spc.mixedPrecedence.client.test.ts` | Integrated scenario (trend + clusters + final opposite signal). |
+| `__tests__/spc.ed4h.debug.test.ts` | Real metric regression (ED 4h) – blocks prior premature Improvement. |
+
+### Summary
+
+Purple trend points = **valid special cause detection** held in *neutral* state until outcome is evidenced by crossing the mean into the favourable zone. This preserves statistical sensitivity (rule still fires at 6 points) while delaying directional interpretation for better analytical accuracy.
+
+---
+**See also:** `spc-test-coverage.mdx` (sections 1 & 8) for broader trend rule context.

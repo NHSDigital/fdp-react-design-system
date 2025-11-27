@@ -1,0 +1,25 @@
+{
+  "extends": "./config/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": ".",
+    "skipLibCheck": true
+  },
+  "include": [
+    "src/**/*",
+    "packages/nhs-fdp/dist/react/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.*",
+    "**/*.stories.*",
+    "src/test-setup.ts",
+    "src/vitest-env.d.ts",
+  "**/styled-components.ts",
+  "src/test-utils/**"
+  ]
+}

@@ -1,0 +1,10 @@
+// Mermaid classDef helpers using generated tokens
+@forward '../dist/scss/components/diagram' as diagram-*;
+
+// Convenience mixins to output classDef lines with token values
+@mixin mermaid-classes() {
+  /* decision */
+  // classDef decision fill:#FFF3E0,stroke:#F57C00,stroke-width:1px,color:#4E342E;
+  // Note: stroke-width and color remain author-specified; tokens provide fill/stroke/text colours
+  // Usage copy-paste example will be generated in docs at authoring time
+}

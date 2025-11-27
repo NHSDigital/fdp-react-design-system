@@ -1,0 +1,294 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Card component SCSS with design tokens
+// Based on NHS UK card component styles
+
+// Card variables using design tokens
+$card-border-width: nhs.$nhs-fdp-border-width-semantic-thin;
+$card-border-bottom-width: nhs.$nhs-fdp-spacing-1; // 4px
+$card-border-color: nhs.$nhs-fdp-card-border-default;
+$card-border-hover-color: nhs.$nhs-fdp-card-border-hover;
+
+.nhsuk-card {
+  background: nhs.$nhs-fdp-card-background-default;
+  border: $card-border-width solid $card-border-color;
+  position: relative; // Needed for the :active top positioning and invisible clickable overlay
+  width: 100%;
+  margin-bottom: nhs.$nhs-fdp-spacing-7; // 32px
+
+  @media (max-width: calc(#{nhs.$nhs-fdp-breakpoint-medium} - 1px)) {
+    margin-bottom: nhs.$nhs-fdp-spacing-7;
+  }
+
+  // Card image
+  &__img {
+    border-bottom: $card-border-width solid nhs.$nhs-fdp-card-border-bottom;
+    display: block;
+    width: 100%;
+
+    @media print {
+      display: none;
+    }
+  }
+
+  // Card content container
+  &__content {
+    padding: nhs.$nhs-fdp-component-card-padding-mobile;
+
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      padding: nhs.$nhs-fdp-component-card-padding-desktop;
+    }
+
+    // Remove top/bottom padding from first/last child elements
+    > *:first-child {
+      margin-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+
+    // Primary card content variant
+    &--primary {
+      $icon-width: 27px;
+      $icon-height: 27px;
+      border-bottom: $card-border-bottom-width solid $card-border-color;
+      padding-right: calc(#{nhs.$nhs-fdp-spacing-5} + #{$icon-width} + #{nhs.$nhs-fdp-spacing-4}); // Adjust for icon
+
+      @media (min-width: 641px) {
+        padding-right: calc(#{nhs.$nhs-fdp-spacing-5} + #{$icon-width} + #{nhs.$nhs-fdp-spacing-4});
+      }
+
+      @media (min-width: 1024px) {
+        height: 100%;
+      }
+
+      .nhsuk-icon {
+        display: block;
+        width: $icon-width;
+        height: $icon-height;
+        margin-top: calc(-#{$icon-height} / 2);
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        right: nhs.$nhs-fdp-spacing-5;
+        fill: nhs.$nhs-fdp-color-primary-blue;
+
+        @media (min-width: 641px) {
+          right: nhs.$nhs-fdp-spacing-5;
+        }
+      }
+    }
+
+    // Secondary card content variant
+    &--secondary {
+      padding-left: 0;
+      padding-right: 0;
+      padding-top: 0;
+    }
+
+    // Feature card content variant
+    &--feature {
+      padding-top: 0 !important; // Remove padding-top for feature heading positioning
+    }
+  }
+
+  // Card heading
+  &__heading {
+    margin-bottom: nhs.$nhs-fdp-component-card-heading-margin;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+    color: nhs.$nhs-fdp-card-text-heading;
+
+    // Mobile typography
+    font-size: nhs.$nhs-fdp-font-size-26-mobile; // 22px
+    
+    @media (min-width: 641px) {
+      font-size: nhs.$nhs-fdp-font-size-26-tablet; // 26px
+    }
+
+    &:has(+ .nhsuk-icon) {
+      margin-bottom: 0;
+    }
+
+    // Feature heading variant
+    &--feature {
+      background: nhs.$nhs-fdp-color-primary-blue;
+      color: nhs.$nhs-fdp-color-primary-white;
+      display: inline-block;
+      left: -(nhs.$nhs-fdp-spacing-4 + $card-border-width); // Include border width for alignment
+      margin-bottom: nhs.$nhs-fdp-spacing-2; // 8px
+      margin-right: -(nhs.$nhs-fdp-spacing-4); // Stop heading from spanning full width
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-4; // 8px 16px
+      position: relative;
+      top: -(nhs.$nhs-fdp-spacing-2); // 8px
+
+      @media (min-width: 641px) {
+        left: -(nhs.$nhs-fdp-spacing-5 + $card-border-width);
+        margin-right: -(nhs.$nhs-fdp-spacing-5);
+        padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-5; // 8px 24px
+        top: -(nhs.$nhs-fdp-spacing-3); // 12px
+      }
+    }
+  }
+
+  // Card description
+  &__description {
+    margin-bottom: 0;
+    font-family: #{nhs.$nhs-fdp-font-family-base}, #{nhs.$nhs-fdp-font-family-fallback};
+    color: nhs.$nhs-fdp-card-text-description;
+    line-height: nhs.$nhs-fdp-font-line-height-base;
+
+    // Mobile typography
+    font-size: nhs.$nhs-fdp-font-size-19-mobile; // 16px
+    
+    @media (min-width: 641px) {
+      font-size: nhs.$nhs-fdp-font-size-19-tablet; // 19px
+    }
+  }
+
+  // Card link (for clickable cards)
+  &__link {
+    text-decoration: none;
+    color: nhs.$nhs-fdp-card-text-link;
+
+    &:hover {
+      color: nhs.$nhs-fdp-card-text-link;
+      text-decoration: underline;
+    }
+
+    &:focus {
+      color: nhs.$nhs-fdp-color-primary-black;
+      background-color: nhs.$nhs-fdp-color-primary-yellow;
+      outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-color-primary-black;
+      outline-offset: 0;
+      box-shadow: inset 0 0 0 2px;
+    }
+
+    // Invisible clickable overlay
+    &::before {
+      background-color: rgba(255, 255, 255, 0); // Trick IE10 into rendering
+      bottom: 0;
+      content: "";
+      display: block;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  // Card variants
+  &--clickable {
+    border-bottom-width: $card-border-bottom-width;
+
+    .nhsuk-card__heading a {
+      text-decoration: none;
+      color: nhs.$nhs-fdp-card-text-link;
+
+      &:hover {
+        color: nhs.$nhs-fdp-card-text-link;
+        text-decoration: underline;
+      }
+
+      &:focus {
+        color: nhs.$nhs-fdp-color-primary-black;
+        background-color: nhs.$nhs-fdp-color-primary-yellow;
+        outline: nhs.$nhs-fdp-focus-outline-width solid nhs.$nhs-fdp-color-primary-black;
+        outline-offset: 0;
+        box-shadow: inset 0 0 0 2px;
+      }
+
+      // Invisible clickable overlay
+      &::before {
+        background-color: rgba(255, 255, 255, 0); // Trick IE10 into rendering
+        bottom: 0;
+        content: "";
+        display: block;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    &:active {
+      border-color: $card-border-hover-color;
+      bottom: -$card-border-width; // Creates the 'pressed down' effect
+    }
+  }
+
+  &--feature {
+    margin-top: nhs.$nhs-fdp-spacing-7; // 32px
+
+    @media (min-width: 641px) {
+      margin-top: nhs.$nhs-fdp-spacing-7;
+    }
+  }
+
+  &--secondary {
+    // Minimal with bottom border only
+    background: transparent;
+    border-bottom: $card-border-bottom-width solid $card-border-color;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+  }
+}
+
+// Card group for displaying multiple cards in a flex layout
+.nhsuk-card-group {
+  margin-bottom: nhs.$nhs-fdp-spacing-3; // 12px
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+
+  @media (max-width: 1023px) {
+    margin-bottom: nhs.$nhs-fdp-spacing-6; // 24px
+  }
+
+  // Remove padding-top from headings directly after the card group
+  + h2,
+  + .nhsuk-heading-l,
+  + h3,
+  + .nhsuk-heading-m {
+    padding-top: 0;
+  }
+
+  // Card group item
+  &__item {
+    list-style-type: none;
+    margin-bottom: 0;
+    flex: 1 1 0%;
+
+    .nhsuk-card {
+      margin-bottom: nhs.$nhs-fdp-spacing-5; // 20px
+    }
+
+    @media (max-width: 1023px) {
+      .nhsuk-card {
+        margin-bottom: nhs.$nhs-fdp-spacing-3; // 12px
+      }
+
+      &:last-child .nhsuk-card {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+// Visually hidden utility for screen readers
+.nhsuk-u-visually-hidden {
+  border: 0 !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  width: 1px !important;
+}

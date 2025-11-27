@@ -1,0 +1,57 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Hydration Testing"/>
+
+# Hydration Testing
+
+To ensure server-rendered markup matches what React expects on the client (avoiding hydration warnings / re-render flashes), use the shared helper `hydrateWithoutMismatch`.
+
+```ts
+import { hydrateWithoutMismatch } from '@/test-utils/hydrationTest';
+
+hydrateWithoutMismatch({
+  ssr: <MyComponent prop="value" />,
+  client: <MyComponent prop="value" />,
+  assert: (container) => {
+    expect(container.querySelector('[data-role="widget"]')).toBeTruthy();
+  }
+});
+```
+
+## When to create a hydration test
+
+Create `Component.hydration.test.tsx` when:
+1. The component is expected to be SSR-compatible.
+2. It renders dynamic state driven by props that must match on first paint (e.g. open/closed, active tab, controlled vs uncontrolled state).
+3. You changed SSR markup or added client-only conditionals.
+
+## Test File Pattern
+
+| Concern | File suffix | Purpose |
+|---------|-------------|---------|
+| Static HTML structure | `Component.ssr.test.tsx` | Deterministic markup under prop permutations. |
+| Client interaction | `Component.client.test.tsx` | Event handling, keyboard & focus. |
+| Hydration fidelity | `Component.hydration.test.tsx` | SSR -> hydrate without mismatch warnings. |
+
+## Helper Contract
+
+`hydrateWithoutMismatch({ ssr, client, assert?, expectNoMismatch? })`
+
+- `ssr`: element rendered to HTML via `renderSSR`.
+- `client`: element passed to `hydrateRoot`.
+- `assert(container)`: optional extra DOM assertions.
+- `expectNoMismatch` (default true): set false to intentionally allow mismatch logging.
+
+The helper spies on `console.error`, hydrates, runs assertions, unmounts, and restores the spy.
+
+## Common Pitfalls
+
+1. Divergent default props between server & client.
+2. Non-deterministic IDs (ensure stable generation or explicit IDs).
+3. Environment conditionals causing structural differences.
+
+## Extending
+
+Add separate tests for each critical prop combination (e.g. `open`, multiple `activeTab` states) to guarantee full hydration coverage.
+
+See existing component hydration tests (Details, Expander, Tabs, HeaderSSR) for reference.

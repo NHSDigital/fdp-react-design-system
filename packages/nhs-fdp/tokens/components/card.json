@@ -1,0 +1,78 @@
+{
+  "card": {
+    "background": {
+      "$type": "color",
+      "default": {
+        "$value": "{color.primary.white}",
+        "$description": "Default card background color"
+      }
+    },
+    "border": {
+      "$type": "color", 
+      "default": {
+        "$value": "{border.color.card}",
+        "$description": "Default card border color"
+      },
+      "hover": {
+        "$value": "{border.color.card-hover}",
+        "$description": "Card border color on hover"
+      },
+      "bottom": {
+        "$value": "{color.grey.5}",
+        "$description": "Card image bottom border color"
+      }
+    },
+    "text": {
+      "$type": "color",
+      "heading": {
+        "$value": "{semantic.color.text.primary}",
+        "$description": "Card heading text color"
+      },
+      "description": {
+        "$value": "{semantic.color.text.primary}",
+        "$description": "Card description text color"
+      },
+      "link": {
+        "$value": "{semantic.color.link.default}",
+        "$description": "Card link text color"
+      }
+    },
+    "spacing": {
+      "$type": "spacing",
+      "padding-mobile": {
+        "$value": "{component.card.padding.mobile}",
+        "$description": "Card content padding on mobile"
+      },
+      "padding-desktop": {
+        "$value": "{component.card.padding.desktop}",
+        "$description": "Card content padding on desktop"
+      },
+      "heading-margin": {
+        "$value": "{component.card.heading-margin}",
+        "$description": "Margin below card headings"
+      }
+    },
+    "border-width": {
+      "$type": "borderWidth",
+      "default": {
+        "$value": "{border.width.default}",
+        "$description": "Default card border width"
+      },
+      "bottom": {
+        "$value": "{border.width.card-bottom}",
+        "$description": "Card bottom border width for clickable cards"
+      }
+    },
+    "shadow": {
+      "$type": "boxShadow",
+      "default": {
+        "$value": "{shadow.card.default}",
+        "$description": "Default card shadow"
+      },
+      "hover": {
+        "$value": "{shadow.card.hover}",
+        "$description": "Card shadow on hover"
+      }
+    }
+  }
+}

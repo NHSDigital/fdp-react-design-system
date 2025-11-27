@@ -1,0 +1,854 @@
+import { Canvas, Meta, Stories} from '@storybook/addon-docs/blocks';
+
+<Meta title="NHS/Data/SortableDataTable/Documentation" />
+
+# AriaTabsDataGrid Component
+
+The `AriaTabsDataGrid` is a fully accessible data grid component that combines tabbed navigation with sortable data tables. Originally designed for FDP Timely Care Hub workflows, it has been refactored and generalised to support any domain.
+
+## Installation
+
+```bash
+npm install @nhsdigital/fdp-design-system
+```
+
+## Importing Styles
+
+Choose the appropriate CSS import based on your needs:
+
+```typescript
+// Option 1: Core styles only (recommended for Next.js layout.tsx)
+import '@nhsdigital/fdp-design-system/core/css';
+
+// Then import the component specific styles on the page / location where the data table is being utilised.
+import '@nhsdigital/fdp-design-system/components/SortableDataTable/css';
+import '@nhsdigital/fdp-design-system/components/SortableDataTable/SortStatusControl/css';
+
+// or Option 2: Full design system styles
+import '@nhsdigital/fdp-design-system/css';
+
+```
+
+## Key Features
+
+- **Full ARIA Compliance**: Complete accessibility support with screen reader compatibility
+- **Hierarchical Keyboard Navigation**: Arrow key navigation between tabs, headers, and cells
+- **Global Multi-Column Sorting**: Supporting `SortStatusControl` component with drag-and-drop sort configuration with visual priority indicators
+- **NHS Design System Compliant**: Full integration with NHS design tokens and patterns
+- **TODO: Responsive Design**: Mobile-first approach with proper scaling across devices
+
+---
+
+## Quick Start
+
+### Basic Usage
+
+```tsx
+import { 
+  AriaTabsDataGrid,
+  createGenericTabsConfig,
+  type GenericTabDefinition 
+} from '@nhsdigital/fdp-design-system';
+
+// Import styles (on a component by component basis, if you haven't already imported all styles) from '@nhsdigital/fdp-design-system/css'
+import '@nhsdigital/fdp-design-system/components/SortableDataTable/css'; // The styles for the Table itself
+import '@nhsdigital/fdp-design-system/components/SortableDataTable/SortStatusControl/css'; // The styles for the sort status control
+import '@nhsdigital/fdp-design-system/components/Button/css'; // The styles for the NHS Buttons
+
+const MyCustomSortableDataTable = () => {
+  const data = [
+    { id: 1, name: 'John Doe', status: 'Active', department: 'Cardiology' },
+    { id: 2, name: 'Jane Smith', status: 'Pending', department: 'Emergency' },
+    { id: 3, name: 'David Wilson', status: 'Active', department: 'Neurology' },
+    { id: 4, name: 'Sarah Connor', status: 'Inactive', department: 'Orthopaedics' },
+    { id: 5, name: 'Mike Johnson', status: 'Active', department: 'Cardiology' }
+  ];
+
+  const tabDefinitions: GenericTabDefinition[] = [
+    {
+      id: 'all',
+      label: 'All Items',
+      columns: [
+        { key: 'name', label: 'Name' },
+        { key: 'status', label: 'Status' },
+        { key: 'department', label: 'Department' }
+      ]
+    },
+    {
+      id: 'active',
+      label: 'Active Only',
+      columns: [
+        { key: 'name', label: 'Name' },
+        { key: 'department', label: 'Department' }
+      ],
+      filter: (data) => data.filter(item => item.status === 'Active')
+    }
+  ];
+
+  const tabPanels = createGenericTabsConfig(data, tabDefinitions);
+
+  return (
+    <AriaTabsDataGrid
+      tabPanels={tabPanels}
+      ariaLabel="Data Management Interface"
+    />
+  );
+};
+```
+
+### Next.js App Router Usage
+
+```tsx
+// app/layout.tsx
+import '@nhsdigital/fdp-design-system/nextjs';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+```tsx
+// app/data-management/page.tsx
+import {
+	WidthContainer,
+	Grid,
+	Row,
+	Column,
+	Heading,
+	AriaTabsDataGrid,
+	createGenericTabsConfig,
+	type GenericTabDefinition 
+} from '@nhsdigital/fdp-design-system';
+
+export default function DataManagementPage() {
+  const data = [
+    // Your application data
+  ];
+
+  const tabDefinitions: GenericTabDefinition[] = [
+    {
+      id: 'overview',
+      label: 'Overview',
+      columns: [
+        { key: 'name', label: 'Name' },
+        { key: 'status', label: 'Status' }
+      ]
+    }
+  ];
+
+  const tabPanels = createGenericTabsConfig(data, tabDefinitions);
+
+  return (
+    <WidthContainer>
+      <Grid>
+        <Column width="full-width">
+		  <Heading size="l">Data Management</Heading>
+          <AriaTabsDataGrid
+            tabPanels={tabPanels}
+            ariaLabel="Patient Data Management Interface"
+          />
+        </Column>
+      </Grid>
+    </WidthContainer>
+  );
+}
+```
+
+### Component-Specific Import
+
+For tree-shaking optimisation, you can import specific components:
+
+```tsx
+// Import only the components you need
+import { AriaTabsDataGrid } from '@nhsdigital/fdp-design-system/components/SortableDataTable';
+import { Button } from '@nhsdigital/fdp-design-system/components/Button';
+
+// Styles still need to be imported separately either the entire file
+import '@nhsdigital/fdp-design-system/css';
+```
+
+or
+
+```tsx
+// All the styles required for the Sortable Data Table
+import '@nhsdigital/fdp-design-system/components/SortableDataTable/css';
+import '@nhsdigital/fdp-design-system/components/SortableDataTable/SortStatusControl/css';
+import '@nhsdigital/fdp-design-system/components/Button/css';
+```
+
+### Healthcare Demo Implementation
+
+```tsx
+import { 
+  AriaTabsDataGrid,
+  createTCHTabsConfig,
+  type TabPanelConfig 
+} from '@nhsdigital/fdp-design-system';
+
+// Import styles
+import '@nhsdigital/fdp-design-system/css';
+
+// Define your patient data interface
+interface Patient {
+  id: string;
+  name: string;
+  ews_score: number;
+  department: string;
+  ward_name: string;
+  // ... other patient fields
+}
+
+const TCHDemo = () => {
+  const patientsData: Patient[] = [
+    // Your patient data
+  ];
+
+  // Use the healthcare-specific factory function
+  const healthcareTabs = createTCHTabsConfig(patientsData);
+
+  return (
+    <AriaTabsDataGrid
+      tabPanels={healthcareTabs}
+      ariaLabel="Timely Care Data Table"
+      onGlobalRowSelectionChange={(patient: Patient) => {
+        console.log('Selected patient:', patient);
+      }}
+    />
+  );
+};
+```
+
+---
+
+## Framework Integration
+
+### React
+
+```tsx
+// src/index.tsx or src/App.tsx
+import '@nhsdigital/fdp-design-system/css';
+
+// src/components/DataGrid.tsx
+import { AriaTabsDataGrid } from '@nhsdigital/fdp-design-system';
+
+export function DataGrid() {
+  return (
+    <AriaTabsDataGrid
+      tabPanels={tabPanels}
+      ariaLabel="Application Data Grid"
+    />
+  );
+}
+```
+
+### Vite + React
+
+```tsx
+// main.tsx
+import '@nhsdigital/fdp-design-system/css';
+import { createRoot } from 'react-dom/client';
+import App from './App';
+
+createRoot(document.getElementById('root')!).render(<App />);
+```
+
+### TypeScript Configuration
+
+Ensure your `tsconfig.json` includes proper module resolution:
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  }
+}
+```
+
+---
+
+## Performance Optimisation
+
+### Bundle Size Optimisation
+
+```tsx
+// Option 1: Tree-shake by importing specific components
+import { AriaTabsDataGrid } from '@nhsdigital/fdp-design-system/components/SortableDataTable';
+
+// Option 2: Use core bundle for layout, individual components for features
+import '@nhsdigital/fdp-design-system/core'; // ~55kB (layout essentials)
+// Then import specific components as needed
+```
+
+### Lazy Loading
+
+```tsx
+import { lazy, Suspense } from 'react';
+
+const AriaTabsDataGrid = lazy(() => 
+  import('@nhsdigital/fdp-design-system').then(module => ({
+    default: module.AriaTabsDataGrid
+  }))
+);
+
+function MyComponent() {
+  return (
+    <Suspense fallback={<div className="nhsuk-body">Loading data grid...</div>}>
+      <AriaTabsDataGrid tabPanels={tabPanels} ariaLabel="Async Data Grid" />
+    </Suspense>
+  );
+}
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**CSS not loading**: Ensure you've imported the CSS file in your main application entry point:
+```tsx
+import '@nhsdigital/fdp-design-system/css';
+```
+
+**TypeScript errors**: Make sure you have the latest version and proper module resolution:
+```bash
+npm install @nhsdigital/fdp-design-system@latest
+```
+
+### Version Compatibility
+
+- **React**: 18.0.0+
+- **TypeScript**: 4.5.0+
+- **Node.js**: 16.0.0+
+
+---
+
+## API Reference
+
+### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `tabPanels` | `TabPanelConfig[]` | Required | Array of tab configurations with data and columns |
+| `dataConfig` | `DataOperationConfig` | `{}` | Configuration for data operations (comparison, filtering, rendering) |
+| `selectedIndex` | `number` | `undefined` | Controlled selected tab index |
+| `onTabChange` | `(index: number) => void` | `undefined` | Callback when tab selection changes |
+| `onGlobalRowSelectionChange` | `(data: any) => void` | `undefined` | Callback for row selection across tabs |
+| `ariaLabel` | `string` | Required | Accessible label for the component |
+| `ariaDescription` | `string` | `undefined` | Additional accessible description |
+| `className` | `string` | `''` | Additional CSS classes |
+| `disabled` | `boolean` | `false` | Disable the entire component |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Tab orientation |
+| `id` | `string` | `undefined` | Component ID |
+| `isLoading` | `boolean` | `false` | Show loading state |
+| `error` | `string` | `null` | Error message to display |
+| `hideTabsIfSingle` | `boolean` | `false` | When true and only one tab panel is provided, hides the tab list and renders just the data table. |
+
+### Data Configuration
+
+The `DataOperationConfig` interface allows you to customise how data is compared, filtered, and rendered:
+
+```tsx
+interface DataOperationConfig<T> {
+  dataComparator?: (a: T, b: T) => boolean;
+  filterFunction?: (data: T[], filters?: any) => T[];
+  booleanRenderer?: (value: any) => React.ReactNode; // Global fallback for primitive booleans
+  getDataId?: (data: T) => string;
+}
+### Column Rendering Precedence & Custom Column Rendering
+Each column can define custom renderers that override more general fallbacks.
+
+Precedence order when rendering a cell (first match wins):
+
+1. `column.tableRenderer(row)` – table-specific rendering
+2. `column.render(row)` – generic renderer (applies to both table & card views)
+3. Raw value `row[column.key]`
+If a column supplies `customRenderer`, it overrides the global booleanRenderer for that column only.
+
+Example:
+
+```tsx
+const tabPanels = createGenericTabsConfig(products, [
+  {
+    id: 'inventory',
+    label: 'Inventory',
+    columns: [
+      { key: 'name', label: 'Product' },
+      { 
+        key: 'inStock', 
+        label: 'Availability',
+        customRenderer: (val: boolean) => val ? <span className="status status--ok">Available</span> : <span className="status status--no">Out</span>
+      },
+      { 
+        key: 'price', 
+        label: 'Price', 
+        render: (p: Product) => `£${p.price.toFixed(2)}`
+      }
+    ],
+    ariaLabel: 'Inventory grid'
+  }
+]);
+
+<AriaTabsDataGrid
+  tabPanels={tabPanels}
+  ariaLabel="Inventory overview"
+  dataConfig={{ booleanRenderer: (v) => v ? 'Yes' : 'No' }} // fallback for other boolean columns
+/>;
+```
+
+### Migration Note (vNext)
+
+Previously a per-column `booleanRenderer` existed. This has been generalised to `customRenderer` so any data type (not just booleans) can be overridden at the column level. Migrate by:
+
+| Old | New |
+|-----|-----|
+| `booleanRenderer: (v) => ...` (column) | `customRenderer: (v) => ...` |
+
+Global `dataConfig.booleanRenderer` remains for simple primitive boolean fallback styling.
+
+## Setup & Configuration
+
+```tsx
+import { 
+  AriaTabsDataGrid,
+  booleanRenderers
+
+// Define your data structure
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  inStock: boolean;
+  category: string;
+}
+
+const products: Product[] = [
+  { id: '1', name: 'Widget A', price: 29.99, inStock: true, category: 'Tools' },
+  // ... more products
+];
+
+// Create tab configuration
+const tabDefinitions = [
+  {
+    id: 'all',
+    label: 'All Products',
+    columns: [
+      { key: 'name', label: 'Product Name' },
+      { key: 'price', label: 'Price', render: (item) => `£${item.price}` },
+      { key: 'inStock', label: 'In Stock' },
+      { key: 'category', label: 'Category' }
+    ]
+  },
+  {
+    id: 'tools',
+    label: 'Tools',
+    data: products.filter(p => p.category === 'Tools'),
+    columns: [
+      { key: 'name', label: 'Tool Name' },
+      { key: 'price', label: 'Price', render: (item) => `£${item.price}` }
+    ]
+  }
+];
+
+const tabPanels = createGenericTabsConfig(products, tabDefinitions);
+```
+
+### 2. Custom Data Operations
+
+```tsx
+const customConfig: DataOperationConfig<Product> = {
+  // How to compare two data items for equality
+  dataComparator: (a, b) => a.id === b.id,
+  
+  // How to filter data (optional)
+  filterFunction: (data, filters) => {
+    if (!filters) return data;
+    return data.filter(item => 
+      item.name.toLowerCase().includes(filters.search?.toLowerCase() || '')
+    );
+  },
+  
+  // How to render boolean values
+  booleanRenderer: (value) => value ? '✅ Available' : '❌ Out of Stock',
+  
+  // How to generate unique IDs for data items
+  getDataId: (item) => item.id
+};
+```
+
+### 3. Using Pre-built Configurations
+
+The component comes with several pre-built configurations:
+
+#### Healthcare Configuration
+```tsx
+import { tchDataConfig, createTCHTabsConfig } from './AriaTabsDataGridTCH';
+
+const healthcareTabs = createTCHTabsConfig(patientData);
+```
+
+#### E-commerce Demo/Test Configuration
+```tsx
+import { createPluginDataGrid } from './AriaTabsDataGridPlugins';
+
+const ecommerceGrid = createPluginDataGrid('ecommerce', products);
+```
+
+#### Financial Demo/Test Configuration
+```tsx
+const financialGrid = createPluginDataGrid('financial', transactions);
+```
+
+---
+
+## Customisation
+
+### Styling
+
+The component uses NHS design tokens and can be customised via CSS:
+
+```scss
+.aria-tabs-datagrid {
+  // Custom container styles
+  
+  &__tab {
+    // Custom tab styles
+  }
+  
+  &__grid {
+    // Custom table styles
+  }
+  
+  .data-row--selected {
+    // Custom selected row styles
+    background-color: var(--nhs-color-highlight);
+  }
+}
+```
+
+### Custom Column Rendering
+
+```tsx
+const columns = [
+  {
+    key: 'status',
+    label: 'Status',
+    render: (item) => (
+      <span className={`status status--${item.status.toLowerCase()}`}>
+        {item.status}
+      </span>
+    )
+  },
+  {
+    key: 'date',
+    label: 'Date',
+    render: (item) => new Date(item.date).toLocaleDateString('en-GB')
+  }
+];
+```
+
+### Custom Boolean Rendering
+
+```tsx
+const customBooleanRenderer = (value: boolean) => (
+  <span className={`boolean-indicator ${value ? 'positive' : 'negative'}`}>
+    {value ? (
+      <>
+        <span aria-hidden="true">🟢</span>
+        <span className="sr-only">Active</span>
+      </>
+    ) : (
+      <>
+        <span aria-hidden="true">🔴</span>
+        <span className="sr-only">Inactive</span>
+      </>
+    )}
+  </span>
+);
+```
+
+---
+
+## Keyboard Navigation
+
+The component supports comprehensive keyboard navigation:
+
+### Tab Navigation
+- `Tab` / `Shift+Tab`: Move between tabs
+- `Arrow Left/Right`: Navigate between tabs
+- `Home/End`: Jump to first/last tab
+- `Enter/Space`: Activate tab
+- `Arrow Down`: Move from tabs to table headers
+
+### Table Header Navigation
+- `Arrow Left/Right`: Navigate between column headers
+- `Arrow Up`: Return to tabs
+- `Arrow Down`: Move to table body
+- `Enter/Space`: Sort by column
+- `Home/End`: Jump to first/last header
+
+### Table Cell Navigation
+- `Arrow Keys`: Navigate between cells
+- `Home/End`: Navigate to row start/end
+- `Ctrl+Home/End`: Navigate to table start/end
+- `Enter/Space`: Select/deselect row
+
+---
+
+## Advanced Features
+
+### Global Row Selection
+
+The component supports global row selection that persists across tabs:
+
+```tsx
+const [selectedPatient, setSelectedPatient] = useState(null);
+
+<AriaTabsDataGrid
+  tabPanels={healthcareTabs}
+  onGlobalRowSelectionChange={(patient) => {
+    setSelectedPatient(patient);
+    // Selection persists when switching tabs
+  }}
+/>
+```
+
+### Multi-Column Sorting
+
+Supports drag-and-drop multi-column sorting with visual priority indicators:
+
+```tsx
+// Sorting is managed automatically
+// Users can:
+// 1. Click column headers to sort
+// 2. Drag sort tags to reorder priority
+// 3. Click sort tags to toggle asc/desc
+// 4. Click X on sort tags to remove sorts
+```
+
+### Imperative API
+
+Access component methods via ref:
+
+```tsx
+const gridRef = useRef<AriaTabsDataGridRef>(null);
+
+// Programmatic control
+gridRef.current?.selectTab(2);
+gridRef.current?.clearSelection();
+gridRef.current?.applyFilters({ search: 'query' });
+const data = gridRef.current?.exportData();
+```
+
+---
+
+## Healthcare Specialisation
+
+### EWS Patient Data Structure
+
+```tsx
+interface EWSPatientData {
+  name: string;
+  age: number;
+  bed_name: string;
+  ward: string;
+  ews_data: {
+    respiratory_rate_bpm: number;
+    sp02: number;
+    temperature: number;
+    systolic_bp: number;
+    heart_rate: number;
+    avpu: 'alert' | 'voice' | 'pain' | 'unresponsive';
+  };
+  total_score: number;
+  risk_level: 'low' | 'medium' | 'high';
+  last_updated: string;
+}
+```
+
+### Healthcare Views
+
+The healthcare configuration provides specialised views:
+
+- **Patient Overview**: Demographics and basic EWS scores
+- **Critical Care**: High-risk patients requiring immediate attention
+- **Ward Management**: Organised by ward with bed assignments
+- **Discharge Planning**: Patients ready for discharge
+
+---
+
+## Testing
+
+### Unit Testing
+
+```tsx
+import { render, screen, fireEvent } from '@testing-library/react';
+import { AriaTabsDataGrid } from './AriaTabsDataGrid';
+
+test('should navigate tabs with keyboard', async () => {
+  render(<AriaTabsDataGrid tabPanels={mockTabs} />);
+  
+  const firstTab = screen.getByRole('tab', { name: 'Tab 1' });
+  firstTab.focus();
+  
+  fireEvent.keyDown(firstTab, { key: 'ArrowRight' });
+  
+  expect(screen.getByRole('tab', { name: 'Tab 2' })).toHaveFocus();
+});
+```
+
+### Accessibility Testing
+
+```tsx
+import { axe, toHaveNoViolations } from 'jest-axe';
+
+test('should have no accessibility violations', async () => {
+  const { container } = render(<AriaTabsDataGrid tabPanels={mockTabs} />);
+  const results = await axe(container);
+  expect(results).toHaveNoViolations();
+});
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Sort configuration not persisting**: Ensure you're not resetting `sortConfig` in effects
+2. **Data not updating**: Check `dataComparator` function for proper equality checking
+3. **Keyboard navigation not working**: Verify ARIA attributes and focus management
+4. **Boolean values not rendering**: Check `booleanRenderer` configuration
+
+### Performance Optimisation
+
+```tsx
+// Memoise large datasets
+const memoisedData = useMemo(() => expensiveDataTransformation(rawData), [rawData]);
+
+// Use stable column definitions
+const columns = useMemo(() => [
+  { key: 'name', label: 'Name' },
+  // ... other columns
+], []);
+```
+
+---
+
+## Examples
+
+### Complete E-commerce Example
+
+```tsx
+import React, { useState } from 'react';
+import { AriaTabsDataGrid, createGenericTabsConfig } from './AriaTabsDataGrid';
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  inStock: boolean;
+  rating: number;
+}
+
+const products: Product[] = [
+  { id: '1', name: 'Laptop Pro', price: 1299.99, category: 'Electronics', inStock: true, rating: 4.5 },
+  { id: '2', name: 'Office Chair', price: 299.99, category: 'Furniture', inStock: false, rating: 4.2 },
+  // ... more products
+];
+
+const EcommerceDemo = () => {
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const tabDefinitions = [
+    {
+      id: 'all',
+      label: 'All Products',
+      columns: [
+        { key: 'name', label: 'Product Name' },
+        { key: 'category', label: 'Category' },
+        { key: 'price', label: 'Price', render: (item: Product) => `£${item.price.toFixed(2)}` },
+        { key: 'inStock', label: 'Available' },
+        { key: 'rating', label: 'Rating', render: (item: Product) => `⭐ ${item.rating}` }
+      ]
+    },
+    {
+      id: 'electronics',
+      label: 'Electronics',
+      data: products.filter(p => p.category === 'Electronics'),
+      columns: [
+        { key: 'name', label: 'Product Name' },
+        { key: 'price', label: 'Price', render: (item: Product) => `£${item.price.toFixed(2)}` },
+        { key: 'rating', label: 'Customer Rating' }
+      ]
+    }
+  ];
+
+  const customConfig = {
+    dataComparator: (a: Product, b: Product) => a.id === b.id,
+    booleanRenderer: (value: boolean) => value ? '✅ In Stock' : '❌ Out of Stock'
+  };
+
+  const tabPanels = createGenericTabsConfig(products, tabDefinitions);
+
+  return (
+    <div>
+      <AriaTabsDataGrid
+        dataConfig={customConfig}
+        tabPanels={tabPanels}
+        ariaLabel="Product Catalog"
+        onGlobalRowSelectionChange={setSelectedProduct}
+      />
+      
+      {selectedProduct && (
+        <div className="selected-product-details">
+          <h3>Selected: {selectedProduct.name}</h3>
+          <p>Price: £{selectedProduct.price.toFixed(2)}</p>
+          <p>Category: {selectedProduct.category}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default EcommerceDemo;
+```
+
+---
+
+## Contributing
+
+When extending the component:
+
+1. **Maintain accessibility**: All new features must be ARIA compliant
+2. **Follow NHS design patterns**: Use design tokens and established patterns
+3. **Test thoroughly**: Include unit tests and accessibility tests
+4. **Document changes**: Update this documentation for any API changes
+
+---
+
+## Related Components
+
+- **Tag**: Used in the sort status control for draggable sort indicators
+- **Button**: NHS-compliant buttons used throughout the interface
+- **Tabs**: Base tab component extended for data grid integration
+
+---
+
+## Roadmap
+
+Future enhancements planned:
+
+- [ ] Paging for large datasets
+- [ ] Column resizing and reordering
+- [ ] Export functionality (CSV, Excel)?
+- [ ] Advanced filtering UI
+- [ ] Dynamic data updates
+- [ ] Bulk selection operations

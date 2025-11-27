@@ -1,0 +1,138 @@
+{
+  "form": {
+    "input": {
+      "background": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.form.background}",
+          "$description": "Default input background color"
+        },
+        "focus": {
+          "$value": "{semantic.color.form.background}",
+          "$description": "Input background color when focused"
+        },
+        "disabled": {
+          "$value": "{color.grey.5}",
+          "$description": "Input background color when disabled"
+        },
+        "error": {
+          "$value": "{semantic.color.form.background}",
+          "$description": "Input background color in error state"
+        }
+      },
+      "border": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.form.border}",
+          "$description": "Default input border color"
+        },
+        "focus": {
+          "$value": "{semantic.color.focus.background}",
+          "$description": "Input border color when focused"
+        },
+        "error": {
+          "$value": "{semantic.color.error}",
+          "$description": "Input border color in error state"
+        },
+        "disabled": {
+          "$value": "{color.grey.3}",
+          "$description": "Input border color when disabled"
+        }
+      },
+      "text": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.text.primary}",
+          "$description": "Default input text color"
+        },
+        "placeholder": {
+          "$value": "{semantic.color.text.secondary}",
+          "$description": "Input placeholder text color"
+        },
+        "disabled": {
+          "$value": "{color.grey.2}",
+          "$description": "Input text color when disabled"
+        }
+      }
+    },
+    "label": {
+      "text": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.text.primary}",
+          "$description": "Form label text color"
+        },
+        "required": {
+          "$value": "{semantic.color.error}",
+          "$description": "Required form label indicator color"
+        }
+      },
+      "typography": {
+        "$type": "fontWeight",
+        "weight": {
+          "$value": "{font.weight.bold}",
+          "$description": "Form label font weight"
+        }
+      }
+    },
+    "error": {
+      "text": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.error}",
+          "$description": "Form error message text color"
+        }
+      },
+      "typography": {
+        "$type": "fontWeight",
+        "weight": {
+          "$value": "{font.weight.bold}",
+          "$description": "Form error message font weight"
+        }
+      }
+    },
+    "hint": {
+      "text": {
+        "$type": "color",
+        "default": {
+          "$value": "{semantic.color.text.secondary}",
+          "$description": "Form hint text color"
+        }
+      }
+    },
+    "spacing": {
+      "$type": "spacing",
+      "input-padding": {
+        "$value": "{component.form.input.padding}",
+        "$description": "Internal padding for input fields"
+      },
+      "input-min-height": {
+        "$value": "{component.form.input.min-height}",
+        "$description": "Minimum height for input fields"
+      },
+      "checkbox-size": {
+        "$value": "{component.form.checkbox.size}",
+        "$description": "Size of checkbox controls"
+      },
+      "checkbox-label-padding": {
+        "$value": "{component.form.checkbox.label-padding}",
+        "$description": "Padding for checkbox labels"
+      }
+    },
+    "border": {
+      "$type": "borderWidth",
+      "width-default": {
+        "$value": "{border.width.form-element}",
+        "$description": "Default form element border width"
+      },
+      "width-error": {
+        "$value": "{border.width.form-element-error}",
+        "$description": "Form element border width in error state"
+      },
+      "radius": {
+        "$value": "{border.radius.none}",
+        "$description": "Form element border radius"
+      }
+    }
+  }
+}

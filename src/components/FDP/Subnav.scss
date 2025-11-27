@@ -1,0 +1,30 @@
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+.fdp-subnav {
+	padding: nhs.$nhs-fdp-spacing-4 0;
+	
+	&__row {
+		align-items: flex-end;
+		row-gap: nhs.$nhs-fdp-spacing-3;
+		
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			justify-content: flex-end;
+		}
+	}
+	
+	&__column {
+		display: flex;
+		flex-direction: column;
+	}
+	
+	&__label {
+		display: block;
+		margin-bottom: nhs.$nhs-fdp-spacing-2;
+		font-weight: nhs.$nhs-fdp-font-weight-bold;
+		font-size: nhs.$nhs-fdp-font-size-16-mobile;
+		
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			font-size: nhs.$nhs-fdp-font-size-16-tablet;
+		}
+	}
+}

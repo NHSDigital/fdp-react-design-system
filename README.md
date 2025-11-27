@@ -1,129 +1,263 @@
-# Repository Template
+# NHS FDP Design System
 
-[![CI/CD Pull Request](https://github.com/nhs-england-tools/repository-template/actions/workflows/cicd-1-pull-request.yaml/badge.svg)](https://github.com/nhs-england-tools/repository-template/actions/workflows/cicd-1-pull-request.yaml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=repository-template&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=repository-template)
+A comprehensive design system for NHS digital services built with React, TypeScript, and design tokens.
 
-Start with an overview or a brief description of what the project is about and what it does. For example -
+## Overview
 
-Welcome to our repository template designed to streamline your project setup! This robust template provides a reliable starting point for your new projects, covering an essential tech stack and encouraging best practices in documenting.
+The NHS FDP Design System provides a complete set of reusable components, design tokens, and guidelines to help teams build consistent, accessible NHS digital services.
 
-This repository template aims to foster a user-friendly development environment by ensuring that every included file is concise and adequately self-documented. By adhering to this standard, we can promote increased clarity and maintainability throughout your project's lifecycle. Bundled within this template are resources that pave the way for seamless repository creation. Currently supported technologies are:
+## Installation
 
-- Terraform
-- Docker
+### From npm (public registry)
 
-Make use of this repository template to expedite your project setup and enhance your productivity right from the get-go. Enjoy the advantage of having a well-structured, self-documented project that reduces overhead and increases focus on what truly matters - coding!
-
-## Table of Contents
-
-- [Repository Template](#repository-template)
-  - [Table of Contents](#table-of-contents)
-  - [Setup](#setup)
-    - [Prerequisites](#prerequisites)
-    - [Configuration](#configuration)
-  - [Usage](#usage)
-    - [Testing](#testing)
-  - [Design](#design)
-    - [Diagrams](#diagrams)
-    - [Modularity](#modularity)
-  - [Contributing](#contributing)
-  - [Contacts](#contacts)
-  - [Licence](#licence)
-
-## Setup
-
-By including preferably a one-liner or if necessary a set of clear CLI instructions we improve user experience. This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
-
-Clone the repository
-
-```shell
-git clone https://github.com/nhs-england-tools/repository-template.git
-cd nhs-england-tools/repository-template
+```bash
+npm install @nhsdigital/fdp-design-system
 ```
+
+### From GitHub Packages
+
+If the npm package is not yet available, you can install from GitHub Packages:
+
+1. Create or edit `.npmrc` in your project root:
+
+```
+@nhsdigital:registry=https://npm.pkg.github.com
+```
+
+2. Authenticate with GitHub Packages (requires a GitHub PAT with `read:packages` scope):
+
+```bash
+npm login --registry=https://npm.pkg.github.com
+```
+
+3. Install the package:
+
+```bash
+npm install @nhsdigital/fdp-design-system
+```
+
+## Basic Usage
+
+```tsx
+import { Button, Panel, Heading } from '@nhsdigital/fdp-design-system';
+import '@nhsdigital/fdp-design-system/dist/nhs-fdp-design-system.css';
+
+function App() {
+  return (
+    <Panel>
+      <Heading level={1}>Welcome to NHS FDP Design System</Heading>
+      <Button variant="primary">Get Started</Button>
+    </Panel>
+  );
+}
+```
+
+### Component-level imports
+
+You can import individual components via stable subpaths to keep bundles lean and make intent explicit:
+
+```tsx
+// Import a single component (JS + types)
+import Button from '@nhsdigital/fdp-design-system/components/Button';
+
+// Many components are available this way, e.g.
+import Card from '@nhsdigital/fdp-design-system/components/Card';
+import Grid from '@nhsdigital/fdp-design-system/components/Grid';
+
+// Server-only variants (where available)
+import { HeaderServer } from '@nhsdigital/fdp-design-system/components/Header/server';
+
+// Styles can still be brought in globally or per-component via CSS subpaths
+import '@nhsdigital/fdp-design-system/components/Button/css';
+```
+
+Notes:
+
+- Subpath exports are generated from the built `dist/src/components/*/index.{js,d.ts}` entries.
+- Server subpaths (e.g. `components/Header/server`) are available where a server-safe variant exists.
+- Tree-shaking works with both the root entry and component subpaths; choose whichever suits your project structure.
+
+## Next.js Setup
+
+Interactive components (Header overflow, CharacterCount, etc.) require the behaviour bundle to run on the client. Keep your root layout as a Server Component and add a tiny client-only initializer.
+
+### Quick Setup (recommended)
+
+```tsx
+// app/layout.tsx (Server Component)
+import '@nhsdigital/fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@nhsdigital/fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@nhsdigital/fdp-design-system/nextjs';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        <NHSBehavioursInit /> {/* client island ensures behaviours are bundled and initialised */}
+        <HeaderServer serviceName="Service" navigation={{ items: [ { href: '/', text: 'Home' } ] }} />
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+Why this works:
+
+- Your layout stays server-rendered (no "use client").
+- NHSBehavioursInit runs only on the client and imports the behaviours bundle so the Header can enhance.
+
+**[Complete Next.js Setup Guide](./docs/NEXTJS-QUICK-START.md)** – Detailed setup, verification, and troubleshooting
+
+## Project Structure
+
+```text
+nhs-fdp-design-system/
+├── docs/                    # Documentation
+│   ├── components/          # Component guides
+│   ├── migration/           # Migration documentation
+│   ├── tokens/              # Design token documentation
+│   ├── testing/             # Testing guides
+│   └── guides/              # Development guides
+├── src/                     # Source code
+│   ├── components/          # React components
+│   ├── styles/              # Global styles
+│   └── tokens/              # Design token definitions
+├── examples/                # Usage examples
+├── config/                  # Configuration files
+├── tests/                   # Test suites
+└── storybook/               # Storybook configuration
+```
+
+## Documentation
+
+- **[Full Documentation](./docs/README.md)** - Comprehensive guides and references
+- **[Migration Guide](./docs/migration/migration-guide.md)** - Upgrade from legacy systems
+- **[Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview
+- **[Component Library](http://localhost:6006)** - Interactive Storybook
+- **[SSR Testing Guide](./docs/testing/ssr-testing.md)** - Unified server-side test patterns
+- **[Hydration Testing](./docs/guides/testing-hydration.mdx)** - Split SSR / client / hydration test pattern & helper
+- **[Multi‑Render Architecture](./docs/guides/multi-render-architecture.md)** - React and Nunjucks macro generation & parity
+- **[Behaviour Layer](./docs/guides/behaviours.md)** - Progressive enhancement, events & teardown API
+
+### Server / Client Variant Pattern
+
+Some interactive components adopt an explicit split to guarantee deterministic, hook‑free server markup and eliminate hydration warnings while still providing a progressive enhancement path:
+
+- `Component.render.tsx` – Pure render function producing static JSX (no hooks / side effects). Shared source of truth.
+- `Component.tsx` – Client interactive variant that wraps the pure renderer and adds state, effects and data attributes for behaviours.
+- `Component.server.tsx` – Server (static) variant invoking the pure renderer only. Contains no React hooks (enforced via `npm run verify:server-variants`).
+
+Current migrated components: `Radios`, `Header` (exporting `RadiosServer`, `HeaderServer`). You can import server variants via `@nhsdigital/fdp-design-system/components/ComponentName/server`.
+
+Quick SSR usage (Next.js server components):
+
+```tsx
+// Import SSR-safe components only
+import { Header, ButtonServer, SummaryList, Input, Textarea, Select } from '@nhsdigital/fdp-design-system/ssr';
+```
+
+## Development
 
 ### Prerequisites
 
-The following software packages, or their equivalents, are expected to be installed and configured:
+- Node.js 18+
+- npm 9+
 
-- [Docker](https://www.docker.com/) container runtime or a compatible tool, e.g. [Podman](https://podman.io/),
-- [asdf](https://asdf-vm.com/) version manager,
-- [GNU make](https://www.gnu.org/software/make/) 3.82 or later,
+### Setup
 
-> [!NOTE]<br>
-> The version of GNU make available by default on macOS is earlier than 3.82. You will need to upgrade it or certain `make` tasks will fail. On macOS, you will need [Homebrew](https://brew.sh/) installed, then to install `make`, like so:
->
-> ```shell
-> brew install make
-> ```
->
-> You will then see instructions to fix your [`$PATH`](https://github.com/nhs-england-tools/dotfiles/blob/main/dot_path.tmpl) variable to make the newly installed version available. If you are using [dotfiles](https://github.com/nhs-england-tools/dotfiles), this is all done for you.
+```bash
+# Clone the repository
+git clone https://github.com/NHSDigital/fdp-react-design-system.git
+cd fdp-react-design-system
 
-- [GNU sed](https://www.gnu.org/software/sed/) and [GNU grep](https://www.gnu.org/software/grep/) are required for the scripted command-line output processing,
-- [GNU coreutils](https://www.gnu.org/software/coreutils/) and [GNU binutils](https://www.gnu.org/software/binutils/) may be required to build dependencies like Python, which may need to be compiled during installation,
+# Install dependencies
+npm install
 
-> [!NOTE]<br>
-> For macOS users, installation of the GNU toolchain has been scripted and automated as part of the `dotfiles` project. Please see this [script](https://github.com/nhs-england-tools/dotfiles/blob/main/assets/20-install-base-packages.macos.sh) for details.
+# Build design tokens
+npm run build:tokens
 
-- [Python](https://www.python.org/) required to run Git hooks,
-- [`jq`](https://jqlang.github.io/jq/) a lightweight and flexible command-line JSON processor.
-
-### Configuration
-
-Installation and configuration of the toolchain dependencies
-
-```shell
-make config
+# Start development server
+npm run storybook
 ```
 
-## Usage
+### Available Scripts
 
-After a successful installation, provide an informative example of how this project can be used. Additional code snippets, screenshots and demos work well in this space. You may also link to the other documentation resources, e.g. the [User Guide](./docs/user-guide.md) to demonstrate more use cases and to show more features.
+```bash
+# Build
+npm run build                  # Full production build (alias for build:parity)
+npm run build:parity           # Complete build with all verification steps
+npm run build:quiet            # Clean build output (filters npm warnings)
+npm run build:fast             # Quick dev build (skips some verification)
 
-### Testing
+# Design tokens
+npm run build:tokens           # Build design tokens (smart rebuild)
 
-There are `make` tasks for you to configure to run your tests.  Run `make test` to see how they work.  You should be able to use the same entry points for local development as in your CI pipeline.
+# Storybook
+npm run storybook              # Start Storybook (dev)
+npm run build-storybook        # Build Storybook (static)
 
-## Design
+# Tests
+npm run test:components        # Run full component test suite (quiet summary)
+npm run test:metrics           # Run full suite with metrics summary (and text coverage)
+npm run test:ssr-components    # Run server-side rendering compatibility tests
 
-### Diagrams
-
-The [C4 model](https://c4model.com/) is a simple and intuitive way to create software architecture diagrams that are clear, consistent, scalable and most importantly collaborative. This should result in documenting all the system interfaces, external dependencies and integration points.
-
-![Repository Template](./docs/diagrams/Repository_Template_GitHub_Generic.png)
-
-The source for diagrams should be in Git for change control and review purposes. Recommendations are [draw.io](https://app.diagrams.net/) (example above in [docs](.docs/diagrams/) folder) and [Mermaids](https://github.com/mermaid-js/mermaid). Here is an example Mermaids sequence diagram:
-
-```mermaid
-sequenceDiagram
-    User->>+Service: GET /users?params=...
-    Service->>Service: auth request
-    Service->>Database: get all users
-    Database-->>Service: list of users
-    Service->>Service: filter users
-    Service-->>-User: list[User]
+# Code quality
+npm run lint                   # ESLint
+npm run typecheck              # TypeScript type checking
 ```
 
-### Modularity
+## Architecture
 
-Most of the projects are built with customisability and extendability in mind. At a minimum, this can be achieved by implementing service level configuration options and settings. The intention of this section is to show how this can be used. If the system processes data, you could mention here for example how the input is prepared for testing - anonymised, synthetic or live data.
+### Design Token System
+
+Built with [Style Dictionary](https://amzn.github.io/style-dictionary/), our design tokens provide:
+
+- **Semantic tokens** for consistent theming
+- **Component tokens** for specific component styling
+- **Multi-platform output** (CSS, SCSS, JavaScript, iOS, Android)
+
+### Component Architecture
+
+- **React functional components** with TypeScript
+- **Compound component patterns** for flexible APIs
+- **Polymorphic components** for semantic flexibility
+- **CSS Modules** with design token integration
+
+### Data Visualisation
+
+Primary overview: [Data Visualisation Overview](./docs/data-visualisation/README.md)
 
 ## Contributing
 
-Describe or link templates on how to raise an issue, feature request or make a contribution to the codebase. Reference the other documentation files, like
+We welcome contributions! Please see our contributing guidelines:
 
-- Environment setup for contribution, i.e. `CONTRIBUTING.md`
-- Coding standards, branching, linting, practices for development and testing
-- Release process, versioning, changelog
-- Backlog, board, roadmap, ways of working
-- High-level requirements, guiding principles, decision records, etc.
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
 
-## Contacts
+### Development Workflow
 
-Provide a way to contact the owners of this project. It can be a team, an individual or information on the means of getting in touch via active communication channels, e.g. opening a GitHub discussion, raising an issue, etc.
+1. **Components**: Add new components in `src/components/`
+2. **Stories**: Create Storybook stories for documentation
+3. **Tests**: Write unit and visual regression tests
+4. **Tokens**: Update design tokens in `packages/nhs-fdp/tokens/`
+
+## Related Projects
+
+- [NHS Design System](https://service-manual.nhs.uk/design-system) - Official NHS design guidance
+- [NHS.UK Frontend](https://github.com/nhsuk/nhsuk-frontend) - Original NHS.UK frontend library
+- [Style Dictionary](https://amzn.github.io/style-dictionary/) - Design token build system
+
+## Support
+
+- **Issues**: [GitHub Issues](https://github.com/NHSDigital/fdp-react-design-system/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/NHSDigital/fdp-react-design-system/discussions)
+- **Documentation**: [Project Documentation](./docs/README.md)
 
 ## Licence
-
-> The [LICENCE.md](./LICENCE.md) file will need to be updated with the correct year and owner
 
 Unless stated otherwise, the codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
 

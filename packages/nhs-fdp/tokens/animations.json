@@ -1,0 +1,65 @@
+{
+  "animation": {
+    "duration": {
+      "$type": "duration",
+      "fast": {
+        "$value": "150ms",
+        "$description": "Fast animation duration for micro-interactions"
+      },
+      "normal": {
+        "$value": "300ms", 
+        "$description": "Normal animation duration for most transitions"
+      },
+      "slow": {
+        "$value": "500ms",
+        "$description": "Slow animation duration for complex transitions"
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "ease-in": {
+        "$value": "cubic-bezier(0.4, 0, 1, 1)",
+        "$description": "Ease in timing function"
+      },
+      "ease-out": {
+        "$value": "cubic-bezier(0, 0, 0.2, 1)",
+        "$description": "Ease out timing function"
+      },
+      "ease-in-out": {
+        "$value": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "$description": "Ease in-out timing function"
+      },
+      "bounce": {
+        "$value": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+        "$description": "Bounce timing function"
+      }
+    }
+  },
+  "transition": {
+    "button": {
+      "$type": "transition",
+      "default": {
+        "$value": "background-color {animation.duration.normal} {animation.easing.ease-out}",
+        "$description": "Default button transition"
+      },
+      "shadow": {
+        "$value": "box-shadow {animation.duration.fast} {animation.easing.ease-out}",
+        "$description": "Button shadow transition"
+      }
+    },
+    "input": {
+      "$type": "transition", 
+      "focus": {
+        "$value": "border-color {animation.duration.fast} {animation.easing.ease-out}, box-shadow {animation.duration.fast} {animation.easing.ease-out}",
+        "$description": "Input focus transition"
+      }
+    },
+    "card": {
+      "$type": "transition",
+      "hover": {
+        "$value": "border-color {animation.duration.normal} {animation.easing.ease-out}",
+        "$description": "Card hover transition"
+      }
+    }
+  }
+}

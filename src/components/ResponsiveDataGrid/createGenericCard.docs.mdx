@@ -1,0 +1,104 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="NHS/Data/ResponsiveDataGrid/createGenericCard Helper" />
+
+# createGenericCard Helper
+
+Low-level helper that converts arbitrary data plus a `GenericCardConfig` into `CardProps` consumed by the system `<Card />` component. This powers both the `ResponsiveDataGrid` card view and the standalone `<GenericCard />` component.
+
+## API
+
+```ts
+createGenericCard<T>(data: T, columns: AriaDataGridColumn[], config: GenericCardConfig<T>): CardProps
+```
+
+| Param | Type | Description |
+|-------|------|-------------|
+| data | `T` | Record object for the card |
+| columns | `AriaDataGridColumn[]` | Column metadata (label, key, optional card/table renderers) |
+| config | `GenericCardConfig<T>` | Behaviour & field selection rules |
+
+### GenericCardConfig Highlights
+
+| Field | Purpose |
+|-------|---------|
+| `primaryField` | Field key for the heading text |
+| `secondaryFields` | Up to 3 displayed inline as dot-separated summary |
+| `badges` | Array of badge configs appended under description |
+| `hiddenFields` | Fields to omit from summaries |
+| `getPriority` | Returns high/medium/low (influences variant fallback) |
+| `getVariant` | Override variant resolution (`default`, `primary`, etc.) |
+| `fieldRenderers` | Map of fieldKey -> custom text renderer |
+| `classPrefix` | Additional class name suffix for custom styling |
+
+## Usage Patterns
+
+### 1. Direct Helper
+
+```tsx
+import { createGenericCard } from 'nhs-fdp-design-system';
+
+const productCard = createGenericCard(product, productColumns, {
+  primaryField: 'name',
+  secondaryFields: ['sku', 'price'],
+  badges: [ { fieldKey: 'stock_status', color: 'success' } ],
+  fieldRenderers: { price: v => `£${v.toFixed(2)}` }
+});
+
+return <Card {...productCard} />;
+```
+
+### 2. With GenericCard Wrapper
+
+```tsx
+import { GenericCard } from 'nhs-fdp-design-system';
+
+<GenericCard
+  data={product}
+  columns={productColumns}
+  config={{ primaryField: 'name', secondaryFields: ['sku', 'price'] }}
+/>;
+```
+
+### 3. Inside ResponsiveDataGrid
+
+```tsx
+<ResponsiveDataGrid
+  tabPanels={[{ id: 'products', label: 'Products', data: products, columns: productColumns }]}
+  cardConfig={{ primaryField: 'name', secondaryFields: ['sku', 'price'] }}
+/>;
+```
+
+## Badges
+
+Each badge config can specify `color`, `render(value, data)` and a `className`. Values map to NHS tag modifiers.
+
+```ts
+{ fieldKey: 'status', color: 'primary' }
+{ fieldKey: 'priority', color: 'warning', render: v => v.toUpperCase() }
+```
+
+## Variant Resolution
+
+1. Use `getVariant(data)` if supplied.
+2. Else derive via `getPriority(data)` returning `high` -> `primary` else `default`.
+
+## Accessibility
+
+The helper auto-sets an `aria-label` as `Record for {heading}` and consolidates secondary field values plus badges into `descriptionHtml` whilst preserving NHS semantic tag classes.
+
+## Styling Hooks
+
+Generated card receives classes: `adaptive-card` and your `classPrefix` (defaults). Override tokens or extend selectors for custom theming.
+
+## When To Use
+
+| Use createGenericCard when | Prefer component / grid when |
+|---------------------------|------------------------------|
+| You need raw `CardProps` | You want automatic re-rendering |
+| Rendering in a custom list | Need keyboard nav + selection state |
+| Server-side generation of static markup | Want dynamic responsive layout |
+
+---
+
+See `NHS/Data/ResponsiveDataGrid/GenericCard` stories for concrete demonstrations.

@@ -1,0 +1,63 @@
+{
+  "semantic": {
+    "intent-hover": {
+      "$type": "color",
+      "primary": {
+        "$value": "darken({semantic.intent.primary}, 10%)",
+        "$description": "Primary intent hover state - darker NHS Green"
+      },
+      "secondary": {
+        "$value": "darken({semantic.intent.secondary}, 10%)",
+        "$description": "Secondary intent hover state - darker NHS Blue"
+      },
+      "warning": {
+        "$value": "darken({semantic.intent.warning}, 10%)",
+        "$description": "Warning intent hover state - darker NHS Red"
+      }
+    },
+    "intent-active": {
+      "$type": "color",
+      "primary": {
+        "$value": "darken({semantic.intent.primary}, 20%)",
+        "$description": "Primary intent active state - much darker NHS Green"
+      },
+      "secondary": {
+        "$value": "darken({semantic.intent.secondary}, 20%)",
+        "$description": "Secondary intent active state - much darker NHS Blue"
+      },
+      "warning": {
+        "$value": "darken({semantic.intent.warning}, 20%)",
+        "$description": "Warning intent active state - much darker NHS Red"
+      }
+    },
+    "intent-light": {
+      "$type": "color",
+      "primary": {
+        "$value": "lighten({semantic.intent.primary}, 40%)",
+        "$description": "Light primary intent - for backgrounds and subtle states"
+      },
+      "secondary": {
+        "$value": "lighten({semantic.intent.secondary}, 40%)",
+        "$description": "Light secondary intent - for backgrounds and subtle states"
+      },
+      "warning": {
+        "$value": "lighten({semantic.intent.warning}, 40%)",
+        "$description": "Light warning intent - for backgrounds and subtle states"
+      }
+    },
+    "context": {
+      "form": {
+        "background": {
+          "error": {
+            "$value": "{semantic.intent-light.warning}",
+            "$description": "Error form background - uses light warning intent"
+          },
+          "success": {
+            "$value": "{semantic.intent-light.primary}",
+            "$description": "Success form background - uses light primary intent"
+          }
+        }
+      }
+    }
+  }
+}

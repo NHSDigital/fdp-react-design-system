@@ -1,0 +1,46 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { SwatchGrid } from './components/SwatchGrid';
+
+<Meta title="Roadmaps/FDP Sub-Brand/Swatches/Colors" />
+
+# Color Swatches (FDP Palette)
+
+These preview the FDP brand overlay CSS variables. Toggle brand via the Storybook toolbar to see differences.
+
+```css
+/* Variables set by packages/nhs-fdp/dist/css/brand-fdp.css under [data-brand=fdp] */
+/* Examples: --brand-fdp-primary-dark-blue, --brand-fdp-grey-1, --brand-fdp-semantic-intent-primary */
+```
+
+<div data-brand="fdp">
+  <h3>Primitives</h3>
+  <SwatchGrid
+    items={[
+      { label: 'Dark Blue', fill: 'var(--brand-fdp-primary-dark-blue)', code: '#003087' },
+      { label: 'Blue', fill: 'var(--brand-fdp-primary-blue)', code: '#005EB8' },
+      { label: 'Green', fill: 'var(--brand-fdp-primary-green)', code: '#009639' },
+      { label: 'Dark Green', fill: 'var(--brand-fdp-primary-dark-green)', code: '#63A691' },
+      { label: 'Purple', fill: 'var(--brand-fdp-primary-purple)', code: '#D6CCE3' },
+      { label: 'White', fill: 'var(--brand-fdp-primary-white)', code: '#ffffff' },
+      { label: 'Grey 1', fill: 'var(--brand-fdp-grey-1)', code: '#425563' },
+      { label: 'Grey 2', fill: 'var(--brand-fdp-grey-2)', code: '#768692' },
+      { label: 'Grey 3', fill: 'var(--brand-fdp-grey-3)', code: '#AEB7BD' },
+      { label: 'Grey 4', fill: 'var(--brand-fdp-grey-4)', code: '#D8DDE0' },
+      { label: 'Grey 5', fill: 'var(--brand-fdp-grey-5)', code: '#E8EDEE' },
+    ]}
+    columns={4}
+  />
+
+  <h3>Semantic Intents</h3>
+  <SwatchGrid
+    items={[
+      { label: 'Primary', fill: 'var(--brand-fdp-semantic-intent-primary)', code: '#009639' },
+      { label: 'Secondary', fill: 'var(--brand-fdp-semantic-intent-secondary)', code: '#005EB8' },
+      { label: 'Info', fill: 'var(--brand-fdp-semantic-intent-info)', code: '#003087' },
+      { label: 'Success', fill: 'var(--brand-fdp-semantic-intent-success)', code: '#009639' },
+      { label: 'Warning', fill: 'var(--brand-fdp-semantic-intent-warning)', code: '#d5281b' },
+      { label: 'Neutral', fill: 'var(--brand-fdp-semantic-intent-neutral)', code: '#425563' },
+    ]}
+    columns={3}
+  />
+</div>

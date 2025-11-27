@@ -1,0 +1,17 @@
+{# AUTO-GENERATED MANUAL SOURCE (schema exists: FieldsetSchema). Mirrors React Fieldset SSR output. #}
+{% macro fieldset(params) %}
+  {% set classes = 'nhsuk-fieldset' %}{% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}
+  <fieldset class="{{ classes }}"{% if params.describedBy %} aria-describedby="{{ params.describedBy }}"{% endif %}>
+  {% if params.legend and (params.legend.text or params.legend.html) %}
+    {% set legendClasses = 'nhsuk-fieldset__legend' %}{% if params.legend.size %}{% set legendClasses = legendClasses + ' nhsuk-fieldset__legend--' + params.legend.size %}{% endif %}{% if params.legend.className %}{% set legendClasses = legendClasses + ' ' + params.legend.className %}{% endif %}
+    <legend class="{{ legendClasses }}">
+      {% if params.legend.isPageHeading %}
+        <h1 class="nhsuk-fieldset__heading">{% if params.legend.html %}{{ params.legend.html | safe }}{% else %}{{ params.legend.text }}{% endif %}</h1>
+      {% else %}
+        {% if params.legend.html %}{{ params.legend.html | safe }}{% else %}{{ params.legend.text }}{% endif %}
+      {% endif %}
+    </legend>
+  {% endif %}
+  {% if params.children %}{{ params.children | safe }}{% elif params.html %}{{ params.html | safe }}{% endif %}
+  </fieldset>
+{% endmacro %}

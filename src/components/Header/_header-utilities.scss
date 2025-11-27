@@ -1,0 +1,31 @@
+// Header Component Essential Utilities
+// Only the utilities that the Header component actually uses
+
+@use '../../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+// Essential utility classes used by Header component
+.nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Width container utility (used by header)
+.nhsuk-width-container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+// Icon base styles
+.nhsuk-icon {
+  width: auto !important;
+  height: 2em;
+  vertical-align: text-bottom;
+  flex-shrink: 0;
+}

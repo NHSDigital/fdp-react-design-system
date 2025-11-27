@@ -1,0 +1,49 @@
+@use '../../packages/nhs-fdp/scss' as nhs;
+
+.typography-demo__frame {
+  border: 1px dashed var(--nhs-color-text-secondary, #9aa0a6);
+  padding: nhs.$nhs-fdp-spacing-4;
+  border-radius: nhs.$nhs-fdp-border-radius-medium;
+  background: var(--nhs-color-background, #fff);
+}
+
+.typography {
+  font-family: var(--nhs-font-family-base) !important;
+  margin: 0;
+}
+
+.typography-meta {
+  margin-top: nhs.$nhs-fdp-spacing-3;
+  display: grid;
+  grid-auto-flow: column;
+  gap: nhs.$nhs-fdp-spacing-4;
+  font-size: 0.875rem;
+  color: var(--nhs-color-text-secondary, #5f6a71);
+
+  code {
+    font-family: var(--nhs-font-family-mono);
+    background: rgba(0,0,0,0.04);
+    padding: 0 0.25rem;
+    border-radius: 4px;
+  }
+}
+
+/* Sizes (fluid clamp) */
+.typography--size-small { font-size: #{nhs.$nhs-fdp-font-size-clamp-small} !important; }
+.typography--size-body { font-size: #{nhs.$nhs-fdp-font-size-clamp-body} !important; }
+.typography--size-lead { font-size: #{nhs.$nhs-fdp-font-size-clamp-lead} !important; }
+.typography--size-display { font-size: #{nhs.$nhs-fdp-font-size-clamp-display} !important; }
+.typography--size-hero { font-size: #{nhs.$nhs-fdp-font-size-clamp-hero} !important; }
+
+/* Line-height (unitless) */
+.typography--lh-small { line-height: #{nhs.$nhs-fdp-font-line-height-unitless-small} !important; }
+.typography--lh-body { line-height: #{nhs.$nhs-fdp-font-line-height-unitless-body} !important; }
+.typography--lh-lead { line-height: #{nhs.$nhs-fdp-font-line-height-unitless-lead} !important; }
+.typography--lh-display { line-height: #{nhs.$nhs-fdp-font-line-height-unitless-display} !important; }
+.typography--lh-hero { line-height: #{nhs.$nhs-fdp-font-line-height-unitless-hero} !important; }
+
+/* Letter-spacing presets */
+.typography--track-tight { letter-spacing: #{nhs.$nhs-fdp-font-letter-spacing-tight} !important; }
+.typography--track-normal { letter-spacing: #{nhs.$nhs-fdp-font-letter-spacing-normal} !important; }
+.typography--track-wide { letter-spacing: #{nhs.$nhs-fdp-font-letter-spacing-wide} !important; }
+.typography--track-caps { letter-spacing: #{nhs.$nhs-fdp-font-letter-spacing-caps} !important; text-transform: uppercase; }

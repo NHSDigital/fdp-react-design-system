@@ -1,0 +1,6 @@
+/**
+ * DEPRECATED: This file now forwards the canonical SortStatusControl styles.
+ * Will be removed in a future major release. Migrate imports to:
+ *   src/components/SortableDataTable/SortStatusControl/SortStatusControl.scss
+ */
+@forward './SortStatusControl/SortStatusControl.scss';

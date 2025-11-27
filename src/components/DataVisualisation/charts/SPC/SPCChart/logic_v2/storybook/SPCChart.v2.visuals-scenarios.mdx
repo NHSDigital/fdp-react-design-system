@@ -1,0 +1,263 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import { SPCSpark } from '../../../SPCSpark/SPCSpark';
+import { ImprovementDirection } from '../../../engine';
+import SPCVisualsScenarioToggleDemo from '../doc-examples/SPCVisualsScenarioToggleDemo';
+
+<Meta title="Data Visualisation/SPC/Guides/Visual Scenarios"/>
+
+# SPC v2 Visual Scenarios
+
+This page explains the Visual Scenarios extension around the v2 logic for SPC charts, implemented via the `VisualsScenario` enum and the helper `buildVisualsForScenario`. It covers the motivation, how it integrates with the NHSE SQL v2.6a-aligned engine, how to use it, and some notes on statistical defensibility from a Shewhart chart perspective.
+
+
+
+## Glossary: patterns and signals
+
+The demo uses small, illustrative sequences to teach how SPC visuals behave. Key terms:
+
+<SPCSpark
+		data={[
+				{ value: 8 }, { value: 9 }, { value: 10 }, { value: 9 }, { value: 8 }, { value: 9 },
+				{ value: 13 }, { value: 14 }, { value: 15 }, { value: 14 }, { value: 15 }, { value: 14 },
+		]}
+		showInnerBands={false}
+		showLimits={false}
+		metricImprovement={ImprovementDirection.Up}
+		size="sm"
+/>
+
+- Shift (level shift / run)
+  - What: A step change in the process average. In run‑chart/SPC rules it’s typically “6–8 consecutive points on one side of the mean”.
+  - Why it matters: Indicates a new process level, often the intended outcome of an intervention (e.g., a new triage protocol).
+  - Meaning: a new process level (e.g. a protocol change taking effect).
+
+<SPCSpark
+		data={[
+				{ value: 8 }, { value: 9 }, { value: 10 }, { value: 11 }, { value: 12 }, { value: 13 },
+				{ value: 14 }, { value: 15 },
+		]}
+		showInnerBands={false}
+		showLimits={false}
+		metricImprovement={ImprovementDirection.Up}
+		size="sm"
+/>
+
+- Trend (monotonic run)
+  - What: A sustained sequence of increasing or decreasing points (often 6+), regardless of which side of the mean they fall on.
+  - Meaning: a gradual change in the process, possibly due to external factors.
+
+<SPCSpark
+	data={[
+			{ value: 10 }, { value: 9 }, { value: 10 }, { value: 9 }, { value: 10 },
+			{ value: 12 }, { value: 13 }, { value: 14 }, { value: 13 }, { value: 14 },
+	]}
+	showInnerBands={false}
+	showLimits={false}
+	metricImprovement={ImprovementDirection.Up}
+	size="sm"
+/>
+
+- Crossing
+  - What: A point that moves from one side of the mean to the other, often signalling a potential shift or trend.
+	- Mean crossing (pre vs post): points move from below → above the mean or vice‑versa.
+    - Baseline/partition crossing: when you recalibrate the baseline (new partition) and early post‑baseline points consolidate on the “favourable” side relative to the old mean.
+	- Why it matters: A crossing that consolidates can be the first visible sign of change after a recalculation or intervention.
+
+- Consolidation
+  - What: A series of points that cluster on one side of the mean, often following a crossing.
+  - Meaning: the process is settling into a new state, reinforcing the significance of a shift.
+
+- Regression
+  - What: A return toward the previous process level after a shift. This can be a few points moving back toward the old mean.
+  - Meaning: loss of improvement, possibly due to process drift or external disruption.
+
+<SPCSpark
+	data={[
+			{ value: 10 }, { value: 9 }, { value: 10 }, { value: 9 }, { value: 10 }, { value: 9 },
+			{ value: 20 }, { value: 10 }, { value: 9 },
+	]}
+	showInnerBands={false}
+	showLimits={false}
+	metricImprovement={ImprovementDirection.Up}
+	size="sm"
+/>
+
+- Single 3σ outlier
+  - What: A single point that falls beyond the 3σ control limits, often considered a special cause.
+  - Meaning: an unusual event that may warrant investigation but does not indicate a process change.
+
+- Two-of-three beyond 2σ; Four-of-five beyond 1σ
+  - What: Patterns where two out of three consecutive points exceed the 2σ limits, or four out of five exceed the 1σ limits.
+  - Meaning: potential early warning signs of a shift, but less definitive than a full run.
+
+- Common vs Special cause variation
+  - What: Differentiating between routine process variation (common cause) and unusual events (special cause).
+  - Meaning: helps in understanding whether changes are due to inherent process variability or external factors.
+
+This framing aligns with measurement‑for‑learning in healthcare quality improvement: use SPC to build knowledge about how the system changes, not to punish or overreact to noise.
+
+## Why this exists
+
+The v2 engine (`buildSpcV26a`) focuses on generating SPC rows (values, control limits, and rule flags) in alignment with NHSE SQL v2.6a semantics. The visuals layer then maps those rows to UI categories (`SpcVisualCategory`) such as Common, Improvement, Concern, and NoJudgement.
+
+The scenarios feature adds optional post-processing that adjusts categories around partition boundaries (“baseline recalculation points”) to mirror expected SQL-derived narratives (for example, visually reinforcing a favourable crossing). This is implemented as a small, explicit overlay window that only upgrades neutral categories; it never downgrades an existing Improvement/Concern.
+
+In short: scenarios help align visuals with policy-driven interpretations of baseline recalculations while keeping the underlying engine and rule detection unchanged.
+
+## Interactive demo
+
+Use the controls to see how scenarios behave in different contexts:
+
+- Dataset: switch between Favourable crossing, Weak/no change, and Regression.
+- Mark baseline at crossing: anchors the overlay at the first post-change point so differences become visible and deterministic.
+- Crossing style: Immediate shift, Gradual trend, or Minimal nudge to vary consolidation.
+- Pattern and direction: flip Upward/Downward and optionally auto-sync the direction.
+
+<div className="sb-unstyled">
+<SPCVisualsScenarioToggleDemo />
+</div>
+
+## Key pieces
+
+- `SpcVisualCategory` (enum): core visual categories used by the UI.
+- `computeSpcVisualCategories(rows, opts)`: converts engine rows to per-point categories using rule flags and improvement direction.
+- `computeBoundaryWindowCategories(rows, improvement, options)`: optionally upgrades neutral (Common/NoJudgement) categories in small windows around baseline changes, based on mean deltas.
+- `VisualsScenario` (enum): preset scenarios that preconfigure boundary window behaviour.
+- `buildVisualsForScenario(args, scenario, opts)`: convenience wrapper that runs the engine with visuals and applies the selected scenario.
+
+## API overview
+
+### `VisualsScenario`
+
+Values and intent:
+
+- `None`: no boundary-window overlay.
+- `RecalcCrossingShift`: upgrade a short, symmetric window around the first point of the new partition; useful when a shift is expected immediately after the recalculation.
+- `RecalcCrossingTrend`: slightly longer post-window; useful when the favourable crossing consolidates over a few points.
+- `RecalcCrossingTwoSigma`: minimal window in both directions; conservative option.
+- `RecalculationsRecalculated`: light-touch visual reset around boundary; pairs with re-baselining narratives.
+- `BaselinesRecalculated`: similar to above; defers post-window colouring to the dataset policy (via explicit boundaries and direction override).
+
+Implementation reference: `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts`.
+
+### `buildVisualsForScenario(args, scenario, opts)`
+
+- Input: `args` is the same as `buildSpcV26a` (`BuildArgsV2`), `scenario` is `VisualsScenario`, and `opts` controls visuals:
+  - `trendVisualMode`: `TrendVisualMode` (default `TrendVisualMode.Ungated`)
+  - `enableNeutralNoJudgement`: `boolean` (default `true`)
+Output: `{ rows: SpcRowV2[]; visuals: SpcVisualCategory[] }`
+
+Note: When using `TrendVisualMode` as a component prop (e.g. `SPCChart`), import it from the props module `SPCChart.props.ts` rather than from the engine layer.
+
+Behaviour summary:
+
+1. Computes visuals via `buildSpcV26aWithVisuals` (engine rows + `computeSpcVisualCategories`).
+2. Derives explicit boundary indices from `args.data` baselines when present; otherwise detects partition changes.
+3. Applies a scenario-specific boundary-window overlay using `computeBoundaryWindowCategories`:
+   - Uses small `preWindow` / `postWindow` regions around each boundary index.
+   - Computes mean delta across partitions to choose Improvement vs Concern based on `ImprovementDirection`.
+   - Only upgrades `Common` or `NoJudgement` to `Improvement`/`Concern`; never overrides an existing directional verdict.
+4. Some scenarios (e.g., `RecalculationsRecalculated`, `BaselinesRecalculated`) also set the **point immediately before** the boundary to `Common` for narrative clarity.
+
+## Usage
+
+Basic usage with presets:
+
+```ts
+import { buildVisualsForScenario, VisualsScenario } from '../../../engine';
+import { ImprovementDirection } from '../../../engine';
+
+const { rows, visuals } = buildVisualsForScenario(
+  {
+    chartType: 'XmR',
+    metricImprovement: ImprovementDirection.Up,
+    data: series, // array of { x, value, ghost?, baseline?, target? }
+    settings: { /* optional SpcSettingsV26a overrides */ },
+  },
+  VisualsScenario.RecalcCrossingTrend,
+  {
+    trendVisualMode: TrendVisualMode.Ungated,
+    enableNeutralNoJudgement: true,
+  }
+);
+```
+## Scenarios in detail
+
+All scenarios anchor on boundary indices. The differences are the window sizes and intended narrative:
+– Regression (reversion toward the old level)
+- `RecalcCrossingShift`
+  - `preWindow: 2`, `postWindow: 4`, `prePolarity: 'Same'`.
+  - Highlights a quick consolidation right after the new baseline.
+– Single‑point outlier (3σ point)
+- `RecalcCrossingTrend`
+  - `preWindow: 1`, `postWindow: 5`, `prePolarity: 'Same'`.
+  - Allows a few points to establish trend post-recalc.
+– Two‑of‑three beyond 2σ; Four‑of‑five beyond 1σ
+- `RecalcCrossingTwoSigma`
+  - `preWindow: 1`, `postWindow: 1`, `prePolarity: 'Same'`.
+  - Minimal and conservative.
+– Common vs Special cause variation
+- `RecalculationsRecalculated`
+  - Very light overlay; also clears the point immediately before the first boundary to `Common` to avoid over-signalling.
+
+- `BaselinesRecalculated`
+  - Uses explicit boundaries if provided and sets `directionOverride` to the input metric’s improvement direction.
+  - Does not force post-baseline colours here; assumes dataset-level expectations govern colouring.
+
+## Choosing a scenario (at a glance)
+
+Use this as a lightweight picker; it complements, not replaces, rule‑based interpretation:
+
+| Dataset pattern | Observable behaviour near boundary | Suggested scenario | Rationale |
+| --- | --- | --- | --- |
+| Immediate step change | Post‑boundary points jump and stay favourable | RecalcCrossingShift | Emphasise rapid consolidation right after recalculation |
+| Gradual consolidation | Favourable side emerges over several points | RecalcCrossingTrend | Allow a longer post window for trend to establish |
+| Minimal nudge / borderline | Small moves, high noise | RecalcCrossingTwoSigma | Conservative emphasis; avoid over‑claiming |
+| Pure recalculation narrative | Just acknowledge new baseline | RecalculationsRecalculated | Light‑touch reset for formal reporting |
+| Curated baselines drive story | Explicit boundaries with policy‑set direction | BaselinesRecalculated | Anchor to explicit baselines, defer colour to policy |
+
+Notes:
+- All scenarios only upgrade neutral (Common/NoJudgement) categories in small windows; they never overwrite directional verdicts from rules.
+- For metrics with ImprovementDirection.Neither, overlays avoid directional bias; letters revert to side labelling.
+- Maintain minimum‑points gating to prevent premature summary icons.
+
+## How this relates to NHSE SQL v2.6a
+
+- The engine logic (`buildSpcV26a`) mirrors SQL v2.6a rule detection, eligibility gating, and candidate pruning.
+- Visuals are derived from engine rows using `computeSpcVisualCategories` (a deterministic, rule-aware mapping).
+- Scenarios then add a small, policy-aligned overlay around baseline recalculations to better match SQL narrative outputs when desired.
+
+This separation preserves the integrity of the SPC engine while allowing configurable, transparent visual emphasis.
+
+## Statistical defensibility and risks
+
+Trade-offs and mitigations:
+
+- Shewhart best practice emphasises using control rules directly, avoiding post-hoc reclassification. Overlay windows are a policy/view layer, not a rules layer. To maintain defensibility:
+  - The overlay only upgrades neutral categories (Common/NoJudgement). It never overturns an existing Improvement/Concern from the engine.
+  - Overlays are anchored to explicit or discoverable boundary events and to mean deltas, not arbitrary points.
+  - The size of windows is small and explicit, and scenarios are named and reviewable.
+
+- Risks to watch:
+  - Apparent “colour” divergence from pure rules could be misinterpreted as additional special cause evidence. Label overlays clearly in the UI (e.g., with legend language or tooltip cues).
+  - If windows are too wide or aggressive, they may drift from Shewhart principles. Keep windows narrow, and prefer conservative scenarios (`TwoSigma`) when in doubt.
+  - For metrics with `ImprovementDirection.Neither`, overlays are suppressed to avoid directional bias.
+
+Recommendations:
+
+- Treat overlays as an optional, transparent layer. Consider surfacing a toggle or an annotation explaining when a scenario is active.
+- Use datasets with clear baseline markers when relying on boundary overlays.
+- For formal statistical reporting, prefer raw engine outputs without overlays, or include a disclosure statement.
+
+## Developer tips
+
+- To align with SQL parity settings, start with the `PARITY_V26` preset (see `presets.ts`), then choose a visuals scenario only if it matches your product narrative.
+- If you need directional conflict behaviour that interacts with segmentation, consider `withConflictPresetAutoV26` to gate segmentation appropriately per improvement direction.
+- For a minimal API surface, import from the SPC barrel (re-exports from `logic_v2`). Internally, `visualCategories` remains the canonical module for visuals.
+
+## References
+
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/presets.ts`
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts`
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/boundaryWindows.ts`
+

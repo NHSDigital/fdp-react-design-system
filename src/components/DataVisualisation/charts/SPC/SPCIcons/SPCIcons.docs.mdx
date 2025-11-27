@@ -1,0 +1,277 @@
+import { AllVariationIcons, AllAssuranceIcons } from './SPCIcons.stories';
+import { SPCVariationIcon } from './SPCIcon';
+import { SPCAssuranceIcon } from './SPCAssuranceIcon';
+import { SPCChart } from '../SPCChart/SPCChart';
+import { ImprovementDirection } from '../SPCChart/logic_v2/types';
+import ShiftPolarityExamples from './examples/ShiftPolarityExamples';
+import React from 'react';
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/SPC/SPC Icons/Documentation" name="SPC Icons Guide" />
+
+# SPC Icons
+
+Comprehensive guide to the Statistical Process Control (SPC) variation and assurance iconography used across FDP data visualisation components.
+
+## Overview
+
+Two complementary icon families can be rendered within SPC charts:
+
+- **Variation Icon**: Encodes special cause vs common cause variation and directional judgement (Improvement / Concern / Common Cause / No Judgement).
+- **Assurance Icon**: Encodes the capability-based likelihood of sustaining performance relative to target (Pass / Fail / Uncertain) when targets are supplied.
+
+They may appear:
+- Embedded (top‑right of `SPCChart`) for the most recent *eligible* data point.
+- Standalone (e.g. dashboards, legend explanations, summary cards).
+
+## Variation States
+
+| Engine Enum | Visual Colour | Meaning |
+|-------------|---------------|---------|
+| `Improvement` | Blue `#00B0F0` | Special cause improvement (favourable shift/run) |
+| `Concern` | Orange `#E46C0A` | Special cause deterioration (unfavourable shift/run) |
+| `Neither` | Grey `#A6A6A6` | Common cause only (no special cause signals) |
+| `Suppressed` | Purple `#490092` | Special cause detected but judgement suppressed (no directional value) |
+
+### Suppression to `Suppressed`
+
+A single favourable 3σ point (isolated spike) is *suppressed* (mapped from Improvement/Concern to `Suppressed`) to avoid over‑interpreting an uncorroborated outlier. The purple arrow still conveys direction (based on metric improvement polarity and which single‑point rule fired) but removes value judgement.
+
+Note: `None` remains a deprecated alias for `Suppressed` during the migration window. Prefer `Suppressed` in new code and tests.
+
+### Direction / Letter Semantics
+
+The icon encodes TWO orthogonal concepts: (a) which *side* of the mean the special cause signal sits (high‑side vs low‑side) and (b) the *business polarity* (is higher or lower preferable for this metric). To reduce ambiguity the embedded (summary) icon now chooses the letter dynamically:
+
+| Context | Letter Mode | Meaning of **H** | Meaning of **L** |
+|---------|-------------|------------------|------------------|
+| Embedded summary icon & `metricImprovement = higher` | Polarity | "Higher is better" metric | – (will rarely render L unless a deteriorating low‑side signal has a letter) |
+| Embedded summary icon & `metricImprovement = lower` | Polarity | – | "Lower is better" metric |
+| Embedded summary icon & `metricImprovement = neither` | Signal side | High‑side special cause | Low‑side special cause |
+| Standalone `SPCVariationIcon` (default) | Direction (unless you pass `letterMode`) | High‑side signal | Low‑side signal |
+
+Additional rules:
+- Suppressed favourable single 3σ points (purple) still orient the arrow/triangle toward the favourable side, but their letter follows the same mode logic above.
+- Common cause (no special cause) has no directional letter.
+- You can always override by supplying `letterMode` (`'direction' | 'polarity'`) directly to `SPCVariationIcon`.
+
+#### Why this change?
+
+Early feedback showed users misread **H**/**L** as business polarity when in fact they sometimes meant signal side. Aligning letters with polarity when one exists (higher or lower is better) removes that mismatch; in neutral contexts we revert to side labelling because there is no intrinsic polarity to show.
+
+#### Embedded Summary Examples (Shift Scenario)
+
+The following example component renders the same shift dataset three times with different polarity settings to illustrate colour and letter changes:
+
+```tsx
+<ShiftPolarityExamples />
+```
+
+<ShiftPolarityExamples />
+
+Notice:
+1. Colour flips from blue (improvement) to orange (concern) when business polarity reverses, but the shift is the same data.
+2. The letter reports polarity when defined (first two charts) and reverts to side (high‑side) when polarity is neutral (third chart).
+3. Orientation (triangle / arrow direction) is always the side of the signal; letter overlays business semantics only when meaningful.
+
+## Assurance States
+
+When a `target` array is supplied to `SPCChart`, each point receives capability analysis:
+
+| Assurance | Meaning |
+|-----------|---------|
+| `Pass` | Entire capability band (mean ± kσ as configured) lies on the favourable side of target. |
+| `Fail` | Entire band lies on the unfavourable side. |
+| `Uncertain` | Band overlaps the target threshold (cannot assure pass or fail). |
+
+The embedded Assurance icon now always renders. When the underlying engine state is `AssuranceIcon.None` (no target / insufficient data / overlapping band) it is visualised using the **Uncertain** assurance placeholder so layout remains stable.
+
+## Minimum Points Gate
+
+Variation and assurance icons are gated by `settings.minimumPoints` (default 13) requiring enough non‑ghost points to form stable limits.
+
+- Engine behaviour: when non‑ghost points are fewer than `minimumPoints`, rows have `mean`, `upperProcessLimit`, and `lowerProcessLimit` as `null` and their `variationIcon` is `"suppressed"` (no judgement).
+- UI behaviour: the embedded summary icon is hidden until the minimum is met to avoid implying stability before limits exist.
+
+## Gradient Wash
+
+Set `gradientWash` to create a *subtle diagonal tint* (top‑left → bottom‑right) inside the icon instead of pure white. This visually reinforces category colour while remaining accessible (contrast preserved for letters and glyphs).
+
+### Tokenised Gradient Stops
+
+The wash now derives its stop opacities from design tokens under `color.data-viz.spc.gradient.stop`:
+
+| Token | Purpose | Default |
+|-------|---------|---------|
+| `start-opacity` | Circle wash first stop | `0.18` |
+| `mid-opacity` | Circle wash mid stop | `0.06` |
+| `end-opacity` | Circle wash end (transparent) | `0` |
+| `triangle-start-opacity` | Triangle variant first stop | `0.18` |
+| `triangle-mid-opacity` | Triangle variant mid stop | `0.06` |
+| `triangle-end-opacity` | Triangle variant end stop | `0` |
+
+Triangle variants receive a parallel set so future tuning (e.g. slightly stronger or weaker emphasis) can occur without affecting circular icons. Assurance icons reuse the circle trio.
+
+Fallback behaviour: if a token is missing, the component safely falls back to the defaults above.
+
+Use cases:
+- Differentiating icon variants in dense dashboards.
+- Emphasising active/focused state (ensure consistent a11y checks).
+
+Avoid using the wash if icons sit on coloured backgrounds that already provide sufficient contrast.
+
+## Usage Examples
+
+### Basic Variation Icon (Engine Payload)
+
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} />
+```
+
+### Variation Icon With Explicit Direction (No Judgement / Suppressed)
+
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'suppressed', trend: 'lower' }} />
+```
+
+### Deprecated Forms
+
+The following input shapes are deprecated and will be removed in a future minor release:
+
+| Deprecated | Replacement |
+|------------|-------------|
+| `{ judgement, polarity, trend? }` | `{ variationIcon, improvementDirection, trend? }` |
+| `{ state, trend, polarity }` | `{ variationIcon, improvementDirection }` |
+| Parsimonious union variants | Engine payload |
+
+Rationale: aligning the icon API with the SPC engine (`VariationIcon` and `ImprovementDirection`) removes duplicate mapping logic and ambiguity between judgement vs icon enum terminology. Neutral purple behaviour now uses `variationIcon: 'neither'` with `specialCauseNeutral: true`.
+
+Legacy example (deprecated):
+```tsx
+// Deprecated
+<SPCVariationIcon data={{ judgement: 'improving', polarity: 'lower_is_better' }} />
+```
+Engine-aligned replacement:
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'improvement', improvementDirection: 'down' }} />
+```
+
+### Assurance Icon Standalone
+
+```tsx
+<SPCAssuranceIcon status="pass" />
+```
+
+### With Gradient Wash
+
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'concern' }} gradientWash />
+```
+
+### Triangle Variant
+
+Triangle variant replaces the circular ring and internal point motif with a filled triangle (or flat line for common cause) while retaining colour and optional letter. Use `variant="triangle"`.
+
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'concern' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'neither' }} variant="triangle" />
+<SPCVariationIcon data={{ variationIcon: 'suppressed', trend: 'higher' }} variant="triangle" />
+```
+
+With gradient wash:
+
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangle" gradientWash />
+```
+
+### Triangle With Run Length
+
+`variant="triangleWithRun"` adds a compact triangle glyph plus a 5-dot run indicator showing the length of a recent sustained run (coloured dots filled from right to left). Provide `runLength` (0–5). Only improvement / concern states colour the run; others stay grey.
+
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={3} />
+<SPCVariationIcon data={{ variationIcon: 'concern' }} variant="triangleWithRun" runLength={2} />
+<SPCVariationIcon data={{ variationIcon: 'neither' }} variant="triangleWithRun" runLength={0} />
+<SPCVariationIcon data={{ variationIcon: 'suppressed', trend: 'lower' }} variant="triangleWithRun" runLength={4} />
+```
+
+With gradient wash:
+
+```tsx
+<SPCVariationIcon data={{ variationIcon: 'improvement' }} variant="triangleWithRun" runLength={5} gradientWash />
+```
+
+### Use with precomputed summary (one-engine parity)
+
+When you're already computing the SPC engine once for a series (to feed both `SPCChart` and `SPCSpark`), you can also render the exact same summary icon using `SPCVariationIcon` without remapping states yourself.
+
+Pass the `SpcPrecomputedSummary` object and the `improvementDirection`. The icon will use the engine's last-row `variationIcon`, orient the geometry and letter consistently, and match the embedded chart icon.
+
+```tsx
+import { computeSpcPrecomputed, ImprovementDirection, ChartType } from '../utils/precompute';
+import { SPCVariationIcon } from './SPCIcon';
+
+const values = [60,61,60,61,60,61,60,61,60, 78,79,80,81,82,81,83,82,81];
+const data = values.map((v, i) => ({ x: i, value: v }));
+const summary = computeSpcPrecomputed(data, {
+	chartType: ChartType.XmR,
+	metricImprovement: ImprovementDirection.Up,
+});
+
+// Standalone icon that matches SPCChart's embedded variation icon for the same series
+<SPCVariationIcon
+	precomputed={summary}
+	improvementDirection={ImprovementDirection.Up}
+	size={44}
+/>;
+```
+
+Notes:
+- Provide `improvementDirection` so letters align with business polarity when applicable. If omitted, the icon falls back to a neutral orientation heuristic.
+- The `precomputed` path preserves neutral special-cause (purple) behaviour and side orientation from the engine.
+
+## Storybook
+
+Below are the live icon matrices (sourced from `SPCIcons.stories`).
+
+### All Variation Icons
+
+{AllVariationIcons()}
+
+### All Assurance Icons
+
+{AllAssuranceIcons()}
+
+## Accessibility
+
+### Deprecation Impact
+No accessibility changes are required for migration. Engine payload keeps existing aria logic; deprecated forms continue to work until removal but emit TypeScript @deprecated warnings.
+
+- Icons supply `aria-label` and rich `aria-description` strings derived from variation judgement, direction, and optional narrative context.
+- Purple suppression state deliberately omits value judgement words (“improvement” / “deterioration”) to prevent misleading assistive narration.
+- Gradient wash maintains WCAG AA contrast for glyphs (letters/arrow) because glyphs use solid state colour, not gradient stops.
+
+## Configuration Summary
+
+| Prop | Component | Default | Notes |
+|------|-----------|---------|-------|
+| `data` | Variation | required | Accepts engine enum payload OR derivation forms. |
+| `gradientWash` | Both | `false` | Enables subtle interior tint. |
+| `dropShadow` | Both | `true` | Remove in dense tables or print contexts. |
+| `size` | Both | `44` | Square pixel dimension. |
+| `showLetter` | Variation | `true` | Only affects Improvement / Concern. |
+
+## Future Enhancements
+
+- Visual regression snapshots for gradient and triangle variants.
+- Dark / high-contrast theme token overrides (validate wash subtlety).
+
+## Changelog (Icon System)
+
+| Date | Change |
+|------|--------|
+| 2025-08-XX | Added `gradientWash` option to all SPC icons. |
+| 2025-08-XX | Introduced suppression mapping to `None` for isolated favourable 3σ points & orientation logic. |
+| 2025-08-XX | Embedded dual Variation and Assurance icons in `SPCChart`. |
+| 2025-09-XX | Embedded summary icon letters switch to business polarity (H/L) except when metric improvement is neutral (side labelling retained). |

@@ -1,0 +1,119 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/Change over time/CUSUM (spec)" />
+
+# CUSUM chart — spec and implementation plan
+
+CUSUM (CUmulative SUM) detects small, sustained shifts earlier than run/SPC by accumulating deviations from a target mean. It is suitable for change-over-time with subtle process shifts where earlier detection is valuable.
+
+---
+
+## Goals
+
+- Early detection of small sustained shifts around a target
+- Composable with DS primitives (Axis, GridLines, LineSeriesPrimitive)
+- SSR-safe with strong a11y and consistent alert semantics
+
+## Data shape
+
+```ts
+export interface CUSUMDatum { x: Date | number | string; y: number }
+export interface CUSUMSeries { id: string; data: CUSUMDatum[]; label?: string }
+```
+
+Notes:
+- `x` accepts Date or ISO/number; internally normalized to `Date`
+- `y` is a numeric measure (rate/value). For rates/ratios with varying denominators, see “Future: risk-adjusted CUSUM”.
+
+## Component API
+
+```ts
+export interface CUSUMChartProps {
+  series: CUSUMSeries;              // v1 single-series
+  targetMean?: number;              // μ0; default: sample mean
+  sigma?: number;                   // σ; default: sample sd
+  k?: number;                       // reference value; default 0.5 * σ
+  h?: number;                       // decision interval; default 5 * σ
+  sided?: 'two' | 'upper' | 'lower';// default 'two'
+  resetAtZero?: boolean;            // typical one-sided CUSUM: max(0, S)
+  higherIsBetter?: boolean;         // colour semantics for alerts
+  height?: number;                  // fallback ChartRoot height
+  ariaLabel?: string;               // a11y label
+}
+```
+
+## Engine (v1)
+
+Given observations `y_i` and target `μ0`, define deviations `z_i = y_i - μ0`.
+
+- One-sided upper CUSUM: `S_i^+ = max(0, S_{i-1}^+ + (z_i - k))`
+- One-sided lower CUSUM: `S_i^- = max(0, S_{i-1}^- + (-z_i - k))`
+- Two-sided CUSUM computes both; lower is typically plotted as negative for symmetry.
+
+Alert condition: when `S^+ > h` (upper) or `S^- > h` (lower). In v1, `k` and `h` are in raw units (same as `y`). Defaults: `k = 0.5σ`, `h = 5σ`.
+
+Derived defaults:
+- If `targetMean`/`sigma` omitted, compute from the provided series (sample mean/sd).
+
+## Rendering
+
+- Axis: x (time), y (CUSUM value)
+- GridLines: y-axis
+- Lines: `CUSUM+` and `CUSUM−` (if `sided='two'`)
+- Guides: dashed horizontal lines at `±h`
+- Alerts: diamond markers at first threshold exceedances (polarity-aware colouring via `higherIsBetter`)
+
+## Accessibility
+
+- Wrapper `role="group"` with `aria-label` (prop)
+- Lines are visual; interactive points are optional. Alerts include readable labels (e.g., “CUSUM upper alarm”).
+- Works under SSR; no DOM reads in render path
+
+## Edge cases
+
+- Very short series: mean/sd fallbacks; if sd==0, treat σ≈1 for stability
+- Missing data: skip null/undefined observations during stats; keep x continuity
+- Large spikes: CUSUM will ramp; resetAtZero keeps one-sided behaviour readable
+
+## Acceptance criteria
+
+- Storybook shows small-signal detection: second-half shift triggers earlier than SPC/Run
+- Axis/grid render correctly; decision guides at `±h`
+- Alerts appear with meaningful labels and consistent colours
+- SSR/client tests pass; no `window/document` access in render
+
+---
+
+## Next steps (prioritized)
+
+1) Standardised CUSUM (σ-scaled)
+- Compute on z-scores: `z = (y-μ0)/σ` so k/h are in sigma units; expose `standardised` boolean or infer from provided k/h units
+- Benefit: interpretable parameters (e.g., k=0.5, h=5)
+
+2) Baseline/reference line and phase annotations
+- Draw μ0 baseline; optional phase changes with re‑centering (new μ0/σ per phase)
+- API: `phases: { index: number; mu?: number; sigma?: number; label?: string }[]`
+
+3) V‑mask / decision interval variants
+- Alternative visualization of the decision interval; optionally show earliest crossing time
+
+4) Risk‑adjusted and attribute CUSUMs
+- Bernoulli/binomial/Poisson CUSUM (rates with varying denominators)
+- Risk-adjusted CUSUM using expected probability per case (log-likelihood ratio formulation)
+- Accept expected/denominator inputs and compute appropriate scores
+
+5) Controls and ergonomics
+- Story controls for k, h, sided, resetAtZero; presets for common ARL targets
+- Colour semantics parity with SPC states and `MetricCard`
+- Optional markers for first alarm only vs persistent markers
+
+6) Tests and docs
+- Unit tests: computeCUSUM on known sequences; thresholds; sided behaviour
+- SSR/client tests; a11y checks; visual docs comparing Run/SPC/CUSUM on the same dataset
+
+7) Streaming/real‑time and performance
+- Incremental update of CUSUM in O(1) per point; cap points, decimate when dense
+
+---
+
+This page tracks the CUSUM spec. The initial v1 component is implemented as `CUSUMChart` using DV primitives. As we add standardised and risk‑adjusted variants, we’ll extend the props and docs here with examples and guidance for parameter choices (k/h) and ARL considerations.

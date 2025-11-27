@@ -1,0 +1,99 @@
+import { Meta, Source } from "@storybook/addon-docs/blocks";
+import React from "react";
+import WorkflowSplitView from "./WorkflowSplitView";
+
+<Meta title="FDP/Components/WorkflowSplitView/Completion & Mobile Controls" />
+
+<Source code={WorkflowSplitView} />
+
+# WorkflowSplitView – Step completion and mobile controls
+
+This guide documents how to keep users in “form mode” by hiding the top Back/Next chrome on mobile/tablet until the current step is complete, while preserving in-form Next/Previous buttons.
+
+## Why
+
+- On mobile/tablet, WorkflowSplitView uses a sliding cards pattern with a top Back/Next control bar.
+- When a step contains a form, it’s often clearer to let users progress using the form’s own buttons and only surface the top Back/Next once the step is answered.
+
+## API
+
+Two optional props control this behavior:
+
+- `isStepComplete?: (step) => boolean`
+  - Your predicate to tell the component whether the current step is considered complete.
+  - Used for display only; it does not block programmatic navigation.
+- `showMobileControls?: (step) => boolean`
+  - Override for whether the mobile/tablet Back/Next chrome is shown.
+  - If omitted, defaults to: `isStepComplete ? isStepComplete(currentStep) : true`.
+
+Desktop grid layout is unaffected by these props.
+
+## Example
+
+The snippet below hides the top Back/Next controls until each step’s required fields are present. Users can still navigate using in-form buttons when validation passes.
+
+```tsx
+import type { WorkflowStep } from "./WorkflowSplitView.types";
+
+type Step = WorkflowStep<string>;
+
+const steps: Step[] = [
+  { id: "location", label: "Location" },
+  { id: "specialism", label: "Specialism" },
+  { id: "clinic-details", label: "Clinic Details" },
+];
+
+// Example form state
+const [form, setForm] = React.useState({
+  site: "",
+  location: "",
+  speciality: "",
+  careProfessional: "",
+  clinicTitle: "",
+  session: "",
+  start: { day: "", month: "", year: "" },
+});
+
+<WorkflowSplitView
+  steps={steps}
+  // Hide the mobile/tablet top controls until the step is answered
+  isStepComplete={(s?: Step) => {
+    if (!s) return false;
+    if (s.id === "location") return !!(form.site && form.location);
+    if (s.id === "specialism") return !!(form.speciality && form.careProfessional);
+    if (s.id === "clinic-details") {
+      const { clinicTitle, session, start } = form;
+      return !!(clinicTitle.trim() && session && start.day && start.month && start.year);
+    }
+    return true; // non-form steps
+  }}
+  // You can override the policy entirely:
+  // showMobileControls={(step) => true}
+  renderStepContent={(step) => step ? <div>Form for {step.label}</div> : null}
+  layoutForStep={({ breakpoint }) =>
+    breakpoint === "desktop"
+      ? { panes: 2, showPrimaryNav: true, showSecondaryNav: false }
+      : { panes: 2, showPrimaryNav: true, showSecondaryNav: false }
+  }
+/>
+```
+
+## Form buttons on mobile/tablet
+
+In the mobile/tablet pattern, tapping the slide normally navigates between steps. The component ignores taps that originate from interactive descendants (buttons, inputs, selects, links, etc.), so your in-form Next/Previous buttons work as expected.
+
+If you have a custom interactive region that shouldn’t trigger slide navigation, add the attribute `data-prevent-card-click` on that element (or ancestor):
+
+```tsx
+<div data-prevent-card-click onClick={doSomething}>Custom interactive area</div>
+```
+
+## Notes
+
+- `isStepComplete` affects only the visibility of the top Back/Next chrome on non-desktop breakpoints. It does not disable or block calls to `onStepChange` or your own navigation.
+- For designs that prefer a disabled state instead of hidden chrome, you can supply `showMobileControls={() => true}` and render disabled controls in a custom wrapper (or we can extend the API to expose a disabled state hook if needed).
+
+<Source
+  code={`// See example above for a complete snippet.`}
+  language="tsx"
+/>

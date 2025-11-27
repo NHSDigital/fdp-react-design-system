@@ -1,0 +1,21 @@
+{# Panel macro: mirrors React Panel SSR output (no children slot in macro – use body* props) #}
+{% macro panel(params) %}
+  {% set classes = 'nhsuk-panel' %}
+  {% if params.className %}{% set classes = classes + ' ' + params.className %}{% endif %}
+  <div class="{{ classes }}"{% if params.id %} id="{{ params.id }}"{% endif %}>
+    {# Heading (only if headingText/headingHtml provided) #}
+    {% if params.headingHtml or params.headingText %}
+      {% set lvl = params.headingLevel or 2 %}
+      {% set tag = 'h' + lvl %}
+      <{{ tag }} class="nhsuk-heading nhsuk-panel__heading" style="margin-bottom:var(--panel-heading-margin, 24px)">
+        {% if params.headingHtml %}<span>{{ params.headingHtml | safe }}</span>{% else %}{{ params.headingText }}{% endif %}
+      </{{ tag }}>
+    {% endif %}
+    {# Body #}
+    {% if params.bodyHtml %}
+      <div class="nhsuk-panel__body">{{ params.bodyHtml | safe }}</div>
+    {% elif params.bodyText %}
+      <div class="nhsuk-panel__body"><p>{{ params.bodyText }}</p></div>
+    {% endif %}
+  </div>
+{% endmacro %}

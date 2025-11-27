@@ -1,0 +1,196 @@
+.nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+.nhsuk-u-hidden {
+  display: none !important;
+}
+.nhsuk-u-show {
+  display: block !important;
+}
+.nhsuk-u-text-left {
+  text-align: left !important;
+}
+.nhsuk-u-text-center {
+  text-align: center !important;
+}
+.nhsuk-u-text-right {
+  text-align: right !important;
+}
+.nhsuk-u-margin-0 {
+  margin: 0 !important;
+}
+.nhsuk-u-margin-bottom-0 {
+  margin-bottom: 0 !important;
+}
+.nhsuk-u-margin-top-0 {
+  margin-top: 0 !important;
+}
+.nhsuk-u-padding-0 {
+  padding: 0 !important;
+}
+.nhsuk-u-padding-bottom-0 {
+  padding-bottom: 0 !important;
+}
+.nhsuk-u-padding-top-0 {
+  padding-top: 0 !important;
+}
+.nhsuk-u-clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.nhsuk-header .nhsuk-u-visually-hidden,
+.nhsuk-header__search .nhsuk-u-visually-hidden,
+label .nhsuk-u-visually-hidden,
+span .nhsuk-u-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  -webkit-clip-path: inset(50%) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.nhsuk-width-container {
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: 1200px;
+}
+@media (min-width: 768px) {
+  .nhsuk-width-container {
+    padding: 0 32px;
+  }
+}
+@media (min-width: 1020px) {
+  .nhsuk-width-container {
+    padding: 0 40px;
+  }
+}
+
+.nhsuk-icon {
+  width: auto !important;
+  height: 2em;
+  vertical-align: text-bottom;
+  flex-shrink: 0;
+}
+
+.nhsuk-task-list {
+  margin-top: 0;
+  padding: 0;
+  list-style-type: none;
+  font-family: Frutiger W01, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 32px;
+}
+@media (min-width: 768px) {
+  .nhsuk-task-list {
+    font-size: 19px;
+  }
+}
+.nhsuk-task-list__item {
+  display: table;
+  position: relative;
+  width: 100%;
+  margin-bottom: 0;
+  padding-top: calc(8px + 4px);
+  padding-bottom: calc(8px + 4px);
+  border-bottom: 1px solid #d8dde0;
+}
+.nhsuk-task-list__item:first-child {
+  border-top: 1px solid #d8dde0;
+}
+.nhsuk-task-list__item--with-link:hover {
+  background: #e8edee;
+}
+.nhsuk-task-list__name-and-hint {
+  display: table-cell;
+  vertical-align: top;
+  color: #212b32;
+}
+.nhsuk-task-list__status {
+  display: table-cell;
+  padding-left: 8px;
+  text-align: right;
+  vertical-align: top;
+  color: #212b32;
+}
+.nhsuk-task-list__status--completed, .nhsuk-task-list__status--cannot-start-yet {
+  padding-bottom: 4px;
+  padding-left: 8px;
+  padding-top: calc(4px + 2px);
+  text-decoration: none;
+  font-family: Frutiger W01, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+}
+@media (min-width: 768px) {
+  .nhsuk-task-list__status--completed, .nhsuk-task-list__status--cannot-start-yet {
+    font-size: 16px;
+  }
+}
+.nhsuk-task-list__status--cannot-start-yet {
+  color: #4c6272;
+}
+.nhsuk-task-list__link {
+  color: #005eb8;
+  text-decoration: underline;
+  text-decoration-thickness: max(1px, 0.0625rem);
+  text-underline-offset: 0.1578em;
+}
+.nhsuk-task-list__link:visited {
+  color: #330072;
+  text-decoration-color: #330072;
+}
+.nhsuk-task-list__link:hover {
+  color: #7c2855;
+  text-decoration-color: #7c2855;
+  text-decoration: none;
+}
+.nhsuk-task-list__link:active {
+  color: #003087;
+  text-decoration-color: #003087;
+}
+.nhsuk-task-list__link:focus {
+  outline: 4px solid #ffeb3b;
+  outline-offset: 0px;
+  background-color: #ffeb3b;
+  color: #212b32;
+  text-decoration: none;
+}
+.nhsuk-task-list__link::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+.nhsuk-task-list__hint {
+  margin-top: 4px;
+  color: #4c6272;
+  font-family: Frutiger W01, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 24px;
+}
+@media (min-width: 768px) {
+  .nhsuk-task-list__hint {
+    font-size: 16px;
+  }
+}

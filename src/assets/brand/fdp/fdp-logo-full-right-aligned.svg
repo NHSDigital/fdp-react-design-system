@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="463" height="106"  xml:space="preserve" id="fdplogorightaligned">
+    <g id="fdplogorightaligned-group2">
+        <rect id="fdplogorightaligned-rectangle" stroke="none" fill="rgb(32, 95, 172)" x="315.7" y="-0.03" width="144.1" height="58.05" />
+        <g id="fdplogorightaligned-group">
+            <path id="fdplogorightaligned-bezier" stroke="none" fill="rgb(254, 254, 254)" d="M 373.61,5.6 L 363.66,52.31 348.06,52.31 338.24,19.99 338.11,19.99 331.58,52.31 319.74,52.31 329.77,5.6 345.43,5.6 355.05,37.99 355.18,37.99 361.77,5.6 373.61,5.6 Z M 373.61,5.6" />
+            <path id="fdplogorightaligned-bezier2" stroke="none" fill="rgb(254, 254, 254)" d="M 418.26,5.6 L 408.51,52.31 395.94,52.31 400.11,32.3 385.24,32.3 381.07,52.31 368.5,52.31 378.25,5.6 390.82,5.6 387.13,23.47 401.99,23.47 405.69,5.6 418.26,5.6 Z M 418.26,5.6" />
+            <path id="fdplogorightaligned-bezier3" stroke="none" fill="rgb(254, 254, 254)" d="M 454.38,6.87 L 451.35,16.17 C 448.92,15.04 445.63,14.04 440.99,14.04 436.02,14.04 431.98,14.77 431.98,18.52 431.98,25.14 450.2,22.67 450.2,36.85 450.2,49.77 438.17,53.12 427.27,53.12 422.43,53.12 416.85,51.97 412.75,50.7 L 415.71,41.2 C 418.19,42.8 423.17,43.88 427.27,43.88 431.18,43.88 437.29,43.14 437.29,38.32 437.29,30.83 419.06,33.64 419.06,20.46 419.06,8.42 429.69,4.8 439.98,4.8 445.77,4.8 451.21,5.41 454.38,6.87 Z M 454.38,6.87" />
+        </g>
+    </g>
+    
+    <text  fill="rgb(35, 31, 32)" font-family="FrutigerLTPro-Bold, 'Frutiger LT Pro', sans-serif" font-weight="bold" font-size="40" x="0" y="64.89"><tspan x="0" y="102.89">Federated Data Platform</tspan></text>
+</svg>

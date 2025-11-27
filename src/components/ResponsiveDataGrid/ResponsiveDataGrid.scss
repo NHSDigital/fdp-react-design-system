@@ -1,0 +1,952 @@
+// ResponsiveDataGrid - Mobile-First Card Layout
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Mobile-first approach: Start with cards, enhance to table
+.aria-tabs-datagrid-adaptive {
+  // Inherit font via CSS var so BrandThemeProvider can switch brand fonts
+  font-family: var(--nhs-font-family-base, -apple-system, system-ui, "Segoe UI", Roboto, Arial, Helvetica, sans-serif);
+  background: nhs.$nhs-fdp-color-primary-white;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  
+  // Allow overflow when sort controls are focused to show the full yellow border
+  &:focus-within {
+    overflow: visible;
+  }
+
+  // ==========================================================================
+  // ADAPTIVE CARD WRAPPER STYLES  
+  // ==========================================================================
+  
+  &__card-wrapper {
+    margin-bottom: nhs.$nhs-fdp-spacing-4;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+    }
+    
+    &:focus {
+      outline: 3px solid nhs.$nhs-fdp-color-primary-yellow; // NHS yellow focus indicator
+      outline-offset: 2px;
+    }
+    
+    // Healthcare-specific card enhancements
+    .adaptive-card {
+      
+      &--healthcare {
+        // Additional healthcare-specific styling
+        
+        // Nested badge container
+        &__badges {
+          margin-top: nhs.$nhs-fdp-spacing-3;
+          display: flex;
+          gap: nhs.$nhs-fdp-spacing-2;
+          flex-wrap: wrap;
+        }
+        
+        // Early Warning Score badge styles
+        &__ews-badge {
+          font-weight: 600; // Bold weight
+          
+          &.nhsuk-tag--high {
+            background-color: nhs.$nhs-fdp-color-primary-red; // NHS Red
+            color: nhs.$nhs-fdp-color-primary-white;
+          }
+          
+          &.nhsuk-tag--medium {
+            background-color: nhs.$nhs-fdp-color-primary-yellow; // NHS Yellow  
+            color: nhs.$nhs-fdp-color-primary-black;
+          }
+          
+          &.nhsuk-tag--low {
+            background-color: nhs.$nhs-fdp-color-secondary-aqua-green; // NHS Green
+            color: nhs.$nhs-fdp-color-primary-white;
+          }
+        }
+        
+        // General badge styles for healthcare context
+        &__badge {
+          background-color: nhs.$nhs-fdp-color-grey-5; // NHS Grey 5
+          color: nhs.$nhs-fdp-color-primary-black;
+        }
+      }
+    }
+
+    // Card navigation states (following GanttChart pattern)
+    &--card-navigation {
+      border: nhs.$nhs-fdp-border-width-form-element dashed nhs.$nhs-fdp-color-primary-blue; // NHS Blue dashed border for navigation mode
+      background-color: rgba(nhs.$nhs-fdp-color-primary-blue, 0.05); // Light blue background tint
+      position: relative;
+      
+      &::before {
+        content: "Navigation Mode";
+        position: absolute;
+        top: -12px;
+        left: nhs.$nhs-fdp-spacing-3;
+        background: nhs.$nhs-fdp-color-primary-blue; // NHS Blue
+        color: nhs.$nhs-fdp-color-primary-white;
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: nhs.$nhs-fdp-border-radius-small;
+        z-index: 10;
+        font-weight: 600; // Bold weight
+      }
+      
+      // Highlight focusable elements within active card
+      button, a, input, select, textarea, [tabindex]:not([tabindex="-1"]) {
+        outline: 1px dotted nhs.$nhs-fdp-color-primary-blue !important;
+        outline-offset: 2px;
+        
+        &:focus {
+          outline: 3px solid nhs.$nhs-fdp-color-primary-yellow !important; // NHS yellow for focused elements
+          outline-offset: 2px;
+          box-shadow: 0 0 0 4px rgba(nhs.$nhs-fdp-color-primary-yellow, 0.3);
+        }
+      }
+    }
+
+    &--selected {
+      border-color: nhs.$nhs-fdp-color-primary-blue; // NHS Blue
+    }
+
+    &--focused {
+      outline: 3px solid nhs.$nhs-fdp-color-primary-yellow; // NHS Yellow focus
+      outline-offset: 2px;
+    }
+  }
+
+  // ==========================================================================
+  // ACTION AREAS
+  // ==========================================================================
+  
+  // Header container for tabs and top actions
+  &__header {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+
+  // Top actions area
+  &__top-actions {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-3;
+    padding: nhs.$nhs-fdp-spacing-3;
+    background: nhs.$nhs-fdp-color-grey-5;
+    border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-top: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    
+    // In card layout, appears in the top-right of the tab bar when space allows
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      margin-left: auto;
+      border-top: none;
+      border-bottom: 2px solid nhs.$nhs-fdp-color-primary-blue;
+      background: nhs.$nhs-fdp-color-primary-white;
+      padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-spacing-3;
+      min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
+      align-items: center;
+	  border: 0;
+    }
+    
+    // Above table variant (for table/hybrid layouts)
+    &--above-table {
+      background: nhs.$nhs-fdp-color-primary-white;
+      justify-content: flex-end;
+      margin-bottom: -2px; // Connect to table below
+      
+      @media (max-width: calc(nhs.$nhs-fdp-breakpoint-medium - 1px)) {
+        border-radius: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  // Bottom actions area
+  &__bottom-actions {
+    display: flex;
+    gap: nhs.$nhs-fdp-spacing-3;
+    padding: nhs.$nhs-fdp-spacing-4;
+    background: nhs.$nhs-fdp-color-primary-white;
+    border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-bottom: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-radius: 0 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small;
+    justify-content: flex-end;
+    margin-top: -2px; // Connect to content above
+    
+    @media (max-width: calc(nhs.$nhs-fdp-breakpoint-medium - 1px)) {
+      flex-direction: column;
+      align-items: stretch;
+      
+      > * {
+        width: 100%;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // MOBILE-FIRST: Card Layout (Default)
+  // ==========================================================================
+  
+  // Update tabs to work within header container
+  &__header &__tabs,
+  // Tab navigation
+  &__tabs {
+    display: flex;
+    gap: 0; // Remove gap to connect with cards container
+    margin-bottom: 0; // Remove margin to connect seamlessly
+    overflow-x: auto;
+    padding: 0;
+    background: nhs.$nhs-fdp-color-grey-5;
+    list-style: none;
+    // Layer above sort controls so selected tab can visually overlap their bottom border
+    position: relative; // create stacking context for z-index to apply
+    z-index: 20; // ensure tabs sit above sort-controls even when sort-controls are focused
+    
+    // Mobile scrollable tabs
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: transparent; // No visible track for tabs
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: nhs.$nhs-fdp-color-grey-3;
+      border-radius: 2px;
+    }
+  }
+
+  // Individual tab buttons
+  &__tab {
+    background: nhs.$nhs-fdp-color-grey-4; // Darker grey for non-selected tabs
+    border: none;
+    padding: nhs.$nhs-fdp-button-spacing-padding-vertical-desktop nhs.$nhs-fdp-spacing-3;
+    border-radius: 0;
+    font-size: nhs.$nhs-fdp-font-size-16-tablet;
+    font-weight: nhs.$nhs-fdp-font-weight-bold;
+    color: nhs.$nhs-fdp-color-primary-black;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all nhs.$nhs-fdp-animation-duration-normal nhs.$nhs-fdp-animation-easing-ease-out;
+    min-height: nhs.$nhs-fdp-form-spacing-input-min-height + nhs.$nhs-fdp-spacing-2;
+    border-bottom: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    flex-shrink: 0;
+    min-width: max-content;
+    position: relative;
+    
+    &:hover:not(&--selected) {
+      background: nhs.$nhs-fdp-color-grey-3; // Lighter grey for better visual progression
+      color: nhs.$nhs-fdp-color-primary-blue;
+    }
+    
+    &:focus {
+      outline: nhs.$nhs-fdp-border-width-card-bottom solid nhs.$nhs-fdp-color-primary-yellow;
+      outline-offset: -(nhs.$nhs-fdp-border-width-card-bottom);
+      background: nhs.$nhs-fdp-color-grey-3;
+      border-top: 2px solid nhs.$nhs-fdp-color-primary-yellow;
+      border-left: 2px solid nhs.$nhs-fdp-color-primary-yellow;
+      border-right: 2px solid nhs.$nhs-fdp-color-primary-yellow;
+      z-index: 5; // Lower than sort controls when focused
+    }
+    
+    // Tab states
+    &--selected {
+      background: nhs.$nhs-fdp-color-primary-white;
+      color: nhs.$nhs-fdp-color-primary-blue;
+      border-top: 2px solid nhs.$nhs-fdp-color-primary-blue;
+      border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
+      border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
+      border-bottom: 2px solid nhs.$nhs-fdp-color-grey-5; // Match the cards background to hide the border underneath
+      margin-bottom: -2px; // Extend down to cover the gap between tab and cards container
+  	  // Ensure visual overlap always sits above sort-controls even when margin creates collision
+      position: relative; // create stacking context for this specific tab
+      z-index: 30; // higher than tabs container (20) and sort-controls focus (5)
+    }
+
+    &--disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      color: nhs.$nhs-fdp-color-grey-3;
+      
+      &:hover {
+        background: nhs.$nhs-fdp-color-grey-4; // Keep same background, no hover effect
+        color: nhs.$nhs-fdp-color-grey-3; // Keep disabled color
+      }
+    }
+  }
+
+  // Card Grid Layout (styled like SortableDataGrid panel)
+  &__cards {
+    background: nhs.$nhs-fdp-color-primary-white;
+    min-height: 400px; // Consistent with SortableDataGrid
+    border-radius: 0; // Bottom radius handled conditionally
+    outline: none;
+    border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    border-bottom: 2px solid nhs.$nhs-fdp-color-primary-blue;
+    margin-top: -2px; // Connect seamlessly with the selected tab
+    overflow-x: auto;
+    overflow-y: visible;
+    
+    // Card grid layout within the bordered container
+    padding: nhs.$nhs-fdp-spacing-4;
+    display: grid;
+    gap: nhs.$nhs-fdp-spacing-4;
+    grid-template-columns: 1fr; // Single column on mobile
+    
+    // Enhanced scrollbar styling
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: nhs.$nhs-fdp-color-grey-5;
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: nhs.$nhs-fdp-color-grey-3;
+      border-radius: nhs.$nhs-fdp-border-radius-small;
+      
+      &:hover {
+        background: nhs.$nhs-fdp-color-grey-2;
+      }
+    }
+
+	@media (max-width: 768px) {
+		margin-top: 24px;
+	}
+	
+	// When cards are the last element (no bottom actions), add bottom radius
+	&:last-child,
+	.aria-tabs-datagrid-adaptive:not(:has(.aria-tabs-datagrid-adaptive__bottom-actions)) & {
+	  border-radius: 0 0 nhs.$nhs-fdp-border-radius-small nhs.$nhs-fdp-border-radius-small;
+	}
+  }
+
+  // Individual Card Styling
+  &__card {
+    background: nhs.$nhs-fdp-color-primary-white;
+    border: 2px solid nhs.$nhs-fdp-color-grey-4;
+    border-radius: nhs.$nhs-fdp-border-radius-medium;
+    padding: nhs.$nhs-fdp-component-card-padding-mobile;
+    box-shadow: nhs.$nhs-fdp-shadow-card-default;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+    &:hover {
+      box-shadow: nhs.$nhs-fdp-shadow-card-hover;
+      transform: translateY(-2px);
+    }
+    
+    &:focus {
+      outline: 3px solid nhs.$nhs-fdp-color-primary-yellow;
+      outline-offset: 2px;
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    // Selected state
+    &--selected {
+      border-color: nhs.$nhs-fdp-color-primary-blue;
+      background: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
+    }
+
+    // Card Header
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: nhs.$nhs-fdp-spacing-3;
+      padding-bottom: nhs.$nhs-fdp-spacing-2;
+      border-bottom: 1px solid nhs.$nhs-fdp-color-grey-4;
+    }
+
+    // Card Title
+    &-title {
+      margin: 0;
+      font-size: nhs.$nhs-fdp-font-size-19-mobile;
+      font-weight: nhs.$nhs-fdp-font-weight-bold;
+      color: nhs.$nhs-fdp-color-primary-black;
+      line-height: 1.3;
+      flex: 1;
+      margin-right: nhs.$nhs-fdp-spacing-2;
+    }
+
+    // Card Badges Container
+    &-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: nhs.$nhs-fdp-spacing-1;
+      align-items: flex-start;
+    }
+
+    // Individual Badge
+    &-badge {
+      font-size: nhs.$nhs-fdp-font-size-14-mobile;
+      padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+      
+      // Healthcare-specific badge colors
+      &--urgent {
+        background: nhs.$nhs-fdp-color-primary-red;
+        color: nhs.$nhs-fdp-color-primary-white;
+      }
+      
+      &--warning {
+        background: nhs.$nhs-fdp-color-secondary-orange;
+        color: nhs.$nhs-fdp-color-primary-white;
+      }
+      
+      &--success {
+        background: nhs.$nhs-fdp-color-secondary-aqua-green;
+        color: nhs.$nhs-fdp-color-primary-white;
+      }
+    }
+
+    // Card Body - Key-Value Pairs
+    &-body {
+      margin-bottom: nhs.$nhs-fdp-spacing-3;
+    }
+
+    // Individual Field Container
+    &-field {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: nhs.$nhs-fdp-spacing-2;
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
+      align-items: baseline;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      // Stack vertically for long labels on very small screens
+      @media (max-width: nhs.$nhs-fdp-breakpoint-small) {
+        grid-template-columns: 1fr;
+        gap: nhs.$nhs-fdp-spacing-1;
+      }
+
+      // Field Label
+      &-label {
+        font-size: nhs.$nhs-fdp-font-size-14-mobile;
+        font-weight: nhs.$nhs-fdp-font-weight-bold;
+        color: nhs.$nhs-fdp-color-grey-1;
+        margin: 0;
+      }
+
+      // Field Value
+      &-value {
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        color: nhs.$nhs-fdp-color-primary-black;
+        margin: 0;
+        word-break: break-word;
+        
+        // Boolean value styling
+        &--boolean {
+          font-family: 'Courier New', monospace;
+          font-weight: nhs.$nhs-fdp-font-weight-bold;
+          
+          &[data-value="true"] {
+            color: nhs.$nhs-fdp-color-secondary-aqua-green;
+          }
+          
+          &[data-value="false"] {
+            color: nhs.$nhs-fdp-color-grey-2;
+          }
+        }
+      }
+    }
+
+    // Card Actions
+    &-actions {
+      display: flex;
+      gap: nhs.$nhs-fdp-spacing-2;
+      justify-content: flex-end;
+      margin-top: nhs.$nhs-fdp-spacing-3;
+      padding-top: nhs.$nhs-fdp-spacing-2;
+      border-top: 1px solid nhs.$nhs-fdp-color-grey-4;
+      
+      .nhsuk-button {
+        font-size: nhs.$nhs-fdp-font-size-14-mobile;
+        padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3;
+        min-height: nhs.$nhs-fdp-size-button-min-height-mobile;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // TABLET: Medium Layout Enhancement
+  // ==========================================================================
+  
+  @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+    &__cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: nhs.$nhs-fdp-spacing-3;
+    }
+    
+    &__card {
+      padding: nhs.$nhs-fdp-component-card-padding-desktop;
+
+      &-title {
+        font-size: nhs.$nhs-fdp-font-size-19-tablet;
+      }
+
+      &-field {
+        &-label {
+          font-size: nhs.$nhs-fdp-font-size-14-tablet;
+        }
+
+        &-value {
+          font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // TABLET: Hybrid Layout Enhancement
+  // ==========================================================================
+  
+  &--hybrid {
+    @media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+      #{&}__cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: nhs.$nhs-fdp-spacing-3;
+      }
+      
+      #{&}__card {
+        padding: nhs.$nhs-fdp-component-card-padding-desktop;
+
+        &-title {
+          font-size: nhs.$nhs-fdp-font-size-19-tablet;
+        }
+
+        &-field {
+          &-label {
+            font-size: nhs.$nhs-fdp-font-size-14-tablet;
+          }
+
+          &-value {
+            font-size: nhs.$nhs-fdp-font-size-16-tablet;
+          }
+        }
+      }
+    }
+    
+    // At desktop breakpoint, limit hybrid mode to 3 cards per row as well
+    @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+      #{&}__cards {
+        grid-template-columns: repeat(3, 1fr);
+        gap: nhs.$nhs-fdp-spacing-3;
+      }
+    }
+  }
+
+  // Enhanced table mode for hybrid view
+  &__table--hybrid {
+    .aria-tabs-datagrid__grid {
+      overflow: hidden;
+      box-shadow: nhs.$nhs-fdp-shadow-card-default;
+      
+      th, td {
+        padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-2;
+      }
+      
+      tbody tr {
+        &:hover {
+          background: rgba(nhs.$nhs-fdp-color-primary-blue, 0.02);
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // DESKTOP: Full Table Layout
+  // ==========================================================================
+  
+  @media (min-width: nhs.$nhs-fdp-breakpoint-xlarge) {
+    // Cards become less prominent, table takes precedence
+    // Limit to exactly 3 cards per row for optimal readability
+    &__cards {
+      grid-template-columns: repeat(3, 1fr);
+      gap: nhs.$nhs-fdp-spacing-2;
+    }
+    
+    &__card {
+      padding: nhs.$nhs-fdp-component-card-padding-desktop;
+
+      &-title {
+        font-size: nhs.$nhs-fdp-font-size-22-tablet;
+      }
+
+      &-field {
+        &-label {
+          font-size: nhs.$nhs-fdp-font-size-14-tablet;
+        }
+
+        &-value {
+          font-size: nhs.$nhs-fdp-font-size-16-tablet;
+        }
+      }
+    }
+    
+    // Desktop tabs can be larger
+    &__tab {
+      font-size: nhs.$nhs-fdp-font-size-16-tablet;
+      padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-5;
+    }
+  }
+
+  // ==========================================================================
+  // ACCESSIBILITY & FOCUS MANAGEMENT
+  // ==========================================================================
+  
+  // Screen reader enhancements for cards
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  // High contrast mode support
+  @media (forced-colors: active) {
+    &__card {
+      border: 2px solid ButtonText;
+    }
+    
+    &__tab {
+      &--selected {
+        background: Highlight;
+        color: HighlightText;
+      }
+    }
+  }
+  
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    &__card {
+      transition: none;
+      
+      &:hover {
+        transform: none;
+      }
+    }
+    
+    &__tab {
+      transition: none;
+    }
+  }
+  
+  // Print styles
+  @media print {
+    &__card {
+      break-inside: avoid;
+      box-shadow: none;
+      border: 1px solid black;
+      margin-bottom: nhs.$nhs-fdp-spacing-3;
+
+      &-actions {
+        display: none;
+      }
+    }
+  }
+
+  // ==========================================================================
+  // LOADING & ERROR STATES
+  // ==========================================================================
+  
+  &--loading {
+    #{&}__cards {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 200px;
+    }
+  }
+  
+  &__loading-card {
+    background: nhs.$nhs-fdp-color-grey-5;
+    border-radius: nhs.$nhs-fdp-border-radius-medium;
+    padding: nhs.$nhs-fdp-spacing-4;
+    text-align: center;
+    
+    .nhsuk-spinner {
+      margin-bottom: nhs.$nhs-fdp-spacing-2;
+    }
+  }
+  
+  &--error {
+    #{&}__cards {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  &__error-card {
+    background: rgba(nhs.$nhs-fdp-color-primary-red, 0.02);
+    border: 2px solid nhs.$nhs-fdp-color-primary-red;
+    border-radius: nhs.$nhs-fdp-border-radius-medium;
+    padding: nhs.$nhs-fdp-spacing-4;
+    text-align: center;
+    color: nhs.$nhs-fdp-color-primary-red;
+  }
+}
+
+// ==========================================================================
+// ANIMATION UTILITIES (Experimental)
+// ==========================================================================
+
+.aria-tabs-datagrid-adaptive {
+  &--animated {
+    #{&}__card {
+      animation: cardSlideIn 0.3s ease-out;
+    }
+    
+    @keyframes cardSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  
+  // Layout transition animations
+  &--transitioning {
+    #{&}__cards {
+      transition: all 0.3s ease;
+    }
+  }
+
+  // ==========================================================================
+  // CARD SORT CONTROLS
+  // ==========================================================================
+  
+  &__sort-controls {
+    background: nhs.$nhs-fdp-color-primary-white;
+    position: relative; // Enable z-index positioning / stacking context
+    overflow: visible; // allow overlapping tabs to show in front
+    z-index: 1; // base layer below tabs; focus state elevates further
+    margin: -2px calc(-1 * nhs.$nhs-fdp-spacing-4) calc(-1 * nhs.$nhs-fdp-spacing-4) calc(-1 * nhs.$nhs-fdp-spacing-4);
+	padding: 0 #{nhs.$nhs-fdp-spacing-4} 0 #{nhs.$nhs-fdp-spacing-4};
+	z-index: 0;
+	
+	// NHS focus styling for sort controls container - full yellow border
+    &:focus {
+      outline: none; // Remove default outline
+      border: 4px solid nhs.$nhs-fdp-color-primary-yellow !important;
+      background: nhs.$nhs-fdp-color-primary-white;
+	  padding: 0 #{nhs.$nhs-fdp-spacing-4 - 4px} 0 #{nhs.$nhs-fdp-spacing-4 - 4px};
+	  margin-top: -6px; // Adjust margin to account for border
+	  
+    }
+    
+    // Full width on mobile
+    @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
+      
+	  
+    }
+    
+    .sort-controls-row {
+      background-color: nhs.$nhs-fdp-color-grey-5;
+      display: flex;
+      align-items: flex-start;
+      gap: nhs.$nhs-fdp-spacing-4;
+      flex-wrap: wrap;
+	  padding: nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4 nhs.$nhs-fdp-spacing-4;
+	  border-left: 2px solid nhs.$nhs-fdp-color-primary-blue;
+	  border-right: 2px solid nhs.$nhs-fdp-color-primary-blue;
+	  border-top: 2px solid nhs.$nhs-fdp-color-primary-blue;
+	  //border-bottom: 3px solid nhs.$nhs-fdp-color-grey-4;
+	  outline-offset: 2px;
+	  z-index: 0;
+
+    // Programmatic focus entry (from keyboard nav) uses tabindex="-1"; apply NHS focus styling
+    &:focus-visible {
+    outline: 3px solid nhs.$nhs-fdp-color-primary-yellow;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(nhs.$nhs-fdp-color-primary-yellow, 0.35);
+    }
+      
+      @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium}) {
+        flex-direction: column;
+        gap: nhs.$nhs-fdp-spacing-3;
+      }
+    }
+    
+    .sort-select-container {
+      display: flex;
+      flex-direction: column;
+      gap: nhs.$nhs-fdp-spacing-2;
+      min-width: 200px;
+      
+      // Full width on mobile
+      @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
+        min-width: 0;
+        width: 100%;
+      }
+      
+      // Focus style for the wrapper div around Select
+      > div:focus {
+        outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 6px nhs.$nhs-fdp-semantic-color-focus-background;
+        border-radius: nhs.$nhs-fdp-border-radius-small;
+      }
+      
+      .sort-label {
+        font-size: nhs.$nhs-fdp-font-size-16-desktop;
+        font-weight: 600;
+        color: nhs.$nhs-fdp-color-primary-black;
+        margin: 0;
+        
+        // Responsive font size
+        @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
+          font-size: nhs.$nhs-fdp-font-size-16-mobile;
+        }
+      }
+      
+      .sort-select {
+        max-width: 300px;
+        
+        // Full width on mobile
+        @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
+          max-width: none;
+          width: 100%;
+        }
+      }
+    }
+    
+    .sort-indicator {
+      display: flex;
+      align-items: center;
+      gap: nhs.$nhs-fdp-spacing-3;
+      padding: nhs.$nhs-fdp-spacing-2 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-3 nhs.$nhs-fdp-spacing-3;
+      background: nhs.$nhs-fdp-tag-blue-background;
+      border: 1px solid nhs.$nhs-fdp-tag-blue-border;
+      font-size: nhs.$nhs-fdp-font-size-14-desktop;
+      box-sizing: border-box;
+      max-width: 100%;
+      overflow: hidden;
+      
+      // Full width layout on mobile
+      @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
+        width: 100%;
+        font-size: nhs.$nhs-fdp-font-size-16-mobile;
+      }
+      
+      .sort-indicator-text {
+        color: nhs.$nhs-fdp-color-primary-black;
+        font-weight: 500;
+        flex-grow: 1;
+        min-width: 0; // Allow text to shrink
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      
+      // Focus style for the wrapper div around clear button
+      > div:focus {
+        outline: 4px solid nhs.$nhs-fdp-semantic-color-focus-background;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 6px nhs.$nhs-fdp-semantic-color-focus-background;
+        border-radius: nhs.$nhs-fdp-border-radius-small;
+      }
+      
+      .sort-clear-button {
+        margin: 0;
+        padding: nhs.$nhs-fdp-spacing-1 nhs.$nhs-fdp-spacing-2;
+        min-height: auto;
+        font-size: nhs.$nhs-fdp-font-size-14-desktop;
+        flex-shrink: 0;
+        
+        @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium - 1px}) {
+          font-size: nhs.$nhs-fdp-font-size-14-mobile;
+        }
+        
+        // Override button component defaults for inline use
+        &.nhsuk-button--secondary {
+          margin: 0;
+          border-radius: nhs.$nhs-fdp-border-radius-small;
+        }
+      }
+      
+      @media (max-width: #{nhs.$nhs-fdp-breakpoint-medium}) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: nhs.$nhs-fdp-spacing-2;
+        
+        .sort-indicator-text {
+          width: 100%;
+          text-align: left;
+        }
+        
+        .sort-clear-button {
+          align-self: flex-end;
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // SCREEN READER ANNOUNCEMENTS CONTAINER
+  // ==========================================================================
+  
+  &__announcements {
+    // Fixed positioning to avoid any layout impact
+    position: fixed !important;
+    top: -1px !important;
+    left: -1px !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    z-index: -1; // Ensure it's below everything else
+    
+    // Screen reader only content
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  }
+}

@@ -1,0 +1,156 @@
+// NHS Width Utilities - Token-based implementation
+@use '../../../packages/nhs-fdp/scss' as nhs;
+
+// Breakpoints (based on NHS UK)
+$tablet: 641px;
+$desktop: 769px;
+
+// Utility classes are allowed to use !important
+// stylelint-disable declaration-no-important
+
+////
+/// Width Utilities
+/// Force element widths on all screen sizes
+/// Independent of grid system - can be used on any element
+////
+
+.nhsuk-u-width-full {
+  width: 100% !important;
+}
+
+.nhsuk-u-width-three-quarters {
+  width: 100% !important;
+
+  @media (min-width: #{$tablet}) {
+    width: 75% !important; // 3/4
+  }
+}
+
+.nhsuk-u-width-two-thirds {
+  width: 100% !important;
+
+  @media (min-width: #{$tablet}) {
+    width: 66.666667% !important; // 2/3
+  }
+}
+
+.nhsuk-u-width-one-half {
+  width: 100% !important;
+
+  @media (min-width: #{$tablet}) {
+    width: 50% !important; // 1/2
+  }
+}
+
+.nhsuk-u-width-one-third {
+  width: 100% !important;
+
+  @media (min-width: #{$tablet}) {
+    width: 33.333333% !important; // 1/3
+  }
+}
+
+.nhsuk-u-width-one-quarter {
+  width: 100% !important;
+
+  @media (min-width: #{$tablet}) {
+    width: 25% !important; // 1/4
+  }
+}
+
+////
+/// Tablet-specific Width Utilities
+/// Only apply width constraints from tablet breakpoint and above
+/// Full width on mobile
+////
+
+.nhsuk-u-width-full-tablet {
+  width: 100% !important;
+}
+
+.nhsuk-u-width-three-quarters-tablet {
+  width: 100% !important;
+  
+  @media (min-width: #{$tablet}) {
+    width: 75% !important;
+  }
+}
+
+.nhsuk-u-width-two-thirds-tablet {
+  width: 100% !important;
+  
+  @media (min-width: #{$tablet}) {
+    width: 66.666667% !important;
+  }
+}
+
+.nhsuk-u-width-one-half-tablet {
+  width: 100% !important;
+  
+  @media (min-width: #{$tablet}) {
+    width: 50% !important;
+  }
+}
+
+.nhsuk-u-width-one-third-tablet {
+  width: 100% !important;
+  
+  @media (min-width: #{$tablet}) {
+    width: 33.333333% !important;
+  }
+}
+
+.nhsuk-u-width-one-quarter-tablet {
+  width: 100% !important;
+  
+  @media (min-width: #{$tablet}) {
+    width: 25% !important;
+  }
+}
+
+////
+/// Reading Width Utility
+/// Constrains content to optimal reading line length
+////
+
+.nhsuk-u-reading-width {
+  max-width: 30em !important; // Optimal reading width (roughly 66 characters at 16px)
+}
+
+////
+/// Debug Mode
+/// Visual indicators for width utilities when debugging
+////
+
+.nhsuk-width-utilities--debug {
+  [class*="nhsuk-u-width-"] {
+    position: relative;
+    background: rgba(0, 100, 200, 0.1) !important;
+    outline: 2px solid rgba(0, 100, 200, 0.5) !important;
+    
+    &::before {
+      content: attr(class);
+      position: absolute;
+      top: -24px;
+      left: 0;
+      background: rgba(0, 100, 200, 0.9);
+      color: white;
+      padding: 2px 6px;
+      font-size: 11px;
+      font-family: monospace;
+      z-index: 9999;
+      white-space: nowrap;
+      pointer-events: none;
+      border-radius: 2px;
+    }
+  }
+  
+  .nhsuk-u-reading-width {
+    background: rgba(255, 165, 0, 0.1) !important;
+    outline: 2px solid rgba(255, 165, 0, 0.7) !important;
+    
+    &::before {
+      background: rgba(255, 165, 0, 0.9);
+    }
+  }
+}

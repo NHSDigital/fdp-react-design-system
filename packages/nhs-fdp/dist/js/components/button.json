@@ -1,0 +1,43 @@
+{
+  "semantic": {
+    "color": {
+      "button": {
+        "primary": {
+          "background": "#007f3b",
+          "text": "#ffffff",
+          "hover": "#006530",
+          "active": "#00401e",
+          "shadow": "#00401e"
+        },
+        "secondary": {
+          "background": "#00000000",
+          "background-solid": "#ffffff",
+          "border": "#005eb8",
+          "text": "#005eb8",
+          "hover": "#d9e5f2",
+          "active": "#c7daf0",
+          "shadow": "#005eb8"
+        },
+        "reverse": {
+          "background": "#ffffff",
+          "text": "#212b32",
+          "hover": "#d9dde0",
+          "active": "#b3bcc2",
+          "shadow": "#b3bcc2"
+        },
+        "warning": {
+          "background": "#d5281b",
+          "hover": "#aa2016",
+          "active": "#6a140e",
+          "shadow": "#6a140e"
+        },
+        "login": {
+          "background": "#005eb8",
+          "hover": "#004b93",
+          "active": "#002f5c",
+          "shadow": "#002f5c"
+        }
+      }
+    }
+  }
+}

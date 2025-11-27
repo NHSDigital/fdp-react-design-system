@@ -1,0 +1,191 @@
+{
+  "semantic": {
+    "color": {
+      "$type": "color",
+      "text": {
+        "primary": {
+          "$value": "{color.primary.black}",
+          "$description": "Primary text color"
+        },
+        "secondary": {
+          "$value": "{color.grey.1}",
+          "$description": "Secondary text color"
+        },
+        "reverse": {
+          "$value": "{color.primary.white}",
+          "$description": "Reverse/inverted text color"
+        },
+        "print": {
+          "$value": "{color.primary.black}",
+          "$description": "Print text color"
+        }
+      },
+      "link": {
+        "default": {
+          "$value": "{color.primary.blue}",
+          "$description": "Default link color"
+        },
+        "hover": {
+          "$value": "{color.primary.dark-pink}",
+          "$description": "Link hover color"
+        },
+        "active": {
+          "$value": "#003087",
+          "$description": "Link active color (50% shade of blue)"
+        },
+        "visited": {
+          "$value": "{color.primary.purple}",
+          "$description": "Visited link color"
+        }
+      },
+      "focus": {
+        "background": {
+          "$value": "{color.primary.yellow}",
+          "$description": "Focus background color"
+        },
+        "text": {
+          "$value": "{color.primary.black}",
+          "$description": "Focus text color"
+        }
+      },
+      "border": {
+        "default": {
+          "$value": "{color.grey.4}",
+          "$description": "Default border color"
+        },
+        "secondary": {
+          "$value": "rgba(255, 255, 255, 0.2)",
+          "$description": "Secondary border color"
+        }
+      },
+      "error": {
+        "$value": "{color.primary.red}",
+        "$description": "Error color"
+      },
+      "form": {
+        "border": {
+          "$value": "{color.grey.1}",
+          "$description": "Form border color"
+        },
+        "background": {
+          "$value": "{color.primary.white}",
+          "$description": "Form background color"
+        }
+      },
+      "hover": {
+        "subtle": {
+          "$value": "#e8edee",
+          "$description": "Subtle background hover for interactive list items"
+        },
+        "header-link": {
+          "$value": "#3a71a6",
+          "$description": "Header link hover color (slightly lighter than NHS Blue)"
+        }
+      },
+      "active": {
+        "header-link": {
+          "$value": "#002c5c",
+          "$description": "Header link active color (darker than NHS Blue)"
+        }
+      },
+      "button": {
+        "primary": {
+          "background": {
+            "$value": "{color.primary.green}"
+          },
+          "text": {
+            "$value": "{color.primary.white}"
+          },
+          "hover": {
+            "$value": "#006530",
+            "$description": "20% shade of green"
+          },
+          "active": {
+            "$value": "#00401e",
+            "$description": "50% shade of green"
+          },
+          "shadow": {
+            "$value": "#00401e",
+            "$description": "50% shade of green"
+          }
+        },
+        "secondary": {
+          "background": {
+            "$value": "transparent"
+          },
+          "background-solid": {
+            "$value": "{color.primary.white}"
+          },
+          "border": {
+            "$value": "{color.primary.blue}"
+          },
+          "text": {
+            "$value": "{color.primary.blue}"
+          },
+          "hover": {
+            "$value": "#d9e5f2",
+            "$description": "85% tint of blue"
+          },
+          "active": {
+            "$value": "#c7daf0",
+            "$description": "78% tint of blue"
+          },
+          "shadow": {
+            "$value": "{color.primary.blue}"
+          }
+        },
+        "reverse": {
+          "background": {
+            "$value": "{color.primary.white}"
+          },
+          "text": {
+            "$value": "{color.primary.black}"
+          },
+          "hover": {
+            "$value": "#d9dde0",
+            "$description": "15% shade of white"
+          },
+          "active": {
+            "$value": "#b3bcc2",
+            "$description": "30% shade of white"
+          },
+          "shadow": {
+            "$value": "#b3bcc2"
+          }
+        },
+        "warning": {
+          "background": {
+            "$value": "{color.primary.red}"
+          },
+          "hover": {
+            "$value": "#aa2016",
+            "$description": "20% shade of red"
+          },
+          "active": {
+            "$value": "#6a140e",
+            "$description": "50% shade of red"
+          },
+          "shadow": {
+            "$value": "#6a140e"
+          }
+        },
+        "login": {
+          "background": {
+            "$value": "{color.primary.blue}"
+          },
+          "hover": {
+            "$value": "#004b93",
+            "$description": "20% shade of blue"
+          },
+          "active": {
+            "$value": "#002f5c",
+            "$description": "50% shade of blue"
+          },
+          "shadow": {
+            "$value": "#002f5c"
+          }
+        }
+      }
+    }
+  }
+}

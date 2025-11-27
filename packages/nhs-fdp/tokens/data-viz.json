@@ -1,0 +1,119 @@
+{
+  "color": {
+    "data-viz": {
+      "$type": "color",
+      "categorical": {
+        "1": { "$value": "{color.primary.blue}", "$description": "Series 1 – NHS Blue (brand core)" },
+        "2": { "$value": "#41B6E6", "$description": "Series 2 – NHS Light Blue (new)" },
+        "3": { "$value": "{color.secondary.aqua-green}", "$description": "Series 3 – NHS Aqua Green (existing)" },
+        "4": { "$value": "#78BE20", "$description": "Series 4 – NHS Light Green (new)" },
+        "5": { "$value": "{color.primary.green}", "$description": "Series 5 – NHS Green (existing)" },
+        "6": { "$value": "{color.secondary.warm-yellow}", "$description": "Series 6 – NHS Warm Yellow (existing; distinct from focus yellow)" },
+        "7": { "$value": "#ED4F00", "$description": "Series 7 – NHS Tangerine (new; warmer/deeper than existing orange)" },
+        "8": { "$value": "{color.secondary.pink}", "$description": "Series 8 – NHS Pink (existing)" },
+        "9": { "$value": "#E317AA", "$description": "Series 9 – NHS Bright Pink (new vivid accent)" },
+        "10": { "$value": "#880FB8", "$description": "Series 10 – NHS Light Purple (new mid purple)" },
+        "11": { "$value": "{color.primary.purple}", "$description": "Series 11 – NHS Purple (existing dark purple)" },
+        "12": { "$value": "#9A6324", "$description": "Series 12 – NHS Brown (new; earth neutral)" }
+      },
+      "neutral": {
+        "comparison": { "$value": "{color.grey.1}", "$description": "Neutral comparison series (optional)" }
+      },
+      "region": {
+        "$comment": "Fixed colours for NHS geographical regions; prefer stable mapping for maps. London colour updated (#78BE21 – light green).",
+        "north-east": { "$value": "{color.primary.blue}", "$description": "North East – NHS Blue" },
+        "north-west": { "$value": "#41B6E6", "$description": "North West – NHS Light Blue" },
+        "east-of-england": { "$value": "{color.primary.purple}", "$description": "East of England – NHS Purple" },
+        "midlands": { "$value": "{color.secondary.pink}", "$description": "Midlands – NHS Pink" },
+  		"london": { "$value": "#78BE21", "$description": "London – NHS Light Green (new)" },
+        "south-west": { "$value": "#FAE100", "$description": "South West – NHS Yellow variant (new)" },
+        "south-east": { "$value": "#ed8b00", "$description": "South East – NHS Orange (existing base orange)" }
+      },
+      "severity": {
+        "$comment": "Semantic severity / alert colours (light background ramp → critical).",
+        "low": { "$value": "{color.secondary.pale-yellow}", "$description": "Low severity – pale yellow background" },
+        "moderate": { "$value": "{color.secondary.warm-yellow}", "$description": "Moderate severity – warm yellow" },
+        "high": { "$value": "{color.secondary.orange}", "$description": "High severity – orange" },
+        "critical": { "$value": "{color.primary.red}", "$description": "Critical severity – red" }
+      },
+      "org-level": {
+        "$comment": "Organisational level semantic colours (stable NHS brand mappings).",
+        "trust": { "$value": "{color.primary.blue}", "$description": "Trust – NHS Blue" },
+        "ambulance": { "$value": "{color.primary.green}", "$description": "Ambulance – NHS Green" },
+        "icb": { "$value": "{color.primary.dark-pink}", "$description": "ICB – NHS Dark Pink" },
+        "region": { "$value": "{color.primary.purple}", "$description": "Region – NHS Purple" }
+      },
+      "stroke": {
+        "$comment": "Automatic contrast stroke colours for overlays / borders. Light fills get dark stroke; dark fills get white stroke.",
+        "categorical": {
+          "1": { "$value": "#ffffff", "$description": "Stroke for series 1 (blue)" },
+          "2": { "$value": "#212b32", "$description": "Stroke for series 2 (light blue)" },
+          "3": { "$value": "#212b32", "$description": "Stroke for series 3 (aqua green)" },
+          "4": { "$value": "#212b32", "$description": "Stroke for series 4 (light green)" },
+          "5": { "$value": "#ffffff", "$description": "Stroke for series 5 (green)" },
+          "6": { "$value": "#212b32", "$description": "Stroke for series 6 (warm yellow)" },
+          "7": { "$value": "#ffffff", "$description": "Stroke for series 7 (tangerine)" },
+          "8": { "$value": "#ffffff", "$description": "Stroke for series 8 (pink)" },
+          "9": { "$value": "#ffffff", "$description": "Stroke for series 9 (bright pink)" },
+          "10": { "$value": "#ffffff", "$description": "Stroke for series 10 (light purple)" },
+          "11": { "$value": "#ffffff", "$description": "Stroke for series 11 (purple)" },
+          "12": { "$value": "#ffffff", "$description": "Stroke for series 12 (brown)" }
+        },
+        "region": {
+          "$comment": "Region stroke colours derived from fill colours: dark fills lightened ~35%; light fills darkened ~25% for consistent contrast without defaulting to pure white/black.",
+          "north-east": { "$value": "#5996D1", "$description": "Stroke for North East (blue lightened 35%)" },
+          "north-west": { "$value": "#3189AD", "$description": "Stroke for North West (light blue darkened 25%)" },
+          "east-of-england": { "$value": "#7A59A3", "$description": "Stroke for East of England (purple lightened 35%)" },
+          "midlands": { "$value": "#CA71A4", "$description": "Stroke for Midlands (pink lightened 35%)" },
+          "london": { "$value": "#5A8F19", "$description": "Stroke for London (light green darkened 25%)" },
+          "south-west": { "$value": "#BCA900", "$description": "Stroke for South West (yellow darkened 25%)" },
+          "south-east": { "$value": "#B26800", "$description": "Stroke for South East (orange darkened 25%)" }
+        },
+        "severity": {
+          "$comment": "Contrast strokes for severity colours (light backgrounds use dark stroke; dark backgrounds use white).",
+          "low": { "$value": "#212b32", "$description": "Stroke for low severity (pale yellow fill)" },
+          "moderate": { "$value": "#212b32", "$description": "Stroke for moderate severity (warm yellow fill)" },
+          "high": { "$value": "#212b32", "$description": "Stroke for high severity (orange fill)" },
+          "critical": { "$value": "#ffffff", "$description": "Stroke for critical severity (red fill)" }
+        },
+        "org-level": {
+          "$comment": "Contrast strokes for organisational level colours (all dark brand fills so white stroke for consistency).",
+          "trust": { "$value": "#ffffff", "$description": "Stroke for trust (blue fill)" },
+          "ambulance": { "$value": "#ffffff", "$description": "Stroke for ambulance (green fill)" },
+          "icb": { "$value": "#ffffff", "$description": "Stroke for ICB (dark pink fill)" },
+          "region": { "$value": "#ffffff", "$description": "Stroke for region (purple fill)" }
+        }
+      }
+      ,
+      "spc": {
+        "$comment": "SPC (Statistical Process Control) semantic variation colours aligned to SPCChart.scss and SPCIcons.",
+        "improvement": { "$value": "#00B0F0", "$description": "SPC special cause improvement (favourable)" },
+        "concern": { "$value": "#E46C0A", "$description": "SPC special cause concern (deteriorating)" },
+        "no-judgement": { "$value": "#490092", "$description": "SPC special cause (no directional judgement)" },
+        "common-cause": { "$value": "#A6A6A6", "$description": "SPC common cause (baseline variation)" },
+        "assurance-pass": { "$value": "#00823B", "$description": "SPC assurance pass indicator (process capable)" },
+        "assurance-fail": { "$value": "#DA291C", "$description": "SPC assurance fail indicator (process not capable)" },
+        "gradient": {
+          "$comment": "Opacity stops for SPC icon gradient wash (applied top-left -> bottom-right). Consumers build gradients using these opacities + base colour.",
+          "stop": {
+            "start-opacity": { "$value": "0.18", "$description": "Start stop opacity (0%) for classic variant wash" },
+            "mid-opacity": { "$value": "0.06", "$description": "Mid stop opacity (~65-75%)" },
+            "end-opacity": { "$value": "0", "$description": "End stop opacity (100%)" },
+            "triangle-start-opacity": { "$value": "0.18", "$description": "Start opacity for triangle variants (kept aligned)" },
+            "triangle-mid-opacity": { "$value": "0.06", "$description": "Mid opacity for triangle variants" },
+            "triangle-end-opacity": { "$value": "0", "$description": "End opacity for triangle variants" }
+          }
+        },
+        "stroke": {
+          "$comment": "Contrast stroke colours for SPC variation fills.",
+          "improvement": { "$value": "#000000", "$description": "Stroke for improvement points" },
+          "concern": { "$value": "#000000", "$description": "Stroke for concern points" },
+          "no-judgement": { "$value": "#000000", "$description": "Stroke for no-judgement points" },
+          "common-cause": { "$value": "#ffffff", "$description": "Stroke for common cause points" },
+          "assurance-pass": { "$value": "#000000", "$description": "Stroke for assurance pass points" },
+          "assurance-fail": { "$value": "#000000", "$description": "Stroke for assurance fail points" }
+        }
+      }
+    }
+  }
+}

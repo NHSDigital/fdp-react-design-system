@@ -1,0 +1,149 @@
+{
+  "color": {
+	"primary": {
+	  "$type": "color",
+	  "blue": {
+		"$value": "#005eb8",
+		"$description": "NHS Blue - Primary brand color"
+	  },
+	  "blue-active": {
+		"$value": "#002f5c",
+		"$description": "NHS Active Blue (50% shade) – alias of button/login active; promoted for general reuse"
+	  },
+	  "white": {
+		"$value": "#ffffff",
+		"$description": "NHS White"
+	  },
+	  "black": {
+		"$value": "#212b32",
+		"$description": "NHS Black"
+	  },
+	  "green": {
+		"$value": "#007f3b",
+		"$description": "NHS Green"
+	  },
+	  "purple": {
+		"$value": "#330072",
+		"$description": "NHS Purple"
+	  },
+	  "dark-pink": {
+		"$value": "#7c2855",
+		"$description": "NHS Dark Pink"
+	  },
+	  "red": {
+		"$value": "#d5281b",
+		"$description": "NHS Red"
+	  },
+	  "light-purple": {
+		"$value": "#880FB8",
+		"$description": "NHS Light Purple (data viz promoted)"
+	  },
+	  "yellow": {
+		"$value": "#ffeb3b",
+		"$description": "NHS Yellow"
+	  }
+	},
+	"secondary": {
+	  "$type": "color",
+	  "pale-yellow": {
+		"$value": "#fff9c4",
+		"$description": "NHS Pale Yellow"
+	  },
+	  "warm-yellow": {
+		"$value": "#ffb81c",
+		"$description": "NHS Warm Yellow"
+	  },
+	  "region-yellow": {
+		"$value": "#FAE100",
+		"$description": "NHS Region Yellow (maps)"
+	  },
+	  "orange": {
+		"$value": "#ed8b00",
+		"$description": "NHS Orange"
+	  },
+	  "tangerine": {
+		"$value": "#ED4F00",
+		"$description": "NHS Tangerine (data viz promoted)"
+	  },
+	  "aqua-green": {
+		"$value": "#00a499",
+		"$description": "NHS Aqua Green"
+	  },
+	  "light-blue": {
+		"$value": "#41B6E6",
+		"$description": "NHS Light Blue (data viz promoted)"
+	  },
+	  "pink": {
+		"$value": "#ae2573",
+		"$description": "NHS Pink"
+	  },
+	  "bright-pink": {
+		"$value": "#E317AA",
+		"$description": "NHS Bright Pink (data viz promoted)"
+	  },
+	  "light-green": {
+		"$value": "#78BE20",
+		"$description": "NHS Light Green (data viz promoted)"
+	  },
+	  "brown": {
+		"$value": "#9A6324",
+		"$description": "NHS Brown (data viz promoted neutral)"
+	  }
+	},
+	"grey": {
+	  "$type": "color",
+	  "1": {
+		"$value": "#4c6272",
+		"$description": "NHS Grey 1 - Darkest grey"
+	  },
+	  "2": {
+		"$value": "#768692",
+		"$description": "NHS Grey 2 - Darker grey"
+	  },
+	  "3": {
+		"$value": "#aeb7bd",
+		"$description": "NHS Grey 3 - Medium grey"
+	  },
+	  "4": {
+		"$value": "#d8dde0",
+		"$description": "NHS Grey 4 - Light grey"
+	  },
+	  "5": {
+		"$value": "#f0f4f5",
+		"$description": "NHS Grey 5 - Lightest grey"
+	  }
+	},
+	"accessibility": {
+	  "$type": "color",
+	  "$comment": "Accessibility-oriented color tokens. Includes CVD-safe pairs and Okabe–Ito colors. Use these for positive/negative semantics and colour-blind–friendly defaults.",
+	  "okabe-ito": {
+		"green": {
+		  "$value": "#009E73",
+		  "$description": "Okabe–Ito green (CVD-safe) – recommended positive"
+		},
+		"vermillion": {
+		  "$value": "#D55E00",
+		  "$description": "Okabe–Ito vermillion / red–orange (CVD-safe) – recommended negative"
+		}
+	  },
+	  "cvd-safe": {
+		"blue": {
+		  "$value": "#1f77b4",
+		  "$description": "CVD-safe blue (pairs with orange); widely used in Matplotlib/Tableau sets"
+		},
+		"orange": {
+		  "$value": "#ff7f0e",
+		  "$description": "CVD-safe orange (pairs with blue)"
+		}
+	  },
+	  "positive": {
+		"$value": "{color.accessibility.okabe-ito.green}",
+		"$description": "Accessibility semantic alias – positive"
+	  },
+	  "negative": {
+		"$value": "{color.accessibility.okabe-ito.vermillion}",
+		"$description": "Accessibility semantic alias – negative"
+	  }
+	}
+  }
+}

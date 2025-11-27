@@ -1,0 +1,142 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs/blocks';
+import SPCRetroOverlayToggleDemo from '../doc-examples/SPCRetroOverlayToggleDemo';
+
+<Meta title="Data Visualisation/SPC/Guides/Retro Overlay"/>
+
+# SPC v2 retro overlay ('teaching view' or retrospective colouring)
+
+This page explains the optional “retro overlay” provided by `computeRetroShiftOverlay` and `RetroOverlayOptions`. It describes why it exists, how it works with the NHSE SQL v2.6a-aligned engine, how to use it, and the statistical considerations from a Shewhart chart perspective.
+
+## Why this exists
+
+The v2 engine (`buildSpcV26a`) adheres to SQL v2.6a semantics for eligibility and rule detection. That means rows before eligibility (insufficient points for limits) remain neutral in the engine output, even if they sit on the same side as a later confirmed shift.
+
+The retro overlay offers a “teaching view” for those pre-eligibility rows: when a shift is later confirmed, it backfills neutral points on the same side of the mean immediately before the run. This helps explain why the shift would have been expected, without changing the engine’s source-of-truth icons.
+
+Important:
+
+- The overlay is visual-only. Engine rows and `variationIcon` remain unchanged.
+- It only backfills for confirmed shift runs. Single 3σ and two-of-three are intentionally not backfilled to preserve SQL parity.
+- It never paints into eligible rows. Backfill stops at the first eligible row in the partition.
+
+## API overview
+
+Source: `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/retroOverlay.ts`
+
+### Types
+
+```ts
+export interface RetroOverlayOptions {
+  // Currently only confirmed shift runs are supported for retro-colouring
+  enableShift?: boolean; // default: true
+}
+```
+
+### Function
+
+```ts
+export function computeRetroShiftOverlay(
+  rows: SpcRowV2[],
+  metricImprovement: ImprovementDirection,
+  opts?: RetroOverlayOptions
+): Array<VariationIcon | null>;
+```
+
+Returns an array the same length as `rows`, where each element is either a `VariationIcon` to overlay for teaching, or `null` when no overlay applies.
+
+## Behaviour summary
+
+1. Rows are grouped by `partitionId`.
+2. For each partition, the first eligible row is found (first with a non-null `mean`).
+3. Eligible rows are scanned to find contiguous confirmed shift runs (using `shiftUp`/`shiftDown`).
+4. For each run, the algorithm walks backward from the run start to just before the first eligible row, and if those points lie on the same side of the mean at the run’s start, it assigns an overlay icon:
+   - Up-side runs: `ImprovementHigh`/`ConcernHigh` depending on `ImprovementDirection` (or `NeitherHigh` when direction is `Neither`).
+   - Down-side runs: `ImprovementLow`/`ConcernLow` (or `NeitherLow`).
+5. Overlay icons only affect neutral visuals. Consumers should avoid overriding engine-determined Improvement/Concern.
+
+Constraints (preserving SQL parity):
+
+- Engine `variationIcon` is not modified; use overlay only for rendering.
+- Only shift runs are considered; single >3σ and two-of-three are not retro-coloured.
+- Never paint into eligible rows; backfill is strictly pre-eligibility.
+
+## Usage
+
+Example integration in a render layer:
+
+```ts
+import { computeRetroShiftOverlay, computeSpcVisualCategories, SpcVisualCategory, TrendVisualMode, VariationIcon, ImprovementDirection } from '../../../engine';
+
+const { rows } = buildSpcV26a(args); // engine output
+
+// Base visuals from engine rows
+const baseVisuals: SpcVisualCategory[] = computeSpcVisualCategories(rows, {
+  metricImprovement: args.metricImprovement,
+  trendVisualMode: TrendVisualMode.Ungated,
+  enableNeutralNoJudgement: true,
+});
+
+// Note: For `SPCChart` component props, import `TrendVisualMode` from
+// `SPCChart.props.ts` (props module). The engine also defines its own
+// `TrendVisualMode` for post-processing; keep imports consistent with usage.
+
+// Optional teaching overlay (only for display)
+const overlay: Array<VariationIcon | null> = computeRetroShiftOverlay(
+  rows,
+  args.metricImprovement,
+  { enableShift: true }
+);
+
+// In your UI, you can annotate pre-eligibility points using `overlay[i]` if not null
+```
+
+Notes:
+
+- Treat overlay as an annotation layer. Don’t feed overlay icons back into the rules or parity checks.
+- If you also use boundary-window scenarios, apply them to `SpcVisualCategory` and keep the overlay independent.
+
+## Interactive example: Toggle teaching overlay
+
+This live demo shows a NHS Button that toggles the retro overlay on and off. The chart remains engine‑true; the overlay is reflected in the table and explanatory banner to emphasise it’s a teaching‑only layer.
+
+<SPCRetroOverlayToggleDemo />
+
+## How this relates to NHSE SQL v2.6a
+
+- The engine follows SQL v2.6a for eligibility and rule detection; pre-eligibility rows are not flagged by design.
+- The retro overlay is a supplemental visual aid to teach why a later-confirmed shift is plausible looking backward.
+- Because it keeps engine outputs intact and limits itself to pre-eligibility, it maintains alignment with SQL parity.
+
+## Statistical defensibility and risks
+
+Perspective from Shewhart chart best practice:
+
+- Shewhart control charts emphasise present-time signalling based on established eligibility and control limits. Post-hoc colouring can blur that distinction.
+- The overlay is therefore deliberately constrained:
+  - Only applies to confirmed shift runs.
+  - Stops at the first eligible row to avoid implying “rule-before-eligibility”.
+  - Does not retro-colour single 3σ or two-of-three patterns.
+  - Respects improvement direction semantics without creating new rule states.
+
+Risks and mitigations:
+
+- Risk: Users might misinterpret overlay colours as historical rule triggers.
+  - Mitigation: Clearly label this as a “teaching view” overlay. Consider a legend/tooltip and a toggle.
+- Risk: If applied too broadly, it could conflict with strict Shewhart interpretation.
+  - Mitigation: Keep it optional, narrow (pre-eligibility only), and never override engine Improvement/Concern.
+
+Recommendation:
+
+- Use for onboarding, explainers, and narratives; for formal statistical reporting or parity validation, rely on engine outputs without overlays or disclose the overlay use.
+
+## Developer tips
+
+- The overlay is opt-in. If `enableShift` is `false`, the function returns a null-only array.
+- The function returns `VariationIcon` values; your rendering can display these as ghosted/secondary markers distinct from engine icons.
+- If you rely on partition baselines, ensure your input data marks `baseline: true` rows to keep partition indices deterministic.
+
+## References
+
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/retroOverlay.ts`
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/types.ts`
+- `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/postprocess/visualCategories.ts`

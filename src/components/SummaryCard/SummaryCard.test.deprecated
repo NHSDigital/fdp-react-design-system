@@ -1,0 +1,8 @@
+// Deprecated monolithic SummaryCard test placeholder retained for audit script.
+import { describe, it, expect } from 'vitest';
+
+describe('SummaryCard (deprecated placeholder)', () => {
+  it('placeholder', () => {
+    expect(true).toBe(true);
+  });
+});

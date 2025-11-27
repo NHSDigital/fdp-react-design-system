@@ -1,0 +1,82 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import Mermaid from '../../../../../../_internal/Mermaid';
+
+<Meta title="Data Visualisation/SPC/Guides/SPC SQL Compatibility (v2.6a)"/>
+
+# SPC SQL Compatibility (v2.6a)
+
+Related guides:
+- SPC Engine — Core Logic
+- SPCChart Decision Logic
+- NHSE SQL v2.6a — Logic Map
+
+This guide explains how the SQL compatibility wrapper reproduces legacy v2.6a behaviour for assigning the variation icon, using explicit per‑side rule ranking and directional pruning on top of the base SPC engine results.
+
+## Summary
+
+Given engine rows with detected rule flags per side (high/low), the wrapper:
+
+1) Computes per‑side rank using `RULE_RANK_BY_ID` and determines `primeDirection` by comparing the strongest rank on each side (Up vs Down vs Same).
+2) Forms original candidates:
+   - Improvement candidate: side aligned with `metricImprovement` (Up→high, Down→low) present?
+   - Concern candidate: opposite side present?
+3) Applies pruning when both candidates exist:
+   - If primeDirection favours the opposite side, drop Improvement; if it favours the aligned side, drop Concern; if Same, bias to keep Improvement (drop Concern) when possible.
+4) Derives `variationIcon` from the pruned candidates.
+5) Records `primeRuleId` by taking the highest‑ranked rule from the winning side.
+
+## Flowchart
+
+<Mermaid className="is-airy">{`flowchart TD
+  %% Nodes
+  S([Start])
+  ES[Base SPC rows with per-side rule flags]
+  SUM[getDirectionalSignalSummary - row]
+  PD{Compare max rank: Up vs Down}
+  IMP{Aligned side present?}
+  CON{Opposite side present?}
+  BOTH{Both candidates exist?}
+  SAME{PrimeDirection = Same?}
+  KEEP_IMP[Keep Improvement; drop Concern]
+  DROP_IMP[Drop Improvement]
+  KEEP_CON[Keep Concern; drop Improvement]
+  ICON{Derive variationIcon from pruned}
+  RULE[Pick primeRuleId from winning side]
+  OUT[Emit row: variationIcon, primeDirection, primeRank, primeRuleId, pruning flags]
+
+  %% Edges
+  S --> ES --> SUM --> PD
+  PD --> IMP
+  IMP --> CON
+  CON --> BOTH
+  BOTH -- "no (only Improvement)" --> KEEP_IMP
+  BOTH -- "no (only Concern)" --> KEEP_CON
+  BOTH -- "yes" --> SAME
+  SAME -- "yes" --> KEEP_IMP
+  SAME -- "no & prime=Upwards & metric=Up" --> KEEP_IMP
+  SAME -- "no & prime=Upwards & metric=Down" --> DROP_IMP
+  SAME -- "no & prime=Downwards & metric=Up" --> DROP_IMP
+  SAME -- "no & prime=Downwards & metric=Down" --> KEEP_IMP
+  KEEP_IMP --> ICON
+  DROP_IMP --> KEEP_CON --> ICON
+  ICON --> RULE --> OUT
+`}</Mermaid>
+
+## Details
+
+- Ranking: `RULE_RANK_BY_ID` orders rule strength (e.g., single point > two‑sigma > shift > trend). The wrapper compares the maximum rank hit on each side to set `primeDirection` (Upwards, Downwards, or Same) and `primeRank`.
+- Candidates: `sqlOriginalImprovementValue`/`sqlOriginalConcernValue` capture the existence of aligned/opposite side signals before pruning.
+- Pruning:
+  - If both candidates exist and `primeDirection` favours the opposite side, Improvement is removed; if it favours the aligned side, Concern is removed.
+  - When ranks tie (`primeDirection = Same`), the bias is to keep Improvement (drop Concern) where possible; if only Concern exists, keep it.
+- Icon derivation: After pruning, the icon is set by the remaining candidate(s):
+  - Improvement only → Improvement
+  - Concern only → Concern
+  - Neither → Neither
+  - Both (rare, only if left unpruned) → Improvement
+- Winner rule: `primeRuleId` is taken as the highest‑ranked rule on the final winning side (based on `Side.Up`/`Side.Down` given the resulting icon and metricImprovement).
+
+## Notes
+
+- The wrapper does not change detection thresholds; it strictly reinterprets detected rule hits to mirror the SQL v2.6a post‑processing pipeline.
+- Outputs include transparency fields (`primeDirection`, `primeRank`, `primeRuleId`, `sqlPruned`, original candidate values) to aid diagnostics and parity testing.

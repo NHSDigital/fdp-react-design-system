@@ -1,0 +1,95 @@
+import { Meta, Stories } from '@storybook/addon-docs/blocks';
+
+<Meta title="NHS/Data/ResponsiveDataGrid/Documentation" />
+
+# ResponsiveDataGrid
+
+This page documents the ResponsiveDataGrid component.
+
+## Tabs visibility for single panel
+
+Set `hideTabsIfSingle` to true to hide the tab list when only a single `tabPanels` entry is provided. This prop is forwarded to the underlying `AriaTabsDataGrid` and applies in table and hybrid layouts; the data table remains fully accessible and keyboard navigable.
+
+## Generic Card Utilities
+
+In addition to the full grid you can build individual cards:
+
+1. `<GenericCard />` – a lightweight wrapper component (ideal for single records)
+2. `createGenericCard(data, columns, config)` – a helper that returns `CardProps`
+
+### Minimal Example (Component)
+
+```tsx
+import { GenericCard } from 'nhs-fdp-design-system';
+
+<GenericCard
+	data={{ id: '1', name: 'Alpha', status: 'active', priority: 'high' }}
+	columns={[{ key: 'name', label: 'Name' }, { key: 'status', label: 'Status' }]}
+	config={{ primaryField: 'name', secondaryFields: ['status'], badges: [{ fieldKey: 'priority', color: 'warning' }] }}
+/>;
+```
+
+### Minimal Example (Helper)
+
+```tsx
+import { createGenericCard } from 'nhs-fdp-design-system';
+
+const cardProps = createGenericCard(
+	{ id: '1', name: 'Alpha', status: 'active', priority: 'high' },
+	[ { key: 'name', label: 'Name' }, { key: 'status', label: 'Status' } ],
+	{ primaryField: 'name', secondaryFields: ['status'] }
+);
+```
+
+See the `GenericCard` stories for extended usage patterns.
+
+{/* Stories table auto-generated */}
+
+
+## Column widths and overflow
+
+ResponsiveDataGrid forwards all width and collapse settings to its underlying table implementation.
+
+Brand theming: The grid now uses the CSS variable `--nhs-font-family-base` for its font-family and will adopt whatever font is provided by `BrandThemeProvider` (either document-scoped or local-scoped branding).
+
+### API surface
+
+- `minColumnWidth?: number | string` – global minimum width for columns
+- `enableColumnCollapse?: boolean` – enable collapse algorithm when content exceeds container width
+- `minVisibleColumns?: number` – ensure a baseline of visible columns
+- `showCollapsedColumnsIndicator?: boolean` – show a chip indicating count of hidden columns
+
+Per-column overrides live on each `ColumnDefinition`:
+
+- `minWidth?: number | string`
+- `collapsePriority?: number`
+- `alwaysVisible?: boolean`
+- `collapseGroup?: string`
+- `collapseGroupPriority?: number`
+
+### Example
+
+```tsx
+<ResponsiveDataGrid
+	ariaLabel="Cases"
+	minColumnWidth={160}
+	enableColumnCollapse
+	minVisibleColumns={3}
+	showCollapsedColumnsIndicator
+	tabPanels={[{
+		id: 'open',
+		label: 'Open',
+		ariaLabel: 'Open cases',
+		data,
+		columns: [
+			{ key: 'title', label: 'Title', minWidth: 240, alwaysVisible: true },
+			{ key: 'ref', label: 'Ref', minWidth: 160, collapseGroup: 'ids', collapseGroupPriority: 2 },
+			{ key: 'owner', label: 'Owner', minWidth: 180, collapsePriority: 1 },
+			{ key: 'status', label: 'Status', minWidth: 140 }
+		]
+	}]}
+/>
+```
+
+See also the in-depth guide: “Column widths, overflow and collapse” in the docs directory.
+

@@ -1,0 +1,12 @@
+{
+  "semantic": {
+    "color": {
+      "text": {
+        "primary": "#212b32",
+        "secondary": "#4c6272",
+        "reverse": "#ffffff",
+        "print": "#212b32"
+      }
+    }
+  }
+}

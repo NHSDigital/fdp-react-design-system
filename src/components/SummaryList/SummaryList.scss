@@ -1,0 +1,324 @@
+@use "../../../packages/nhs-fdp/scss" as nhs;
+
+.nhsuk-summary-list-container {
+	background-color: nhs.$nhs-fdp-color-grey-5;
+	padding: nhs.$nhs-fdp-spacing-3; // 16px on mobile
+	margin-bottom: nhs.$nhs-fdp-spacing-6;
+
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+		padding: nhs.$nhs-fdp-spacing-5; // 32px on desktop
+	}
+}
+
+.nhsuk-summary-list {
+	margin: 0;
+	width: 100%;
+	font-family: nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+	font-size: nhs.$nhs-fdp-font-size-16-mobile;
+	line-height: nhs.$nhs-fdp-font-line-height-base;
+
+	@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+		border-collapse: collapse;
+		display: table;
+		table-layout: fixed;
+		font-size: nhs.$nhs-fdp-font-size-19-tablet;
+	}
+
+	// Row styling
+	&__row {
+		border-bottom: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+
+		// If it's the last row, remove the border
+		&:last-child {	
+			border-bottom: 0;
+		}
+		
+		@media (max-width: nhs.$nhs-fdp-breakpoint-medium) {
+			margin-bottom: nhs.$nhs-fdp-spacing-3;
+		}
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			display: table-row;
+		}
+
+		// Remove right padding from the last column in the row
+		&:not(&--no-actions) > :last-child {
+			padding-right: 0;
+		}
+
+		// Provide an empty 'cell' for rows that don't have actions
+		&--no-actions {
+			@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+				&::after {
+					content: "";
+					display: table-cell;
+					width: 20%;
+				}
+			}
+		}
+
+		// No border on specific rows
+		&--no-border {
+			border: 0;
+
+			// Increase padding by 1px to compensate for 'missing' border
+			@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+				.nhsuk-summary-list__key,
+				.nhsuk-summary-list__value,
+				.nhsuk-summary-list__actions {
+					padding-bottom: calc(nhs.$nhs-fdp-spacing-2 + 1px);
+				}
+			}
+		}
+	}
+
+	// No border variant
+	&--no-border {
+		.nhsuk-summary-list__row {
+			border: 0;
+		}
+
+		// Increase padding by 1px to compensate for 'missing' border
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			.nhsuk-summary-list__key,
+			.nhsuk-summary-list__value,
+			.nhsuk-summary-list__actions {
+				padding-bottom: calc(nhs.$nhs-fdp-spacing-2 + 1px);
+			}
+		}
+	}
+
+	// Common cell styling
+	&__key,
+	&__value,
+	&__actions {
+		margin: 0;
+		vertical-align: top;
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			display: table-cell;
+			padding-bottom: nhs.$nhs-fdp-spacing-2;
+			padding-right: nhs.$nhs-fdp-spacing-4;
+			padding-top: nhs.$nhs-fdp-spacing-2;
+		}
+	}
+
+	// Key column
+	&__key {
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		margin-bottom: nhs.$nhs-fdp-spacing-1;
+
+		// Typography
+		font-family:
+			nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+		font-size: nhs.$nhs-fdp-font-size-16-mobile;
+		line-height: nhs.$nhs-fdp-font-line-height-base;
+		color: nhs.$nhs-fdp-semantic-color-text-primary;
+		font-weight: nhs.$nhs-fdp-font-weight-bold; // Make keys bold
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			width: 30%;
+			font-size: nhs.$nhs-fdp-font-size-19-tablet;
+		}
+	}
+
+	// Value column
+	&__value {
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+
+		// Typography
+		font-family:
+			nhs.$nhs-fdp-font-family-base, nhs.$nhs-fdp-font-family-fallback;
+		font-size: nhs.$nhs-fdp-font-size-16-mobile;
+		line-height: nhs.$nhs-fdp-font-line-height-base;
+		color: nhs.$nhs-fdp-semantic-color-text-primary;
+
+		@media (max-width: nhs.$nhs-fdp-breakpoint-medium) {
+			margin-bottom: nhs.$nhs-fdp-spacing-3;
+		}
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			font-size: nhs.$nhs-fdp-font-size-19-tablet;
+		}
+
+		// Paragraph spacing within values
+		p {
+			margin: 0 0 nhs.$nhs-fdp-spacing-3 0;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		// Last child elements should not have bottom margin
+		> :last-child {
+			margin-bottom: 0;
+		}
+
+		// List styling within values
+		ul,
+		ol {
+			margin: 0 0 nhs.$nhs-fdp-spacing-3 0;
+			padding-left: nhs.$nhs-fdp-spacing-4;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			li {
+				margin-bottom: nhs.$nhs-fdp-spacing-2;
+
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
+		}
+
+		// Links within values
+		a {
+			color: nhs.$nhs-fdp-semantic-color-link-default !important;
+			text-decoration: underline;
+			text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
+
+			&:link {
+				color: nhs.$nhs-fdp-semantic-color-link-default !important;
+				text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
+			}
+
+			&:visited {
+				color: nhs.$nhs-fdp-semantic-color-link-visited !important;
+				text-decoration-color: nhs.$nhs-fdp-semantic-color-link-visited;
+			}
+
+			&:hover {
+				color: nhs.$nhs-fdp-semantic-color-link-hover !important;
+				text-decoration-color: nhs.$nhs-fdp-semantic-color-link-hover;
+				text-decoration: none;
+			}
+
+			&:active {
+				color: nhs.$nhs-fdp-semantic-color-link-active !important;
+				text-decoration-color: nhs.$nhs-fdp-semantic-color-link-active;
+			}
+
+			&:focus {
+				outline: nhs.$nhs-fdp-focus-outline-width solid
+					nhs.$nhs-fdp-semantic-color-focus-background;
+				outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+				background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+				color: nhs.$nhs-fdp-semantic-color-focus-text !important;
+				text-decoration: none;
+			}
+		}
+	}
+
+	// Actions column
+	&__actions {
+		margin-bottom: nhs.$nhs-fdp-spacing-3;
+
+		@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+			text-align: right;
+			width: 20%;
+		}
+
+		// Action links list
+		&-list {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+
+			// Individual action items
+			&-item {
+				display: inline-block;
+
+				@media (max-width: nhs.$nhs-fdp-breakpoint-medium) {
+					border-right: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+					margin-right: nhs.$nhs-fdp-spacing-2;
+					padding-right: nhs.$nhs-fdp-spacing-2;
+
+					&:last-child {
+						border: 0;
+						margin-right: 0;
+						padding-right: 0;
+					}
+				}
+
+				@media (min-width: nhs.$nhs-fdp-breakpoint-medium) {
+					margin-left: nhs.$nhs-fdp-spacing-2;
+					padding-left: nhs.$nhs-fdp-spacing-2;
+
+					&:first-child {
+						border: 0;
+						margin-left: 0;
+						padding-left: 0;
+					}
+
+					&:not(:first-child) {
+						border-left: 1px solid nhs.$nhs-fdp-semantic-color-border-default;
+					}
+				}
+
+				// Action link styling
+				a {
+					color: nhs.$nhs-fdp-semantic-color-link-default !important;
+					text-decoration: underline;
+					text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
+
+					&:link {
+						color: nhs.$nhs-fdp-semantic-color-link-default !important;
+						text-decoration-color: nhs.$nhs-fdp-semantic-color-link-default;
+					}
+
+					&:visited {
+						color: nhs.$nhs-fdp-semantic-color-link-visited !important;
+						text-decoration-color: nhs.$nhs-fdp-semantic-color-link-visited;
+					}
+
+					&:hover {
+						color: nhs.$nhs-fdp-semantic-color-link-hover !important;
+						text-decoration-color: nhs.$nhs-fdp-semantic-color-link-hover;
+						text-decoration: none;
+					}
+
+					&:active {
+						color: nhs.$nhs-fdp-semantic-color-link-active !important;
+						text-decoration-color: nhs.$nhs-fdp-semantic-color-link-active;
+					}
+
+					&:focus {
+						outline: nhs.$nhs-fdp-focus-outline-width solid
+							nhs.$nhs-fdp-semantic-color-focus-background;
+						outline-offset: nhs.$nhs-fdp-focus-outline-offset;
+						background-color: nhs.$nhs-fdp-semantic-color-focus-background;
+						color: nhs.$nhs-fdp-semantic-color-focus-text !important;
+						text-decoration: none;
+						// Create new stacking context on focus
+						isolation: isolate;
+					}
+				}
+			}
+		}
+	}
+
+	// Print styles
+	@media print {
+		font-size: nhs.$nhs-fdp-font-size-14-print;
+
+		&__row {
+			border-bottom-color: nhs.$nhs-fdp-semantic-color-text-primary;
+			break-inside: avoid;
+		}
+
+		&__key,
+		&__value {
+			color: nhs.$nhs-fdp-semantic-color-text-primary;
+		}
+
+		&__actions {
+			// Hide actions in print
+			display: none;
+		}
+	}
+}

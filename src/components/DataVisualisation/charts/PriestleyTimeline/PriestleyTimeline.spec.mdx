@@ -1,0 +1,114 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Data Visualisation/Timeline/Priestley timeline (spec)" />
+
+# Priestley timeline - spec and implementation plan
+
+A Priestley timeline shows intervals on a shared horizontal time axis (people, cohorts, projects, pathways), optimised for comparing durations, overlaps and phase changes. It fits the “change_over_time → timeline/intervals” aspect of the overall data viz. strategy and is listed in the roadmap alongside run/SPC.
+
+This document defines the first implementation pass, with a small, composable wrapper over existing primitives (Axis, GridLines, Band/Line scale providers) and DV tokens.
+
+---
+
+## Goals
+
+- Tell interval stories: lifespans, treatment periods, releases, phases
+- Handle overlap gracefully; pack into rows to avoid collisions
+- Be SSR-safe with strong keyboard/a11y patterns
+- Reuse DS tokens and DV primitives; keep the API thin
+
+## Data shape (contract)
+
+```ts
+type Interval = {
+  id: string;
+  label?: string;          // Row label (entity/person) or interval label
+  start: Date | number;    // Required
+  end?: Date | number;     // Optional open interval; if omitted, render to "now" marker or xDomain[1]
+  group?: string;          // Optional grouping (ward/team/pathway)
+  category?: string;       // Optional categorical banding for colour/legend
+  href?: string;           // Optional link target
+  color?: string;          // Optional override; prefer tokens via category
+  ariaLabel?: string;      // Optional override for a11y name per bar
+  meta?: Record<string, unknown>;
+};
+```
+
+Notes:
+- `Date | number` accepted; we will normalise internally to timestamps.
+- Open intervals (no `end`) are supported; render an open cap and use a11y text like “since 2024‑01‑03”.
+- Zero-length intervals collapse to a marker (1px min width with rounded cap).
+
+## Component API (v1)
+
+```ts
+export interface PriestleyTimelineProps {
+  data: Interval[];
+  xDomain?: [Date | number, Date | number];   // If omitted, computed from data ± padding
+  rowHeight?: number;                          // Default 24px (token derived)
+  rowGap?: number;                             // Default 4px (token derived)
+  barRadius?: number;                          // Default 2px
+  packStrategy?: 'stack' | 'pack';             // Overlap handling: simple stack or collision pack (default 'pack')
+  showNowMarker?: boolean;                     // Default true
+  now?: Date | number;                         // Defaults to Date.now()
+  axisProps?: Partial<AxisProps>;              // Pass-through to Axis
+  gridLines?: boolean;                         // Default true (x-axis grid)
+  getBarLabel?: (d: Interval) => string;       // For tooltip/a11y label text
+  onBarClick?: (d: Interval) => void;
+  onBarKeyDown?: (e: React.KeyboardEvent, d: Interval) => void;
+  tooltipRender?: (d: Interval) => React.ReactNode; // Optional custom tooltip
+}
+```
+
+Implementation will reuse:
+- `Axis` (bottom, time scale)
+- `GridLines` (vertical lines)
+- `BandScalesProvider` for vertical packing output; linear/time scale for x
+
+## A11y and interaction
+
+- role="figure" on container with `aria-labelledby` + `aria-describedby` (title/description)
+- Bars are focusable (roving tabindex) and act as buttons/links if `onBarClick`/`href` provided
+- Each bar has an a11y name: “`{label}`, `{start}` to `{end}`” (or “since `{start}`”)
+- Keyboard: Left/Right to move between bars in time order; Up/Down within the same row
+- Live region optional for focused interval summary (reuses `VisuallyHiddenLiveRegion`)
+
+## Visual tokens
+
+- Fill/stroke from DV tokens: categorical palette `color.data-viz.categorical.*` or region where relevant; strokes via `color.data-viz.stroke.*`
+- Spacing: `--nhs-fdp-spacing-1|2|3` inform `rowGap` and padding
+- Typography/labels: DS caption tokens if inline labels are enabled in v1.1
+
+## Edge cases
+
+- Dense overlaps: switch to `pack` strategy (collision layout) and show a per-row max of N with a “+k more” indicator
+- Open intervals: extend to `now` (if `showNowMarker`) or clamp to xDomain end; use a notched right cap
+- Very long labels: truncate with tooltip; optional left-side fixed label column in v1.1
+- Mixed units (ms vs Date): normalised internally; beware TZ (treat dates as UTC for stability)
+
+## SSR compatibility
+
+- Pure render; no direct DOM reads in render path
+- Tooltip/focus features gated behind providers; safe on server with no-op fallbacks
+
+## Acceptance criteria
+
+- Storybook: basic, dense overlaps (pack vs stack), open intervals, and clickable bars
+- A11y: keyboard navigation, focus ring, ARIA names; axe checks pass
+- SSR/hydration tests green; no usage of `window/document` in render
+- Visual regression: bars align to ticks; now marker correct; tokens applied
+
+## Phasing
+
+- v1 (Q4 2025): single-lane packing, bottom axis, tooltips, keyboard, open intervals
+- v1.1: optional fixed label column, grouped rows (by `group`), inline labels, row virtualization for large N
+
+## Implementation notes
+
+- Build a small collision packer: greedy lane assignment by start time; if `end` < last lane end → place in same lane, else next lane; cap per entity row height via `rowHeight`/`rowGap`
+- Use our Axis/GridLines for x; skip y-axis ticks initially (rows are abstract lanes)
+- Export as `charts/PriestleyTimeline/PriestleyTimeline.tsx`; add stories and SSR/client tests following the DV test pattern
+
+---
+
+This page tracks the specification and should be updated as we code the component. When the first slice lands, we’ll add `PriestleyTimeline` to `src/components/DataVisualisation/index.ts` and wire stories under “Data Visualisation/Timeline/Priestley timeline”.

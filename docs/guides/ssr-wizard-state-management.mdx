@@ -1,0 +1,217 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/SSR Wizard State Management" />
+
+## Overview
+
+This guide documents how our server-rendered Wizard example (see `examples/nextjs/app/wizard-ssr`) preserves answers between steps and supports jumping back to earlier questions without losing context. It compares three implementation options:
+
+- Query params (URL-based)
+- Cookies
+- Server sessions (e.g., Iron Session, Redis-backed store)
+
+We use the Data Visualisation Wizard as a concrete reference. The same patterns apply to other multi-step flows in SSR environments where you want to avoid client state and still keep a seamless UX.
+
+## The example in this repo
+
+- Route: `examples/nextjs/app/wizard-ssr/[question]/page.tsx`
+- State model: A `trail` of prior answers and a `prefill` value when jumping backwards
+- Core helpers:
+  - `encodeTrail` / `decodeTrail`: base64url(JSON) for serialising an array of answers
+  - `encodePrefillValue` / `decodePrefillValue`: base64url(JSON) for a single answer value
+  - `getPreviousAnswer`: find the most recent answer for a node in the trail
+  - Evaluation functions select the next question or compute the final recommendation
+
+### Why two state channels (trail and prefill)?
+
+- Moving forward appends to the `trail`.
+- Clicking Back must trim the last entry from the trail (so the previous page doesn’t immediately re-forward), but the user still expects to see their previously selected value on that step. We therefore pass a single-answer `prefill` alongside the trimmed trail.
+- Clicking Change in a summary view behaves similarly: jump to the target step with a **trimmed trail** and a **prefill** containing the answer for that step.
+
+> The URL is the source of truth in the example. No client state, no cookies, no sessions are required, which makes the flow deterministic and easy to test.
+
+## Option A - Query params (URL-based)
+
+Recommended for SSR-first, linkable flows. All state is visible and shareable.
+
+- `trail`: base64url(JSON array). Each item: `{ nodeId, question?, value: string | string[] }`
+- `prefill`: base64url(JSON string | string[]). Used only when the current step’s answer was trimmed from `trail`.
+- `sel`: Plain value(s) submitted by the current form. The page evaluates and redirects to the next route.
+
+### Pros
+- Stateless on the server; works across deployments without sticky sessions
+- Fully SSR-friendly; no hydration or client storage required
+- Deep-linkable and easily testable (Playwright, curl)
+- Reproducible user journeys via captured URLs
+
+### Cons
+- URLs grow with longer trails
+- Sensitive data must be avoided or encrypted (ours is non-sensitive)
+
+### Implementation notes
+- When moving forward:
+  - Append to `trail` and redirect to `/wizard-ssr/[nextId]?trail=...`
+- When going Back:
+  - Trim last item from `trail` (so you truly go back)
+  - Add `prefill` with the last answer’s value
+  - Link to `/wizard-ssr/[prevId]?trail=...&prefill=...`
+- When clicking Change in a summary:
+  - Keep answers up to the target index (trim to i)
+  - Pass that answer as `prefill`
+
+- When rendering a step:
+  - For checkboxes: compute `checked` from `trail` or fallback to `prefill`
+  - For radios/yes-no: set `defaultValue` from `trail` or `prefill`
+
+
+## Option B - Cookies
+
+Store the entire trail (and optionally the last prefill) in an HTTP cookie.
+
+### Pros
+- Shorter URLs; no base64 payload in links
+- Can scope by path (e.g. `/wizard-ssr`) to limit exposure
+
+### Cons
+- Needs careful size management (cookies have size limits ~4KB)
+- Must handle privacy/consent implications
+- Harder to share a deep link representing the exact state
+
+### Implementation sketch
+
+- On request, read a cookie like `wizard:trail=<base64url-json>`
+- After evaluation, write back the updated trail
+- For Back/Change, you can either:
+  - Write a `wizard:prefill=<base64url-json>` cookie temporarily, or
+  - Derive defaults solely from the cookie-stored trail (no prefill)
+- Ensure to clear cookies on "Start again"
+
+> With cookies, be careful not to exceed size limits. Consider compressing JSON or storing only IDs.
+
+
+## Option C - Server sessions
+
+Use a server-side store (e.g., Iron Session, Redis, database) keyed by a session cookie.
+
+### Pros
+- Scales to large or sensitive payloads; nothing in the URL
+- Single source of truth controlled server-side
+- Easier to expire or revoke
+
+### Cons
+- Infrastructure/ops overhead; requires a store
+- Not trivially linkable or shareable
+- Requires sticky sessions or shared backing store
+
+### Implementation sketch (Next.js App Router)
+
+- Issue a session cookie (e.g., `sid`) and associate it with a server-side record containing the wizard state
+- On each request:
+  - Load the wizard state using `sid`
+  - Update state when forms submit
+  - For Back/Change, either store a `prefill` field transiently or retain all values per step and render from session
+- On "Start again", clear the session’s wizard state
+
+
+## Security & privacy considerations
+
+- The example’s data is non-sensitive. If answers are sensitive:
+  - Prefer server sessions; avoid placing state in shareable URLs
+  - If URLs must be used, encrypt/sign the payload (e.g., AES-GCM, HMAC)
+- Always validate that incoming `trail`/`prefill` values match expected options from your wizard graph
+
+
+## Choosing an approach
+
+- Prefer Query params when:
+  - You want fully SSR-compatible, linkable flows without infra dependencies
+  - The state size is modest and not sensitive
+- Prefer Sessions when:
+  - Answers may be sensitive or large
+  - You need robust server control, auditing, or expiry
+- Consider Cookies when:
+  - You just want shorter URLs and minimal infra, and data volume fits limits
+
+
+## Example snippets from this repo
+
+These are taken from `examples/nextjs/app/wizard-ssr/[question]/page.tsx`.
+
+### Encoding and decoding state
+
+```ts
+function encodeTrail(trail: TrailItem[]): string {
+  return Buffer.from(JSON.stringify(trail), 'utf8').toString('base64url');
+}
+function decodeTrail(raw?: string): TrailItem[] {
+  if (!raw) return [];
+  try { return JSON.parse(Buffer.from(raw, 'base64url').toString('utf8')); } catch { return []; }
+}
+function encodePrefillValue(value: string | string[]): string {
+  return Buffer.from(JSON.stringify(value), 'utf8').toString('base64url');
+}
+function decodePrefillValue(raw?: string): string | string[] | undefined {
+  if (!raw) return undefined;
+  try {
+    const parsed = JSON.parse(Buffer.from(raw, 'base64url').toString('utf8'));
+    return (typeof parsed === 'string' || Array.isArray(parsed)) ? parsed : undefined;
+  } catch { return undefined; }
+}
+```
+
+### Building Back/Change links
+
+```ts
+// Back: trim last answer but pass its value for pre-population
+const backHref = (() => {
+  if (trail.length === 0) return '/wizard-ssr';
+  const last = trail[trail.length - 1];
+  const t = encodeTrail(trail.slice(0, -1));
+  const prefill = encodePrefillValue(last.value);
+  return `/wizard-ssr/${encodeURIComponent(last.nodeId)}?trail=${encodeURIComponent(t)}&prefill=${encodeURIComponent(prefill)}`;
+})();
+
+// Change (jump to step i)
+const changeHref = (i: number) => {
+  const t = encodeTrail(trail.slice(0, i));
+  const prefill = encodePrefillValue(trail[i].value);
+  const id = trail[i].nodeId;
+  return `/wizard-ssr/${encodeURIComponent(id)}?trail=${encodeURIComponent(t)}&prefill=${encodeURIComponent(prefill)}`;
+};
+```
+
+### Rendering with pre-population
+
+```tsx
+// Multi-select
+const prev = getPreviousAnswer(trail, currentNodeId);
+const prefill = decodePrefillValue(sp.prefill as string | undefined);
+const selected = new Set(Array.isArray(prev) ? prev : Array.isArray(prefill) ? prefill : []);
+<Checkboxes name="sel" legend="Select all that apply" items={choices.map(o => ({
+  value: o.label,
+  text: o.label,
+  checked: selected.has(o.label),
+}))} />
+
+// Single-select / yes-no
+const defaultVal = typeof prev === 'string' ? prev : (typeof prefill === 'string' ? prefill : undefined);
+<Radios name="sel" defaultValue={defaultVal} options={[ ... ]} />
+```
+
+## Testing checklist
+
+- Forward nav: values append to the trail and route changes as expected
+- Back: route goes to previous step; form is pre-populated via prefill
+- Change from summary: route jumps to the chosen step; form is pre-populated
+- Start again: clears trail (and cookies/session if used)
+- SSR tests: ensure no client-only APIs are used in render
+
+## Appendix: Switching to cookies or sessions
+
+If you decide to move off query params later, the component code can remain the same — only the state plumbing changes:
+
+- Replace `decodeTrail`/`decodePrefillValue` with cookie/session reads
+- Replace `encodeTrail`/`encodePrefillValue` with cookie/session writes
+- Keep the evaluation and rendering logic intact
+
+This separation makes it easy to migrate between approaches without rewriting the form UI.

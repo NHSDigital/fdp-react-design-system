@@ -1,0 +1,145 @@
+@use 'sass:color';
+
+// NHS FDP Design System - Utilities
+// Common utility classes used across components
+@use '../../packages/nhs-fdp/dist/scss/tokens' as tokens;
+
+// NHS utility namespace
+.nhsuk-u {
+  // Visually hidden utility - for screen reader only content
+  &-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  // Display utilities
+  &-hidden {
+    display: none !important;
+  }
+
+  &-show {
+    display: block !important;
+  }
+
+  // Text alignment utilities
+  &-text {
+    &-left {
+      text-align: left !important;
+    }
+
+    &-center {
+      text-align: center !important;
+    }
+
+    &-right {
+      text-align: right !important;
+    }
+  }
+
+  // Margin utilities
+  &-margin {
+    &-0 {
+      margin: 0 !important;
+    }
+
+    &-bottom {
+      &-0 {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    &-top {
+      &-0 {
+        margin-top: 0 !important;
+      }
+    }
+  }
+
+  // Padding utilities
+  &-padding {
+    &-0 {
+      padding: 0 !important;
+    }
+
+    &-bottom {
+      &-0 {
+        padding-bottom: 0 !important;
+      }
+    }
+
+    &-top {
+      &-0 {
+        padding-top: 0 !important;
+      }
+    }
+  }
+
+  // Clearfix utility
+  &-clearfix {
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+  }
+}
+
+// High specificity version to ensure it overrides any conflicts
+.nhsuk-header,
+.nhsuk-header__search,
+label,
+span {
+  .nhsuk-u-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+}
+
+// Width container utility - for consistent max-width and padding
+.nhsuk-width-container {
+  margin: 0 auto;
+  padding: 0 tokens.$nhs-fdp-spacing-4;
+  max-width: tokens.$nhs-fdp-breakpoint-xlarge;
+
+  @media (min-width: 768px) {
+    padding: 0 tokens.$nhs-fdp-spacing-5;
+  }
+
+  @media (min-width: 1020px) {
+    padding: 0 tokens.$nhs-fdp-spacing-6;
+  }
+}
+
+// Icon utilities - Base icon styles for NHS FDP Design System
+// This provides the single source of truth for icon sizing behavior
+.nhsuk-icon {
+  // Set width to auto to allow natural scaling based on SVG viewBox
+  width: auto !important;
+  // Height should be set by context-specific tokens or inherit from font-size
+  height: 2em; // Default to current font size for inline icons
+  // Ensure proper inline alignment
+  vertical-align: text-bottom;
+  // Flexbox friendly defaults
+  flex-shrink: 0;
+
+  // Component-specific icon size overrides can use NHS FDP tokens:
+  // Examples:
+  // .component & { height: tokens.$nhs-fdp-component-guidance-icon-size; }
+  // .component & { height: tokens.$nhs-fdp-component-disclosure-icon-size; }
+}

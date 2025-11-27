@@ -16,7 +16,7 @@ export function InitBehaviours() {
  * 
  * @example
  * ```tsx
- * import { InitBehavioursInline } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+ * import { InitBehavioursInline } from '@nhsdigital/nhs-fdp-design-system/nextjs'
  * 
  * export default function RootLayout({ children }) {
  *   return (

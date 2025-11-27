@@ -19,13 +19,13 @@ Import the necessary stylesheets in the correct order for proper styling:
 
 ```tsx
 // 1. Core ResponsiveDataGrid styles (always required)
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 
 // 2. Healthcare card templates (if using healthcare data)
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 
 // Component import
-import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
 ```
 
 ### Import Order
@@ -41,16 +41,16 @@ import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
 
 ```tsx
 // Minimal bundle (generic data)
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 
 // Healthcare bundle (NHS healthcare data)
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 
 // Full table functionality
-import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/SortableDataTable/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 ```
 
 ## 🚀 Quick Start
@@ -58,7 +58,7 @@ import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/Health
 ### Basic Usage
 
 ```tsx
-import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
 
 const MyDataGrid = () => (
   <ResponsiveDataGrid

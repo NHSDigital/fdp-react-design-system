@@ -14,9 +14,9 @@ Load the behaviours via a tiny client-only component provided by the library. Th
 
 ```tsx
 // app/layout.tsx (Server Component)
-import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
-import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/ssr';
-import { NHSBehavioursInit } from '@fergusbisset/nhs-fdp-design-system/nextjs';
+import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@nhsdigital/nhs-fdp-design-system/nextjs';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-Alternative (legacy): If you can’t use the component, create your own client-only wrapper that imports '@fergusbisset/nhs-fdp-design-system/behaviours'. Note: avoid manual script tags (e.g. adding a src directly) – this is brittle in Next.js and won’t help SSR inline dynamic imports.
+Alternative (legacy): If you can’t use the component, create your own client-only wrapper that imports '@nhsdigital/nhs-fdp-design-system/behaviours'. Note: avoid manual script tags (e.g. adding a src directly) – this is brittle in Next.js and won’t help SSR inline dynamic imports.
 
 ## How to Verify It's Working
 
@@ -64,7 +64,7 @@ So behaviours **automatically initialize** there. But in your Next.js app, nothi
 
 ## What the Behaviours Do
 
-When you import `@fergusbisset/nhs-fdp-design-system/behaviours`, it:
+When you import `@nhsdigital/nhs-fdp-design-system/behaviours`, it:
 
 1. **Auto-initializes** on DOM ready (code at bottom of `behaviours/index.ts`)
 2. **Finds all headers** on the page (`.nhsuk-header`)
@@ -80,9 +80,9 @@ Without this, you just get the static SSR markup with no interactivity.
 
 ```tsx
 // app/layout.tsx
-import '@fergusbisset/nhs-fdp-design-system/behaviours'  // ← The magic line
-import { Header } from '@fergusbisset/nhs-fdp-design-system/ssr'
-import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
+import '@nhsdigital/nhs-fdp-design-system/behaviours'  // ← The magic line
+import { Header } from '@nhsdigital/nhs-fdp-design-system/ssr'
+import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
 
 export default function RootLayout({ 
   children 

@@ -9,7 +9,7 @@
  * - Triggers initialisation after hydration
  *
  * Usage (App Router):
- *   import { NHSBehavioursInit } from '@fergusbisset/nhs-fdp-design-system/nextjs';
+ *   import { NHSBehavioursInit } from '@nhsdigital/nhs-fdp-design-system/nextjs';
  *   // in app/layout.tsx (Server Component)
  *   <body>
  *     <NHSBehavioursInit />
@@ -27,7 +27,7 @@ export function NHSBehavioursInit() {
 			try {
 				// Import via the package export so Next bundles it for the client.
 				const mod: any = await import(
-					"@fergusbisset/nhs-fdp-design-system/behaviours"
+					"@nhsdigital/nhs-fdp-design-system/behaviours"
 				);
 				if (cancelled) return;
 

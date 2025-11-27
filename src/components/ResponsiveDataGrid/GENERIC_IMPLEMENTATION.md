@@ -34,39 +34,39 @@ The ResponsiveDataGrid component requires specific stylesheet imports in the cor
 
 ```tsx
 // Core ResponsiveDataGrid styles (always required)
-import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
 
 // Component imports
-import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
 ```
 
 #### Healthcare-Specific Usage
 
 ```tsx
 // 1. Core ResponsiveDataGrid styles (required first)
-import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
 
 // 2. Healthcare card templates (for healthcare data)
-import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
+import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
 
 // Component imports
-import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
 ```
 
 #### Advanced Usage with AriaTabsDataGrid
 
 ```tsx
 // 1. Core table styles (foundation)
-import '@fergusbisset/nhs-fdp-design-system/dist/components/SortableDataTable/AriaTabsDataGrid.css';
+import '@nhsdigital/nhs-fdp-design-system/dist/components/SortableDataTable/AriaTabsDataGrid.css';
 
 // 2. ResponsiveDataGrid styles (builds on table styles)
-import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
 
 // 3. Healthcare templates (if using healthcare data)
-import '@fergusbisset/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
+import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
 
 // Component imports
-import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
 ```
 
 ### Import Order Guidelines
@@ -92,8 +92,8 @@ import './HealthcareCardTemplates.scss';
 
 ```tsx
 // When using the published package
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 ```
 
 ### Bundle Size Optimisation
@@ -102,16 +102,16 @@ import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/Health
 
 ```tsx
 // Minimal bundle - only core functionality
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 
 // Healthcare bundle - includes domain-specific styles
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 
 // Full bundle - includes all table functionality
-import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/SortableDataTable/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 ```
 
 ### CSS Variables and Customisation

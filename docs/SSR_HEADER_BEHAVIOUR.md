@@ -48,8 +48,8 @@ The `InitBehaviours` component (from `/nextjs` export) initializes all behaviour
 
 ```tsx
 // app/layout.tsx (Server Component - no "use client" needed!)
-import { InitBehaviours } from '@fergusbisset/nhs-fdp-design-system/nextjs'
-import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/ssr'
+import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
+import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/ssr'
 
 export default function RootLayout({ children }) {
   return (
@@ -210,7 +210,7 @@ export function CustomHeaderInit() {
   useEffect(() => {
     if (!headerRef.current) return
     
-    import('@fergusbisset/nhs-fdp-design-system/behaviours')
+    import('@nhsdigital/nhs-fdp-design-system/behaviours')
       .then(({ initHeaders }) => {
         const instances = initHeaders(headerRef.current!)
         return () => instances.forEach(i => i.destroy())

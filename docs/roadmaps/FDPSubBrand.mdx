@@ -48,17 +48,17 @@ Below are embedded, live previews rendered via TSX components (no navigation to 
 
 ```css
 /* Default semantics (NHS) */
-@import '@fergusbisset/nhs-fdp-design-system/styles/tokens/semantics.css';
+@import '@nhsdigital/nhs-fdp-design-system/styles/tokens/semantics.css';
 
 /* FDP brand overlay (scoped to [data-brand="fdp"]) */
-@import '@fergusbisset/nhs-fdp-design-system/styles/tokens/brand-fdp.css';
+@import '@nhsdigital/nhs-fdp-design-system/styles/tokens/brand-fdp.css';
 ```
 
 2) Scope FDP globally or locally:
 
 ```tsx
 // Global (document-level)
-import { BrandThemeProvider } from '@fergusbisset/nhs-fdp-design-system';
+import { BrandThemeProvider } from '@nhsdigital/nhs-fdp-design-system';
 
 export default function App({ children }) {
   return (
@@ -95,8 +95,8 @@ The FDP sub-brand introduces a palette and a semantic mapping. Highlights:
   - Warning → NHS Red `#d5281b` (unless otherwise specified)
 
 Where to find them:
-- CSS overlay variables: `@fergusbisset/nhs-fdp-design-system/styles/tokens/brand-fdp.css`
-- Default semantics: `@fergusbisset/nhs-fdp-design-system/styles/tokens/semantics.css`
+- CSS overlay variables: `@nhsdigital/nhs-fdp-design-system/styles/tokens/brand-fdp.css`
+- Default semantics: `@nhsdigital/nhs-fdp-design-system/styles/tokens/semantics.css`
 
 ---
 
@@ -152,12 +152,12 @@ Usage options:
 
 ```tsx
 // 1) Inline style (string)
-import gradients from '@fergusbisset/nhs-fdp-design-system/dist/js/gradients.json';
+import gradients from '@nhsdigital/nhs-fdp-design-system/dist/js/gradients.json';
 
 <div style={{ background: gradients.gradient.palette['dark-blue-diagonal'] }} />
 
 // 2) SCSS variables (imported from the generated _gradients.scss)
-// @use '@fergusbisset/nhs-fdp-design-system/packages/nhs-fdp/dist/scss/gradients' as nhs;
+// @use '@nhsdigital/nhs-fdp-design-system/packages/nhs-fdp/dist/scss/gradients' as nhs;
 // .card { background: nhs.$gradient-palette-dark-blue-diagonal; }
 ```
 

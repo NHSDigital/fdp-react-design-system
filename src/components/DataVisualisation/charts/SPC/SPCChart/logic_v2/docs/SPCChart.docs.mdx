@@ -29,13 +29,13 @@ import {
   ImprovementDirection,
   SPCVariationIcon,
   SPCAssuranceIcon,
-} from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+} from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
 ```
 
 Alternatively, as a namespace:
 
 ```ts
-import * as SPC from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import * as SPC from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
 
 // Example
 <SPC.SPCChart data={series} metricImprovement={SPC.ImprovementDirection.Up} />
@@ -46,13 +46,13 @@ CSS options:
 - Global CSS (pulls in everything):
 
 ```ts
-import '@fergusbisset/nhs-fdp-design-system/css';
+import '@nhsdigital/nhs-fdp-design-system/css';
 ```
 
 - Per‑component CSS (SPCChart only):
 
 ```ts
-import '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css';
+import '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css';
 ```
 
 Notes:
@@ -69,7 +69,7 @@ import {
   SequenceTransition,
   type SPCChartProps,
   type SPCDatum,
-} from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.props';
+} from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart.props';
 ```
 
 ## SQL parity and diagnostics
@@ -136,7 +136,7 @@ This avoids duplicate engine work and ensures both components classify and colou
 Recommended helper (DRY):
 
 ```tsx
-import { computeSpcPrecomputed, ImprovementDirection, ChartType, DEFAULT_MIN_POINTS } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import { computeSpcPrecomputed, ImprovementDirection, ChartType, DEFAULT_MIN_POINTS } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
 import { SPCChart } from '../SPCChart/SPCChart';
 import { SPCSpark } from '../SPCSpark/SPCSpark';
 

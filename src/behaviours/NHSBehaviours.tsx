@@ -10,7 +10,7 @@ export default function NHSBehavioursInit() {
 		(async () => {
 			try {
 				// When developing inside the design system repo, import the local behaviours module.
-				// Consumers should use the exported component from '@fergusbisset/nhs-fdp-design-system/nextjs'.
+				// Consumers should use the exported component from '@nhsdigital/nhs-fdp-design-system/nextjs'.
 				const mod: any = await import('./index');
 
 				if (cancelled) return;

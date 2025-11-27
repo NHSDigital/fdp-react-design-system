@@ -5,7 +5,7 @@
  * to work in SSR environments without React hooks or createContext.
  * 
  * USAGE IN NEXT.JS:
- * import { HeaderSSR, HeaderStatic } from '@fergusbisset/nhs-fdp-design-system/ssr';
+ * import { HeaderSSR, HeaderStatic } from '@nhsdigital/nhs-fdp-design-system/ssr';
  * 
  * IMPORTANT: Progressive Enhancement
  * The behaviours layer is NOT automatically initialized when importing from /ssr.
@@ -13,12 +13,12 @@
  * 
  * Option 1 - Import behaviours directly (causes side effect initialization):
  * ```tsx
- * import '@fergusbisset/nhs-fdp-design-system/behaviours'
+ * import '@nhsdigital/nhs-fdp-design-system/behaviours'
  * ```
  * 
  * Option 2 - Use the InitBehaviours helper (Next.js):
  * ```tsx
- * import { InitBehaviours } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+ * import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
  * // Add <InitBehaviours /> to your layout
  * ```
  * 

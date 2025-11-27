@@ -17,10 +17,10 @@ Before using ResponsiveDataGrid, import the necessary stylesheets in the correct
 
 ```tsx
 // 1. Core ResponsiveDataGrid styles (always required)
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 
 // 2. Healthcare templates (if using NHS healthcare data)
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 ```
 
 ### Import Order Matters!
@@ -33,13 +33,13 @@ import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/Health
 
 ```tsx
 // ✅ Correct order
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 import './my-custom-styles.css';
 
 // ❌ Wrong order - healthcare styles may not apply correctly
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 ```
 
 ## ⚡ Quick Setup
@@ -47,8 +47,8 @@ import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 ### 1. Import the Component
 
 ```tsx
-import { ResponsiveDataGrid } from '@fergusbisset/nhs-fdp-design-system';
-import { ColumnDefinition } from '@fergusbisset/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
+import { ColumnDefinition } from '@nhsdigital/nhs-fdp-design-system';
 ```
 
 ### 2. Define Enhanced Columns
@@ -155,7 +155,7 @@ By default, ResponsiveDataGrid includes a basic dropdown sorting interface that 
 **CSS Required:**
 ```tsx
 // ResponsiveDataGrid includes all styling for simple sorting controls
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 ```
 
 ### Advanced Sorting
@@ -181,11 +181,11 @@ For enhanced sorting capabilities with multi-column sorting and visual status in
 **Additional CSS Required for Advanced Sorting:**
 ```tsx
 // Core ResponsiveDataGrid styles (includes Select and Button for simple sorting)
-import '@fergusbisset/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
 
 // Additional dependencies for advanced sorting features
-import '@fergusbisset/nhs-fdp-design-system/components/SortableDataTable/SortStatusControl/css';
-import '@fergusbisset/nhs-fdp-design-system/components/Tag/css';
+import '@nhsdigital/nhs-fdp-design-system/components/SortableDataTable/SortStatusControl/css';
+import '@nhsdigital/nhs-fdp-design-system/components/Tag/css';
 ```
 
 ### When to Use Each Mode

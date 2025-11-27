@@ -9,7 +9,7 @@ The design system publishes multiple entry points (barrels) so you can balance b
 ### 1. Root (all components)
 
 ```ts
-import { SPCVariationIcon, SPCAssuranceIcon } from '@fergusbisset/nhs-fdp-design-system';
+import { SPCVariationIcon, SPCAssuranceIcon } from '@nhsdigital/nhs-fdp-design-system';
 ```
 
 Pros: simplest.  Cons: pulls the full top‑level bundle; rely on ESM tree‑shaking.
@@ -17,7 +17,7 @@ Pros: simplest.  Cons: pulls the full top‑level bundle; rely on ESM tree‑sha
 ### 2. Data Visualisation aggregate
 
 ```ts
-import { SPC } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation';
+import { SPC } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation';
 
 <SPC.SPCVariationIcon data={...} />
 ```
@@ -27,7 +27,7 @@ Pros: Namespaced (`SPC.*`) keeps imports tidy when mixing chart primitives.  Con
 ### 3. SPC sub‑barrel (preferred for SPC pages)
 
 ```ts
-import { SPCVariationIcon, SPCAssuranceIcon, VariationJudgement, MetricPolarity } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import { SPCVariationIcon, SPCAssuranceIcon, VariationJudgement, MetricPolarity } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
 ```
 
 Pros: Only SPC related code; concise; stable surface (icons and engine and descriptors).
@@ -35,7 +35,7 @@ Pros: Only SPC related code; concise; stable surface (icons and engine and descr
 ### 4. Deep path (maximal tree‑shaking / micro import)
 
 ```ts
-import { SPCVariationIcon } from '@fergusbisset/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon';
+import { SPCVariationIcon } from '@nhsdigital/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC/SPCIcons/SPCIcon';
 ```
 
 Use when a build tool is configured to allow deep ESM paths (e.g. internal apps). Avoid for public packages (path may change in minors).
@@ -45,7 +45,7 @@ Use when a build tool is configured to allow deep ESM paths (e.g. internal apps)
 If you render on the server and want only SSR‑safe exports (no client behaviours):
 
 ```ts
-import { SPCVariationIcon } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { SPCVariationIcon } from '@nhsdigital/nhs-fdp-design-system/ssr';
 ```
 
 Check the `ssr` entry for availability; falls back to core components with SSR guarantees.
@@ -53,7 +53,7 @@ Check the `ssr` entry for availability; falls back to core components with SSR g
 ### 6. Pure (no side‑effects) entry
 
 ```ts
-import { SPCVariationIcon } from '@fergusbisset/nhs-fdp-design-system/pure';
+import { SPCVariationIcon } from '@nhsdigital/nhs-fdp-design-system/pure';
 ```
 
 Provides the root build minus CSS side‑effects (you must include CSS separately) – useful in micro‑frontend bundling.
@@ -63,9 +63,9 @@ Provides the root build minus CSS side‑effects (you must include CSS separatel
 Include the base CSS once (usually at app root):
 
 ```ts
-import '@fergusbisset/nhs-fdp-design-system/css';
+import '@nhsdigital/nhs-fdp-design-system/css';
 // or just Data Visualisation layer:
-import '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/css';
+import '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/css';
 ```
 
 Triangle variants share the same base styles (pure SVG) so no extra CSS import is required beyond the design system base.
@@ -75,7 +75,7 @@ Triangle variants share the same base styles (pure SVG) so no extra CSS import i
 When you need enums without the icon component code:
 
 ```ts
-import { VariationJudgement, MetricPolarity, Direction } from '@fergusbisset/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import { VariationJudgement, MetricPolarity, Direction } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
 ```
 
 ### Choosing an Import Route

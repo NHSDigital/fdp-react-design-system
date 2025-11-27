@@ -70,7 +70,7 @@ Components with interactivity use a split pattern:
 - `.tsx` - Client variant with state and data attributes for behaviours
 - `.server.tsx` - Server variant invoking pure renderer only
 
-Server variants can be imported via `@fergusbisset/nhs-fdp-design-system/components/ComponentName/server`
+Server variants can be imported via `@nhsdigital/nhs-fdp-design-system/components/ComponentName/server`
 
 ### Design Token System
 Built with Style Dictionary, tokens are in `packages/nhs-fdp/tokens/`:
@@ -112,6 +112,7 @@ The build system auto-generates exports:
 
 1. **Documentation Location**: All docs go in `docs/` subdirectories, never at repo root
 2. **React Version**: Uses React 19.2.0
-3. **Package Registry**: Published to GitHub Packages (`@fergusbisset` scope)
+3. **Package Registry**: Published to npm public registry (`@nhsdigital/nhs-fdp-design-system`)
 4. **Next.js Compatibility**: Supports Next.js 13.4+ through 16
 5. **Pre-version Checks**: `npm run preversion` runs lint, tests, and build before version bumps
+6. **Repository**: https://github.com/NHSDigital/fdp-react-design-system

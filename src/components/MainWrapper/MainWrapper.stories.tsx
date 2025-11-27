@@ -25,7 +25,7 @@ The MainWrapper component provides consistent padding around main content areas 
 ## Usage
 
 \`\`\`tsx
-import { Container, MainWrapper } from '@fergusbisset/nhs-fdp-design-system';
+import { Container, MainWrapper } from '@nhsdigital/nhs-fdp-design-system';
 
 // Basic usage
 <Container>

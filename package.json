@@ -1,6 +1,6 @@
 {
-  "name": "@fergusbisset/nhs-fdp-design-system",
-  "version": "0.0.45",
+  "name": "@nhsdigital/nhs-fdp-design-system",
+  "version": "1.0.0",
   "description": "NHS FDP Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
@@ -505,7 +505,7 @@
   ],
   "publishConfig": {
     "access": "public",
-    "registry": "https://npm.pkg.github.com"
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "dev": "vite",
@@ -584,9 +584,9 @@
     "version": "git add .",
     "postversion": "git push && git push --tags && npm run publish:package",
     "publish:package": "node scripts/publish-package.cjs",
-    "publish:alpha": "npm publish --registry=https://npm.pkg.github.com --tag alpha",
-    "publish:beta": "npm publish --registry=https://npm.pkg.github.com --tag beta",
-    "publish:latest": "npm publish --registry=https://npm.pkg.github.com --tag latest",
+    "publish:alpha": "npm publish --access public --tag alpha",
+    "publish:beta": "npm publish --access public --tag beta",
+    "publish:latest": "npm publish --access public --tag latest",
     "release:patch": "npm version patch -m 'chore(release): %s'",
     "release:minor": "npm version minor -m 'chore(release): %s'",
     "release:major": "npm version major -m 'chore(release): %s'",
@@ -594,9 +594,25 @@
     "release:prerelease:beta": "npm version prerelease --preid=beta -m 'chore(release): %s'",
     "check:tokens": "node scripts/check-token-collisions.cjs"
   },
-  "keywords": [],
-  "author": "Fergus Bisset",
-  "license": "ISC",
+  "keywords": [
+    "nhs",
+    "design-system",
+    "react",
+    "components",
+    "fdp",
+    "healthcare",
+    "accessibility"
+  ],
+  "author": "FDP Product Design Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NHSDigital/fdp-react-design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NHSDigital/fdp-react-design-system/issues"
+  },
+  "homepage": "https://github.com/NHSDigital/fdp-react-design-system#readme",
   "type": "module",
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",

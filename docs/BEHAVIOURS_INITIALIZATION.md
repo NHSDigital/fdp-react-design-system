@@ -38,7 +38,7 @@ Use Next.js `Script` component or plain `<script>` tags to initialize behaviours
 
 ```tsx
 // app/layout.tsx (Server Component - no "use client" needed!)
-import { InitBehaviours } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -77,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ```tsx
 // app/layout.tsx
-import { InitBehavioursInline } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+import { InitBehavioursInline } from '@nhsdigital/nhs-fdp-design-system/nextjs'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -112,7 +112,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   
   <!-- Load behaviours after content -->
   <script 
-    src="/node_modules/@fergusbisset/nhs-fdp-design-system/dist/behaviours/init.js" 
+    src="/node_modules/@nhsdigital/nhs-fdp-design-system/dist/behaviours/init.js" 
     type="module"
     defer
   ></script>
@@ -124,7 +124,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ```html
 <script 
-  src="https://unpkg.com/@fergusbisset/nhs-fdp-design-system/dist/behaviours/init.js"
+  src="https://unpkg.com/@nhsdigital/nhs-fdp-design-system/dist/behaviours/init.js"
   type="module"
   defer
 ></script>
@@ -149,7 +149,7 @@ export function ClientInitializer() {
     if (typeof window === 'undefined') return
     
     // Import and initialize
-    import('@fergusbisset/nhs-fdp-design-system/behaviours')
+    import('@nhsdigital/nhs-fdp-design-system/behaviours')
       .then(({ initAll }) => {
         initAll(document)
       })
@@ -197,7 +197,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ```tsx
 // app/layout.tsx
-import { BehavioursLoader } from '@fergusbisset/nhs-fdp-design-system/behaviours/react'
+import { BehavioursLoader } from '@nhsdigital/nhs-fdp-design-system/behaviours/react'
 
 export default function RootLayout({ children }) {
   return (
@@ -215,7 +215,7 @@ export default function RootLayout({ children }) {
 
 ```tsx
 // app/layout.tsx
-import { InitBehaviours } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
 
 export default function RootLayout({ children }) {
   return (
@@ -247,7 +247,7 @@ export function ScopedSection() {
   useEffect(() => {
     if (!containerRef.current) return
     
-    import('@fergusbisset/nhs-fdp-design-system/behaviours')
+    import('@nhsdigital/nhs-fdp-design-system/behaviours')
       .then(({ initAll }) => {
         initAll(containerRef.current!) // Init only in this container
       })
@@ -275,7 +275,7 @@ export function ManagedSection() {
     
     let cleanup: (() => void) | undefined
     
-    import('@fergusbisset/nhs-fdp-design-system/behaviours')
+    import('@nhsdigital/nhs-fdp-design-system/behaviours')
       .then(({ initAll, teardownAll }) => {
         initAll(containerRef.current!)
         cleanup = () => teardownAll(containerRef.current!)
@@ -306,8 +306,8 @@ export function ManagedSection() {
 ### "Module not found" errors
 
 **Check**:
-1. Package is installed: `npm list @fergusbisset/nhs-fdp-design-system`
-2. Import path is correct: `@fergusbisset/nhs-fdp-design-system/nextjs`
+1. Package is installed: `npm list @nhsdigital/nhs-fdp-design-system`
+2. Import path is correct: `@nhsdigital/nhs-fdp-design-system/nextjs`
 3. Build succeeded: `npm run build`
 
 ### Behaviours run too early (before hydration)
@@ -342,7 +342,7 @@ Use `<InitBehavioursInline />` if:
 **The recommended approach is `<InitBehaviours />`** from the `/nextjs` export:
 
 ```tsx
-import { InitBehaviours } from '@fergusbisset/nhs-fdp-design-system/nextjs'
+import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
 ```
 
 This gives you:

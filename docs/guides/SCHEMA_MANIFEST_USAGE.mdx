@@ -8,7 +8,7 @@ This guide shows how to consume the published component schema manifest to rende
 
 The manifest is built during `docs:pre`/`build:parity` and published at this package export path:
 
-- `@fergusbisset/nhs-fdp-design-system/meta/components.json`
+- `@nhsdigital/nhs-fdp-design-system/meta/components.json`
 
 Each component entry includes `name`, `props[]` with `name`, `type`, `required?`, `defaultValue?`, and `description?`.
 
@@ -20,7 +20,7 @@ Next supports JSON imports out of the box. In a server component, import the man
 
 ```tsx
 // app/components/PropsTable.tsx (Server Component)
-import manifest from '@fergusbisset/nhs-fdp-design-system/meta/components.json';
+import manifest from '@nhsdigital/nhs-fdp-design-system/meta/components.json';
 
 type Prop = {
   name: string;
@@ -83,7 +83,7 @@ export default function Page() {
 Ensure your project’s TS config has `"resolveJsonModule": true`. Then import the manifest normally.
 
 ```tsx
-import manifest from '@fergusbisset/nhs-fdp-design-system/meta/components.json';
+import manifest from '@nhsdigital/nhs-fdp-design-system/meta/components.json';
 
 // Same PropsTable component as above can be reused.
 ```
@@ -92,7 +92,7 @@ If your bundler doesn’t support JSON imports, you can fetch the file at runtim
 
 ```ts
 // Example runtime fetch when your app serves node_modules static assets (adjust path to your setup)
-const res = await fetch('/node_modules/@fergusbisset/nhs-fdp-design-system/dist/meta/components.json');
+const res = await fetch('/node_modules/@nhsdigital/nhs-fdp-design-system/dist/meta/components.json');
 const manifest = await res.json();
 ```
 

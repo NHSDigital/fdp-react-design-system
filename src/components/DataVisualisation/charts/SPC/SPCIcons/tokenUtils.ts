@@ -3,7 +3,7 @@ let spcTokenRoot: Record<string, any> | null = null;
 try {
 	// Dynamic require to avoid breaking SSR if tokens file not present at runtime.
 	// @ts-ignore - compiled artifact path resolved post-build
-	const tokens = require("@fergusbisset/nhs-fdp-design-system/dist/js/tokens.json");
+	const tokens = require("@nhsdigital/nhs-fdp-design-system/dist/js/tokens.json");
 	spcTokenRoot = tokens?.color?.["data-viz"]?.spc || null;
 } catch {
 	// Swallow – fall back to provided colour fallbacks.

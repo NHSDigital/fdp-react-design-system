@@ -52,7 +52,7 @@ If you import ProductCard from `/ssr`:
 
 **Before (v0.0.42):**
 ```tsx
-import { ProductCard } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
 
 <ProductCard
   title="Product"
@@ -65,7 +65,7 @@ import { ProductCard } from '@fergusbisset/nhs-fdp-design-system/ssr';
 
 **After (v0.0.43):**
 ```tsx
-import { ProductCard } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
 
 <ProductCard
   title="Product"
@@ -81,7 +81,7 @@ import { ProductCard } from '@fergusbisset/nhs-fdp-design-system/ssr';
 Client-side usage (main barrel) is **100% backward compatible**:
 
 ```tsx
-import { ProductCard } from '@fergusbisset/nhs-fdp-design-system';
+import { ProductCard } from '@nhsdigital/nhs-fdp-design-system';
 
 // All existing code continues to work unchanged
 <ProductCard
@@ -99,7 +99,7 @@ import { ProductCard } from '@fergusbisset/nhs-fdp-design-system';
 
 ```tsx
 // app/products/page.tsx (Server Component - default)
-import { ProductCard } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
 
 export default function ProductsPage() {
   return (
@@ -133,7 +133,7 @@ export default function ProductsPage() {
 // app/products/interactive.tsx
 'use client';  // Required in Next.js App Router
 
-import { ProductCard } from '@fergusbisset/nhs-fdp-design-system';
+import { ProductCard } from '@nhsdigital/nhs-fdp-design-system';
 import { useRouter } from 'next/navigation';
 
 export default function InteractiveProduct() {
@@ -232,7 +232,7 @@ You can now use ProductCard in **Server Components** (the default):
 
 ```tsx
 // app/page.tsx - No 'use client' needed!
-import { ProductCard } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
 
 export default function HomePage() {
   return <ProductCard title="My Product" href="/product" />;
@@ -265,7 +265,7 @@ Questions? Check the documentation:
 ## Installation
 
 ```bash
-npm install @fergusbisset/nhs-fdp-design-system@0.0.43
+npm install @nhsdigital/nhs-fdp-design-system@0.0.43
 ```
 
 or with `.npmrc`:
@@ -278,5 +278,5 @@ or with `.npmrc`:
 then:
 
 ```bash
-npm install @fergusbisset/nhs-fdp-design-system@latest
+npm install @nhsdigital/nhs-fdp-design-system@latest
 ```

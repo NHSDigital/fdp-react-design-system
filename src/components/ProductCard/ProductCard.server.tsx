@@ -504,13 +504,13 @@ export interface ProductCardServerProps extends Omit<ProductCardProps, 'onClick'
  * For interactive cards, use the client version from the main barrel:
  * ```tsx
  * 'use client';
- * import { ProductCard } from '@fergusbisset/nhs-fdp-design-system';
+ * import { ProductCard } from '@nhsdigital/nhs-fdp-design-system';
  * ```
  * 
  * @example
  * ```tsx
  * // Server Component usage
- * import { ProductCard } from '@fergusbisset/nhs-fdp-design-system/ssr';
+ * import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
  * 
  * <ProductCard
  *   title="FDP Product"

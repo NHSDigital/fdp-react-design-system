@@ -7,7 +7,7 @@ This document outlines the step-by-step process to migrate from `fergusbisset/nh
 | Item | From | To |
 |------|------|-----|
 | **Repository** | `github.com/fergusbisset/nhs-fdp-design-system` | `github.com/NHSDigital/fdp-react-design-system` |
-| **Package Name** | `@fergusbisset/nhs-fdp-design-system` | `@nhsdigital/nhs-fdp-design-system` |
+| **Package Name** | `@nhsdigital/nhs-fdp-design-system` | `@nhsdigital/nhs-fdp-design-system` |
 | **Registry** | GitHub Packages | npm public registry |
 | **Author** | Fergus Bisset | FDP Product Design Team |
 
@@ -191,7 +191,7 @@ Update `package.json` to remove corresponding npm scripts.
 
 ### Step 5.2: Update all internal package references
 Search and replace throughout codebase:
-- `@fergusbisset/nhs-fdp-design-system` → `@nhsdigital/nhs-fdp-design-system`
+- `@nhsdigital/nhs-fdp-design-system` → `@nhsdigital/nhs-fdp-design-system`
 
 Files to update:
 - `README.md` (all import examples)

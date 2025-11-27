@@ -5,7 +5,7 @@ This guide shows how to use the NHS FDP Design System in a Next.js (App Router) 
 ## 1. Install
 
 ```bash
-npm install @fergusbisset/nhs-fdp-design-system
+npm install @nhsdigital/nhs-fdp-design-system
 ```
 
 Optional peer dependency: `next` (the package declares `next` as an optional peer so you will not see warnings when using the design system outside Next.js. In a Next project ensure a compatible version `>=13.4.0` is installed.)
@@ -18,7 +18,7 @@ In `app/layout.tsx` (server component) import the lightweight Next entry (core t
 
 ```tsx
 // app/layout.tsx
-import '@fergusbisset/nhs-fdp-design-system/nextjs';
+import '@nhsdigital/nhs-fdp-design-system/nextjs';
 
 export const metadata = { title: 'App' };
 
@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 If you prefer full component baseline styles (potentially larger initial CSS) you can instead import:
 
 ```tsx
-import '@fergusbisset/nhs-fdp-design-system/css';
+import '@nhsdigital/nhs-fdp-design-system/css';
 ```
 
 ## 3. Using Components (Server vs Client)
@@ -58,7 +58,7 @@ import {
   ErrorSummary,
   WidthContainer,
   MetricCard,
-} from '@fergusbisset/nhs-fdp-design-system/ssr';
+} from '@nhsdigital/nhs-fdp-design-system/ssr';
 ```
 
 Use the root entry in client components for interactive widgets (those that rely on hooks/DOM APIs):
@@ -68,7 +68,7 @@ Any component that uses hooks (e.g. `NavigationSplitView`) must be rendered in a
 ```tsx
 // app/patients/page.tsx
 'use client';
-import { NavigationSplitView } from '@fergusbisset/nhs-fdp-design-system';
+import { NavigationSplitView } from '@nhsdigital/nhs-fdp-design-system';
 
 export default function PatientsPage() {
   // ... data fetch via a parent server component or use SWR here
@@ -93,7 +93,7 @@ import { useEffect, useRef } from 'react';
 export function BehavioursLoader({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    import('@fergusbisset/nhs-fdp-design-system/behaviours').then(({ initAll }) => {
+    import('@nhsdigital/nhs-fdp-design-system/behaviours').then(({ initAll }) => {
       if (ref.current) initAll(ref.current);
     });
   }, []);
@@ -114,8 +114,8 @@ Usage:
 
 ```tsx
 'use client';
-import { NavigationSplitView } from '@fergusbisset/nhs-fdp-design-system';
-import { useNavigationSplitNextUrlSync } from '@fergusbisset/nhs-fdp-design-system/nextjs';
+import { NavigationSplitView } from '@nhsdigital/nhs-fdp-design-system';
+import { useNavigationSplitNextUrlSync } from '@nhsdigital/nhs-fdp-design-system/nextjs';
 
 export default function Patients() {
   const routerSync = useNavigationSplitNextUrlSync({ paramSelected: 'patient', paramDrill: 'analytics' });
@@ -158,7 +158,7 @@ export default async function Page() {
 ```tsx
 // app/patients/PatientsClient.tsx
 'use client';
-import { NavigationSplitView } from '@fergusbisset/nhs-fdp-design-system';
+import { NavigationSplitView } from '@nhsdigital/nhs-fdp-design-system';
 export default function PatientsClient({ patients }) {
   return (
     <NavigationSplitView
@@ -174,7 +174,7 @@ export default function PatientsClient({ patients }) {
 If you rely on the design system font utilities, load them once globally (e.g. in `layout.tsx`) or via Next Font optimization.
 
 ```tsx
-import '@fergusbisset/nhs-fdp-design-system/styles/fonts.css';
+import '@nhsdigital/nhs-fdp-design-system/styles/fonts.css';
 ```
 
 Or wrap with `next/font/local` for subsetting.
@@ -195,7 +195,7 @@ When a runtime theming API is introduced you can inject CSS variables at the roo
 | Issue | Cause | Fix |
 |-------|-------|-----|
 | Hydration warning on selection | `syncUrl` altering URL during SSR hydration | Use Next adapter hook (above) or disable `syncUrl` until after mount (`useEffect`) |
-| Styles missing in prod | Global CSS not imported in `layout.tsx` | Import `@fergusbisset/nhs-fdp-design-system/nextjs` |
+| Styles missing in prod | Global CSS not imported in `layout.tsx` | Import `@nhsdigital/nhs-fdp-design-system/nextjs` |
 | Large initial CSS | Imported full bundle instead of core | Switch to `/nextjs` entry |
 
 ## 10. Roadmap (Planned Next.js Helpers)

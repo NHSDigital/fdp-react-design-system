@@ -28,5 +28,5 @@ export { SkipLink } from './components/SkipLink';
 export type { SkipLinkProps } from './components/SkipLink';
 
 // Note: Other components should be imported individually:
-// import { Button } from '@fergusbisset/nhs-fdp-design-system/components/Button'
+// import { Button } from '@nhsdigital/nhs-fdp-design-system/components/Button'
 // This ensures their styles are only loaded when the component is actually used

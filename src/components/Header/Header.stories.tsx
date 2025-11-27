@@ -42,7 +42,7 @@ The Header component provides navigation and branding for NHS services. It inclu
 If you're rendering on the server using the SSR entry, import from the server barrel to avoid pulling client hooks:
 
 \`\`\`ts
-import { Header, Footer, LogoVariant } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { Header, Footer, LogoVariant } from '@nhsdigital/nhs-fdp-design-system/ssr';
 \`\`\`
 
 The SSR Header does not read React context. To render FDP logos server-side (so that \`logoVariant\` takes effect), pass the brand via an attribute:
@@ -64,7 +64,7 @@ Notes:
 If you prefer to control the exact asset, you can override with a specific logo source:
 
 \`\`\`tsx
-import { BrandKey, getBrandLogo, LogoVariant } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { BrandKey, getBrandLogo, LogoVariant } from '@nhsdigital/nhs-fdp-design-system/ssr';
 
 const logo = getBrandLogo(BrandKey.FDP, LogoVariant.Compact);
 
@@ -83,9 +83,9 @@ When using the server variant in a Next.js app, keep your root layout as a Serve
 
 \`\`\`tsx
 // app/layout.tsx (Server Component)
-import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
-import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/ssr';
-import { NHSBehavioursInit } from '@fergusbisset/nhs-fdp-design-system/nextjs';
+import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@nhsdigital/nhs-fdp-design-system/nextjs';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 	return (

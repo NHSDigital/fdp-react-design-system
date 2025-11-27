@@ -168,7 +168,7 @@ import {
   ProductCardLayoutEnum,
   ProductCardImageTypeEnum,
   ProductCardButtonVariantEnum,
-} from '@fergusbisset/nhs-fdp-design-system';
+} from '@nhsdigital/nhs-fdp-design-system';
 
 <ProductCard
   title="Analytics"
@@ -190,7 +190,7 @@ import {
   ProductCardLayoutEnum,
   ProductCardImageTypeEnum,
   ProductCardButtonVariantEnum,
-} from '@fergusbisset/nhs-fdp-design-system/components/ProductCard';
+} from '@nhsdigital/nhs-fdp-design-system/components/ProductCard';
 
 // SSR barrel
 import {
@@ -199,7 +199,7 @@ import {
   ProductCardLayoutEnum,
   ProductCardImageTypeEnum,
   ProductCardButtonVariantEnum,
-} from '@fergusbisset/nhs-fdp-design-system/ssr';
+} from '@nhsdigital/nhs-fdp-design-system/ssr';
 ```
 
 // or using the alias
@@ -452,7 +452,7 @@ Themes must be one of the predefined values. To use custom colors, apply them vi
 ProductCard is fully SSR-compatible and can be imported from the `/ssr` barrel:
 
 ```tsx
-import { ProductCard, ProductCardThemeEnum } from '@fergusbisset/nhs-fdp-design-system/ssr';
+import { ProductCard, ProductCardThemeEnum } from '@nhsdigital/nhs-fdp-design-system/ssr';
 ```
 
 ### Important SSR Considerations

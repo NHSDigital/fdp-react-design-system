@@ -199,14 +199,21 @@ Use React Testing Library query priority:
 
 ## Distribution and Dependencies
 
-### GitHub Packages Setup
-The package is published to GitHub Packages. To install:
+### Package Installation
+The package is published to npm and GitHub Packages. To install:
+
+**From npm (public registry):**
+```bash
+npm install @nhsdigital/fdp-design-system
+```
+
+**From GitHub Packages:**
 1. Create `.npmrc` with:
    ```
-   @fergusbisset:registry=https://npm.pkg.github.com
+   @nhsdigital:registry=https://npm.pkg.github.com
    //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
    ```
-2. Verify setup: `npm whoami --registry=https://npm.pkg.github.com`
+2. Install: `npm install @nhsdigital/fdp-design-system`
 
 ### Key Dependencies
 - **React 19** and TypeScript

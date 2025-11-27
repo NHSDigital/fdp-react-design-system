@@ -4,9 +4,9 @@
 
 We actively support the following versions of the NHS FDP Design System with security updates:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.0.x (alpha)   | :white_check_mark: |
+| Version       | Supported          |
+| ------------- | ------------------ |
+| 0.0.x (alpha) | :white_check_mark: |
 
 **Note:** This project is currently in alpha. Once we reach v1.0.0, we will maintain the current major version and the previous major version with security updates.
 
@@ -21,7 +21,7 @@ We take security vulnerabilities seriously. If you discover a security vulnerabi
 Instead, please report vulnerabilities through one of the following methods:
 
 1. **GitHub Security Advisories** (Preferred):
-   - Navigate to the [Security Advisories](https://github.com/fergusbisset/nhs-fdp-design-system/security/advisories) page
+   - Navigate to the [Security Advisories](https://github.com/NHSDigital/fdp-react-design-system/security/advisories) page
    - Click "Report a vulnerability"
    - Fill in the details of the vulnerability
 
@@ -69,14 +69,14 @@ npm audit
 npm update
 
 # Update to latest version
-npm install @fergusbisset/nhs-fdp-design-system@latest
+npm install @nhsdigital/fdp-design-system@latest
 ```
 
 ### 2. Content Security Policy (CSP)
 
 If you're using components with inline styles or dynamic content, configure your CSP headers appropriately:
 
-```
+```text
 Content-Security-Policy:
   default-src 'self';
   style-src 'self' 'unsafe-inline';
@@ -95,6 +95,7 @@ When using SSR components:
 - Never trust client-provided data in server components
 
 Example:
+
 ```tsx
 // ❌ DON'T: Unsanitized user input
 <Header serviceName={userInput} />
@@ -186,7 +187,7 @@ When we release a security fix:
 
 This security policy applies to:
 
-- ✅ The `@fergusbisset/nhs-fdp-design-system` package
+- ✅ The `@nhsdigital/fdp-design-system` package
 - ✅ All components in the design system
 - ✅ Build tools and scripts that ship with the package
 - ✅ Documentation and example code
@@ -197,7 +198,7 @@ This security policy applies to:
 
 For security-related questions that are not vulnerability reports:
 
-- Open a [GitHub Discussion](https://github.com/fergusbisset/nhs-fdp-design-system/discussions)
+- Open a [GitHub Discussion](https://github.com/NHSDigital/fdp-react-design-system/discussions)
 - Tag your discussion with "security"
 
 ## Acknowledgments

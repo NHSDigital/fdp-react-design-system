@@ -20,21 +20,21 @@ If the npm package is not yet available, you can install from GitHub Packages:
 
 1. Create or edit `.npmrc` in your project root:
 
-```
-@nhsdigital:registry=https://npm.pkg.github.com
-```
+   ```text
+   @nhsdigital:registry=https://npm.pkg.github.com
+   ```
 
-2. Authenticate with GitHub Packages (requires a GitHub PAT with `read:packages` scope):
+1. Authenticate with GitHub Packages (requires a GitHub PAT with `read:packages` scope):
 
-```bash
-npm login --registry=https://npm.pkg.github.com
-```
+   ```bash
+   npm login --registry=https://npm.pkg.github.com
+   ```
 
-3. Install the package:
+1. Install the package:
 
-```bash
-npm install @nhsdigital/fdp-design-system
-```
+   ```bash
+   npm install @nhsdigital/fdp-design-system
+   ```
 
 ## Basic Usage
 

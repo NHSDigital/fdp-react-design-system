@@ -1,5 +1,5 @@
 import i from "react";
-import { c as r } from "./SkipLink-BE-cc-Aq.js";
+import { c as r } from "./SkipLink-BHzMGYwx.js";
 const c = ({
   as: t = "main",
   size: s = "default",
@@ -63,4 +63,4 @@ export {
   k as a,
   m as g
 };
-//# sourceMappingURL=SkipLink-D44GdWV3.js.map
+//# sourceMappingURL=SkipLink-BNpYjmdQ.js.map

@@ -268,15 +268,4 @@ Questions? Check the documentation:
 npm install @nhsdigital/fdp-design-system@0.0.43
 ```
 
-or with `.npmrc`:
-
-```
-@fergusbisset:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-then:
-
-```bash
-npm install @nhsdigital/fdp-design-system@latest
-```
+The package is published to the npm public registry. No special configuration needed.

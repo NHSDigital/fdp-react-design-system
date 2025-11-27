@@ -106,7 +106,7 @@ export type {
 
 ### Usage Example
 ```tsx
-import { ProductCard } from '@fergusbisset/nhs-fdp';
+import { ProductCard } from '@nhsdigital/fdp-design-system';
 
 <ProductCard
   title="Digital Health Platform"

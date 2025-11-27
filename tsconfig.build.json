@@ -6,7 +6,8 @@
     "emitDeclarationOnly": true,
     "outDir": "./dist",
     "rootDir": ".",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node", "vitest/globals", "@testing-library/jest-dom/vitest", "nunjucks"]
   },
   "include": [
     "src/**/*",
@@ -19,7 +20,9 @@
     "**/*.stories.*",
     "src/test-setup.ts",
     "src/vitest-env.d.ts",
-  "**/styled-components.ts",
-  "src/test-utils/**"
+    "**/styled-components.ts",
+    "src/test-utils/**",
+    "src/ssr-test-setup.ts",
+    "src/utils/ssr-test-utils.ts"
   ]
 }

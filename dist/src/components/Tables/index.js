@@ -88,7 +88,7 @@ var require_classnames = __commonJS({
 var require_prism = __commonJS({
   "node_modules/prismjs/prism.js"(exports, module) {
     var _self = typeof window !== "undefined" ? window : typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope ? self : {};
-    var Prism2 = function(_self2) {
+    var Prism2 = (function(_self2) {
       var lang = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i;
       var uniqueId = 0;
       var plainTextGrammar = {};
@@ -279,7 +279,7 @@ var require_prism = __commonJS({
             if (typeof document === "undefined") {
               return null;
             }
-            if ("currentScript" in document && 1 < 2) {
+            if (document.currentScript && document.currentScript.tagName === "SCRIPT" && 1 < 2) {
               return (
                 /** @type {any} */
                 document.currentScript
@@ -973,7 +973,7 @@ var require_prism = __commonJS({
         }
       }
       return _;
-    }(_self);
+    })(_self);
     if (typeof module !== "undefined" && module.exports) {
       module.exports = Prism2;
     }

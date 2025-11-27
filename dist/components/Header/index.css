@@ -335,7 +335,6 @@ span .nhsuk-u-visually-hidden {
   margin-right: 16px;
   color: #ffffff;
   text-decoration: underline;
-  text-decoration: none;
 }
 
 .nhsuk-header__service-logo:hover {
@@ -355,6 +354,10 @@ span .nhsuk-u-visually-hidden {
 
 .nhsuk-header__service-logo:focus:visited {
   color: #212b32;
+}
+
+.nhsuk-header__service-logo {
+  text-decoration: none;
 }
 
 .nhsuk-header__service-logo:only-child {
@@ -583,15 +586,6 @@ span .nhsuk-u-visually-hidden {
 .nhsuk-header__navigation-link {
   color: #ffffff;
   text-decoration: underline;
-  display: inline-flex;
-  align-items: flex-start;
-  position: relative;
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
-  gap: 4px;
-  padding: 16px 16px 16px 16px;
 }
 
 .nhsuk-header__navigation-link:hover {
@@ -611,6 +605,18 @@ span .nhsuk-u-visually-hidden {
 
 .nhsuk-header__navigation-link:focus:visited {
   color: #212b32;
+}
+
+.nhsuk-header__navigation-link {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  gap: 4px;
+  padding: 16px 16px 16px 16px;
 }
 
 @media (min-width: 768px) {
@@ -636,15 +642,6 @@ span .nhsuk-u-visually-hidden {
   font-family: inherit;
   color: #ffffff;
   text-decoration: underline;
-  display: inline-flex;
-  align-items: flex-start;
-  position: relative;
-  white-space: nowrap;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1;
-  gap: 4px;
-  padding: 24px 16px 20px 16px;
 }
 
 .nhsuk-header__navigation-button:hover {
@@ -664,6 +661,18 @@ span .nhsuk-u-visually-hidden {
 
 .nhsuk-header__navigation-button:focus:visited {
   color: #212b32;
+}
+
+.nhsuk-header__navigation-button {
+  display: inline-flex;
+  align-items: flex-start;
+  position: relative;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  gap: 4px;
+  padding: 24px 16px 20px 16px;
 }
 
 @media (min-width: 768px) {
@@ -1393,10 +1402,6 @@ span .nhsuk-u-visually-hidden {
 
 /* SSR Hydration State - prevent reflow during JS initialization */
 
-nav[data-ssr-hydrating=true] {
-  /* Suppress any overflow dropdown during initial render */
-}
-
 nav[data-ssr-hydrating=true] .nhsuk-header__navigation-list {
   /* Keep natural layout during hydration */
   display: flex;
@@ -1411,6 +1416,10 @@ nav[data-ssr-hydrating=true] .nhsuk-header__navigation-list {
 
 nav[data-ssr-hydrating=true] .nhsuk-header__navigation-list::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
+}
+
+nav[data-ssr-hydrating=true] {
+  /* Suppress any overflow dropdown during initial render */
 }
 
 nav[data-ssr-hydrating=true] + .nhsuk-header__dropdown-menu {
@@ -1433,13 +1442,16 @@ nav[data-ssr-hydrating=true] + .nhsuk-header__dropdown-menu {
 
 .nhsuk-header__navigation-item--ssr-fallback {
   /* Hide items that would typically be in overflow on smaller screens */
-  /* Show with reduced priority styling */
 }
 
 @media (max-width: 1025px) {
   .nhsuk-header__navigation-item--ssr-fallback {
     display: none;
   }
+}
+
+.nhsuk-header__navigation-item--ssr-fallback {
+  /* Show with reduced priority styling */
 }
 
 .nhsuk-header__navigation-item--ssr-fallback .nhsuk-header__navigation-link {
@@ -1465,7 +1477,6 @@ nav[data-ssr-hydrating=true] + .nhsuk-header__dropdown-menu {
 
 .no-js .nhsuk-header__navigation-container {
   /* Ensure all navigation items are visible without JavaScript */
-  /* Hide interactive elements that require JavaScript */
 }
 
 .no-js .nhsuk-header__navigation-container .nhsuk-header__navigation-list {
@@ -1490,6 +1501,10 @@ nav[data-ssr-hydrating=true] + .nhsuk-header__dropdown-menu {
     display: block;
     width: 100%;
   }
+}
+
+.no-js .nhsuk-header__navigation-container {
+  /* Hide interactive elements that require JavaScript */
 }
 
 .no-js .nhsuk-header__navigation-container .nhsuk-header__navigation-item--more,

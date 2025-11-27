@@ -296,7 +296,6 @@ span .nhsuk-u-visually-hidden {
   color: #212b32;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
   text-shadow: none;
-  font-weight: 600;
 }
 .nhs-aria-button--metric-green::before {
   content: "";
@@ -308,23 +307,30 @@ span .nhsuk-u-visually-hidden {
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
 }
+.nhs-aria-button--metric-green {
+  font-weight: 600;
+}
 .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
   background: linear-gradient(0deg, rgba(0, 164, 153, 0.4), #ffffff);
-  border-color: #00a499;
-  color: #212b32;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered]::before, .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover::before {
   background: linear-gradient(0deg, rgb(0, 144.32, 134.64), #00a499);
 }
+.nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
+  border-color: #00a499;
+  color: #212b32;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
 .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
   transform: translateY(0);
   background: linear-gradient(0deg, rgba(0, 164, 153, 0.1), #ffffff);
-  border-color: #aeb7bd;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed]::before, .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active::before {
   background: linear-gradient(0deg, rgb(0, 141.04, 131.58), #00a499);
+}
+.nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric-green:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
+  border-color: #aeb7bd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .nhs-aria-button--metric-green:focus, .nhs-aria-button--metric-green[data-focused], .nhs-aria-button--metric-green:focus-visible {
   outline: 2px solid #005eb8;
@@ -342,7 +348,6 @@ span .nhsuk-u-visually-hidden {
   color: #212b32;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.08);
   text-shadow: none;
-  font-weight: 600;
 }
 .nhs-aria-button--metric-warning::before {
   content: "";
@@ -354,23 +359,30 @@ span .nhsuk-u-visually-hidden {
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
 }
+.nhs-aria-button--metric-warning {
+  font-weight: 600;
+}
 .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
   background: linear-gradient(0deg, rgba(237, 79, 0, 0.4), #ffffff);
-  border-color: #ed4f00;
-  color: #212b32;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered]::before, .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover::before {
   background: linear-gradient(0deg, rgb(208.56, 69.52, 0), #ed4f00);
 }
+.nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-hovered], .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):hover {
+  border-color: #ed4f00;
+  color: #212b32;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.08);
+}
 .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
   transform: translateY(0);
   background: linear-gradient(0deg, rgba(237, 79, 0, 0.1), #ffffff);
-  border-color: #aeb7bd;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed]::before, .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active::before {
   background: linear-gradient(0deg, rgb(203.82, 67.94, 0), #ed4f00);
+}
+.nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true])[data-pressed], .nhs-aria-button--metric-warning:not([data-disabled]):not(:disabled):not([aria-disabled=true]):active {
+  border-color: #aeb7bd;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 .nhs-aria-button--metric-warning:focus, .nhs-aria-button--metric-warning[data-focused], .nhs-aria-button--metric-warning:focus-visible {
   outline: 2px solid #005eb8;

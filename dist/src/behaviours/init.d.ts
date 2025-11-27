@@ -17,7 +17,7 @@
  *       <body>
  *         {children}
  *         <Script
- *           src="/@fergusbisset/nhs-fdp-design-system/behaviours/init.js"
+ *           src="/@nhsdigital/fdp-design-system/behaviours/init.js"
  *           strategy="afterInteractive"
  *         />
  *       </body>
@@ -29,7 +29,7 @@
  * @example
  * ```html
  * <!-- Or use standard script tag -->
- * <script src="/node_modules/@fergusbisset/nhs-fdp-design-system/dist/behaviours/init.js" defer></script>
+ * <script src="/node_modules/@nhsdigital/fdp-design-system/dist/behaviours/init.js" defer></script>
  * ```
  */
 export {};

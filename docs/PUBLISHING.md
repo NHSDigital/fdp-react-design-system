@@ -98,28 +98,21 @@ If publish fails:
 1. **Check npm authentication:**
 
    ```bash
-   npm whoami --registry=https://npm.pkg.github.com
+   npm whoami
    ```
 
-2. **Verify .npmrc configuration:**
-
-   ```text
-   @fergusbisset:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-   ```
-
-3. **Manual publish with explicit tag:**
+2. **Manual publish with explicit tag:**
 
    ```bash
-   npm publish --registry=https://npm.pkg.github.com --tag alpha
+   npm publish --access public --tag alpha
    ```
 
 ## Previous Issue
 
-Before this change, the `postversion` script would call:
+Before this change, the `postversion` script would publish without a tag:
 
 ```bash
-npm publish --registry=https://npm.pkg.github.com
+npm publish
 ```
 
 This would fail for prerelease versions with:
@@ -128,4 +121,4 @@ This would fail for prerelease versions with:
 npm error You must specify a tag using --tag when publishing a prerelease version.
 ```
 
-Now it automatically detects the version type and includes the correct tag. 🎉
+Now it automatically detects the version type and includes the correct tag.

@@ -92,7 +92,7 @@ var require_classnames = __commonJS({
 var require_prism = __commonJS({
   "node_modules/prismjs/prism.js"(exports, module) {
     var _self = typeof window !== "undefined" ? window : typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope ? self : {};
-    var Prism2 = function(_self2) {
+    var Prism2 = (function(_self2) {
       var lang = /(?:^|\s)lang(?:uage)?-([\w-]+)(?=\s|$)/i;
       var uniqueId = 0;
       var plainTextGrammar = {};
@@ -283,7 +283,7 @@ var require_prism = __commonJS({
             if (typeof document === "undefined") {
               return null;
             }
-            if ("currentScript" in document && 1 < 2) {
+            if (document.currentScript && document.currentScript.tagName === "SCRIPT" && 1 < 2) {
               return (
                 /** @type {any} */
                 document.currentScript
@@ -977,7 +977,7 @@ var require_prism = __commonJS({
         }
       }
       return _;
-    }(_self);
+    })(_self);
     if (typeof module !== "undefined" && module.exports) {
       module.exports = Prism2;
     }
@@ -3699,7 +3699,7 @@ function nogamma(a, b) {
 }
 
 // node_modules/d3-interpolate/src/rgb.js
-var rgb_default = function rgbGamma(y2) {
+var rgb_default = (function rgbGamma(y2) {
   var color2 = gamma(y2);
   function rgb2(start, end) {
     var r2 = color2((start = rgb(start)).r, (end = rgb(end)).r), g = color2(start.g, end.g), b = color2(start.b, end.b), opacity = nogamma(start.opacity, end.opacity);
@@ -3713,7 +3713,7 @@ var rgb_default = function rgbGamma(y2) {
   }
   rgb2.gamma = rgbGamma;
   return rgb2;
-}(1);
+})(1);
 function rgbSpline(spline) {
   return function(colors) {
     var n = colors.length, r2 = new Array(n), g = new Array(n), b = new Array(n), i, color2;

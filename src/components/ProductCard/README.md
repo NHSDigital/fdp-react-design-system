@@ -19,7 +19,7 @@ A modern product card component following FDP brand guidelines with vector graph
 ## Basic Usage
 
 ```tsx
-import { ProductCard } from '@fergusbisset/nhs-fdp';
+import { ProductCard } from '@nhsdigital/fdp-design-system';
 
 // Simple card with auto-generated graphic
 <ProductCard

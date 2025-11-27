@@ -309,7 +309,6 @@ span .nhsuk-u-visually-hidden {
   align-items: center;
   justify-content: left;
   color: #005eb8;
-  position: relative;
 }
 .nhs-navigation-split-view__nav-collapse-btn:hover {
   background: #f0f4f5;
@@ -320,6 +319,9 @@ span .nhsuk-u-visually-hidden {
 }
 .nhs-navigation-split-view__nav-collapse-btn svg {
   display: block;
+}
+.nhs-navigation-split-view__nav-collapse-btn {
+  position: relative;
 }
 .nhs-navigation-split-view__list {
   list-style: none;

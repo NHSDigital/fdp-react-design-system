@@ -3,11 +3,6 @@ function S(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
 var h = { exports: {} };
-/*!
-	Copyright (c) 2018 Jed Watson.
-	Licensed under the MIT License (MIT), see
-	http://jedwatson.github.io/classnames
-*/
 var y;
 function C() {
   return y || (y = 1, (function(e) {
@@ -180,4 +175,4 @@ export {
   O as d,
   _ as g
 };
-//# sourceMappingURL=SkipLink-BE-cc-Aq.js.map
+//# sourceMappingURL=SkipLink-BHzMGYwx.js.map

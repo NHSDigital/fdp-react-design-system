@@ -1407,7 +1407,7 @@ function withConflictPresetAutoV26(metricImprovement, overrides) {
 // src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/preprocess.ts
 function toTimeBetweenEvents(events, opts) {
   var _a;
-  const toMs = (_a = opts == null ? void 0 : opts.toMillis) != null ? _a : (x) => new Date(x).getTime();
+  const toMs = (_a = opts == null ? void 0 : opts.toMillis) != null ? _a : ((x) => new Date(x).getTime());
   const res = [];
   if (events.length < 2) return res;
   for (let i = 1; i < events.length; i++) {

@@ -126,8 +126,6 @@
   padding: 12px 16px 16px;
   max-width: 440px;
   box-sizing: border-box;
-  /* Stacked section blocks */
-  /* Legacy rule list styles removed (replaced by tag layout) */
 }
 .fdp-spc-tooltip-portal.is-visible {
   opacity: 0.96;
@@ -137,6 +135,9 @@
   display: flex;
   flex-direction: column;
   /* Section spacing handled by global .fdp-spc-tooltip__section adjacency rule */
+}
+.fdp-spc-tooltip-portal {
+  /* Stacked section blocks */
 }
 .fdp-spc-tooltip-portal .fdp-spc-tooltip__section + .fdp-spc-tooltip__section {
   margin-top: 14px;
@@ -159,6 +160,9 @@
 .fdp-spc-tooltip-portal .fdp-spc-tooltip__rules {
   margin-top: 2px;
 }
+.fdp-spc-tooltip-portal {
+  /* Legacy rule list styles removed (replaced by tag layout) */
+}
 .fdp-spc-tooltip-portal .fdp-spc-tooltip__rule-tags {
   display: flex;
   flex-wrap: wrap;
@@ -166,7 +170,6 @@
   margin-top: 6px;
   align-items: flex-start;
   /* Fallback for browsers without flex gap support (e.g. older Safari) */
-  /* Defensive: ensure vertical separation even if gap overridden elsewhere */
 }
 @supports not (gap: 1px) {
   .fdp-spc-tooltip-portal .fdp-spc-tooltip__rule-tags {
@@ -178,6 +181,9 @@
   .fdp-spc-tooltip-portal .fdp-spc-tooltip__rule-tags > *:last-child {
     margin-right: 0;
   }
+}
+.fdp-spc-tooltip-portal .fdp-spc-tooltip__rule-tags {
+  /* Defensive: ensure vertical separation even if gap overridden elsewhere */
 }
 .fdp-spc-tooltip-portal .fdp-spc-tooltip__rule-tags > * {
   margin-bottom: 6px;
@@ -243,12 +249,6 @@
   line-height: 1.2;
 }
 
-.fdp-spc-tag {
-  /* Provenance taxonomy overlays (intentionally independent so they can refine backgrounds) */
-  /* Fallback override: if build pipeline still emits trend rule tags with --common instead of --trend,
-     target by data-rule-id so they render in purple. This is safe (higher specificity) and will be redundant
-     once all bundles use the dedicated --trend class consistently. */
-}
 .fdp-spc-tag--improvement {
   background: var(--nhs-fdp-color-data-viz-spc-improvement, #00b0f0) !important;
   color: #000 !important;
@@ -273,6 +273,9 @@
   border-color: var(--nhs-fdp-color-data-viz-spc-heuristic, #b366ff) !important;
   font-weight: 500 !important;
   text-decoration: none;
+}
+.fdp-spc-tag {
+  /* Provenance taxonomy overlays (intentionally independent so they can refine backgrounds) */
 }
 .fdp-spc-tag--prov-orthodox { /* high statistical provenance */
   outline: 2px solid rgba(255, 255, 255, 0.2);
@@ -311,6 +314,11 @@
   color: #fff !important;
   border-color: var(--nhs-fdp-color-data-viz-spc-no-judgement, #490092) !important;
   font-weight: 600 !important;
+}
+.fdp-spc-tag {
+  /* Fallback override: if build pipeline still emits trend rule tags with --common instead of --trend,
+     target by data-rule-id so they render in purple. This is safe (higher specificity) and will be redundant
+     once all bundles use the dedicated --trend class consistently. */
 }
 .fdp-spc-tag .fdp-spc-tooltip__rule-tags [data-rule-id=trend_inc].fdp-spc-tag,
 .fdp-spc-tag .fdp-spc-tooltip__rule-tags [data-rule-id=trend_dec].fdp-spc-tag {

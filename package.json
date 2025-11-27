@@ -1,6 +1,6 @@
 {
   "name": "@nhsdigital/fdp-design-system",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NHS FDP Design System - A comprehensive React component library built with design tokens",
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",

@@ -9,9 +9,37 @@ MD010: # no-hard-tabs
 # https://github.com/DavidAnson/markdownlint/blob/main/doc/md013.md
 MD013: false
 
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/md022.md
+# Headings should be surrounded by blank lines - disabled for compact docs
+MD022: false
+
 # https://github.com/DavidAnson/markdownlint/blob/main/doc/md024.md
 MD024:
   siblings_only: true
 
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/md026.md
+# Allow trailing punctuation in headings (common in step-by-step docs)
+MD026: false
+
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/md029.md
+# Allow any ordered list prefix style
+MD029: false
+
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/md031.md
+# Fenced code blocks blank lines - disabled for compact docs
+MD031: false
+
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/md032.md
+# Lists should be surrounded by blank lines - disabled for compact docs
+MD032: false
+
 # https://github.com/DavidAnson/markdownlint/blob/main/doc/md033.md
 MD033: false
+
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/md040.md
+# Allow fenced code blocks without language specification
+MD040: false
+
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/md060.md
+# Table column style - disabled for flexibility
+MD060: false

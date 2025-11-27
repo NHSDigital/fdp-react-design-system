@@ -1,4 +1,17 @@
-# Restored from commit 5247091e (First phase of nunjucks parity and proper progressive enhancement)
+# WARNING: Please, DO NOT edit this section of the file! It is maintained in the repository template.
+
+.scannerwork
+*cloc*report*.json
+*sbom*report*.json
+*vulnerabilities*report*.json
+*report*json.zip
+.version
+
+*.code-workspace
+!project.code-workspace
+
+# Please, add your custom content below!
+
 # Dependencies
 node_modules
 .DS_Store
@@ -25,7 +38,6 @@ coverage/
 
 # OS
 Thumbs.db
-.DS_Store
 
 # Temporary files
 *.tmp
@@ -39,4 +51,3 @@ Thumbs.db
 .env.test.local
 .env.production.local
 dist-dev/
-/examples

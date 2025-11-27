@@ -6,90 +6,17 @@ A comprehensive design system for NHS digital services built with React, TypeScr
 
 The NHS FDP Design System provides a complete set of reusable components, design tokens, and guidelines to help teams build consistent, accessible NHS digital services.
 
-## Quick Start
-
-The package is, for the time being, published to GitHub Packages, so you'll need to configure your `.npmrc`:
-
-This guide will help you configure your `.npmrc` file to install and use the `@fergusbisset/nhs-fdp-design-system` package.
-
-### Global Configuration (recommended for personal development)
-
-Create or edit your global `.npmrc` file:
-
-**Step 1: Create/edit the file**
-```bash
-# Open the file in your editor (replace YOUR_ACTUAL_TOKEN with your real token)
-nano ~/.npmrc
-# or
-code ~/.npmrc
-```
-
-**Step 2: Add this content to ~/.npmrc**
-```
-# Configure the registry for @fergusbisset scoped packages
-@fergusbisset:registry=https://npm.pkg.github.com
-
-# Add your GitHub personal access token (replace YOUR_GITHUB_TOKEN with actual token)
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-**Important:** 
-- Replace `YOUR_GITHUB_TOKEN` with your actual GitHub Personal Access Token
-- Do NOT source this file - npm reads it automatically
-- No need to run any commands after creating the file
-
-### Project-specific Configuration
-
-Alternatively, create a `.npmrc` file in your project root:
-
-```bash
-# Location: your-project/.npmrc
-
-@fergusbisset:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-### Setting up GitHub Personal Access Token
-
-To access packages like this from GitHub Packages, you'll need a Personal Access Token:
-
-1. Go to GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
-2. Click "Generate new token (classic)"
-3. Set an expiration date
-4. Select scopes:
-   - ✅ `read:packages` (to download packages)
-   - ✅ `repo` (if the repository is private)
-5. Copy the generated token
-6. Add it to your `.npmrc` file
-
-### Quick Setup Verification
-
-After setting up your `.npmrc`, verify everything is working:
-
-```bash
-# 1. Check if npm can read your config
-npm config list
-
-# 2. Verify authentication (if using GitHub Packages)
-npm whoami --registry=https://npm.pkg.github.com
-
-# 3. Test package access
-npm view @fergusbisset/nhs-fdp-design-system
-```
-
-If these commands work without errors, your setup is correct!
-
 ## Installation
 
 ```bash
-npm install @fergusbisset/nhs-fdp-design-system
+npm install @nhsdigital/nhs-fdp-design-system
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Button, Panel, Heading } from '@fergusbisset/nhs-fdp-design-system';
-import '@nhs-fdp/design-system/dist/index.css';
+import { Button, Panel, Heading } from '@nhsdigital/nhs-fdp-design-system';
+import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
 
 function App() {
   return (
@@ -107,17 +34,17 @@ You can import individual components via stable subpaths to keep bundles lean an
 
 ```tsx
 // Import a single component (JS + types)
-import Button from '@fergusbisset/nhs-fdp-design-system/components/Button';
+import Button from '@nhsdigital/nhs-fdp-design-system/components/Button';
 
 // Many components are available this way, e.g.
-import Card from '@fergusbisset/nhs-fdp-design-system/components/Card';
-import Grid from '@fergusbisset/nhs-fdp-design-system/components/Grid';
+import Card from '@nhsdigital/nhs-fdp-design-system/components/Card';
+import Grid from '@nhsdigital/nhs-fdp-design-system/components/Grid';
 
 // Server-only variants (where available)
-import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/components/Header/server';
+import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/components/Header/server';
 
 // Styles can still be brought in globally or per-component via CSS subpaths
-import '@fergusbisset/nhs-fdp-design-system/components/Button/css';
+import '@nhsdigital/nhs-fdp-design-system/components/Button/css';
 ```
 
 Notes:
@@ -126,7 +53,7 @@ Notes:
 - Server subpaths (e.g. `components/Header/server`) are available where a server-safe variant exists.
 - Tree-shaking works with both the root entry and component subpaths; choose whichever suits your project structure.
 
-## 🚨 Critical: Next.js Setup
+## Next.js Setup
 
 Interactive components (Header overflow, CharacterCount, etc.) require the behaviour bundle to run on the client. Keep your root layout as a Server Component and add a tiny client-only initializer.
 
@@ -134,9 +61,9 @@ Interactive components (Header overflow, CharacterCount, etc.) require the behav
 
 ```tsx
 // app/layout.tsx (Server Component)
-import '@fergusbisset/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
-import { HeaderServer } from '@fergusbisset/nhs-fdp-design-system/ssr';
-import { NHSBehavioursInit } from '@fergusbisset/nhs-fdp-design-system/nextjs';
+import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@nhsdigital/nhs-fdp-design-system/nextjs';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -156,7 +83,7 @@ Why this works:
 - Your layout stays server-rendered (no "use client").
 - NHSBehavioursInit runs only on the client and imports the behaviours bundle so the Header can enhance.
 
-📖 **[Complete Next.js Setup Guide](./docs/NEXTJS-QUICK-START.md)** – Detailed setup, verification, and troubleshooting
+**[Complete Next.js Setup Guide](./docs/NEXTJS-QUICK-START.md)** – Detailed setup, verification, and troubleshooting
 
 ## Project Structure
 
@@ -180,10 +107,6 @@ nhs-fdp-design-system/
 
 ## Documentation
 
-> Centralised Documentation Policy: All project documentation (architecture, data visualisation, testing, tokens, migration, guides) now resides under `./docs/` (data viz specific files under `./docs/data-viz/`). Only this root `README.md` should exist at the repository root. When adding new docs, place them in an appropriate subfolder (create one if necessary) rather than the root.
-
-> Copilot / AI Assistants: When generating or updating documentation, output to the `docs/` hierarchy (prefer existing thematic folders like `docs/data-viz/`, `docs/testing/`, `docs/tokens/`). Do not create new markdown files in the repo root.
-
 - **[Full Documentation](./docs/README.md)** - Comprehensive guides and references
 - **[Migration Guide](./docs/migration/migration-guide.md)** - Upgrade from legacy systems
 - **[Design Tokens](./docs/tokens/NHS-COMPOSITE-TOKENS-GUIDE.md)** - Token system overview
@@ -192,63 +115,23 @@ nhs-fdp-design-system/
 - **[Hydration Testing](./docs/guides/testing-hydration.mdx)** - Split SSR / client / hydration test pattern & helper
 - **[Multi‑Render Architecture](./docs/guides/multi-render-architecture.md)** - React and Nunjucks macro generation & parity
 - **[Behaviour Layer](./docs/guides/behaviours.md)** - Progressive enhancement, events & teardown API
-- **[SSR updates (Sep 2025)](./docs/guides/ssr-updates-2025-09.md)** - Latest SSR surface and patterns
-
-### SPC (Statistical Process Control) quick links
-
-- SQL parity plan and current status: `docs/data-visualisation/spc-sql-parity.mdx`
-- Roadmap burndown: `docs/roadmaps/SPC_V2_SQL_PARITY_BURNDOWN.mdx`
-- Engine v2 overview: `src/components/DataVisualisation/charts/SPC/SPCChart/logic_v2/docs/overview.md`
-- Storybook v2 playgrounds: Data Visualisation/SPC/v2 → Grouped dataset, Healthcare, Zero‑width limits vignette
-
-Validation gates after SPC changes
-
-- Build: `npm run build:parity` (or `npm run build:quiet` for cleaner output)
-- Tests (components): `npm run test:components` (expect one known non‑SPC failure in AriaTabsDataGrid)
-- SSR tests: `npm run test:ssr-components`
-- Lint & types: `npm run lint` and `npm run typecheck`
-
-Next steps (SPC v2)
-
-- Optional T/G preprocessing adapter example for SQL parity stories
-- Align partition start eligibility with SQL in parity mode (remove transition buffer)
-- Expand parity fixtures for T (LCL suppression after back‑transform) and G (quantile‑based limits)
-
-Quick SSR usage (Next.js server components):
-
-```tsx
-// Import SSR-safe components only
-import { Header, ButtonServer, SummaryList, Input, Textarea, Select } from '@fergusbisset/nhs-fdp-design-system/ssr';
-```
 
 ### Server / Client Variant Pattern
 
-Some interactive components now adopt an explicit split to guarantee deterministic, hook‑free server markup and eliminate hydration warnings while still providing a progressive enhancement path:
+Some interactive components adopt an explicit split to guarantee deterministic, hook‑free server markup and eliminate hydration warnings while still providing a progressive enhancement path:
 
 - `Component.render.tsx` – Pure render function producing static JSX (no hooks / side effects). Shared source of truth.
 - `Component.tsx` – Client interactive variant that wraps the pure renderer and adds state, effects and data attributes for behaviours.
 - `Component.server.tsx` – Server (static) variant invoking the pure renderer only. Contains no React hooks (enforced via `npm run verify:server-variants`).
 
-Current migrated components: `Radios`, `Header` (exporting `RadiosServer`, `HeaderServer`). You can import server variants via `@fergusbisset/nhs-fdp-design-system/components/ComponentName/server`.
+Current migrated components: `Radios`, `Header` (exporting `RadiosServer`, `HeaderServer`). You can import server variants via `@nhsdigital/nhs-fdp-design-system/components/ComponentName/server`.
 
-Use cases:
+Quick SSR usage (Next.js server components):
 
-1. SSR (Next.js / Node) where you want stable deterministic HTML.
-2. Static HTML or Nunjucks macro generation before behaviour scripts attach.
-3. Selective progressive enhancement where only behaviour scripts, not React hydration, activate interactivity.
-
-Further components (Checkbox, CharacterCount, Range, Button, etc.) will migrate incrementally.
-
-### Behaviour Layer Extensions
-
-The behaviour layer now includes a `header` enhancement that:
-
-- Detects when primary navigation items overflow the available horizontal space.
-- Provides a deterministic server fallback (all items rendered inside a dropdown with `data-ssr-overflow="true"`).
-- On the client, re‑measures, redistributes items between the primary list and an injected "More" dropdown trigger, and removes the `data-ssr-overflow` fallback artefact.
-- Supports teardown (resize/orientation listeners cleaned) via `teardownAll()` or `detachHeaders()`.
-- Works identically across React SSR, Nunjucks macro output and static HTML snapshots (single progressive enhancement pathway).
-
+```tsx
+// Import SSR-safe components only
+import { Header, ButtonServer, SummaryList, Input, Textarea, Select } from '@nhsdigital/nhs-fdp-design-system/ssr';
+```
 
 ## Development
 
@@ -261,8 +144,8 @@ The behaviour layer now includes a `header` enhancement that:
 
 ```bash
 # Clone the repository
-git clone https://github.com/fergusbisset/nhs-fdp-design-system.git
-cd nhs-fdp-design-system
+git clone https://github.com/NHSDigital/fdp-react-design-system.git
+cd fdp-react-design-system
 
 # Install dependencies
 npm install
@@ -304,10 +187,10 @@ npm run typecheck              # TypeScript type checking
 
 ### Design Token System
 
-Built with [Style Dictionary](https://amn.github.io/style-dictionary/), our design tokens provide:
+Built with [Style Dictionary](https://amzn.github.io/style-dictionary/), our design tokens provide:
 
 - **Semantic tokens** for consistent theming
-- **Component tokens** for specific component styling  
+- **Component tokens** for specific component styling
 - **Multi-platform output** (CSS, SCSS, JavaScript, iOS, Android)
 
 ### Component Architecture
@@ -321,39 +204,12 @@ Built with [Style Dictionary](https://amn.github.io/style-dictionary/), our desi
 
 Primary overview: [Data Visualisation Overview](./docs/data-visualisation/README.md)
 
-Focused guides
-
-- [LineChart X‑Axis Tick Alignment](./docs/data-visualisation/x-axis-ticks.md)
-
-#### BarSeriesPrimitive: minBarWidth (continuous scales)
-
-`minBarWidth` ensures bars on dense continuous (time/linear) charts remain legible. When automatic layout would yield thinner bars and horizontal slot space exists, bars expand up to the provided minimum.
-
-Key behaviour:
-
-- Ignored on categorical (band) scales and when an explicit `barWidth` prop is set.
-- For grouped bars, expansion only occurs if the whole group (including gaps) fits inside every slot.
-- If expansion is impossible (slots genuinely too narrow) bars fall back gracefully to the computed width.
-
-Example:
-
-```tsx
-<BarSeriesPrimitive
-  series={series}
-  seriesIndex={0}
-  seriesCount={1}
-  palette="categorical"
-  parseX={(d) => d.x as Date}
-  minBarWidth={12}
-/>
-```
-
 ## Contributing
 
 We welcome contributions! Please see our contributing guidelines:
 
 1. **Fork** the repository
-2. **Create** a feature branch (`git checkout -b feature/amaing-feature`)
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
 3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
 4. **Push** to the branch (`git push origin feature/amazing-feature`)
 5. **Open** a Pull Request
@@ -365,27 +221,6 @@ We welcome contributions! Please see our contributing guidelines:
 3. **Tests**: Write unit and visual regression tests
 4. **Tokens**: Update design tokens in `packages/nhs-fdp/tokens/`
 
-### Publishing
-
-See [PUBLISHING.md](./docs/PUBLISHING.md) for detailed publishing instructions.
-
-Quick reference:
-
-```bash
-# Alpha prerelease
-npm run release:prerelease
-
-# Beta prerelease
-npm run release:prerelease:beta
-
-# Stable releases
-npm run release:patch    # 0.0.44 → 0.0.45
-npm run release:minor    # 0.0.44 → 0.1.0
-npm run release:major    # 0.0.44 → 1.0.0
-```
-
-**Note:** Publishing is now automated with smart tag detection. No need to manually specify `--tag` for prereleases!
-
 ## Related Projects
 
 - [NHS Design System](https://service-manual.nhs.uk/design-system) - Official NHS design guidance
@@ -394,7 +229,12 @@ npm run release:major    # 0.0.44 → 1.0.0
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/fergusbisset/nhs-fdp-design-system/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/fergusbisset/nhs-fdp-design-system/discussions)
+- **Issues**: [GitHub Issues](https://github.com/NHSDigital/fdp-react-design-system/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/NHSDigital/fdp-react-design-system/discussions)
 - **Documentation**: [Project Documentation](./docs/README.md)
 
+## Licence
+
+Unless stated otherwise, the codebase is released under the MIT License. This covers both the codebase and any sample code in the documentation.
+
+Any HTML or Markdown documentation is [© Crown Copyright](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/) and available under the terms of the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).

@@ -339,9 +339,12 @@ After the main migration is stable, extract SPC to its own repository:
 - [ ] Set up NPM_TOKEN secret (requires manual setup in GitHub)
 
 ### Phase 7: Verification
-- [ ] All tests pass
-- [ ] Build succeeds
-- [ ] Local pack/install test works
+- [x] Lint passes (`npm run lint`)
+- [x] SSR tests pass (59 test files, 220 tests)
+- [ ] Component tests (pre-existing ResizeObserver mock issues in GanttChart/SPC tests)
+- [ ] TypeCheck (pre-existing `process`/`global` type issues)
+- [ ] Build (pre-existing self-package import resolution issue)
+- [ ] Local pack/install test
 
 ### Phase 8: Go Live
 - [ ] Push to NHSDigital repo

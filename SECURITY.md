@@ -4,9 +4,9 @@
 
 We actively support the following versions of the NHS FDP Design System with security updates:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.0.x (alpha)   | :white_check_mark: |
+| Version       | Supported          |
+| ------------- | ------------------ |
+| 0.0.x (alpha) | :white_check_mark: |
 
 **Note:** This project is currently in alpha. Once we reach v1.0.0, we will maintain the current major version and the previous major version with security updates.
 
@@ -76,7 +76,7 @@ npm install @nhsdigital/fdp-design-system@latest
 
 If you're using components with inline styles or dynamic content, configure your CSP headers appropriately:
 
-```
+```text
 Content-Security-Policy:
   default-src 'self';
   style-src 'self' 'unsafe-inline';
@@ -95,6 +95,7 @@ When using SSR components:
 - Never trust client-provided data in server components
 
 Example:
+
 ```tsx
 // ❌ DON'T: Unsanitized user input
 <Header serviceName={userInput} />

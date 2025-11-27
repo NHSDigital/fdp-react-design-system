@@ -24,9 +24,9 @@ updates:
         dependency-type: "production"
         update-types:
           - "patch"
-    # Assign PRs to maintainer
-    assignees:
-      - "fergusbisset"
+    # Assign PRs to maintainers
+    # assignees:
+    #   - "your-github-username"
     # Increase pull request limit for security updates
     # Security updates are always created separately
     versioning-strategy: increase
@@ -42,5 +42,5 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
-    assignees:
-      - "fergusbisset"
+    # assignees:
+    #   - "your-github-username"

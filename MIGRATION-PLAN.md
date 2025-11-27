@@ -1,15 +1,15 @@
 # Migration Plan: NHS FDP Design System to NHSDigital GitHub
 
-This document outlines the step-by-step process to migrate from `fergusbisset/nhs-fdp-design-system` to `NHSDigital/fdp-react-design-system` with npm public registry publishing.
+This document outlines the step-by-step process to migrate from the original repository to `NHSDigital/fdp-react-design-system` with npm public registry publishing.
 
 ## Overview
 
 | Item | From | To |
 |------|------|-----|
-| **Repository** | `github.com/fergusbisset/nhs-fdp-design-system` | `github.com/NHSDigital/fdp-react-design-system` |
+| **Repository** | Original repository | `github.com/NHSDigital/fdp-react-design-system` |
 | **Package Name** | `@nhsdigital/fdp-design-system` | `@nhsdigital/fdp-design-system` |
 | **Registry** | GitHub Packages | npm public registry |
-| **Author** | Fergus Bisset | FDP Product Design Team |
+| **Author** | Original author | FDP Product Design Team |
 
 ---
 
@@ -276,7 +276,7 @@ git push -u origin main
 ## Phase 8: Post-Migration Tasks
 
 ### Step 8.1: Archive old repository
-- Add deprecation notice to `fergusbisset/nhs-fdp-design-system`
+- Add deprecation notice to original repository
 - Point users to new repository
 
 ### Step 8.2: First npm publish

@@ -21,7 +21,7 @@ We take security vulnerabilities seriously. If you discover a security vulnerabi
 Instead, please report vulnerabilities through one of the following methods:
 
 1. **GitHub Security Advisories** (Preferred):
-   - Navigate to the [Security Advisories](https://github.com/fergusbisset/nhs-fdp-design-system/security/advisories) page
+   - Navigate to the [Security Advisories](https://github.com/NHSDigital/fdp-react-design-system/security/advisories) page
    - Click "Report a vulnerability"
    - Fill in the details of the vulnerability
 
@@ -69,7 +69,7 @@ npm audit
 npm update
 
 # Update to latest version
-npm install @fergusbisset/nhs-fdp-design-system@latest
+npm install @nhsdigital/fdp-design-system@latest
 ```
 
 ### 2. Content Security Policy (CSP)
@@ -186,7 +186,7 @@ When we release a security fix:
 
 This security policy applies to:
 
-- ✅ The `@fergusbisset/nhs-fdp-design-system` package
+- ✅ The `@nhsdigital/fdp-design-system` package
 - ✅ All components in the design system
 - ✅ Build tools and scripts that ship with the package
 - ✅ Documentation and example code
@@ -197,7 +197,7 @@ This security policy applies to:
 
 For security-related questions that are not vulnerability reports:
 
-- Open a [GitHub Discussion](https://github.com/fergusbisset/nhs-fdp-design-system/discussions)
+- Open a [GitHub Discussion](https://github.com/NHSDigital/fdp-react-design-system/discussions)
 - Tag your discussion with "security"
 
 ## Acknowledgments

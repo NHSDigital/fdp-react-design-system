@@ -4,7 +4,7 @@ This note summarises the recent SSR improvements and how to use them in Next.js 
 
 ## What changed
 
-- Introduced a strictly SSR-safe export surface at `@nhsdigital/nhs-fdp-design-system/ssr`.
+- Introduced a strictly SSR-safe export surface at `@nhsdigital/fdp-design-system/ssr`.
   - Exports only components that render without React hooks/context.
   - Adds server-only variants where needed, e.g. `Header` and `SkipLink`.
   - Preferred server-first button: `ButtonServer`.
@@ -41,21 +41,21 @@ import {
   ErrorSummary,
   WidthContainer,
   MetricCard,
-} from '@nhsdigital/nhs-fdp-design-system/ssr';
+} from '@nhsdigital/fdp-design-system/ssr';
 ```
 
 - In client components, continue to use the root entry if you need interactive variants:
 
 ```tsx
 'use client';
-import { Button, NavigationSplitView } from '@nhsdigital/nhs-fdp-design-system';
+import { Button, NavigationSplitView } from '@nhsdigital/fdp-design-system';
 ```
 
 - Global styles for Next.js:
 
 ```tsx
 // app/layout.tsx (server)
-import '@nhsdigital/nhs-fdp-design-system/nextjs';
+import '@nhsdigital/fdp-design-system/nextjs';
 ```
 
 ## Validation done
@@ -89,7 +89,7 @@ import {
   Radios,
   Checkboxes,
   Input,
-} from '@nhsdigital/nhs-fdp-design-system/ssr';
+} from '@nhsdigital/fdp-design-system/ssr';
 
 export default function Page() {
   return (
@@ -181,7 +181,7 @@ High level:
 ```tsx
 // app/example-form/page.tsx (server component)
 import { cookies } from 'next/headers';
-import { ErrorSummary, Input, ButtonServer, Fieldset, Label } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { ErrorSummary, Input, ButtonServer, Fieldset, Label } from '@nhsdigital/fdp-design-system/ssr';
 import { submit } from './submit';
 
 type ErrorItem = { text?: string; html?: string; href?: string };
@@ -329,7 +329,7 @@ The SSR `ErrorSummary` intentionally omits autofocus (no hooks/side effects). Yo
 
 ```tsx
 'use client';
-import { ErrorSummary } from '@nhsdigital/nhs-fdp-design-system';
+import { ErrorSummary } from '@nhsdigital/fdp-design-system';
 
 export function FormErrorSummary(props: {
   errorList: { text?: string; html?: string; href?: string }[];
@@ -346,7 +346,7 @@ export function FormErrorSummary(props: {
 ```tsx
 'use client';
 import { useEffect, useRef } from 'react';
-import { ErrorSummary as SSRErrorSummary } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { ErrorSummary as SSRErrorSummary } from '@nhsdigital/fdp-design-system/ssr';
 
 export function FocusedErrorSummary(props: {
   errorList: { text?: string; html?: string; href?: string }[];

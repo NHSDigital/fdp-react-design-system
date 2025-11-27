@@ -2,7 +2,7 @@
 
 This module provides both higher‑level chart components (e.g. `LineChart`, `SPCChart`) and a **fully composable primitive layer** so consumers can assemble bespoke charts without forking internals.
 
-> Canonical SPC import path: `import { SPCChart } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation'` (which resolves to `charts/SPC/SPCChart/...`). A previous flat path `charts/SPCChart/SPCChart` has been removed to eliminate duplicate Storybook/docgen scanning. If you previously referenced the flat path, update imports to the canonical path.
+> Canonical SPC import path: `import { SPCChart } from '@nhsdigital/fdp-design-system/components/DataVisualisation'` (which resolves to `charts/SPC/SPCChart/...`). A previous flat path `charts/SPCChart/SPCChart` has been removed to eliminate duplicate Storybook/docgen scanning. If you previously referenced the flat path, update imports to the canonical path.
 
 ## At a Glance
 
@@ -36,7 +36,7 @@ import {
 	ChartNoScript,
 	ChartEnhancer,
 	MetricCard,
-} from "@nhsdigital/nhs-fdp-design-system";
+} from "@nhsdigital/fdp-design-system";
 ```
 
 > Tree‑shaking: Only the primitives you import are pulled into your bundle when using a modern bundler (ESM build).

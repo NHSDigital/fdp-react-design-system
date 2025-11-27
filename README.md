@@ -9,14 +9,14 @@ The NHS FDP Design System provides a complete set of reusable components, design
 ## Installation
 
 ```bash
-npm install @nhsdigital/nhs-fdp-design-system
+npm install @nhsdigital/fdp-design-system
 ```
 
 ## Basic Usage
 
 ```tsx
-import { Button, Panel, Heading } from '@nhsdigital/nhs-fdp-design-system';
-import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
+import { Button, Panel, Heading } from '@nhsdigital/fdp-design-system';
+import '@nhsdigital/fdp-design-system/dist/nhs-fdp-design-system.css';
 
 function App() {
   return (
@@ -34,17 +34,17 @@ You can import individual components via stable subpaths to keep bundles lean an
 
 ```tsx
 // Import a single component (JS + types)
-import Button from '@nhsdigital/nhs-fdp-design-system/components/Button';
+import Button from '@nhsdigital/fdp-design-system/components/Button';
 
 // Many components are available this way, e.g.
-import Card from '@nhsdigital/nhs-fdp-design-system/components/Card';
-import Grid from '@nhsdigital/nhs-fdp-design-system/components/Grid';
+import Card from '@nhsdigital/fdp-design-system/components/Card';
+import Grid from '@nhsdigital/fdp-design-system/components/Grid';
 
 // Server-only variants (where available)
-import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/components/Header/server';
+import { HeaderServer } from '@nhsdigital/fdp-design-system/components/Header/server';
 
 // Styles can still be brought in globally or per-component via CSS subpaths
-import '@nhsdigital/nhs-fdp-design-system/components/Button/css';
+import '@nhsdigital/fdp-design-system/components/Button/css';
 ```
 
 Notes:
@@ -61,9 +61,9 @@ Interactive components (Header overflow, CharacterCount, etc.) require the behav
 
 ```tsx
 // app/layout.tsx (Server Component)
-import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css';
-import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/ssr';
-import { NHSBehavioursInit } from '@nhsdigital/nhs-fdp-design-system/nextjs';
+import '@nhsdigital/fdp-design-system/dist/nhs-fdp-design-system.css';
+import { HeaderServer } from '@nhsdigital/fdp-design-system/ssr';
+import { NHSBehavioursInit } from '@nhsdigital/fdp-design-system/nextjs';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -124,13 +124,13 @@ Some interactive components adopt an explicit split to guarantee deterministic, 
 - `Component.tsx` – Client interactive variant that wraps the pure renderer and adds state, effects and data attributes for behaviours.
 - `Component.server.tsx` – Server (static) variant invoking the pure renderer only. Contains no React hooks (enforced via `npm run verify:server-variants`).
 
-Current migrated components: `Radios`, `Header` (exporting `RadiosServer`, `HeaderServer`). You can import server variants via `@nhsdigital/nhs-fdp-design-system/components/ComponentName/server`.
+Current migrated components: `Radios`, `Header` (exporting `RadiosServer`, `HeaderServer`). You can import server variants via `@nhsdigital/fdp-design-system/components/ComponentName/server`.
 
 Quick SSR usage (Next.js server components):
 
 ```tsx
 // Import SSR-safe components only
-import { Header, ButtonServer, SummaryList, Input, Textarea, Select } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { Header, ButtonServer, SummaryList, Input, Textarea, Select } from '@nhsdigital/fdp-design-system/ssr';
 ```
 
 ## Development

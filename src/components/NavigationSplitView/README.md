@@ -23,20 +23,20 @@ Import CSS in the correct order so design tokens and utilities are available bef
 
 ```tsx
 // Provides core tokens and all component styles (order handled for you)
-import '@nhsdigital/nhs-fdp-design-system/css';
+import '@nhsdigital/fdp-design-system/css';
 ```
 
 ### Option 2: Granular (minimal styles)
 
 ```tsx
 // 1. Core design tokens, CSS reset & utilities (required first)
-import '@nhsdigital/nhs-fdp-design-system/core/css';
+import '@nhsdigital/fdp-design-system/core/css';
 
 // 2. Dependent component styles used internally (BackLink for mobile header)
-import '@nhsdigital/nhs-fdp-design-system/components/BackLink/css';
+import '@nhsdigital/fdp-design-system/components/BackLink/css';
 
 // 3. NavigationSplitView styles
-import '@nhsdigital/nhs-fdp-design-system/components/NavigationSplitView/css';
+import '@nhsdigital/fdp-design-system/components/NavigationSplitView/css';
 ```
 
 If you already import another component (e.g. `BackLink`) elsewhere its CSS will only be bundled once. Skip the BackLink line if you are not rendering the mobile detail header (e.g. custom `backLabel` system or always ≥ medium breakpoint) — though it is usually safe to include.

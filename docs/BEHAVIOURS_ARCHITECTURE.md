@@ -63,12 +63,12 @@ This architecture ensures:
 
 ### 1. SSR Components (Server-Side)
 
-**Import from:** `@nhsdigital/nhs-fdp-design-system/ssr` or main export
+**Import from:** `@nhsdigital/fdp-design-system/ssr` or main export
 
 **Usage:**
 ```tsx
 // app/page.tsx (Next.js App Router - Server Component)
-import { Button, Radios, Input } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { Button, Radios, Input } from '@nhsdigital/fdp-design-system/ssr';
 
 export default function Page() {
   return (
@@ -97,12 +97,12 @@ export default function Page() {
 
 ### 2. BehavioursLoader (Client Component)
 
-**Import from:** `@nhsdigital/nhs-fdp-design-system/behaviours/react`
+**Import from:** `@nhsdigital/fdp-design-system/behaviours/react`
 
 **Usage:**
 ```tsx
 // app/layout.tsx (Next.js App Router - Server Component)
-import { BehavioursLoader } from '@nhsdigital/nhs-fdp-design-system/behaviours/react';
+import { BehavioursLoader } from '@nhsdigital/fdp-design-system/behaviours/react';
 
 export default function RootLayout({ children }) {
   return (
@@ -137,12 +137,12 @@ export default function RootLayout({ children }) {
 
 ### 3. Vanilla JS Behaviours (Browser-Only)
 
-**Import from:** `@nhsdigital/nhs-fdp-design-system/behaviours`
+**Import from:** `@nhsdigital/fdp-design-system/behaviours`
 
 **Usage:**
 ```typescript
 // Traditional approach (if not using React)
-import { initAll } from '@nhsdigital/nhs-fdp-design-system/behaviours';
+import { initAll } from '@nhsdigital/fdp-design-system/behaviours';
 
 // After DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
@@ -163,8 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ```tsx
 // app/layout.tsx (Server Component)
-import { BehavioursLoader } from '@nhsdigital/nhs-fdp-design-system/behaviours/react';
-import '@nhsdigital/nhs-fdp-design-system/css';
+import { BehavioursLoader } from '@nhsdigital/fdp-design-system/behaviours/react';
+import '@nhsdigital/fdp-design-system/css';
 
 export default function RootLayout({ children }) {
   return (
@@ -180,7 +180,7 @@ export default function RootLayout({ children }) {
 
 ```tsx
 // app/page.tsx (Server Component)
-import { Button, Radios } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { Button, Radios } from '@nhsdigital/fdp-design-system/ssr';
 
 export default function Page() {
   return (
@@ -196,8 +196,8 @@ export default function Page() {
 
 ```tsx
 // pages/_app.tsx
-import { BehavioursLoader } from '@nhsdigital/nhs-fdp-design-system/behaviours/react';
-import '@nhsdigital/nhs-fdp-design-system/css';
+import { BehavioursLoader } from '@nhsdigital/fdp-design-system/behaviours/react';
+import '@nhsdigital/fdp-design-system/css';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -219,7 +219,7 @@ import nunjucks from 'nunjucks';
 const app = express();
 
 // Serve behaviours bundle
-app.use('/static', express.static('node_modules/@nhsdigital/nhs-fdp-design-system/dist/behaviours'));
+app.use('/static', express.static('node_modules/@nhsdigital/fdp-design-system/dist/behaviours'));
 
 // In your template:
 // <script src="/static/index.js"></script>
@@ -282,7 +282,7 @@ export function initRadios(scope = document) {
 ```tsx
 // ✅ CORRECT - Import in layout, use after children
 // app/layout.tsx (Server Component is OK)
-import { BehavioursLoader } from '@nhsdigital/nhs-fdp-design-system/behaviours/react';
+import { BehavioursLoader } from '@nhsdigital/fdp-design-system/behaviours/react';
 
 export default function Layout({ children }) {
   return (

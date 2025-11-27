@@ -37,7 +37,7 @@ SimpleBarChart props:
 Object input (auto colour per category):
 
 ```tsx
-import { SimpleBarChart } from "@nhsdigital/nhs-fdp-design-system/components/DataVisualisation";
+import { SimpleBarChart } from "@nhsdigital/fdp-design-system/components/DataVisualisation";
 
 <SimpleBarChart ariaLabel="Top categories" data={{ A: 5, B: 10, C: 7, D: 12 }} />
 ```

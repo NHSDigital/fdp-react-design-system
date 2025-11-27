@@ -34,39 +34,39 @@ The ResponsiveDataGrid component requires specific stylesheet imports in the cor
 
 ```tsx
 // Core ResponsiveDataGrid styles (always required)
-import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+import '@nhsdigital/fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
 
 // Component imports
-import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/fdp-design-system';
 ```
 
 #### Healthcare-Specific Usage
 
 ```tsx
 // 1. Core ResponsiveDataGrid styles (required first)
-import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+import '@nhsdigital/fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
 
 // 2. Healthcare card templates (for healthcare data)
-import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
+import '@nhsdigital/fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
 
 // Component imports
-import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/fdp-design-system';
 ```
 
 #### Advanced Usage with AriaTabsDataGrid
 
 ```tsx
 // 1. Core table styles (foundation)
-import '@nhsdigital/nhs-fdp-design-system/dist/components/SortableDataTable/AriaTabsDataGrid.css';
+import '@nhsdigital/fdp-design-system/dist/components/SortableDataTable/AriaTabsDataGrid.css';
 
 // 2. ResponsiveDataGrid styles (builds on table styles)
-import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
+import '@nhsdigital/fdp-design-system/dist/components/ResponsiveDataGrid/ResponsiveDataGrid.css';
 
 // 3. Healthcare templates (if using healthcare data)
-import '@nhsdigital/nhs-fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
+import '@nhsdigital/fdp-design-system/dist/components/ResponsiveDataGrid/HealthcareCardTemplates.css';
 
 // Component imports
-import { ResponsiveDataGrid } from '@nhsdigital/nhs-fdp-design-system';
+import { ResponsiveDataGrid } from '@nhsdigital/fdp-design-system';
 ```
 
 ### Import Order Guidelines
@@ -92,8 +92,8 @@ import './HealthcareCardTemplates.scss';
 
 ```tsx
 // When using the published package
-import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 ```
 
 ### Bundle Size Optimisation
@@ -102,16 +102,16 @@ import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/Healthca
 
 ```tsx
 // Minimal bundle - only core functionality
-import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/fdp-design-system/components/ResponsiveDataGrid/css';
 
 // Healthcare bundle - includes domain-specific styles
-import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 
 // Full bundle - includes all table functionality
-import '@nhsdigital/nhs-fdp-design-system/components/SortableDataTable/css';
-import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/css';
-import '@nhsdigital/nhs-fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
+import '@nhsdigital/fdp-design-system/components/SortableDataTable/css';
+import '@nhsdigital/fdp-design-system/components/ResponsiveDataGrid/css';
+import '@nhsdigital/fdp-design-system/components/ResponsiveDataGrid/HealthcareCardTemplates/css';
 ```
 
 ### CSS Variables and Customisation

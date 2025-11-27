@@ -25,7 +25,7 @@ The SpacingUtilities component provides NHS-compliant spacing utility classes us
 The utility classes are automatically available once the component is imported:
 
 \`\`\`tsx
-import { SpacingUtilities } from '@nhsdigital/nhs-fdp-design-system';
+import { SpacingUtilities } from '@nhsdigital/fdp-design-system';
 
 // Static spacing
 <div className="nhsuk-u-margin-4">Margin on all sides</div>

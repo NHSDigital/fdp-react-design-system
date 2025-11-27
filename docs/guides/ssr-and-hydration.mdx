@@ -28,7 +28,7 @@ Prefer the curated SSR surface for server components to keep your trees hook‑f
 
 ```tsx
 // Server component (Next.js App Router default)
-import { ButtonServer, Header, SkipLink, Input, Textarea, Select, Radios, Checkboxes, DateInput, ErrorSummary, MetricCard, WidthContainer } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { ButtonServer, Header, SkipLink, Input, Textarea, Select, Radios, Checkboxes, DateInput, ErrorSummary, MetricCard, WidthContainer } from '@nhsdigital/fdp-design-system/ssr';
 
 export default function Example() {
   return (
@@ -87,7 +87,7 @@ export function EnhanceOnMount({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     // dynamic import keeps SSR safe
-    import('@nhsdigital/nhs-fdp-design-system/behaviours').then(({ initAll }) => {
+    import('@nhsdigital/fdp-design-system/behaviours').then(({ initAll }) => {
       if (ref.current) initAll(ref.current);
     });
   }, []);

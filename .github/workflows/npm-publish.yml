@@ -80,4 +80,4 @@ jobs:
       - name: Summary
         run: |
           VERSION=$(node -p "require('./package.json').version")
-          echo "Published @nhsdigital/nhs-fdp-design-system@$VERSION to npm" >> $GITHUB_STEP_SUMMARY
+          echo "Published @nhsdigital/fdp-design-system@$VERSION to npm" >> $GITHUB_STEP_SUMMARY

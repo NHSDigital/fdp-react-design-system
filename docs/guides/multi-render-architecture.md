@@ -34,7 +34,7 @@ After installing the package you can import macros directly from the published `
 
 
 ```njk
-{% from "@nhsdigital/nhs-fdp-design-system/macros/checkboxes.njk" import checkboxes %}
+{% from "@nhsdigital/fdp-design-system/macros/checkboxes.njk" import checkboxes %}
 {% set html = checkboxes({
   name: 'preferences',
   items: [

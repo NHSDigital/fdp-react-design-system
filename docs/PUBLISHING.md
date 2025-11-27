@@ -70,18 +70,18 @@ Users can install specific versions:
 
 ```bash
 # Latest alpha
-npm install @nhsdigital/nhs-fdp-design-system@alpha
+npm install @nhsdigital/fdp-design-system@alpha
 
 # Latest beta
-npm install @nhsdigital/nhs-fdp-design-system@beta
+npm install @nhsdigital/fdp-design-system@beta
 
 # Latest stable
-npm install @nhsdigital/nhs-fdp-design-system
+npm install @nhsdigital/fdp-design-system
 # or explicitly:
-npm install @nhsdigital/nhs-fdp-design-system@latest
+npm install @nhsdigital/fdp-design-system@latest
 
 # Specific version
-npm install @nhsdigital/nhs-fdp-design-system@0.0.44-alpha.1
+npm install @nhsdigital/fdp-design-system@0.0.44-alpha.1
 ```
 
 ## Benefits

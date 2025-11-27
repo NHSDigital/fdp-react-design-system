@@ -5,7 +5,7 @@ We’ve simplified SPC imports to a few stable surfaces and reduced accidental c
 Recommended pattern (barrel-first):
 
 - Component and basic types → `src/components/DataVisualisation/charts/SPC` (SPC barrel)
-  - Example: `import { SPCChart } from '@nhsdigital/nhs-fdp-design-system/src/components/DataVisualisation/charts/SPC'`
+  - Example: `import { SPCChart } from '@nhsdigital/fdp-design-system/src/components/DataVisualisation/charts/SPC'`
   - Example: `import type { SPCChartProps, SPCDatum } from '.../charts/SPC'`
 - Engine helpers and enums → `src/components/DataVisualisation/charts/SPC/engine`
   - Example: `import { buildSpcV26a, SpcVisualCategory } from '.../charts/SPC/engine'`

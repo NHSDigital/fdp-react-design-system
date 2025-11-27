@@ -1,5 +1,5 @@
 // Deprecated wrapper kept for backward compatibility. Preferred import path:
-// import { useNavigationSplitNextUrlSync } from '@nhsdigital/nhs-fdp-design-system/nextjs'
+// import { useNavigationSplitNextUrlSync } from '@nhsdigital/fdp-design-system/nextjs'
 // This wrapper avoids static imports of next/navigation and delegates to the
 // real implementation only when available.
 // (React not required directly in wrapper)
@@ -27,8 +27,8 @@ export interface UseNavigationSplitNextUrlSyncOptions {
  * router.replace (default) or router.push. Scroll is suppressed by default.
  */
 export function useNavigationSplitNextUrlSync<ID = string>(options: UseNavigationSplitNextUrlSyncOptions = {}) {
-  const impl = tryLoad('@nhsdigital/nhs-fdp-design-system/dist/src/nextjs/useNavigationSplitNextUrlSync.js')
-    || tryLoad('@nhsdigital/nhs-fdp-design-system/src/nextjs/useNavigationSplitNextUrlSync');
+  const impl = tryLoad('@nhsdigital/fdp-design-system/dist/src/nextjs/useNavigationSplitNextUrlSync.js')
+    || tryLoad('@nhsdigital/fdp-design-system/src/nextjs/useNavigationSplitNextUrlSync');
   if (impl && typeof impl.useNavigationSplitNextUrlSync === 'function') {
   // Invoke underlying implementation (loss of generic inference acceptable for wrapper)
   return (impl.useNavigationSplitNextUrlSync as (o: UseNavigationSplitNextUrlSyncOptions)=>any)(options);

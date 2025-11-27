@@ -4,7 +4,7 @@ ProductCard comes in **two versions** to support different React rendering parad
 
 ## 1. ProductCardServer (SSR Barrel)
 **File:** `ProductCard.server.tsx`  
-**Import:** `import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr'`
+**Import:** `import { ProductCard } from '@nhsdigital/fdp-design-system/ssr'`
 
 ### Use Cases
 - ✅ Next.js App Router Server Components (default)
@@ -20,7 +20,7 @@ ProductCard comes in **two versions** to support different React rendering parad
 ### Example
 ```tsx
 // app/page.tsx (Server Component - no 'use client')
-import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { ProductCard } from '@nhsdigital/fdp-design-system/ssr';
 
 export default function Page() {
   return (
@@ -43,7 +43,7 @@ export default function Page() {
 
 ## 2. ProductCard (Client Version)
 **File:** `ProductCard.tsx`  
-**Import:** `import { ProductCard } from '@nhsdigital/nhs-fdp-design-system'`
+**Import:** `import { ProductCard } from '@nhsdigital/fdp-design-system'`
 
 ### Use Cases
 - ✅ Interactive cards with click handlers
@@ -61,7 +61,7 @@ export default function Page() {
 ```tsx
 'use client';  // ← Required in Next.js App Router
 
-import { ProductCard } from '@nhsdigital/nhs-fdp-design-system';
+import { ProductCard } from '@nhsdigital/fdp-design-system';
 
 export default function InteractiveCard() {
   const handleCardClick = () => {
@@ -121,7 +121,7 @@ Event handlers cannot be passed to Client Component props.
 
 **After (Server Component):**
 ```tsx
-import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
+import { ProductCard } from '@nhsdigital/fdp-design-system/ssr';
 
 <ProductCard
   title="Product"
@@ -135,7 +135,7 @@ import { ProductCard } from '@nhsdigital/nhs-fdp-design-system/ssr';
 **After (Client Component):**
 ```tsx
 'use client';
-import { ProductCard } from '@nhsdigital/nhs-fdp-design-system';
+import { ProductCard } from '@nhsdigital/fdp-design-system';
 
 <ProductCard
   title="Product"

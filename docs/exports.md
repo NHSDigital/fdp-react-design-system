@@ -16,7 +16,7 @@ Date: 2025-09-09
 
 ## 1) Top-level barrel exports (main entry)
 
-Entry: `@nhsdigital/nhs-fdp-design-system`
+Entry: `@nhsdigital/fdp-design-system`
 
 - Module: `dist/index.esm.js`
 - UMD: `dist/index.umd.js`
@@ -50,7 +50,7 @@ Entry: `@nhsdigital/nhs-fdp-design-system`
 
 ## 2) Subpath exports (component- and feature-specific)
 
-These can be imported as `@nhsdigital/nhs-fdp-design-system/<subpath>`.
+These can be imported as `@nhsdigital/fdp-design-system/<subpath>`.
 
 ### Runtime bundles
 
@@ -167,47 +167,47 @@ Each of the above maps to `dist/src/components/<Name>/index.{d.ts,js}`.
 Top-level (recommended for most apps):
 
 ```ts
-import { Button, Grid, SPCChart } from '@nhsdigital/nhs-fdp-design-system';
+import { Button, Grid, SPCChart } from '@nhsdigital/fdp-design-system';
 ```
 
 Component code subpath (tree-shaking friendly where applicable):
 
 ```ts
-import { Button } from '@nhsdigital/nhs-fdp-design-system/components/Button';
+import { Button } from '@nhsdigital/fdp-design-system/components/Button';
 ```
 
 Component CSS only (when selectively including styles):
 
 ```ts
-import '@nhsdigital/nhs-fdp-design-system/components/Button/css';
+import '@nhsdigital/fdp-design-system/components/Button/css';
 ```
 
 SSR/Core/Next helpers:
 
 ```ts
-import * as SSR from '@nhsdigital/nhs-fdp-design-system/ssr';
-import * as Core from '@nhsdigital/nhs-fdp-design-system/core';
-import * as NextJS from '@nhsdigital/nhs-fdp-design-system/nextjs';
+import * as SSR from '@nhsdigital/fdp-design-system/ssr';
+import * as Core from '@nhsdigital/fdp-design-system/core';
+import * as NextJS from '@nhsdigital/fdp-design-system/nextjs';
 ```
 
 Tokens:
 
 ```ts
-import { tokens } from '@nhsdigital/nhs-fdp-design-system/tokens';
-import tokensJson from '@nhsdigital/nhs-fdp-design-system/tokens/json';
+import { tokens } from '@nhsdigital/fdp-design-system/tokens';
+import tokensJson from '@nhsdigital/fdp-design-system/tokens/json';
 ```
 
 SPC (recommended via barrel):
 
 ```ts
 // Named
-import { SPCChart, buildSpc, ImprovementDirection } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import { SPCChart, buildSpc, ImprovementDirection } from '@nhsdigital/fdp-design-system/components/DataVisualisation/charts/SPC';
 
 // Namespace
-import * as SPC from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC';
+import * as SPC from '@nhsdigital/fdp-design-system/components/DataVisualisation/charts/SPC';
 
 // CSS per-component
-import '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css';
+import '@nhsdigital/fdp-design-system/components/DataVisualisation/charts/SPC/SPCChart/SPCChart/css';
 ```
 
 ---
@@ -216,10 +216,10 @@ SPC icons-only subpath (minimal icon imports):
 
 ```ts
 // Components
-import { SPCVariationIcon, SPCAssuranceIcon } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/icons';
+import { SPCVariationIcon, SPCAssuranceIcon } from '@nhsdigital/fdp-design-system/components/DataVisualisation/charts/SPC/icons';
 
 // Enums and types (optional)
-import { VariationIcon, AssuranceIcon, ImprovementDirection } from '@nhsdigital/nhs-fdp-design-system/components/DataVisualisation/charts/SPC/icons';
+import { VariationIcon, AssuranceIcon, ImprovementDirection } from '@nhsdigital/fdp-design-system/components/DataVisualisation/charts/SPC/icons';
 ```
 
 If you want this inventory emitted programmatically, see the script `npm run inventory` (generates `inventory.md` and `inventory.json`).

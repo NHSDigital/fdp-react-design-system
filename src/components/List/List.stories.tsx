@@ -23,7 +23,7 @@ The List component provides accessible, NHS-styled lists for organizing content.
 ## Usage
 
 \`\`\`tsx
-import { List } from '@nhsdigital/nhs-fdp-design-system';
+import { List } from '@nhsdigital/fdp-design-system';
 
 // Basic bullet list
 <List type="bullet">

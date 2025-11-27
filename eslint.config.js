@@ -119,25 +119,25 @@ export default [
           {
             paths: [
               {
-                name: '@nhsdigital/nhs-fdp-design-system',
-                message: 'SSR pages must import from @nhsdigital/nhs-fdp-design-system/ssr only.'
+                name: '@nhsdigital/fdp-design-system',
+                message: 'SSR pages must import from @nhsdigital/fdp-design-system/ssr only.'
               },
               {
-                name: '@nhsdigital/nhs-fdp-design-system/nextjs',
+                name: '@nhsdigital/fdp-design-system/nextjs',
                 message: 'Import global CSS in app/layout.tsx, not in SSR page routes.'
               }
             ],
             patterns: [
               {
                 group: [
-                  '@nhsdigital/nhs-fdp-design-system/components/**',
-                  '@nhsdigital/nhs-fdp-design-system/core',
-                  '@nhsdigital/nhs-fdp-design-system/pure',
-                  '@nhsdigital/nhs-fdp-design-system/behaviours',
-                  '@nhsdigital/nhs-fdp-design-system/css',
-                  '@nhsdigital/nhs-fdp-design-system/*/css'
+                  '@nhsdigital/fdp-design-system/components/**',
+                  '@nhsdigital/fdp-design-system/core',
+                  '@nhsdigital/fdp-design-system/pure',
+                  '@nhsdigital/fdp-design-system/behaviours',
+                  '@nhsdigital/fdp-design-system/css',
+                  '@nhsdigital/fdp-design-system/*/css'
                 ],
-                message: 'SSR pages must import only from @nhsdigital/nhs-fdp-design-system/ssr; move CSS to layout.'
+                message: 'SSR pages must import only from @nhsdigital/fdp-design-system/ssr; move CSS to layout.'
               }
             ]
           }

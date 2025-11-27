@@ -17,7 +17,7 @@ The design system now ships a single unified `Header` component that supports SS
 The automatic "More" menu is not part of the React component tree. Instead, include the behaviours bundle once in your app:
 
 ```ts
-import '@nhsdigital/nhs-fdp-design-system/behaviours';
+import '@nhsdigital/fdp-design-system/behaviours';
 ```
 
 This auto-initialises and measures header navigation width, moving overflowing items into a generated dropdown. Without JS, all items remain visible (no loss of functionality).

@@ -23,8 +23,8 @@ Add `InitBehaviours` to your root layout:
 
 ```tsx
 // app/layout.tsx
-import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
-import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
+import { InitBehaviours } from '@nhsdigital/fdp-design-system/nextjs'
+import '@nhsdigital/fdp-design-system/dist/nhs-fdp-design-system.css'
 
 export default function RootLayout({ 
   children 
@@ -50,8 +50,8 @@ Add to `_app.tsx`:
 ```tsx
 // pages/_app.tsx
 import type { AppProps } from 'next/app'
-import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
-import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
+import { InitBehaviours } from '@nhsdigital/fdp-design-system/nextjs'
+import '@nhsdigital/fdp-design-system/dist/nhs-fdp-design-system.css'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -85,7 +85,7 @@ If you need more control, you can manually initialize behaviours:
 'use client'
 
 import { useEffect } from 'react'
-import { initAll } from '@nhsdigital/nhs-fdp-design-system/dist/behaviours'
+import { initAll } from '@nhsdigital/fdp-design-system/dist/behaviours'
 
 export function BehaviourInitializer() {
   useEffect(() => {
@@ -132,7 +132,7 @@ If you only use specific components, you can initialize just their behaviours:
 'use client'
 
 import { useEffect } from 'react'
-import { initHeaders } from '@nhsdigital/nhs-fdp-design-system/dist/behaviours'
+import { initHeaders } from '@nhsdigital/fdp-design-system/dist/behaviours'
 
 export function HeaderWrapper({ children }) {
   useEffect(() => {
@@ -216,9 +216,9 @@ To verify behaviours are working:
 
 ```tsx
 // app/layout.tsx
-import { InitBehaviours } from '@nhsdigital/nhs-fdp-design-system/nextjs'
-import { HeaderServer } from '@nhsdigital/nhs-fdp-design-system/ssr'
-import '@nhsdigital/nhs-fdp-design-system/dist/nhs-fdp-design-system.css'
+import { InitBehaviours } from '@nhsdigital/fdp-design-system/nextjs'
+import { HeaderServer } from '@nhsdigital/fdp-design-system/ssr'
+import '@nhsdigital/fdp-design-system/dist/nhs-fdp-design-system.css'
 
 export default function RootLayout({ children }) {
   return (

@@ -23,7 +23,7 @@ The WidthUtilities component provides NHS-compliant width utility classes indepe
 ## Usage
 
 \`\`\`tsx
-import { WidthUtilities } from '@nhsdigital/nhs-fdp-design-system';
+import { WidthUtilities } from '@nhsdigital/fdp-design-system';
 
 // Static widths (responsive by default)
 <input className="nhsuk-u-width-one-half" />

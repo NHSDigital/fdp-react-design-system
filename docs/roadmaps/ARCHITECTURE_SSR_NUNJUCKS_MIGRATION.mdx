@@ -95,7 +95,7 @@ src/
 - Examples: Express and Nunjucks demo serving compiled macros and behaviours; behaviour flow verified with Playwright.
 
 ### SSR surface and validation:
-- Introduced a curated SSR export surface at `@nhsdigital/nhs-fdp-design-system/ssr` containing only hook‑free components.
+- Introduced a curated SSR export surface at `@nhsdigital/fdp-design-system/ssr` containing only hook‑free components.
 - Split `Header` into a pure server renderer (`HeaderServer`), re‑exported as `Header` from the SSR entry.
 - Added a pure server `SkipLink` variant; SSR entry now exports this to avoid hook leakage.
 - Prefer `ButtonServer` for SSR/SSG markup stability.
@@ -216,12 +216,12 @@ These patterns help avoid duplicating logic between React and the behaviour laye
 // Pseudocode in a React component
 useEffect(() => {
   // Import behaviour module boundary once
-  import('@nhsdigital/nhs-fdp-design-system/behaviours').then(({ initAll, teardownAll }) => {
+  import('@nhsdigital/fdp-design-system/behaviours').then(({ initAll, teardownAll }) => {
     initAll(ref.current ?? document);
   });
   return () => {
     // Optional: narrowed detach
-    import('@nhsdigital/nhs-fdp-design-system/behaviours').then(({ teardownAll }) => {
+    import('@nhsdigital/fdp-design-system/behaviours').then(({ teardownAll }) => {
       teardownAll(ref.current ?? document);
     });
   };
@@ -261,7 +261,7 @@ export function BehavioursLoader() {
       if (!(window as any).__nhsInitAllBehaviours) {
         (window as any).__nhsInitAllBehaviours = () => {};
       }
-      import("@nhsdigital/nhs-fdp-design-system/behaviours")
+      import("@nhsdigital/fdp-design-system/behaviours")
         .then(({ initAll }) => {
           // Replace shim with real function and init after hydration
           (window as any).__nhsInitAllBehaviours = initAll;
@@ -282,28 +282,28 @@ Root layout usage (App Router)
 
 ```tsx
 import React from "react";
-import "@nhsdigital/nhs-fdp-design-system/core/css";
+import "@nhsdigital/fdp-design-system/core/css";
 // Granular component CSS (to slim payload)
-import "@nhsdigital/nhs-fdp-design-system/components/Button/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Details/css";
-import "@nhsdigital/nhs-fdp-design-system/components/InsetText/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Panel/css";
-import "@nhsdigital/nhs-fdp-design-system/components/List/css";
-import "@nhsdigital/nhs-fdp-design-system/components/SummaryList/css";
-import "@nhsdigital/nhs-fdp-design-system/components/SummaryCard/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Tables/Table/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Hero/css";
-import "@nhsdigital/nhs-fdp-design-system/components/CareCard/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Pagination/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Input/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Textarea/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Select/css";
-import "@nhsdigital/nhs-fdp-design-system/components/DateInput/css";
-import "@nhsdigital/nhs-fdp-design-system/components/ErrorSummary/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Radios/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Checkboxes/css";
-import "@nhsdigital/nhs-fdp-design-system/components/Fieldset/css";
-import "@nhsdigital/nhs-fdp-design-system/components/FormNavButtonBar/css";
+import "@nhsdigital/fdp-design-system/components/Button/css";
+import "@nhsdigital/fdp-design-system/components/Details/css";
+import "@nhsdigital/fdp-design-system/components/InsetText/css";
+import "@nhsdigital/fdp-design-system/components/Panel/css";
+import "@nhsdigital/fdp-design-system/components/List/css";
+import "@nhsdigital/fdp-design-system/components/SummaryList/css";
+import "@nhsdigital/fdp-design-system/components/SummaryCard/css";
+import "@nhsdigital/fdp-design-system/components/Tables/Table/css";
+import "@nhsdigital/fdp-design-system/components/Hero/css";
+import "@nhsdigital/fdp-design-system/components/CareCard/css";
+import "@nhsdigital/fdp-design-system/components/Pagination/css";
+import "@nhsdigital/fdp-design-system/components/Input/css";
+import "@nhsdigital/fdp-design-system/components/Textarea/css";
+import "@nhsdigital/fdp-design-system/components/Select/css";
+import "@nhsdigital/fdp-design-system/components/DateInput/css";
+import "@nhsdigital/fdp-design-system/components/ErrorSummary/css";
+import "@nhsdigital/fdp-design-system/components/Radios/css";
+import "@nhsdigital/fdp-design-system/components/Checkboxes/css";
+import "@nhsdigital/fdp-design-system/components/Fieldset/css";
+import "@nhsdigital/fdp-design-system/components/FormNavButtonBar/css";
 import "./globals.css";
 import { BehavioursLoader } from "./BehavioursLoader";
 
@@ -353,7 +353,7 @@ Goal: render the same canonical Button markup in multiple environments (React SS
 
 ```tsx
 // app/example/page.tsx (server component by default)
-import { ButtonServer } from '@nhsdigital/nhs-fdp-design-system/components/Button/server';
+import { ButtonServer } from '@nhsdigital/fdp-design-system/components/Button/server';
 
 export default function Page() {
   return (
@@ -376,7 +376,7 @@ import { useEffect, useRef } from 'react';
 export function EnhanceOnMount({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    import('@nhsdigital/nhs-fdp-design-system/behaviours').then(({ initAll }) => {
+    import('@nhsdigital/fdp-design-system/behaviours').then(({ initAll }) => {
       if (ref.current) initAll(ref.current);
     });
   }, []);
@@ -406,7 +406,7 @@ Initialise behaviours once in your server app (or hydrate at a container):
 
 ```js
 // examples/express-njk/server.mjs (snippet)
-import { initAll } from '@nhsdigital/nhs-fdp-design-system/behaviours';
+import { initAll } from '@nhsdigital/fdp-design-system/behaviours';
 
 app.use((req, res, next) => {
   // for SSR-only delivery, no-op; for client pages, your base JS can call initAll(document)
@@ -663,7 +663,7 @@ The choice of renderer affects performance, SEO, cacheability, accessibility bas
 
 ### 2025‑09‑13 (SSR surface hardening)
 
-- Introduced curated SSR export surface at `@nhsdigital/nhs-fdp-design-system/ssr`.
+- Introduced curated SSR export surface at `@nhsdigital/fdp-design-system/ssr`.
 - `Header` exported as server‑only variant from `/ssr`; client variant unchanged at root entry.
 - Added pure server `SkipLink` and wired it into the `/ssr` entry to remove hook usage from SSR paths.
 - Promoted `ButtonServer` as the preferred SSR/SSG variant for buttons.

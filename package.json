@@ -668,9 +668,9 @@
     "clsx": "^2.1.1",
     "color": "^5.0.3",
     "d3": "^7.9.0",
-    "react": "19.2.0",
+    "react": "19.2.1",
     "react-aria": "^3.44.0",
-    "react-dom": "19.2.0",
+    "react-dom": "19.2.1",
     "sass": "^1.94.2"
   },
   "peerDependencies": {

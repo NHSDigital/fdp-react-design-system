@@ -16,6 +16,7 @@ import {
 	GroupableDataGridProps,
 	FlattenedNode,
 } from "./GroupableDataGrid.types";
+
 import { HierarchyDataManager } from "./utils/HierarchyDataManager";
 import { useGroupExpansion } from "./hooks/useGroupExpansion";
 import { useTreeNavigation } from "./hooks/useTreeNavigation";
@@ -133,13 +134,34 @@ function renderDataRow<T>(
 							? String(value)
 							: "—";
 
+				// Wrap content in a div when maxWidth is specified for proper truncation
+				const wrappedContent = column.maxWidth ? (
+					<div
+						style={{
+							maxWidth: column.maxWidth,
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap',
+						}}
+						title={typeof cellContent === 'string' ? cellContent : undefined}
+					>
+						{cellContent}
+					</div>
+				) : cellContent;
+
 				return (
 					<td
 						key={column.key}
 						className="groupable-datagrid__data-cell"
 						role="gridcell"
+						style={{
+							width: column.width,
+							minWidth: column.minWidth,
+							maxWidth: column.maxWidth,
+							textAlign: column.align,
+						}}
 					>
-						{cellContent}
+						{wrappedContent}
 					</td>
 				);
 			})}
@@ -796,26 +818,32 @@ export const GroupableDataGrid = <T extends any = any>({
 										(s) => s.key === column.key
 									);
 
-									return (
-										<th
-											key={column.key}
-											role="columnheader"
-											aria-sort={
-												columnSort
-													? columnSort.direction === "asc"
-														? "ascending"
-														: "descending"
-													: undefined
-											}
-											className={classNames("groupable-datagrid__header-cell", {
-												"groupable-datagrid__header-cell--sortable": isSortable,
-												"groupable-datagrid__header-cell--sorted": !!columnSort,
-											})}
-											onClick={
-												isSortable ? () => handleSort(column.key) : undefined
-											}
-											style={{ cursor: isSortable ? "pointer" : undefined }}
-										>
+								return (
+									<th
+										key={column.key}
+										role="columnheader"
+										aria-sort={
+											columnSort
+												? columnSort.direction === "asc"
+													? "ascending"
+													: "descending"
+												: undefined
+										}
+										className={classNames("groupable-datagrid__header-cell", {
+											"groupable-datagrid__header-cell--sortable": isSortable,
+											"groupable-datagrid__header-cell--sorted": !!columnSort,
+										})}
+										onClick={
+											isSortable ? () => handleSort(column.key) : undefined
+										}
+										style={{ 
+											cursor: isSortable ? "pointer" : undefined,
+											width: column.width,
+											minWidth: column.minWidth,
+											maxWidth: column.maxWidth,
+											textAlign: column.align,
+										}}
+									>
 											<div className="groupable-datagrid__header-content">
 												<span>{column.label}</span>
 												{isSortable && (

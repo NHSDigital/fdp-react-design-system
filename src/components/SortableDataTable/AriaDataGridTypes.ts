@@ -83,6 +83,8 @@ export interface ColumnDefinition {
 	width?: string | number;
 	/** Minimum width for this column when calculating layout (overrides global minColumnWidth) */
 	minWidth?: string | number;
+	/** Maximum width for this column. Content will be truncated with ellipsis when exceeded. */
+	maxWidth?: string | number;
 	align?: "left" | "center" | "right";
 	render?: (data: any) => any;
 	/** Enhanced renderer for table view (overrides render if provided) */

@@ -1,36 +1,24 @@
 /**
- * DEPRECATED: Use <NHSBehavioursInit /> instead.
- * This wrapper forwards to the client-only component to ensure bundler-safe behaviour loading.
+ * @deprecated These components are deprecated and will be removed in a future version.
+ * 
+ * Create your own BehavioursInit component in your Next.js app instead.
+ * See NHSBehavioursInit.tsx for migration guidance and example code.
  */
 import { NHSBehavioursInit } from './NHSBehavioursInit';
 
-/** @deprecated Use <NHSBehavioursInit /> instead. */
+/**
+ * @deprecated Use your own BehavioursInit component instead.
+ * See NHSBehavioursInit.tsx for migration guidance.
+ */
 export function InitBehaviours() {
 	// Forward to the client component. This avoids brittle inline script imports.
 	return <NHSBehavioursInit />;
 }
 
 /**
- * Alternative: Direct inline initialization (no dynamic import)
- * Use this if you want behaviours bundled with your app bundle
- * 
- * @example
- * ```tsx
- * import { InitBehavioursInline } from '@nhsdigital/fdp-design-system/nextjs'
- * 
- * export default function RootLayout({ children }) {
- *   return (
- *     <html>
- *       <body>
- *         {children}
- *         <InitBehavioursInline />
- *       </body>
- *     </html>
- *   )
- * }
- * ```
+ * @deprecated Use your own BehavioursInit component instead.
+ * See NHSBehavioursInit.tsx for migration guidance.
  */
-/** @deprecated Use <NHSBehavioursInit /> instead. */
 export function InitBehavioursInline() {
 	return <NHSBehavioursInit />;
 }

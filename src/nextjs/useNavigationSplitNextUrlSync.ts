@@ -1,6 +1,48 @@
-// Next.js (App Router) specific URL sync hook for NavigationSplitView
-// This file is only bundled when importing from the /nextjs entry.
-// It assumes a Next.js environment where `next/navigation` exists.
+/**
+ * @deprecated This hook is deprecated and will be removed in a future version.
+ * 
+ * Use the framework-agnostic `useNavigationSplitUrlSync` instead:
+ * ```ts
+ * import { useNavigationSplitUrlSync } from '@nhsdigital/fdp-design-system';
+ * ```
+ * 
+ * If you need Next.js App Router integration, create your own wrapper in your app:
+ * ```tsx
+ * // app/hooks/useNavigationSplitNextUrlSync.ts
+ * "use client";
+ * import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+ * import { useCallback } from 'react';
+ * 
+ * export function useNavigationSplitNextUrlSync<ID = string>(options: {
+ *   paramSelected?: string;
+ *   paramDrill?: string;
+ *   method?: 'replace' | 'push';
+ * } = {}) {
+ *   const { paramSelected = 'nsv', paramDrill = 'nsvDrill', method = 'replace' } = options;
+ *   const searchParams = useSearchParams();
+ *   const pathname = usePathname();
+ *   const router = useRouter();
+ * 
+ *   const selectedId = (searchParams.get(paramSelected) as ID | null) || undefined;
+ *   const drilledIn = searchParams.get(paramDrill) === '1';
+ * 
+ *   const update = useCallback((nextSelected: ID | undefined, nextDrilled: boolean) => {
+ *     const sp = new URLSearchParams(searchParams.toString());
+ *     if (nextSelected) sp.set(paramSelected, String(nextSelected)); else sp.delete(paramSelected);
+ *     sp.set(paramDrill, nextDrilled ? '1' : '0');
+ *     const url = `${pathname}?${sp.toString()}`;
+ *     method === 'push' ? router.push(url, { scroll: false }) : router.replace(url, { scroll: false });
+ *   }, [searchParams, pathname, router, method, paramSelected, paramDrill]);
+ * 
+ *   return {
+ *     selectedId,
+ *     drilledIn,
+ *     setSelectedId: (id: ID | undefined) => update(id, drilledIn),
+ *     setDrilledIn: (d: boolean) => update(selectedId, d)
+ *   } as const;
+ * }
+ * ```
+ */
 import * as React from 'react';
 
 // Dynamically (optionally) load next/navigation so the library can build
@@ -31,8 +73,23 @@ export interface UseNavigationSplitNextUrlSyncOptions {
   method?: 'replace' | 'push';
 }
 
+/**
+ * @deprecated Use `useNavigationSplitUrlSync` from the main entry instead.
+ * This Next.js-specific hook will be removed in a future version.
+ */
 export function useNavigationSplitNextUrlSync<ID = string>(options: UseNavigationSplitNextUrlSyncOptions = {}) {
   const { paramSelected = 'nsv', paramDrill = 'nsvDrill', method = 'replace' } = options;
+
+  // Emit deprecation warning once per session
+  React.useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        '[useNavigationSplitNextUrlSync] DEPRECATED: This hook will be removed in a future version. ' +
+        'Use useNavigationSplitUrlSync from the main entry, or create your own Next.js wrapper in your app. ' +
+        'See the JSDoc comments for migration guidance.'
+      );
+    }
+  }, []);
 
   if (!useSearchParams || !usePathname || !useRouter) {
     if (process.env.NODE_ENV !== 'production') {

@@ -670,7 +670,7 @@
     "react": "19.2.3",
     "react-aria": "^3.45.0",
     "react-dom": "19.2.3",
-    "sass": "^1.97.2"
+    "sass": "^1.97.3"
   },
   "eslintConfig": {
     "extends": [
